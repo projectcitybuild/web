@@ -4,20 +4,22 @@ namespace App\Http\Controllers\Manage\Accounts;
 
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
+use App\Domains\Permissions\AuthorizesPermissions;
+use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\Account;
 use App\Models\MinecraftPlayer;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 
 class AccountPlayerController extends WebController
 {
+    use AuthorizesPermissions;
     use RendersManageApp;
 
     public function create(Request $request, Account $account)
     {
-        Gate::authorize('update', $account);
+        $this->requires(WebManagePermission::ACCOUNTS_EDIT);
 
         return $this->inertiaRender('Accounts/AccountPlayerSelect', [
             'account_id' => $account->getKey(),
@@ -26,7 +28,7 @@ class AccountPlayerController extends WebController
 
     public function store(Request $request, Account $account)
     {
-        Gate::authorize('update', $account);
+        $this->requires(WebManagePermission::ACCOUNTS_EDIT);
 
         $validated = $request->validate([
             'uuid' => ['required', new MinecraftUUIDRule],
@@ -45,7 +47,7 @@ class AccountPlayerController extends WebController
 
     public function destroy(Request $request, Account $account, MinecraftPlayer $player)
     {
-        Gate::authorize('update', $account);
+        $this->requires(WebManagePermission::ACCOUNTS_EDIT);
 
         $player->account()->disassociate();
         $player->save();

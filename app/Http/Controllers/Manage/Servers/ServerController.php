@@ -2,20 +2,22 @@
 
 namespace App\Http\Controllers\Manage\Servers;
 
+use App\Domains\Permissions\AuthorizesPermissions;
+use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\Server;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 
 class ServerController extends WebController
 {
+    use AuthorizesPermissions;
     use RendersManageApp;
 
     public function index(Request $request)
     {
-        Gate::authorize('viewAny', Server::class);
+        $this->requires(WebManagePermission::SERVERS_VIEW);
 
         $servers = Server::orderBy('created_at', 'desc')->get();
 
@@ -24,14 +26,14 @@ class ServerController extends WebController
 
     public function create(Request $request)
     {
-        Gate::authorize('create', Server::class);
+        $this->requires(WebManagePermission::SERVERS_EDIT);
 
         return $this->inertiaRender('Servers/ServerCreate');
     }
 
     public function store(Request $request): RedirectResponse
     {
-        Gate::authorize('create', Server::class);
+        $this->requires(WebManagePermission::SERVERS_EDIT);
 
         $validated = $request->validate([
             'name' => ['required'],
@@ -48,14 +50,14 @@ class ServerController extends WebController
 
     public function edit(Server $server)
     {
-        Gate::authorize('update', $server);
+        $this->requires(WebManagePermission::SERVERS_EDIT);
 
         return $this->inertiaRender('Servers/ServerEdit', compact('server'));
     }
 
     public function update(Request $request, Server $server)
     {
-        Gate::authorize('update', $server);
+        $this->requires(WebManagePermission::SERVERS_EDIT);
 
         $validated = $request->validate([
             'name' => ['required'],
@@ -72,7 +74,7 @@ class ServerController extends WebController
 
     public function destroy(Request $request, Server $server)
     {
-        Gate::authorize('delete', $server);
+        $this->requires(WebManagePermission::SERVERS_EDIT);
 
         $server->delete();
 

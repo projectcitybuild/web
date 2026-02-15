@@ -2,20 +2,22 @@
 
 namespace App\Http\Controllers\Manage\Accounts;
 
+use App\Domains\Permissions\AuthorizesPermissions;
+use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\Account;
 use App\Models\Role;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 
 class AccountRoleController extends WebController
 {
+    use AuthorizesPermissions;
     use RendersManageApp;
 
     public function index(Request $request, Account $account)
     {
-        Gate::authorize('viewAny', Account::class);
+        $this->requires(WebManagePermission::ACCOUNTS_VIEW);
 
         $roles = Role::where('is_default', false)->get();
         $accountRoleIds = $account->roles->pluck(Role::primaryKey());
@@ -29,7 +31,7 @@ class AccountRoleController extends WebController
 
     public function update(Request $request, Account $account)
     {
-        Gate::authorize('update', $account);
+        $this->requires(WebManagePermission::ACCOUNTS_EDIT);
 
         $validated = collect($request->validate([
             'account_role_ids' => ['array'],

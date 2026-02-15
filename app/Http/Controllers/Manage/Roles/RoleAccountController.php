@@ -2,20 +2,22 @@
 
 namespace App\Http\Controllers\Manage\Roles;
 
+use App\Domains\Permissions\AuthorizesPermissions;
+use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\Account;
 use App\Models\Role;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 
 class RoleAccountController extends WebController
 {
+    use AuthorizesPermissions;
     use RendersManageApp;
 
     public function index(Request $request, Role $role)
     {
-        Gate::authorize('view', $role);
+        $this->requires(WebManagePermission::ROLES_VIEW);
 
         // Default role doesn't have assigned members
         if ($role->is_default) {

@@ -1,25 +1,37 @@
 <script setup lang="ts">
 import { Link, usePage } from '@inertiajs/vue3'
 import { onBeforeMount, ref, useId, watch, computed } from 'vue'
-import SvgIcon from '../../../Components/SvgIcon.vue'
+import SvgIcon, { Svg } from '../../../Components/SvgIcon.vue'
+import usePermissions from '../../../Composables/usePermissions'
+import { Icons } from '../../../Icons'
 
 interface MenuItem {
     title: string,
     route: string,
+    permission?: string,
 }
 
 interface Props {
     title: string,
+    icon: Svg,
     children: MenuItem[],
 }
 
 const id = useId()
 const page = usePage()
-
+const { can } = usePermissions()
 
 const props = defineProps<Props>()
 const expanded = ref(false)
 const selectedChild = ref<MenuItem|null>(getSelectedChild(page.url))
+
+const visibleChildren = computed(() =>
+    props.children.filter(child =>
+        !child.permission || can(child.permission)
+    )
+)
+
+const hasVisibleChildren = computed(() => visibleChildren.value.length > 0)
 
 function getSelectedChild(url: string) {
     return props.children.find(
@@ -38,21 +50,26 @@ watch(() => page.url, checkSelection)
 </script>
 
 <template>
-    <li>
+    <li v-if="hasVisibleChildren">
         <button
             type="button"
             class="flex items-center p-2 w-full text-base text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
             @click="expanded = !expanded"
         >
-            <slot name="icon"></slot>
+            <SvgIcon
+                :svg="props.icon"
+                :thickness="2"
+                :class="'w-6 h-6'"
+            />
+
             <span class="flex-1 ml-3 text-left whitespace-nowrap">{{ props.title }}</span>
 
-            <SvgIcon v-if="expanded" icon="chevron-up" :thickness="2" class="size-6" />
-            <SvgIcon v-else icon="chevron-down" :thickness="2" class="size-6" />
+            <SvgIcon v-if="expanded" :svg="Icons.chevronUp" :thickness="2" class="size-6" />
+            <SvgIcon v-else :svg="Icons.chevronDown" :thickness="2" class="size-6" />
         </button>
 
         <ul class="py-2 space-y-2" v-show="expanded">
-            <li v-for="item in props.children">
+            <li v-for="item in visibleChildren">
                 <Link
                     :href="item.route"
                     :class="

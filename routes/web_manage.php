@@ -16,7 +16,6 @@ use App\Http\Controllers\Manage\Badges\BadgeController;
 use App\Http\Controllers\Manage\Bans\GameIPBanController;
 use App\Http\Controllers\Manage\Bans\GamePlayerBanController;
 use App\Http\Controllers\Manage\Donations\DonationController;
-use App\Http\Controllers\Manage\Donations\DonationPerksController;
 use App\Http\Controllers\Manage\HomeController;
 use App\Http\Controllers\Manage\Minecraft\MinecraftConfigController;
 use App\Http\Controllers\Manage\Minecraft\MinecraftWarpController;
@@ -104,9 +103,6 @@ Route::name('manage.')
         Route::resource('badges', BadgeController::class);
 
         Route::resource('donations', DonationController::class);
-
-        Route::resource('donation-perks', DonationPerksController::class)
-            ->except(['index', 'show']);
 
         Route::resource('servers', ServerController::class)
             ->except(['show']);

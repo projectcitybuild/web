@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Account;
 use App\Models\Activity;
 
+/** @deprecated */
 class ActivityPolicy
 {
     /**

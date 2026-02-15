@@ -19,6 +19,7 @@ import ErrorAlert from '../../Components/ErrorAlert.vue'
 import axios from 'axios'
 import PlayerIPListTable from './Partials/PlayerIPListTable.vue'
 import PlayerHomeListTable from './Partials/PlayerHomeListTable.vue'
+import { Icons } from '../../Icons'
 
 interface Props {
     player: Player,
@@ -69,14 +70,14 @@ async function refreshAlias() {
                 >
                     <Spinner v-if="isRefreshingAlias" />
                     <span v-else class="flex flex-row items-center justify-center gap-2">
-                        <SvgIcon icon="refresh" />
+                        <SvgIcon :svg="Icons.refresh" />
                         Fetch Alias
                     </span>
                 </OutlinedButton>
 
                 <Link :href="'/manage/players/' + player.player_minecraft_id + '/edit'">
                     <FilledButton variant="primary">
-                        <SvgIcon icon="pencil" />
+                        <SvgIcon :svg="Icons.pencil" />
                         Edit Player
                     </FilledButton>
                 </Link>

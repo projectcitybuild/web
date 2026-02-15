@@ -17,6 +17,7 @@ import type { Role } from '../../../manage/Data/Role'
 import AwaitingDecisionAlert from './Partials/AwaitingDecisionAlert.vue'
 import BuilderRankDecision from './Partials/BuilderRankDecision.vue'
 import BuilderRankDecisionForm from './Partials/BuilderRankDecisionForm.vue'
+import { Icons } from '../../../manage/Icons'
 
 interface Props {
     application: BuilderRankApplication,
@@ -50,7 +51,7 @@ const alts = computed(() => props.application.account?.minecraft_account?.slice(
             </template>
 
             <template v-slot:right>
-                <SvgIcon icon="clock" class="size-6" />
+                <SvgIcon :svg="Icons.clock" class="size-6" />
                 Waiting Time: <strong>{{ waitingTime }}</strong>
             </template>
         </ToolBar>
@@ -131,7 +132,7 @@ const alts = computed(() => props.application.account?.minecraft_account?.slice(
                     <div class="p-4">
                         <a :href="'/rank-up/' + application.id">
                             <OutlinedButton variant="secondary" class="w-full">
-                                <SvgIcon icon="eye" />
+                                <SvgIcon :svg="Icons.eye" />
                                 View Application As Player
                             </OutlinedButton>
                         </a>

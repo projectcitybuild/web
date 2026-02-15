@@ -13,6 +13,7 @@ import { BanAppealStatus } from '../../../manage/Data/BanAppealStatus'
 import ErrorAlert from '../../../manage/Components/ErrorAlert.vue'
 import SvgIcon from '../../../manage/Components/SvgIcon.vue'
 import OutlinedButton from '../../../manage/Components/OutlinedButton.vue'
+import { Icons } from '../../../manage/Icons'
 
 interface Props {
     banAppeal: BanAppeal,
@@ -76,7 +77,7 @@ function submit() {
             </template>
 
             <template v-slot:right>
-                <SvgIcon icon="clock" class="size-6" />
+                <SvgIcon :svg="Icons.clock" class="size-6" />
                 Waiting Time: <strong>{{ waitingTime }}</strong>
             </template>
         </ToolBar>

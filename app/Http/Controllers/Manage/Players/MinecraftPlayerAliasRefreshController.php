@@ -4,16 +4,19 @@ namespace App\Http\Controllers\Manage\Players;
 
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\MinecraftUUID\UseCases\LookupMinecraftUUID;
+use App\Domains\Permissions\AuthorizesPermissions;
+use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\WebController;
 use App\Models\MinecraftPlayer;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
 
 class MinecraftPlayerAliasRefreshController extends WebController
 {
+    use AuthorizesPermissions;
+
     public function __invoke(MinecraftPlayer $player, LookupMinecraftUUID $lookupMinecraftUUID)
     {
-        Gate::authorize('update', $player);
+        $this->requires(WebManagePermission::PLAYERS_EDIT);
 
         $lookup = $lookupMinecraftUUID->fetch(MinecraftUUID::tryParse($player->uuid));
         if ($lookup === null) {

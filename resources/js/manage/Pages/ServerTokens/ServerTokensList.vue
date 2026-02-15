@@ -6,6 +6,7 @@ import Card from '../../Components/Card.vue'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
 import FilledButton from '../../Components/FilledButton.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
+import { Icons } from '../../Icons'
 
 interface Props {
     tokens: ServerToken[],
@@ -25,7 +26,7 @@ const props = defineProps<Props>()
             <div class="flex justify-end space-y-3 md:space-y-0 md:space-x-4 p-4">
                 <Link href="/manage/server-tokens/create">
                     <FilledButton variant="primary">
-                        <SvgIcon icon="plus" />
+                        <SvgIcon :svg="Icons.plus" />
                         Create Token
                     </FilledButton>
                 </Link>

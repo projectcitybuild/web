@@ -11,12 +11,14 @@ import FilledButton from '../../Components/FilledButton.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
 import OutlinedButton from '../../Components/OutlinedButton.vue'
 import SpinnerRow from '../../Components/SpinnerRow.vue'
+import { Icons } from '../../Icons'
+import usePermissions from '../../Composables/usePermissions'
 
 interface Props {
     success?: string,
     accounts?: Paginated<Account>,
 }
-defineProps<Props>()
+const props = defineProps<Props>()
 
 const filterExpanded = ref(false)
 const query = ref({})
@@ -27,6 +29,8 @@ const form = useForm({
     email: null,
     activated: null,
 })
+
+const { can } = usePermissions()
 
 watch(
     () => form,
@@ -106,19 +110,20 @@ watch(
                             variant="secondary"
                             @click="filterExpanded = !filterExpanded"
                         >
-                            <SvgIcon icon="filter" />
+                            <SvgIcon :svg="Icons.filter" />
 
                             Filter
 
-                            <SvgIcon :icon="filterExpanded ? 'chevron-up' : 'chevron-down'" />
+                            <SvgIcon :svg="filterExpanded ? Icons.chevronUp : Icons.chevronDown" />
                         </OutlinedButton>
 
                         <Link
                             href="/manage/accounts/create"
                             as="button"
+                            v-if="can('web.manage.accounts.edit')"
                         >
                             <FilledButton variant="primary">
-                                <SvgIcon icon="plus" />
+                                <SvgIcon :svg="Icons.plus" />
                                 Create Account
                             </FilledButton>
                         </Link>

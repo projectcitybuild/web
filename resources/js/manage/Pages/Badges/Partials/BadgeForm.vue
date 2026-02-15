@@ -8,6 +8,7 @@ import Spinner from '../../../Components/Spinner.vue'
 import ConfirmDialog from '../../../Components/ConfirmDialog.vue'
 import OutlinedButton from '../../../Components/OutlinedButton.vue'
 import SvgIcon from '../../../Components/SvgIcon.vue'
+import { Icons } from '../../../Icons'
 
 interface Props {
     badge?: Badge,
@@ -121,7 +122,7 @@ function destroy() {
                 v-if="isEdit"
                 @click="deleteModal.open()"
             >
-                <SvgIcon icon="bin" />
+                <SvgIcon :svg="Icons.bin" />
                 Delete
             </OutlinedButton>
         </div>

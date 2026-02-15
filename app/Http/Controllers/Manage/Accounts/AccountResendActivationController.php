@@ -3,14 +3,17 @@
 namespace App\Http\Controllers\Manage\Accounts;
 
 use App\Domains\Activation\UseCases\SendActivationEmail;
+use App\Domains\Permissions\AuthorizesPermissions;
+use App\Domains\Permissions\WebManagePermission;
 use App\Models\Account;
-use Illuminate\Support\Facades\Gate;
 
 class AccountResendActivationController
 {
+    use AuthorizesPermissions;
+
     public function __invoke(Account $account, SendActivationEmail $sendActivationEmail)
     {
-        Gate::authorize('update', $account);
+        $this->requires(WebManagePermission::ACCOUNTS_EDIT);
 
         $sendActivationEmail->execute($account);
 

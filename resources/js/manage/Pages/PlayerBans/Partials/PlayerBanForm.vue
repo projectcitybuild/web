@@ -10,6 +10,7 @@ import Spinner from '../../../Components/Spinner.vue'
 import ConfirmDialog from '../../../Components/ConfirmDialog.vue'
 import SvgIcon from '../../../Components/SvgIcon.vue'
 import OutlinedButton from '../../../Components/OutlinedButton.vue'
+import { Icons } from '../../../Icons'
 
 interface Props {
     ban?: PlayerBan,
@@ -227,7 +228,7 @@ function destroy() {
                 type="button"
                 @click="deleteModal.open()"
             >
-                <SvgIcon icon="bin" />
+                <SvgIcon :svg="Icons.bin" />
                 Delete
             </OutlinedButton>
         </div>

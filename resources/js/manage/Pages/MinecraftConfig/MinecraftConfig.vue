@@ -10,6 +10,7 @@ import JsonValidity from './Partials/JsonValidity.vue'
 import Card from '../../Components/Card.vue'
 import FilledButton from '../../Components/FilledButton.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
+import { Icons } from '../../Icons'
 
 interface Props {
     success?: string,
@@ -76,7 +77,7 @@ function submit() {
                         :disabled="!isValidJson"
                         @click="submit"
                     >
-                        <SvgIcon icon="cloud-push" />
+                        <SvgIcon :svg="Icons.cloud-push" />
                         Save & Deploy
                     </FilledButton>
                 </div>
