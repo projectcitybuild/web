@@ -174,7 +174,7 @@ final class Account extends Authenticatable implements LinkableAuditModel
         );
     }
 
-    public function hasPermission(String $permission): bool
+    public function hasPermission(string $permission): bool
     {
         return $this->roles()
             ->whereHas('permissions', fn ($q) => $q->where('name', $permission))

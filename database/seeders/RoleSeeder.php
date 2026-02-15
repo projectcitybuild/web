@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Role;
 use App\Models\Permission;
+use App\Models\Role;
 use Illuminate\Database\Seeder;
 
 class RoleSeeder extends Seeder
@@ -135,11 +135,11 @@ class RoleSeeder extends Seeder
         ]);
         $permManageRoles = Permission::create([
             'name' => 'web.manage.accounts.roles',
-            'description' => 'Can manage roles'
+            'description' => 'Can manage roles',
         ]);
         $permManagePermissions = Permission::create([
             'name' => 'web.manage.accounts.permissions',
-            'description' => 'Can manage permissions and their assignment to roles'
+            'description' => 'Can manage permissions and their assignment to roles',
         ]);
         $permManageServerTokens = Permission::create([
             'name' => 'web.manage.servers.tokens',
