@@ -97,7 +97,7 @@ watch(
 
                             Filter
 
-                            <SvgIcon :svg="filterExpanded ? Icons.chevron-up : Icons.chevron-down" />
+                            <SvgIcon :svg="filterExpanded ? Icons.chevronUp : Icons.chevronDown" />
                         </OutlinedButton>
 
                         <Link href="/manage/players/create">

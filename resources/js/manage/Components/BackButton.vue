@@ -12,7 +12,7 @@ defineProps<Props>()
 
 <template>
     <Link :href="href" class="flex flex-row items-center gap-2 text-sm text-gray-500">
-        <SvgIcon :svg="Icons.arrow-left" class="size-6" />
+        <SvgIcon :svg="Icons.arrowLeft" class="size-6" />
         Go Back
     </Link>
 </template>

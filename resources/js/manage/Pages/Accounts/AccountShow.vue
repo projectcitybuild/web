@@ -21,6 +21,7 @@ import AccountEmailChangeRequestsTable from './Partials/AccountEmailChangeReques
 import AccountBanAppealsTable from './Partials/AccountBanAppealsTable.vue'
 import AccountBuilderRankApplicationsTable from './Partials/AccountBuilderRankApplicationsTable.vue'
 import { Icons } from '../../Icons'
+import usePermissions from '../../Composables/usePermissions'
 
 interface Props {
     account: Account,
@@ -33,6 +34,8 @@ const deactivateModal = ref<InstanceType<typeof ConfirmDialog>>()
 const disableMfaModal = ref<InstanceType<typeof ConfirmDialog>>()
 const unlinkPlayerModal = ref<InstanceType<typeof ConfirmDialog>>()
 const unlinkPlayerId = ref<number|null>(null)
+
+const { can } = usePermissions()
 
 function forceActivate() {
     activateModal.value?.close()
@@ -99,7 +102,7 @@ function showUnlinkDialog(playerId: number) {
             <template v-slot:left>
                 <BackButton href="/manage/accounts"/>
             </template>
-            <template v-slot:right>
+            <template v-slot:right v-if="can('web.manage.accounts.edit')">
                 <Link :href="'/manage/accounts/' + account.account_id + '/edit'">
                     <FilledButton variant="primary">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
@@ -160,9 +163,9 @@ function showUnlinkDialog(playerId: number) {
                             </dd>
                         </dl>
 
-                        <hr />
+                        <hr v-if="can('web.manage.accounts.edit')" />
 
-                        <div class="flex flex-col gap-2">
+                        <div class="flex flex-col gap-2" v-if="can('web.manage.accounts.edit')">
                             <template v-if="!account.activated">
                                 <FilledButton variant="secondary" @click="sendVerificationEmail">
                                     <SvgIcon :svg="Icons.email" />
@@ -217,7 +220,7 @@ function showUnlinkDialog(playerId: number) {
                 <Card>
                     <div class="p-4 flex justify-between items-center">
                         <h2 class="font-bold">Linked Players</h2>
-                        <Link :href="'/manage/accounts/' + account.account_id + '/players'">
+                        <Link :href="'/manage/accounts/' + account.account_id + '/players'" v-if="can('web.manage.accounts.edit')">
                             <FilledButton variant="secondary">Add</FilledButton>
                         </Link>
                     </div>
@@ -232,7 +235,7 @@ function showUnlinkDialog(playerId: number) {
                 <Card class="mt-4">
                     <div class="p-4 flex justify-between items-center">
                         <h2 class="font-bold">Roles</h2>
-                        <Link :href="'/manage/accounts/' + account.account_id + '/roles'">
+                        <Link :href="'/manage/accounts/' + account.account_id + '/roles'" v-if="can('web.manage.accounts.edit')">
                             <FilledButton variant="secondary">Edit</FilledButton>
                         </Link>
                     </div>
@@ -244,7 +247,7 @@ function showUnlinkDialog(playerId: number) {
                 <Card class="mt-4">
                     <div class="p-4 flex justify-between items-center">
                         <h2 class="font-bold">Badges</h2>
-                        <Link :href="'/manage/accounts/' + account.account_id + '/badges'">
+                        <Link :href="'/manage/accounts/' + account.account_id + '/badges'" v-if="can('web.manage.accounts.edit')">
                             <FilledButton variant="secondary">Edit</FilledButton>
                         </Link>
                     </div>
@@ -256,7 +259,7 @@ function showUnlinkDialog(playerId: number) {
                 <Card class="mt-4">
                     <div class="p-4 flex justify-between items-center">
                         <h2 class="font-bold">Donations</h2>
-                        <Link :href="'/manage/accounts/' + account.account_id + '/badges'">
+                        <Link :href="'/manage/accounts/' + account.account_id + '/badges'" v-if="can('web.manage.accounts.edit')">
                             <FilledButton variant="secondary">Create</FilledButton>
                         </Link>
                     </div>

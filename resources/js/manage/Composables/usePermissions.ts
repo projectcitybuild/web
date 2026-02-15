@@ -1,4 +1,5 @@
 import { usePage } from '@inertiajs/vue3'
+import { Permission } from '../Permissions'
 
 interface PageProps {
     [key: string]: any,
@@ -13,7 +14,7 @@ export default function usePermissions() {
      * Check if the account has a permission.
      * Supports wildcard permissions like 'accounts.*'
      */
-    const can = (permission: string): boolean => {
+    const can = (permission: Permission): boolean => {
         return permissions.some((it) => matchPermission(it, permission))
     }
 
@@ -21,7 +22,7 @@ export default function usePermissions() {
      * Check if the account does not have a permission.
      * Supports wildcard permissions like 'accounts.*'
      */
-    const cannot = (permission: string): boolean => !can(permission)
+    const cannot = (permission: Permission): boolean => !can(permission)
 
     /**
      * Check if a permission matches a wildcard pattern.

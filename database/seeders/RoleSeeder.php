@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Domains\Permissions\WebManagePermission;
 use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Database\Seeder;
@@ -130,122 +131,122 @@ class RoleSeeder extends Seeder
         ]);
 
         $viewRoles = Permission::firstOrCreate([
-            'name' => 'web.manage.roles.view',
+            'name' => WebManagePermission::ROLES_VIEW,
             'description' => 'Can view roles',
         ]);
 
         $editRoles = Permission::firstOrCreate([
-            'name' => 'web.manage.roles.edit',
+            'name' => WebManagePermission::ROLES_EDIT,
             'description' => 'Can edit roles',
         ]);
 
         $assignRoles = Permission::firstOrCreate([
-            'name' => 'web.manage.roles.assign',
+            'name' => WebManagePermission::ROLES_ASSIGN,
             'description' => 'Can assign roles',
         ]);
 
         $viewAccounts = Permission::firstOrCreate([
-            'name' => 'web.manage.accounts.view',
+            'name' => WebManagePermission::ACCOUNTS_VIEW,
             'description' => 'Can view accounts',
         ]);
 
         $editAccounts = Permission::firstOrCreate([
-            'name' => 'web.manage.accounts.edit',
+            'name' => WebManagePermission::ACCOUNTS_EDIT,
             'description' => 'Can edit accounts',
         ]);
 
         $viewUUIDBans = Permission::firstOrCreate([
-            'name' => 'web.manage.uuid_bans.view',
+            'name' => WebManagePermission::UUID_BANS_VIEW,
             'description' => 'Can view UUID bans',
         ]);
 
         $editUUIDBans = Permission::firstOrCreate([
-            'name' => 'web.manage.uuid_bans.edit',
+            'name' => WebManagePermission::UUID_BANS_EDIT,
             'description' => 'Can edit UUID bans',
         ]);
 
         $viewIPBans = Permission::firstOrCreate([
-            'name' => 'web.manage.ip_bans.view',
+            'name' => WebManagePermission::IP_BANS_VIEW,
             'description' => 'Can view IP bans',
         ]);
 
         $editIPBans = Permission::firstOrCreate([
-            'name' => 'web.manage.ip_bans.edit',
+            'name' => WebManagePermission::IP_BANS_EDIT,
             'description' => 'Can edit IP bans',
         ]);
 
         $viewWarnings = Permission::firstOrCreate([
-            'name' => 'web.manage.warnings.view',
+            'name' => WebManagePermission::WARNINGS_VIEW,
             'description' => 'Can view warnings',
         ]);
 
         $editWarnings = Permission::firstOrCreate([
-            'name' => 'web.manage.warnings.edit',
+            'name' => WebManagePermission::WARNINGS_EDIT,
             'description' => 'Can edit warnings',
         ]);
 
         $viewPlayers = Permission::firstOrCreate([
-            'name' => 'web.manage.players.view',
+            'name' => WebManagePermission::PLAYERS_VIEW,
             'description' => 'Can view players',
         ]);
 
         $editPlayers = Permission::firstOrCreate([
-            'name' => 'web.manage.players.edit',
+            'name' => WebManagePermission::PLAYERS_EDIT,
             'description' => 'Can edit players',
         ]);
 
         $viewBadges = Permission::firstOrCreate([
-            'name' => 'web.manage.badges.view',
+            'name' => WebManagePermission::BADGES_VIEW,
             'description' => 'Can view badges',
         ]);
 
         $editBadges = Permission::firstOrCreate([
-            'name' => 'web.manage.badges.edit',
+            'name' => WebManagePermission::BADGES_EDIT,
             'description' => 'Can edit badges',
         ]);
 
         $viewWarps = Permission::firstOrCreate([
-            'name' => 'web.manage.warps.view',
+            'name' => WebManagePermission::WARPS_VIEW,
             'description' => 'Can view warps',
         ]);
 
         $editWarps = Permission::firstOrCreate([
-            'name' => 'web.manage.warps.edit',
+            'name' => WebManagePermission::WARPS_EDIT,
             'description' => 'Can edit warps',
         ]);
 
         $viewServers = Permission::firstOrCreate([
-            'name' => 'web.manage.servers.view',
+            'name' => WebManagePermission::SERVERS_VIEW,
             'description' => 'Can view servers',
         ]);
 
         $editServers = Permission::firstOrCreate([
-            'name' => 'web.manage.servers.edit',
+            'name' => WebManagePermission::SERVERS_EDIT,
             'description' => 'Can edit servers',
         ]);
 
         $viewServerTokens = Permission::firstOrCreate([
-            'name' => 'web.manage.server_tokens.view',
+            'name' => WebManagePermission::SERVER_TOKENS_VIEW,
             'description' => 'Can view server tokens',
         ]);
 
         $editServerTokens = Permission::firstOrCreate([
-            'name' => 'web.manage.server_tokens.edit',
+            'name' => WebManagePermission::SERVER_TOKENS_EDIT,
             'description' => 'Can edit server tokens',
         ]);
 
         $editRemoteConfig = Permission::firstOrCreate([
-            'name' => 'web.manage.remote_config.edit',
+            'name' => WebManagePermission::REMOTE_CONFIG_EDIT,
             'description' => 'Can edit remote config',
         ]);
 
         $viewDonations = Permission::firstOrCreate([
-            'name' => 'web.manage.donations.view',
+            'name' => WebManagePermission::DONATIONS_ViEW,
             'description' => 'Can view donations',
         ]);
 
         $editDonations = Permission::firstOrCreate([
-            'name' => 'web.manage.donations.edit',
+            'name' => WebManagePermission::DONATIONS_EDIT,
             'description' => 'Can edit donations',
         ]);
 

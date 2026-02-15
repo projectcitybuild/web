@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers\Manage\Accounts;
 
+use App\Domains\Permissions\AuthorizesPermissions;
+use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\WebController;
 use App\Models\Account;
-use Illuminate\Support\Facades\Gate;
 
 class AccountActivateController extends WebController
 {
+    use AuthorizesPermissions;
+
     public function update(Account $account)
     {
-        Gate::authorize('update', $account);
+        $this->can(WebManagePermission::ACCOUNTS_EDIT);
 
         $account->activated = true;
         $account->disableLogging()->save();
@@ -24,7 +27,7 @@ class AccountActivateController extends WebController
 
     public function destroy(Account $account)
     {
-        Gate::authorize('update', $account);
+        $this->can(WebManagePermission::ACCOUNTS_EDIT);
 
         $account->activated = false;
         $account->disableLogging()->save();

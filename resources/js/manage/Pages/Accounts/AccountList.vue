@@ -12,12 +12,13 @@ import SvgIcon from '../../Components/SvgIcon.vue'
 import OutlinedButton from '../../Components/OutlinedButton.vue'
 import SpinnerRow from '../../Components/SpinnerRow.vue'
 import { Icons } from '../../Icons'
+import usePermissions from '../../Composables/usePermissions'
 
 interface Props {
     success?: string,
     accounts?: Paginated<Account>,
 }
-defineProps<Props>()
+const props = defineProps<Props>()
 
 const filterExpanded = ref(false)
 const query = ref({})
@@ -28,6 +29,8 @@ const form = useForm({
     email: null,
     activated: null,
 })
+
+const { can } = usePermissions()
 
 watch(
     () => form,
@@ -117,6 +120,7 @@ watch(
                         <Link
                             href="/manage/accounts/create"
                             as="button"
+                            v-if="can('web.manage.accounts.edit')"
                         >
                             <FilledButton variant="primary">
                                 <SvgIcon :svg="Icons.plus" />

@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers\Manage\Accounts;
 
+use App\Domains\Permissions\AuthorizesPermissions;
+use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\WebController;
 use App\Models\Account;
-use Illuminate\Support\Facades\Gate;
 
 class AccountBuilderRankApplicationsController extends WebController
 {
+    use AuthorizesPermissions;
+
     public function index(Account $account)
     {
-        Gate::authorize('view', $account);
+        $this->can(WebManagePermission::ACCOUNTS_VIEW);
 
         return $account
             ->builderRankApplications()

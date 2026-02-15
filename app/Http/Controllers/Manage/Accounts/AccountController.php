@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Manage\Accounts;
 
 use App\Core\Rules\DiscourseUsernameRule;
+use App\Domains\Permissions\AuthorizesPermissions;
+use App\Domains\Permissions\WebManagePermission;
 use App\Domains\Registration\UseCases\CreateUnactivatedAccount;
 use App\Http\Controllers\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
@@ -10,7 +12,6 @@ use App\Http\Filters\EqualFilter;
 use App\Http\Filters\LikeFilter;
 use App\Models\Account;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Pipeline;
 use Illuminate\Validation\Rule;
@@ -20,10 +21,11 @@ use Inertia\Inertia;
 class AccountController extends WebController
 {
     use RendersManageApp;
+    use AuthorizesPermissions;
 
     public function index(Request $request)
     {
-        Gate::authorize('viewAny', Account::class);
+        $this->can(WebManagePermission::ACCOUNTS_VIEW);
 
         $accounts = function () use ($request) {
             $pipes = [
@@ -49,7 +51,7 @@ class AccountController extends WebController
 
     public function show(Account $account)
     {
-        Gate::authorize('view', $account);
+        $this->can(WebManagePermission::ACCOUNTS_VIEW);
 
         $account->load([
             'roles',
@@ -65,14 +67,14 @@ class AccountController extends WebController
 
     public function create()
     {
-        Gate::authorize('create', Account::class);
+        $this->can(WebManagePermission::ACCOUNTS_EDIT);
 
         return $this->inertiaRender('Accounts/AccountCreate');
     }
 
     public function store(Request $request, CreateUnactivatedAccount $createUnactivatedAccount)
     {
-        Gate::authorize('create', Account::class);
+        $this->can(WebManagePermission::ACCOUNTS_EDIT);
 
         $validated = $request->validate([
             'email' => [
@@ -101,14 +103,14 @@ class AccountController extends WebController
 
     public function edit(Account $account)
     {
-        Gate::authorize('update', $account);
+        $this->can(WebManagePermission::ACCOUNTS_EDIT);
 
         return $this->inertiaRender('Accounts/AccountEdit', compact('account'));
     }
 
     public function update(Request $request, Account $account)
     {
-        Gate::authorize('update', $account);
+        $this->can(WebManagePermission::ACCOUNTS_EDIT);
 
         $validated = $request->validate([
             'email' => [

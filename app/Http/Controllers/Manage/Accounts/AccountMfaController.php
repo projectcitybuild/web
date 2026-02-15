@@ -3,15 +3,18 @@
 namespace App\Http\Controllers\Manage\Accounts;
 
 use App\Domains\Mfa\Notifications\MfaDisabledNotification;
+use App\Domains\Permissions\AuthorizesPermissions;
+use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\WebController;
 use App\Models\Account;
-use Illuminate\Support\Facades\Gate;
 
 class AccountMfaController extends WebController
 {
+    use AuthorizesPermissions;
+
     public function destroy(Account $account)
     {
-        Gate::authorize('update', $account);
+        $this->can(WebManagePermission::ACCOUNTS_EDIT);
 
         $account->resetTotp();
         $account->save();

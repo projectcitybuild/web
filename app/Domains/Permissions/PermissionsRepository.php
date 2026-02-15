@@ -21,6 +21,9 @@ class PermissionsRepository
 
     public function hasPermission(string $permissionName, Account $account): bool
     {
+        if ($account->isAdmin()) {
+            return true;
+        }
         $permissions = $this->getPermissionNames($account);
 
         foreach ($permissions as $permission) {
