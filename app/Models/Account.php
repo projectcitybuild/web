@@ -174,6 +174,13 @@ final class Account extends Authenticatable implements LinkableAuditModel
         );
     }
 
+    public function hasPermission(String $permission): bool
+    {
+        return $this->roles()
+            ->whereHas('permissions', fn ($q) => $q->where('name', $permission))
+            ->exists();
+    }
+
     public function isAdmin(): bool
     {
         // Force load to prevent multiple lookups for the same request
