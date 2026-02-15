@@ -16,6 +16,9 @@ return new class extends Migration
         Schema::table('roles', function (Blueprint $table) {
             $table->renameColumn('group_id', 'id');
             $table->renameColumn('group_type', 'role_type');
+
+            $table->string('minecraft_display_name')->nullable()->change();
+            $table->string('minecraft_hover_text')->nullable()->change();
         });
 
         Schema::rename('groups_accounts', 'roles_accounts');
@@ -40,6 +43,9 @@ return new class extends Migration
         Schema::table('groups', function (Blueprint $table) {
             $table->renameColumn('id', 'group_id');
             $table->renameColumn('role_type', 'group_type');
+
+            $table->string('minecraft_display_name')->change();
+            $table->string('minecraft_hover_text')->change();
         });
 
         Schema::rename('roles_accounts', 'groups_accounts');

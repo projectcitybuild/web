@@ -31,12 +31,12 @@ class AccountRoleController extends WebController
     {
         Gate::authorize('update', $account);
 
-        $request->validate([
-            'account_role_ids' => [],
-        ]);
+        $validated = collect($request->validate([
+            'account_role_ids' => ['array'],
+        ]));
 
         $account->roles()->sync(
-            $request->request->get('account_role_ids', []),
+            $validated->get('account_role_ids', []),
         );
 
         return to_route('manage.accounts.show', $account)
