@@ -29,14 +29,18 @@ class PermissionsServiceProvider extends ServiceProvider
     private function registerInertiaProps(PermissionsRepository $permissionsRepository)
     {
         Inertia::share([
-            'is_admin' => function () use ($permissionsRepository) {
+            'is_admin' => function () {
                 $account = Auth::user();
-                if (!$account) return false;
+                if (! $account) {
+                    return false;
+                }
                 return $account->isAdmin();
             },
             'permissions' => function () use ($permissionsRepository) {
                 $account = Auth::user();
-                if (!$account) return null;
+                if (! $account) {
+                    return null;
+                }
                 return $permissionsRepository->getPermissionNames($account);
             },
         ]);

@@ -12,8 +12,8 @@ use Illuminate\Http\Request;
 
 class ServerController extends WebController
 {
-    use RendersManageApp;
     use AuthorizesPermissions;
+    use RendersManageApp;
 
     public function index(Request $request)
     {

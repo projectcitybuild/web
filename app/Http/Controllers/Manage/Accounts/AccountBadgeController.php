@@ -12,8 +12,8 @@ use Illuminate\Http\Request;
 
 class AccountBadgeController
 {
-    use RendersManageApp;
     use AuthorizesPermissions;
+    use RendersManageApp;
 
     public function index(Request $request, Account $account)
     {

@@ -15,8 +15,8 @@ use Inertia\Inertia;
 
 class RoleController extends WebController
 {
-    use RendersManageApp;
     use AuthorizesPermissions;
+    use RendersManageApp;
 
     public function index()
     {

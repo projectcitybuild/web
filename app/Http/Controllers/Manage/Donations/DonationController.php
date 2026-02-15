@@ -14,8 +14,8 @@ use Inertia\Inertia;
 
 class DonationController extends WebController
 {
-    use RendersManageApp;
     use AuthorizesPermissions;
+    use RendersManageApp;
 
     public function index(Request $request)
     {

@@ -20,8 +20,8 @@ use Inertia\Inertia;
 
 class AccountController extends WebController
 {
-    use RendersManageApp;
     use AuthorizesPermissions;
+    use RendersManageApp;
 
     public function index(Request $request)
     {

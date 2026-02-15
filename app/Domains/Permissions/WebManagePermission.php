@@ -2,7 +2,8 @@
 
 namespace App\Domains\Permissions;
 
-enum WebManagePermission: string {
+enum WebManagePermission: string
+{
     case ROLES_VIEW = 'web.manage.roles.view';
     case ROLES_EDIT = 'web.manage.roles.edit';
     case ROLES_ASSIGN = 'web.manage.roles.assign';

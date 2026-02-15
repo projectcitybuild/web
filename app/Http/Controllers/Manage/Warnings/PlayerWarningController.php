@@ -15,8 +15,8 @@ use Inertia\Inertia;
 
 class PlayerWarningController extends WebController
 {
-    use RendersManageApp;
     use AuthorizesPermissions;
+    use RendersManageApp;
 
     public function index(Request $request)
     {

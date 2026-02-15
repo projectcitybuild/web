@@ -14,8 +14,8 @@ use Illuminate\Http\Request;
 
 class AccountPlayerController extends WebController
 {
-    use RendersManageApp;
     use AuthorizesPermissions;
+    use RendersManageApp;
 
     public function create(Request $request, Account $account)
     {

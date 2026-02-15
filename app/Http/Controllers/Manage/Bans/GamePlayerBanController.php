@@ -20,8 +20,8 @@ use Inertia\Inertia;
 
 class GamePlayerBanController extends WebController
 {
-    use RendersManageApp;
     use AuthorizesPermissions;
+    use RendersManageApp;
 
     public function __construct(
         private readonly PlayerBanService $playerBanService,
