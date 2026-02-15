@@ -41,6 +41,11 @@ export const sidebarMenu: SidebarSection[] = [
             permission: 'web.manage.uuid_bans.view',
         },
         {
+            title: 'IP Bans',
+            route: '/manage/ip-bans',
+            permission: 'web.manage.ip_bans.view',
+        },
+        {
             title: 'Warnings',
             route: '/manage/warnings',
             permission: 'web.manage.warnings.view',

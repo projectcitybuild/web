@@ -4,21 +4,23 @@ namespace App\Http\Controllers\Manage\Warnings;
 
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
+use App\Domains\Permissions\AuthorizesPermissions;
+use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\MinecraftPlayer;
 use App\Models\PlayerWarning;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class PlayerWarningController extends WebController
 {
     use RendersManageApp;
+    use AuthorizesPermissions;
 
     public function index(Request $request)
     {
-        Gate::authorize('viewAny', PlayerWarning::class);
+        $this->requires(WebManagePermission::WARNINGS_VIEW);
 
         $warnings = function () {
             return PlayerWarning::with('warnedPlayer', 'warnerPlayer')
@@ -36,14 +38,14 @@ class PlayerWarningController extends WebController
 
     public function create(Request $request)
     {
-        Gate::authorize('create', PlayerWarning::class);
+        $this->requires(WebManagePermission::WARNINGS_EDIT);
 
         return $this->inertiaRender('Warnings/WarningCreate');
     }
 
     public function store(Request $request)
     {
-        Gate::authorize('create', PlayerWarning::class);
+        $this->requires(WebManagePermission::WARNINGS_EDIT);
 
         $request->merge([
             'weight' => 1,
@@ -77,7 +79,7 @@ class PlayerWarningController extends WebController
 
     public function edit(PlayerWarning $warning)
     {
-        Gate::authorize('update', $warning);
+        $this->requires(WebManagePermission::WARNINGS_EDIT);
 
         $warning->load('warnedPlayer', 'warnerPlayer');
 
@@ -86,7 +88,7 @@ class PlayerWarningController extends WebController
 
     public function update(Request $request, PlayerWarning $warning)
     {
-        Gate::authorize('update', $warning);
+        $this->requires(WebManagePermission::WARNINGS_EDIT);
 
         $validated = $request->validate([
             'warned_uuid' => ['required', new MinecraftUUIDRule],
@@ -114,7 +116,7 @@ class PlayerWarningController extends WebController
 
     public function destroy(Request $request, PlayerWarning $warning)
     {
-        Gate::authorize('delete', $warning);
+        $this->requires(WebManagePermission::WARNINGS_EDIT);
 
         $warning->delete();
 

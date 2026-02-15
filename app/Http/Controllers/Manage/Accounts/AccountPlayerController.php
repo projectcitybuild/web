@@ -19,7 +19,7 @@ class AccountPlayerController extends WebController
 
     public function create(Request $request, Account $account)
     {
-        $this->can(WebManagePermission::ACCOUNTS_EDIT);
+        $this->requires(WebManagePermission::ACCOUNTS_EDIT);
 
         return $this->inertiaRender('Accounts/AccountPlayerSelect', [
             'account_id' => $account->getKey(),
@@ -28,7 +28,7 @@ class AccountPlayerController extends WebController
 
     public function store(Request $request, Account $account)
     {
-        $this->can(WebManagePermission::ACCOUNTS_EDIT);
+        $this->requires(WebManagePermission::ACCOUNTS_EDIT);
 
         $validated = $request->validate([
             'uuid' => ['required', new MinecraftUUIDRule],
@@ -47,7 +47,7 @@ class AccountPlayerController extends WebController
 
     public function destroy(Request $request, Account $account, MinecraftPlayer $player)
     {
-        $this->can(WebManagePermission::ACCOUNTS_EDIT);
+        $this->requires(WebManagePermission::ACCOUNTS_EDIT);
 
         $player->account()->disassociate();
         $player->save();

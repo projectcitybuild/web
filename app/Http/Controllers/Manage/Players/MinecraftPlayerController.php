@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Manage\Players;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
 use App\Core\Domains\MinecraftUUID\UseCases\LookupMinecraftUUID;
+use App\Domains\Permissions\AuthorizesPermissions;
+use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Http\Filters\LikeFilter;
 use App\Models\MinecraftPlayer;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Pipeline;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
@@ -18,10 +19,11 @@ use Inertia\Inertia;
 class MinecraftPlayerController extends WebController
 {
     use RendersManageApp;
+    use AuthorizesPermissions;
 
     public function index(Request $request)
     {
-        Gate::authorize('viewAny', MinecraftPlayer::class);
+        $this->requires(WebManagePermission::PLAYERS_VIEW);
 
         $players = function () use ($request) {
             $pipes = [
@@ -46,7 +48,7 @@ class MinecraftPlayerController extends WebController
 
     public function show(MinecraftPlayer $player)
     {
-        Gate::authorize('view', $player);
+        $this->requires(WebManagePermission::PLAYERS_VIEW);
 
         $player->load(['account']);
 
@@ -55,14 +57,14 @@ class MinecraftPlayerController extends WebController
 
     public function create()
     {
-        Gate::authorize('create', MinecraftPlayer::class);
+        $this->requires(WebManagePermission::PLAYERS_EDIT);
 
         return $this->inertiaRender('Players/PlayerCreate');
     }
 
     public function store(Request $request, LookupMinecraftUUID $lookupMinecraftUUID)
     {
-        Gate::authorize('create', MinecraftPlayer::class);
+        $this->requires(WebManagePermission::PLAYERS_EDIT);
 
         $validated = $request->validate([
             'uuid' => ['required', new MinecraftUUIDRule],
@@ -101,14 +103,14 @@ class MinecraftPlayerController extends WebController
 
     public function edit(MinecraftPlayer $player)
     {
-        Gate::authorize('update', $player);
+        $this->requires(WebManagePermission::PLAYERS_EDIT);
 
         return $this->inertiaRender('Players/PlayerEdit', compact('player'));
     }
 
     public function update(Request $request, MinecraftPlayer $player)
     {
-        Gate::authorize('update', $player);
+        $this->requires(WebManagePermission::PLAYERS_EDIT);
 
         $validated = $request->validate([
             'uuid' => ['required', new MinecraftUUIDRule],

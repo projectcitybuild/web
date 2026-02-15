@@ -3,19 +3,21 @@
 namespace App\Http\Controllers\Manage\Minecraft;
 
 use App\Domains\MinecraftEventBus\Events\MinecraftConfigUpdated;
+use App\Domains\Permissions\AuthorizesPermissions;
+use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\MinecraftConfig;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 
 class MinecraftConfigController extends WebController
 {
     use RendersManageApp;
+    use AuthorizesPermissions;
 
     public function create()
     {
-        Gate::authorize('create', MinecraftConfig::class);
+        $this->requires(WebManagePermission::REMOTE_CONFIG_EDIT);
 
         $config = MinecraftConfig::byLatest()->first();
 
@@ -26,7 +28,7 @@ class MinecraftConfigController extends WebController
 
     public function store(Request $request)
     {
-        Gate::authorize('update', MinecraftConfig::class);
+        $this->requires(WebManagePermission::REMOTE_CONFIG_EDIT);
 
         $validated = $request->validate([
             'config' => 'required|json',

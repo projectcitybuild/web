@@ -13,7 +13,7 @@ class AccountBanAppealController extends WebController
 
     public function index(Account $account)
     {
-        $this->can(WebManagePermission::ACCOUNTS_VIEW);
+        $this->requires(WebManagePermission::ACCOUNTS_VIEW);
 
         $appeals = $account->banAppeals()->paginate(100);
 

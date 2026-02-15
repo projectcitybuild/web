@@ -17,7 +17,7 @@ class AccountBadgeController
 
     public function index(Request $request, Account $account)
     {
-        $this->can(WebManagePermission::ACCOUNTS_VIEW);
+        $this->requires(WebManagePermission::ACCOUNTS_VIEW);
 
         $badges = Badge::get();
         $accountBadgeIds = $account->badges->pluck(Badge::primaryKey());
@@ -31,7 +31,7 @@ class AccountBadgeController
 
     public function update(Request $request, Account $account)
     {
-        $this->can(WebManagePermission::ACCOUNTS_EDIT);
+        $this->requires(WebManagePermission::ACCOUNTS_EDIT);
 
         $request->validate([
             'account_badge_ids' => [],

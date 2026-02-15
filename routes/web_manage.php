@@ -105,9 +105,6 @@ Route::name('manage.')
 
         Route::resource('donations', DonationController::class);
 
-        Route::resource('donation-perks', DonationPerksController::class)
-            ->except(['index', 'show']);
-
         Route::resource('servers', ServerController::class)
             ->except(['show']);
 

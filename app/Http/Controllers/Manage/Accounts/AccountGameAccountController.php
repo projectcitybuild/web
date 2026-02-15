@@ -13,7 +13,7 @@ class AccountGameAccountController
 
     public function delete(Account $account, MinecraftPlayer $minecraftPlayer)
     {
-        $this->can(WebManagePermission::ACCOUNTS_EDIT);
+        $this->requires(WebManagePermission::ACCOUNTS_EDIT);
 
         if (! $minecraftPlayer->account->is($account)) {
             abort(422);

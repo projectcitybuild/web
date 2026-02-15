@@ -18,7 +18,7 @@ class AccountApproveEmailChangeController extends WebController
         EmailChange $accountEmailChange,
         UpdateAccountEmail $updateAccountEmail,
     ) {
-        $this->can(WebManagePermission::ACCOUNTS_EDIT);
+        $this->requires(WebManagePermission::ACCOUNTS_EDIT);
 
         if (! $accountEmailChange->account->is($account)) {
             abort(422);

@@ -25,6 +25,6 @@ enum WebManagePermission: string {
     case SERVER_TOKENS_VIEW = 'web.manage.server_tokens.view';
     case SERVER_TOKENS_EDIT = 'web.manage.server_tokens.edit';
     case REMOTE_CONFIG_EDIT = 'web.manage.remote_config.edit';
-    case DONATIONS_ViEW = 'web.manage.donations.view';
+    case DONATIONS_VIEW = 'web.manage.donations.view';
     case DONATIONS_EDIT = 'web.manage.donations.edit';
 }

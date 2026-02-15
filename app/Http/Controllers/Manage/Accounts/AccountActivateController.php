@@ -13,7 +13,7 @@ class AccountActivateController extends WebController
 
     public function update(Account $account)
     {
-        $this->can(WebManagePermission::ACCOUNTS_EDIT);
+        $this->requires(WebManagePermission::ACCOUNTS_EDIT);
 
         $account->activated = true;
         $account->disableLogging()->save();
@@ -27,7 +27,7 @@ class AccountActivateController extends WebController
 
     public function destroy(Account $account)
     {
-        $this->can(WebManagePermission::ACCOUNTS_EDIT);
+        $this->requires(WebManagePermission::ACCOUNTS_EDIT);
 
         $account->activated = false;
         $account->disableLogging()->save();

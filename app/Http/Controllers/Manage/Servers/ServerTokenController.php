@@ -2,20 +2,22 @@
 
 namespace App\Http\Controllers\Manage\Servers;
 
+use App\Domains\Permissions\AuthorizesPermissions;
+use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\Server;
 use App\Models\ServerToken;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 
 class ServerTokenController extends WebController
 {
     use RendersManageApp;
+    use AuthorizesPermissions;
 
     public function index(Request $request)
     {
-        Gate::authorize('viewAny', ServerToken::class);
+        $this->requires(WebManagePermission::SERVER_TOKENS_VIEW);
 
         $tokens = ServerToken::orderBy('created_at', 'desc')->get();
 
@@ -24,14 +26,14 @@ class ServerTokenController extends WebController
 
     public function create(Request $request)
     {
-        Gate::authorize('create', ServerToken::class);
+        $this->requires(WebManagePermission::SERVER_TOKENS_EDIT);
 
         return $this->inertiaRender('ServerTokens/ServerTokenCreate');
     }
 
     public function store(Request $request)
     {
-        Gate::authorize('create', ServerToken::class);
+        $this->requires(WebManagePermission::SERVER_TOKENS_EDIT);
 
         $validated = $request->validate([
             'token' => ['required', 'string'],
@@ -58,7 +60,7 @@ class ServerTokenController extends WebController
 
     public function edit(ServerToken $serverToken)
     {
-        Gate::authorize('update', ServerToken::class);
+        $this->requires(WebManagePermission::SERVER_TOKENS_EDIT);
 
         return $this->inertiaRender('ServerTokens/ServerTokenEdit', [
             'token' => $serverToken,
@@ -67,7 +69,7 @@ class ServerTokenController extends WebController
 
     public function update(Request $request, ServerToken $serverToken)
     {
-        Gate::authorize('update', $serverToken);
+        $this->requires(WebManagePermission::SERVER_TOKENS_EDIT);
 
         $validated = $request->validate([
             'token' => ['required', 'string'],
@@ -90,7 +92,7 @@ class ServerTokenController extends WebController
 
     public function destroy(Request $request, ServerToken $serverToken)
     {
-        Gate::authorize('delete', $serverToken);
+        $this->requires(WebManagePermission::SERVER_TOKENS_EDIT);
 
         $serverToken->delete();
 

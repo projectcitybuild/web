@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Gate;
 
 trait AuthorizesPermissions
 {
-    public function can(string|WebManagePermission $permissionName)
+    public function requires(string|WebManagePermission $permissionName)
     {
         $permissionName = $permissionName instanceof WebManagePermission
             ? $permissionName->value

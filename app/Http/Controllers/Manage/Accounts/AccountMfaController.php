@@ -14,7 +14,7 @@ class AccountMfaController extends WebController
 
     public function destroy(Account $account)
     {
-        $this->can(WebManagePermission::ACCOUNTS_EDIT);
+        $this->requires(WebManagePermission::ACCOUNTS_EDIT);
 
         $account->resetTotp();
         $account->save();

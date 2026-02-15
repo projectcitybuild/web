@@ -25,7 +25,7 @@ class AccountController extends WebController
 
     public function index(Request $request)
     {
-        $this->can(WebManagePermission::ACCOUNTS_VIEW);
+        $this->requires(WebManagePermission::ACCOUNTS_VIEW);
 
         $accounts = function () use ($request) {
             $pipes = [
@@ -51,7 +51,7 @@ class AccountController extends WebController
 
     public function show(Account $account)
     {
-        $this->can(WebManagePermission::ACCOUNTS_VIEW);
+        $this->requires(WebManagePermission::ACCOUNTS_VIEW);
 
         $account->load([
             'roles',
@@ -67,14 +67,14 @@ class AccountController extends WebController
 
     public function create()
     {
-        $this->can(WebManagePermission::ACCOUNTS_EDIT);
+        $this->requires(WebManagePermission::ACCOUNTS_EDIT);
 
         return $this->inertiaRender('Accounts/AccountCreate');
     }
 
     public function store(Request $request, CreateUnactivatedAccount $createUnactivatedAccount)
     {
-        $this->can(WebManagePermission::ACCOUNTS_EDIT);
+        $this->requires(WebManagePermission::ACCOUNTS_EDIT);
 
         $validated = $request->validate([
             'email' => [
@@ -103,14 +103,14 @@ class AccountController extends WebController
 
     public function edit(Account $account)
     {
-        $this->can(WebManagePermission::ACCOUNTS_EDIT);
+        $this->requires(WebManagePermission::ACCOUNTS_EDIT);
 
         return $this->inertiaRender('Accounts/AccountEdit', compact('account'));
     }
 
     public function update(Request $request, Account $account)
     {
-        $this->can(WebManagePermission::ACCOUNTS_EDIT);
+        $this->requires(WebManagePermission::ACCOUNTS_EDIT);
 
         $validated = $request->validate([
             'email' => [

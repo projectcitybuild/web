@@ -17,7 +17,7 @@ class AccountRoleController extends WebController
 
     public function index(Request $request, Account $account)
     {
-        $this->can(WebManagePermission::ACCOUNTS_VIEW);
+        $this->requires(WebManagePermission::ACCOUNTS_VIEW);
 
         $roles = Role::where('is_default', false)->get();
         $accountRoleIds = $account->roles->pluck(Role::primaryKey());
@@ -31,7 +31,7 @@ class AccountRoleController extends WebController
 
     public function update(Request $request, Account $account)
     {
-        $this->can(WebManagePermission::ACCOUNTS_EDIT);
+        $this->requires(WebManagePermission::ACCOUNTS_EDIT);
 
         $validated = collect($request->validate([
             'account_role_ids' => ['array'],

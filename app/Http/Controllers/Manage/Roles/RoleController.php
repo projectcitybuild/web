@@ -20,7 +20,7 @@ class RoleController extends WebController
 
     public function index()
     {
-        $this->can(WebManagePermission::ROLES_VIEW);
+        $this->requires(WebManagePermission::ROLES_VIEW);
 
         $roles = function () {
             $roles = Role::withCount('accounts')
@@ -43,14 +43,14 @@ class RoleController extends WebController
 
     public function create(Request $request)
     {
-        $this->can(WebManagePermission::ROLES_EDIT);
+        $this->requires(WebManagePermission::ROLES_EDIT);
 
         return $this->inertiaRender('Roles/RoleCreate');
     }
 
     public function store(Request $request): RedirectResponse
     {
-        $this->can(WebManagePermission::ROLES_EDIT);
+        $this->requires(WebManagePermission::ROLES_EDIT);
 
         $validated = $request->validate([
             'name' => ['required', 'string', Rule::unique(Role::tableName())],
@@ -75,14 +75,14 @@ class RoleController extends WebController
 
     public function edit(Role $role)
     {
-        $this->can(WebManagePermission::ROLES_EDIT);
+        $this->requires(WebManagePermission::ROLES_EDIT);
 
         return $this->inertiaRender('Roles/RoleEdit', compact('role'));
     }
 
     public function update(Request $request, Role $role): RedirectResponse
     {
-        $this->can(WebManagePermission::ROLES_EDIT);
+        $this->requires(WebManagePermission::ROLES_EDIT);
 
         $validated = $request->validate([
             'name' => ['required', 'string', Rule::unique(Role::tableName())->ignore($role)],
@@ -107,7 +107,7 @@ class RoleController extends WebController
 
     public function destroy(Request $request, Role $role): RedirectResponse
     {
-        $this->can(WebManagePermission::ROLES_EDIT);
+        $this->requires(WebManagePermission::ROLES_EDIT);
 
         $role->delete();
 

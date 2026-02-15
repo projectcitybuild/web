@@ -241,7 +241,7 @@ class RoleSeeder extends Seeder
         ]);
 
         $viewDonations = Permission::firstOrCreate([
-            'name' => WebManagePermission::DONATIONS_ViEW,
+            'name' => WebManagePermission::DONATIONS_VIEW,
             'description' => 'Can view donations',
         ]);
 

@@ -17,7 +17,7 @@ class RoleAccountController extends WebController
 
     public function index(Request $request, Role $role)
     {
-        $this->can(WebManagePermission::ROLES_VIEW);
+        $this->requires(WebManagePermission::ROLES_VIEW);
 
         // Default role doesn't have assigned members
         if ($role->is_default) {

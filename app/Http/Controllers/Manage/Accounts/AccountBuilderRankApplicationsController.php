@@ -13,7 +13,7 @@ class AccountBuilderRankApplicationsController extends WebController
 
     public function index(Account $account)
     {
-        $this->can(WebManagePermission::ACCOUNTS_VIEW);
+        $this->requires(WebManagePermission::ACCOUNTS_VIEW);
 
         return $account
             ->builderRankApplications()

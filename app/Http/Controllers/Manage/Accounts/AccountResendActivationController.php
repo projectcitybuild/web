@@ -13,7 +13,7 @@ class AccountResendActivationController
 
     public function __invoke(Account $account, SendActivationEmail $sendActivationEmail)
     {
-        $this->can(WebManagePermission::ACCOUNTS_EDIT);
+        $this->requires(WebManagePermission::ACCOUNTS_EDIT);
 
         $sendActivationEmail->execute($account);
 
