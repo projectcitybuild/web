@@ -5,39 +5,39 @@ namespace App\Domains\BuilderRankApplications\UseCases;
 use App\Domains\BuilderRankApplications\Data\ApplicationStatus;
 use App\Domains\BuilderRankApplications\Notifications\BuilderRankAppApprovedNotification;
 use App\Models\BuilderRankApplication;
-use App\Models\Group;
+use App\Models\Role;
 use Illuminate\Support\Facades\DB;
 
 class ApproveBuildRankApplication
 {
     public function execute(
         int $applicationId,
-        int $promoteGroupId,
+        int $promoteRoleId,
     ): BuilderRankApplication {
         $application = BuilderRankApplication::find($applicationId);
-        $promoteGroup = Group::find($promoteGroupId);
+        $promoteRole = Role::find($promoteRoleId);
 
         abort_if($application->isReviewed(), 409);
 
-        DB::transaction(function () use ($application, $promoteGroup) {
+        DB::transaction(function () use ($application, $promoteRole) {
             $application->status = ApplicationStatus::APPROVED->value;
             $application->closed_at = now();
             $application->save();
 
-            $updatedGroupIds = $application
+            $updatedRoleIds = $application
                 ->account
-                ->groups()
-                ->where('group_type', '!=', 'build')
+                ->roles()
+                ->where('role_type', '!=', 'build')
                 ->get()
-                ->push($promoteGroup);
+                ->push($promoteRole);
 
-            $application->account->groups()->sync($updatedGroupIds);
+            $application->account->roles()->sync($updatedRoleIds);
         });
 
         $application->account->notify(
             new BuilderRankAppApprovedNotification(
                 builderRankApplication: $application,
-                groupPromotedTo: $promoteGroup,
+                rolePromotedTo: $promoteRole,
             )
         );
 

@@ -52,7 +52,7 @@ class AccountController extends WebController
         Gate::authorize('view', $account);
 
         $account->load([
-            'groups',
+            'roles',
             'badges',
             'minecraftAccount',
             'emailChangeRequests',

@@ -2,16 +2,16 @@
 
 namespace Database\Factories;
 
-use App\Models\Group;
+use App\Models\Role;
 
-class GroupFactory extends Factory
+class RoleFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Group::class;
+    protected $model = Role::class;
 
     /**
      * Define the model's default state.
@@ -29,7 +29,7 @@ class GroupFactory extends Factory
     }
 
     /**
-     * Sets the group as the default group assigned to members who don't have any other group
+     * Sets the role as the default role assigned to members who don't have any other role
      */
     public function member(): Factory
     {
@@ -46,7 +46,7 @@ class GroupFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'name' => 'donator',
-                'group_type' => 'donor',
+                'role_type' => 'donor',
             ];
         });
     }
@@ -57,7 +57,7 @@ class GroupFactory extends Factory
             return [
                 'name' => 'administrator',
                 'is_admin' => true,
-                'group_type' => 'staff',
+                'role_type' => 'staff',
             ];
         });
     }
@@ -67,7 +67,7 @@ class GroupFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'name' => 'staff',
-                'group_type' => 'staff',
+                'role_type' => 'staff',
             ];
         });
     }
@@ -77,7 +77,7 @@ class GroupFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'name' => 'architect',
-                'group_type' => 'build',
+                'role_type' => 'build',
             ];
         });
     }

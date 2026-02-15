@@ -6,7 +6,7 @@ use App\Core\Utilities\SecureTokenGenerator;
 use App\Models\Account;
 use App\Models\AccountActivation;
 use App\Models\EmailChange;
-use App\Models\Group;
+use App\Models\Role;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
@@ -33,7 +33,7 @@ class AccountSeeder extends Seeder
 
     private function createAdmin()
     {
-        $group = Group::where('name', 'developer')->first();
+        $role = Role::where('name', 'developer')->first();
 
         $account = Account::factory()->make();
         $account->username = 'Admin';
@@ -43,12 +43,12 @@ class AccountSeeder extends Seeder
         $account->totp_backup_code = Crypt::encryptString(Str::random(config('auth.totp.backup_code_length')));
         $account->is_totp_enabled = true;
         $account->save();
-        $account->groups()->attach($group->getKey());
+        $account->roles()->attach($role->id);
     }
 
     private function createArchitect()
     {
-        $group = Group::where('name', 'architect')->first();
+        $role = Role::where('name', 'architect')->first();
 
         $account = Account::factory()->make();
         $account->username = 'Architect';
@@ -58,12 +58,12 @@ class AccountSeeder extends Seeder
         $account->totp_backup_code = Crypt::encryptString(Str::random(config('auth.totp.backup_code_length')));
         $account->is_totp_enabled = true;
         $account->save();
-        $account->groups()->attach($group->getKey());
+        $account->roles()->attach($role->id);
     }
 
     private function createModerator()
     {
-        $group = Group::where('name', 'moderator')->first();
+        $role = Role::where('name', 'moderator')->first();
 
         $account = Account::factory()->make();
         $account->username = 'Moderator';
@@ -73,7 +73,7 @@ class AccountSeeder extends Seeder
         $account->totp_backup_code = Crypt::encryptString(Str::random(config('auth.totp.backup_code_length')));
         $account->is_totp_enabled = true;
         $account->save();
-        $account->groups()->attach($group->getKey());
+        $account->roles()->attach($role->id);
     }
 
     private function createUnactivatedAccount()

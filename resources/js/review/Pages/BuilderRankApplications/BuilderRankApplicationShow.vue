@@ -13,14 +13,14 @@ import SvgIcon from '../../../manage/Components/SvgIcon.vue'
 import OutlinedButton from '../../../manage/Components/OutlinedButton.vue'
 import { BuilderRankApplication, BuilderRankApplicationStatus } from '../../../manage/Data/BuilderRankApplication'
 import Pill from '../../../manage/Components/Pill.vue'
-import type { Group } from '../../../manage/Data/Group'
+import type { Role } from '../../../manage/Data/Role'
 import AwaitingDecisionAlert from './Partials/AwaitingDecisionAlert.vue'
 import BuilderRankDecision from './Partials/BuilderRankDecision.vue'
 import BuilderRankDecisionForm from './Partials/BuilderRankDecisionForm.vue'
 
 interface Props {
     application: BuilderRankApplication,
-    buildGroups: Group[],
+    buildRoles: Role[],
     success?: string,
 }
 const props = defineProps<Props>()
@@ -115,17 +115,17 @@ const alts = computed(() => props.application.account?.minecraft_account?.slice(
                     </div>
 
                     <div class="p-4 space-y-4 border-t border-gray-200">
-                        <h2 class="font-bold">Current Groups</h2>
+                        <h2 class="font-bold">Current Roles</h2>
 
                         <div class="flex flex-wrap gap-2">
                             <Pill
                                 variant="default"
-                                v-for="group in application.account.groups"
+                                v-for="role in application.account.roles"
                             >
-                                {{ group.name }}
+                                {{ role.name }}
                             </Pill>
                         </div>
-                        <span v-if="application.account.groups.length === 0" class="text-gray-500 text-sm">None</span>
+                        <span v-if="application.account.roles.length === 0" class="text-gray-500 text-sm">None</span>
                     </div>
 
                     <div class="p-4">
@@ -193,7 +193,7 @@ const alts = computed(() => props.application.account?.minecraft_account?.slice(
                 <BuilderRankDecisionForm
                     v-else
                     :application="application"
-                    :build-groups="buildGroups"
+                    :build-roles="buildRoles"
                 />
             </section>
         </div>

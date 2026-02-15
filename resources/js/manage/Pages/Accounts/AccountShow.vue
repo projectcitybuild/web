@@ -8,7 +8,7 @@ import { Account } from '../../Data/Account'
 import AccountPlayersTable from './Partials/AccountPlayersTable.vue'
 import Pill from '../../Components/Pill.vue'
 import AccountBadgesTable from './Partials/AccountBadgesTable.vue'
-import AccountGroupsTable from './Partials/AccountGroupsTable.vue'
+import AccountRolesTable from './Partials/AccountRolesTable.vue'
 import ToolBar from '../../Components/ToolBar.vue'
 import FilledButton from '../../Components/FilledButton.vue'
 import OutlinedButton from '../../Components/OutlinedButton.vue'
@@ -230,13 +230,13 @@ function showUnlinkDialog(playerId: number) {
 
                 <Card class="mt-4">
                     <div class="p-4 flex justify-between items-center">
-                        <h2 class="font-bold">Groups</h2>
-                        <Link :href="'/manage/accounts/' + account.account_id + '/groups'">
+                        <h2 class="font-bold">Roles</h2>
+                        <Link :href="'/manage/accounts/' + account.account_id + '/roles'">
                             <FilledButton variant="secondary">Edit</FilledButton>
                         </Link>
                     </div>
                     <div class="overflow-x-auto">
-                        <AccountGroupsTable :groups="account.groups ?? []" />
+                        <AccountRolesTable :roles="account.roles ?? []" />
                     </div>
                 </Card>
 

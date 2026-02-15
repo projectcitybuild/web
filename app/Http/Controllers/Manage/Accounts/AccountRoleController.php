@@ -5,11 +5,11 @@ namespace App\Http\Controllers\Manage\Accounts;
 use App\Http\Controllers\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\Account;
-use App\Models\Group;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
-class AccountGroupController extends WebController
+class AccountRoleController extends WebController
 {
     use RendersManageApp;
 
@@ -17,12 +17,12 @@ class AccountGroupController extends WebController
     {
         Gate::authorize('viewAny', Account::class);
 
-        $groups = Group::where('is_default', false)->get();
-        $accountGroupIds = $account->groups->pluck(Group::primaryKey());
+        $roles = Role::where('is_default', false)->get();
+        $accountRoleIds = $account->roles->pluck(Role::primaryKey());
 
-        return $this->inertiaRender('Accounts/AccountGroupSelect', [
-            'groups' => $groups,
-            'account_group_ids' => $accountGroupIds ?? [],
+        return $this->inertiaRender('Accounts/AccountRoleSelect', [
+            'roles' => $roles,
+            'account_role_ids' => $accountRoleIds ?? [],
             'account_id' => $account->getKey(),
         ]);
     }
@@ -32,14 +32,14 @@ class AccountGroupController extends WebController
         Gate::authorize('update', $account);
 
         $request->validate([
-            'account_group_ids' => [],
+            'account_role_ids' => [],
         ]);
 
-        $account->groups()->sync(
-            $request->request->get('account_group_ids', []),
+        $account->roles()->sync(
+            $request->request->get('account_role_ids', []),
         );
 
         return to_route('manage.accounts.show', $account)
-            ->with(['success' => 'Groups updated successfully.']);
+            ->with(['success' => 'Roles updated successfully.']);
     }
 }

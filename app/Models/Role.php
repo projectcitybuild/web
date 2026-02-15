@@ -8,13 +8,12 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-final class Group extends Model implements LinkableAuditModel
+final class Role extends Model implements LinkableAuditModel
 {
     use HasFactory;
     use HasStaticTable;
 
-    protected $table = 'groups';
-    protected $primaryKey = 'group_id';
+    protected $table = 'roles';
     protected $fillable = [
         'name',
         'alias',
@@ -24,7 +23,7 @@ final class Group extends Model implements LinkableAuditModel
         'minecraft_display_name',
         'minecraft_hover_text',
         'display_priority',
-        'group_type',
+        'role_type',
         'additional_homes',
     ];
     protected $casts = [
@@ -37,8 +36,8 @@ final class Group extends Model implements LinkableAuditModel
     {
         return $this->belongsToMany(
             related: Account::class,
-            table: 'groups_accounts',
-            foreignPivotKey: 'group_id',
+            table: 'roles_accounts',
+            foreignPivotKey: 'role_id',
             relatedPivotKey: 'account_id',
         );
     }
@@ -50,28 +49,28 @@ final class Group extends Model implements LinkableAuditModel
 
     public function scopeWhereBuildType(Builder $query)
     {
-        $query->where('group_type', 'build');
+        $query->where('role_type', 'build');
     }
 
     public function scopeWhereTrustType(Builder $query)
     {
-        $query->where('group_type', 'trust');
+        $query->where('role_type', 'trust');
     }
 
     public function getActivitySubjectLink(): ?string
     {
-        return route('manage.groups.index').'#group-'.$this->getKey();
+        return route('manage.roles.index').'#role-'.$this->id;
     }
 
     public function getActivitySubjectName(): ?string
     {
-        return "Group {$this->name}";
+        return "Role {$this->name}";
     }
 
-    public static function getDonorOrThrow(): Group
+    public static function getDonorOrThrow(): Role
     {
-        $group = Group::where('name', 'donator')->first();
-        throw_if($group === null, 'Could not find donor group');
-        return $group;
+        $role = Role::where('name', 'donator')->first();
+        throw_if($role === null, 'Could not find donor role');
+        return $role;
     }
 }

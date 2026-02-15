@@ -5,17 +5,17 @@ import { BuilderRankApplication } from '../../../../manage/Data/BuilderRankAppli
 import FilledButton from '../../../../manage/Components/FilledButton.vue'
 import ErrorAlert from '../../../../manage/Components/ErrorAlert.vue'
 import { ref } from 'vue'
-import { Group } from '../../../../manage/Data/Group'
+import { Role } from '../../../../manage/Data/Role'
 
 interface Props {
     application: BuilderRankApplication,
-    buildGroups: Group[],
+    buildRoles: Role[],
 }
 const props = defineProps<Props>()
 
 const form = useForm({
     status: null,
-    promote_group: null,
+    promote_role: null,
     deny_reason: null,
 })
 
@@ -79,12 +79,12 @@ function deny() {
                         <div class="mb-4">
                             <label for="activated" class="text-xs text-gray-700 font-bold">Promote to...</label>
                             <select
-                                v-model="form.promote_group"
+                                v-model="form.promote_role"
                                 id="activated"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             >
-                                <option :value="null">Select a build group...</option>
-                                <option v-for="group in buildGroups" :value="group.group_id">{{ group.name }}</option>
+                                <option :value="null">Select a build role...</option>
+                                <option v-for="role in buildRoles" :value="role.id">{{ role.name }}</option>
                             </select>
                         </div>
                     </div>

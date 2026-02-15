@@ -23,8 +23,8 @@
                 </h1>
 
                 <div class="flex flex-wrap gap-2">
-                    @foreach($account->groups as $group)
-                        <x-tag>{{ $group->alias ?? Str::title($group->name) }}</x-tag>
+                    @foreach($account->roles as $role)
+                        <x-tag>{{ $role->alias ?? Str::title($role->name) }}</x-tag>
                     @endforeach
                 </div>
             </div>

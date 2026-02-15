@@ -76,19 +76,19 @@ final class Account extends Authenticatable implements LinkableAuditModel
         );
     }
 
-    public function groups(): BelongsToMany
+    public function roles(): BelongsToMany
     {
         return $this->belongsToMany(
-            related: Group::class,
-            table: 'groups_accounts',
+            related: Role::class,
+            table: 'roles_accounts',
             foreignPivotKey: 'account_id',
-            relatedPivotKey: 'group_id',
+            relatedPivotKey: 'role_id',
         );
     }
 
-    public function getGroupNamesAttribute(): Collection
+    public function getRoleNamesAttribute(): Collection
     {
-        return $this->groups()->pluck('name');
+        return $this->roles()->pluck('name');
     }
 
     public function badges(): BelongsToMany
@@ -177,9 +177,9 @@ final class Account extends Authenticatable implements LinkableAuditModel
     public function isAdmin(): bool
     {
         // Force load to prevent multiple lookups for the same request
-        $groups = $this->groups;
+        $roles = $this->roles;
 
-        return $groups
+        return $roles
             ->where('is_admin', true)
             ->count() > 0;
     }
@@ -187,19 +187,19 @@ final class Account extends Authenticatable implements LinkableAuditModel
     public function isStaff(): bool
     {
         // Force load to prevent multiple lookups for the same request
-        $groups = $this->groups;
+        $roles = $this->roles;
 
-        return $groups
-            ->where('group_type', 'staff')
+        return $roles
+            ->where('role_type', 'staff')
             ->count() > 0;
     }
 
     public function isArchitect(): bool
     {
         // Force load to prevent multiple lookups for the same request
-        $groups = $this->groups;
+        $roles = $this->roles;
 
-        return $groups
+        return $roles
             ->where('name', 'architect')
             ->count() > 0;
     }
@@ -238,7 +238,7 @@ final class Account extends Authenticatable implements LinkableAuditModel
         return AuditAttributes::build()
             ->add('email', 'username')
             ->addBoolean('activated')
-            ->addArray('group_names');
+            ->addArray('role_names');
     }
 
     public function getActivitySubjectLink(): ?string
