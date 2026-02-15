@@ -9,34 +9,30 @@ use Inertia\Inertia;
 
 class PermissionsServiceProvider extends ServiceProvider
 {
-    public function __construct(
-        private readonly PermissionsRepository $permissionsRepository,
-    ) {}
-
-    public function boot()
+    public function boot(PermissionsRepository $permissionsRepository)
     {
-        $this->registerPermissionGate();
-        $this->registerInertiaProps();
+        $this->registerPermissionGate($permissionsRepository);
+        $this->registerInertiaProps($permissionsRepository);
     }
 
-    private function registerPermissionGate()
+    private function registerPermissionGate(PermissionsRepository $permissionsRepository)
     {
         Gate::define(
             ability: 'permission',
-            callback: fn ($account, $permissionName) => $this->permissionsRepository->hasPermission(
+            callback: fn ($account, $permissionName) => $permissionsRepository->hasPermission(
                 $permissionName,
                 $account,
             ),
         );
     }
 
-    private function registerInertiaProps()
+    private function registerInertiaProps(PermissionsRepository $permissionsRepository)
     {
         Inertia::share([
-            'permissions' => function () {
+            'permissions' => function () use ($permissionsRepository) {
                 $account = Auth::user();
                 if (!$account) return null;
-                return $this->permissionsRepository->getPermissionNames($account);
+                return $permissionsRepository->getPermissionNames($account);
             },
         ]);
     }

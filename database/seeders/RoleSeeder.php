@@ -129,47 +129,43 @@ class RoleSeeder extends Seeder
             'display_priority' => 2,
         ]);
 
-        $permManageAccess = Permission::create([
-            'name' => 'web.manage.access',
-            'description' => 'Can access the Management panel',
-        ]);
         $permManageRoles = Permission::create([
-            'name' => 'web.manage.accounts.roles',
+            'name' => 'web.manage.roles',
             'description' => 'Can manage roles',
         ]);
         $permManagePermissions = Permission::create([
-            'name' => 'web.manage.accounts.permissions',
+            'name' => 'web.manage.permissions',
             'description' => 'Can manage permissions and their assignment to roles',
         ]);
         $permManageServerTokens = Permission::create([
-            'name' => 'web.manage.servers.tokens',
+            'name' => 'web.manage.server_tokens',
             'description' => 'Can manage server access tokens',
         ]);
         $permManageServers = Permission::create([
-            'name' => 'web.manage.servers.manage',
+            'name' => 'web.manage.servers',
             'description' => 'Can manage servers',
         ]);
         $permManagePlayers = Permission::create([
-            'name' => 'web.manage.players.manage',
+            'name' => 'web.manage.players',
             'description' => 'Can manage players',
         ]);
+        $permManageBadges = Permission::create([
+            'name' => 'web.manage.badges',
+            'description' => 'Can manage account badges',
+        ]);
         $permManageAccounts = Permission::create([
-            'name' => 'web.manage.accounts.manage',
+            'name' => 'web.manage.accounts',
             'description' => 'Can manage accounts',
         ]);
         $permManageUuidBans = Permission::create([
-            'name' => 'web.manage.bans.uuid.manage',
+            'name' => 'web.manage.bans.uuid',
             'description' => 'Can manage player UUID bans',
         ]);
         $permManageIpBans = Permission::create([
-            'name' => 'web.manage.bans.ip.manage',
+            'name' => 'web.manage.bans.ip',
             'description' => 'Can manage IP bans',
         ]);
 
-        $permReviewAccess = Permission::create([
-            'name' => 'web.review.access',
-            'description' => 'Can access the Review panel',
-        ]);
         $permReviewBuildRankApps = Permission::create([
             'name' => 'web.review.build_rank_apps',
             'description' => 'Can review build rank applications',
@@ -180,31 +176,28 @@ class RoleSeeder extends Seeder
         ]);
 
         $dev->permissions()->attach([
-            $permManageAccess,
             $permManageRoles,
             $permManagePermissions,
             $permManageServerTokens,
             $permManageServers,
             $permManagePlayers,
+            $permManageBadges,
             $permManageAccounts,
             $permManageUuidBans,
             $permManageIpBans,
-            $permReviewAccess,
             $permReviewBanAppeals,
             $permReviewBuildRankApps,
         ]);
         $mod->permissions()->attach([
-            $permManageAccess,
             $permManagePlayers,
             $permManageAccounts,
+            $permManageBadges,
             $permManageUuidBans,
             $permManageIpBans,
-            $permReviewAccess,
             $permReviewBanAppeals,
             $permReviewBuildRankApps,
         ]);
         $architect->permissions()->attach([
-            $permReviewAccess,
             $permReviewBuildRankApps,
         ]);
     }
