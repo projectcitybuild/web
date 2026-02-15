@@ -129,76 +129,172 @@ class RoleSeeder extends Seeder
             'display_priority' => 2,
         ]);
 
-        $permManageRoles = Permission::create([
-            'name' => 'web.manage.roles',
-            'description' => 'Can manage roles',
-        ]);
-        $permManagePermissions = Permission::create([
-            'name' => 'web.manage.permissions',
-            'description' => 'Can manage permissions and their assignment to roles',
-        ]);
-        $permManageServerTokens = Permission::create([
-            'name' => 'web.manage.server_tokens',
-            'description' => 'Can manage server access tokens',
-        ]);
-        $permManageServers = Permission::create([
-            'name' => 'web.manage.servers',
-            'description' => 'Can manage servers',
-        ]);
-        $permManagePlayers = Permission::create([
-            'name' => 'web.manage.players',
-            'description' => 'Can manage players',
-        ]);
-        $permManageBadges = Permission::create([
-            'name' => 'web.manage.badges',
-            'description' => 'Can manage account badges',
-        ]);
-        $permManageAccounts = Permission::create([
-            'name' => 'web.manage.accounts',
-            'description' => 'Can manage accounts',
-        ]);
-        $permManageUuidBans = Permission::create([
-            'name' => 'web.manage.bans.uuid',
-            'description' => 'Can manage player UUID bans',
-        ]);
-        $permManageIpBans = Permission::create([
-            'name' => 'web.manage.bans.ip',
-            'description' => 'Can manage IP bans',
+        $viewRoles = Permission::firstOrCreate([
+            'name' => 'web.manage.roles.view',
+            'description' => 'Can view roles',
         ]);
 
-        $permReviewBuildRankApps = Permission::create([
-            'name' => 'web.review.build_rank_apps',
-            'description' => 'Can review build rank applications',
+        $editRoles = Permission::firstOrCreate([
+            'name' => 'web.manage.roles.edit',
+            'description' => 'Can edit roles',
         ]);
-        $permReviewBanAppeals = Permission::create([
-            'name' => 'web.review.ban_appeals',
-            'description' => 'Can review ban appeals',
+
+        $assignRoles = Permission::firstOrCreate([
+            'name' => 'web.manage.roles.assign',
+            'description' => 'Can assign roles',
+        ]);
+
+        $viewAccounts = Permission::firstOrCreate([
+            'name' => 'web.manage.accounts.view',
+            'description' => 'Can view accounts',
+        ]);
+
+        $editAccounts = Permission::firstOrCreate([
+            'name' => 'web.manage.accounts.edit',
+            'description' => 'Can edit accounts',
+        ]);
+
+        $viewUUIDBans = Permission::firstOrCreate([
+            'name' => 'web.manage.uuid_bans.view',
+            'description' => 'Can view UUID bans',
+        ]);
+
+        $editUUIDBans = Permission::firstOrCreate([
+            'name' => 'web.manage.uuid_bans.edit',
+            'description' => 'Can edit UUID bans',
+        ]);
+
+        $viewIPBans = Permission::firstOrCreate([
+            'name' => 'web.manage.ip_bans.view',
+            'description' => 'Can view IP bans',
+        ]);
+
+        $editIPBans = Permission::firstOrCreate([
+            'name' => 'web.manage.ip_bans.edit',
+            'description' => 'Can edit IP bans',
+        ]);
+
+        $viewWarnings = Permission::firstOrCreate([
+            'name' => 'web.manage.warnings.view',
+            'description' => 'Can view warnings',
+        ]);
+
+        $editWarnings = Permission::firstOrCreate([
+            'name' => 'web.manage.warnings.edit',
+            'description' => 'Can edit warnings',
+        ]);
+
+        $viewPlayers = Permission::firstOrCreate([
+            'name' => 'web.manage.players.view',
+            'description' => 'Can view players',
+        ]);
+
+        $editPlayers = Permission::firstOrCreate([
+            'name' => 'web.manage.players.edit',
+            'description' => 'Can edit players',
+        ]);
+
+        $viewBadges = Permission::firstOrCreate([
+            'name' => 'web.manage.badges.view',
+            'description' => 'Can view badges',
+        ]);
+
+        $editBadges = Permission::firstOrCreate([
+            'name' => 'web.manage.badges.edit',
+            'description' => 'Can edit badges',
+        ]);
+
+        $viewWarps = Permission::firstOrCreate([
+            'name' => 'web.manage.warps.view',
+            'description' => 'Can view warps',
+        ]);
+
+        $editWarps = Permission::firstOrCreate([
+            'name' => 'web.manage.warps.edit',
+            'description' => 'Can edit warps',
+        ]);
+
+        $viewServers = Permission::firstOrCreate([
+            'name' => 'web.manage.servers.view',
+            'description' => 'Can view servers',
+        ]);
+
+        $editServers = Permission::firstOrCreate([
+            'name' => 'web.manage.servers.edit',
+            'description' => 'Can edit servers',
+        ]);
+
+        $viewServerTokens = Permission::firstOrCreate([
+            'name' => 'web.manage.server_tokens.view',
+            'description' => 'Can view server tokens',
+        ]);
+
+        $editServerTokens = Permission::firstOrCreate([
+            'name' => 'web.manage.server_tokens.edit',
+            'description' => 'Can edit server tokens',
+        ]);
+
+        $editRemoteConfig = Permission::firstOrCreate([
+            'name' => 'web.manage.remote_config.edit',
+            'description' => 'Can edit remote config',
+        ]);
+
+        $viewDonations = Permission::firstOrCreate([
+            'name' => 'web.manage.donations.view',
+            'description' => 'Can view donations',
+        ]);
+
+        $editDonations = Permission::firstOrCreate([
+            'name' => 'web.manage.donations.edit',
+            'description' => 'Can edit donations',
         ]);
 
         $dev->permissions()->attach([
-            $permManageRoles,
-            $permManagePermissions,
-            $permManageServerTokens,
-            $permManageServers,
-            $permManagePlayers,
-            $permManageBadges,
-            $permManageAccounts,
-            $permManageUuidBans,
-            $permManageIpBans,
-            $permReviewBanAppeals,
-            $permReviewBuildRankApps,
+            $viewRoles,
+            $editRoles,
+            $assignRoles,
+            $viewAccounts,
+            $editAccounts,
+            $viewUUIDBans,
+            $editUUIDBans,
+            $viewIPBans,
+            $editIPBans,
+            $viewWarnings,
+            $editWarnings,
+            $viewPlayers,
+            $editPlayers,
+            $viewBadges,
+            $editBadges,
+            $viewWarps,
+            $editWarps,
+            $viewServers,
+            $editServers,
+            $viewServerTokens,
+            $editServerTokens,
+            $editRemoteConfig,
+            $viewDonations,
+            $editDonations,
         ]);
+
         $mod->permissions()->attach([
-            $permManagePlayers,
-            $permManageAccounts,
-            $permManageBadges,
-            $permManageUuidBans,
-            $permManageIpBans,
-            $permReviewBanAppeals,
-            $permReviewBuildRankApps,
+            $viewRoles,
+            $viewAccounts,
+            $viewUUIDBans,
+            $editUUIDBans,
+            $viewIPBans,
+            $editIPBans,
+            $viewWarnings,
+            $editWarnings,
+            $viewPlayers,
+            $editPlayers,
+            $viewBadges,
+            $editBadges,
+            $viewWarps,
+            $editWarps,
         ]);
+
         $architect->permissions()->attach([
-            $permReviewBuildRankApps,
+
         ]);
     }
 }

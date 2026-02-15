@@ -20,6 +20,7 @@ import AccountDonationsTable from './Partials/AccountDonationsTable.vue'
 import AccountEmailChangeRequestsTable from './Partials/AccountEmailChangeRequestsTable.vue'
 import AccountBanAppealsTable from './Partials/AccountBanAppealsTable.vue'
 import AccountBuilderRankApplicationsTable from './Partials/AccountBuilderRankApplicationsTable.vue'
+import { Icons } from '../../Icons'
 
 interface Props {
     account: Account,
@@ -149,11 +150,11 @@ function showUnlinkDialog(playerId: number) {
                             <dt class="text-sm text-gray-500 dark:text-gray-400">Status</dt>
                             <dd class="text-sm text-gray-900 dark:text-white">
                                 <Pill v-if="account.activated" variant="success" class="flex gap-1 items-center font-bold">
-                                    <SvgIcon icon="check" :thickness="3" class="size-4" />
+                                    <SvgIcon :svg="Icons.check" :thickness="3" class="size-4" />
                                     Activated
                                 </Pill>
                                 <Pill v-else variant="danger" class="flex gap-1 items-center font-bold">
-                                    <SvgIcon icon="close" :thickness="3" class="size-4" />
+                                    <SvgIcon :svg="Icons.close" :thickness="3" class="size-4" />
                                     Not Activated
                                 </Pill>
                             </dd>
@@ -164,7 +165,7 @@ function showUnlinkDialog(playerId: number) {
                         <div class="flex flex-col gap-2">
                             <template v-if="!account.activated">
                                 <FilledButton variant="secondary" @click="sendVerificationEmail">
-                                    <SvgIcon icon="email" />
+                                    <SvgIcon :svg="Icons.email" />
                                     Send Activation Email
                                 </FilledButton>
 
@@ -188,11 +189,11 @@ function showUnlinkDialog(playerId: number) {
                             <dt class="text-sm text-gray-500 dark:text-gray-400">Status</dt>
                             <dd class="text-sm text-gray-900 dark:text-white">
                                 <Pill v-if="account.is_totp_enabled" variant="success" class="flex gap-1 items-center font-bold">
-                                    <SvgIcon icon="check-shield" :thickness="3" class="size-4" />
+                                    <SvgIcon :svg="Icons.checkShield" :thickness="3" class="size-4" />
                                     Enabled
                                 </Pill>
                                 <Pill v-else variant="danger" class="flex gap-1 items-center font-bold">
-                                    <SvgIcon icon="unlock" :thickness="3" class="size-4" />
+                                    <SvgIcon :svg="Icons.unlock" :thickness="3" class="size-4" />
                                     Not Enabled
                                 </Pill>
                             </dd>
@@ -203,7 +204,7 @@ function showUnlinkDialog(playerId: number) {
 
                             <div class="flex flex-col gap-2">
                                 <OutlinedButton variant="danger" @click="disableMfaModal?.open()">
-                                    <SvgIcon icon="unlock" />
+                                    <SvgIcon :svg="Icons.unlock" />
                                     Disable
                                 </OutlinedButton>
                             </div>

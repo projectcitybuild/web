@@ -11,6 +11,7 @@ import OutlinedButton from '../../Components/OutlinedButton.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
 import SpinnerRow from '../../Components/SpinnerRow.vue'
 import { ref, watch } from 'vue'
+import { Icons } from '../../Icons'
 
 interface Props {
     success?: string,
@@ -92,16 +93,16 @@ watch(
                             variant="secondary"
                             @click="filterExpanded = !filterExpanded"
                         >
-                            <SvgIcon icon="filter" />
+                            <SvgIcon :svg="Icons.filter" />
 
                             Filter
 
-                            <SvgIcon :icon="filterExpanded ? 'chevron-up' : 'chevron-down'" />
+                            <SvgIcon :svg="filterExpanded ? Icons.chevron-up : Icons.chevron-down" />
                         </OutlinedButton>
 
                         <Link href="/manage/players/create">
                             <FilledButton variant="primary">
-                                <SvgIcon icon="plus" />
+                                <SvgIcon :svg="Icons.plus" />
                                 Create Player
                             </FilledButton>
                         </Link>

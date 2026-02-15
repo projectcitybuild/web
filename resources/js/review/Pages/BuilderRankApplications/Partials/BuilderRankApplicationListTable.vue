@@ -7,6 +7,7 @@ import Pill from '../../../../manage/Components/Pill.vue'
 import { Link } from '@inertiajs/vue3'
 import { BuilderRankApplication, BuilderRankApplicationStatus } from '../../../../manage/Data/BuilderRankApplication'
 import SvgIcon from '../../../../manage/Components/SvgIcon.vue'
+import { Icons } from '../../../../manage/Icons'
 
 interface Props {
     applications: BuilderRankApplication[],
@@ -60,7 +61,7 @@ const rows = computed(
         <template #actions="{ item }">
             <Link :href="'/review/builder-ranks/' + item.id">
                 <FilledButton v-if="item.status === BuilderRankApplicationStatus.pending" variant="danger">
-                    <SvgIcon icon="eye" />
+                    <SvgIcon :svg="Icons.eye" />
                     Review
                 </FilledButton>
                 <FilledButton v-else variant="secondary">
