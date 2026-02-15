@@ -21,5 +21,6 @@ return [
     App\Domains\Donations\DonationServiceProvider::class,
     App\Domains\Mfa\MfaServiceProvider::class,
     App\Domains\MinecraftEventBus\MinecraftEventBusServiceProvider::class,
+    App\Domains\Permissions\PermissionsServiceProvider::class,
     App\Domains\Players\PlayerServiceProvider::class,
 ];
