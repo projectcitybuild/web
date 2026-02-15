@@ -222,3 +222,4 @@ export const Icons: Record<string, Svg> = {
         ],
     },
 }
+

@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Manage\Minecraft;
 
 use App\Core\Domains\MinecraftCoordinate\ValidatesCoordinates;
+use App\Domains\Permissions\AuthorizesPermissions;
+use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\MinecraftWarp;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
@@ -16,10 +17,11 @@ class MinecraftWarpController extends WebController
 {
     use RendersManageApp;
     use ValidatesCoordinates;
+    use AuthorizesPermissions;
 
     public function index(Request $request)
     {
-        Gate::authorize('viewAny', MinecraftWarp::class);
+        $this->requires(WebManagePermission::WARPS_VIEW);
 
         $warps = function () {
             return MinecraftWarp::orderBy('created_at', 'desc')
@@ -36,14 +38,14 @@ class MinecraftWarpController extends WebController
 
     public function create(Request $request)
     {
-        Gate::authorize('create', MinecraftWarp::class);
+        $this->requires(WebManagePermission::WARPS_EDIT);
 
         return $this->inertiaRender('Warps/WarpCreate');
     }
 
     public function store(Request $request): RedirectResponse
     {
-        Gate::authorize('create', MinecraftWarp::class);
+        $this->requires(WebManagePermission::WARPS_EDIT);
 
         $validated = $request->validate([
             'name' => ['required', 'string', 'alpha_dash', Rule::unique('minecraft_warps')],
@@ -58,14 +60,14 @@ class MinecraftWarpController extends WebController
 
     public function edit(MinecraftWarp $warp)
     {
-        Gate::authorize('update', $warp);
+        $this->requires(WebManagePermission::WARPS_EDIT);
 
         return $this->inertiaRender('Warps/WarpEdit', compact('warp'));
     }
 
     public function update(Request $request, MinecraftWarp $warp)
     {
-        Gate::authorize('update', $warp);
+        $this->requires(WebManagePermission::WARPS_EDIT);
 
         $validated = $request->validate([
             'name' => ['required', 'string', 'alpha_dash', Rule::unique('minecraft_warps')->ignore($warp)],
@@ -80,7 +82,7 @@ class MinecraftWarpController extends WebController
 
     public function destroy(Request $request, MinecraftWarp $warp)
     {
-        Gate::authorize('delete', $warp);
+        $this->requires(WebManagePermission::WARPS_EDIT);
 
         $warp->delete();
 

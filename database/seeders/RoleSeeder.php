@@ -130,124 +130,108 @@ class RoleSeeder extends Seeder
             'display_priority' => 2,
         ]);
 
-        $viewRoles = Permission::firstOrCreate([
+        $viewRoles = Permission::create([
             'name' => WebManagePermission::ROLES_VIEW,
-            'description' => 'Can view roles',
         ]);
 
-        $editRoles = Permission::firstOrCreate([
+        $editRoles = Permission::create([
             'name' => WebManagePermission::ROLES_EDIT,
-            'description' => 'Can edit roles',
         ]);
 
-        $assignRoles = Permission::firstOrCreate([
+        $assignRoles = Permission::create([
             'name' => WebManagePermission::ROLES_ASSIGN,
-            'description' => 'Can assign roles',
         ]);
 
-        $viewAccounts = Permission::firstOrCreate([
+        $viewAccounts = Permission::create([
             'name' => WebManagePermission::ACCOUNTS_VIEW,
-            'description' => 'Can view accounts',
         ]);
 
-        $editAccounts = Permission::firstOrCreate([
+        $editAccounts = Permission::create([
             'name' => WebManagePermission::ACCOUNTS_EDIT,
-            'description' => 'Can edit accounts',
         ]);
 
-        $viewUUIDBans = Permission::firstOrCreate([
+        $viewUUIDBans = Permission::create([
             'name' => WebManagePermission::UUID_BANS_VIEW,
-            'description' => 'Can view UUID bans',
         ]);
 
-        $editUUIDBans = Permission::firstOrCreate([
+        $editUUIDBans = Permission::create([
             'name' => WebManagePermission::UUID_BANS_EDIT,
-            'description' => 'Can edit UUID bans',
         ]);
 
-        $viewIPBans = Permission::firstOrCreate([
+        $viewIPBans = Permission::create([
             'name' => WebManagePermission::IP_BANS_VIEW,
-            'description' => 'Can view IP bans',
         ]);
 
-        $editIPBans = Permission::firstOrCreate([
+        $editIPBans = Permission::create([
             'name' => WebManagePermission::IP_BANS_EDIT,
-            'description' => 'Can edit IP bans',
         ]);
 
-        $viewWarnings = Permission::firstOrCreate([
+        $viewWarnings = Permission::create([
             'name' => WebManagePermission::WARNINGS_VIEW,
-            'description' => 'Can view warnings',
         ]);
 
-        $editWarnings = Permission::firstOrCreate([
+        $editWarnings = Permission::create([
             'name' => WebManagePermission::WARNINGS_EDIT,
-            'description' => 'Can edit warnings',
         ]);
 
-        $viewPlayers = Permission::firstOrCreate([
+        $viewPlayers = Permission::create([
             'name' => WebManagePermission::PLAYERS_VIEW,
-            'description' => 'Can view players',
         ]);
 
-        $editPlayers = Permission::firstOrCreate([
+        $editPlayers = Permission::create([
             'name' => WebManagePermission::PLAYERS_EDIT,
-            'description' => 'Can edit players',
         ]);
 
-        $viewBadges = Permission::firstOrCreate([
+        $viewBadges = Permission::create([
             'name' => WebManagePermission::BADGES_VIEW,
-            'description' => 'Can view badges',
         ]);
 
-        $editBadges = Permission::firstOrCreate([
+        $editBadges = Permission::create([
             'name' => WebManagePermission::BADGES_EDIT,
-            'description' => 'Can edit badges',
         ]);
 
-        $viewWarps = Permission::firstOrCreate([
+        $viewWarps = Permission::create([
             'name' => WebManagePermission::WARPS_VIEW,
-            'description' => 'Can view warps',
         ]);
 
-        $editWarps = Permission::firstOrCreate([
+        $editWarps = Permission::create([
             'name' => WebManagePermission::WARPS_EDIT,
-            'description' => 'Can edit warps',
         ]);
 
-        $viewServers = Permission::firstOrCreate([
+        $viewHomes = Permission::create([
+            'name' => WebManagePermission::HOMES_VIEW,
+        ]);
+
+        $editHomes = Permission::create([
+            'name' => WebManagePermission::HOMES_EDIT,
+        ]);
+
+        $viewServers = Permission::create([
             'name' => WebManagePermission::SERVERS_VIEW,
-            'description' => 'Can view servers',
         ]);
 
-        $editServers = Permission::firstOrCreate([
+        $editServers = Permission::create([
             'name' => WebManagePermission::SERVERS_EDIT,
-            'description' => 'Can edit servers',
         ]);
 
-        $viewServerTokens = Permission::firstOrCreate([
+        $viewServerTokens = Permission::create([
             'name' => WebManagePermission::SERVER_TOKENS_VIEW,
-            'description' => 'Can view server tokens',
         ]);
 
-        $editServerTokens = Permission::firstOrCreate([
+        $editServerTokens = Permission::create([
             'name' => WebManagePermission::SERVER_TOKENS_EDIT,
-            'description' => 'Can edit server tokens',
         ]);
 
-        $editRemoteConfig = Permission::firstOrCreate([
+        $editRemoteConfig = Permission::create([
             'name' => WebManagePermission::REMOTE_CONFIG_EDIT,
-            'description' => 'Can edit remote config',
         ]);
 
-        $viewDonations = Permission::firstOrCreate([
+        $viewDonations = Permission::create([
             'name' => WebManagePermission::DONATIONS_VIEW,
-            'description' => 'Can view donations',
         ]);
 
-        $editDonations = Permission::firstOrCreate([
+        $editDonations = Permission::create([
             'name' => WebManagePermission::DONATIONS_EDIT,
-            'description' => 'Can edit donations',
         ]);
 
         $dev->permissions()->attach([
@@ -268,6 +252,8 @@ class RoleSeeder extends Seeder
             $editBadges,
             $viewWarps,
             $editWarps,
+            $viewHomes,
+            $editHomes,
             $viewServers,
             $editServers,
             $viewServerTokens,
@@ -292,6 +278,8 @@ class RoleSeeder extends Seeder
             $editBadges,
             $viewWarps,
             $editWarps,
+            $viewHomes,
+            $editHomes,
         ]);
 
         $architect->permissions()->attach([

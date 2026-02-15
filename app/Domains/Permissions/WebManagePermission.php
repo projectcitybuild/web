@@ -21,6 +21,8 @@ enum WebManagePermission: string
     case BADGES_EDIT = 'web.manage.badges.edit';
     case WARPS_VIEW = 'web.manage.warps.view';
     case WARPS_EDIT = 'web.manage.warps.edit';
+    case HOMES_VIEW = 'web.manage.homes.view';
+    case HOMES_EDIT = 'web.manage.homes.edit';
     case SERVERS_VIEW = 'web.manage.servers.view';
     case SERVERS_EDIT = 'web.manage.servers.edit';
     case SERVER_TOKENS_VIEW = 'web.manage.server_tokens.view';

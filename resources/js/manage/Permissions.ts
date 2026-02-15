@@ -16,6 +16,8 @@ export type Permission =
   | "web.manage.badges.edit"
   | "web.manage.warps.view"
   | "web.manage.warps.edit"
+  | "web.manage.homes.view"
+  | "web.manage.homes.edit"
   | "web.manage.servers.view"
   | "web.manage.servers.edit"
   | "web.manage.server_tokens.view"
