@@ -5,9 +5,9 @@ use App\Models\Account;
 use App\Models\Donation;
 use App\Models\DonationPerk;
 use App\Models\DonationTier;
-use App\Models\Role;
 use App\Models\MinecraftHome;
 use App\Models\MinecraftPlayer;
+use App\Models\Role;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);

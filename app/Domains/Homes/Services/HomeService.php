@@ -3,10 +3,10 @@
 namespace App\Domains\Homes\Services;
 
 use App\Core\Domains\MinecraftCoordinate\MinecraftCoordinate;
-use App\Domains\Roles\Services\PlayerRolesAggregator;
 use App\Domains\Homes\Data\HomeCount;
 use App\Domains\Homes\Exceptions\HomeAlreadyExistsException;
 use App\Domains\Homes\Exceptions\HomeLimitReachedException;
+use App\Domains\Roles\Services\PlayerRolesAggregator;
 use App\Models\MinecraftHome;
 use App\Models\MinecraftPlayer;
 use Illuminate\Auth\Access\AuthorizationException;
