@@ -15,9 +15,9 @@ use Inertia\Inertia;
 
 class MinecraftWarpController extends WebController
 {
+    use AuthorizesPermissions;
     use RendersManageApp;
     use ValidatesCoordinates;
-    use AuthorizesPermissions;
 
     public function index(Request $request)
     {
