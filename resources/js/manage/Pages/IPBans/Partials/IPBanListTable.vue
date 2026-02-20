@@ -6,11 +6,14 @@ import Pill from '../../../Components/Pill.vue'
 import { computed } from 'vue'
 import DataTable from '../../../Components/DataTable.vue'
 import FilledButton from '../../../Components/FilledButton.vue'
+import usePermissions from '../../../Composables/usePermissions'
 
 interface Props {
     bans: IPBan[],
 }
 const props = defineProps<Props>()
+
+const { can } = usePermissions()
 
 const fields = [
     { key: 'id', label: 'ID' },
@@ -38,7 +41,7 @@ function isActive(ban: IPBan) {
             </Pill>
         </template>
 
-        <template #actions="{ item }">
+        <template #actions="{ item }" v-if="can('web.manage.ip_bans.edit')">
             <Link :href="'/manage/ip-bans/' + item.id + '/edit'">
                 <FilledButton variant="secondary">
                     Edit

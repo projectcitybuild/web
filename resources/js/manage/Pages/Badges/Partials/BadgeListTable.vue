@@ -6,11 +6,14 @@ import BooleanCheck from '../../../Components/BooleanCheck.vue'
 import FilledButton from '../../../Components/FilledButton.vue'
 import { computed } from 'vue'
 import DataTable from '../../../Components/DataTable.vue'
+import usePermissions from '../../../Composables/usePermissions'
 
 interface Props {
     badges: Badge[],
 }
 const props = defineProps<Props>()
+
+const { can } = usePermissions()
 
 const fields = [
     { key: 'id', label: 'ID' },
@@ -35,7 +38,7 @@ const rows = computed(
             <BooleanCheck :value="item.list_hidden" />
         </template>
 
-        <template #actions="{ item }">
+        <template #actions="{ item }" v-if="can('web.manage.badges.edit')">
             <Link :href="'/manage/badges/' + item.id + '/edit'">
                 <FilledButton variant="secondary">
                     Edit

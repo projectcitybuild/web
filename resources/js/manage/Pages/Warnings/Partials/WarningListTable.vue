@@ -7,11 +7,14 @@ import FilledButton from '../../../Components/FilledButton.vue'
 import { computed } from 'vue'
 import DataTable from '../../../Components/DataTable.vue'
 import MinecraftAvatar from '../../../Components/MinecraftAvatar.vue'
+import usePermissions from '../../../Composables/usePermissions'
 
 interface Props {
     warnings: PlayerWarning[],
 }
 const props = defineProps<Props>()
+
+const { can } = usePermissions()
 
 const fields = [
     { key: 'id', label: 'ID' },
@@ -42,7 +45,7 @@ const rows = computed(
         </template>
 
         <template #actions="{ item }">
-            <Link :href="'/manage/warnings/' + item.id + '/edit'">
+            <Link :href="'/manage/warnings/' + item.id + '/edit'" v-if="can('web.manage.warnings.edit')">
                 <FilledButton variant="secondary">
                     Edit
                 </FilledButton>

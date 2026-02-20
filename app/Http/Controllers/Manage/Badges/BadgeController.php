@@ -2,20 +2,22 @@
 
 namespace App\Http\Controllers\Manage\Badges;
 
+use App\Domains\Permissions\AuthorizesPermissions;
+use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\Badge;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class BadgeController extends WebController
 {
+    use AuthorizesPermissions;
     use RendersManageApp;
 
     public function index(Request $request)
     {
-        Gate::authorize('viewAny', Badge::class);
+        $this->requires(WebManagePermission::BADGES_VIEW);
 
         $badges = function () {
             return Badge::orderBy('created_at', 'desc')
@@ -32,14 +34,14 @@ class BadgeController extends WebController
 
     public function create(Request $request)
     {
-        Gate::authorize('create', Badge::class);
+        $this->requires(WebManagePermission::BADGES_EDIT);
 
         return $this->inertiaRender('Badges/BadgeCreate');
     }
 
     public function store(Request $request)
     {
-        Gate::authorize('create', Badge::class);
+        $this->requires(WebManagePermission::BADGES_EDIT);
 
         $request->merge([
             'list_hidden' => $request->has('list_hidden'),
@@ -62,14 +64,14 @@ class BadgeController extends WebController
 
     public function edit(Badge $badge)
     {
-        Gate::authorize('update', $badge);
+        $this->requires(WebManagePermission::BADGES_EDIT);
 
         return $this->inertiaRender('Badges/BadgeEdit', compact('badge'));
     }
 
     public function update(Request $request, Badge $badge)
     {
-        Gate::authorize('update', $badge);
+        $this->requires(WebManagePermission::BADGES_EDIT);
 
         $request->merge([
             'list_hidden' => $request->has('list_hidden'),
@@ -90,7 +92,7 @@ class BadgeController extends WebController
 
     public function destroy(Request $request, Badge $badge)
     {
-        Gate::authorize('delete', $badge);
+        $this->requires(WebManagePermission::BADGES_EDIT);
 
         $badge->delete();
 

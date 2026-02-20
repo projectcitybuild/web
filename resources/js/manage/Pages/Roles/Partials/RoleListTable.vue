@@ -4,11 +4,14 @@ import { Role } from '../../../Data/Role'
 import BooleanCheck from '../../../Components/BooleanCheck.vue'
 import FilledButton from '../../../Components/FilledButton.vue'
 import DataTable from '../../../Components/DataTable.vue'
+import usePermissions from '../../../Composables/usePermissions'
 
 interface Props {
     roles: Role[],
 }
 defineProps<Props>()
+
+const { can } = usePermissions()
 
 const fields = [
     { key: 'id', label: 'ID' },
@@ -42,7 +45,7 @@ const fields = [
             <BooleanCheck :value="item.is_default" />
         </template>
 
-        <template #actions="{ item }">
+        <template #actions="{ item }" v-if="can('web.manage.roles.edit')">
             <Link :href="'/manage/roles/' + item.id + '/edit'">
                 <FilledButton variant="secondary">
                     Edit

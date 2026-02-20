@@ -20,6 +20,8 @@ import AccountDonationsTable from './Partials/AccountDonationsTable.vue'
 import AccountEmailChangeRequestsTable from './Partials/AccountEmailChangeRequestsTable.vue'
 import AccountBanAppealsTable from './Partials/AccountBanAppealsTable.vue'
 import AccountBuilderRankApplicationsTable from './Partials/AccountBuilderRankApplicationsTable.vue'
+import { Icons } from '../../Icons'
+import usePermissions from '../../Composables/usePermissions'
 
 interface Props {
     account: Account,
@@ -32,6 +34,8 @@ const deactivateModal = ref<InstanceType<typeof ConfirmDialog>>()
 const disableMfaModal = ref<InstanceType<typeof ConfirmDialog>>()
 const unlinkPlayerModal = ref<InstanceType<typeof ConfirmDialog>>()
 const unlinkPlayerId = ref<number|null>(null)
+
+const { can } = usePermissions()
 
 function forceActivate() {
     activateModal.value?.close()
@@ -98,7 +102,7 @@ function showUnlinkDialog(playerId: number) {
             <template v-slot:left>
                 <BackButton href="/manage/accounts"/>
             </template>
-            <template v-slot:right>
+            <template v-slot:right v-if="can('web.manage.accounts.edit')">
                 <Link :href="'/manage/accounts/' + account.account_id + '/edit'">
                     <FilledButton variant="primary">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
@@ -149,22 +153,22 @@ function showUnlinkDialog(playerId: number) {
                             <dt class="text-sm text-gray-500 dark:text-gray-400">Status</dt>
                             <dd class="text-sm text-gray-900 dark:text-white">
                                 <Pill v-if="account.activated" variant="success" class="flex gap-1 items-center font-bold">
-                                    <SvgIcon icon="check" :thickness="3" class="size-4" />
+                                    <SvgIcon :svg="Icons.check" :thickness="3" class="size-4" />
                                     Activated
                                 </Pill>
                                 <Pill v-else variant="danger" class="flex gap-1 items-center font-bold">
-                                    <SvgIcon icon="close" :thickness="3" class="size-4" />
+                                    <SvgIcon :svg="Icons.close" :thickness="3" class="size-4" />
                                     Not Activated
                                 </Pill>
                             </dd>
                         </dl>
 
-                        <hr />
+                        <hr v-if="can('web.manage.accounts.edit')" />
 
-                        <div class="flex flex-col gap-2">
+                        <div class="flex flex-col gap-2" v-if="can('web.manage.accounts.edit')">
                             <template v-if="!account.activated">
                                 <FilledButton variant="secondary" @click="sendVerificationEmail">
-                                    <SvgIcon icon="email" />
+                                    <SvgIcon :svg="Icons.email" />
                                     Send Activation Email
                                 </FilledButton>
 
@@ -188,11 +192,11 @@ function showUnlinkDialog(playerId: number) {
                             <dt class="text-sm text-gray-500 dark:text-gray-400">Status</dt>
                             <dd class="text-sm text-gray-900 dark:text-white">
                                 <Pill v-if="account.is_totp_enabled" variant="success" class="flex gap-1 items-center font-bold">
-                                    <SvgIcon icon="check-shield" :thickness="3" class="size-4" />
+                                    <SvgIcon :svg="Icons.checkShield" :thickness="3" class="size-4" />
                                     Enabled
                                 </Pill>
                                 <Pill v-else variant="danger" class="flex gap-1 items-center font-bold">
-                                    <SvgIcon icon="unlock" :thickness="3" class="size-4" />
+                                    <SvgIcon :svg="Icons.unlock" :thickness="3" class="size-4" />
                                     Not Enabled
                                 </Pill>
                             </dd>
@@ -203,7 +207,7 @@ function showUnlinkDialog(playerId: number) {
 
                             <div class="flex flex-col gap-2">
                                 <OutlinedButton variant="danger" @click="disableMfaModal?.open()">
-                                    <SvgIcon icon="unlock" />
+                                    <SvgIcon :svg="Icons.unlock" />
                                     Disable
                                 </OutlinedButton>
                             </div>
@@ -216,7 +220,7 @@ function showUnlinkDialog(playerId: number) {
                 <Card>
                     <div class="p-4 flex justify-between items-center">
                         <h2 class="font-bold">Linked Players</h2>
-                        <Link :href="'/manage/accounts/' + account.account_id + '/players'">
+                        <Link :href="'/manage/accounts/' + account.account_id + '/players'" v-if="can('web.manage.accounts.edit')">
                             <FilledButton variant="secondary">Add</FilledButton>
                         </Link>
                     </div>
@@ -231,7 +235,7 @@ function showUnlinkDialog(playerId: number) {
                 <Card class="mt-4">
                     <div class="p-4 flex justify-between items-center">
                         <h2 class="font-bold">Roles</h2>
-                        <Link :href="'/manage/accounts/' + account.account_id + '/roles'">
+                        <Link :href="'/manage/accounts/' + account.account_id + '/roles'" v-if="can('web.manage.accounts.edit')">
                             <FilledButton variant="secondary">Edit</FilledButton>
                         </Link>
                     </div>
@@ -240,10 +244,10 @@ function showUnlinkDialog(playerId: number) {
                     </div>
                 </Card>
 
-                <Card class="mt-4">
+                <Card class="mt-4" v-if="can('web.manage.badges.view')">
                     <div class="p-4 flex justify-between items-center">
                         <h2 class="font-bold">Badges</h2>
-                        <Link :href="'/manage/accounts/' + account.account_id + '/badges'">
+                        <Link :href="'/manage/accounts/' + account.account_id + '/badges'" v-if="can('web.manage.accounts.edit')">
                             <FilledButton variant="secondary">Edit</FilledButton>
                         </Link>
                     </div>
@@ -252,10 +256,10 @@ function showUnlinkDialog(playerId: number) {
                     </div>
                 </Card>
 
-                <Card class="mt-4">
+                <Card class="mt-4" v-if="can('web.manage.donations.view')">
                     <div class="p-4 flex justify-between items-center">
                         <h2 class="font-bold">Donations</h2>
-                        <Link :href="'/manage/accounts/' + account.account_id + '/badges'">
+                        <Link :href="'/manage/accounts/' + account.account_id + '/badges'" v-if="can('web.manage.accounts.edit')">
                             <FilledButton variant="secondary">Create</FilledButton>
                         </Link>
                     </div>

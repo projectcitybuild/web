@@ -9,6 +9,7 @@ import Pill from '../../../../manage/Components/Pill.vue'
 import { Link } from '@inertiajs/vue3'
 import MinecraftAvatar from '../../../../manage/Components/MinecraftAvatar.vue'
 import SvgIcon from '../../../../manage/Components/SvgIcon.vue'
+import { Icons } from '../../../../manage/Icons'
 
 interface Props {
     banAppeals: BanAppeal[],
@@ -58,7 +59,7 @@ const rows = computed(
         <template #actions="{ item }">
             <Link :href="'/review/ban-appeals/' + item.id">
                 <FilledButton v-if="item.status === BanAppealStatus.pending" variant="danger">
-                    <SvgIcon icon="eye" />
+                    <SvgIcon :svg="Icons.eye" />
                     Review
                 </FilledButton>
                 <FilledButton v-else variant="secondary">

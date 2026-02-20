@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers\Manage\Players;
 
+use App\Domains\Permissions\AuthorizesPermissions;
+use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\WebController;
-use App\Models\MinecraftHome;
 use App\Models\MinecraftPlayer;
-use Illuminate\Support\Facades\Gate;
 
 class MinecraftPlayerHomeController extends WebController
 {
+    use AuthorizesPermissions;
+
     public function index(MinecraftPlayer $player)
     {
-        Gate::authorize('viewAny', MinecraftHome::class);
+        $this->requires(WebManagePermission::HOMES_VIEW);
 
         return $player->homes()->paginate(50);
     }

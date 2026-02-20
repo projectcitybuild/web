@@ -3,21 +3,23 @@
 namespace App\Http\Controllers\Manage\Donations;
 
 use App\Domains\Donations\UseCases\GetAnnualDonationStats;
+use App\Domains\Permissions\AuthorizesPermissions;
+use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\Donation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class DonationController extends WebController
 {
+    use AuthorizesPermissions;
     use RendersManageApp;
 
     public function index(Request $request)
     {
-        Gate::authorize('viewAny', Donation::class);
+        $this->requires(WebManagePermission::DONATIONS_VIEW);
 
         $donations = function () {
             return Donation::with('account', 'perks')
@@ -35,7 +37,7 @@ class DonationController extends WebController
 
     public function show(Donation $donation)
     {
-        Gate::authorize('view', $donation);
+        $this->requires(WebManagePermission::DONATIONS_VIEW);
 
         $donation->load('perks', 'perks.account');
 
@@ -47,14 +49,14 @@ class DonationController extends WebController
 
     public function create(Request $request)
     {
-        Gate::authorize('create', Donation::class);
+        $this->requires(WebManagePermission::DONATIONS_EDIT);
 
         return $this->inertiaRender('Donations/DonationCreate');
     }
 
     public function store(Request $request)
     {
-        Gate::authorize('create', Donation::class);
+        $this->requires(WebManagePermission::DONATIONS_EDIT);
 
         $validated = $request->validate([
             'amount' => ['required', 'numeric', 'gt:0'],
@@ -72,7 +74,7 @@ class DonationController extends WebController
 
     public function edit(Donation $donation)
     {
-        Gate::authorize('update', $donation);
+        $this->requires(WebManagePermission::DONATIONS_EDIT);
 
         return $this->inertiaRender(
             'Donations/DonationEdit',
@@ -82,7 +84,7 @@ class DonationController extends WebController
 
     public function update(Request $request, Donation $donation)
     {
-        Gate::authorize('update', $donation);
+        $this->requires(WebManagePermission::DONATIONS_EDIT);
 
         $validated = $request->validate([
             'amount' => ['required', 'numeric', 'gt:0'],
@@ -100,7 +102,7 @@ class DonationController extends WebController
 
     public function destroy(Request $request, Donation $donation)
     {
-        Gate::authorize('delete', $donation);
+        $this->requires(WebManagePermission::DONATIONS_EDIT);
 
         $donation->delete();
 

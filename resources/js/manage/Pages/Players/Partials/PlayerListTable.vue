@@ -5,11 +5,14 @@ import type { Player } from '../../../Data/Player'
 import MinecraftAvatar from '../../../Components/MinecraftAvatar.vue'
 import { computed } from 'vue'
 import DataTable from '../../../Components/DataTable.vue'
+import usePermissions from '../../../Composables/usePermissions'
 
 interface Props {
     players: Player[],
 }
 const props = defineProps<Props>()
+
+const { can } = usePermissions()
 
 const fields = [
     { key: 'player_minecraft_id', label: 'ID' },

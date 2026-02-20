@@ -11,12 +11,16 @@ import OutlinedButton from '../../Components/OutlinedButton.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
 import SpinnerRow from '../../Components/SpinnerRow.vue'
 import { ref, watch } from 'vue'
+import { Icons } from '../../Icons'
+import usePermissions from '../../Composables/usePermissions'
 
 interface Props {
     success?: string,
     players?: Paginated<Player>,
 }
 defineProps<Props>()
+
+const { can } = usePermissions()
 
 const filterExpanded = ref(false)
 const query = ref({})
@@ -92,16 +96,16 @@ watch(
                             variant="secondary"
                             @click="filterExpanded = !filterExpanded"
                         >
-                            <SvgIcon icon="filter" />
+                            <SvgIcon :svg="Icons.filter" />
 
                             Filter
 
-                            <SvgIcon :icon="filterExpanded ? 'chevron-up' : 'chevron-down'" />
+                            <SvgIcon :svg="filterExpanded ? Icons.chevronUp : Icons.chevronDown" />
                         </OutlinedButton>
 
-                        <Link href="/manage/players/create">
+                        <Link href="/manage/players/create" v-if="can('web.manage.players.edit')">
                             <FilledButton variant="primary">
-                                <SvgIcon icon="plus" />
+                                <SvgIcon :svg="Icons.plus" />
                                 Create Player
                             </FilledButton>
                         </Link>

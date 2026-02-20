@@ -8,6 +8,7 @@ import Spinner from '../../../Components/Spinner.vue'
 import ConfirmDialog from '../../../Components/ConfirmDialog.vue'
 import SvgIcon from '../../../Components/SvgIcon.vue'
 import OutlinedButton from '../../../Components/OutlinedButton.vue'
+import { Icons } from '../../../Icons'
 
 interface Props {
     token?: ServerToken,
@@ -90,7 +91,7 @@ function destroy() {
                         variant="danger"
                         @click="form.token = generate()"
                     >
-                        <SvgIcon icon="refresh" />
+                        <SvgIcon :svg="Icons.refresh" />
                     </FilledButton>
                 </div>
                 <div v-if="form.errors.token" class="text-xs text-red-500 font-bold mt-2">
@@ -133,7 +134,7 @@ function destroy() {
                 type="button"
                 @click="deleteModal.open()"
             >
-                <SvgIcon icon="bin" />
+                <SvgIcon :svg="Icons.bin" />
                 Delete
             </OutlinedButton>
         </div>

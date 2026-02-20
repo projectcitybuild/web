@@ -19,11 +19,15 @@ import ErrorAlert from '../../Components/ErrorAlert.vue'
 import axios from 'axios'
 import PlayerIPListTable from './Partials/PlayerIPListTable.vue'
 import PlayerHomeListTable from './Partials/PlayerHomeListTable.vue'
+import { Icons } from '../../Icons'
+import usePermissions from '../../Composables/usePermissions'
 
 interface Props {
     player: Player,
     success?: string,
 }
+
+const { can } = usePermissions()
 
 const props = defineProps<Props>()
 const error = ref<string|null>(null)
@@ -62,21 +66,21 @@ async function refreshAlias() {
             <template v-slot:left>
                 <BackButton href="/manage/players"/>
             </template>
-            <template v-slot:right>
+            <template v-slot:right v-if="can('web.manage.players.edit')">
                 <OutlinedButton
                     variant="secondary"
                     @click="refreshAlias"
                 >
                     <Spinner v-if="isRefreshingAlias" />
                     <span v-else class="flex flex-row items-center justify-center gap-2">
-                        <SvgIcon icon="refresh" />
+                        <SvgIcon :svg="Icons.refresh" />
                         Fetch Alias
                     </span>
                 </OutlinedButton>
 
                 <Link :href="'/manage/players/' + player.player_minecraft_id + '/edit'">
                     <FilledButton variant="primary">
-                        <SvgIcon icon="pencil" />
+                        <SvgIcon :svg="Icons.pencil" />
                         Edit Player
                     </FilledButton>
                 </Link>
@@ -162,7 +166,7 @@ async function refreshAlias() {
             </section>
 
             <section class="grow">
-                <Card>
+                <Card v-if="can('web.manage.uuid_bans.view')">
                     <div class="p-4 flex justify-between items-center">
                         <h2 class="font-bold">Player Bans</h2>
                         <Link :href="'/manage/player-bans/create?uuid=' + player.uuid">
@@ -178,7 +182,7 @@ async function refreshAlias() {
                     </InfinitePagination>
                 </Card>
 
-                <Card class="mt-4">
+                <Card class="mt-4" v-if="can('web.manage.warnings.view')">
                     <div class="p-4 flex justify-between items-center">
                         <h2 class="font-bold">Player Warnings</h2>
                         <Link :href="'/manage/warnings/create?uuid=' + player.uuid">
@@ -194,7 +198,7 @@ async function refreshAlias() {
                     </InfinitePagination>
                 </Card>
 
-                <Card class="mt-4">
+                <Card class="mt-4" v-if="can('web.manage.homes.view')">
                     <div class="p-4 flex justify-between items-center">
                         <h2 class="font-bold">Homes</h2>
                     </div>
@@ -207,7 +211,7 @@ async function refreshAlias() {
                     </InfinitePagination>
                 </Card>
 
-                <Card class="mt-4">
+                <Card class="mt-4" v-if="can('web.manage.players.view_ips')">
                     <div class="p-4 flex justify-between items-center">
                         <h2 class="font-bold">Known IP Addresses</h2>
                     </div>

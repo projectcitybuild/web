@@ -3,19 +3,21 @@
 namespace App\Http\Controllers\Manage\Accounts;
 
 use App\Domains\MinecraftEventBus\Events\MinecraftPlayerUpdated;
+use App\Domains\Permissions\AuthorizesPermissions;
+use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Manage\RendersManageApp;
 use App\Models\Account;
 use App\Models\Badge;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 
 class AccountBadgeController
 {
+    use AuthorizesPermissions;
     use RendersManageApp;
 
     public function index(Request $request, Account $account)
     {
-        Gate::authorize('viewAny', Account::class);
+        $this->requires(WebManagePermission::ACCOUNTS_VIEW);
 
         $badges = Badge::get();
         $accountBadgeIds = $account->badges->pluck(Badge::primaryKey());
@@ -29,7 +31,7 @@ class AccountBadgeController
 
     public function update(Request $request, Account $account)
     {
-        Gate::authorize('update', $account);
+        $this->requires(WebManagePermission::ACCOUNTS_EDIT);
 
         $request->validate([
             'account_badge_ids' => [],

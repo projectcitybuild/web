@@ -32,6 +32,14 @@ final class Role extends Model implements LinkableAuditModel
     ];
     public $timestamps = false;
 
+    public function permissions()
+    {
+        return $this->belongsToMany(
+            related: Permission::class,
+            table: 'roles_permissions'
+        );
+    }
+
     public function accounts()
     {
         return $this->belongsToMany(

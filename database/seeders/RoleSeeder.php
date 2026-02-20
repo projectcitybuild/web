@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Domains\Permissions\WebManagePermission;
+use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Database\Seeder;
 
@@ -126,6 +128,167 @@ class RoleSeeder extends Seeder
             'is_admin' => true,
             'role_type' => 'staff',
             'display_priority' => 2,
+        ]);
+
+        $viewRoles = Permission::create([
+            'name' => WebManagePermission::ROLES_VIEW,
+        ]);
+
+        $editRoles = Permission::create([
+            'name' => WebManagePermission::ROLES_EDIT,
+        ]);
+
+        $assignRoles = Permission::create([
+            'name' => WebManagePermission::ROLES_ASSIGN,
+        ]);
+
+        $viewAccounts = Permission::create([
+            'name' => WebManagePermission::ACCOUNTS_VIEW,
+        ]);
+
+        $editAccounts = Permission::create([
+            'name' => WebManagePermission::ACCOUNTS_EDIT,
+        ]);
+
+        $viewUUIDBans = Permission::create([
+            'name' => WebManagePermission::UUID_BANS_VIEW,
+        ]);
+
+        $editUUIDBans = Permission::create([
+            'name' => WebManagePermission::UUID_BANS_EDIT,
+        ]);
+
+        $viewIPBans = Permission::create([
+            'name' => WebManagePermission::IP_BANS_VIEW,
+        ]);
+
+        $editIPBans = Permission::create([
+            'name' => WebManagePermission::IP_BANS_EDIT,
+        ]);
+
+        $viewWarnings = Permission::create([
+            'name' => WebManagePermission::WARNINGS_VIEW,
+        ]);
+
+        $editWarnings = Permission::create([
+            'name' => WebManagePermission::WARNINGS_EDIT,
+        ]);
+
+        $viewPlayers = Permission::create([
+            'name' => WebManagePermission::PLAYERS_VIEW,
+        ]);
+
+        $editPlayers = Permission::create([
+            'name' => WebManagePermission::PLAYERS_EDIT,
+        ]);
+
+        $viewPlayerIps = Permission::create([
+            'name' => WebManagePermission::PLAYERS_VIEW_IPS,
+        ]);
+
+        $viewBadges = Permission::create([
+            'name' => WebManagePermission::BADGES_VIEW,
+        ]);
+
+        $editBadges = Permission::create([
+            'name' => WebManagePermission::BADGES_EDIT,
+        ]);
+
+        $viewWarps = Permission::create([
+            'name' => WebManagePermission::WARPS_VIEW,
+        ]);
+
+        $editWarps = Permission::create([
+            'name' => WebManagePermission::WARPS_EDIT,
+        ]);
+
+        $viewHomes = Permission::create([
+            'name' => WebManagePermission::HOMES_VIEW,
+        ]);
+
+        $editHomes = Permission::create([
+            'name' => WebManagePermission::HOMES_EDIT,
+        ]);
+
+        $viewServers = Permission::create([
+            'name' => WebManagePermission::SERVERS_VIEW,
+        ]);
+
+        $editServers = Permission::create([
+            'name' => WebManagePermission::SERVERS_EDIT,
+        ]);
+
+        $viewServerTokens = Permission::create([
+            'name' => WebManagePermission::SERVER_TOKENS_VIEW,
+        ]);
+
+        $editServerTokens = Permission::create([
+            'name' => WebManagePermission::SERVER_TOKENS_EDIT,
+        ]);
+
+        $editRemoteConfig = Permission::create([
+            'name' => WebManagePermission::REMOTE_CONFIG_EDIT,
+        ]);
+
+        $viewDonations = Permission::create([
+            'name' => WebManagePermission::DONATIONS_VIEW,
+        ]);
+
+        $editDonations = Permission::create([
+            'name' => WebManagePermission::DONATIONS_EDIT,
+        ]);
+
+        $dev->permissions()->attach([
+            $viewRoles,
+            $editRoles,
+            $assignRoles,
+            $viewAccounts,
+            $editAccounts,
+            $viewUUIDBans,
+            $editUUIDBans,
+            $viewIPBans,
+            $editIPBans,
+            $viewWarnings,
+            $editWarnings,
+            $viewPlayers,
+            $editPlayers,
+            $viewPlayerIps,
+            $viewBadges,
+            $editBadges,
+            $viewWarps,
+            $editWarps,
+            $viewHomes,
+            $editHomes,
+            $viewServers,
+            $editServers,
+            $viewServerTokens,
+            $editServerTokens,
+            $editRemoteConfig,
+            $viewDonations,
+            $editDonations,
+        ]);
+
+        $mod->permissions()->attach([
+            $viewRoles,
+            $viewAccounts,
+            $viewUUIDBans,
+            $editUUIDBans,
+            $viewIPBans,
+            $editIPBans,
+            $viewWarnings,
+            $editWarnings,
+            $viewPlayers,
+            $editPlayers,
+            $viewBadges,
+            $editBadges,
+            $viewWarps,
+            $editWarps,
+            $viewHomes,
+            $editHomes,
+        ]);
+
+        $architect->permissions()->attach([
+
         ]);
     }
 }

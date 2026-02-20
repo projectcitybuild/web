@@ -3,19 +3,22 @@
 namespace App\Http\Controllers\Manage\Accounts;
 
 use App\Domains\EmailChange\UseCases\UpdateAccountEmail;
+use App\Domains\Permissions\AuthorizesPermissions;
+use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\WebController;
 use App\Models\Account;
 use App\Models\EmailChange;
-use Illuminate\Support\Facades\Gate;
 
 class AccountApproveEmailChangeController extends WebController
 {
+    use AuthorizesPermissions;
+
     public function __invoke(
         Account $account,
         EmailChange $accountEmailChange,
         UpdateAccountEmail $updateAccountEmail,
     ) {
-        Gate::authorize('update', $account);
+        $this->requires(WebManagePermission::ACCOUNTS_EDIT);
 
         if (! $accountEmailChange->account->is($account)) {
             abort(422);

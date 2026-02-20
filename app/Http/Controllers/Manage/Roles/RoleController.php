@@ -2,23 +2,25 @@
 
 namespace App\Http\Controllers\Manage\Roles;
 
+use App\Domains\Permissions\AuthorizesPermissions;
+use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\Account;
 use App\Models\Role;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 class RoleController extends WebController
 {
+    use AuthorizesPermissions;
     use RendersManageApp;
 
     public function index()
     {
-        Gate::authorize('viewAny', Role::class);
+        $this->requires(WebManagePermission::ROLES_VIEW);
 
         $roles = function () {
             $roles = Role::withCount('accounts')
@@ -41,14 +43,14 @@ class RoleController extends WebController
 
     public function create(Request $request)
     {
-        Gate::authorize('create', Role::class);
+        $this->requires(WebManagePermission::ROLES_EDIT);
 
         return $this->inertiaRender('Roles/RoleCreate');
     }
 
     public function store(Request $request): RedirectResponse
     {
-        Gate::authorize('create', Role::class);
+        $this->requires(WebManagePermission::ROLES_EDIT);
 
         $validated = $request->validate([
             'name' => ['required', 'string', Rule::unique(Role::tableName())],
@@ -73,14 +75,14 @@ class RoleController extends WebController
 
     public function edit(Role $role)
     {
-        Gate::authorize('update', $role);
+        $this->requires(WebManagePermission::ROLES_EDIT);
 
         return $this->inertiaRender('Roles/RoleEdit', compact('role'));
     }
 
     public function update(Request $request, Role $role): RedirectResponse
     {
-        Gate::authorize('update', $role);
+        $this->requires(WebManagePermission::ROLES_EDIT);
 
         $validated = $request->validate([
             'name' => ['required', 'string', Rule::unique(Role::tableName())->ignore($role)],
@@ -105,7 +107,7 @@ class RoleController extends WebController
 
     public function destroy(Request $request, Role $role): RedirectResponse
     {
-        Gate::authorize('delete', $role);
+        $this->requires(WebManagePermission::ROLES_EDIT);
 
         $role->delete();
 

@@ -10,6 +10,8 @@ import FilledButton from '../../Components/FilledButton.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
 import SpinnerRow from '../../Components/SpinnerRow.vue'
 import { ref } from 'vue'
+import { Icons } from '../../Icons'
+import usePermissions from '../../Composables/usePermissions'
 
 interface Props {
     success?: string,
@@ -18,6 +20,8 @@ interface Props {
 defineProps<Props>()
 
 const itemCount = ref(0)
+
+const { can } = usePermissions()
 </script>
 
 <template>
@@ -35,9 +39,9 @@ const itemCount = ref(0)
                 </div>
 
                 <div>
-                    <Link href="/manage/minecraft/warps/create">
+                    <Link href="/manage/minecraft/warps/create" v-if="can('web.manage.warps.edit')">
                         <FilledButton variant="primary">
-                            <SvgIcon icon="plus" />
+                            <SvgIcon :svg="Icons.plus" />
                             Create Warp
                         </FilledButton>
                     </Link>

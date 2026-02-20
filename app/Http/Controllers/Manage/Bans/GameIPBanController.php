@@ -5,21 +5,23 @@ namespace App\Http\Controllers\Manage\Bans;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
 use App\Domains\MinecraftEventBus\Events\IpAddressBanned;
+use App\Domains\Permissions\AuthorizesPermissions;
+use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\GameIPBan;
 use App\Models\MinecraftPlayer;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class GameIPBanController extends WebController
 {
+    use AuthorizesPermissions;
     use RendersManageApp;
 
     public function index(Request $request)
     {
-        Gate::authorize('viewAny', GameIPBan::class);
+        $this->requires(WebManagePermission::IP_BANS_VIEW);
 
         $bans = function () {
             return GameIPBan::with('bannerPlayer')
@@ -37,14 +39,14 @@ class GameIPBanController extends WebController
 
     public function create(Request $request)
     {
-        Gate::authorize('create', GameIPBan::class);
+        $this->requires(WebManagePermission::IP_BANS_EDIT);
 
         return $this->inertiaRender('IPBans/IPBanCreate');
     }
 
     public function store(Request $request)
     {
-        Gate::authorize('create', GameIPBan::class);
+        $this->requires(WebManagePermission::IP_BANS_EDIT);
 
         $validated = $request->validate([
             'banner_uuid' => ['required', new MinecraftUUIDRule],
@@ -68,7 +70,7 @@ class GameIPBanController extends WebController
 
     public function edit(GameIPBan $ipBan)
     {
-        Gate::authorize('update', GameIPBan::class);
+        $this->requires(WebManagePermission::IP_BANS_EDIT);
 
         $ipBan->load('bannerPlayer');
 
@@ -79,7 +81,7 @@ class GameIPBanController extends WebController
 
     public function update(Request $request, GameIPBan $ipBan)
     {
-        Gate::authorize('update', $ipBan);
+        $this->requires(WebManagePermission::IP_BANS_EDIT);
 
         $validated = $request->validate([
             'banner_uuid' => ['required', new MinecraftUUIDRule],
@@ -97,7 +99,7 @@ class GameIPBanController extends WebController
 
     public function destroy(Request $request, GameIPBan $ipBan)
     {
-        Gate::authorize('delete', $ipBan);
+        $this->requires(WebManagePermission::IP_BANS_EDIT);
 
         $ipBan->delete();
 

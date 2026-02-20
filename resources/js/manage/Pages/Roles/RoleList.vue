@@ -7,11 +7,15 @@ import Card from '../../Components/Card.vue'
 import FilledButton from '../../Components/FilledButton.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
 import SpinnerRow from '../../Components/SpinnerRow.vue'
+import usePermissions from '../../Composables/usePermissions'
+import { Icons } from '../../Icons'
 
 interface Props {
     success?: string,
     roles?: Role[],
 }
+
+const { can } = usePermissions()
 
 defineProps<Props>()
 </script>
@@ -33,9 +37,10 @@ defineProps<Props>()
                     <Link
                         href="/manage/roles/create"
                         as="button"
+                        v-if="can('web.manage.roles.edit')"
                     >
                         <FilledButton variant="primary">
-                            <SvgIcon icon="plus" />
+                            <SvgIcon :svg="Icons.plus" />
                             Create Role
                         </FilledButton>
                     </Link>

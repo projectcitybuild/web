@@ -8,17 +8,19 @@ use App\Domains\Bans\Data\CreatePlayerBan;
 use App\Domains\Bans\Data\UnbanType;
 use App\Domains\Bans\Data\UpdatePlayerBan;
 use App\Domains\Bans\Services\PlayerBanService;
+use App\Domains\Permissions\AuthorizesPermissions;
+use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\GamePlayerBan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 class GamePlayerBanController extends WebController
 {
+    use AuthorizesPermissions;
     use RendersManageApp;
 
     public function __construct(
@@ -27,7 +29,7 @@ class GamePlayerBanController extends WebController
 
     public function index(Request $request)
     {
-        Gate::authorize('viewAny', GamePlayerBan::class);
+        $this->requires(WebManagePermission::UUID_BANS_VIEW);
 
         $bans = function () {
             return GamePlayerBan::with('bannedPlayer', 'bannerPlayer', 'unbannerPlayer')
@@ -45,7 +47,7 @@ class GamePlayerBanController extends WebController
 
     public function create(Request $request)
     {
-        Gate::authorize('create', GamePlayerBan::class);
+        $this->requires(WebManagePermission::UUID_BANS_EDIT);
 
         $account = $request->user();
         $account->load('minecraftAccount');
@@ -57,7 +59,7 @@ class GamePlayerBanController extends WebController
 
     public function store(Request $request)
     {
-        Gate::authorize('create', GamePlayerBan::class);
+        $this->requires(WebManagePermission::UUID_BANS_EDIT);
 
         $validated = collect($request->validate([
             'banned_uuid' => ['required', new MinecraftUUIDRule],
@@ -92,7 +94,7 @@ class GamePlayerBanController extends WebController
 
     public function edit(GamePlayerBan $playerBan)
     {
-        Gate::authorize('update', $playerBan);
+        $this->requires(WebManagePermission::UUID_BANS_EDIT);
 
         $playerBan->load('bannedPlayer', 'bannerPlayer', 'unbannerPlayer');
 
@@ -103,7 +105,7 @@ class GamePlayerBanController extends WebController
 
     public function update(Request $request, GamePlayerBan $playerBan)
     {
-        Gate::authorize('update', $playerBan);
+        $this->requires(WebManagePermission::UUID_BANS_EDIT);
 
         $validated = collect($request->validate([
             'banned_uuid' => ['required', new MinecraftUUIDRule],
@@ -144,7 +146,7 @@ class GamePlayerBanController extends WebController
 
     public function destroy(Request $request, GamePlayerBan $playerBan)
     {
-        Gate::authorize('delete', $playerBan);
+        $this->requires(WebManagePermission::UUID_BANS_EDIT);
 
         $this->playerBanService->delete(id: $playerBan->getKey());
 

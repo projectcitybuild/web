@@ -10,6 +10,7 @@ import FilledButton from '../../Components/FilledButton.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
 import SpinnerRow from '../../Components/SpinnerRow.vue'
 import { ref } from 'vue'
+import { Icons } from '../../Icons'
 
 interface Props {
     success?: string,
@@ -37,7 +38,7 @@ const itemCount = ref(0)
                 <div>
                     <Link href="/manage/donations/create">
                         <FilledButton variant="primary">
-                            <SvgIcon icon="plus" />
+                            <SvgIcon :svg="Icons.plus" />
                             Create Donation
                         </FilledButton>
                     </Link>

@@ -7,6 +7,7 @@ import PlayerBanStatus from './PlayerBanStatus.vue'
 import FilledButton from '../../../Components/FilledButton.vue'
 import { computed } from 'vue'
 import DataTable from '../../../Components/DataTable.vue'
+import usePermissions from '../../../Composables/usePermissions'
 
 interface Props {
     bans: PlayerBan[],
@@ -28,6 +29,8 @@ const rows = computed(
         expires_at: format(ban.expires_at),
     }))
 )
+
+const { can } = usePermissions()
 </script>
 
 <template>
@@ -49,7 +52,7 @@ const rows = computed(
         </template>
 
         <template #actions="{ item }">
-            <Link :href="'/manage/player-bans/' + item.id + '/edit'">
+            <Link :href="'/manage/player-bans/' + item.id + '/edit'" v-if="can('web.manage.uuid_bans.edit')">
                 <FilledButton variant="secondary">
                     Edit
                 </FilledButton>
