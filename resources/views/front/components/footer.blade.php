@@ -4,7 +4,7 @@
       <div class="items-start gap-6 md:gap-8 lg:flex 2xl:gap-24">
         <div class="grid min-w-0 flex-1 grid-cols-2 gap-6 md:gap-8 xl:grid-cols-3">
           <div>
-            <h6 class="mb-4 text-sm font-semibold uppercase text-gray-900 dark:text-white">Server</h6>
+            <h6 class="mb-4 text-md font-bold text-gray-900 dark:text-white">Server</h6>
             <ul class="space-y-3">
               <li>
                 <a href="{{ route('rules') }}" class="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
@@ -33,7 +33,7 @@
           </div>
 
           <div>
-            <h6 class="mb-4 text-sm font-semibold uppercase text-gray-900 dark:text-white">Community</h6>
+            <h6 class="mb-4 text-md font-bold text-gray-900 dark:text-white">Community</h6>
             <ul class="space-y-3">
               <li>
                 <a href="{{ route('portal') }}" class="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
@@ -59,7 +59,7 @@
           </div>
 
           <div>
-            <h6 class="mb-4 text-sm font-semibold uppercase text-gray-900 dark:text-white">Forms</h6>
+            <h6 class="mb-4 text-md font-bold text-gray-900 dark:text-white">Forms</h6>
             <ul class="space-y-3">
               <li>
                 <a href="{{ route('report') }}" class="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
@@ -90,7 +90,7 @@
           </div>
 
           <div>
-            <h6 class="mb-4 text-sm font-semibold uppercase text-gray-900 dark:text-white">Archives</h6>
+            <h6 class="mb-4 text-md font-bold text-gray-900 dark:text-white">Archives</h6>
             <ul class="space-y-3">
                 <li>
                 <a href="{{ route('wiki') }}" class="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">

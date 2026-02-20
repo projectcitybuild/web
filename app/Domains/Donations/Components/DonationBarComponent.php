@@ -15,13 +15,13 @@ class DonationBarComponent extends Component
     {
         $stats = $this->getAnnualDonationStats->get();
 
-        $percentage = $stats->raisedThisYear / $stats->amountRequired;
+        $percentage = $stats->amountRaisedThisYear / $stats->fundingGoalAmount;
         $percentage = max(0, min(1, $percentage));
 
         return view('front.components.donation-bar', [
-            'current' => $stats->raisedThisYear,
+            'current' => $stats->amountRaisedThisYear,
             'percentage' => $percentage * 100,
-            'indicators' => $this->indicators(target: $stats->amountRequired),
+            'indicators' => $this->indicators(target: $stats->fundingGoalAmount),
         ]);
     }
 
