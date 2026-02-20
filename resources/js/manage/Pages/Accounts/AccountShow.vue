@@ -244,7 +244,7 @@ function showUnlinkDialog(playerId: number) {
                     </div>
                 </Card>
 
-                <Card class="mt-4">
+                <Card class="mt-4" v-if="can('web.manage.badges.view')">
                     <div class="p-4 flex justify-between items-center">
                         <h2 class="font-bold">Badges</h2>
                         <Link :href="'/manage/accounts/' + account.account_id + '/badges'" v-if="can('web.manage.accounts.edit')">
@@ -256,7 +256,7 @@ function showUnlinkDialog(playerId: number) {
                     </div>
                 </Card>
 
-                <Card class="mt-4">
+                <Card class="mt-4" v-if="can('web.manage.donations.view')">
                     <div class="p-4 flex justify-between items-center">
                         <h2 class="font-bold">Donations</h2>
                         <Link :href="'/manage/accounts/' + account.account_id + '/badges'" v-if="can('web.manage.accounts.edit')">

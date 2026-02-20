@@ -182,6 +182,10 @@ class RoleSeeder extends Seeder
             'name' => WebManagePermission::PLAYERS_EDIT,
         ]);
 
+        $viewPlayerIps = Permission::create([
+            'name' => WebManagePermission::PLAYERS_VIEW_IPS,
+        ]);
+
         $viewBadges = Permission::create([
             'name' => WebManagePermission::BADGES_VIEW,
         ]);
@@ -248,6 +252,7 @@ class RoleSeeder extends Seeder
             $editWarnings,
             $viewPlayers,
             $editPlayers,
+            $viewPlayerIps,
             $viewBadges,
             $editBadges,
             $viewWarps,

@@ -3,11 +3,14 @@ import { Link } from '@inertiajs/vue3'
 import type { Server } from '../../../Data/Server'
 import FilledButton from '../../../Components/FilledButton.vue'
 import DataTable from '../../../Components/DataTable.vue'
+import usePermissions from '../../../Composables/usePermissions';
 
 interface Props {
     servers: Server[],
 }
 defineProps<Props>()
+
+const { can } = usePermissions()
 
 const fields = [
     { key: 'server_id', label: 'ID' },
@@ -20,7 +23,7 @@ const fields = [
 
 <template>
     <DataTable :fields="fields" :rows="servers" class="border-t border-gray-200">
-        <template #actions="{ item }">
+        <template #actions="{ item }" v-if="can('web.manage.servers.edit')">
             <Link :href="'/manage/servers/' + item.server_id + '/edit'">
                 <FilledButton variant="secondary">
                     Edit

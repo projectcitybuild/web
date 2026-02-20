@@ -5,11 +5,14 @@ import { format } from '../../../Utilities/DateFormatter'
 import FilledButton from '../../../Components/FilledButton.vue'
 import { computed } from 'vue'
 import DataTable from '../../../Components/DataTable.vue'
+import usePermissions from '../../../Composables/usePermissions'
 
 interface Props {
     tokens: ServerToken[],
 }
 const props = defineProps<Props>()
+
+const { can } = usePermissions()
 
 const fields = [
     { key: 'id', label: 'ID' },
@@ -37,7 +40,7 @@ const rows = computed(
             </ul>
         </template>
 
-        <template #actions="{ item }">
+        <template #actions="{ item }" v-if="can('web.manage.server_tokens.edit')">
             <Link :href="'/manage/server-tokens/' + item.id + '/edit'">
                 <FilledButton variant="secondary">
                     Edit

@@ -11,12 +11,15 @@ import SvgIcon from '../../Components/SvgIcon.vue'
 import SpinnerRow from '../../Components/SpinnerRow.vue'
 import { ref } from 'vue'
 import { Icons } from '../../Icons'
+import usePermissions from '../../Composables/usePermissions'
 
 interface Props {
     bans?: Paginated<PlayerBan>,
     success?: string,
 }
 defineProps<Props>()
+
+const { can } = usePermissions()
 
 const itemCount = ref(0)
 </script>
@@ -35,7 +38,7 @@ const itemCount = ref(0)
                     </span>
                 </div>
                 <div>
-                    <Link href="/manage/player-bans/create">
+                    <Link href="/manage/player-bans/create" v-if="can('web.manage.uuid_bans.edit')">
                         <FilledButton variant="primary">
                             <SvgIcon :svg="Icons.plus" />
                             Create Ban

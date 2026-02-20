@@ -11,6 +11,7 @@ import SvgIcon from '../../Components/SvgIcon.vue'
 import SpinnerRow from '../../Components/SpinnerRow.vue'
 import { ref } from 'vue'
 import { Icons } from '../../Icons'
+import usePermissions from '../../Composables/usePermissions'
 
 interface Props {
     success?: string,
@@ -19,6 +20,8 @@ interface Props {
 defineProps<Props>()
 
 const itemCount = ref(0)
+
+const { can } = usePermissions()
 </script>
 
 <template>
@@ -35,7 +38,7 @@ const itemCount = ref(0)
                     </span>
                 </div>
                 <div>
-                    <Link href="/manage/warnings/create">
+                    <Link href="/manage/warnings/create" v-if="can('web.manage.warnings.edit')">
                         <FilledButton variant="primary">
                             <SvgIcon :svg="Icons.plus" />
                             Create Warning

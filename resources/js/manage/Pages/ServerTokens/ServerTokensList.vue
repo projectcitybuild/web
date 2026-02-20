@@ -7,6 +7,7 @@ import SuccessAlert from '../../Components/SuccessAlert.vue'
 import FilledButton from '../../Components/FilledButton.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
 import { Icons } from '../../Icons'
+import usePermissions from '../../Composables/usePermissions'
 
 interface Props {
     tokens: ServerToken[],
@@ -14,6 +15,8 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+
+const { can } = usePermissions()
 </script>
 
 <template>
@@ -24,7 +27,7 @@ const props = defineProps<Props>()
     <section>
         <Card>
             <div class="flex justify-end space-y-3 md:space-y-0 md:space-x-4 p-4">
-                <Link href="/manage/server-tokens/create">
+                <Link href="/manage/server-tokens/create" v-if="can('web.manage.server_tokens.edit')">
                     <FilledButton variant="primary">
                         <SvgIcon :svg="Icons.plus" />
                         Create Token

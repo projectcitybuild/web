@@ -17,6 +17,7 @@ enum WebManagePermission: string
     case WARNINGS_EDIT = 'web.manage.warnings.edit';
     case PLAYERS_VIEW = 'web.manage.players.view';
     case PLAYERS_EDIT = 'web.manage.players.edit';
+    case PLAYERS_VIEW_IPS = 'web.manage.players.view_ips';
     case BADGES_VIEW = 'web.manage.badges.view';
     case BADGES_EDIT = 'web.manage.badges.edit';
     case WARPS_VIEW = 'web.manage.warps.view';

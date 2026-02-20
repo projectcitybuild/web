@@ -46,7 +46,6 @@ export default function usePermissions() {
         return regex.test(permission)
     }
 
-
     /**
      * Escape special regex characters in a string so it can be safely used in a regex.
      *

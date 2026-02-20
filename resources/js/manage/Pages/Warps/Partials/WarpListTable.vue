@@ -5,11 +5,14 @@ import { format } from '../../../Utilities/DateFormatter'
 import FilledButton from '../../../Components/FilledButton.vue'
 import { computed } from 'vue'
 import DataTable from '../../../Components/DataTable.vue'
+import usePermissions from '../../../Composables/usePermissions'
 
 interface Props {
     warps: Warp[],
 }
 const props = defineProps<Props>()
+
+const { can } = usePermissions()
 
 const fields = [
     { key: 'id', label: 'ID' },
@@ -35,7 +38,7 @@ const rows = computed(
 <template>
     <DataTable :fields="fields" :rows="rows" :show-index="true" class="border-t border-gray-200">
         <template #actions="{ item }">
-            <Link :href="'/manage/minecraft/warps/' + item.id + '/edit'">
+            <Link :href="'/manage/minecraft/warps/' + item.id + '/edit'" v-if="can('web.manage.warps.edit')">
                 <FilledButton variant="secondary">
                     Edit
                 </FilledButton>

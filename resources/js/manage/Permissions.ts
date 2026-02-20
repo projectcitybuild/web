@@ -12,6 +12,7 @@ export type Permission =
   | "web.manage.warnings.edit"
   | "web.manage.players.view"
   | "web.manage.players.edit"
+  | "web.manage.players.view_ips"
   | "web.manage.badges.view"
   | "web.manage.badges.edit"
   | "web.manage.warps.view"
