@@ -298,57 +298,113 @@
             </div>
         </section>
 
-        <section class="bg-gray-50 py-12 md:py-16">
-            <div class="max-w-screen-2xl mx-auto px-6">
-                <h2 class="mb-3 text-3xl font-bold sm:text-4xl md:text-4xl text-center">
-                    FAQ
-                </h2>
+        <section class="bg-gray-50 dark:bg-gray-900">
+            <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+                <h2 class="mb-8 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Frequently Asked Questions</h2>
+                <div class="grid pt-8 text-left border-t border-gray-200 md:gap-16 dark:border-gray-700 md:grid-cols-2">
+                    <div>
+                        <div class="mb-10">
+                            <h3 class="flex items-center mb-4 text-lg font-medium text-gray-900 dark:text-white">
+                                <svg class="flex-shrink-0 mr-2 w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>
+                                Are payment processing fees included?
+                            </h3>
+                            <p class="text-gray-500 dark:text-gray-400">
+                                Yes. Unfortunately, Stripe charges us a payment processing fee, and we cover that cost ourselves.
+                            </p>
+                            <p class="mt-4 text-gray-500 dark:text-gray-400">
+                                For example, if you donate $4 for one month, you will receive one full month of perks, regardless of any processing fees deducted on our end.
+                            </p>
+                        </div>
+                        <div class="mb-10">
+                            <h3 class="flex items-center mb-4 text-lg font-medium text-gray-900 dark:text-white">
+                                <svg class="flex-shrink-0 mr-2 w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>
+                                What happens after my donor perks expire?
+                            </h3>
+                            <div class="text-gray-500 dark:text-gray-400">
+                                <p>Once your perks expires:</p>
 
-                <ul class="mt-6">
-                    <li>
-                        <h2 class="text-lg font-bold">
-                            If I cancel a subscription, do I immediately lose my perks?
-                        </h2>
-                        <p class="text-md text-gray-600 mt-3 leading-relaxed">
-                            No, your perks will remain active until the original expiry date (i.e. a month from the last payment).
-                            <br />
-                            For example, if you started your subscription on August 1st and immediately cancel it, your perks will remain until September 1st.
-                        </p>
-                    </li>
-                    <li class="mt-12">
-                        <h2 class="text-lg font-bold">
-                            What perks will I lose after my duration ends?
-                        </h2>
-                        <p class="text-md text-gray-600 mt-3 leading-relaxed">
-                            Donor commands (navigation, etc) will not be usable and home limits will be decreased.<br />
-                            However, <strong>you will not lose access to your homes</strong> even if you are over the limit - instead you will be unable to use <span class="command">/sethome</span> until you delete the required amount.
-                            <br /><br />
-                            Subscribers will not lose their perks, provided that their payment isn't declined.
-                        </p>
-                    </li>
-                </ul>
+                                <ul class="mt-2 list-disc pl-6">
+                                    <li>Additional commands (such as navigation commands) will no longer be available if you don’t normally have access to them.</li>
+                                    <li>Your home limit will be reduced to the default amount.</li>
+                                    <li>Your nickname will remain as is</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="mb-10">
+                            <h3 class="flex items-center mb-4 text-lg font-medium text-gray-900 dark:text-white">
+                                <svg class="flex-shrink-0 mr-2 w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>
+                                What happens to my homes after my perks expire?
+                            </h3>
+                            <p class="text-gray-500 dark:text-gray-400">
+                                You will not lose any existing homes, even if you are over the new limit.
+                                You simply won’t be able to create a new home until you delete enough homes to fall within the allowed limit.
+                            </p>
+                        </div>
+                        <div class="mb-10">
+                            <h3 class="flex items-center mb-4 text-lg font-medium text-gray-900 dark:text-white">
+                                <svg class="flex-shrink-0 mr-2 w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>
+                                Can I gift my donor perks to someone else?
+                            </h3>
+                            <p class="text-gray-500 dark:text-gray-400">
+                                Yes, but please let a staff member know once you have donated so that we can transfer them to the intended recipient.
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="mb-10">
+                            <h3 class="flex items-center mb-4 text-lg font-medium text-gray-900 dark:text-white">
+                                <svg class="flex-shrink-0 mr-2 w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>
+                                If I cancel my subscription, do I lose my perks immediately?
+                            </h3>
+                            <div class="text-gray-500 dark:text-gray-400">
+                                <p>No. Your perks will remain active until the end of your current billing period (i.e., one month from your last successful payment).</p>
+                                <p class="mt-4">For example: if you start your subscription on August 1st and cancel the same day, you will still keep your perks until September 1st.</p>
+                            </div>
+                        </div>
+                        <div class="mb-10">
+                            <h3 class="flex items-center mb-4 text-lg font-medium text-gray-900 dark:text-white">
+                                <svg class="flex-shrink-0 mr-2 w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>
+                                What happens if my subscription payment is declined?
+                            </h3>
+                            <p class="text-gray-500 dark:text-gray-400">
+                                The subscription will be cancelled, but your donor perks will expire at the end of the billing cycle (i.e., one month from your last successful payment).
+                            </p>
+                            <p class="text-gray-500 dark:text-gray-400">
+                                You can subscribe again anytime.
+                            </p>
+                        </div>
+                        <div class="mb-10">
+                            <h3 class="flex items-center mb-4 text-lg font-medium text-gray-900 dark:text-white">
+                                <svg class="flex-shrink-0 mr-2 w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>
+                                What happens if I donate while I already have active donor perks?
+                            </h3>
+                            <p class="text-gray-500 dark:text-gray-400">Your donor perk durations stack automatically. If you donate again while your perks are still active, your current duration will be extended by the appropriate amount.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
-
-        <section class="bg-white py-12 md:py-16">
-            <div class="max-w-screen-2xl mx-auto px-6">
-                <h2 class="mb-3 text-3xl font-bold sm:text-4xl md:text-4xl text-center">
-                    Legal
-                </h2>
-
-                <ol class="mt-6">
-                    <li class="text-md text-gray-600 mt-3 leading-relaxed">
-                        Please check for any applicable fees - Stripe can change these beyond our control at any time for any reason.
-                    </li>
-                    <li class="text-md text-gray-600 mt-3 leading-relaxed">
-                        We are not a for-profit organization - donations are not payments for a service.
-                    </li>
-                    <li class="text-md text-gray-600 mt-3 leading-relaxed">
-                        We reserve the right to change donation benefits at any time. <br />
-                        While we try our best to honor the written benefits, there are times we are forced to change these due to technical or financial reasons.
-                    </li>
-                </ol>
+        <section class="bg-gray-50 dark:bg-gray-900">
+            <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+                <h2 class="mb-8 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Legal</h2>
+                <div class="pt-8 text-left border-t border-gray-200 md:gap-16 dark:border-gray-700">
+                    <div class="mb-6">
+                        <div class="text-gray-500 dark:text-gray-400">
+                            Before donating, please be aware that payment processors may charge processing fees. These fees are set by the provider and can change at any time, and we unfortunately have no control over them.
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <div class="text-gray-500 dark:text-gray-400">
+                            We are <strong>not a for-profit organization</strong>, and donations are completely voluntary. They are made to support the community and help us keep things running — they are <strong>not payments for a specific product or guaranteed service</strong>.
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <p class="text-gray-500 dark:text-gray-400">
+                            We may update or adjust donation perks from time to time. While we always aim to honor the benefits described, there may be situations where features need to be changed, limited, or removed due to technical, financial, or operational reasons. If that happens, we’ll always do our best to handle it fairly and communicate clearly with the community.
+                        </p>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
