@@ -80,7 +80,7 @@
                 </li>
                 <li>
                     <a
-                        href="https://portal.projectcitybuild.com/"
+                        href="{{ route('portal') }}"
                         class="
                             block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100
                             md:text-gray-50 md:hover:bg-transparent md:hover:text-gray-300
@@ -173,7 +173,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
                                 <path fill-rule="evenodd" d="m5.965 4.904 9.131 9.131a6.5 6.5 0 0 0-9.131-9.131Zm8.07 10.192L4.904 5.965a6.5 6.5 0 0 0 9.131 9.131ZM4.343 4.343a8 8 0 1 1 11.314 11.314A8 8 0 0 1 4.343 4.343Z" clip-rule="evenodd" />
                             </svg>
-                            Ban List
+                            Banned Players
                         </div>
                         <span class="text-sm text-gray-500">List of players banned from our services</span>
                     </a>

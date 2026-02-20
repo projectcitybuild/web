@@ -6,7 +6,7 @@ use App\Domains\Donations\UseCases\GetAnnualDonationStats;
 use Carbon\Carbon;
 use Illuminate\View\Component;
 
-class DonationFooterComponent extends Component
+class DonationCardComponent extends Component
 {
     public function __construct(
         private readonly GetAnnualDonationStats $getAnnualDonationStats,
@@ -16,7 +16,7 @@ class DonationFooterComponent extends Component
     {
         $stats = $this->getAnnualDonationStats->get();
 
-        return view('front.components.donation-footer', [
+        return view('front.components.donation-card', [
             'stats' => $stats,
             'remaining_days' => $this->remainingDaysThisYear(),
         ]);

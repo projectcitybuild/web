@@ -351,10 +351,6 @@
                 </ol>
             </div>
         </section>
-
-        <footer>
-            @include('front.components.sitemap')
-        </footer>
     </main>
 
     @include('front.components.footer')

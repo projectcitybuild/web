@@ -11,6 +11,9 @@ Route::permanentRedirect('privacy', 'https://portal.projectcitybuild.com/books/l
 Route::permanentRedirect('wiki', 'https://wiki.projectcitybuild.com')
     ->name('wiki');
 
+Route::permanentRedirect('portal', 'https://portal.projectcitybuild.com/')
+    ->name('portal');
+
 Route::permanentRedirect('report', 'https://tally.so/r/lbbVQV')
     ->name('report');
 

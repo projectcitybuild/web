@@ -183,12 +183,6 @@ One of the world's longest-running Minecraft servers; we're a community of creat
                 </div>
             </div>
         </section>
-
-        <footer>
-            @include('front.components.sitemap')
-
-            <x-donation-footer />
-        </footer>
     </main>
 
     @include('front.components.footer')
