@@ -9,27 +9,30 @@ One of the world's longest-running Minecraft servers; we're a community of creat
     <x-front::hero />
 
     <main>
+        <div class="h-12"></div>
+
         <section class="bg-gray-50">
-            <div class="max-w-screen-2xl mx-auto py-10 px-6 md:px-12 md:py-24 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="max-w-screen-2xl mx-auto py-10 px-6 md:px-12 md:py-24 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 <div>
                     <div class="inline-flex flex-col justify-start">
-                        <div class="bg-orange-500 p-4 my-6 rounded-lg text-sm font-bold text-white">
+                        <div class="bg-orange-500 p-4 my-6 rounded-md text-sm font-bold text-white">
                             Since October 2010
                         </div>
                         <div class="ml-4 w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-orange-500 -mt-6"></div>
                     </div>
 
-                    <div class="mt-2 text-6xl text-gray-800 font-bold leading-[1.2]">
-                        Crafting Worlds.<br /> Crafting Connections.
+                    <div class="mt-2 text-6xl text-gray-800 font-bold leading-[1.2] tracking-tight">
+                        Crafting Worlds.<br />
+                        Crafting Connections.
                     </div>
 
                     <div class="mt-4 text-gray-500 text-md leading-loose pt-3">
                         <strong>For more than 15 years</strong>, our Minecraft community has been a place to dream big, build together, and share creations.
-                        From sprawling cities to unique personal builds, we welcome all - come join the fun and make lasting friendships.
+                        From sprawling cities to unique personal builds, we welcome all — come join the fun and make lasting friendships.
                     </div>
 
-                    <div class="mt-6">
-                        <a href="#" class="text-sm text-orange-500 inline-flex flex-row items-center">
+                    <div class="mt-8 flex flex-row gap-4">
+                        <a href="#" class="text-sm text-blue-500 inline-flex flex-row items-center">
                             <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m10 16 4-4-4-4"/>
                             </svg>
@@ -38,7 +41,32 @@ One of the world's longest-running Minecraft servers; we're a community of creat
                     </div>
                 </div>
                 <div>
-                    TODO
+                    <h3 class="text-md font-light text-gray-500 ml-6 mb-3">Getting Started</h3>
+
+                    <div class="flex flex-col gap-4">
+                        <article class="p-6 bg-gray-100 rounded-lg">
+                            <h2 class="mb-2 text-lg tracking-tight text-gray-900 dark:text-white">
+                                <a href="#" class="inline-flex items-center text-gray-600">
+                                    Worlds
+                                    <svg class="ml-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                </a>
+                            </h2>
+                            <p class="font-light text-sm text-gray-500 dark:text-gray-400">
+                                Check out our different worlds and modes to play on
+                            </p>
+                        </article>
+                        <article class="p-6 bg-gray-100 rounded-lg">
+                            <h2 class="mb-2 text-lg tracking-tight text-gray-900 dark:text-white">
+                                <a href="#" class="inline-flex items-center text-gray-600">
+                                    Ranks
+                                    <svg class="ml-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                </a>
+                            </h2>
+                            <p class="font-light text-sm text-gray-500 dark:text-gray-400">
+                                Check out our two ladder system - trust and build ranks
+                            </p>
+                        </article>
+                    </div>
                 </div>
             </div>
         </section>
