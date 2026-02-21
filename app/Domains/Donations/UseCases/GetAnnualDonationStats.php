@@ -4,7 +4,6 @@ namespace App\Domains\Donations\UseCases;
 
 use App\Domains\Donations\Data\AnnualDonations;
 use App\Models\Donation;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Money\Money;
 
@@ -49,6 +48,6 @@ class GetAnnualDonationStats
         if ($dollars === null) {
             return Money::USD(0);
         }
-        return Money::USD((int)round($dollars / 100));
+        return Money::USD((int) round($dollars / 100));
     }
 }
