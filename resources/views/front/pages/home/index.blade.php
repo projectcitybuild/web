@@ -9,16 +9,32 @@ One of the world's longest-running Minecraft servers; we're a community of creat
     <x-front::hero />
 
     <main>
-        <section class="bg-white">
-            <div class="max-w-screen-2xl mx-auto py-10 px-6 md:px-12 md:py-20 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <section class="bg-gray-50">
+            <div class="max-w-screen-2xl mx-auto py-10 px-6 md:px-12 md:py-24 grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                    <div class="text-5xl text-gray-800 font-bold leading-[1.2]">
-                        Crafting Worlds, Creating Connections Since Oct 2010.
+                    <div class="inline-flex flex-col justify-start">
+                        <div class="bg-orange-500 p-4 my-6 rounded-lg text-sm font-bold text-white">
+                            Since October 2010
+                        </div>
+                        <div class="ml-4 w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-orange-500 -mt-6"></div>
                     </div>
 
-                    <div class="mt-4 text-gray-500 text-lg leading-loose pt-3">
-                        For more than 16 years, our Minecraft community has been a place to dream big, collaborate, and share creations.
-                        From sprawling cities to unique personal builds, there's room for your imagination - come leave your mark and make lasting friendships.
+                    <div class="mt-2 text-6xl text-gray-800 font-bold leading-[1.2]">
+                        Crafting Worlds.<br /> Crafting Connections.
+                    </div>
+
+                    <div class="mt-4 text-gray-500 text-md leading-loose pt-3">
+                        <strong>For more than 15 years</strong>, our Minecraft community has been a place to dream big, build together, and share creations.
+                        From sprawling cities to unique personal builds, we welcome all - come join the fun and make lasting friendships.
+                    </div>
+
+                    <div class="mt-6">
+                        <a href="#" class="text-sm text-orange-500 inline-flex flex-row items-center">
+                            <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m10 16 4-4-4-4"/>
+                            </svg>
+                            <span class="underline">Read Our History</span>
+                        </a>
                     </div>
                 </div>
                 <div>

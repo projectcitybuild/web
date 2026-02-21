@@ -6,7 +6,7 @@
 ">
     <x-front::navbar variant="clear" />
 
-    <div class="flex flex-grow items-center justify-end">
+    <div class="flex flex-grow items-center justify-center">
         <div class="visible:m flex-grow"></div>
 
         <div class="sm:text-right py-32 px-4 sm:pr-24">
