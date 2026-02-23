@@ -12,7 +12,7 @@
             List of players banned from our services.
         </div>
         <div class="text-gray-900 mt-3">
-            If you feel you have been unfairly or incorrectly banned, please <a href="{{ route('front.appeal') }}" class="text-blue-500">submit an appeal</a>.
+            If you feel you have been unfairly or incorrectly banned, please <a href="{{ route('front.appeal') }}" class="text-orange-500">submit an appeal</a>.
         </div>
     </div>
 

@@ -4,7 +4,6 @@ namespace App\Domains\Donations\UseCases;
 
 use App\Domains\Donations\Data\AnnualDonations;
 use App\Models\Donation;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Money\Money;
 

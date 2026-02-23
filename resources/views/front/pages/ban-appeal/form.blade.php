@@ -74,7 +74,7 @@
                             <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
                         @enderror
                         <p class="text-sm mt-2 text-gray-500">
-                            Can be looked up <a class="text-blue-500" href="https://mcuuid.net/" target="_blank">here</a>
+                            Can be looked up <a class="text-orange-500" href="https://mcuuid.net/" target="_blank">here</a>
                         </p>
                     </div>
 

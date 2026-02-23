@@ -5,6 +5,7 @@ use App\Domains\BuilderRankApplications\Services\BuilderRankReminderService;
 use App\Domains\Donations\UseCases\ExpireDonorPerks;
 use App\Domains\HealthCheck\Data\SchedulerHealthCheck;
 use App\Domains\HealthCheck\HealthCheckReporter;
+use App\Domains\Instagram\InstagramMediaService;
 use App\Models\GamePlayerBan;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
@@ -26,6 +27,11 @@ Schedule::command('backup:run')
 Schedule::command('backup:monitor')
     ->withoutOverlapping()
     ->daily();
+
+Artisan::command('instagram:fetch', function () {
+    $service = new InstagramMediaService();
+    $service->getMedia();
+})->daily();
 
 Artisan::command('sitemap:generate', function () {
     try {

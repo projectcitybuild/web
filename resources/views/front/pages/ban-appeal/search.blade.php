@@ -30,7 +30,7 @@
                             Select the Ban
                         </h2>
                         <p class="text-base text-gray-500 mt-4 leading-relaxed">
-                            Find and select the ban you wish to appeal. If you have trouble locating it, you can still <a href="{{ route('front.appeal.form') }}" class="text-blue-500">fill out the form</a> manually.
+                            Find and select the ban you wish to appeal. If you have trouble locating it, you can still <a href="{{ route('front.appeal.form') }}" class="text-orange-500">fill out the form</a> manually.
                         </p>
                     </div>
                 </div>

@@ -26,13 +26,13 @@ One of the world's longest-running Minecraft servers; we're a community of creat
                         Crafting Connections.
                     </div>
 
-                    <div class="mt-4 text-gray-500 text-md leading-loose pt-3">
+                    <div class="mt-4 text-gray-600 text-md leading-loose pt-3">
                         <strong>For more than 15 years</strong>, our Minecraft community has been a place to dream big, build together, and share creations.
                         From sprawling cities to unique personal builds, we welcome all — come join the fun and make lasting friendships.
                     </div>
 
                     <div class="mt-8 flex flex-row gap-4">
-                        <a href="#" class="text-sm text-blue-500 inline-flex flex-row items-center">
+                        <a href="https://portal.projectcitybuild.com/books/history-overview/page/origin-of-pcb" class="text-sm text-orange-500 inline-flex flex-row items-center">
                             <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m10 16 4-4-4-4"/>
                             </svg>
@@ -41,85 +41,83 @@ One of the world's longest-running Minecraft servers; we're a community of creat
                     </div>
                 </div>
                 <div>
-                    <h3 class="text-md font-light text-gray-500 ml-6 mb-3">Getting Started</h3>
-
                     <div class="flex flex-col gap-4">
-                        <article class="p-6 bg-gray-100 rounded-lg">
-                            <h2 class="mb-2 text-lg tracking-tight text-gray-900 dark:text-white">
-                                <a href="#" class="inline-flex items-center text-gray-600">
-                                    Worlds
-                                    <svg class="ml-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                                </a>
+                        <a href="https://portal.projectcitybuild.com/books/worlds" class="p-6 bg-gray-100 rounded-lg">
+                            <h2 class="mb-2 inline-flex items-center text-gray-600">
+                                Worlds
+                                <svg class="ml-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                             </h2>
                             <p class="font-light text-sm text-gray-500 dark:text-gray-400">
-                                Check out our different worlds and modes to play on
+                                Check out the different worlds and game modes available.
                             </p>
-                        </article>
-                        <article class="p-6 bg-gray-100 rounded-lg">
-                            <h2 class="mb-2 text-lg tracking-tight text-gray-900 dark:text-white">
-                                <a href="#" class="inline-flex items-center text-gray-600">
-                                    Ranks
-                                    <svg class="ml-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                                </a>
+                        </a>
+                        <a href="https://portal.projectcitybuild.com/books/player-ranks/page/list-of-ranks" class="p-6 bg-gray-100 rounded-lg">
+                            <h2 class="mb-2 inline-flex items-center text-gray-600">
+                                Ranks
+                                <svg class="ml-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                             </h2>
                             <p class="font-light text-sm text-gray-500 dark:text-gray-400">
-                                Check out our two ladder system - trust and build ranks
+                                Check out our two ladder system - trust and build ranks.
                             </p>
-                        </article>
+                        </a>
+                        <a href="https://portal.projectcitybuild.com/books/rules-guidelines/page/community-rules" class="p-6 bg-gray-100 rounded-lg">
+                            <h2 class="mb-2 inline-flex items-center text-gray-600">
+                                Rules & Guidelines
+                                <svg class="ml-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                            </h2>
+                            <p class="font-light text-sm text-gray-500 dark:text-gray-400">
+                                Groundrules to keep things civil.
+                            </p>
+                        </a>
                     </div>
                 </div>
             </div>
         </section>
 
         <section>
-            <div class="max-w-screen-2xl mx-auto p-12">
-                <h1 class="text-3xl font-bold text-center mx-auto">Latest Builds</h1>
-                <p class="text-sm text-gray-500 text-center mt-4">Showcasing the awesome talent of members of our community.</p>
+            <div class="max-w-screen-2xl mx-auto py-12 px-4 md:px-12">
+                <h1 class="text-3xl font-bold text-center">Latest Posts</h1>
+                <p class="text-sm text-gray-500 text-center mt-4">Showcasing the brilliant talent of members of our community.</p>
+                <div class="mt-4 text-center">
+                    <span class="text-xs text-gray-500 border border-gray-300 py-1 px-4 rounded-xl">#projectcitybuild</span>
+                </div>
 
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12">
-                    <div class="grid gap-4">
-                        <div>
-                            <img class="h-auto max-w-full rounded-base" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image.jpg" alt="">
-                        </div>
-                        <div>
-                            <img class="h-auto max-w-full rounded-base" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-1.jpg" alt="">
-                        </div>
-                        <div>
-                            <img class="h-auto max-w-full rounded-base" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-2.jpg" alt="">
-                        </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 md:gap-2 mt-12">
+                    <div class="w-full aspect-[4/5]">
+                        <img class="w-full h-full object-cover rounded-sm" src="https://media.discordapp.net/attachments/1284784722689527851/1284787134737420342/2024-08-22_04.png?ex=699b6183&is=699a1003&hm=3246547a6014e64c7772a800edaa334285a3e17aad0e7a2783b04f32df7787cf&=&format=webp&quality=lossless&width=1208&height=689" alt="">
                     </div>
-                    <div class="grid gap-4">
-                        <div>
-                            <img class="h-auto max-w-full rounded-base" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-3.jpg" alt="">
-                        </div>
-                        <div>
-                            <img class="h-auto max-w-full rounded-base" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-4.jpg" alt="">
-                        </div>
-                        <div>
-                            <img class="h-auto max-w-full rounded-base" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-5.jpg" alt="">
-                        </div>
+                    <div class="w-full aspect-[4/5]">
+                        <img class="w-full h-full object-cover rounded-sm" src="https://media.discordapp.net/attachments/1284784722689527851/1284787134737420342/2024-08-22_04.png?ex=699b6183&is=699a1003&hm=3246547a6014e64c7772a800edaa334285a3e17aad0e7a2783b04f32df7787cf&=&format=webp&quality=lossless&width=1208&height=689" alt="">
                     </div>
-                    <div class="grid gap-4">
-                        <div>
-                            <img class="h-auto max-w-full rounded-base" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-6.jpg" alt="">
-                        </div>
-                        <div>
-                            <img class="h-auto max-w-full rounded-base" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-7.jpg" alt="">
-                        </div>
-                        <div>
-                            <img class="h-auto max-w-full rounded-base" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-8.jpg" alt="">
-                        </div>
+                    <div class="w-full aspect-[4/5]">
+                        <img class="w-full h-full object-cover rounded-sm" src="https://media.discordapp.net/attachments/1284784722689527851/1284787134737420342/2024-08-22_04.png?ex=699b6183&is=699a1003&hm=3246547a6014e64c7772a800edaa334285a3e17aad0e7a2783b04f32df7787cf&=&format=webp&quality=lossless&width=1208&height=689" alt="">
                     </div>
-                    <div class="grid gap-4">
-                        <div>
-                            <img class="h-auto max-w-full rounded-base" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-9.jpg" alt="">
-                        </div>
-                        <div>
-                            <img class="h-auto max-w-full rounded-base" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-10.jpg" alt="">
-                        </div>
-                        <div>
-                            <img class="h-auto max-w-full rounded-base" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-11.jpg" alt="">
-                        </div>
+                    <div class="w-full aspect-[4/5]">
+                        <img class="w-full h-full object-cover rounded-sm" src="https://media.discordapp.net/attachments/1284784722689527851/1284787134737420342/2024-08-22_04.png?ex=699b6183&is=699a1003&hm=3246547a6014e64c7772a800edaa334285a3e17aad0e7a2783b04f32df7787cf&=&format=webp&quality=lossless&width=1208&height=689" alt="">
+                    </div>
+                    <div class="w-full aspect-[4/5]">
+                        <img class="w-full h-full object-cover rounded-sm" src="https://media.discordapp.net/attachments/1284784722689527851/1284787134737420342/2024-08-22_04.png?ex=699b6183&is=699a1003&hm=3246547a6014e64c7772a800edaa334285a3e17aad0e7a2783b04f32df7787cf&=&format=webp&quality=lossless&width=1208&height=689" alt="">
+                    </div>
+                    <div class="w-full aspect-[4/5]">
+                        <img class="w-full h-full object-cover rounded-sm" src="https://media.discordapp.net/attachments/1284784722689527851/1284787134737420342/2024-08-22_04.png?ex=699b6183&is=699a1003&hm=3246547a6014e64c7772a800edaa334285a3e17aad0e7a2783b04f32df7787cf&=&format=webp&quality=lossless&width=1208&height=689" alt="">
+                    </div>
+                    <div class="w-full aspect-[4/5]">
+                        <img class="w-full h-full object-cover rounded-sm" src="https://media.discordapp.net/attachments/1284784722689527851/1284787134737420342/2024-08-22_04.png?ex=699b6183&is=699a1003&hm=3246547a6014e64c7772a800edaa334285a3e17aad0e7a2783b04f32df7787cf&=&format=webp&quality=lossless&width=1208&height=689" alt="">
+                    </div>
+                    <div class="w-full aspect-[4/5]">
+                        <img class="w-full h-full object-cover rounded-sm" src="https://media.discordapp.net/attachments/1284784722689527851/1284787134737420342/2024-08-22_04.png?ex=699b6183&is=699a1003&hm=3246547a6014e64c7772a800edaa334285a3e17aad0e7a2783b04f32df7787cf&=&format=webp&quality=lossless&width=1208&height=689" alt="">
+                    </div>
+                    <div class="w-full aspect-[4/5]">
+                        <img class="w-full h-full object-cover rounded-sm" src="https://media.discordapp.net/attachments/1284784722689527851/1284787134737420342/2024-08-22_04.png?ex=699b6183&is=699a1003&hm=3246547a6014e64c7772a800edaa334285a3e17aad0e7a2783b04f32df7787cf&=&format=webp&quality=lossless&width=1208&height=689" alt="">
+                    </div>
+                    <div class="w-full aspect-[4/5]">
+                        <img class="w-full h-full object-cover rounded-sm" src="https://media.discordapp.net/attachments/1284784722689527851/1284787134737420342/2024-08-22_04.png?ex=699b6183&is=699a1003&hm=3246547a6014e64c7772a800edaa334285a3e17aad0e7a2783b04f32df7787cf&=&format=webp&quality=lossless&width=1208&height=689" alt="">
+                    </div>
+                    <div class="w-full aspect-[4/5]">
+                        <img class="w-full h-full object-cover rounded-sm" src="https://media.discordapp.net/attachments/1284784722689527851/1284787134737420342/2024-08-22_04.png?ex=699b6183&is=699a1003&hm=3246547a6014e64c7772a800edaa334285a3e17aad0e7a2783b04f32df7787cf&=&format=webp&quality=lossless&width=1208&height=689" alt="">
+                    </div>
+                    <div class="w-full aspect-[4/5]">
+                        <img class="w-full h-full object-cover rounded-sm" src="https://media.discordapp.net/attachments/1284784722689527851/1284787134737420342/2024-08-22_04.png?ex=699b6183&is=699a1003&hm=3246547a6014e64c7772a800edaa334285a3e17aad0e7a2783b04f32df7787cf&=&format=webp&quality=lossless&width=1208&height=689" alt="">
                     </div>
                 </div>
 
@@ -132,6 +130,36 @@ One of the world's longest-running Minecraft servers; we're a community of creat
                         />
                     </svg>
                     <a href="https://www.instagram.com/projectcitybuild" target="_blank">View more on our Instagram page</a>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="max-w-screen-2xl mx-auto bg-gray-50 py-12 px-4 md:px-12">
+                <h1 class="text-3xl font-bold text-center">Recently Online</h1>
+
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 md:gap-2 mt-12">
+                    @foreach($sessions as $session)
+                    <div class="bg-gray-100 rounded-md flex flex-col justify-center items-center p-6">
+                        <span class="text-gray-600 font-medium text-sm">{{ $session->player->alias }}</span>
+
+                        <img src="https://minotar.net/avatar/{{ $session->player->uuid }}/56.png" class="w-14 h-14 mt-2" />
+
+                        <div class="flex flex-row gap-2 flex-wrap mt-4">
+                            @if ($session->player?->account?->roles === null)
+                                <span class="bg-gray-200 rounded text-xs py-1 px-2">Guest</span>
+                            @elseif ($session->player?->account?->roles->isEmpty())
+                                <span class="bg-gray-200 rounded text-xs py-1 px-2">Member</span>
+                            @else
+                                @foreach($session->player?->account?->roles as $role)
+                                    <span class="bg-gray-300 rounded text-xs py-1 px-2">{{ $role->name }}</span>
+                                @endforeach
+                            @endif
+                        </div>
+
+                        <span class="mt-3 text-xs text-gray-500">{{ $session->ends_at->diffForHumans() }}</span>
+                    </div>
+                    @endforeach
                 </div>
             </div>
         </section>

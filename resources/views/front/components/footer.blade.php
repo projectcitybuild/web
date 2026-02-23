@@ -164,10 +164,10 @@
             </a>
         </div>
 
-        <div class="text-sm text-gray-600 dark:text-gray-400">
+        <div class="text-sm text-gray-600 dark:text-gray-400 text-right">
             <h6>© Project City Build {{ date('Y') }}</h6>
 
-            <p class="mt-3 text-gray-400">
+            <p class="mt-1 text-gray-400">
                 Not affiliated with Mojang or Microsoft
             </p>
         </div>
