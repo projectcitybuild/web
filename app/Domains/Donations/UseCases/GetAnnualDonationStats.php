@@ -48,6 +48,6 @@ class GetAnnualDonationStats
         if ($dollars === null) {
             return Money::USD(0);
         }
-        return Money::USD((int)round($dollars / 100));
+        return Money::USD((int) round($dollars / 100));
     }
 }

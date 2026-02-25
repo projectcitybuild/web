@@ -35,7 +35,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])
     ->name('front.home');
 
-    Route::get('maps', fn () => view('front.pages.maps'))
+Route::get('maps', fn () => view('front.pages.maps'))
     ->name('front.maps');
 
 Route::prefix('contact')->group(function () {

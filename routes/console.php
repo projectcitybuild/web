@@ -29,7 +29,7 @@ Schedule::command('backup:monitor')
     ->daily();
 
 Artisan::command('instagram:fetch', function () {
-    $service = new InstagramMediaService();
+    $service = new InstagramMediaService;
     $service->getMedia();
 })->daily();
 
