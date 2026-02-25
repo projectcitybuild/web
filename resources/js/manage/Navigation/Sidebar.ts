@@ -29,6 +29,11 @@ export const sidebarMenu: SidebarSection[] = [
             route: '/manage/roles',
             permission: 'web.manage.roles.view',
         },
+        {
+            title: 'Permissions',
+            route: '/manage/permissions',
+            permission: 'web.manage.permissions.view',
+        },
     ],
   },
   {

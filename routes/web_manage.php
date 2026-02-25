@@ -19,6 +19,7 @@ use App\Http\Controllers\Manage\Donations\DonationController;
 use App\Http\Controllers\Manage\HomeController;
 use App\Http\Controllers\Manage\Minecraft\MinecraftConfigController;
 use App\Http\Controllers\Manage\Minecraft\MinecraftWarpController;
+use App\Http\Controllers\Manage\Permissions\PermissionsController;
 use App\Http\Controllers\Manage\Players\MinecraftPlayerAliasRefreshController;
 use App\Http\Controllers\Manage\Players\MinecraftPlayerBanController;
 use App\Http\Controllers\Manage\Players\MinecraftPlayerController;
@@ -99,6 +100,13 @@ Route::name('manage.')
             ->except(['show']);
 
         Route::get('roles/{role}/accounts', [RoleAccountController::class, 'index']);
+
+        Route::get('permissions', [PermissionsController::class, 'index'])->name('permissions.index');
+        Route::get('permissions/create', [PermissionsController::class, 'create']);
+        Route::post('permissions', [PermissionsController::class, 'store']);
+        Route::get('permissions/{permission}/edit', [PermissionsController::class, 'edit']);
+        Route::put('permissions/{permission}', [PermissionsController::class, 'update']);
+        Route::delete('permissions/{permission}', [PermissionsController::class, 'destroy']);
 
         Route::resource('badges', BadgeController::class);
 
