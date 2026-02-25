@@ -102,7 +102,7 @@ Route::name('manage.')
         Route::post('roles', [RoleController::class, 'store']);
         Route::get('roles/{role}/edit', [RoleController::class, 'edit']);
         Route::put('roles/{role}', [RoleController::class, 'update']);
-        Route::delete('roles/{permission}', [RoleController::class, 'destroy']);
+        Route::delete('roles/{role}', [RoleController::class, 'destroy']);
         Route::get('roles/{role}/accounts', [RoleAccountController::class, 'index']);
         Route::get('roles/{role}/permissions', [RolePermissionController::class, 'index']);
         Route::put('roles/{role}/permissions', [RolePermissionController::class, 'update']);
