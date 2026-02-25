@@ -15,6 +15,10 @@ withDefaults(defineProps<Props>(), {
     showIndex: false,
 })
 
+function getValue(obj: any, path: string) {
+    return path.split('.').reduce((acc, part) => acc?.[part], obj)
+}
+
 const slots = useSlots()
 </script>
 
@@ -68,7 +72,7 @@ const slots = useSlots()
                             <slot :name="field.key" :item="row" />
                         </template>
                         <span v-else>
-                            {{ row[field.key] }}
+                            {{ getValue(row, field.key) }}
                         </span>
                     </td>
 

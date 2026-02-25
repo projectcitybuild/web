@@ -14,7 +14,10 @@ const props = defineProps<Props>()
 const fields = [
     { key: 'donation_id', label: 'ID' },
     { key: 'account', label: 'Account' },
-    { key: 'amount', label: 'Amount' },
+    { key: 'original_amount', label: 'Original Currency' },
+    { key: 'paid_amount', label: 'Paid Currency' },
+    { key: 'payment.unit_quantity', label: 'Unit Quantity' },
+    { key: 'amount', label: 'Legacy Amount' },
     { key: 'created_at', label: 'Date' },
 ]
 const rows = computed(
@@ -36,6 +39,14 @@ const rows = computed(
             >
                 {{ item.account?.username }}
             </Link>
+        </template>
+
+        <template #original_amount="{ item }">
+            {{ item.payment?.original_unit_amount }} {{ item.payment?.original_currency }}
+        </template>
+
+        <template #paid_amount="{ item }">
+            {{ item.payment?.paid_unit_amount }} {{ item.payment?.paid_currency }}
         </template>
 
         <template #actions="{ item }">
