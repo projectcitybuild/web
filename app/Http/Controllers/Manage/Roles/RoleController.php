@@ -24,6 +24,7 @@ class RoleController extends WebController
 
         $roles = function () {
             $roles = Role::withCount('accounts')
+                ->withCount('permissions')
                 ->orderBy('role_type', 'desc')
                 ->orderBy('display_priority', 'asc')
                 ->get();

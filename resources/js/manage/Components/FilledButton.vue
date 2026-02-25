@@ -32,7 +32,8 @@ class DangerVariant implements Styleable {
 }
 
 interface Props {
-    variant: 'primary' | 'secondary' | 'danger',
+    variant: 'primary' | 'secondary' | 'danger'
+    disabled?: boolean
 }
 const props = defineProps<Props>()
 
@@ -51,6 +52,7 @@ const aggregateStyle = computed(() => {
         'focus:ring-4', 'focus:outline-none',
         'px-4', 'py-2',
         'text-sm', 'font-medium',
+        'disabled:bg-gray-100', 'disabled:text-gray-300',
     ]
     const aggregate = [
         ...base,
@@ -58,12 +60,15 @@ const aggregateStyle = computed(() => {
     ]
     return aggregate.join(' ')
 })
+
+const disabled = computed(() => props.disabled ?? false)
 </script>
 
 <template>
     <button
         type="button"
         :class="aggregateStyle"
+        :disabled="disabled"
     >
         <slot />
     </button>

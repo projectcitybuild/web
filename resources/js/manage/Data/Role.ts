@@ -5,6 +5,7 @@ export interface Role {
     is_default: boolean,
     is_admin: boolean,
     accounts_count?: number,
+    permissions_count?: number,
     minecraft_name: string,
     minecraft_display_name: string,
     minecraft_hover_text: string,
