@@ -22,7 +22,7 @@ class DonationController extends WebController
         $this->requires(WebManagePermission::DONATIONS_VIEW);
 
         $donations = function () {
-            return Donation::with('account', 'perks')
+            return Donation::with('account', 'perks', 'payment')
                 ->orderBy('created_at', 'desc')
                 ->paginate(50);
         };
@@ -39,7 +39,7 @@ class DonationController extends WebController
     {
         $this->requires(WebManagePermission::DONATIONS_VIEW);
 
-        $donation->load('perks', 'perks.account');
+        $donation->load('perks', 'perks.account', 'payment');
 
         return $this->inertiaRender(
             'Donations/DonationShow',
