@@ -89,7 +89,7 @@ class DonationSeeder extends Seeder
         Donation::factory()
             ->for(Payment::factory()->for($account)->create())
             ->for($account)
-            ->create();
+            ->create(['created_at' => now()]);
 
         Donation::factory()
             ->for(Payment::factory()->for($account)->create())

@@ -1,11 +1,14 @@
 <div class="space-y-5 rounded-lg bg-gray-50 p-6 dark:bg-gray-700">
-    <h3 class="text-base font-medium text-gray-700 hover:no-underline dark:text-gray-50">
+    <h3 class="text-md font-bold text-gray-700 hover:no-underline dark:text-gray-50">
         Help Keep Us Online
     </h3>
 
     <p class="text-sm text-gray-500 leading-relaxed">
-        Donations are the only way to keep our server running.
-        Donors receive perks such as flying, colored names and <a href="{{ route('front.donate') }}" class="underline">much more</a>.
+        Donations are essential to keeping our server up and running.
+        As a token of appreciation, donors enjoy exclusive perks, such as additional commands, custom-colored names, and <a href="{{ route('front.donate') }}" class="underline">much more</a>.
+    </p>
+    <p class="text-sm text-gray-500 leading-relaxed">
+        Your support helps us maintain and improve the experience for everyone!
     </p>
 
     <x-donation-bar />
@@ -23,18 +26,18 @@
         </dl>
         <dl class="flex items-center justify-between gap-2 text-xs">
             <dt class="text-gray-400">
-                Funds Still Required
+                Amount to Reach Goal
             </dt>
             <dd class="text-gray-500">
-                ${{ number_format($stats->raisedThisYear, 2) }} USD
+                ${{ number_format($stats->remainingAmountToReachGoal, 2) }} USD
             </dd>
         </dl>
         <dl class="flex items-center justify-between gap-2 text-xs">
             <dt class="text-gray-400">
-                Raised Last Year
+                Number of Donations This Year
             </dt>
             <dd class="text-gray-500">
-                ${{ number_format($stats->raisedLastYear, 2) }} USD
+                {{ $stats->donationCountThisYear }}
             </dd>
         </dl>
     </div>
