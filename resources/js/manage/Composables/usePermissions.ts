@@ -2,20 +2,22 @@ import { usePage } from '@inertiajs/vue3'
 import { Permission } from '../Permissions'
 
 interface PageProps {
-    [key: string]: any,
-    permissions?: string[],
+    [key: string]: any
+    permissions?: string[]
+    is_admin: boolean
 }
 
 export default function usePermissions() {
     const { props } = usePage<PageProps>()
     const permissions = props.permissions ?? []
+    const isAdmin = props.is_admin
 
     /**
      * Check if the account has a permission.
      * Supports wildcard permissions like 'accounts.*'
      */
     const can = (permission: Permission): boolean => {
-        return permissions.some((it) => matchPermission(it, permission))
+        return permissions.some((it) => isAdmin || matchPermission(it, permission))
     }
 
     /**

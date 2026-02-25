@@ -7,6 +7,9 @@ enum WebManagePermission: string
     case ROLES_VIEW = 'web.manage.roles.view';
     case ROLES_EDIT = 'web.manage.roles.edit';
     case ROLES_ASSIGN = 'web.manage.roles.assign';
+    case PERMISSIONS_VIEW = 'web.manage.permissions.view';
+    case PERMISSIONS_EDIT = 'web.manage.permissions.edit';
+    case PERMISSIONS_ASSIGN = 'web.manage.permissions.assign';
     case ACCOUNTS_VIEW = 'web.manage.accounts.view';
     case ACCOUNTS_EDIT = 'web.manage.accounts.edit';
     case UUID_BANS_VIEW = 'web.manage.uuid_bans.view';

@@ -142,6 +142,18 @@ class RoleSeeder extends Seeder
             'name' => WebManagePermission::ROLES_ASSIGN,
         ]);
 
+        $viewPermissions = Permission::create([
+            'name' => WebManagePermission::PERMISSIONS_VIEW,
+        ]);
+
+        $editPermissions = Permission::create([
+            'name' => WebManagePermission::PERMISSIONS_EDIT,
+        ]);
+
+        $assignPermissions = Permission::create([
+            'name' => WebManagePermission::PERMISSIONS_ASSIGN,
+        ]);
+
         $viewAccounts = Permission::create([
             'name' => WebManagePermission::ACCOUNTS_VIEW,
         ]);
@@ -242,6 +254,9 @@ class RoleSeeder extends Seeder
             $viewRoles,
             $editRoles,
             $assignRoles,
+            $viewPermissions,
+            $editPermissions,
+            $assignPermissions,
             $viewAccounts,
             $editAccounts,
             $viewUUIDBans,

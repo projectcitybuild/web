@@ -16,13 +16,14 @@ const { can } = usePermissions()
 const fields = [
     { key: 'id', label: 'ID' },
     { key: 'name', label: 'Name' },
-    { key: 'accounts_count', label: 'Accounts' },
     { key: 'minecraft_name', label: 'Minecraft Name' },
     { key: 'role_type', label: 'Role Type' },
     { key: 'display_priority', label: 'Display Priority' },
     { key: 'is_default', label: 'Is Default?' },
     { key: 'is_admin', label: 'Is Admin?' },
     { key: 'additional_homes', label: 'Additional Homes' },
+    { key: 'accounts_count', label: 'Accounts' },
+    { key: 'permissions_count', label: 'Permissions' },
 ]
 </script>
 
@@ -31,10 +32,21 @@ const fields = [
         <template #accounts_count="{ item }">
             <Link
                 :href="'/manage/roles/' + item.id + '/accounts'"
-                class="text-blue-500 font-bold"
+                class="text-blue-500 underline"
             >
                 {{ item.accounts_count }}
             </Link>
+        </template>
+
+        <template #permissions_count="{ item }">
+            <a
+                :href="'/manage/roles/' + item.id + '/permissions'"
+                v-if="can('web.manage.permissions.assign')"
+                class="text-blue-500 underline"
+            >
+                {{ item.permissions_count }}
+            </a>
+            <span v-else>{{ item.permissions_count }}</span>
         </template>
 
         <template #is_default="{ item }">

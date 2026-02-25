@@ -19,6 +19,7 @@ use App\Http\Controllers\Manage\Donations\DonationController;
 use App\Http\Controllers\Manage\HomeController;
 use App\Http\Controllers\Manage\Minecraft\MinecraftConfigController;
 use App\Http\Controllers\Manage\Minecraft\MinecraftWarpController;
+use App\Http\Controllers\Manage\Permissions\PermissionsController;
 use App\Http\Controllers\Manage\Players\MinecraftPlayerAliasRefreshController;
 use App\Http\Controllers\Manage\Players\MinecraftPlayerBanController;
 use App\Http\Controllers\Manage\Players\MinecraftPlayerController;
@@ -27,6 +28,7 @@ use App\Http\Controllers\Manage\Players\MinecraftPlayerIpController;
 use App\Http\Controllers\Manage\Players\MinecraftPlayerWarningController;
 use App\Http\Controllers\Manage\Roles\RoleAccountController;
 use App\Http\Controllers\Manage\Roles\RoleController;
+use App\Http\Controllers\Manage\Roles\RolePermissionController;
 use App\Http\Controllers\Manage\Servers\ServerController;
 use App\Http\Controllers\Manage\Servers\ServerTokenController;
 use App\Http\Controllers\Manage\Warnings\PlayerWarningController;
@@ -95,10 +97,22 @@ Route::name('manage.')
             Route::resource('warps', MinecraftWarpController::class);
         });
 
-        Route::resource('roles', RoleController::class)
-            ->except(['show']);
-
+        Route::get('roles', [RoleController::class, 'index'])->name('roles.index');
+        Route::get('roles/create', [RoleController::class, 'create']);
+        Route::post('roles', [RoleController::class, 'store']);
+        Route::get('roles/{role}/edit', [RoleController::class, 'edit']);
+        Route::put('roles/{role}', [RoleController::class, 'update']);
+        Route::delete('roles/{role}', [RoleController::class, 'destroy']);
         Route::get('roles/{role}/accounts', [RoleAccountController::class, 'index']);
+        Route::get('roles/{role}/permissions', [RolePermissionController::class, 'index']);
+        Route::put('roles/{role}/permissions', [RolePermissionController::class, 'update']);
+
+        Route::get('permissions', [PermissionsController::class, 'index'])->name('permissions.index');
+        Route::get('permissions/create', [PermissionsController::class, 'create']);
+        Route::post('permissions', [PermissionsController::class, 'store']);
+        Route::get('permissions/{permission}/edit', [PermissionsController::class, 'edit']);
+        Route::put('permissions/{permission}', [PermissionsController::class, 'update']);
+        Route::delete('permissions/{permission}', [PermissionsController::class, 'destroy']);
 
         Route::resource('badges', BadgeController::class);
 

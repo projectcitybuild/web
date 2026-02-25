@@ -25,9 +25,19 @@ export const sidebarMenu: SidebarSection[] = [
             permission: 'web.manage.accounts.view',
         },
         {
+            title: 'Badges',
+            route: '/manage/badges',
+            permission: 'web.manage.badges.view',
+        },
+        {
             title: 'Roles',
             route: '/manage/roles',
             permission: 'web.manage.roles.view',
+        },
+        {
+            title: 'Permissions',
+            route: '/manage/permissions',
+            permission: 'web.manage.permissions.view',
         },
     ],
   },
@@ -60,11 +70,6 @@ export const sidebarMenu: SidebarSection[] = [
             title: 'Players',
             route: '/manage/players',
             permission: 'web.manage.players.view',
-        },
-        {
-            title: 'Badges',
-            route: '/manage/badges',
-            permission: 'web.manage.badges.view',
         },
         {
             title: 'Warps',
