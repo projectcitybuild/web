@@ -72,6 +72,11 @@ export const sidebarMenu: SidebarSection[] = [
             permission: 'web.manage.players.view',
         },
         {
+            title: 'Homes',
+            route: '/manage/homes',
+            permission: 'web.manage.homes.view',
+        },
+        {
             title: 'Warps',
             route: '/manage/minecraft/warps',
             permission: 'web.manage.warps.view',

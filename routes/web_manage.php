@@ -16,7 +16,8 @@ use App\Http\Controllers\Manage\Badges\BadgeController;
 use App\Http\Controllers\Manage\Bans\GameIPBanController;
 use App\Http\Controllers\Manage\Bans\GamePlayerBanController;
 use App\Http\Controllers\Manage\Donations\DonationController;
-use App\Http\Controllers\Manage\HomeController;
+use App\Http\Controllers\Manage\HomeController as HomeIndexController;
+use App\Http\Controllers\Manage\Homes\HomeController;
 use App\Http\Controllers\Manage\Minecraft\MinecraftConfigController;
 use App\Http\Controllers\Manage\Minecraft\MinecraftWarpController;
 use App\Http\Controllers\Manage\Permissions\PermissionsController;
@@ -45,7 +46,7 @@ Route::name('manage.')
         Inertia\EncryptHistoryMiddleware::class,
     ])
     ->group(function () {
-        Route::get('/', HomeController::class)
+        Route::get('/', HomeIndexController::class)
             ->name('index');
 
         Route::resource('accounts', AccountController::class)
@@ -113,6 +114,13 @@ Route::name('manage.')
         Route::get('permissions/{permission}/edit', [PermissionsController::class, 'edit']);
         Route::put('permissions/{permission}', [PermissionsController::class, 'update']);
         Route::delete('permissions/{permission}', [PermissionsController::class, 'destroy']);
+
+        Route::get('homes', [HomeController::class, 'index'])->name('homes.index');
+        Route::get('homes/create', [HomeController::class, 'create']);
+        Route::post('homes', [HomeController::class, 'store']);
+        Route::get('homes/{home}/edit', [HomeController::class, 'edit']);
+        Route::put('homes/{home}', [HomeController::class, 'update']);
+        Route::delete('homes/{home}', [HomeController::class, 'destroy']);
 
         Route::resource('badges', BadgeController::class);
 
