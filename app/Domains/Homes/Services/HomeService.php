@@ -108,9 +108,11 @@ class HomeService
     private function assertCanAccess(MinecraftHome $home, MinecraftPlayer $player): void
     {
         $isOwner = $home->player_id === $player->getKey();
-        if ($isOwner) return;
+        if ($isOwner) {
+            return;
+        }
 
         $canEdit = Gate::allows('permission', WebManagePermission::HOMES_EDIT->value);
-        throw_if(!$canEdit, AuthorizationException::class);
+        throw_if(! $canEdit, AuthorizationException::class);
     }
 }
