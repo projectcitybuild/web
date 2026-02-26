@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { format } from '../../../Utilities/DateFormatter'
 import { Home } from '../../../Data/Home';
+import usePermissions from '../../../Composables/usePermissions';
+import FilledButton from '../../../Components/FilledButton.vue';
+import { Link } from '@inertiajs/vue3';
+
+const { can } = usePermissions()
 
 interface Props {
     homes: Home[],
@@ -21,6 +26,7 @@ defineProps<Props>()
                 <th scope="col" class="px-4 py-3">Pitch</th>
                 <th scope="col" class="px-4 py-3">Yaw</th>
                 <th scope="col" class="px-4 py-3">Created At</th>
+                <th scope="col" class="px-4 py-3" v-if="can('web.manage.homes.edit')">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -34,6 +40,13 @@ defineProps<Props>()
                 <td class="px-4 py-3">{{ Number(home.pitch).toFixed(2) }}</td>
                 <td class="px-4 py-3">{{ Number(home.yaw).toFixed(2) }}</td>
                 <td class="px-4 py-3">{{ format(home.created_at) }}</td>
+                <td class="px-4 py-3 text-right">
+                    <Link :href="'/manage/homes/' + home.id + '/edit'" v-if="can('web.manage.homes.edit')">
+                        <FilledButton variant="secondary">
+                            Edit
+                        </FilledButton>
+                    </Link>
+                </td>
             </tr>
         </tbody>
     </table>

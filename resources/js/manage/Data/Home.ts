@@ -1,6 +1,9 @@
+import { Player } from "./Player";
+
 export interface Home {
     id: number,
     name: string,
+    player?: Player,
     world: string,
     x: number,
     y: number,

@@ -6,10 +6,12 @@ use App\Core\Domains\MinecraftCoordinate\MinecraftCoordinate;
 use App\Domains\Homes\Data\HomeCount;
 use App\Domains\Homes\Exceptions\HomeAlreadyExistsException;
 use App\Domains\Homes\Exceptions\HomeLimitReachedException;
+use App\Domains\Permissions\WebManagePermission;
 use App\Domains\Roles\Services\PlayerRolesAggregator;
 use App\Models\MinecraftHome;
 use App\Models\MinecraftPlayer;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Support\Facades\Gate;
 
 class HomeService
 {
@@ -79,6 +81,7 @@ class HomeService
 
         $home->update([
             'name' => $name,
+            'player_id' => $player->getKey(),
             ...$coordinate->toArray(),
         ]);
 
@@ -105,8 +108,11 @@ class HomeService
     private function assertCanAccess(MinecraftHome $home, MinecraftPlayer $player): void
     {
         $isOwner = $home->player_id === $player->getKey();
-        $isStaff = $player->account?->isStaff() ?? false;
+        if ($isOwner) {
+            return;
+        }
 
-        throw_if(! $isOwner && ! $isStaff, AuthorizationException::class);
+        $canEdit = Gate::allows('permission', WebManagePermission::HOMES_EDIT->value);
+        throw_if(! $canEdit, AuthorizationException::class);
     }
 }
