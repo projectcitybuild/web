@@ -8,7 +8,7 @@
 
 @section('body')
     <header class="
-            bg-[url('/resources/images/header-bg1.jpg')]
+            bg-[url('/resources/images/footer-bg.png')]
             bg-cover bg-no-repeat bg-center
             flex flex-col md:items-center
         ">
@@ -292,7 +292,7 @@
                 </div>
 
                 <div class="max-w-screen-2xl mx-auto px-6 text-gray-500 text-xs text-right mt-3 leading-loose">
-                    Your payment details will be processed by <a href="https://stripe.com" target="_blank" rel="noopener noreferrer" class="text-blue-500">Stripe</a>, and only a record of your donation will be stored by PCB.<br />
+                    Your payment details will be processed by <a href="https://stripe.com" target="_blank" rel="noopener noreferrer" class="underline text-orange-500">Stripe</a>, and only a record of your donation will be stored by PCB.<br />
                     In accordance with data retention laws, <strong>we do not store any credit card or bank account information</strong>.
                 </div>
             </div>

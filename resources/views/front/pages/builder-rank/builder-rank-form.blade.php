@@ -15,7 +15,7 @@
             <div class="text-gray-900 mt-3">
                 For more information about our build ranks,
                 <a
-                    class="text-blue-500"
+                    class="text-orange-500"
                     href="https://forums.projectcitybuild.com/t/introducing-the-architect-council/35984"
                     target="_blank"
                 >
