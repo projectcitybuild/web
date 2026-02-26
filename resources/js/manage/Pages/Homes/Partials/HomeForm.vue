@@ -17,7 +17,6 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-
 const form = useForm<Home>({
     player_uuid: props.home?.player?.uuid,
     player_alias: props.home?.player?.alias,

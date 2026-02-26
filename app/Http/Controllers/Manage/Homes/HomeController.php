@@ -2,15 +2,22 @@
 
 namespace App\Http\Controllers\Manage\Homes;
 
+use App\Core\Domains\MinecraftCoordinate\MinecraftCoordinate;
 use App\Core\Domains\MinecraftCoordinate\ValidatesCoordinates;
+use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
+use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
+use App\Domains\Homes\Exceptions\HomeLimitReachedException;
+use App\Domains\Homes\Services\HomeService;
 use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\MinecraftHome;
+use App\Models\MinecraftPlayer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 
 class HomeController extends WebController
@@ -18,6 +25,10 @@ class HomeController extends WebController
     use AuthorizesPermissions;
     use RendersManageApp;
     use ValidatesCoordinates;
+
+    public function __construct(
+        private readonly HomeService $homeService,
+    ) {}
 
     public function index(Request $request)
     {
@@ -50,10 +61,27 @@ class HomeController extends WebController
 
         $validated = $request->validate([
             'name' => ['required', 'string', 'alpha_dash', Rule::unique(MinecraftHome::tableName())],
+            'player_uuid' => ['required', new MinecraftUUIDRule],
+            'player_alias' => ['required'],
             ...$this->coordinateRules,
         ]);
 
-        MinecraftHome::create($validated);
+        $player = MinecraftPlayer::firstOrCreate(
+            uuid: new MinecraftUUID($validated['player_uuid']),
+            alias: $validated['player_alias'],
+        );
+
+        try {
+            $this->homeService->create(
+                player: $player,
+                coordinate: MinecraftCoordinate::fromValidatedRequest($validated),
+                name: $validated['name'],
+            );
+        } catch (HomeLimitReachedException $e) {
+            throw ValidationException::withMessages([
+                'error' => [$e->getMessage()],
+            ]);
+        }
 
         return to_route('manage.homes.index')
             ->with(['success' => 'Home created successfully.']);
@@ -74,10 +102,28 @@ class HomeController extends WebController
 
         $validated = $request->validate([
             'name' => ['required', 'string', 'alpha_dash', Rule::unique(MinecraftHome::tableName())->ignore($home)],
+            'player_uuid' => ['required', new MinecraftUUIDRule],
+            'player_alias' => ['required'],
             ...$this->coordinateRules,
         ]);
 
-        $home->update($validated);
+        $player = MinecraftPlayer::firstOrCreate(
+            uuid: new MinecraftUUID($validated['player_uuid']),
+            alias: $validated['player_alias'],
+        );
+
+        try {
+            $this->homeService->update(
+                home: $home,
+                player: $player,
+                coordinate: MinecraftCoordinate::fromValidatedRequest($validated),
+                name: $validated['name'],
+            );
+        } catch (HomeLimitReachedException $e) {
+            throw ValidationException::withMessages([
+                'error' => [$e->getMessage()],
+            ]);
+        }
 
         return to_route('manage.homes.index')
             ->with(['success' => 'Home updated successfully.']);
