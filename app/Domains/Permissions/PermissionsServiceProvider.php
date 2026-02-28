@@ -24,6 +24,8 @@ class PermissionsServiceProvider extends ServiceProvider
                 $account,
             ),
         );
+        Gate::define('access-manage', fn () => Gate::allows('permission', 'web.manage.*'));
+        Gate::define('access-review', fn () => Gate::allows('permission', 'web.review.*'));
     }
 
     private function registerInertiaProps(PermissionsRepository $permissionsRepository)

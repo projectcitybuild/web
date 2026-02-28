@@ -9,22 +9,24 @@ use App\Domains\BanAppeals\Exceptions\NoPlayerForActionException;
 use App\Domains\BanAppeals\Notifications\BanAppealUpdatedNotification;
 use App\Domains\BanAppeals\UseCases\UpdateBanAppeal;
 use App\Domains\Bans\Exceptions\BanNotFoundException;
+use App\Domains\Permissions\AuthorizesPermissions;
+use App\Domains\Permissions\WebReviewPermission;
 use App\Http\Controllers\Review\RendersReviewApp;
 use App\Http\Requests\BanAppealUpdateRequest;
 use App\Http\Resources\BanAppealResource;
 use App\Models\BanAppeal;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 
 class BanAppealController
 {
     use RendersReviewApp;
+    use AuthorizesPermissions;
 
     public function index(Request $request)
     {
-        Gate::authorize('viewAny', BanAppeal::class);
+        $this->requires(WebReviewPermission::BAN_APPEALS_VIEW);
 
         // Get ban appeals paginated in the order:
         // Pending appeal (newest first), then all other appeals (newest first)
@@ -46,7 +48,7 @@ class BanAppealController
 
     public function show(BanAppeal $banAppeal)
     {
-        Gate::authorize('view', $banAppeal);
+        $this->requires(WebReviewPermission::BAN_APPEALS_VIEW);
 
         $banAppeal->load([
             'account',
@@ -65,7 +67,7 @@ class BanAppealController
         BanAppealUpdateRequest $request,
         BanAppeal $banAppeal,
     ) {
-        Gate::authorize('update', $banAppeal);
+        $this->requires(WebReviewPermission::BAN_APPEALS_DECIDE);
 
         $validated = $request->validated();
 

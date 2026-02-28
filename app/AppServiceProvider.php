@@ -56,13 +56,6 @@ final class AppServiceProvider extends ServiceProvider
                 ? Password::min(12)->letters()->numbers()
                 : Password::min(8);
         });
-
-        Gate::define('access-manage', function (Account $account) {
-            return $account->isAdmin() || $account->isStaff();
-        });
-        Gate::define('access-review', function (Account $account) {
-            return $account->isAdmin() || $account->isStaff() || $account->isArchitect();
-        });
     }
 
     private function enforceMorphMap(): void

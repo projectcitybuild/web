@@ -2,8 +2,10 @@
 import { Link, usePage } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import Badge from '../../../../manage/Components/Badge.vue'
+import usePermissions from '../../../../manage/Composables/usePermissions'
 
 const page = usePage()
+const { can } = usePermissions()
 
 const pendingAppealCount = computed(() => page.props.pending_appeals ?? 0)
 const pendingBuildRankAppCount = computed(() => page.props.pending_build_rank_apps ?? 0)
@@ -37,7 +39,7 @@ const pendingBuildRankAppCount = computed(() => page.props.pending_build_rank_ap
                         <span class="ml-3">Overview</span>
                     </Link>
                 </li>
-                <li>
+                <li v-if="can('web.review.ban_appeals.view')">
                     <Link
                         href="/review/ban-appeals"
                         class="flex justify-between items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
@@ -59,7 +61,7 @@ const pendingBuildRankAppCount = computed(() => page.props.pending_build_rank_ap
                         />
                     </Link>
                 </li>
-                <li>
+                <li v-if="can('web.review.build_rank_apps.view')">
                     <Link
                         href="/review/builder-ranks"
                         class="flex justify-between items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"

@@ -6,19 +6,27 @@ use App\Domains\BuilderRankApplications\Data\ApplicationStatus;
 use App\Domains\BuilderRankApplications\Data\BuilderRank;
 use App\Domains\BuilderRankApplications\Exceptions\ApplicationAlreadyInProgressException;
 use App\Domains\BuilderRankApplications\UseCases\CreateBuildRankApplication;
+use App\Domains\Permissions\AuthorizesPermissions;
+use App\Domains\Permissions\WebReviewPermission;
 use App\Http\Controllers\WebController;
 use App\Http\Requests\BuilderRankApplicationRequest;
 use App\Models\BuilderRankApplication;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 
 final class BuilderRankApplicationController extends WebController
 {
+    use AuthorizesPermissions;
+
     public function show(
         Request $request,
         BuilderRankApplication $application,
     ) {
-        Gate::authorize('view', $application);
+        if (
+            $request->user()->getKey() !== $application->account_id &&
+            !$this->can(WebReviewPermission::BUILD_RANK_APPS_VIEW)
+        ) {
+            abort(403);
+        }
 
         return view('front.pages.builder-rank.builder-rank-status')
             ->with(compact('application'));
@@ -27,8 +35,6 @@ final class BuilderRankApplicationController extends WebController
     public function create(
         Request $request,
     ) {
-        Gate::authorize('create', BuilderRankApplication::class);
-
         $minecraftUsername = $request->user()
             ?->minecraftAccount
             ?->first()
@@ -51,8 +57,6 @@ final class BuilderRankApplicationController extends WebController
         BuilderRankApplicationRequest $request,
         CreateBuildRankApplication $createBuildRankApplication,
     ) {
-        Gate::authorize('create', BuilderRankApplication::class);
-
         $validated = $request->validated();
         $account = $request->user();
 

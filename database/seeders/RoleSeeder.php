@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Domains\Permissions\WebManagePermission;
+use App\Domains\Permissions\WebReviewPermission;
 use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Database\Seeder;
@@ -130,185 +131,50 @@ class RoleSeeder extends Seeder
             'display_priority' => 2,
         ]);
 
-        $viewRoles = Permission::create([
-            'name' => WebManagePermission::ROLES_VIEW,
-        ]);
+        $permissions = [];
+        foreach (WebManagePermission::cases() as $node) {
+            $permissions[$node->value] = Permission::create(['name' => $node]);
+        }
+        foreach (WebReviewPermission::cases() as $node) {
+            $permissions[$node->value] = Permission::create(['name' => $node]);
+        }
 
-        $editRoles = Permission::create([
-            'name' => WebManagePermission::ROLES_EDIT,
-        ]);
+        $dev->permissions()->attach(
+            array_values($permissions),
+        );
 
-        $assignRoles = Permission::create([
-            'name' => WebManagePermission::ROLES_ASSIGN,
-        ]);
+        $mod->permissions()->attach(
+            collect([
+                WebManagePermission::ROLES_VIEW,
+                WebManagePermission::ACCOUNTS_VIEW,
+                WebManagePermission::UUID_BANS_VIEW,
+                WebManagePermission::UUID_BANS_EDIT,
+                WebManagePermission::IP_BANS_VIEW,
+                WebManagePermission::IP_BANS_EDIT,
+                WebManagePermission::WARNINGS_VIEW,
+                WebManagePermission::WARNINGS_EDIT,
+                WebManagePermission::PLAYERS_VIEW,
+                WebManagePermission::PLAYERS_EDIT,
+                WebManagePermission::BADGES_VIEW,
+                WebManagePermission::BADGES_EDIT,
+                WebManagePermission::WARPS_VIEW,
+                WebManagePermission::WARPS_EDIT,
+                WebManagePermission::HOMES_VIEW,
+                WebManagePermission::HOMES_EDIT,
+                WebReviewPermission::BAN_APPEALS_VIEW,
+                WebReviewPermission::BAN_APPEALS_DECIDE,
+                WebReviewPermission::BUILD_RANK_APPS_VIEW,
+                WebReviewPermission::BUILD_RANK_APPS_DECIDE,
+            ])
+            ->map(fn ($it) => $permissions[$it->value]),
+        );
 
-        $viewPermissions = Permission::create([
-            'name' => WebManagePermission::PERMISSIONS_VIEW,
-        ]);
-
-        $editPermissions = Permission::create([
-            'name' => WebManagePermission::PERMISSIONS_EDIT,
-        ]);
-
-        $assignPermissions = Permission::create([
-            'name' => WebManagePermission::PERMISSIONS_ASSIGN,
-        ]);
-
-        $viewAccounts = Permission::create([
-            'name' => WebManagePermission::ACCOUNTS_VIEW,
-        ]);
-
-        $editAccounts = Permission::create([
-            'name' => WebManagePermission::ACCOUNTS_EDIT,
-        ]);
-
-        $viewAccountEmails = Permission::create([
-            'name' => WebManagePermission::ACCOUNTS_VIEW_EMAIL,
-        ]);
-
-        $viewUUIDBans = Permission::create([
-            'name' => WebManagePermission::UUID_BANS_VIEW,
-        ]);
-
-        $editUUIDBans = Permission::create([
-            'name' => WebManagePermission::UUID_BANS_EDIT,
-        ]);
-
-        $viewIPBans = Permission::create([
-            'name' => WebManagePermission::IP_BANS_VIEW,
-        ]);
-
-        $editIPBans = Permission::create([
-            'name' => WebManagePermission::IP_BANS_EDIT,
-        ]);
-
-        $viewWarnings = Permission::create([
-            'name' => WebManagePermission::WARNINGS_VIEW,
-        ]);
-
-        $editWarnings = Permission::create([
-            'name' => WebManagePermission::WARNINGS_EDIT,
-        ]);
-
-        $viewPlayers = Permission::create([
-            'name' => WebManagePermission::PLAYERS_VIEW,
-        ]);
-
-        $editPlayers = Permission::create([
-            'name' => WebManagePermission::PLAYERS_EDIT,
-        ]);
-
-        $viewPlayerIps = Permission::create([
-            'name' => WebManagePermission::PLAYERS_VIEW_IPS,
-        ]);
-
-        $viewBadges = Permission::create([
-            'name' => WebManagePermission::BADGES_VIEW,
-        ]);
-
-        $editBadges = Permission::create([
-            'name' => WebManagePermission::BADGES_EDIT,
-        ]);
-
-        $viewWarps = Permission::create([
-            'name' => WebManagePermission::WARPS_VIEW,
-        ]);
-
-        $editWarps = Permission::create([
-            'name' => WebManagePermission::WARPS_EDIT,
-        ]);
-
-        $viewHomes = Permission::create([
-            'name' => WebManagePermission::HOMES_VIEW,
-        ]);
-
-        $editHomes = Permission::create([
-            'name' => WebManagePermission::HOMES_EDIT,
-        ]);
-
-        $viewServers = Permission::create([
-            'name' => WebManagePermission::SERVERS_VIEW,
-        ]);
-
-        $editServers = Permission::create([
-            'name' => WebManagePermission::SERVERS_EDIT,
-        ]);
-
-        $viewServerTokens = Permission::create([
-            'name' => WebManagePermission::SERVER_TOKENS_VIEW,
-        ]);
-
-        $editServerTokens = Permission::create([
-            'name' => WebManagePermission::SERVER_TOKENS_EDIT,
-        ]);
-
-        $editRemoteConfig = Permission::create([
-            'name' => WebManagePermission::REMOTE_CONFIG_EDIT,
-        ]);
-
-        $viewDonations = Permission::create([
-            'name' => WebManagePermission::DONATIONS_VIEW,
-        ]);
-
-        $editDonations = Permission::create([
-            'name' => WebManagePermission::DONATIONS_EDIT,
-        ]);
-
-        $dev->permissions()->attach([
-            $viewRoles,
-            $editRoles,
-            $assignRoles,
-            $viewPermissions,
-            $editPermissions,
-            $assignPermissions,
-            $viewAccounts,
-            $editAccounts,
-            $viewAccountEmails,
-            $viewUUIDBans,
-            $editUUIDBans,
-            $viewIPBans,
-            $editIPBans,
-            $viewWarnings,
-            $editWarnings,
-            $viewPlayers,
-            $editPlayers,
-            $viewPlayerIps,
-            $viewBadges,
-            $editBadges,
-            $viewWarps,
-            $editWarps,
-            $viewHomes,
-            $editHomes,
-            $viewServers,
-            $editServers,
-            $viewServerTokens,
-            $editServerTokens,
-            $editRemoteConfig,
-            $viewDonations,
-            $editDonations,
-        ]);
-
-        $mod->permissions()->attach([
-            $viewRoles,
-            $viewAccounts,
-            $viewUUIDBans,
-            $editUUIDBans,
-            $viewIPBans,
-            $editIPBans,
-            $viewWarnings,
-            $editWarnings,
-            $viewPlayers,
-            $editPlayers,
-            $viewBadges,
-            $editBadges,
-            $viewWarps,
-            $editWarps,
-            $viewHomes,
-            $editHomes,
-        ]);
-
-        $architect->permissions()->attach([
-
-        ]);
+        $architect->permissions()->attach(
+            collect([
+                WebReviewPermission::BUILD_RANK_APPS_VIEW,
+                WebReviewPermission::BUILD_RANK_APPS_DECIDE,
+            ])
+            ->map(fn ($it) => $permissions[$it->value]),
+        );
     }
 }
