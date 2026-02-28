@@ -1,0 +1,13 @@
+# Dev Containers that use a Docker Compose file do NOT automatically load
+# a root-level `.env` file. They also currently do not support passing
+# `--env-file` arguments through to Docker Compose.
+#
+# Because of this limitation, Compose variable substitution (${VAR})
+# will fail unless the variables are available in the same directory
+# as the compose.yaml file or otherwise injected.
+#
+# This is a workaround to ensure the root `.env` is loaded.
+# See: https://github.com/microsoft/vscode-remote-release/issues/4885#issuecomment-2972815811
+include:
+  - path: compose.yaml
+    env_file: ../../.env

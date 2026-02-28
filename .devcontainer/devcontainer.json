@@ -4,7 +4,7 @@
     "remoteUser": "user",
     "shutdownAction": "stopCompose",
     "workspaceFolder": "/workspaces/laravel",
-    "dockerComposeFile": "../.docker/dev/compose.yaml",
+    "dockerComposeFile": "../.docker/dev/compose.with_env.yaml",
     "customizations": {
         "vscode": {
             "extensions": [
