@@ -11,6 +11,7 @@ use App\Http\Controllers\WebController;
 use App\Http\Filters\EqualFilter;
 use App\Http\Filters\LikeFilter;
 use App\Models\Account;
+use App\Http\Resources\AccountResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Pipeline;
@@ -41,11 +42,25 @@ class AccountController extends WebController
                 ->paginate(50);
         };
 
+        // Using a Resource::collection transforms the shape of the paginated
+        // data. To preserve the frontend, we need to manually map it back to
+        // the non-resource shape
+        $transform = function () use ($accounts) {
+            $paginator = $accounts();
+            return [
+                'data' => AccountResource::collection($paginator->items()),
+                'current_page' => $paginator->currentPage(),
+                'total' => $paginator->total(),
+                'path' => $paginator->path(),
+                'next_page_url' => $paginator->nextPageUrl(),
+            ];
+        };
+
         if ($request->wantsJson()) {
-            return $accounts();
+            return $transform();
         }
         return $this->inertiaRender('Accounts/AccountList', [
-            'accounts' => Inertia::defer($accounts),
+            'accounts' => Inertia::defer($transform),
         ]);
     }
 
@@ -57,12 +72,17 @@ class AccountController extends WebController
             'roles',
             'badges',
             'minecraftAccount',
-            'emailChangeRequests',
             'activations',
             'donations',
         ]);
 
-        return $this->inertiaRender('Accounts/AccountShow', compact('account'));
+        if ($this->can(WebManagePermission::ACCOUNTS_VIEW_EMAIL)) {
+            $account->load('emailChangeRequests');
+        }
+
+        return $this->inertiaRender('Accounts/AccountShow', [
+            'account' => new AccountResource($account),
+        ]);
     }
 
     public function create()

@@ -16,4 +16,13 @@ trait AuthorizesPermissions
             abort(403);
         }
     }
+
+    public function can(string|WebManagePermission $permissionName)
+    {
+        $permissionName = $permissionName instanceof WebManagePermission
+            ? $permissionName->value
+            : $permissionName;
+
+        return Gate::allows('permission', $permissionName);
+    }
 }
