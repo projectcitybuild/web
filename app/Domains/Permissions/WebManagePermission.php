@@ -12,6 +12,7 @@ enum WebManagePermission: string
     case PERMISSIONS_ASSIGN = 'web.manage.permissions.assign';
     case ACCOUNTS_VIEW = 'web.manage.accounts.view';
     case ACCOUNTS_EDIT = 'web.manage.accounts.edit';
+    case ACCOUNTS_VIEW_EMAIL = 'web.manage.accounts.view_email';
     case UUID_BANS_VIEW = 'web.manage.uuid_bans.view';
     case UUID_BANS_EDIT = 'web.manage.uuid_bans.edit';
     case IP_BANS_VIEW = 'web.manage.ip_bans.view';

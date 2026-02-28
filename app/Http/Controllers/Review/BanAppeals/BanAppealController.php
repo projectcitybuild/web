@@ -11,6 +11,7 @@ use App\Domains\BanAppeals\UseCases\UpdateBanAppeal;
 use App\Domains\Bans\Exceptions\BanNotFoundException;
 use App\Http\Controllers\Review\RendersReviewApp;
 use App\Http\Requests\BanAppealUpdateRequest;
+use App\Http\Resources\BanAppealResource;
 use App\Models\BanAppeal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -54,10 +55,9 @@ class BanAppealController
             'deciderPlayer',
         ]);
 
-        return $this->inertiaRender(
-            'BanAppeals/BanAppealShow',
-            compact('banAppeal'),
-        );
+        return $this->inertiaRender('BanAppeals/BanAppealShow', [
+            'banAppeal' => new BanAppealResource($banAppeal),
+        ]);
     }
 
     public function update(

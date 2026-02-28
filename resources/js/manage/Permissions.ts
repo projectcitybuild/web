@@ -7,6 +7,7 @@ export type Permission =
   | "web.manage.permissions.assign"
   | "web.manage.accounts.view"
   | "web.manage.accounts.edit"
+  | "web.manage.accounts.view_email"
   | "web.manage.uuid_bans.view"
   | "web.manage.uuid_bans.edit"
   | "web.manage.ip_bans.view"

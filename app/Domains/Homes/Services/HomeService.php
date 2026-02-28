@@ -6,15 +6,17 @@ use App\Core\Domains\MinecraftCoordinate\MinecraftCoordinate;
 use App\Domains\Homes\Data\HomeCount;
 use App\Domains\Homes\Exceptions\HomeAlreadyExistsException;
 use App\Domains\Homes\Exceptions\HomeLimitReachedException;
+use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Domains\Roles\Services\PlayerRolesAggregator;
 use App\Models\MinecraftHome;
 use App\Models\MinecraftPlayer;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Support\Facades\Gate;
 
 class HomeService
 {
+    use AuthorizesPermissions;
+
     public function __construct(
         // TODO: inject with interface to break coupling
         private readonly PlayerRolesAggregator $playerRolesAggregator,
@@ -112,7 +114,7 @@ class HomeService
             return;
         }
 
-        $canEdit = Gate::allows('permission', WebManagePermission::HOMES_EDIT->value);
+        $canEdit = $this->can(WebManagePermission::HOMES_EDIT);
         throw_if(! $canEdit, AuthorizationException::class);
     }
 }

@@ -268,7 +268,7 @@ function showUnlinkDialog(playerId: number) {
                     </div>
                 </Card>
 
-                <Card class="mt-4">
+                <Card class="mt-4" v-if="can('web.manage.accounts.view_email')">
                     <div class="p-4 font-bold">
                         Pending Email Changes
                     </div>

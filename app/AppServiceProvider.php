@@ -18,6 +18,7 @@ use App\Models\ServerToken;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
@@ -37,6 +38,9 @@ final class AppServiceProvider extends ServiceProvider
         $this->enforceMorphMap();
 
         $this->bindBladeComponents();
+
+        // Don't nest (non-paginated) Resources in a JSON "data" key by default
+        JsonResource::withoutWrapping();
 
         // Set a default date format for displaying Carbon instances in views
         Blade::stringable(function (Carbon $dateTime) {
