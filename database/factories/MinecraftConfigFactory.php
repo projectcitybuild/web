@@ -81,7 +81,7 @@ class MinecraftConfigFactory extends Factory
                     'y' => 66,
                     'z' => -0.527,
                     'yaw' => -89.9,
-                    'pitch' => -1.4
+                    'pitch' => -1.4,
                 ],
                 'emojis' => [
                     ':skull:' => '☠',
@@ -96,7 +96,7 @@ class MinecraftConfigFactory extends Factory
                     ':notes:' => '♬',
                     ':hash:' => '♯',
                 ],
-                'manage_base_url' => 'https://localhost/manage/'
+                'manage_base_url' => 'https://localhost/manage/',
             ],
         ];
     }
