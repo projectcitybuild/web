@@ -166,7 +166,7 @@ class RoleSeeder extends Seeder
                 WebReviewPermission::BUILD_RANK_APPS_VIEW,
                 WebReviewPermission::BUILD_RANK_APPS_DECIDE,
             ])
-            ->map(fn ($it) => $permissions[$it->value]),
+                ->map(fn ($it) => $permissions[$it->value]),
         );
 
         $architect->permissions()->attach(
@@ -174,7 +174,7 @@ class RoleSeeder extends Seeder
                 WebReviewPermission::BUILD_RANK_APPS_VIEW,
                 WebReviewPermission::BUILD_RANK_APPS_DECIDE,
             ])
-            ->map(fn ($it) => $permissions[$it->value]),
+                ->map(fn ($it) => $permissions[$it->value]),
         );
     }
 }

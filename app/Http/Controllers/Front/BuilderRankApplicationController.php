@@ -23,7 +23,7 @@ final class BuilderRankApplicationController extends WebController
     ) {
         if (
             $request->user()->getKey() !== $application->account_id &&
-            !$this->can(WebReviewPermission::BUILD_RANK_APPS_VIEW)
+            ! $this->can(WebReviewPermission::BUILD_RANK_APPS_VIEW)
         ) {
             abort(403);
         }

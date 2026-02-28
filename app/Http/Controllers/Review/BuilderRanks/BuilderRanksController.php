@@ -17,8 +17,8 @@ use Inertia\Inertia;
 
 class BuilderRanksController extends WebController
 {
-    use RendersReviewApp;
     use AuthorizesPermissions;
+    use RendersReviewApp;
 
     public function index(Request $request)
     {
