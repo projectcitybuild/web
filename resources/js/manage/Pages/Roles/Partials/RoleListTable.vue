@@ -54,7 +54,7 @@ const fields = [
         </template>
 
         <template #is_admin="{ item }">
-            <BooleanCheck :value="item.is_default" />
+            <BooleanCheck :value="item.is_admin" />
         </template>
 
         <template #actions="{ item }" v-if="can('web.manage.roles.edit')">
