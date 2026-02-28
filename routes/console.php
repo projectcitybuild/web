@@ -68,6 +68,12 @@ Artisan::command('healthcheck:scheduler', function () {
     ->evenInMaintenanceMode()
     ->everyFifteenMinutes();
 
+Artisan::command('build-rank-apps:remind', function () {
+    (new BuilderRankReminderService)->remind();
+})->runInBackground()
+    ->evenInMaintenanceMode()
+    ->hourly();
+
 Artisan::command('permissions:seed', function () {
     foreach (WebManagePermission::cases() as $permission) {
         $exists = Permission::where('name', $permission->value)->exists();
