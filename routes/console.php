@@ -1,6 +1,7 @@
 <?php
 
 use App\Domains\Bans\Data\UnbanType;
+use App\Domains\BuilderRankApplications\Services\BuilderRankReminderService;
 use App\Domains\Donations\UseCases\ExpireDonorPerks;
 use App\Domains\HealthCheck\Data\SchedulerHealthCheck;
 use App\Domains\HealthCheck\HealthCheckReporter;
@@ -85,12 +86,3 @@ Artisan::command('permissions:seed', function () {
         }
     }
 });
-
-Artisan::command('bans:expire', function () {
-    GamePlayerBan::whereNull('unbanned_at')
-        ->whereDate('expires_at', '<=', now())
-        ->update([
-            'unbanned_at' => now(),
-            'unban_type' => UnbanType::EXPIRED->value,
-        ]);
-})->everyFifteenMinutes();
