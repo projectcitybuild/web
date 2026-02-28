@@ -96,7 +96,7 @@ Ensure you set a name for your dev machine in `.env`
 STRIPE_CLI_DEVICE_NAME=my-local-pc
 ```
 
-Then run `docker-compose exec stripe-cli stripe login` while the containers are running.
+Then run `docker-compose exec stripe-cli stripe login` in the `.docker` folder while the containers are running.
 
 Follow the prompts to authenticate.
 

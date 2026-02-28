@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Core\Utilities\Redactor;
+use App\Core\Utilities\Redact;
 use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -10,10 +10,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class AccountResource extends JsonResource
 {
     use AuthorizesPermissions;
-
-    public function __construct(
-        private readonly Redactor $redactor,
-    ) {}
 
     public function toArray($request)
     {
@@ -24,7 +20,7 @@ class AccountResource extends JsonResource
             'username' => $this->username,
             'email' => $canViewEmail
                 ? $this->email
-                : $this->redactor->email($this->email),
+                : Redact::email($this->email),
             'activated' => $this->activated,
             'terms_accepted' => $this->terms_accepted,
             'last_login_at' => $this->last_login_at,

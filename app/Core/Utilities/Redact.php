@@ -2,14 +2,16 @@
 
 namespace App\Core\Utilities;
 
-class Redactor
+class Redact
 {
     private const REDACTED_CHAR = '*';
+
+    private function __construct() {}
 
     /**
      * Redacts emails so that only the first letter and domain are visible
      */
-    public function email(string $email): string
+    public static function email(string $email): string
     {
         if ($email === '') {
             return '';
