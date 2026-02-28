@@ -1,7 +1,6 @@
 <?php
 
 use App\Domains\Bans\Data\UnbanType;
-use App\Domains\BuilderRankApplications\Services\BuilderRankReminderService;
 use App\Domains\Donations\UseCases\ExpireDonorPerks;
 use App\Domains\HealthCheck\Data\SchedulerHealthCheck;
 use App\Domains\HealthCheck\HealthCheckReporter;
