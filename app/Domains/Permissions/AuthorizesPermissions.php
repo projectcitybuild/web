@@ -6,13 +6,15 @@ use Illuminate\Support\Facades\Gate;
 
 trait AuthorizesPermissions
 {
+    private const GATE_NAME = 'permission';
+
     public function requires(string|WebManagePermission $permissionName)
     {
         $permissionName = $permissionName instanceof WebManagePermission
             ? $permissionName->value
             : $permissionName;
 
-        if (! Gate::allows('permission', $permissionName)) {
+        if (! Gate::allows(self::GATE_NAME, $permissionName)) {
             abort(403);
         }
     }
@@ -23,6 +25,6 @@ trait AuthorizesPermissions
             ? $permissionName->value
             : $permissionName;
 
-        return Gate::allows('permission', $permissionName);
+        return Gate::allows(self::GATE_NAME, $permissionName);
     }
 }
