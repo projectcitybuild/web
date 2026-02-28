@@ -5,7 +5,9 @@ use App\Domains\BuilderRankApplications\Services\BuilderRankReminderService;
 use App\Domains\Donations\UseCases\ExpireDonorPerks;
 use App\Domains\HealthCheck\Data\SchedulerHealthCheck;
 use App\Domains\HealthCheck\HealthCheckReporter;
+use App\Domains\Permissions\WebManagePermission;
 use App\Models\GamePlayerBan;
+use App\Models\Permission;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schedule;
@@ -67,8 +69,23 @@ Artisan::command('healthcheck:scheduler', function () {
     ->evenInMaintenanceMode()
     ->everyFifteenMinutes();
 
-Artisan::command('build-rank-apps:remind', function () {
-    (new BuilderRankReminderService)->remind();
-})->runInBackground()
-    ->evenInMaintenanceMode()
-    ->hourly();
+Artisan::command('permissions:seed', function () {
+    foreach (WebManagePermission::cases() as $permission) {
+        $exists = Permission::where('name', $permission->value)->exists();
+        if ($exists) {
+            $this->info('Skipping '.$permission->value.': already exists.');
+        } else {
+            Permission::create(['name' => $permission->value]);
+            $this->info('Created '.$permission->value);
+        }
+    }
+});
+
+Artisan::command('bans:expire', function () {
+    GamePlayerBan::whereNull('unbanned_at')
+        ->whereDate('expires_at', '<=', now())
+        ->update([
+            'unbanned_at' => now(),
+            'unban_type' => UnbanType::EXPIRED->value,
+        ]);
+})->everyFifteenMinutes();
