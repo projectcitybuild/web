@@ -75,13 +75,6 @@ Laravel Telescope is available at http://localhost/telescope for non-production 
 
 If for some reason you don't want this, set `TELESCOPE_ENABLED=false` in `.env`
 
-### Performance Monitoring
-
-Laravel Pulse is available at http://localhost/pulse if logged-in as an admin account.
-
-Data gathering is only enabled if you have `PULSE_ENABLED=true` in `.env`.
-This is `false` by default, as this is not particularly useful in a local environment.
-
 ### Payments
 
 Stripe CLI is installed as a container. 
