@@ -11,13 +11,15 @@ class Redactor
      */
     public function email(string $email): string
     {
-        if ($email === '') return '';
+        if ($email === '') {
+            return '';
+        }
 
         [$name, $domain] = explode('@', $email);
 
         return substr($name, 0, 1)
-            . str_repeat(self::REDACTED_CHAR, max(strlen($name) - 1, 3))
-            . '@'
-            . $domain;
+            .str_repeat(self::REDACTED_CHAR, max(strlen($name) - 1, 3))
+            .'@'
+            .$domain;
     }
 }

@@ -12,7 +12,6 @@ use App\Domains\Roles\Services\PlayerRolesAggregator;
 use App\Models\MinecraftHome;
 use App\Models\MinecraftPlayer;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Support\Facades\Gate;
 
 class HomeService
 {
