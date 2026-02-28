@@ -11,7 +11,6 @@ return [
     App\Core\Support\Cashier\CashierServiceProvider::class,
     App\Core\Support\Laravel\LaravelServiceProvider::class,
     App\Core\Support\Passport\PassportServiceProvider::class,
-    App\Core\Support\Pulse\PulseServiceProvider::class,
     App\Core\Support\Telescope\TelescopeServiceProvider::class,
 
     App\Domains\Activation\ActivationServiceProvider::class,

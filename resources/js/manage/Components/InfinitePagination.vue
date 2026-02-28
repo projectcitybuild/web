@@ -18,7 +18,7 @@ const itemCount = defineModel('count')
 
 const items = ref<T[]>(props.initial?.data ?? [])
 const currentPage = ref(props.initial?.current_page ?? 1)
-const reachedEnd = ref(props.initial?.next_page_url == null ?? false)
+const reachedEnd = ref(props.initial?.next_page_url ?? false)
 const lastElement = ref(null)
 const loading = ref(false)
 
