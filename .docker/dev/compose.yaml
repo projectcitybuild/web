@@ -86,12 +86,14 @@ services:
     image: stripe/stripe-cli:v1.37.1
     container_name: pcb-web-stripe-cli
     command:
-    - listen
-    - --api-key
-    - ${STRIPE_SECRET}
-    - --device-name=${STRIPE_CLI_DEVICE_NAME}
-    - --forward-to
-    - http://fpm/stripe/webhook/
+      - listen
+      - --api-key
+      - ${STRIPE_SECRET}
+      - --device-name=${STRIPE_CLI_DEVICE_NAME}
+      - --forward-to
+      - http://nginx/stripe/webhook/
+    depends_on:
+      - nginx
 
 volumes:
   minio-data:
