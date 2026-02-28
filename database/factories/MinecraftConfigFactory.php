@@ -75,6 +75,28 @@ class MinecraftConfigFactory extends Factory
                         'discord' => 'https://discord.gg/3NYaUeScDX',
                     ],
                 ],
+                'hub' => [
+                    'world_id' => '91e0e875-507b-4ed9-bfc5-e925ad9863fc',
+                    'x' => -5.917,
+                    'y' => 66,
+                    'z' => -0.527,
+                    'yaw' => -89.9,
+                    'pitch' => -1.4
+                ],
+                'emojis' => [
+                    ':skull:' => '☠',
+                    ':heart:' => '❤',
+                    ':fire:' => '🔥',
+                    ':tm:' => '™',
+                    ':sad:' => '☹',
+                    ':smile:' => '☺',
+                    ':mail:' => '✉',
+                    ':check:' => '✔',
+                    ':note:' => '♪',
+                    ':notes:' => '♬',
+                    ':hash:' => '♯',
+                ],
+                'manage_base_url' => 'https://localhost/manage/'
             ],
         ];
     }
