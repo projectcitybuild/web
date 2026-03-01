@@ -6,7 +6,7 @@ import { Donation } from './Donation'
 import { EmailChangeRequest } from './EmailChangeRequest'
 
 export interface Account {
-    account_id: number,
+    id: number,
     username: string,
     email: string,
     activated: boolean,

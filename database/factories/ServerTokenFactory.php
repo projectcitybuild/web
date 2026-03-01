@@ -24,7 +24,7 @@ class ServerTokenFactory extends Factory
     {
         return [
             'token' => Str::random(),
-            'server_id' => Server::factory()->create()->getKey(),
+            'server_id' => Server::factory()->create()->id,
         ];
     }
 }

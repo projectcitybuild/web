@@ -15,7 +15,7 @@ final class MinecraftPlayerHomeNameController extends ApiController
         $player = MinecraftPlayer::whereUuid($minecraftUUID)->first();
         abort_if($player === null, 404, 'Player not found');
 
-        return MinecraftHome::where('player_id', $player->getKey())
+        return MinecraftHome::where('player_id', $player->id)
             ->get(['id', 'name']);
     }
 }

@@ -25,7 +25,7 @@ class AccountBadgeController
         return $this->inertiaRender('Accounts/AccountBadgeSelect', [
             'badges' => $badges,
             'account_badge_ids' => $accountBadgeIds ?? [],
-            'account_id' => $account->getKey(),
+            'account_id' => $account->id,
         ]);
     }
 

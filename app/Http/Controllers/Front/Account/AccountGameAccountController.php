@@ -17,18 +17,12 @@ class AccountGameAccountController extends WebController
 
     public function destroy(MinecraftPlayer $minecraftPlayer, Request $request)
     {
-        if ($minecraftPlayer->account->getKey() !== $request->user()->getKey()) {
+        if ($minecraftPlayer->account->id !== $request->user()->id) {
             abort(403, 'You cannot unlink an account that belongs to a different user');
         }
 
         $minecraftPlayer->account_id = null;
-        $minecraftPlayer->disableLogging()->save();
-        activity()
-            ->on($minecraftPlayer)
-            ->withProperty('old', ['account_id' => $request->user()->getKey()])
-            ->withProperty('attributes', ['account_id' => null])
-            ->event('updated')
-            ->log('unlinked from account');
+        $minecraftPlayer->save();
 
         return redirect()->back();
     }

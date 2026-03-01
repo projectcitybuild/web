@@ -26,7 +26,6 @@ final class StripeProduct extends Model
         return $this->belongsTo(
             related: DonationTier::class,
             foreignKey: 'donation_tier_id',
-            ownerKey: 'donation_tier_id',
         );
     }
 }

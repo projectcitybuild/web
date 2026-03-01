@@ -84,8 +84,8 @@ it('creates ban with existing players', function () {
     ])->assertSuccessful();
 
     $this->assertDatabaseHas(GamePlayerBan::tableName(), [
-        'banned_player_id' => $banned->getKey(),
-        'banner_player_id' => $banner->getKey(),
+        'banned_player_id' => $banned->id,
+        'banner_player_id' => $banner->id,
         'reason' => 'test',
     ]);
 });
@@ -100,7 +100,7 @@ it('allows anonymous bans when banner is null', function () {
     ])->assertSuccessful();
 
     $this->assertDatabaseHas(GamePlayerBan::tableName(), [
-        'banned_player_id' => $banned->getKey(),
+        'banned_player_id' => $banned->id,
         'banner_player_id' => null,
     ]);
 });

@@ -29,7 +29,7 @@ class SendMinecraftRegisterCodeEmail
         ]);
 
         MinecraftRegistration::whereUuid($minecraftUuid)
-            ->where('id', '!=', $registration->getKey())
+            ->where('id', '!=', $registration->id)
             ->delete();
 
         Notification::route('mail', $email)->notify(

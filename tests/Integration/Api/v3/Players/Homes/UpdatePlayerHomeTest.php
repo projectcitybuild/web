@@ -8,17 +8,17 @@ describe('validation', function () {
         $player = MinecraftPlayer::factory()->create();
 
         $home = MinecraftHome::factory()->create([
-            'player_id' => $player->getKey(),
+            'player_id' => $player->id,
             'name' => 'spawn',
         ]);
         MinecraftHome::factory()->create([
-            'player_id' => $player->getKey(),
+            'player_id' => $player->id,
             'name' => 'updated_spawn',
         ]);
 
         $response = $this
             ->withServerToken()
-            ->putJson("http://api.localhost/v3/players/{$player->uuid}/homes/{$home->getKey()}", [
+            ->putJson("http://api.localhost/v3/players/{$player->uuid}/homes/{$home->id}", [
                 'name' => 'updated_spawn',
                 'world' => 'world',
                 'x' => 1,
@@ -36,17 +36,17 @@ describe('validation', function () {
         $otherPlayer = MinecraftPlayer::factory()->create();
 
         $home = MinecraftHome::factory()->create([
-            'player_id' => $player->getKey(),
+            'player_id' => $player->id,
             'name' => 'spawn',
         ]);
         MinecraftHome::factory()->create([
-            'player_id' => $otherPlayer->getKey(),
+            'player_id' => $otherPlayer->id,
             'name' => 'updated_spawn',
         ]);
 
         $response = $this
             ->withServerToken()
-            ->putJson("http://api.localhost/v3/players/{$player->uuid}/homes/{$home->getKey()}", [
+            ->putJson("http://api.localhost/v3/players/{$player->uuid}/homes/{$home->id}", [
                 'name' => 'updated_spawn',
                 'world' => 'world',
                 'x' => 1,
@@ -63,13 +63,13 @@ describe('validation', function () {
         $player = MinecraftPlayer::factory()->create();
 
         $home = MinecraftHome::factory()->create([
-            'player_id' => $player->getKey(),
+            'player_id' => $player->id,
             'name' => 'spawn',
         ]);
 
         $response = $this
             ->withServerToken()
-            ->putJson("http://api.localhost/v3/players/{$player->uuid}/homes/{$home->getKey()}", [
+            ->putJson("http://api.localhost/v3/players/{$player->uuid}/homes/{$home->id}", [
                 'name' => 'spawn',
                 'world' => 'world',
                 'x' => 1,
@@ -86,13 +86,13 @@ describe('validation', function () {
 it('updates a home', function () {
     $player = MinecraftPlayer::factory()->create();
     $home = MinecraftHome::factory()->create([
-        'player_id' => $player->getKey(),
+        'player_id' => $player->id,
         'name' => 'old_name',
     ]);
 
     $response = $this
         ->withServerToken()
-        ->putJson("http://api.localhost/v3/players/{$player->uuid}/homes/{$home->getKey()}", [
+        ->putJson("http://api.localhost/v3/players/{$player->uuid}/homes/{$home->id}", [
             'name' => 'new_name',
             'world' => 'new_world',
             'x' => 10,
@@ -106,7 +106,7 @@ it('updates a home', function () {
         ->assertOk()
         ->assertJsonFragment([
             'name' => 'new_name',
-            'player_id' => $player->getKey(),
+            'player_id' => $player->id,
             'world' => 'new_world',
             'x' => 10,
             'y' => 11,

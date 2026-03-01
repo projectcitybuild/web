@@ -12,7 +12,7 @@ final class OAuthController extends ApiController
         $account = $request->user();
 
         return [
-            'id' => $account->getKey(),
+            'id' => $account->id,
             'email' => $account->email,
             'nickname' => $account->username,
             'name' => $account->username,

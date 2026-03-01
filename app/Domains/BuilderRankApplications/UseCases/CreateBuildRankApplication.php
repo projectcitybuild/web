@@ -23,7 +23,7 @@ class CreateBuildRankApplication
         ?string $additionalNotes,
     ): BuilderRankApplication {
         $existingApplication = BuilderRankApplication::where('status', ApplicationStatus::PENDING->value)
-            ->where('account_id', $account->getKey())
+            ->where('account_id', $account->id)
             ->count();
 
         if ($existingApplication > 0) {
@@ -31,7 +31,7 @@ class CreateBuildRankApplication
         }
 
         $application = BuilderRankApplication::create([
-            'account_id' => $account->getKey(),
+            'account_id' => $account->id,
             'minecraft_alias' => $minecraftAlias,
             'current_builder_rank' => $currentBuilderRank->humanReadable(),
             'build_location' => $buildLocation,

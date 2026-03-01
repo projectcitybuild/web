@@ -51,7 +51,7 @@ final class GamePlayerBan extends Model implements LinkableAuditModel
 
     public function scopeWhereBannedPlayer(Builder $query, MinecraftPlayer $player)
     {
-        $query->where('banned_player_id', $player->getKey());
+        $query->where('banned_player_id', $player->id);
     }
 
     public function unbannedAt(): Attribute
@@ -96,7 +96,6 @@ final class GamePlayerBan extends Model implements LinkableAuditModel
         return $this->belongsTo(
             related: MinecraftPlayer::class,
             foreignKey: 'banned_player_id',
-            ownerKey: 'player_minecraft_id',
         );
     }
 
@@ -105,7 +104,6 @@ final class GamePlayerBan extends Model implements LinkableAuditModel
         return $this->belongsTo(
             related: MinecraftPlayer::class,
             foreignKey: 'banner_player_id',
-            ownerKey: 'player_minecraft_id',
         );
     }
 
@@ -114,7 +112,6 @@ final class GamePlayerBan extends Model implements LinkableAuditModel
         return $this->belongsTo(
             related: MinecraftPlayer::class,
             foreignKey: 'unbanner_player_id',
-            ownerKey: 'player_minecraft_id',
         );
     }
 
@@ -123,7 +120,6 @@ final class GamePlayerBan extends Model implements LinkableAuditModel
         return $this->hasMany(
             related: BanAppeal::class,
             foreignKey: 'game_ban_id',
-            localKey: 'id',
         );
     }
 
@@ -159,7 +155,7 @@ final class GamePlayerBan extends Model implements LinkableAuditModel
     public function getActivitySubjectName(): ?string
     {
         $player = $this->bannedPlayer->alias
-            ?? $this->bannedPlayer->getKey().' player id';
+            ?? $this->bannedPlayer->id.' player id';
 
         return "Ban for $player";
     }

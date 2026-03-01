@@ -47,7 +47,7 @@ final class MinecraftConnectionAuthController extends ApiController
         $ip = $validated['ip'] ?? '';
         if (! empty($ip)) {
             MinecraftPlayerIp::updateOrCreate(
-                ['player_id' => $player->getKey(), 'ip' => $ip],
+                ['player_id' => $player->id, 'ip' => $ip],
                 ['updated_at' => now()],
             );
         }
@@ -78,7 +78,7 @@ final class MinecraftConnectionAuthController extends ApiController
     {
         $account = $player->account;
 
-        $elevation = PlayerOpElevation::where('player_id', $player->getKey())
+        $elevation = PlayerOpElevation::where('player_id', $player->id)
             ->whereActive()
             ->first();
 

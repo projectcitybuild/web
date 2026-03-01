@@ -38,7 +38,7 @@ async function refreshAlias() {
     isRefreshingAlias.value = true
 
     try {
-        const response = await axios.post('/manage/players/' + props.player.player_minecraft_id + '/alias/refresh')
+        const response = await axios.post('/manage/players/' + props.player.id + '/alias/refresh')
         const player = response.data
         router.replace({
             props: (currentProps) => ({
@@ -78,7 +78,7 @@ async function refreshAlias() {
                     </span>
                 </OutlinedButton>
 
-                <Link :href="'/manage/players/' + player.player_minecraft_id + '/edit'">
+                <Link :href="'/manage/players/' + player.id + '/edit'">
                     <FilledButton variant="primary">
                         <SvgIcon :svg="Icons.pencil" />
                         Edit Player
@@ -174,7 +174,7 @@ async function refreshAlias() {
                         </Link>
                     </div>
                     <InfinitePagination
-                        :path="'/manage/players/' + player.player_minecraft_id + '/bans'"
+                        :path="'/manage/players/' + player.id + '/bans'"
                         v-slot="source"
                         class="overflow-x-auto"
                     >
@@ -190,7 +190,7 @@ async function refreshAlias() {
                         </Link>
                     </div>
                     <InfinitePagination
-                        :path="'/manage/players/' + player.player_minecraft_id + '/warnings'"
+                        :path="'/manage/players/' + player.id + '/warnings'"
                         v-slot="source"
                         class="overflow-x-auto"
                     >
@@ -203,7 +203,7 @@ async function refreshAlias() {
                         <h2 class="font-bold">Homes</h2>
                     </div>
                     <InfinitePagination
-                        :path="'/manage/players/' + player.player_minecraft_id + '/homes'"
+                        :path="'/manage/players/' + player.id + '/homes'"
                         v-slot="source"
                         class="overflow-x-auto"
                     >
@@ -216,7 +216,7 @@ async function refreshAlias() {
                         <h2 class="font-bold">Known IP Addresses</h2>
                     </div>
                     <InfinitePagination
-                        :path="'/manage/players/' + player.player_minecraft_id + '/ips'"
+                        :path="'/manage/players/' + player.id + '/ips'"
                         v-slot="source"
                         class="overflow-x-auto"
                     >

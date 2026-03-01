@@ -12,7 +12,7 @@ interface Props {
 const props = defineProps<Props>()
 
 function submit(form: InertiaForm<Player>) {
-    form.put('/manage/players/' + props.player.player_minecraft_id)
+    form.put('/manage/players/' + props.player.id)
 }
 </script>
 
@@ -22,7 +22,7 @@ function submit(form: InertiaForm<Player>) {
 
         <Card>
             <div class="p-8 max-w-2xl">
-                <BackButton :href="'/manage/players/' + player.player_minecraft_id" class="mb-4"/>
+                <BackButton :href="'/manage/players/' + player.id" class="mb-4"/>
 
                 <h2 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">Edit a Player</h2>
                 <div class="text-sm text-gray-500">A Minecraft UUID that has connected to our server before</div>

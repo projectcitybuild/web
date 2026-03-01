@@ -58,7 +58,7 @@ class GameIPBanController extends WebController
 
         $bannerUuid = MinecraftUUID::tryParse($validated['banner_uuid']);
         $bannerPlayer = MinecraftPlayer::firstOrCreate($bannerUuid, alias: $validated['banner_alias']);
-        $validated['banner_player_id'] = $bannerPlayer->getKey();
+        $validated['banner_player_id'] = $bannerPlayer->id;
 
         $ban = GameIPBan::create($validated);
 

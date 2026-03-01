@@ -24,8 +24,7 @@ final class MinecraftPlayer extends Model implements LinkableAuditModel
     use LogsActivity;
     use Notifiable;
 
-    protected $table = 'players_minecraft';
-    protected $primaryKey = 'player_minecraft_id';
+    protected $table = 'players';
     protected $fillable = [
         'uuid',
         'alias',
@@ -58,7 +57,6 @@ final class MinecraftPlayer extends Model implements LinkableAuditModel
         return $this->belongsTo(
             related: Account::class,
             foreignKey: 'account_id',
-            ownerKey: 'account_id',
         );
     }
 
@@ -67,7 +65,6 @@ final class MinecraftPlayer extends Model implements LinkableAuditModel
         return $this->hasMany(
             related: GamePlayerBan::class,
             foreignKey: 'banned_player_id',
-            localKey: $this->primaryKey,
         );
     }
 
@@ -76,7 +73,6 @@ final class MinecraftPlayer extends Model implements LinkableAuditModel
         return $this->hasMany(
             related: PlayerWarning::class,
             foreignKey: 'warned_player_id',
-            localKey: $this->primaryKey,
         );
     }
 
@@ -85,7 +81,6 @@ final class MinecraftPlayer extends Model implements LinkableAuditModel
         return $this->hasMany(
             related: MinecraftPlayerIp::class,
             foreignKey: 'player_id',
-            localKey: 'player_minecraft_id',
         );
     }
 
@@ -94,7 +89,6 @@ final class MinecraftPlayer extends Model implements LinkableAuditModel
         return $this->hasMany(
             related: MinecraftHome::class,
             foreignKey: 'player_id',
-            localKey: 'player_minecraft_id',
         );
     }
 

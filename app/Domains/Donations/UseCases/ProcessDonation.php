@@ -28,7 +28,7 @@ class ProcessDonation
 
         DB::transaction(function () use ($account, $productId, $priceId, $paymentId, $unitAmount, $unitQuantity) {
             $donation = Donation::create([
-                'account_id' => $account?->getKey(),
+                'account_id' => $account?->id,
                 'amount' => $unitAmount * $unitQuantity,
                 'payment_id' => $paymentId,
             ]);
@@ -60,14 +60,14 @@ class ProcessDonation
         int $numberOfMonths,
     ) {
         $donorRole = Role::getDonorOrThrow();
-        $account->roles()->syncWithoutDetaching([$donorRole->getKey()]);
+        $account->roles()->syncWithoutDetaching([$donorRole->id]);
 
         $donationTier = $product->donationTier;
         if ($donationTier === null) {
             return;
         }
-        $existingPerk = DonationPerk::where('account_id', $account->getKey())
-            ->where('donation_tier_id', $donationTier->getKey())
+        $existingPerk = DonationPerk::where('account_id', $account->id)
+            ->where('donation_tier_id', $donationTier->id)
             ->where('is_active', true)
             ->whereNotNull('expires_at')
             ->orderBy('expires_at', 'desc')
@@ -83,9 +83,9 @@ class ProcessDonation
             $existingPerk->save();
         } else {
             DonationPerk::create([
-                'donation_id' => $donation->getKey(),
-                'donation_tier_id' => $donationTier?->getKey(),
-                'account_id' => $account->getKey(),
+                'donation_id' => $donation->id,
+                'donation_tier_id' => $donationTier?->id,
+                'account_id' => $account->id,
                 'is_active' => true,
                 'expires_at' => $expiryDate,
             ]);

@@ -49,7 +49,7 @@
                         </div>
                     </div>
 
-                    <input name="ban_id" type="hidden" value="{{ $ban->getKey() }}" />
+                    <input name="ban_id" type="hidden" value="{{ $ban->id }}" />
                 @endisset
 
                 <h2 class="text-xl">Ban Details</h2>

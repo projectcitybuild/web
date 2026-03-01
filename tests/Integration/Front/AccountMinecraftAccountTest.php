@@ -48,10 +48,10 @@ class AccountMinecraftAccountTest extends TestCase
     {
         $this->actingAs($this->account);
 
-        $this->delete(route('front.account.games.delete', $this->mcPlayer->getKey()))
+        $this->delete(route('front.account.games.delete', $this->mcPlayer->id))
             ->assertRedirect();
 
-        $this->assertDatabaseHas('players_minecraft', [
+        $this->assertDatabaseHas(MinecraftPlayer::tableName(), [
             'uuid' => $this->mcPlayer->uuid,
             'account_id' => null,
         ]);
@@ -61,7 +61,7 @@ class AccountMinecraftAccountTest extends TestCase
     {
         $this->actingAs(Account::factory()->create());
 
-        $this->delete(route('front.account.games.delete', $this->mcPlayer->getKey()))
+        $this->delete(route('front.account.games.delete', $this->mcPlayer->id))
             ->assertForbidden();
     }
 }

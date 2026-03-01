@@ -17,7 +17,6 @@ final class DonationTier extends Model implements LinkableAuditModel
     use LogsActivity;
 
     protected $table = 'donation_tiers';
-    protected $primaryKey = 'donation_tier_id';
     protected $fillable = [
         'name',
         'role_id',

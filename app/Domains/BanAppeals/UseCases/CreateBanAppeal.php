@@ -22,8 +22,8 @@ final class CreateBanAppeal
         $ban = optional($banId, fn ($it) => GamePlayerBan::find($it));
 
         $banAppeal = BanAppeal::create([
-            'game_ban_id' => $ban?->getKey(),
-            'account_id' => $account?->getKey(),
+            'game_ban_id' => $ban?->id,
+            'account_id' => $account?->id,
             'minecraft_uuid' => $minecraftUuid,
             'date_of_ban' => $dateOfBan,
             'ban_reason' => $banReason,

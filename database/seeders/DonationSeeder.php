@@ -21,7 +21,7 @@ class DonationSeeder extends Seeder
         ]);
         $copperTier = DonationTier::create([
             'name' => 'copper',
-            'role_id' => $copperRole->getKey(),
+            'role_id' => $copperRole->id,
         ]);
 
         $ironRole = Role::factory()->create([
@@ -30,7 +30,7 @@ class DonationSeeder extends Seeder
         ]);
         $ironTier = DonationTier::create([
             'name' => 'iron',
-            'role_id' => $ironRole->getKey(),
+            'role_id' => $ironRole->id,
         ]);
 
         $diamondRole = Role::factory()->create([
@@ -39,49 +39,49 @@ class DonationSeeder extends Seeder
         ]);
         $diamondTier = DonationTier::create([
             'name' => 'diamond',
-            'role_id' => $diamondRole->getKey(),
+            'role_id' => $diamondRole->id,
         ]);
 
         // Copper subscription
         StripeProduct::create([
             'product_id' => 'prod_JxFaAltmFPewxs',
             'price_id' => 'price_1JJL5mAtUyfM4v5ISwJrrVur',
-            'donation_tier_id' => $copperTier->getKey(),
+            'donation_tier_id' => $copperTier->id,
         ]);
 
         // Copper one-off
         StripeProduct::create([
             'product_id' => 'prod_JxFaAltmFPewxs',
             'price_id' => 'price_1JJL5mAtUyfM4v5IJNHp1Tk2',
-            'donation_tier_id' => $copperTier->getKey(),
+            'donation_tier_id' => $copperTier->id,
         ]);
 
         // Iron subscription
         StripeProduct::create([
             'product_id' => 'prod_JxFbEy7JGmfJog',
             'price_id' => 'price_1JJL63AtUyfM4v5IoVomtPRZ',
-            'donation_tier_id' => $ironTier->getKey(),
+            'donation_tier_id' => $ironTier->id,
         ]);
 
         // Iron one-off
         StripeProduct::create([
             'product_id' => 'prod_JxFbEy7JGmfJog',
             'price_id' => 'price_1JJL63AtUyfM4v5ILyrs2uxw',
-            'donation_tier_id' => $ironTier->getKey(),
+            'donation_tier_id' => $ironTier->id,
         ]);
 
         // Diamond subscription
         StripeProduct::create([
             'price_id' => 'price_1JJL6RAtUyfM4v5IP77eRPER',
             'product_id' => 'prod_JxFbZQxVmr2SCu',
-            'donation_tier_id' => $diamondTier->getKey(),
+            'donation_tier_id' => $diamondTier->id,
         ]);
 
         // Diamond one-off
         StripeProduct::create([
             'price_id' => 'price_1JJL6RAtUyfM4v5Ih3kg7UDM',
             'product_id' => 'prod_JxFbZQxVmr2SCu',
-            'donation_tier_id' => $diamondTier->getKey(),
+            'donation_tier_id' => $diamondTier->id,
         ]);
 
         $account = Account::where('email', 'admin@pcbmc.co')->first();
@@ -102,9 +102,9 @@ class DonationSeeder extends Seeder
             ->create();
 
         DonationPerk::factory()->create([
-            'donation_id' => $donationWithPerk->getKey(),
-            'donation_tier_id' => $copperTier->getKey(),
-            'account_id' => $account->getKey(),
+            'donation_id' => $donationWithPerk->id,
+            'donation_tier_id' => $copperTier->id,
+            'account_id' => $account->id,
             'expires_at' => now()->addDays(14),
         ]);
     }

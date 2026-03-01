@@ -47,7 +47,7 @@ it('updates op elevation record', function () {
 
         $player = MinecraftPlayer::factory()->create();
         $elevation = PlayerOpElevation::factory()->active()->create([
-            'player_id' => $player->getKey(),
+            'player_id' => $player->id,
         ]);
 
         $this->withServerToken()
@@ -64,7 +64,7 @@ it('updates op elevation record', function () {
 it('sends discord message', function () {
     $player = MinecraftPlayer::factory()->create();
     PlayerOpElevation::factory()->active()->create([
-        'player_id' => $player->getKey(),
+        'player_id' => $player->id,
     ]);
 
     $this->withServerToken()
@@ -89,7 +89,7 @@ it('throws if not currently elevated', function () {
 it('checks ended_at to determine active elevation', function () {
     $player = MinecraftPlayer::factory()->create();
     PlayerOpElevation::factory()->active()->create([
-        'player_id' => $player->getKey(),
+        'player_id' => $player->id,
     ]);
     $this->withServerToken()
         ->postJson('http://api.localhost/v3/server/pim/op/revoke', [
@@ -99,7 +99,7 @@ it('checks ended_at to determine active elevation', function () {
 
     $player = MinecraftPlayer::factory()->create();
     PlayerOpElevation::factory()->ended()->create([
-        'player_id' => $player->getKey(),
+        'player_id' => $player->id,
     ]);
     $status = $this->withServerToken()
         ->postJson('http://api.localhost/v3/server/pim/op/revoke', [

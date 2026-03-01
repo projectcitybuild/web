@@ -22,7 +22,7 @@ it('sends post request to given server', function () {
         'web_port' => '8080',
     ]);
     ServerToken::factory()->create([
-        'server_id' => $server->getKey(),
+        'server_id' => $server->id,
         'token' => '123',
     ]);
     $payload = ['foo' => 'bar'];

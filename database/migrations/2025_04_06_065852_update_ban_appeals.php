@@ -27,7 +27,7 @@ return new class extends Migration
             $account = $player?->account;
 
             if ($appeal->is_account_verified) {
-                $appeal->account_id = $account->getKey();
+                $appeal->account_id = $account->id;
                 $appeal->email = $account->email;
             }
             $appeal->minecraft_uuid = $player?->uuid;

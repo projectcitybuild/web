@@ -82,7 +82,7 @@ describe('existing player', function () {
                 ->assertJson(fn (AssertableJson $json) => $json
                     ->where('bans', null)
                     ->whereContains('player.player', [
-                        'account_id' => $account->getKey(),
+                        'account_id' => $account->id,
                         'uuid' => $player->uuid,
                         'alias' => $player->alias,
                         'nickname' => $player->nickname,
@@ -92,7 +92,7 @@ describe('existing player', function () {
                         'updated_at' => $now->toISOString(),
                     ])
                     ->whereContains('player.account', [
-                        'account_id' => $account->getKey(),
+                        'account_id' => $account->id,
                     ])
                     ->whereContains('player.roles.0', [
                         'id' => $role->id,
@@ -175,7 +175,7 @@ describe('existing player', function () {
         $account->roles()->sync($role);
 
         $player = MinecraftPlayer::factory()->create([
-            'account_id' => $account->getKey(),
+            'account_id' => $account->id,
         ]);
 
         $this->withServerToken()
@@ -287,7 +287,7 @@ describe('existing player', function () {
         $account->badges()->sync($badge);
 
         $player = MinecraftPlayer::factory()->create([
-            'account_id' => $account->getKey(),
+            'account_id' => $account->id,
         ]);
 
         $this->withServerToken()
@@ -297,7 +297,7 @@ describe('existing player', function () {
             ->assertJson(fn (AssertableJson $json) => $json
                 ->count('player.badges', 2)
                 ->has('player.badges.0', fn (AssertableJson $json) => $json
-                    ->where('id', $badge->getKey())
+                    ->where('id', $badge->id)
                     ->where('unicode_icon', $badge->unicode_icon)
                     ->where('display_name', $badge->display_name)
                     ->etc()
@@ -314,10 +314,10 @@ describe('existing player', function () {
     it('contains active op elevation', function () {
         $account = Account::factory()->create();
         $player = MinecraftPlayer::factory()->create([
-            'account_id' => $account->getKey(),
+            'account_id' => $account->id,
         ]);
         $elevation = PlayerOpElevation::factory()->active()->create([
-            'player_id' => $player->getKey(),
+            'player_id' => $player->id,
         ]);
 
         $this->withServerToken()
@@ -338,10 +338,10 @@ describe('existing player', function () {
     it('does not contain ended op elevation', function () {
         $account = Account::factory()->create();
         $player = MinecraftPlayer::factory()->create([
-            'account_id' => $account->getKey(),
+            'account_id' => $account->id,
         ]);
         PlayerOpElevation::factory()->ended()->create([
-            'player_id' => $player->getKey(),
+            'player_id' => $player->id,
         ]);
 
         $this->withServerToken()

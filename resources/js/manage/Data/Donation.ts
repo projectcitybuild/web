@@ -2,7 +2,7 @@ import { Account } from './Account'
 import { Payment } from './Payment'
 
 export interface Donation {
-    donation_id: number,
+    id: number,
     account?: Account,
     payment?: Payment,
     amount: number,

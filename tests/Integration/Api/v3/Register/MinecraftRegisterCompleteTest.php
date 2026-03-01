@@ -164,7 +164,7 @@ describe('valid request', function () {
             ->first();
 
         expect($player)->not->toBeNull();
-        expect($player->account_id)->toEqual($account->getKey());
+        expect($player->account_id)->toEqual($account->id);
     });
 
     it('updates existing MinecraftPlayer', function () {
@@ -194,7 +194,7 @@ describe('valid request', function () {
         $this->assertDatabaseHas(MinecraftPlayer::tableName(), [
             'uuid' => $registration->minecraft_uuid,
             'alias' => $registration->minecraft_alias,
-            'account_id' => $account->getKey(),
+            'account_id' => $account->id,
         ]);
     });
 

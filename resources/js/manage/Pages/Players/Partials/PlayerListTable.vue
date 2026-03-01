@@ -15,7 +15,7 @@ const props = defineProps<Props>()
 const { can } = usePermissions()
 
 const fields = [
-    { key: 'player_minecraft_id', label: 'ID' },
+    { key: 'id', label: 'ID' },
     { key: 'skin', label: 'Skin' },
     { key: 'uuid', label: 'UUID' },
     { key: 'alias', label: 'Last Known Alias' },
@@ -40,7 +40,7 @@ const rows = computed(
 
         <template #uuid="{ item }">
             <Link
-                :href="'/manage/players/' + item.player_minecraft_id"
+                :href="'/manage/players/' + item.id"
                 class="text-blue-500"
             >
                 {{ item.uuid }}
@@ -50,7 +50,7 @@ const rows = computed(
         <template #linked_account="{ item }">
             <Link
                 v-if="item.account"
-                :href="'/manage/accounts/' + item.account?.account_id"
+                :href="'/manage/accounts/' + item.account?.id"
                 class="text-blue-500"
             >
                 {{ item.account?.username }}

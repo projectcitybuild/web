@@ -13,7 +13,6 @@ final class Payment extends Model
     use HasStaticTable;
 
     protected $table = 'payments';
-    protected $primaryKey = 'payment_id';
     protected $fillable = [
         'account_id',
         'stripe_price',
@@ -32,7 +31,6 @@ final class Payment extends Model
         return $this->belongsTo(
             related: Account::class,
             foreignKey: 'account_id',
-            ownerKey: 'account_id',
         );
     }
 }

@@ -23,7 +23,6 @@ final class Donation extends Model implements LinkableAuditModel
     use LogsActivity;
 
     protected $table = 'donations';
-    protected $primaryKey = 'donation_id';
     protected $fillable = [
         'account_id',
         'amount',
@@ -37,7 +36,6 @@ final class Donation extends Model implements LinkableAuditModel
         return $this->belongsTo(
             related: Account::class,
             foreignKey: 'account_id',
-            ownerKey: 'account_id'
         );
     }
 
@@ -46,7 +44,6 @@ final class Donation extends Model implements LinkableAuditModel
         return $this->belongsTo(
             related: Payment::class,
             foreignKey: 'payment_id',
-            ownerKey: 'payment_id',
         );
     }
 
@@ -55,7 +52,6 @@ final class Donation extends Model implements LinkableAuditModel
         return $this->hasMany(
             related: DonationPerk::class,
             foreignKey: 'donation_id',
-            localKey: 'donation_id'
         );
     }
 
@@ -80,7 +76,7 @@ final class Donation extends Model implements LinkableAuditModel
 
     public function getActivitySubjectName(): ?string
     {
-        return "Donation {$this->getKey()}";
+        return "Donation {$this->id}";
     }
 
     public function auditAttributeConfig(): AuditAttributes

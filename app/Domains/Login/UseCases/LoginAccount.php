@@ -27,7 +27,7 @@ class LoginAccount
         $account->updateLastLogin($ip);
 
         Auth::loginUsingId(
-            id: $account->getKey(),
+            id: $account->id,
             remember: $shouldRemember,
         );
 

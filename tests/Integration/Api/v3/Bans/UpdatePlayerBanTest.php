@@ -84,7 +84,7 @@ it('updates an existing ban', function () {
         ->bannedBy(MinecraftPlayer::factory())
         ->create();
 
-    putBan($ban->getKey(), [
+    putBan($ban->id, [
         'banned_uuid' => $newBanned->uuid,
         'banned_alias' => $newBanned->alias,
         'banner_uuid' => $newBanner->uuid,
@@ -97,10 +97,10 @@ it('updates an existing ban', function () {
     ])->assertSuccessful();
 
     $this->assertDatabaseHas(GamePlayerBan::tableName(), [
-        'id' => $ban->getKey(),
+        'id' => $ban->id,
         'reason' => 'updated',
-        'banned_player_id' => $newBanned->getKey(),
-        'banner_player_id' => $newBanner->getKey(),
-        'unbanner_player_id' => $newUnbanner->getKey(),
+        'banned_player_id' => $newBanned->id,
+        'banner_player_id' => $newBanner->id,
+        'unbanner_player_id' => $newUnbanner->id,
     ]);
 });

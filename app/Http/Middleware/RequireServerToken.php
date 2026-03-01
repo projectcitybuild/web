@@ -23,8 +23,6 @@ class RequireServerToken
 
         $this->assertWhitelistedIp($request, $serverToken);
 
-        CauserResolver::setCauser($serverToken->server);
-
         return $next($request);
     }
 

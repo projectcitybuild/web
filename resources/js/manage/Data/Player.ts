@@ -1,7 +1,7 @@
 import { Account } from './Account'
 
 export interface Player {
-    player_minecraft_id: number,
+    id: number,
     account?: Account,
     account_id?: number,
     uuid: string,

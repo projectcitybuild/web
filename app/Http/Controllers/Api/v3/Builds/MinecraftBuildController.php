@@ -50,7 +50,7 @@ final class MinecraftBuildController extends ApiController
             uuid: new MinecraftUUID($validated['player_uuid']),
             alias: $validated['alias'],
         );
-        $validated['player_id'] = $player->getKey();
+        $validated['player_id'] = $player->id;
 
         return MinecraftBuild::create($validated);
     }
@@ -105,7 +105,7 @@ final class MinecraftBuildController extends ApiController
         $this->assertHasWriteAccess(build: $build, uuid: $validated['player_uuid']);
 
         DB::transaction(function () use ($build) {
-            MinecraftBuildVote::where('build_id', $build->getKey())->delete();
+            MinecraftBuildVote::where('build_id', $build->id)->delete();
             $build->delete();
         });
 
@@ -123,7 +123,7 @@ final class MinecraftBuildController extends ApiController
         $player = MinecraftPlayer::whereUuid($uuid)->first();
         abort_if($player === null, 400, 'Player not found');
 
-        $isBuildOwner = $build->player_id === $player->getKey();
+        $isBuildOwner = $build->player_id === $player->id;
         $isStaff = $player->account?->isStaff() ?? false;
         abort_if(! $isBuildOwner && ! $isStaff, 403, 'Only the build owner can edit this build');
     }

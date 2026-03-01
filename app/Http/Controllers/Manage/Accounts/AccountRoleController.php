@@ -25,7 +25,7 @@ class AccountRoleController extends WebController
         return $this->inertiaRender('Accounts/AccountRoleSelect', [
             'roles' => $roles,
             'account_role_ids' => $accountRoleIds ?? [],
-            'account_id' => $account->getKey(),
+            'account_id' => $account->id,
         ]);
     }
 

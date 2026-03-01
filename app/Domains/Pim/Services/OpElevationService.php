@@ -19,7 +19,7 @@ class OpElevationService
         $player = MinecraftPlayer::whereUuid($playerUuid)->first();
         throw_if($player === null, 'Cannot OP elevate null player');
 
-        $existing = PlayerOpElevation::where('player_id', $player->getKey())
+        $existing = PlayerOpElevation::where('player_id', $player->id)
             ->whereActive()
             ->first();
 
@@ -33,7 +33,7 @@ class OpElevationService
         }
 
         $elevation = PlayerOpElevation::create([
-            'player_id' => $player->getKey(),
+            'player_id' => $player->id,
             'reason' => $reason,
             'started_at' => now(),
             'ended_at' => now()->addHours(3),
@@ -53,7 +53,7 @@ class OpElevationService
         $player = MinecraftPlayer::whereUuid($playerUuid)->first();
         throw_if($player === null, 'Cannot OP elevate null player');
 
-        $elevation = PlayerOpElevation::where('player_id', $player->getKey())
+        $elevation = PlayerOpElevation::where('player_id', $player->id)
             ->whereActive()
             ->first();
 

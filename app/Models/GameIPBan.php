@@ -36,7 +36,6 @@ final class GameIPBan extends Model implements LinkableAuditModel
         return $this->belongsTo(
             related: MinecraftPlayer::class,
             foreignKey: 'banner_player_id',
-            ownerKey: 'player_minecraft_id',
         );
     }
 
@@ -45,7 +44,6 @@ final class GameIPBan extends Model implements LinkableAuditModel
         return $this->belongsTo(
             related: MinecraftPlayer::class,
             foreignKey: 'unbanner_player_id',
-            ownerKey: 'player_minecraft_id',
         );
     }
 

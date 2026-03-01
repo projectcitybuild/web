@@ -37,7 +37,7 @@ class PermissionsRepository
 
     private function key(Account $account): string
     {
-        return 'account_'.$account->getKey().'_permissions';
+        return 'account_'.$account->id.'_permissions';
     }
 
     private function fetch(Account $account): array

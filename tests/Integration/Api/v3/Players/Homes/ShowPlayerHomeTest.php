@@ -6,7 +6,7 @@ use App\Models\MinecraftPlayer;
 it('shows a home owned by the player', function () {
     $player = MinecraftPlayer::factory()->create();
     $home = MinecraftHome::factory()->create([
-        'player_id' => $player->getKey(),
+        'player_id' => $player->id,
     ]);
 
     $response = $this
@@ -26,12 +26,12 @@ it('returns 403 when accessing another players home', function () {
     $otherPlayer = MinecraftPlayer::factory()->create();
 
     $home = MinecraftHome::factory()->create([
-        'player_id' => $otherPlayer->getKey(),
+        'player_id' => $otherPlayer->id,
     ]);
 
     $response = $this
         ->withServerToken()
-        ->getJson("http://api.localhost/v3/players/{$player->uuid}/homes/{$home->getKey()}");
+        ->getJson("http://api.localhost/v3/players/{$player->uuid}/homes/{$home->id}");
 
     $response->assertForbidden();
 });

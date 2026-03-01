@@ -65,11 +65,11 @@ class PlayerWarningController extends WebController
 
         $warnedUuid = MinecraftUUID::tryParse($validated['warned_uuid']);
         $warnedPlayer = MinecraftPlayer::firstOrCreate($warnedUuid, alias: $validated['warned_alias']);
-        $validated['warned_player_id'] = $warnedPlayer->getKey();
+        $validated['warned_player_id'] = $warnedPlayer->id;
 
         $warnerUuid = MinecraftUUID::tryParse($validated['warner_uuid']);
         $warnerPlayer = MinecraftPlayer::firstOrCreate($warnerUuid, alias: $validated['warner_alias']);
-        $validated['warner_player_id'] = $warnerPlayer->getKey();
+        $validated['warner_player_id'] = $warnerPlayer->id;
 
         PlayerWarning::create($validated);
 
@@ -102,11 +102,11 @@ class PlayerWarningController extends WebController
 
         $warnedUuid = MinecraftUUID::tryParse($validated['warned_uuid']);
         $warnedPlayer = MinecraftPlayer::firstOrCreate($warnedUuid, alias: $validated['warned_alias']);
-        $validated['warned_player_id'] = $warnedPlayer->getKey();
+        $validated['warned_player_id'] = $warnedPlayer->id;
 
         $warnerUuid = MinecraftUUID::tryParse($validated['warner_uuid']);
         $warnerPlayer = MinecraftPlayer::firstOrCreate($warnerUuid, alias: $validated['warner_alias']);
-        $validated['warner_player_id'] = $warnerPlayer->getKey();
+        $validated['warner_player_id'] = $warnerPlayer->id;
 
         $warning->update($validated);
 

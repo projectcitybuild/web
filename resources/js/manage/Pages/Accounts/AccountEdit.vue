@@ -11,7 +11,7 @@ interface Props {
 const props = defineProps<Props>()
 
 function submit(form: InertiaForm<Account>) {
-    form.put('/manage/accounts/' + props.account.account_id)
+    form.put('/manage/accounts/' + props.account.id)
 }
 </script>
 
@@ -21,7 +21,7 @@ function submit(form: InertiaForm<Account>) {
 
         <Card>
             <div class="p-8 max-w-2xl">
-                <BackButton :href="'/manage/accounts/' + account.account_id" class="mb-4"/>
+                <BackButton :href="'/manage/accounts/' + account.id" class="mb-4"/>
 
                 <h2 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">Edit an Account</h2>
                 <div class="text-sm text-gray-500">Web account that can login</div>

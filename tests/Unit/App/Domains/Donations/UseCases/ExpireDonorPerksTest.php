@@ -98,15 +98,15 @@ it('removes user from donor role on expiry', function () {
         ->create();
 
     $this->assertDatabaseHas('roles_accounts', [
-        'account_id' => $this->account->getKey(),
-        'role_id' => $this->donorRole->getKey(),
+        'account_id' => $this->account->id,
+        'role_id' => $this->donorRole->id,
     ]);
 
     $this->useCase->execute();
 
     $this->assertDatabaseMissing('roles_accounts', [
-        'account_id' => $this->account->getKey(),
-        'role_id' => $this->donorRole->getKey(),
+        'account_id' => $this->account->id,
+        'role_id' => $this->donorRole->id,
     ]);
 });
 
@@ -126,14 +126,14 @@ it('does not remove donor role if user has another active perk', function () {
     $this->account->roles()->attach($this->donorRole);
 
     $this->assertDatabaseHas('roles_accounts', [
-        'account_id' => $this->account->getKey(),
-        'role_id' => $this->donorRole->getKey(),
+        'account_id' => $this->account->id,
+        'role_id' => $this->donorRole->id,
     ]);
 
     $this->useCase->execute();
 
     $this->assertDatabaseHas('roles_accounts', [
-        'account_id' => $this->account->getKey(),
-        'role_id' => $this->donorRole->getKey(),
+        'account_id' => $this->account->id,
+        'role_id' => $this->donorRole->id,
     ]);
 });

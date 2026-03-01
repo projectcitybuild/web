@@ -34,7 +34,7 @@ function submit() {
 
 function destroy() {
     deleteModal?.value.close()
-    form.delete('/manage/donations/' + props.donation.donation_id)
+    form.delete('/manage/donations/' + props.donation.id)
 }
 </script>
 

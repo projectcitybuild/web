@@ -22,7 +22,7 @@ class AccountPlayerController extends WebController
         $this->requires(WebManagePermission::ACCOUNTS_EDIT);
 
         return $this->inertiaRender('Accounts/AccountPlayerSelect', [
-            'account_id' => $account->getKey(),
+            'account_id' => $account->id,
         ]);
     }
 

@@ -67,7 +67,7 @@ class BuilderRankAppSubmittedNotification extends Notification implements Should
             ->line('The Architect Council will review your submission as soon as possible.')
             ->action(
                 text: 'Check Application Status',
-                url: route('front.rank-up.status', $this->builderRankApplication->getKey()),
+                url: route('front.rank-up.status', $this->builderRankApplication->id),
             )
             ->line('If you have any questions, please feel free to reach out to architects or staff at any time.');
     }

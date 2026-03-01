@@ -19,7 +19,7 @@ final class ResetAccountPassword
             $account->updatePassword($newPassword);
             $passwordReset->delete();
 
-            PasswordReset::where('account_id', $account->getKey())
+            PasswordReset::where('account_id', $account->id)
                 ->update(['expires_at' => now()]);
         });
 

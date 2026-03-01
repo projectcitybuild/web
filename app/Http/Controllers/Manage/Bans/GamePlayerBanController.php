@@ -124,7 +124,7 @@ class GamePlayerBanController extends WebController
 
         $this->playerBanService->update(
             new UpdatePlayerBan(
-                id: $playerBan->getKey(),
+                id: $playerBan->id,
                 bannedUuid: new MinecraftUUID($validated->get('banned_uuid')),
                 bannedAlias: $validated->get('banned_alias'),
                 bannerUuid: optional($validated->get('banner_uuid'), fn ($it) => new MinecraftUUID($it)),
@@ -148,7 +148,7 @@ class GamePlayerBanController extends WebController
     {
         $this->requires(WebManagePermission::UUID_BANS_EDIT);
 
-        $this->playerBanService->delete(id: $playerBan->getKey());
+        $this->playerBanService->delete(id: $playerBan->id);
 
         return to_route('manage.player-bans.index')
             ->with(['success' => 'Ban deleted successfully.']);

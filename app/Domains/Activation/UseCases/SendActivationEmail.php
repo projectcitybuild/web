@@ -23,7 +23,7 @@ class SendActivationEmail
         }
 
         $activation = AccountActivation::create([
-            'account_id' => $account->getKey(),
+            'account_id' => $account->id,
             'token' => $this->tokenGenerator->make(),
             'expires_at' => now()->addDay(),
         ]);

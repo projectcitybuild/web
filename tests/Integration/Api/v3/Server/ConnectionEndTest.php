@@ -78,7 +78,7 @@ it('creates session data if session time at least 20 seconds', function () {
 
         $player->refresh();
         expect($player->sessions)->toEqual(0);
-        expect(MinecraftPlayerSession::where('player_id', $player->getKey())->exists())
+        expect(MinecraftPlayerSession::where('player_id', $player->id)->exists())
             ->toBeFalse();
 
         $this->withServerToken()
@@ -89,7 +89,7 @@ it('creates session data if session time at least 20 seconds', function () {
 
         $player->refresh();
         expect($player->sessions)->toEqual(1);
-        expect(MinecraftPlayerSession::where('player_id', $player->getKey())->exists())
+        expect(MinecraftPlayerSession::where('player_id', $player->id)->exists())
             ->toBeTrue();
     });
 });

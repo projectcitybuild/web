@@ -23,7 +23,7 @@ final class SendPasswordResetEmail
         PasswordReset::create([
             'email' => $email,
             'token' => $token,
-            'account_id' => $account->getKey(),
+            'account_id' => $account->id,
             'created_at' => Carbon::now(),
             'expires_at' => now()->addMinutes(20),
         ]);
