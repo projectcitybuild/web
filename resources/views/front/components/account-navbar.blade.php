@@ -20,7 +20,7 @@
                 <ul class="py-2" aria-labelledby="user-menu-button">
                     @can('access-manage')
                         <li>
-                            <a href="{{ route('manage.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Staff Panel</a>
+                            <a href="{{ route('manage.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Management</a>
                         </li>
                     @endcan
                     @can('access-review')

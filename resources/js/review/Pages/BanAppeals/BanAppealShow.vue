@@ -118,7 +118,7 @@ function submit() {
                     </div>
                 </Card>
 
-                <Card class="mt-4">
+                <Card class="mt-4" v-if="banAppeal.game_player_ban">
                     <div class="p-4 border-b border-gray-200 flex justify-between items-center gap-2">
                         <h2 class="font-bold">Player Ban</h2>
 

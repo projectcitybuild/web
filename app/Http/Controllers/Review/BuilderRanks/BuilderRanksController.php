@@ -5,22 +5,24 @@ namespace App\Http\Controllers\Review\BuilderRanks;
 use App\Domains\BuilderRankApplications\Data\ApplicationStatus;
 use App\Domains\BuilderRankApplications\UseCases\ApproveBuildRankApplication;
 use App\Domains\BuilderRankApplications\UseCases\DenyBuildRankApplication;
+use App\Domains\Permissions\AuthorizesPermissions;
+use App\Domains\Permissions\WebReviewPermission;
 use App\Http\Controllers\Review\RendersReviewApp;
 use App\Http\Controllers\WebController;
 use App\Models\BuilderRankApplication;
 use App\Models\Role;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 class BuilderRanksController extends WebController
 {
+    use AuthorizesPermissions;
     use RendersReviewApp;
 
     public function index(Request $request)
     {
-        Gate::authorize('viewAny', BuilderRankApplication::class);
+        $this->requires(WebReviewPermission::BUILD_RANK_APPS_VIEW);
 
         $applications = function () {
             return BuilderRankApplication::orderbyRaw('FIELD(status, '.ApplicationStatus::PENDING->value.') DESC')
@@ -40,7 +42,7 @@ class BuilderRanksController extends WebController
 
     public function show(Request $request, BuilderRankApplication $application)
     {
-        Gate::authorize('view', $application);
+        $this->requires(WebReviewPermission::BUILD_RANK_APPS_VIEW);
 
         $application->load(
             'account.minecraftAccount',
@@ -60,7 +62,7 @@ class BuilderRanksController extends WebController
         BuilderRankApplication $application,
         ApproveBuildRankApplication $approveBuildRankApplication,
     ) {
-        Gate::authorize('update', $application);
+        $this->requires(WebReviewPermission::BUILD_RANK_APPS_DECIDE);
 
         $allowedRoles = Role::whereBuildType()->get()
             ->map(fn ($role) => $role->getKey())
@@ -84,7 +86,7 @@ class BuilderRanksController extends WebController
         BuilderRankApplication $application,
         DenyBuildRankApplication $denyBuildRankApplication,
     ) {
-        Gate::authorize('update', $application);
+        $this->requires(WebReviewPermission::BUILD_RANK_APPS_DECIDE);
 
         $validated = $request->validate([
             'deny_reason' => 'required',

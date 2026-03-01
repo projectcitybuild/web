@@ -28,7 +28,7 @@ class PermissionsRepository
 
         foreach ($permissions as $permission) {
             // Laravel's Str::is supports * wildcards
-            if ($permission === $permissionName || Str::is($permission, $permissionName)) {
+            if ($permission === $permissionName || Str::is($permissionName, $permission, ignoreCase: true)) {
                 return true;
             }
         }

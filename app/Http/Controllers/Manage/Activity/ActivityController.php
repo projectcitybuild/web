@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Manage\Activity;
 use App\Core\Utilities\Traits\FiltersWithParameters;
 use App\Http\Controllers\WebController;
 use App\Models\Activity;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Http\Request;
 
 class ActivityController extends WebController
 {
@@ -13,10 +13,11 @@ class ActivityController extends WebController
 
     protected array $filterParams = ['subject_type', 'description', 'causer_type', 'causer_id'];
 
-    public function index()
+    public function index(Request $request)
     {
-        Gate::authorize('viewAny', Activity::class);
-
+        if (! $request->user()->isAdmin()) {
+            abort(403);
+        }
         $activities = Activity::latest()
             ->with(['subject', 'causer'])
             ->where($this->activeFiltersQuery())
@@ -31,10 +32,11 @@ class ActivityController extends WebController
         ]);
     }
 
-    public function show(Activity $activity)
+    public function show(Request $request, Activity $activity)
     {
-        Gate::authorize('view', $activity);
-
+        if (! $request->user()->isAdmin()) {
+            abort(403);
+        }
         return view('manage.pages.activity.show')->with([
             'activity' => $activity,
         ]);

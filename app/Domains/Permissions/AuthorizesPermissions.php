@@ -8,23 +8,19 @@ trait AuthorizesPermissions
 {
     private const GATE_NAME = 'permission';
 
-    public function requires(string|WebManagePermission $permissionName)
+    public function requires(string|WebManagePermission|WebReviewPermission $permission)
     {
-        $permissionName = $permissionName instanceof WebManagePermission
-            ? $permissionName->value
-            : $permissionName;
-
-        if (! Gate::allows(self::GATE_NAME, $permissionName)) {
+        if (! $this->can($permission)) {
             abort(403);
         }
     }
 
-    public function can(string|WebManagePermission $permissionName)
+    public function can(string|WebManagePermission|WebReviewPermission $permission)
     {
-        $permissionName = $permissionName instanceof WebManagePermission
-            ? $permissionName->value
-            : $permissionName;
+        $node = ($permission instanceof WebManagePermission || $permission instanceof WebReviewPermission)
+            ? $permission->value
+            : $permission;
 
-        return Gate::allows(self::GATE_NAME, $permissionName);
+        return Gate::allows(self::GATE_NAME, $node);
     }
 }

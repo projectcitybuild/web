@@ -21,7 +21,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
@@ -55,13 +54,6 @@ final class AppServiceProvider extends ServiceProvider
             return $this->app->isProduction()
                 ? Password::min(12)->letters()->numbers()
                 : Password::min(8);
-        });
-
-        Gate::define('access-manage', function (Account $account) {
-            return $account->isAdmin() || $account->isStaff();
-        });
-        Gate::define('access-review', function (Account $account) {
-            return $account->isAdmin() || $account->isStaff() || $account->isArchitect();
         });
     }
 
