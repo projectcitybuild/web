@@ -56,7 +56,7 @@ final class MinecraftConnectionAuthController extends ApiController
                         'player_id' => $player->id,
                         'ip' => $ip,
                         'times_connected' => 1,
-                    ]
+                    ],
                 ],
                 uniqueBy: ['player_id', 'ip'],
                 update: [
