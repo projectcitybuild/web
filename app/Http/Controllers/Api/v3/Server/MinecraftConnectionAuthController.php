@@ -14,6 +14,7 @@ use App\Models\MinecraftPlayerIp;
 use App\Models\PlayerOpElevation;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 final class MinecraftConnectionAuthController extends ApiController
 {
@@ -44,15 +45,26 @@ final class MinecraftConnectionAuthController extends ApiController
             $player->last_seen_at = $now;
             $playerData = $this->getPlayerData($player);
         }
+        $player->save();
+
         $ip = $validated['ip'] ?? '';
         if (! empty($ip)) {
-            MinecraftPlayerIp::updateOrCreate(
-                ['player_id' => $player->id, 'ip' => $ip],
-                ['updated_at' => now()],
+            // Insert or update (and increment times_connected)
+            MinecraftPlayerIp::upsert(
+                values: [
+                    [
+                        'player_id' => $player->id,
+                        'ip' => $ip,
+                        'times_connected' => 1,
+                    ],
+                ],
+                uniqueBy: ['player_id', 'ip'],
+                update: [
+                    'times_connected' => DB::raw('times_connected + 1'),
+                    'updated_at',
+                ],
             );
         }
-
-        $player->save();
 
         return response()->json([
             'bans' => $bans,
