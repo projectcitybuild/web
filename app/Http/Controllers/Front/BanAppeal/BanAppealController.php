@@ -17,7 +17,7 @@ class BanAppealController extends WebController
         // Allow access via magic link, otherwise authorize normally
         if (
             ! $request->hasValidSignature() &&
-            $request->user()->getKey() !== $banAppeal->account_id &&
+            $request->user()?->getKey() !== $banAppeal->account_id &&
             ! $this->can(WebReviewPermission::BAN_APPEALS_VIEW)
         ) {
             abort(403);
