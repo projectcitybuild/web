@@ -23,11 +23,11 @@ defineProps<Props>()
         </thead>
         <tbody>
         <tr class="border-b dark:border-gray-700" v-for="donation in donations">
-            <td class="px-4 py-3 text-gray-900 whitespace-nowrap dark:text-white">{{ donation.donation_id }}</td>
+            <td class="px-4 py-3 text-gray-900 whitespace-nowrap dark:text-white">{{ donation.id }}</td>
             <td class="px-4 py-3">{{ donation.amount }}</td>
             <td class="px-4 py-3">{{ format(donation.created_at) }}</td>
             <td class="px-4 py-1 flex justify-end">
-                <Link :href="'/manage/donations/' + donation.donation_id + '/edit'">
+                <Link :href="'/manage/donations/' + donation.id + '/edit'">
                     <OutlinedButton variant="secondary">
                         Edit
                     </OutlinedButton>

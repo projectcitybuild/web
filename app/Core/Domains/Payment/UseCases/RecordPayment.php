@@ -35,7 +35,7 @@ final class RecordPayment
         $account = Cashier::findBillable($customerId);
 
         return Payment::create([
-            'account_id' => $account?->getKey(),
+            'account_id' => $account?->id,
             'stripe_product' => $productId,
             'stripe_price' => $priceId,
             'paid_currency' => $paidUnitAmount->getCurrency()->getCode(),

@@ -65,7 +65,7 @@ abstract class TestCase extends BaseTestCase
             ->create();
 
         $role = Role::factory()->administrator()->create();
-        $account->roles()->attach($role->getKey());
+        $account->roles()->attach($role->id);
 
         return $account;
     }
@@ -77,7 +77,7 @@ abstract class TestCase extends BaseTestCase
             ->create();
 
         $role = Role::factory()->staff()->create();
-        $account->roles()->attach($role->getKey());
+        $account->roles()->attach($role->id);
 
         return $account;
     }

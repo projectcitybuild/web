@@ -8,7 +8,7 @@ describe('validation', function () {
         $player = MinecraftPlayer::factory()->create();
 
         MinecraftHome::factory()->create([
-            'player_id' => $player->getKey(),
+            'player_id' => $player->id,
             'name' => 'spawn',
         ]);
 
@@ -32,7 +32,7 @@ describe('validation', function () {
         $otherPlayer = MinecraftPlayer::factory()->create();
 
         MinecraftHome::factory()->create([
-            'player_id' => $otherPlayer->getKey(),
+            'player_id' => $otherPlayer->id,
             'name' => 'spawn',
         ]);
 
@@ -71,7 +71,7 @@ it('creates a home for a player', function () {
         ->assertCreated()
         ->assertJsonFragment([
             'name' => 'spawn',
-            'player_id' => $player->getKey(),
+            'player_id' => $player->id,
             'world' => 'world',
             'x' => 1,
             'y' => 2,
@@ -80,6 +80,6 @@ it('creates a home for a player', function () {
             'yaw' => '5.0',
         ]);
 
-    expect(MinecraftHome::where('player_id', $player->getKey())->count())
+    expect(MinecraftHome::where('player_id', $player->id)->count())
         ->toBe(1);
 });

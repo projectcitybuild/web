@@ -16,7 +16,7 @@ class AccountResource extends JsonResource
         $canViewEmail = $this->can(WebManagePermission::ACCOUNTS_VIEW_EMAIL);
 
         return [
-            'account_id' => $this->getKey(),
+            'id' => $this->id,
             'username' => $this->username,
             'email' => $canViewEmail
                 ? $this->email

@@ -36,7 +36,6 @@ final class ServerToken extends Model implements LinkableAuditModel
         return $this->hasOne(
             related: Server::class,
             foreignKey: 'server_id',
-            localKey: 'server_id',
         );
     }
 

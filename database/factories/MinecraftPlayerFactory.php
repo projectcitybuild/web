@@ -59,7 +59,7 @@ class MinecraftPlayerFactory extends Factory
     {
         return $this->state(function (array $attributes) use ($id) {
             return [
-                'player_minecraft_id' => $id ?? $this->faker->randomNumber(),
+                'id' => $id ?? $this->faker->randomNumber(),
             ];
         });
     }

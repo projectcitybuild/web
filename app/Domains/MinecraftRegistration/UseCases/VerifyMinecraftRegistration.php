@@ -53,7 +53,7 @@ class VerifyMinecraftRegistration
             }
 
             MinecraftPlayer::whereUuid($registration->minecraft_uuid)->upsert([
-                'account_id' => $account->getKey(),
+                'account_id' => $account->id,
                 'uuid' => $registration->minecraft_uuid,
                 'alias' => $registration->minecraft_alias,
                 'last_seen_at' => now(),
@@ -75,7 +75,7 @@ class VerifyMinecraftRegistration
 
         $player = MinecraftPlayer::whereUuid($registration->minecraft_uuid)->first();
         assert($player !== null);
-        Log::debug('Dispatching MinecraftPlayerUpdated event for player id '.$player->getKey());
+        Log::debug('Dispatching MinecraftPlayerUpdated event for player id '.$player->id);
         MinecraftPlayerUpdated::dispatch($player);
     }
 

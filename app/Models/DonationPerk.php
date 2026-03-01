@@ -19,7 +19,6 @@ final class DonationPerk extends Model implements LinkableAuditModel
     use LogsActivity;
 
     protected $table = 'donation_perks';
-    protected $primaryKey = 'donation_perks_id';
     protected $fillable = [
         'donation_id',
         'account_id',
@@ -45,28 +44,28 @@ final class DonationPerk extends Model implements LinkableAuditModel
 
     public function account(): BelongsTo
     {
-        return $this->belongsTo(Account::class, 'account_id', 'account_id');
+        return $this->belongsTo(Account::class, 'account_id');
     }
 
     public function donation(): BelongsTo
     {
-        return $this->belongsTo(Donation::class, 'donation_id', 'donation_id');
+        return $this->belongsTo(Donation::class, 'donation_id');
     }
 
     public function donationTier(): BelongsTo
     {
-        return $this->belongsTo(DonationTier::class, 'donation_tier_id', 'donation_tier_id');
+        return $this->belongsTo(DonationTier::class, 'donation_tier_id');
     }
 
     public function getActivitySubjectLink(): ?string
     {
         return route('manage.donations.show', $this->donation_id)
-            .'#perk-'.$this->getKey();
+            .'#perk-'.$this->id;
     }
 
     public function getActivitySubjectName(): ?string
     {
-        return "Donation Perk {$this->getKey()}";
+        return "Donation Perk {$this->id}";
     }
 
     public function auditAttributeConfig(): AuditAttributes

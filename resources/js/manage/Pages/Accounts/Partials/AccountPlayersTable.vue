@@ -25,13 +25,13 @@ defineEmits(['unlinkTap'])
         </thead>
         <tbody>
         <tr class="border-b dark:border-gray-700" v-for="player in players">
-            <td class="px-4 py-3 text-gray-900 whitespace-nowrap dark:text-white">{{ player.player_minecraft_id }}</td>
+            <td class="px-4 py-3 text-gray-900 whitespace-nowrap dark:text-white">{{ player.id }}</td>
             <td class="px-4 py-3">
                 <MinecraftAvatar :uuid="player.uuid" :size="32" />
             </td>
             <td class="px-4 py-3">
                 <Link
-                    :href="'/manage/players/' + player.player_minecraft_id"
+                    :href="'/manage/players/' + player.id"
                     class="text-blue-500"
                 >
                     {{ player.uuid }}
@@ -41,7 +41,7 @@ defineEmits(['unlinkTap'])
             <td class="px-4 py-3 flex justify-end">
                 <OutlinedButton
                     variant="danger"
-                    @click="$emit('unlinkTap', player.player_minecraft_id)"
+                    @click="$emit('unlinkTap', player.id)"
                 >
                     Unlink
                 </OutlinedButton>

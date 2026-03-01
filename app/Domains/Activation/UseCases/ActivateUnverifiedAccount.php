@@ -20,7 +20,7 @@ final class ActivateUnverifiedAccount
             ->firstOrFail();
 
         abort_if(
-            $activation->account_id !== $account->getKey(),
+            $activation->account_id !== $account->id,
             code: 403,
             message: 'Account mismatch',
         );

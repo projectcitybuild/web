@@ -6,7 +6,7 @@ use App\Models\MinecraftPlayer;
 it('deletes a home', function () {
     $player = MinecraftPlayer::factory()->create();
     $home = MinecraftHome::factory()->create([
-        'player_id' => $player->getKey(),
+        'player_id' => $player->id,
     ]);
 
     $response = $this
@@ -21,7 +21,7 @@ it('prevents deleting another players home', function () {
     $otherPlayer = MinecraftPlayer::factory()->create();
 
     $home = MinecraftHome::factory()->create([
-        'player_id' => $otherPlayer->getKey(),
+        'player_id' => $otherPlayer->id,
     ]);
 
     $response = $this

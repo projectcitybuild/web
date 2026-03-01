@@ -39,7 +39,6 @@ class BanAppeal extends Model implements LinkableAuditModel
         return $this->belongsTo(
             related: Account::class,
             foreignKey: 'account_id',
-            ownerKey: 'account_id',
         );
     }
 
@@ -48,7 +47,6 @@ class BanAppeal extends Model implements LinkableAuditModel
         return $this->belongsTo(
             related: GamePlayerBan::class,
             foreignKey: 'game_ban_id',
-            ownerKey: 'id',
         );
     }
 
@@ -57,7 +55,6 @@ class BanAppeal extends Model implements LinkableAuditModel
         return $this->belongsTo(
             related: MinecraftPlayer::class,
             foreignKey: 'decider_player_minecraft_id',
-            ownerKey: 'player_minecraft_id',
         );
     }
 
@@ -104,6 +101,6 @@ class BanAppeal extends Model implements LinkableAuditModel
 
     public function getActivitySubjectName(): ?string
     {
-        return "Ban Appeal {$this->getKey()}";
+        return "Ban Appeal {$this->id}";
     }
 }

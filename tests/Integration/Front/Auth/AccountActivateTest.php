@@ -55,7 +55,7 @@ describe('account activation', function () {
     it('redirects to account profile if already activated', function () {
         $account = Account::factory()->create();
         $activation = AccountActivation::factory()
-            ->create(['account_id' => $account->getKey()]);
+            ->create(['account_id' => $account->id]);
 
         $this->withoutMiddleware(ValidateSignature::class)
             ->actingAs($account)
@@ -68,7 +68,7 @@ describe('account activation', function () {
             ->toBeFalse();
 
         $activation = AccountActivation::factory()
-            ->create(['account_id' => $this->account->getKey()]);
+            ->create(['account_id' => $this->account->id]);
 
         $this->withoutMiddleware(ValidateSignature::class)
             ->actingAs($this->account)
@@ -82,13 +82,13 @@ describe('account activation', function () {
 
     it('deletes the activation token', function () {
         $activation = AccountActivation::factory()
-            ->create(['account_id' => $this->account->getKey()]);
+            ->create(['account_id' => $this->account->id]);
 
         $this->withoutMiddleware(ValidateSignature::class)
             ->actingAs($this->account)
             ->get(route('front.activate.verify', ['token' => $activation->token]));
 
-        expect(AccountActivation::where('id', $activation->getKey())->first())
+        expect(AccountActivation::where('id', $activation->id)->first())
             ->toBeNull();
     });
 
@@ -98,7 +98,7 @@ describe('account activation', function () {
             ->create();
 
         $activation = AccountActivation::factory()
-            ->create(['account_id' => $account->getKey()]);
+            ->create(['account_id' => $account->id]);
 
         Session::put('url.intended', '/my/path');
 

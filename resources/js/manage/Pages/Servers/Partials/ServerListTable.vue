@@ -13,7 +13,7 @@ defineProps<Props>()
 const { can } = usePermissions()
 
 const fields = [
-    { key: 'server_id', label: 'ID' },
+    { key: 'id', label: 'ID' },
     { key: 'name', label: 'Name' },
     { key: 'ip', label: 'IP Address' },
     { key: 'port', label: 'Port' },
@@ -24,7 +24,7 @@ const fields = [
 <template>
     <DataTable :fields="fields" :rows="servers" class="border-t border-gray-200">
         <template #actions="{ item }" v-if="can('web.manage.servers.edit')">
-            <Link :href="'/manage/servers/' + item.server_id + '/edit'">
+            <Link :href="'/manage/servers/' + item.id + '/edit'">
                 <FilledButton variant="secondary">
                     Edit
                 </FilledButton>

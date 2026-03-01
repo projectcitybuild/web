@@ -43,7 +43,7 @@ const { can } = usePermissions()
             <div class="px-4 py-3 flex flex-row items-center gap-2">
                 <MinecraftAvatar :uuid="item.banned_player.uuid" :size="16"/>
                 <Link
-                    :href="'/manage/players/' + item.banned_player.player_minecraft_id"
+                    :href="'/manage/players/' + item.banned_player.id"
                     class="text-blue-500"
                 >
                     {{ item.banned_player.alias ?? '-' }}

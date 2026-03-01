@@ -12,7 +12,7 @@ interface Props {
 const props = defineProps<Props>()
 
 const fields = [
-    { key: 'account_id', label: 'ID' },
+    { key: 'id', label: 'ID' },
     { key: 'username', label: 'Username' },
     { key: 'email', label: 'Email' },
     { key: 'activated', label: 'Activated' },
@@ -41,7 +41,7 @@ const rows = computed(
 
         <template #username="{ item }">
             <Link
-                :href="'/manage/accounts/' + item.account_id"
+                :href="'/manage/accounts/' + item.id"
                 class="text-blue-500"
             >
                 {{ item.username }}

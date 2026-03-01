@@ -33,7 +33,7 @@ class HomeService
             ->pluck('additional_homes', 'name');
 
         return new HomeCount(
-            used: MinecraftHome::where('player_id', $player->getKey())->count(),
+            used: MinecraftHome::where('player_id', $player->id)->count(),
             allowed: max(1, $sources->sum()), // Always grant at least 1 home
             sources: $sources->toArray(),
         );
@@ -45,7 +45,7 @@ class HomeService
         string $name,
     ): MinecraftHome {
         $exists = MinecraftHome::where('name', $name)
-            ->where('player_id', $player->getKey())
+            ->where('player_id', $player->id)
             ->exists();
 
         if ($exists) {
@@ -59,7 +59,7 @@ class HomeService
 
         return MinecraftHome::create([
             'name' => $name,
-            'player_id' => $player->getKey(),
+            'player_id' => $player->id,
             ...$coordinate->toArray(),
         ]);
     }
@@ -73,8 +73,8 @@ class HomeService
         $this->assertCanAccess($home, $player);
 
         $exists = MinecraftHome::where('name', $name)
-            ->where('player_id', $player->getKey())
-            ->where('id', '!=', $home->getKey())
+            ->where('player_id', $player->id)
+            ->where('id', '!=', $home->id)
             ->exists();
 
         if ($exists) {
@@ -83,7 +83,7 @@ class HomeService
 
         $home->update([
             'name' => $name,
-            'player_id' => $player->getKey(),
+            'player_id' => $player->id,
             ...$coordinate->toArray(),
         ]);
 
@@ -109,7 +109,7 @@ class HomeService
 
     private function assertCanAccess(MinecraftHome $home, MinecraftPlayer $player): void
     {
-        $isOwner = $home->player_id === $player->getKey();
+        $isOwner = $home->player_id === $player->id;
         if ($isOwner) {
             return;
         }

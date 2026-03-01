@@ -121,7 +121,7 @@ class MinecraftPlayerController extends WebController
 
         $uuid = MinecraftUUID::tryParse($validated['uuid']);
         $exists = MinecraftPlayer::whereUuid($uuid)
-            ->whereNot(MinecraftPlayer::primaryKey(), $player->getKey())
+            ->whereNot(MinecraftPlayer::primaryKey(), $player->id)
             ->exists();
 
         if ($exists) {

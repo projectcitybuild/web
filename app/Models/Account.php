@@ -32,7 +32,6 @@ final class Account extends Authenticatable implements LinkableAuditModel
     use Notifiable;
 
     protected $table = 'accounts';
-    protected $primaryKey = 'account_id';
     protected $fillable = [
         'email',
         'username',
@@ -72,7 +71,6 @@ final class Account extends Authenticatable implements LinkableAuditModel
         return $this->hasMany(
             related: MinecraftPlayer::class,
             foreignKey: 'account_id',
-            localKey: 'account_id',
         );
     }
 
@@ -114,7 +112,6 @@ final class Account extends Authenticatable implements LinkableAuditModel
         return $this->hasMany(
             related: DonationPerk::class,
             foreignKey: 'account_id',
-            localKey: 'account_id',
         );
     }
 
@@ -141,8 +138,7 @@ final class Account extends Authenticatable implements LinkableAuditModel
             through: MinecraftPlayer::class,
             firstKey: 'account_id',
             secondKey: 'banned_player_id',
-            localKey: 'account_id',
-            secondLocalKey: 'player_minecraft_id'
+            secondLocalKey: MinecraftPlayer::primaryKey(),
         );
     }
 
@@ -153,8 +149,7 @@ final class Account extends Authenticatable implements LinkableAuditModel
             through: MinecraftPlayer::class,
             firstKey: 'account_id',
             secondKey: 'warned_player_id',
-            localKey: 'account_id',
-            secondLocalKey: 'player_minecraft_id'
+            secondLocalKey: MinecraftPlayer::primaryKey(),
         );
     }
 

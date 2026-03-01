@@ -85,7 +85,7 @@ class AccountSeeder extends Seeder
         $account->save();
 
         AccountActivation::factory()->create([
-            'account_id' => $account->getKey(),
+            'account_id' => $account->id,
             'token' => $this->tokenGenerator->make(),
             'expires_at' => now()->addYear(),
         ]);

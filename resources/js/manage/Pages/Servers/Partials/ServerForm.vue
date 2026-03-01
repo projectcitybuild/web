@@ -33,7 +33,7 @@ function submit() {
 
 function destroy() {
     deleteModal?.value.close()
-    form.delete('/manage/servers/' + props.server.server_id)
+    form.delete('/manage/servers/' + props.server.id)
 }
 </script>
 

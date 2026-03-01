@@ -23,7 +23,7 @@ it('returns existing player', function () {
     ]);
     $this->getJson("http://api.localhost/v3/players/$player->uuid")
         ->assertJson(fn (AssertableJson $json) => $json
-            ->where('player_minecraft_id', $player->getKey())
+            ->where('id', $player->id)
             ->where('uuid', $player->uuid)
             ->where('alias', $player->alias)
             ->where('nickname', $player->nickname)

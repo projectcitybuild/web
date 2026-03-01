@@ -12,7 +12,7 @@ interface Props {
 const props = defineProps<Props>()
 
 const fields = [
-    { key: 'donation_id', label: 'ID' },
+    { key: 'id', label: 'ID' },
     { key: 'account', label: 'Account' },
     { key: 'original_amount', label: 'Original Currency' },
     { key: 'paid_amount', label: 'Paid Currency' },
@@ -34,7 +34,7 @@ const rows = computed(
     <DataTable :fields="fields" :rows="rows" :show-index="true" class="border-t border-gray-200">
         <template #account="{ item }">
             <Link
-                :href="'/manage/accounts/' + item.account?.account_id"
+                :href="'/manage/accounts/' + item.account?.id"
                 class="text-blue-500"
             >
                 {{ item.account?.username }}
@@ -50,7 +50,7 @@ const rows = computed(
         </template>
 
         <template #actions="{ item }">
-            <Link :href="'/manage/donations/' + item.donation_id + '/edit'">
+            <Link :href="'/manage/donations/' + item.id + '/edit'">
                 <FilledButton variant="secondary">
                     Edit
                 </FilledButton>

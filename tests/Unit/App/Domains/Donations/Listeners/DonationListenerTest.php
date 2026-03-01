@@ -31,7 +31,7 @@ it('calls ProcessDonation on PaymentCreated event', function () {
             $payment->account,
             $payment->stripe_product,
             $payment->stripe_price,
-            $payment->getKey(),
+            $payment->id,
             $payment->original_unit_amount,
             $payment->unit_quantity,
         )

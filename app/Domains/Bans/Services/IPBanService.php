@@ -36,7 +36,7 @@ class IPBanService
         $ban = GameIPBan::create([
             'ip_address' => $req->ip,
             'reason' => $req->reason,
-            'banner_player_id' => $bannerPlayer->getKey(),
+            'banner_player_id' => $bannerPlayer->id,
         ]);
 
         IpAddressBanned::dispatch($ban);
@@ -56,7 +56,7 @@ class IPBanService
 
         $existingBan->update([
             'unbanned_at' => now(),
-            'unbanner_player_id' => $unbannerPlayer->getKey(),
+            'unbanner_player_id' => $unbannerPlayer->id,
             'unban_type' => $req->unbanType->value,
         ]);
 

@@ -37,8 +37,8 @@ final class ExpireDonorPerks
                     continue;
                 }
                 $account = $expiredPerk->account;
-                if (! array_key_exists($account->getKey(), $affectedAccounts)) {
-                    $affectedAccounts[$account->getKey()] = $account;
+                if (! array_key_exists($account->id, $affectedAccounts)) {
+                    $affectedAccounts[$account->id] = $account;
                 }
                 $expiredPerk->is_active = false;
                 $expiredPerk->save();
@@ -50,7 +50,7 @@ final class ExpireDonorPerks
             foreach ($affectedAccounts as $account) {
                 // Only remove accounts from the donor role and notify them if they don't
                 // have any other existing perks
-                $perks = DonationPerk::where('account_id', $account->getKey())
+                $perks = DonationPerk::where('account_id', $account->id)
                     ->where('is_active', true)
                     ->whereDate('expires_at', '>', $now)
                     ->get();
@@ -64,7 +64,7 @@ final class ExpireDonorPerks
                 $account->roles()->detach($donorRole->id);
                 $account->notify(new DonationEndedNotification);
 
-                Log::info('Removed '.$account->getKey().' from donators');
+                Log::info('Removed '.$account->id.' from donators');
             }
         });
     }

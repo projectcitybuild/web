@@ -12,7 +12,7 @@ class PlayerOpElevationFactory extends Factory
     public function definition()
     {
         return [
-            'player_id' => MinecraftPlayer::factory()->create()->getKey(),
+            'player_id' => MinecraftPlayer::factory()->create()->id,
             'reason' => $this->faker->text(32),
             'started_at' => $this->faker->dateTime(),
             'ended_at' => $this->faker->dateTime(),

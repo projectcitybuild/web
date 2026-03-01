@@ -5,7 +5,6 @@ namespace App\Http\Middleware;
 use App\Models\ServerToken;
 use Closure;
 use Illuminate\Http\Request;
-use Spatie\Activitylog\Facades\CauserResolver;
 
 /**
  * Prevents access unless a valid ServerToken is present in the request
@@ -22,8 +21,6 @@ class RequireServerToken
         abort_if($serverToken === null, code: 401);
 
         $this->assertWhitelistedIp($request, $serverToken);
-
-        CauserResolver::setCauser($serverToken->server);
 
         return $next($request);
     }

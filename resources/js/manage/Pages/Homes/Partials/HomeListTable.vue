@@ -41,7 +41,7 @@ const rows = computed(
         <template #player="{ item }">
             <MinecraftAvatar :uuid="item.player?.uuid" :size="16"/>
             <Link
-                :href="'/manage/players/' + item.player?.player_minecraft_id"
+                :href="'/manage/players/' + item.player?.id"
                 class="text-blue-500"
             >
                 {{ item.player?.alias ?? "-" }}

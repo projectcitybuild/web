@@ -67,7 +67,7 @@ const alts = computed(() => props.application.account?.minecraft_account?.slice(
                         <div class="p-4 flex items-center gap-2">
                             <MinecraftAvatar :uuid="player.uuid" :size="36" class="shadow-lg" />
                             <a
-                                :href="'/manage/players/' + player.player_minecraft_id"
+                                :href="'/manage/players/' + player.id"
                                 class="text-blue-500 text-xl font-bold"
                             >
                                 <h1>{{ player.alias }}</h1>
@@ -106,7 +106,7 @@ const alts = computed(() => props.application.account?.minecraft_account?.slice(
                             >
                                 <MinecraftAvatar :uuid="player.uuid" :size="24" />
                                 <a
-                                    :href="'/manage/players/' + player.player_minecraft_id"
+                                    :href="'/manage/players/' + player.id"
                                     class="text-blue-500"
                                 >
                                     {{ player.alias }}

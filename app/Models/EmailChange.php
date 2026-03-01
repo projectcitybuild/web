@@ -28,7 +28,6 @@ final class EmailChange extends Model
         return $this->belongsTo(
             related: Account::class,
             foreignKey: 'account_id',
-            ownerKey: 'account_id',
         );
     }
 

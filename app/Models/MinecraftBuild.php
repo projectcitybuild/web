@@ -38,7 +38,6 @@ class MinecraftBuild extends Model
         return $this->belongsTo(
             related: MinecraftPlayer::class,
             foreignKey: 'player_id',
-            ownerKey: MinecraftPlayer::primaryKey(),
         );
     }
 }

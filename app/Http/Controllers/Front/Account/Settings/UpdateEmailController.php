@@ -26,7 +26,7 @@ final class UpdateEmailController extends WebController
         $account = $request->user();
 
         $sendVerificationEmail->execute(
-            accountId: $account->getKey(),
+            accountId: $account->id,
             newEmailAddress: $input['email'],
         );
 
@@ -39,7 +39,7 @@ final class UpdateEmailController extends WebController
         Request $request,
         UpdateAccountEmail $updateAccountEmail
     ) {
-        $token = $request->request->get('token');
+        $token = $request->query->get('token');
         $account = $request->user();
 
         $changeRequest = EmailChange::whereToken($token)
@@ -48,10 +48,10 @@ final class UpdateEmailController extends WebController
 
         if ($changeRequest === null) {
             return redirect()
-                ->route('front.account.settings.update-email')
+                ->route('front.account.settings.email')
                 ->withErrors(['error' => 'Invalid or expired link']);
         }
-        if ($changeRequest->account->getKey() !== $account->getKey()) {
+        if ($changeRequest->account->id !== $account->id) {
             abort(403);
         }
         $updateAccountEmail->execute(
@@ -61,7 +61,7 @@ final class UpdateEmailController extends WebController
         );
 
         return redirect()
-            ->route('front.pages.account.settings.update-email')
+            ->route('front.account.settings.email')
             ->with(['success' => 'Your email address has been updated']);
     }
 }

@@ -40,15 +40,15 @@ it('creates Donation', function () {
         account: $this->account,
         productId: $this->payment->stripe_product,
         priceId: $this->payment->stripe_price,
-        paymentId: $this->payment->getKey(),
+        paymentId: $this->payment->id,
         unitAmount: 500,
         unitQuantity: 2,
     );
 
     $this->assertDatabaseHas(Donation::tableName(), [
-        'account_id' => $this->account->getKey(),
+        'account_id' => $this->account->id,
         'amount' => 1000,
-        'payment_id' => $this->payment->getKey(),
+        'payment_id' => $this->payment->id,
     ]);
 });
 
@@ -61,14 +61,14 @@ describe('DonationPerk', function () {
                     account: $this->account,
                     productId: $this->payment->stripe_product,
                     priceId: $this->payment->stripe_price,
-                    paymentId: $this->payment->getKey(),
+                    paymentId: $this->payment->id,
                     unitAmount: 500,
                     unitQuantity: 2,
                 );
 
                 $this->assertDatabaseHas(DonationPerk::tableName(), [
-                    'donation_tier_id' => $this->donationTier->getKey(),
-                    'account_id' => $this->account->getKey(),
+                    'donation_tier_id' => $this->donationTier->id,
+                    'account_id' => $this->account->id,
                     'is_active' => true,
                     'expires_at' => $now->addMonths(2),
                 ]);
@@ -82,14 +82,14 @@ describe('DonationPerk', function () {
                     account: $this->account,
                     productId: $this->payment->stripe_product,
                     priceId: $this->payment->stripe_price,
-                    paymentId: $this->payment->getKey(),
+                    paymentId: $this->payment->id,
                     unitAmount: 500,
                     unitQuantity: 2,
                 );
 
                 $this->assertDatabaseHas(DonationPerk::tableName(), [
-                    'donation_tier_id' => $this->donationTier->getKey(),
-                    'account_id' => $this->account->getKey(),
+                    'donation_tier_id' => $this->donationTier->id,
+                    'account_id' => $this->account->id,
                     'is_active' => true,
                     'expires_at' => $now->addMonths(2),
                 ]);
@@ -115,7 +115,7 @@ describe('DonationPerk', function () {
                 account: $this->account,
                 productId: $this->payment->stripe_product,
                 priceId: $this->payment->stripe_price,
-                paymentId: $this->payment->getKey(),
+                paymentId: $this->payment->id,
                 unitAmount: 500,
                 unitQuantity: 2,
             );
@@ -139,7 +139,7 @@ describe('DonationPerk', function () {
                 account: $this->account,
                 productId: $this->payment->stripe_product,
                 priceId: $this->payment->stripe_price,
-                paymentId: $this->payment->getKey(),
+                paymentId: $this->payment->id,
                 unitAmount: 500,
                 unitQuantity: 2,
             );
@@ -164,16 +164,16 @@ describe('DonationPerk', function () {
                     account: $this->account,
                     productId: $this->payment->stripe_product,
                     priceId: $this->payment->stripe_price,
-                    paymentId: $this->payment->getKey(),
+                    paymentId: $this->payment->id,
                     unitAmount: 500,
                     unitQuantity: 2,
                 );
 
                 $this->assertDatabaseHas(DonationPerk::tableName(), [
-                    DonationPerk::primaryKey() => $perk->getKey(),
-                    'donation_id' => $donation->getKey(),
-                    'donation_tier_id' => $this->donationTier->getKey(),
-                    'account_id' => $this->account->getKey(),
+                    'id' => $perk->id,
+                    'donation_id' => $donation->id,
+                    'donation_tier_id' => $this->donationTier->id,
+                    'account_id' => $this->account->id,
                     'is_active' => true,
                     'expires_at' => $originalExpiry->addMonths(2),
                 ]);
@@ -198,16 +198,16 @@ describe('DonationPerk', function () {
                     account: $this->account,
                     productId: $this->payment->stripe_product,
                     priceId: $this->payment->stripe_price,
-                    paymentId: $this->payment->getKey(),
+                    paymentId: $this->payment->id,
                     unitAmount: 500,
                     unitQuantity: 2,
                 );
 
                 $this->assertDatabaseHas(DonationPerk::tableName(), [
-                    DonationPerk::primaryKey() => $perk->getKey(),
-                    'donation_id' => $donation->getKey(),
-                    'donation_tier_id' => $this->donationTier->getKey(),
-                    'account_id' => $this->account->getKey(),
+                    'id' => $perk->id,
+                    'donation_id' => $donation->id,
+                    'donation_tier_id' => $this->donationTier->id,
+                    'account_id' => $this->account->id,
                     'is_active' => true,
                     'expires_at' => $now->addMonths(2),
                 ]);

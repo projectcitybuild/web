@@ -18,7 +18,6 @@ final class Server extends Model implements LinkableAuditModel
     use LogsActivity;
 
     protected $table = 'servers';
-    protected $primaryKey = 'server_id';
     protected $fillable = [
         'name',
         'ip',

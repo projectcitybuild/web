@@ -134,7 +134,7 @@ function submit() {
                                 <div class="flex gap-2 items-center">
                                     <MinecraftAvatar :uuid="banAppeal.game_player_ban.banned_player.uuid" :size="24" />
                                     <a
-                                        :href="'/manage/players/' + banAppeal.game_player_ban.banned_player.player_minecraft_id"
+                                        :href="'/manage/players/' + banAppeal.game_player_ban.banned_player.id"
                                         class="text-blue-500"
                                     >
                                         {{ banAppeal.game_player_ban.banned_player.alias }}
@@ -148,7 +148,7 @@ function submit() {
                                 <div v-if="banAppeal.game_player_ban.banner_player" class="flex gap-2 items-center">
                                     <MinecraftAvatar :uuid="banAppeal.game_player_ban.banner_player.uuid" :size="24" />
                                     <a
-                                        :href="'/manage/players/' + banAppeal.game_player_ban.banner_player.player_minecraft_id"
+                                        :href="'/manage/players/' + banAppeal.game_player_ban.banner_player.id"
                                         class="text-blue-500"
                                     >
                                         {{ banAppeal.game_player_ban.banner_player.alias }}
@@ -310,7 +310,7 @@ function submit() {
                                 <dd class="text-sm text-gray-900 dark:text-white flex items-center gap-2">
                                     <MinecraftAvatar :uuid="banAppeal.decider_player.uuid" :size="24" />
                                     <a
-                                        :href="'/manage/players/' + banAppeal.decider_player.player_minecraft_id"
+                                        :href="'/manage/players/' + banAppeal.decider_player.id"
                                         class="text-blue-500"
                                     >
                                         {{ banAppeal.decider_player.alias }}

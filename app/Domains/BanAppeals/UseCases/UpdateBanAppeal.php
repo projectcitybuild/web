@@ -53,7 +53,7 @@ class UpdateBanAppeal
             DB::beginTransaction();
 
             $banAppeal->decision_note = $decisionNote;
-            $banAppeal->decider_player_minecraft_id = $decidingPlayer->getKey();
+            $banAppeal->decider_player_minecraft_id = $decidingPlayer->id;
             $banAppeal->status = $status;
             $banAppeal->decided_at = now();
             $banAppeal->save();
@@ -70,7 +70,7 @@ class UpdateBanAppeal
                 $ban = $banAppeal->gamePlayerBan;
                 $ban->update([
                     'unbanned_at' => now(),
-                    'unbanner_player_id' => $unbannerPlayer->getKey(),
+                    'unbanner_player_id' => $unbannerPlayer->id,
                     'unban_type' => UnbanType::APPEALED->value,
                 ]);
             }

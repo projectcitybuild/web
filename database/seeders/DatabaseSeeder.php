@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
 
         ServerToken::create([
             'token' => 'pcbridge_local',
-            'server_id' => Server::first()->getKey(),
+            'server_id' => Server::first()->id,
             'description' => 'For test use',
         ]);
 

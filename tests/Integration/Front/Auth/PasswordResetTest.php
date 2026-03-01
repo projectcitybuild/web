@@ -45,7 +45,7 @@ describe('submit', function () {
         $this->assertDatabaseHas(PasswordReset::tableName(), [
             'email' => $this->account->email,
             'token' => $token,
-            'account_id' => $this->account->getKey(),
+            'account_id' => $this->account->id,
         ]);
     });
 });
@@ -54,7 +54,7 @@ describe('set new password', function () {
     beforeEach(function () {
         $this->reset = PasswordReset::factory()->create([
             'email' => $this->account->email,
-            'account_id' => $this->account->getKey(),
+            'account_id' => $this->account->id,
         ]);
     });
 

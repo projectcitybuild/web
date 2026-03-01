@@ -38,7 +38,6 @@ final class PlayerWarning extends Model implements LinkableAuditModel
         return $this->belongsTo(
             related: MinecraftPlayer::class,
             foreignKey: 'warned_player_id',
-            ownerKey: 'player_minecraft_id',
         );
     }
 
@@ -47,7 +46,6 @@ final class PlayerWarning extends Model implements LinkableAuditModel
         return $this->belongsTo(
             related: MinecraftPlayer::class,
             foreignKey: 'warner_player_id',
-            ownerKey: 'player_minecraft_id',
         );
     }
 
@@ -59,7 +57,7 @@ final class PlayerWarning extends Model implements LinkableAuditModel
     public function getActivitySubjectName(): ?string
     {
         $player = $this->warnedPlayer->alias
-            ?? $this->warnedPlayer->getKey().' player id';
+            ?? $this->warnedPlayer->id.' player id';
 
         return "Warning for $player";
     }

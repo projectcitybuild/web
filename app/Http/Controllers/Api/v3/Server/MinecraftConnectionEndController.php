@@ -30,7 +30,7 @@ final class MinecraftConnectionEndController extends ApiController
             $player->sessions += 1;
 
             MinecraftPlayerSession::create([
-                'player_id' => $player->getKey(),
+                'player_id' => $player->id,
                 'seconds' => $sessionTime,
                 'starts_at' => now()->subSeconds($sessionTime),
                 'ends_at' => now(),

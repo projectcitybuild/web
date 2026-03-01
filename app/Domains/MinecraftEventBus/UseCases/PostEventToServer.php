@@ -41,6 +41,6 @@ class PostEventToServer
 
     private function getServerToken(Server $server): ?ServerToken
     {
-        return ServerToken::where('server_id', $server->getKey())->firstOrFail();
+        return ServerToken::where('server_id', $server->id)->firstOrFail();
     }
 }

@@ -43,9 +43,9 @@ class ServerTokenController extends WebController
 
         // TODO: remove server_id column
         $server = Server::first();
-        $validated['server_id'] = $server->getKey();
+        $validated['server_id'] = $server->id;
 
-        $allowedIps = $validated['allowed_ips'];
+        $allowedIps = $validated['allowed_ips'] ?? '';
         if (! empty($allowedIps)) {
             $validated['allowed_ips'] = collect(explode(PHP_EOL, $allowedIps))
                 ->filter(fn ($ip) => ! empty($ip))

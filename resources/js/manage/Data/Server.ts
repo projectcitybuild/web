@@ -1,5 +1,5 @@
 export interface Server {
-    server_id: number,
+    id: number,
     name: string,
     ip: string,
     port: number,

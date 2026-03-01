@@ -42,7 +42,7 @@ class AccountSettingsEmailTest extends TestCase
 
         $this->assertDatabaseHas('account_email_changes', [
             'email' => $newEmail,
-            'account_id' => $this->account->getKey(),
+            'account_id' => $this->account->id,
         ]);
 
         Notification::assertSentTo(
@@ -55,13 +55,13 @@ class AccountSettingsEmailTest extends TestCase
     {
         EmailChange::create([
             'token' => 'test',
-            'account_id' => $this->account->getKey(),
+            'account_id' => $this->account->id,
             'email' => 'foo@bar.com',
             'expires_at' => now()->addDay(),
         ]);
         $this->assertDatabaseHas('account_email_changes', [
             'token' => 'test',
-            'account_id' => $this->account->getKey(),
+            'account_id' => $this->account->id,
             'email' => 'foo@bar.com',
         ]);
 
@@ -71,7 +71,7 @@ class AccountSettingsEmailTest extends TestCase
 
         $this->assertDatabaseMissing('account_email_changes', [
             'token' => 'test',
-            'account_id' => $this->account->getKey(),
+            'account_id' => $this->account->id,
             'email' => 'foo@bar.com',
         ]);
     }

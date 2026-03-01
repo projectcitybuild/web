@@ -8,7 +8,7 @@
     @if($model?->getActivitySubjectLink() && $link)
         <a href="{{ $model->getActivitySubjectLink() }}" {{ $attributes }} >
             @endif
-            {{ $model?->getActivitySubjectName() ?? $model?->getKey() ?? 'Unknown' }}
+            {{ $model?->getActivitySubjectName() ?? $model?->id ?? 'Unknown' }}
             @if($model?->getActivitySubjectLink() && $link)
         </a>
     @endif

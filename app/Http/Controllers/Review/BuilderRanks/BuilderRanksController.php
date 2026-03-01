@@ -65,7 +65,7 @@ class BuilderRanksController extends WebController
         $this->requires(WebReviewPermission::BUILD_RANK_APPS_DECIDE);
 
         $allowedRoles = Role::whereBuildType()->get()
-            ->map(fn ($role) => $role->getKey())
+            ->map(fn ($role) => $role->id)
             ->toArray();
 
         $validated = $request->validate([
@@ -73,7 +73,7 @@ class BuilderRanksController extends WebController
         ]);
 
         $application = $approveBuildRankApplication->execute(
-            applicationId: $application->getKey(),
+            applicationId: $application->id,
             promoteRoleId: $validated['promote_role'],
         );
 
@@ -93,7 +93,7 @@ class BuilderRanksController extends WebController
         ]);
 
         $application = $denyBuildRankApplication->execute(
-            applicationId: $application->getKey(),
+            applicationId: $application->id,
             denyReason: $validated['deny_reason'],
         );
 

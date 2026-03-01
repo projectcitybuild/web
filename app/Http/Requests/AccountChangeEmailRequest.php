@@ -28,7 +28,7 @@ final class AccountChangeEmailRequest extends FormRequest
             $account = Account::whereEmail($email)->first();
 
             if ($account !== null) {
-                if ($account->getKey() === Auth::user()->getKey()) {
+                if ($account->id === Auth::user()->id) {
                     $validator->errors()->add('email', 'You are already using this email address');
                 } else {
                     $validator->errors()->add('email', 'This email address is already in use');

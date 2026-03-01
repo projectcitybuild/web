@@ -18,7 +18,6 @@ final class BuilderRankApplication extends Model implements LinkableAuditModel
     use Notifiable;
 
     protected $table = 'builder_rank_applications';
-    protected $primaryKey = 'id';
     protected $fillable = [
         'account_id',
         'minecraft_alias',
@@ -58,7 +57,6 @@ final class BuilderRankApplication extends Model implements LinkableAuditModel
         return $this->belongsTo(
             related: Account::class,
             foreignKey: 'account_id',
-            ownerKey: 'account_id',
         );
     }
 
@@ -80,6 +78,6 @@ final class BuilderRankApplication extends Model implements LinkableAuditModel
 
     public function getActivitySubjectName(): ?string
     {
-        return "Builder Application {$this->getKey()}";
+        return "Builder Application {$this->id}";
     }
 }

@@ -35,15 +35,15 @@ class PlayerBanService
         );
 
         $ban = GamePlayerBan::create([
-            'banned_player_id' => $bannedPlayer->getKey(),
+            'banned_player_id' => $bannedPlayer->id,
             'banned_alias_at_time' => $req->bannedAlias,
-            'banner_player_id' => $bannerPlayer?->getKey(),
+            'banner_player_id' => $bannerPlayer?->id,
             'reason' => $req->reason,
             'additional_info' => $req->additionalInfo,
             'expires_at' => $req->expiresAt,
             'created_at' => $req->createdAt,
             'unbanned_at' => $req->unbannedAt,
-            'unbanner_player_id' => $unbannerPlayer?->getKey(),
+            'unbanner_player_id' => $unbannerPlayer?->id,
             'unban_type' => $req->unbanType,
         ]);
         $ban->load('bannedPlayer', 'bannerPlayer', 'unbannerPlayer');
@@ -72,16 +72,16 @@ class PlayerBanService
         $prevBan = $ban;
 
         $ban->fill([
-            'banned_player_id' => $bannedPlayer->getKey(),
+            'banned_player_id' => $bannedPlayer->id,
             'banned_alias_at_time' => $req->bannedAlias,
-            'banner_player_id' => $bannerPlayer?->getKey(),
+            'banner_player_id' => $bannerPlayer?->id,
             'reason' => $req->reason,
             'additional_info' => $req->additionalInfo,
             'expires_at' => $req->expiresAt,
             'created_at' => $req->createdAt,
             'updated_at' => now(),
             'unbanned_at' => $req->unbannedAt,
-            'unbanner_player_id' => $unbannerPlayer?->getKey(),
+            'unbanner_player_id' => $unbannerPlayer?->id,
             'unban_type' => $req->unbanType?->value,
         ]);
         $ban->save();

@@ -74,8 +74,8 @@ class AccountSecurityTest extends TestCase
         ])
             ->assertRedirect(route('front.account.settings.mfa'));
 
-        $this->assertDatabaseHas('accounts', [
-            'account_id' => $account->getKey(),
+        $this->assertDatabaseHas(Account::tableName(), [
+            'id' => $account->id,
             'is_totp_enabled' => true,
         ]);
     }
@@ -148,8 +148,8 @@ class AccountSecurityTest extends TestCase
         $this->delete(route('front.account.settings.mfa.disable'))
             ->assertRedirect();
 
-        $this->assertDatabaseHas('accounts', [
-            'account_id' => $account->getKey(),
+        $this->assertDatabaseHas(Account::tableName(), [
+            'id' => $account->id,
             'totp_secret' => null,
             'totp_backup_code' => null,
             'is_totp_enabled' => 0,

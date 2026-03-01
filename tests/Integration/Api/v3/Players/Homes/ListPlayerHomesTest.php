@@ -7,7 +7,7 @@ use App\Models\MinecraftPlayer;
 it('lists homes for a player', function () {
     $player = MinecraftPlayer::factory()->create();
     MinecraftHome::factory()->count(3)->create([
-        'player_id' => $player->getKey(),
+        'player_id' => $player->id,
     ]);
 
     $response = $this

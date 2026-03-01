@@ -12,7 +12,7 @@ interface Props {
 const props = defineProps<Props>()
 
 function submit(form: InertiaForm<Server>) {
-    form.put('/manage/servers/' + props.server.server_id)
+    form.put('/manage/servers/' + props.server.id)
 }
 </script>
 

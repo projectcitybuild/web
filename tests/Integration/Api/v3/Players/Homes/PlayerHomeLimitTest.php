@@ -38,7 +38,7 @@ it('allows 1 home if no account', function () {
 
 it('allows 1 home if roles do not grant additional homes', function () {
     $account = Account::factory()->create();
-    $player = MinecraftPlayer::factory()->create(['account_id' => $account->getKey()]);
+    $player = MinecraftPlayer::factory()->create(['account_id' => $account->id]);
 
     $role1 = Role::factory()->create(['name' => 'trusted', 'additional_homes' => 0]);
     $account->roles()->attach($role1);
@@ -55,14 +55,14 @@ it('allows 1 home if roles do not grant additional homes', function () {
 
 it('composes home limit from roles', function () {
     $account = Account::factory()->create();
-    $player = MinecraftPlayer::factory()->create(['account_id' => $account->getKey()]);
+    $player = MinecraftPlayer::factory()->create(['account_id' => $account->id]);
 
     $role1 = Role::factory()->create(['name' => 'trusted', 'additional_homes' => 5]);
     $role2 = Role::factory()->create(['name' => 'donor', 'additional_homes' => 6]);
     $account->roles()->attach([$role1, $role2]);
 
     for ($i = 0; $i < 3; $i++) {
-        MinecraftHome::factory()->create(['player_id' => $player->getKey()]);
+        MinecraftHome::factory()->create(['player_id' => $player->id]);
     }
 
     $this->withServerToken()
@@ -80,7 +80,7 @@ it('composes home limit from roles', function () {
 
 it('composes home limit from roles and donor tier roles', function () {
     $account = Account::factory()->create();
-    $player = MinecraftPlayer::factory()->create(['account_id' => $account->getKey()]);
+    $player = MinecraftPlayer::factory()->create(['account_id' => $account->id]);
 
     $normalRole = Role::factory()->create(['name' => 'trusted', 'additional_homes' => 5]);
     $account->roles()->attach($normalRole);
@@ -88,13 +88,13 @@ it('composes home limit from roles and donor tier roles', function () {
     $donorRole = Role::factory()->create(['name' => 'donor', 'additional_homes' => 6]);
     $donorTier = DonationTier::factory()->create(['role_id' => $donorRole]);
     DonationPerk::factory()->notExpired()->create([
-        'donation_id' => Donation::factory()->create()->getKey(),
-        'account_id' => $account->getKey(),
-        'donation_tier_id' => $donorTier->getKey(),
+        'donation_id' => Donation::factory()->create()->id,
+        'account_id' => $account->id,
+        'donation_tier_id' => $donorTier->id,
     ]);
 
     for ($i = 0; $i < 3; $i++) {
-        MinecraftHome::factory()->create(['player_id' => $player->getKey()]);
+        MinecraftHome::factory()->create(['player_id' => $player->id]);
     }
 
     $this->withServerToken()

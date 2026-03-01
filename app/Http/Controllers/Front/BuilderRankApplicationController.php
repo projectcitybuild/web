@@ -22,7 +22,7 @@ final class BuilderRankApplicationController extends WebController
         BuilderRankApplication $application,
     ) {
         if (
-            $request->user()->getKey() !== $application->account_id &&
+            $request->user()->id !== $application->account_id &&
             ! $this->can(WebReviewPermission::BUILD_RANK_APPS_VIEW)
         ) {
             abort(403);
@@ -41,12 +41,12 @@ final class BuilderRankApplicationController extends WebController
             ?->alias;
 
         $applicationInProgress = BuilderRankApplication::where('status', ApplicationStatus::PENDING->value)
-            ->where('account_id', $request->user()->getKey())
+            ->where('account_id', $request->user()->id)
             ->orderBy('created_at', 'desc')
             ->first();
 
         if ($applicationInProgress !== null) {
-            return to_route('front.rank-up.status', $applicationInProgress->getKey());
+            return to_route('front.rank-up.status', $applicationInProgress->id);
         }
 
         return view('front.pages.builder-rank.builder-rank-form')
@@ -69,7 +69,7 @@ final class BuilderRankApplicationController extends WebController
                 buildDescription: $validated['build_description'],
                 additionalNotes: $validated['additional_notes'],
             );
-            return to_route('front.rank-up.status', $application->getKey());
+            return to_route('front.rank-up.status', $application->id);
 
         } catch (ApplicationAlreadyInProgressException) {
             return redirect()

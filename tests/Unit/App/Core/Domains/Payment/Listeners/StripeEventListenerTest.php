@@ -24,7 +24,7 @@ describe('one time payment', function () {
         $listener->handle(new WebhookReceived($json));
 
         $this->assertDatabaseHas(Payment::tableName(), [
-            'account_id' => $this->account->getKey(),
+            'account_id' => $this->account->id,
             'stripe_price' => 'price_1JJL5mAtUyfM4v5IJNHp1Tk2',
             'stripe_product' => 'prod_JxFaAltmFPewxs',
             'paid_unit_amount' => 300,
@@ -51,7 +51,7 @@ describe('subscription payment', function () {
         $listener->handle(new WebhookReceived($json));
 
         $this->assertDatabaseHas(Payment::tableName(), [
-            'account_id' => $this->account->getKey(),
+            'account_id' => $this->account->id,
             'stripe_price' => 'price_1JJL5mAtUyfM4v5ISwJrrVur',
             'stripe_product' => 'prod_JxFaAltmFPewxs',
             'paid_unit_amount' => 300,
