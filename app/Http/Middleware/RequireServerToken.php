@@ -5,7 +5,6 @@ namespace App\Http\Middleware;
 use App\Models\ServerToken;
 use Closure;
 use Illuminate\Http\Request;
-use Spatie\Activitylog\Facades\CauserResolver;
 
 /**
  * Prevents access unless a valid ServerToken is present in the request
