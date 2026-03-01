@@ -9,6 +9,7 @@ use App\Models\DonationTier;
 use App\Models\GameIPBan;
 use App\Models\GamePlayerBan;
 use App\Models\MinecraftPlayer;
+use App\Models\MinecraftPlayerIp;
 use App\Models\PlayerOpElevation;
 use App\Models\Role;
 use Illuminate\Support\Carbon;
@@ -403,5 +404,63 @@ describe('banned', function () {
                 ->where('player', null)
                 ->etc()
             );
+    });
+});
+
+describe('ip tracking', function () {
+    it('creates ip record with times_connected = 1 on first connection', function () {
+        $player = MinecraftPlayer::factory()->create();
+
+        $this->withServerToken()
+            ->postJson('http://api.localhost/v3/server/connection/authorize', [
+                'uuid' => $player->uuid,
+                'ip' => '127.0.0.1',
+            ])
+            ->assertOk();
+
+        $this->assertDatabaseHas(MinecraftPlayerIp::tableName(), [
+            'player_id' => $player->id,
+            'ip' => '127.0.0.1',
+            'times_connected' => 1,
+        ]);
+    });
+
+    it('increments times_connected and updates updated_at using travel', function () {
+        $this->freezeTime(function ($now) {
+            $player = MinecraftPlayer::factory()->create();
+
+            $payload = [
+                'uuid' => $player->uuid,
+                'ip' => '127.0.0.1',
+            ];
+
+            $this->withServerToken()
+                ->postJson('http://api.localhost/v3/server/connection/authorize', $payload)
+                ->assertOk();
+
+            $this->assertDatabaseHas(MinecraftPlayerIp::tableName(), [
+                'player_id' => $player->id,
+                'ip' => '127.0.0.1',
+                'times_connected' => 1,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ]);
+
+            $prev = $now->copy();
+            $next = $now->copy()->addWeek();
+            $this->travel(1)->week();
+
+            $this->withServerToken()
+                ->postJson('http://api.localhost/v3/server/connection/authorize', $payload)
+                ->assertOk();
+
+            $this->assertDatabaseHas(MinecraftPlayerIp::tableName(), [
+                'player_id' => $player->id,
+                'ip' => '127.0.0.1',
+                'times_connected' => 2,
+                'created_at' => $prev,
+                'updated_at' => $next,
+            ]);
+        });
     });
 });

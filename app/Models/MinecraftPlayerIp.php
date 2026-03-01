@@ -16,6 +16,7 @@ class MinecraftPlayerIp extends Model
     protected $fillable = [
         'player_id',
         'ip',
+        'times_connected',
         'created_at',
         'updated_at',
     ];
