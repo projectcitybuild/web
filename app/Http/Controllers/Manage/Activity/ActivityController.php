@@ -6,7 +6,6 @@ use App\Core\Utilities\Traits\FiltersWithParameters;
 use App\Http\Controllers\WebController;
 use App\Models\Activity;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 
 class ActivityController extends WebController
 {

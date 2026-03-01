@@ -8,8 +8,8 @@ use Illuminate\Http\Request;
 
 class HomeController extends WebController
 {
-    use RendersManageApp;
     use AuthorizesPermissions;
+    use RendersManageApp;
 
     public function __invoke(Request $request)
     {

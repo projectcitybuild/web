@@ -21,8 +21,8 @@ use Inertia\Inertia;
 
 class BanAppealController
 {
-    use RendersReviewApp;
     use AuthorizesPermissions;
+    use RendersReviewApp;
 
     public function index(Request $request)
     {
