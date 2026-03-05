@@ -18,6 +18,7 @@ it('stores an op audit and sends a discord notification', function () {
             'command' => 'op Notch',
             'actor' => 'console',
             'ip' => '127.0.0.1',
+            'meta' => '{"foo": "bar"}',
         ]);
 
     $response->assertStatus(Response::HTTP_CREATED);
@@ -26,6 +27,7 @@ it('stores an op audit and sends a discord notification', function () {
         'command' => '/op Notch',
         'actor' => 'console',
         'ip' => '127.0.0.1',
+        'meta' => '{"foo": "bar"}',
     ]);
 
     Notification::assertSentOnDemand(OpCommandUsedNotification::class);
@@ -39,6 +41,20 @@ it('fails if actor is invalid', function () {
             'command' => '/op Notch',
             'actor' => 'player',
             'ip' => '127.0.0.1',
+        ])
+        ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
+        ->assertJsonValidationErrors(['actor']);
+});
+
+it('fails if meta is invalid json', function () {
+    Config::set('discord.webhook_op_elevation_channel', 'test');
+
+    $this->withServerToken()
+        ->postJson('http://api.localhost/v3/server/audit/command/op', [
+            'command' => '/op Notch',
+            'actor' => 'player',
+            'ip' => '127.0.0.1',
+            'meta' => 'invalid',
         ])
         ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
         ->assertJsonValidationErrors(['actor']);

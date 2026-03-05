@@ -10,8 +10,12 @@ use Illuminate\Support\Str;
 
 class OpAuditService
 {
-    public function logOpCommand(string $command, string $actor, string $ip)
-    {
+    public function logOpCommand(
+        string $command,
+        string $actor,
+        string $ip,
+        ?string $meta
+    ) {
         if (! Str::startsWith($command, '/')) {
             $command = '/'.$command;
         }
@@ -20,6 +24,7 @@ class OpAuditService
             'command' => $command,
             'actor' => $actor,
             'ip' => $ip,
+            'meta' => $meta,
             'created_at' => now(),
         ]);
 

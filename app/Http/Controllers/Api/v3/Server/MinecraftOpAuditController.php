@@ -16,14 +16,16 @@ final class MinecraftOpAuditController extends ApiController
     {
         $validated = collect($request->validate([
             'command' => ['required'],
-            'actor' => ['required', 'in:console,command_block,rcon'],
+            'actor' => ['required', 'in:console,command_block,rcon,unknown'],
             'ip' => ['required', 'ip'],
+            'meta' => ['json'],
         ]));
 
         return $this->opAuditService->logOpCommand(
             command: $validated->get('command'),
             actor: $validated->get('actor'),
             ip: $validated->get('ip'),
+            meta: $validated->get('meta'),
         );
     }
 }
