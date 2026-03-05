@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\v3\Players\MinecraftPlayerController;
 use App\Http\Controllers\Api\v3\Server\MinecraftConfigController;
 use App\Http\Controllers\Api\v3\Server\MinecraftConnectionAuthController;
 use App\Http\Controllers\Api\v3\Server\MinecraftConnectionEndController;
+use App\Http\Controllers\Api\v3\Server\MinecraftOpAuditController;
 use App\Http\Controllers\Api\v3\Server\MinecraftOpElevationController;
 use App\Http\Controllers\Api\v3\Server\MinecraftRegisterController;
 use App\Http\Controllers\Api\v3\Server\MinecraftStatsController;
@@ -38,6 +39,8 @@ Route::domain(config('app.api_url'))->group(function () {
 
                 Route::put('register', [MinecraftRegisterController::class, 'update'])
                     ->middleware('throttle:12,1');
+
+                Route::post('audit/command/op', [MinecraftOpAuditController::class, 'store']);
             });
 
         Route::prefix('bans/uuid')

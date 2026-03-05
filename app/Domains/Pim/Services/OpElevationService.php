@@ -40,7 +40,7 @@ class OpElevationService
         ]);
 
         $channel = config('discord.webhook_op_elevation_channel', default: '');
-        throw_if($channel === '', 'No discord channel set for OP elevation');
+        throw_if($channel === '', 'discord.webhook_op_elevation_channel is missing');
         Notification::route('discord', $channel)->notify(
             new OpGrantedNotification($elevation),
         );
@@ -63,7 +63,7 @@ class OpElevationService
         $elevation->save();
 
         $channel = config('discord.webhook_op_elevation_channel', default: '');
-        throw_if($channel === '', 'No discord channel set for OP elevation');
+        throw_if($channel === '', 'discord.webhook_op_elevation_channel is missing');
         Notification::route('discord', $channel)->notify(
             new OpRevokedNotification($elevation),
         );
