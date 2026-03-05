@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('actor');
             $table->unsignedInteger('player_id')->nullable();
             $table->ipAddress('ip');
+            $table->json('meta')->nullable();
             $table->dateTime('created_at');
 
             $table->foreign('player_id')

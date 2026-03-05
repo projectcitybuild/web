@@ -16,6 +16,7 @@ final class CommandAudit extends Model
     protected $fillable = [
         'command',
         'actor',
+        'meta',
         'player_id',
         'ip',
         'created_at',
