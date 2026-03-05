@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 final class CommandAudit extends Model
 {
-    use HasUuids;
     use HasStaticTable;
+    use HasUuids;
 
     protected $table = 'audit_commands';
     protected $fillable = [
