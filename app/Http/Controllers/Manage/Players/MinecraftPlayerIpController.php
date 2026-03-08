@@ -15,6 +15,9 @@ class MinecraftPlayerIpController extends WebController
     {
         $this->requires(WebManagePermission::PLAYERS_VIEW);
 
-        return $player->ips()->orderBy('updated_at', 'desc')->paginate(50);
+        return $player
+            ->ips()
+            ->orderBy('times_connected', 'desc')
+            ->paginate(50);
     }
 }

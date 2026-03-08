@@ -6,6 +6,7 @@ use App\Models\Account;
 use App\Models\MinecraftBuild;
 use App\Models\MinecraftHome;
 use App\Models\MinecraftPlayer;
+use App\Models\MinecraftPlayerIp;
 use Illuminate\Database\Seeder;
 
 class MinecraftPlayerSeeder extends Seeder
@@ -23,6 +24,7 @@ class MinecraftPlayerSeeder extends Seeder
         $players = MinecraftPlayer::get();
         $this->createBuilds($players);
         $this->createHomes($players);
+        $this->createIps($players);
     }
 
     private function createBuilds($players)
@@ -40,6 +42,18 @@ class MinecraftPlayerSeeder extends Seeder
 
             MinecraftHome::factory(rand(1, 6))
                 ->create(['player_id' => $player]);
+        }
+    }
+
+    private function createIps($players)
+    {
+        for ($i = 0; $i < 20; $i++) {
+            $player = $players->random();
+
+            for ($x = 0; $x < rand(1, 4); $x++) {
+                MinecraftPlayerIp::factory()
+                    ->create(['player_id' => $player]);
+            }
         }
     }
 }
