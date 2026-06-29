@@ -89,14 +89,14 @@ jobs:
             --coverage-clover=coverage.xml
 
       - name: Upload test results to Codecov
-        uses: codecov/codecov-action@96b38e9e60ee60a8c3911f4612407bba2f9195fb
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f
         with:
           use_oidc: true
           files: junit.xml
           report_type: test_results
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@96b38e9e60ee60a8c3911f4612407bba2f9195fb
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f
         with:
           use_oidc: true
           files: coverage.xml
