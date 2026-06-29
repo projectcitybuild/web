@@ -88,10 +88,6 @@ jobs:
             --log-junit junit.xml \
             --coverage-clover=coverage.xml
 
-      - name: Upload test results to Sentry Prevent
-        if: ${{ !cancelled() }}
-        uses: getsentry/prevent-action@c28387e2c2d931e083440db1be8c297d6cf6572f
-
       - name: Upload test results to Codecov
         uses: codecov/codecov-action@96b38e9e60ee60a8c3911f4612407bba2f9195fb
         with:
