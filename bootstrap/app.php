@@ -1,12 +1,25 @@
 <?php
 
 use App\Core\Data\Exceptions\BaseHttpException;
+use App\Http\Middleware\ActiveMfaSession;
+use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\HandleInertiaRequests;
+use App\Http\Middleware\LogApiCalls;
+use App\Http\Middleware\MfaAuthenticated;
+use App\Http\Middleware\NotActivated;
+use App\Http\Middleware\RedirectIfAuthenticated;
+use App\Http\Middleware\RequireActivation;
+use App\Http\Middleware\RequireMfaEnabled;
+use App\Http\Middleware\RequirePassword;
+use App\Http\Middleware\RequireServerToken;
+use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Middleware\TrustProxies;
 use Illuminate\Http\Request;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Validation\ValidationException;
@@ -32,29 +45,29 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->replace(
-            search: \Illuminate\Http\Middleware\TrustProxies::class,
-            replace: \App\Http\Middleware\TrustProxies::class,
+            search: TrustProxies::class,
+            replace: App\Http\Middleware\TrustProxies::class,
         );
         $middleware->web(append: [
-            \App\Http\Middleware\VerifyCsrfToken::class,
-            \App\Http\Middleware\HandleInertiaRequests::class,
+            VerifyCsrfToken::class,
+            HandleInertiaRequests::class,
         ]);
         $middleware->api(append: [
-            \App\Http\Middleware\LogApiCalls::class,
+            LogApiCalls::class,
         ]);
         $middleware->redirectGuestsTo(
             fn (Request $request) => route('front.login'),
         );
         $middleware->alias([
-            'active-mfa' => \App\Http\Middleware\ActiveMfaSession::class,
-            'activated' => \App\Http\Middleware\RequireActivation::class,
-            'auth' => \App\Http\Middleware\Authenticate::class,
-            'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-            'mfa' => \App\Http\Middleware\MfaAuthenticated::class,
-            'not-activated' => \App\Http\Middleware\NotActivated::class,
-            'password.confirm' => \App\Http\Middleware\RequirePassword::class,
-            'require-mfa' => \App\Http\Middleware\RequireMfaEnabled::class,
-            'require-server-token' => \App\Http\Middleware\RequireServerToken::class,
+            'active-mfa' => ActiveMfaSession::class,
+            'activated' => RequireActivation::class,
+            'auth' => Authenticate::class,
+            'guest' => RedirectIfAuthenticated::class,
+            'mfa' => MfaAuthenticated::class,
+            'not-activated' => NotActivated::class,
+            'password.confirm' => RequirePassword::class,
+            'require-mfa' => RequireMfaEnabled::class,
+            'require-server-token' => RequireServerToken::class,
         ]);
         // Stripe webhooks need to bypass Laravel's CSRF protection
         // https://laravel.com/docs/12.x/billing#handling-stripe-webhooks

@@ -4,6 +4,7 @@ use App\Http\Controllers\Review\BanAppeals\BanAppealController;
 use App\Http\Controllers\Review\BuilderRanks\BuilderRanksController;
 use App\Http\Controllers\Review\HomeController;
 use Illuminate\Support\Facades\Route;
+use Inertia\EncryptHistoryMiddleware;
 
 Route::name('review.')
     ->prefix('review')
@@ -13,7 +14,7 @@ Route::name('review.')
         'mfa',
         'can:access-review',
         'require-mfa',
-        Inertia\EncryptHistoryMiddleware::class,
+        EncryptHistoryMiddleware::class,
     ])
     ->group(function () {
         Route::get('/', HomeController::class)

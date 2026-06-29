@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Models\Account;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Validator;
 
 class AccountSaveNewEmailRequest extends FormRequest
 {
@@ -23,7 +24,7 @@ class AccountSaveNewEmailRequest extends FormRequest
     /**
      * Configure the validator instance.
      *
-     * @param  \Illuminate\Validation\Validator  $validator
+     * @param  Validator  $validator
      * @return void
      */
     public function withValidator($validator)
