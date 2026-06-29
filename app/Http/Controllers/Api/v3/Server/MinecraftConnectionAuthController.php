@@ -42,7 +42,12 @@ final class MinecraftConnectionAuthController extends ApiController
         $playerData = null;
         $bans = $this->getBans(player: $player, ip: $validated->get('ip'));
         if ($bans === null) {
-            $player->last_seen_at = $now;
+            // Only update `last_seen_at` if the user has joined the server at least once.
+            // This keeps the field `null` so that clients can determine whether this is a
+            // first-time joiner. All users have their `last_seen_at` updated on disconnect.
+            if ($player->last_seen_at !== null) {
+                $player->last_seen_at = $now;
+            }
             $playerData = $this->getPlayerData($player);
         }
         $player->save();
