@@ -26,7 +26,25 @@ it('throws exception for invalid Minecraft UUID', function () {
         ->assertInvalid(['uuid']);
 });
 
-it('updates last_seen_at', function () {
+it('updates last_seen_at from null', function () {
+    $this->freezeTime(function ($now) {
+        $now->setMicroseconds(0);
+
+        $player = MinecraftPlayer::factory()->create(['last_seen_at' => null]);
+        expect($player->last_seen_at)->toEqual(null);
+
+        $this->withServerToken()
+            ->postJson('http://api.localhost/v3/server/connection/end', [
+                'uuid' => $player->uuid,
+                'session_seconds' => 0,
+            ]);
+
+        $player->refresh();
+        expect($player->last_seen_at)->toEqual($now);
+    });
+});
+
+it('updates last_seen_at from existing value', function () {
     $this->freezeTime(function ($now) {
         $now->setMicroseconds(0);
 

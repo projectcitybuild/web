@@ -54,11 +54,11 @@ it('creates new player', function () {
                     'uuid' => $uuid,
                     'alias' => 'foo',
                     'nickname' => null,
-                    'last_seen_at' => $now->toISOString(),
                     'last_connected_at' => $now->toISOString(),
                     'created_at' => $now->toISOString(),
                     'updated_at' => $now->toISOString(),
                 ])
+                ->missing('player.player.last_seen_at') // null for first-time joiners
                 ->where('player.account', null)
                 ->where('player.roles', [])
                 ->where('player.badges', [])
