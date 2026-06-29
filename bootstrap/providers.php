@@ -1,25 +1,44 @@
 <?php
 
+use App\AppServiceProvider;
+use App\Core\Domains\Auditing\AuditingServiceProvider;
+use App\Core\Domains\Discord\DiscordServiceProvider;
+use App\Core\Domains\MinecraftUUID\MinecraftUUIDServiceProvider;
+use App\Core\Domains\Payment\PaymentServiceProvider;
+use App\Core\Support\Cashier\CashierServiceProvider;
+use App\Core\Support\Laravel\LaravelServiceProvider;
+use App\Core\Support\Passport\PassportServiceProvider;
+use App\Core\Support\Telescope\TelescopeServiceProvider;
+use App\Domains\Activation\ActivationServiceProvider;
+use App\Domains\BuilderRankApplications\BuilderRankApplicationsServiceProvider;
+use App\Domains\Captcha\CaptchaServiceProvider;
+use App\Domains\Docs\DocsServiceProvider;
+use App\Domains\Donations\DonationServiceProvider;
+use App\Domains\Mfa\MfaServiceProvider;
+use App\Domains\MinecraftEventBus\MinecraftEventBusServiceProvider;
+use App\Domains\Permissions\PermissionsServiceProvider;
+use App\Domains\Players\PlayerServiceProvider;
+
 return [
-    App\AppServiceProvider::class,
+    AppServiceProvider::class,
 
-    App\Core\Domains\Auditing\AuditingServiceProvider::class,
-    App\Core\Domains\Discord\DiscordServiceProvider::class,
-    App\Core\Domains\MinecraftUUID\MinecraftUUIDServiceProvider::class,
-    App\Core\Domains\Payment\PaymentServiceProvider::class,
+    AuditingServiceProvider::class,
+    DiscordServiceProvider::class,
+    MinecraftUUIDServiceProvider::class,
+    PaymentServiceProvider::class,
 
-    App\Core\Support\Cashier\CashierServiceProvider::class,
-    App\Core\Support\Laravel\LaravelServiceProvider::class,
-    App\Core\Support\Passport\PassportServiceProvider::class,
-    App\Core\Support\Telescope\TelescopeServiceProvider::class,
+    CashierServiceProvider::class,
+    LaravelServiceProvider::class,
+    PassportServiceProvider::class,
+    TelescopeServiceProvider::class,
 
-    App\Domains\Activation\ActivationServiceProvider::class,
-    App\Domains\BuilderRankApplications\BuilderRankApplicationsServiceProvider::class,
-    App\Domains\Captcha\CaptchaServiceProvider::class,
-    App\Domains\Docs\DocsServiceProvider::class,
-    App\Domains\Donations\DonationServiceProvider::class,
-    App\Domains\Mfa\MfaServiceProvider::class,
-    App\Domains\MinecraftEventBus\MinecraftEventBusServiceProvider::class,
-    App\Domains\Permissions\PermissionsServiceProvider::class,
-    App\Domains\Players\PlayerServiceProvider::class,
+    ActivationServiceProvider::class,
+    BuilderRankApplicationsServiceProvider::class,
+    CaptchaServiceProvider::class,
+    DocsServiceProvider::class,
+    DonationServiceProvider::class,
+    MfaServiceProvider::class,
+    MinecraftEventBusServiceProvider::class,
+    PermissionsServiceProvider::class,
+    PlayerServiceProvider::class,
 ];

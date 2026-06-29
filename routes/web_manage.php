@@ -34,6 +34,7 @@ use App\Http\Controllers\Manage\Servers\ServerController;
 use App\Http\Controllers\Manage\Servers\ServerTokenController;
 use App\Http\Controllers\Manage\Warnings\PlayerWarningController;
 use Illuminate\Support\Facades\Route;
+use Inertia\EncryptHistoryMiddleware;
 
 Route::name('manage.')
     ->prefix('manage')
@@ -43,7 +44,7 @@ Route::name('manage.')
         'mfa',
         'can:access-manage',
         'require-mfa',
-        Inertia\EncryptHistoryMiddleware::class,
+        EncryptHistoryMiddleware::class,
     ])
     ->group(function () {
         Route::get('/', HomeIndexController::class)

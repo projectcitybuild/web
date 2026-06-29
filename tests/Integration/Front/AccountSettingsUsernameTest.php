@@ -4,6 +4,7 @@ namespace Tests\Integration\Front;
 
 use App\Models\Account;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
 
 class AccountSettingsUsernameTest extends TestCase
@@ -18,7 +19,7 @@ class AccountSettingsUsernameTest extends TestCase
         $this->account = Account::factory()->create();
     }
 
-    private function submitUsernameChange($newUsername): \Illuminate\Testing\TestResponse
+    private function submitUsernameChange($newUsername): TestResponse
     {
         return $this->actingAs($this->account)->post(route('front.account.settings.username'), [
             'username' => $newUsername,

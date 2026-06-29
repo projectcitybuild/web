@@ -6,6 +6,11 @@ use App\Domains\Backup\Notifications\CleanupHasFailedNotification;
 use App\Domains\Backup\Notifications\CleanupWasSuccessfulNotification;
 use App\Domains\Backup\Notifications\HealthyBackupWasFoundNotification;
 use App\Domains\Backup\Notifications\UnhealthyBackupWasFoundNotification;
+use Spatie\Backup\Notifications\Notifiable;
+use Spatie\Backup\Tasks\Cleanup\Strategies\DefaultStrategy;
+use Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumAgeInDays;
+use Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes;
+use Spatie\DbDumper\Compressors\GzipCompressor;
 
 return [
 
@@ -101,7 +106,7 @@ return [
          *
          * If you do not want any compressor at all, set it to null.
          */
-        'database_dump_compressor' => Spatie\DbDumper\Compressors\GzipCompressor::class,
+        'database_dump_compressor' => GzipCompressor::class,
 
         'destination' => [
 
@@ -165,7 +170,7 @@ return [
          * Here you can specify the notifiable to which the notifications should be sent. The default
          * notifiable will use the variables specified in this config file.
          */
-        'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
+        'notifiable' => Notifiable::class,
 
         'discord' => [
             'webhook_url' => env('DISCORD_WEBHOOK_BACKUP'),
@@ -186,8 +191,8 @@ return [
             'name' => env('APP_NAME', 'laravel-backup'),
             'disks' => ['backup'],
             'health_checks' => [
-                \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumAgeInDays::class => 1,
-                \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes::class => 5000,
+                MaximumAgeInDays::class => 1,
+                MaximumStorageInMegabytes::class => 5000,
             ],
         ],
     ],
@@ -202,7 +207,7 @@ return [
          * No matter how you configure it the default strategy will never
          * delete the newest backup.
          */
-        'strategy' => \Spatie\Backup\Tasks\Cleanup\Strategies\DefaultStrategy::class,
+        'strategy' => DefaultStrategy::class,
 
         'default_strategy' => [
 

@@ -4,6 +4,7 @@ namespace App\Core\Domains\Auditing\Components;
 
 use App\Core\Domains\Auditing\Changes\ArrayDiff\ArrayWrapState;
 use App\Core\Domains\Auditing\Changes\ArrayDiff\WrappedArrayEntry;
+use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 class WrappedArrayList extends Component
@@ -29,7 +30,7 @@ class WrappedArrayList extends Component
     /**
      * Get the view / contents that represent the component.
      *
-     * @return \Illuminate\Contracts\View\View|\Closure|string
+     * @return View|\Closure|string
      */
     public function render()
     {
