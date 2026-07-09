@@ -16,7 +16,7 @@
         "jfcherng/php-diff": "^6.11",
         "laravel/cashier": "^15.0",
         "laravel/framework": "^11.0",
-        "laravel/passport": "^12.0",
+        "laravel/passport": "^13.7",
         "laravel/tinker": "^2.9",
         "league/flysystem-aws-s3-v3": "^3.0",
         "moneyphp/money": "^4.6",
