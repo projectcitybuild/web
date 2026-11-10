@@ -8,6 +8,7 @@ permissions:
 
 jobs:
   compose-config:
+    name: Compose config (${{ matrix.name }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -49,6 +50,7 @@ jobs:
           docker compose --env-file .env $COMPOSE_FILES config --quiet
 
   image-build:
+    name: Image build (${{ matrix.name }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
