@@ -6,36 +6,178 @@ on:
       branch:
         required: true
         type: string
-      keep-releases:
-        required: true
-        type: number
       environment:
         required: true
         type: string
+      image-tag:
+        required: false
+        type: string
+      build-images:
+        required: true
+        type: boolean
+    outputs:
+      image-tag:
+        description: Commit SHA used to tag the deployed images
+        value: ${{ jobs.deploy.outputs.image-tag }}
 
 jobs:
-  deploy:
+  verify:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
+    permissions:
+      contents: read
+    outputs:
+      image-tag: ${{ steps.source.outputs.image-tag }}
+    services:
+      mariadb:
+        image: mariadb:11.0.5
+        env:
+          MARIADB_DATABASE: testing
+          MARIADB_USER: dbuser
+          MARIADB_PASSWORD: dbpass
+          MARIADB_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ inputs.image-tag || inputs.branch }}
+
+      - name: Determine source revision
+        id: source
+        run: echo "image-tag=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
       - name: Install PHP
         uses: ./.github/actions/install-php
+        with:
+          preset: test
 
       - name: Install Composer dependencies
-        run: composer install
+        uses: ./.github/actions/install-composer-deps
 
-      - name: Deploy ${{ inputs.branch }} branch
-        uses: deployphp/action@6242095e7207facf115ac4439760356bc52760ac
+      - name: Install npm dependencies
+        uses: ./.github/actions/install-npm-deps
+
+      - name: Prepare Laravel
+        run: |
+          cp .env.testing .env
+          echo "DB_HOST=127.0.0.1" >> .env
+          php artisan key:generate
+          chmod -R 755 storage bootstrap/cache
+
+      - name: Run database migrations
+        run: php artisan migrate
+
+      - name: Run test suite
         env:
-          DEPLOY_BRANCH: ${{ inputs.branch }}
+          DB_HOST: 127.0.0.1
+          MYSQL_USER: root
+          MYSQL_ROOT_PASSWORD: root
+        run: php artisan test
+
+      - name: Build frontend assets
+        run: npm run build
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: verify
+    environment: ${{ inputs.environment }}
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      image-tag: ${{ steps.source.outputs.image-tag }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ needs.verify.outputs.image-tag }}
+
+      - name: Determine source revision
+        id: source
+        run: echo "image-tag=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Set image repository
+        run: |
+          IMAGE_REPO="ghcr.io/$(printf '%s' "$GITHUB_REPOSITORY" | tr '[:upper:]' '[:lower:]')"
+          echo "IMAGE_REPO=$IMAGE_REPO" >> "$GITHUB_ENV"
+
+      - name: Log in to GitHub Container Registry
+        if: inputs.build-images
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: printf '%s' "$GH_TOKEN" | docker login ghcr.io --username "$GITHUB_ACTOR" --password-stdin
+
+      - name: Build and push PHP-FPM image
+        if: inputs.build-images
+        env:
+          IMAGE_TAG: ${{ steps.source.outputs.image-tag }}
+        run: >-
+          docker buildx build --push --file .docker/images/fpm/Dockerfile --target fpm
+          --tag "$IMAGE_REPO:$IMAGE_TAG-fpm"
+          --label "org.opencontainers.image.revision=$IMAGE_TAG" .
+
+      - name: Build and push nginx image
+        if: inputs.build-images
+        env:
+          IMAGE_TAG: ${{ steps.source.outputs.image-tag }}
+        run: >-
+          docker buildx build --push --file .docker/images/fpm/Dockerfile --target nginx
+          --tag "$IMAGE_REPO:$IMAGE_TAG-nginx"
+          --label "org.opencontainers.image.revision=$IMAGE_TAG" .
+
+      - name: Log out of GitHub Container Registry
+        if: always() && inputs.build-images
+        run: docker logout ghcr.io || true
+
+      - name: Prepare SSH
+        env:
+          DEPLOY_PRIVATE_KEY: ${{ secrets.DEPLOY_PRIVATE_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d "$RUNNER_TEMP/deploy-ssh"
+          printf '%s\n' "$DEPLOY_PRIVATE_KEY" > "$RUNNER_TEMP/deploy-ssh/key"
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > "$RUNNER_TEMP/deploy-ssh/known_hosts"
+          chmod 600 "$RUNNER_TEMP/deploy-ssh/key" "$RUNNER_TEMP/deploy-ssh/known_hosts"
+
+      - name: Deploy blue-green release
+        env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
-          DEPLOY_DISCORD_CHANNEL_ID: ${{ secrets.DEPLOY_DISCORD_CHANNEL_ID }}
-          DEPLOY_DISCORD_CHANNEL_TOKEN: ${{ secrets.DEPLOY_DISCORD_CHANNEL_TOKEN }}
-        with:
-          private-key: ${{ secrets.DEPLOY_PRIVATE_KEY }}
-          dep: "deploy -o keep_releases=${{ inputs.keep-releases }}"
+          GHCR_USERNAME: ${{ secrets.GHCR_USERNAME }}
+          GHCR_PULL_TOKEN: ${{ secrets.GHCR_PULL_TOKEN }}
+          APP_DOMAIN: ${{ vars.APP_DOMAIN }}
+          ENVIRONMENT: ${{ inputs.environment }}
+          IMAGE_TAG: ${{ steps.source.outputs.image-tag }}
+        run: |
+          [[ "$APP_DOMAIN" =~ ^[A-Za-z0-9.-]+$ ]]
+          [[ "$DEPLOY_PATH" =~ ^/[A-Za-z0-9._/-]+$ ]]
+          target="$DEPLOY_USER@$DEPLOY_HOST"
+          ssh_options=(-i "$RUNNER_TEMP/deploy-ssh/key" -o UserKnownHostsFile="$RUNNER_TEMP/deploy-ssh/known_hosts" -o StrictHostKeyChecking=yes)
+
+          release_path="$DEPLOY_PATH/$IMAGE_TAG"
+          ssh "${ssh_options[@]}" "$target" mkdir -p "$release_path"
+          scp "${ssh_options[@]}" \
+            .docker/compose.yaml \
+            .docker/deployment/compose.server.yaml \
+            .docker/images/proxy/proxy-compose.yaml \
+            .docker/images/proxy/Caddyfile \
+            .docker/deployment/deploy.sh \
+            "$target:$release_path/"
+
+          printf '%s' "$GHCR_PULL_TOKEN" | ssh "${ssh_options[@]}" "$target" \
+            docker login ghcr.io --username "$GHCR_USERNAME" --password-stdin
+
+          deploy_status=0
+          ssh "${ssh_options[@]}" "$target" sh "$release_path/deploy.sh" \
+            "$ENVIRONMENT" "$IMAGE_TAG" "$APP_DOMAIN" "$IMAGE_REPO" "$release_path" || deploy_status=$?
+          ssh "${ssh_options[@]}" "$target" docker logout ghcr.io || true
+          exit "$deploy_status"
+
+      - name: Publish deployed image revision
+        run: echo "Deployed image revision: ${{ steps.source.outputs.image-tag }}" >> "$GITHUB_STEP_SUMMARY"
 

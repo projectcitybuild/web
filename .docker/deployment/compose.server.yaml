@@ -1,0 +1,62 @@
+services:
+  fpm:
+    volumes:
+      - app-storage:/var/www/html/storage
+    networks:
+      app:
+        aliases:
+          - ${ENVIRONMENT}-${DEPLOY_SLOT}-fpm
+
+  queue:
+    volumes:
+      - app-storage:/var/www/html/storage
+
+  scheduler:
+    volumes:
+      - app-storage:/var/www/html/storage
+
+  nginx:
+    environment:
+      FPM_HOST: ${ENVIRONMENT}-${DEPLOY_SLOT}-fpm
+    volumes:
+      - app-storage:/var/www/html/storage:ro
+    networks:
+      app: {}
+      proxy:
+        aliases:
+          - ${ENVIRONMENT}-${DEPLOY_SLOT}
+
+  mariadb:
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    environment:
+      MARIADB_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+    secrets:
+      - db_root_password
+
+  redis:
+    volumes:
+      - redis-data:/data
+
+networks:
+  app:
+    external: true
+    name: pcb-${ENVIRONMENT}
+  proxy:
+    external: true
+    name: pcb-proxy
+
+volumes:
+  mariadb-data:
+    external: true
+    name: pcb-${ENVIRONMENT}-database
+  app-storage:
+    external: true
+    name: pcb-${ENVIRONMENT}-storage
+  redis-data:
+    external: true
+    name: pcb-${ENVIRONMENT}-redis
+
+secrets:
+  db_root_password:
+    file: /etc/pcb-web/${ENVIRONMENT}.db-root-password

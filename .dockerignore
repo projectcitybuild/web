@@ -1,0 +1,17 @@
+.git
+.github
+.devcontainer
+.docker/deployment
+.docker/images/proxy
+node_modules
+vendor
+.env
+.env.*
+!.env.example
+storage/logs/*
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+public/hot
+public/build
+public/storage

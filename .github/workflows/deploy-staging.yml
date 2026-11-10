@@ -1,18 +1,17 @@
-name: Deploy Dev
+name: Deploy Staging
 
 on:
   workflow_dispatch:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  group: deploy-staging
+  cancel-in-progress: false
 
 jobs:
   deploy:
     uses: ./.github/workflows/__deploy.yml
     secrets: inherit
     with:
-      environment: dev
+      environment: staging
       branch: main
-      keep-releases: 3
-
+      build-images: true

@@ -97,3 +97,35 @@ From now on you can complete a payment normally. For example, go to the donation
 a purchase with a [mock credit card](https://docs.stripe.com/testing).
 
 Authentication needs to be done every 90 days due to token expiry.
+
+## Docker Deployment
+
+Local development is defined by `.devcontainer/compose.yaml` and `.devcontainer/compose.dev.yaml`; it includes the shared services from `.docker/compose.yaml` and adds source mounts and development tools. Staging and production share the server overlay in `.docker/deployment/compose.server.yaml`; CI-built PHP-FPM and nginx images run without source mounts. Caddy configuration is in `.docker/images/proxy/`.
+
+### Server Setup
+
+Use one Linux server with Docker Engine, Docker Compose v2.17 or newer, `flock`, and an SSH user that can run Docker. Allow inbound ports 80 and 443, and point both environment domains at this server. Caddy handles HTTPS certificates and routes each domain to its environment.
+
+Set the `DEPLOY_PATH` GitHub Environment secret to the same absolute path for both environments, for example `/opt/pcb-web/deploy`. The SSH user must be able to write that directory and its parent. Create these host files with mode `0600` before the first deployment:
+
+Create `/etc/pcb-web` with mode `0700`, owned by the SSH deployment user, so Compose can read the files without making them available to other host users.
+
+* `/etc/pcb-web/staging.env`
+* `/etc/pcb-web/production.env`
+* `/etc/pcb-web/staging.db-root-password`
+* `/etc/pcb-web/production.db-root-password`
+* `/etc/pcb-web/proxy.env`
+
+The app files use Laravel's dotenv format and must contain the environment's `APP_KEY`, `APP_ENV`, `APP_DEBUG`, `APP_URL`, database credentials (`DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`), Redis settings, mail settings, and any integration credentials used by that environment. Keep the staging and production database names and credentials separate. Set `APP_DEBUG=false` in production. Each `.db-root-password` file contains only that environment's MariaDB root password; Compose mounts it into the database container and does not expose it to Laravel. The proxy file must contain `ACME_EMAIL` for certificate issuance.
+
+### GitHub Environments
+
+Create GitHub Environments named `staging` and `production`. Set `APP_DOMAIN` as an environment variable in each. Set these environment secrets in both environments:
+
+* `DEPLOY_HOST`, `DEPLOY_USER`, and `DEPLOY_PATH` for the shared server and deployment directory
+* `DEPLOY_PRIVATE_KEY` and `DEPLOY_KNOWN_HOSTS` for verified SSH access
+* `GHCR_USERNAME` and `GHCR_PULL_TOKEN`, where the token has read access to the private GitHub Container Registry package
+
+CI uses `GITHUB_TOKEN` with package write permission to publish the PHP-FPM and nginx images to `ghcr.io/<owner>/<repository>`, tagged with the commit SHA. The server pulls those images during deployment; runtime app and database secrets are read from the host env files and are never built into the images. The registry token is sent over SSH stdin for login and removed by `docker logout` after the deployment.
+
+Run **Deploy Staging** first. After it passes its health checks, copy the commit SHA from the workflow summary into the `image-tag` input for **Deploy Production**. Production reruns the tests for that commit, promotes the exact same GHCR images without rebuilding them, then creates the requested Git tag and release. A failed candidate is removed without changing the active route; a failure during proxy activation restores the prior route and scheduler. Keep schema migrations backward-compatible with the previous app image because a database migration itself is not automatically reversed.

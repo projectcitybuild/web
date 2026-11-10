@@ -9,5 +9,7 @@
 # This is a workaround to ensure the root `.env` is loaded.
 # See: https://github.com/microsoft/vscode-remote-release/issues/4885#issuecomment-2972815811
 include:
-  - path: compose.yaml
-    env_file: ../../.env
+  - path:
+      - ../.docker/compose.yaml
+      - compose.dev.yaml
+    env_file: ../.env
