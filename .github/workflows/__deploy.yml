@@ -72,15 +72,15 @@ jobs:
       - name: Run database migrations
         run: php artisan migrate
 
+      - name: Build frontend assets
+        run: npm run build
+
       - name: Run test suite
         env:
           DB_HOST: 127.0.0.1
           MYSQL_USER: root
           MYSQL_ROOT_PASSWORD: root
         run: php artisan test
-
-      - name: Build frontend assets
-        run: npm run build
 
   deploy:
     runs-on: ubuntu-latest
