@@ -79,9 +79,11 @@ export IMAGE_REPO="$image_repo"
 export IMAGE_TAG="$image_tag"
 
 compose() {
+    project_name=$1
+    shift
     docker compose --env-file "$app_env_file" \
-        --project-name "$1" \
-        -f "$compose_base" -f "$compose_server"
+        --project-name "$project_name" \
+        -f "$compose_base" -f "$compose_server" "$@"
 }
 
 restore_route() {
