@@ -177,7 +177,14 @@ if [ -z "$scheduler_id" ] || [ "$(docker inspect --format '{{.State.Running}}' "
     exit 1
 fi
 
-printf '%s {\n    reverse_proxy %s:80\n}\n' "$domain" "$new_alias" > "$route_file.new"
+{
+    printf '%s {\n    reverse_proxy %s:80\n}\n' "$domain" "$new_alias"
+
+    if [ "$environment" = production ] && [ "$domain" = projectcitybuild.com ]; then
+        printf 'api.%s {\n    reverse_proxy %s:80\n}\n' "$domain" "$new_alias"
+    fi
+} > "$route_file.new"
+
 switched=1
 mv "$route_file.new" "$route_file"
 DEPLOY_ROOT="$deploy_root" docker compose --env-file "$proxy_env_file" \
