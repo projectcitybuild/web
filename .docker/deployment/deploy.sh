@@ -157,8 +157,9 @@ echo "Pulling candidate images for ${new_slot}"
 compose "$project" pull fpm nginx queue scheduler
 echo "Starting candidate PHP-FPM and nginx services"
 compose "$project" up -d --no-deps --wait --wait-timeout 120 fpm nginx
+compose "$project" exec -T --user root fpm chown -R www-data:www-data storage
 echo "Running database migrations against healthy MariaDB"
-compose "$project" exec -T fpm php artisan migrate --force
+compose "$project" exec -T --user www-data fpm php artisan migrate --force
 echo "Checking candidate HTTP health endpoint"
 if ! compose "$project" exec -T nginx wget -q -O /dev/null http://127.0.0.1/up; then
     echo "Candidate ${new_alias} failed its HTTP health check; traffic remains on the existing route" >&2

@@ -19,6 +19,7 @@ services:
 
   queue:
     image: ${IMAGE_REPO:-pcb-web}:${IMAGE_TAG:-local}-fpm
+    user: www-data
     env_file:
       - ${APP_ENV_FILE:-../.env}
     command: php artisan queue:work redis --sleep=3 --tries=3 --timeout=90 --queue=mail,discord,default
@@ -33,6 +34,7 @@ services:
 
   scheduler:
     image: ${IMAGE_REPO:-pcb-web}:${IMAGE_TAG:-local}-fpm
+    user: www-data
     env_file:
       - ${APP_ENV_FILE:-../.env}
     command: php artisan schedule:work
