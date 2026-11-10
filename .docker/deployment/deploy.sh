@@ -41,6 +41,7 @@ proxy_network=pcb-proxy
 new_slot=green
 switched=0
 scheduler_switched=0
+rollback_failed=0
 
 if [ ! -f "$app_env_file" ] || [ ! -f "$proxy_env_file" ]; then
     echo "Missing host environment file(s) under /etc/pcb-web" >&2
@@ -89,24 +90,34 @@ restore_route() {
     else
         rm -f "$route_file"
     fi
-    DEPLOY_ROOT="$deploy_root" docker compose --env-file "$proxy_env_file" \
+    if ! DEPLOY_ROOT="$deploy_root" docker compose --env-file "$proxy_env_file" \
         --project-name pcb-proxy -f "$proxy_compose" \
-        exec -T caddy caddy reload --config /etc/caddy/Caddyfile >/dev/null 2>&1 || true
+        exec -T caddy caddy reload --config /etc/caddy/Caddyfile >/dev/null 2>&1; then
+        echo "Failed to reload the restored proxy route; preserving candidate services to avoid interrupting traffic" >&2
+        rollback_failed=1
+    fi
 }
 
 cleanup() {
     status=$?
     if [ "$status" -ne 0 ]; then
+        echo "Deployment failed for ${environment} (${new_slot}); collecting candidate diagnostics" >&2
+        compose "$project" ps >&2 || true
+        compose "$project" logs --no-color --tail=100 >&2 || true
         if [ "$switched" -eq 1 ]; then
             restore_route
         fi
-        if [ "$scheduler_switched" -eq 1 ]; then
+        if [ "$scheduler_switched" -eq 1 ] && [ "$rollback_failed" -eq 0 ]; then
             compose "$project" stop --timeout 30 scheduler >/dev/null 2>&1 || true
             if [ "$had_old_route" -eq 1 ]; then
-                compose "$old_project" up -d --no-deps scheduler >/dev/null 2>&1 || true
+                compose "$old_project" up -d --no-deps queue scheduler >/dev/null 2>&1 || true
             fi
         fi
-        compose "$project" down --remove-orphans >/dev/null 2>&1 || true
+        if [ "$rollback_failed" -eq 0 ]; then
+            compose "$project" down --remove-orphans >/dev/null 2>&1 || true
+        else
+            echo "Candidate project ${project} was left running for traffic continuity; inspect proxy state before cleanup" >&2
+        fi
     fi
     docker logout ghcr.io >/dev/null 2>&1 || true
     exit "$status"
@@ -131,15 +142,30 @@ fi
 DEPLOY_ROOT="$deploy_root" docker compose --env-file "$proxy_env_file" \
     --project-name pcb-proxy -f "$proxy_compose" up -d --wait --wait-timeout 90 caddy
 
-compose "pcb-${environment}-infra" up -d mariadb redis
+echo "Waiting for MariaDB and Redis to become healthy for ${environment}"
+if ! compose "pcb-${environment}-infra" up -d --wait --wait-timeout 120 mariadb redis; then
+    echo "MariaDB or Redis did not become healthy within 120 seconds; aborting deployment" >&2
+    compose "pcb-${environment}-infra" ps >&2 || true
+    compose "pcb-${environment}-infra" logs --no-color --tail=100 mariadb redis >&2 || true
+    exit 1
+fi
+echo "MariaDB and Redis are healthy"
+
+echo "Pulling candidate images for ${new_slot}"
 compose "$project" pull fpm nginx queue scheduler
+echo "Starting candidate PHP-FPM and nginx services"
 compose "$project" up -d --no-deps --wait --wait-timeout 120 fpm nginx
+echo "Running database migrations against healthy MariaDB"
 compose "$project" exec -T fpm php artisan migrate --force
-docker run --rm --network "$proxy_network" curlimages/curl:8.12.1 \
-    --fail --silent --show-error "http://${new_alias}/up" >/dev/null
+echo "Checking candidate HTTP health endpoint"
+if ! compose "$project" exec -T nginx wget -q -O /dev/null http://127.0.0.1/up; then
+    echo "Candidate ${new_alias} failed its HTTP health check; traffic remains on the existing route" >&2
+    exit 1
+fi
 
 if [ "$had_old_route" -eq 1 ]; then
-    compose "$old_project" stop --timeout 30 scheduler || true
+    scheduler_switched=1
+    compose "$old_project" stop --timeout 30 scheduler
 fi
 scheduler_switched=1
 compose "$project" up -d --no-deps queue scheduler
@@ -150,14 +176,14 @@ if [ -z "$scheduler_id" ] || [ "$(docker inspect --format '{{.State.Running}}' "
 fi
 
 printf '%s {\n    reverse_proxy %s:80\n}\n' "$domain" "$new_alias" > "$route_file.new"
-mv "$route_file.new" "$route_file"
 switched=1
+mv "$route_file.new" "$route_file"
 DEPLOY_ROOT="$deploy_root" docker compose --env-file "$proxy_env_file" \
     --project-name pcb-proxy -f "$proxy_compose" \
     exec -T caddy caddy reload --config /etc/caddy/Caddyfile
 
 if docker ps -aq --filter "label=com.docker.compose.project=${old_project}" | grep -q .; then
-    compose "$old_project" stop --timeout 90 queue || true
+    compose "$old_project" stop --timeout 90 queue
 fi
 
 switched=0

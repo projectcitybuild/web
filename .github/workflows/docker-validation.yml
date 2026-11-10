@@ -1,0 +1,116 @@
+name: Docker Validation
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  compose-config:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: shared
+            files: -f .docker/compose.yaml
+          - name: deployment
+            files: -f .docker/compose.yaml -f .docker/deployment/compose.server.yaml
+          - name: dev-container
+            files: -f .devcontainer/compose.yaml
+          - name: proxy
+            files: -f .docker/images/proxy/proxy-compose.yaml
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Prepare non-secret configuration files
+        run: |
+          cp .env.example .env
+          sudo install -d -m 700 /etc/pcb-web
+          printf 'ACME_EMAIL=ci@example.invalid\n' | sudo tee /etc/pcb-web/proxy.env >/dev/null
+          printf 'validation-only\n' | sudo tee /etc/pcb-web/staging.db-root-password >/dev/null
+          mkdir -p .docker/deployment/proxy/sites
+          cp .docker/images/proxy/Caddyfile .docker/deployment/proxy/Caddyfile
+
+      - name: Validate ${{ matrix.name }} Compose configuration
+        env:
+          COMPOSE_FILES: ${{ matrix.files }}
+        run: |
+          case "${{ matrix.name }}" in
+            deployment)
+              export ENVIRONMENT=staging DEPLOY_SLOT=blue
+              export IMAGE_REPO=ghcr.io/projectcitybuild/web IMAGE_TAG=ci
+              export APP_ENV_FILE="$GITHUB_WORKSPACE/.env"
+              ;;
+            proxy) export DEPLOY_ROOT="$GITHUB_WORKSPACE/.docker/deployment" ;;
+          esac
+          # shellcheck disable=SC2086
+          docker compose --env-file .env $COMPOSE_FILES config --quiet
+
+  image-build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: production-fpm
+            file: .docker/images/fpm/Dockerfile
+            target: fpm
+          - name: production-nginx
+            file: .docker/images/fpm/Dockerfile
+            target: nginx
+          - name: development-fpm
+            file: .docker/images/fpm/Dockerfile
+            target: dev-fpm
+          - name: development-nginx
+            file: .docker/images/fpm/Dockerfile
+            target: dev-nginx
+          - name: dev-container-cli
+            file: .docker/images/dev/cli/Dockerfile
+            target: ""
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f
+
+      - name: Build ${{ matrix.name }} image
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8
+        with:
+          context: .
+          file: ${{ matrix.file }}
+          target: ${{ matrix.target }}
+          tags: local/pcb-web:${{ matrix.name }}
+          push: false
+          cache-from: type=gha,scope=${{ matrix.name }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.name }}
+
+  deployment-script:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Validate deployment script
+        run: |
+          sh -n .docker/deployment/deploy.sh
+          bash -n .docker/deployment/deploy.sh
+
+      - name: Check deployment argument validation
+        run: |
+          if sh .docker/deployment/deploy.sh >/dev/null 2>&1; then
+            echo "Deployment script accepted missing arguments" >&2
+            exit 1
+          fi
+          if sh .docker/deployment/deploy.sh development aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa app.example ghcr.io/example/web /tmp/deploy >/dev/null 2>&1; then
+            echo "Deployment script accepted an unsupported environment" >&2
+            exit 1
+          fi
+
+      - name: Install ShellCheck
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y shellcheck
+
+      - name: Run ShellCheck
+        run: shellcheck .docker/deployment/deploy.sh
