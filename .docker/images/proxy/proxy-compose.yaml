@@ -1,0 +1,31 @@
+services:
+  caddy:
+    image: caddy:2.10-alpine
+    restart: unless-stopped
+    env_file:
+      - /etc/pcb-web/proxy.env
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:2019/config/"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+    volumes:
+      - ${DEPLOY_ROOT:?DEPLOY_ROOT is required}/proxy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ${DEPLOY_ROOT:?DEPLOY_ROOT is required}/proxy/sites:/etc/caddy/sites:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
+    name: pcb-proxy
+
+volumes:
+  caddy-data:
+  caddy-config:

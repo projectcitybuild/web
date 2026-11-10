@@ -1,0 +1,101 @@
+services:
+  cli:
+    build:
+      context: ..
+      dockerfile: .docker/images/dev/cli/Dockerfile
+    working_dir: /workspaces/laravel
+    volumes:
+      - ..:/workspaces/laravel
+    command: sleep infinity
+    networks:
+      app: {}
+
+  fpm:
+    build:
+      context: ..
+      dockerfile: .docker/images/fpm/Dockerfile
+      target: dev-fpm
+    volumes:
+      - ..:/var/www/html
+    user: "1000:1000"
+
+  queue:
+    build:
+      context: ..
+      dockerfile: .docker/images/fpm/Dockerfile
+      target: dev-fpm
+    volumes:
+      - ..:/var/www/html
+    user: "1000:1000"
+
+  scheduler:
+    build:
+      context: ..
+      dockerfile: .docker/images/fpm/Dockerfile
+      target: dev-fpm
+    volumes:
+      - ..:/var/www/html
+    user: "1000:1000"
+
+  nginx:
+    build:
+      context: ..
+      dockerfile: .docker/images/fpm/Dockerfile
+      target: dev-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ..:/var/www/html
+
+  mariadb:
+    ports:
+      - "3306:3306"
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
+    volumes:
+      - ../.docker/images/dev/mariadb/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh:ro
+
+  minio:
+    image: minio/minio:RELEASE.2025-09-07T16-13-09Z
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minio}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minio}
+    volumes:
+      - minio-data:/data/minio
+    command: minio server /data/minio --console-address ":8900"
+    ports:
+      - "${FORWARD_MINIO_PORT:-9000}:9000"
+      - "${FORWARD_MINIO_CONSOLE_PORT:-8900}:8900"
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      retries: 3
+      timeout: 5s
+    networks:
+      app: {}
+
+  mailpit:
+    image: axllent/mailpit:v1.27.11
+    ports:
+      - "${FORWARD_MAILPIT_PORT:-1025}:1025"
+      - "${FORWARD_MAILPIT_DASHBOARD_PORT:-8025}:8025"
+    networks:
+      app: {}
+
+  stripe-cli:
+    image: stripe/stripe-cli:v1.37.1
+    profiles:
+      - stripe
+    command:
+      - listen
+      - --api-key
+      - ${STRIPE_SECRET}
+      - --device-name=${STRIPE_CLI_DEVICE_NAME}
+      - --forward-to
+      - http://nginx/stripe/webhook/
+    depends_on:
+      - nginx
+    networks:
+      app: {}
+
+volumes:
+  minio-data:

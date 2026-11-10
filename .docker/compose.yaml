@@ -1,0 +1,101 @@
+services:
+  fpm:
+    image: ${IMAGE_REPO:-pcb-web}:${IMAGE_TAG:-local}-fpm
+    env_file:
+      - ${APP_ENV_FILE:-../.env}
+    restart: unless-stopped
+    depends_on:
+      mariadb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "php-fpm", "-t"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      app: {}
+
+  queue:
+    image: ${IMAGE_REPO:-pcb-web}:${IMAGE_TAG:-local}-fpm
+    env_file:
+      - ${APP_ENV_FILE:-../.env}
+    command: php artisan queue:work redis --sleep=3 --tries=3 --timeout=90 --queue=mail,discord,default
+    restart: unless-stopped
+    depends_on:
+      mariadb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      app: {}
+
+  scheduler:
+    image: ${IMAGE_REPO:-pcb-web}:${IMAGE_TAG:-local}-fpm
+    env_file:
+      - ${APP_ENV_FILE:-../.env}
+    command: php artisan schedule:work
+    restart: unless-stopped
+    depends_on:
+      mariadb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      app: {}
+
+  nginx:
+    image: ${IMAGE_REPO:-pcb-web}:${IMAGE_TAG:-local}-nginx
+    environment:
+      FPM_HOST: ${FPM_HOST:-fpm}
+      NGINX_ENVSUBST_FILTER: ^FPM_HOST$
+    restart: unless-stopped
+    depends_on:
+      fpm:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1/up"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      app: {}
+
+  mariadb:
+    image: mariadb:12.0.2
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: ${DB_DATABASE:-laravel}
+      MARIADB_USER: ${DB_USERNAME:-dbuser}
+      MARIADB_PASSWORD: ${DB_PASSWORD:-dbpass}
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      app: {}
+
+  redis:
+    image: redis:7.2-alpine
+    command: redis-server --appendonly yes
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks:
+      app: {}
+
+networks:
+  app:
+
+volumes:
+  mariadb-data:
+  redis-data:
