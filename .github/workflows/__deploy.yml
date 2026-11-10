@@ -179,5 +179,5 @@ jobs:
           exit "$deploy_status"
 
       - name: Publish deployed image revision
-        run: echo "Deployed image revision: ${{ steps.source.outputs.image-tag }}" >> "$GITHUB_STEP_SUMMARY"
+        run: 'echo "Deployed image revision: ${{ steps.source.outputs.image-tag }}" >> "$GITHUB_STEP_SUMMARY"'
 
