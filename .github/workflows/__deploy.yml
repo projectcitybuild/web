@@ -82,28 +82,25 @@ jobs:
           MYSQL_ROOT_PASSWORD: root
         run: php artisan test
 
-  deploy:
+  build:
     runs-on: ubuntu-latest
     needs: verify
-    environment: ${{ inputs.environment }}
     permissions:
       contents: read
       packages: write
     outputs:
-      image-tag: ${{ steps.source.outputs.image-tag }}
+      image-repo: ${{ steps.repository.outputs.image-repo }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           ref: ${{ needs.verify.outputs.image-tag }}
 
-      - name: Determine source revision
-        id: source
-        run: echo "image-tag=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-
       - name: Set image repository
+        id: repository
         run: |
           IMAGE_REPO="ghcr.io/$(printf '%s' "$GITHUB_REPOSITORY" | tr '[:upper:]' '[:lower:]')"
           echo "IMAGE_REPO=$IMAGE_REPO" >> "$GITHUB_ENV"
+          echo "image-repo=$IMAGE_REPO" >> "$GITHUB_OUTPUT"
 
       - name: Log in to GitHub Container Registry
         if: inputs.build-images
@@ -114,7 +111,7 @@ jobs:
       - name: Build and push PHP-FPM image
         if: inputs.build-images
         env:
-          IMAGE_TAG: ${{ steps.source.outputs.image-tag }}
+          IMAGE_TAG: ${{ needs.verify.outputs.image-tag }}
         run: >-
           docker buildx build --push --file .docker/images/fpm/Dockerfile --target fpm
           --tag "$IMAGE_REPO:$IMAGE_TAG-fpm"
@@ -123,7 +120,7 @@ jobs:
       - name: Build and push nginx image
         if: inputs.build-images
         env:
-          IMAGE_TAG: ${{ steps.source.outputs.image-tag }}
+          IMAGE_TAG: ${{ needs.verify.outputs.image-tag }}
         run: >-
           docker buildx build --push --file .docker/images/fpm/Dockerfile --target nginx
           --tag "$IMAGE_REPO:$IMAGE_TAG-nginx"
@@ -132,6 +129,19 @@ jobs:
       - name: Log out of GitHub Container Registry
         if: always() && inputs.build-images
         run: docker logout ghcr.io || true
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [verify, build]
+    environment: ${{ inputs.environment }}
+    permissions:
+      contents: read
+    outputs:
+      image-tag: ${{ needs.verify.outputs.image-tag }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ needs.verify.outputs.image-tag }}
 
       - name: Prepare SSH
         env:
@@ -152,7 +162,8 @@ jobs:
           GHCR_PULL_TOKEN: ${{ secrets.GHCR_PULL_TOKEN }}
           APP_DOMAIN: ${{ vars.APP_DOMAIN }}
           ENVIRONMENT: ${{ inputs.environment }}
-          IMAGE_TAG: ${{ steps.source.outputs.image-tag }}
+          IMAGE_TAG: ${{ needs.verify.outputs.image-tag }}
+          IMAGE_REPO: ${{ needs.build.outputs.image-repo }}
         run: |
           [[ "$APP_DOMAIN" =~ ^[A-Za-z0-9.-]+$ ]]
           [[ "$DEPLOY_PATH" =~ ^/[A-Za-z0-9._/-]+$ ]]
@@ -179,5 +190,5 @@ jobs:
           exit "$deploy_status"
 
       - name: Publish deployed image revision
-        run: 'echo "Deployed image revision: ${{ steps.source.outputs.image-tag }}" >> "$GITHUB_STEP_SUMMARY"'
+        run: 'echo "Deployed image revision: ${{ needs.verify.outputs.image-tag }}" >> "$GITHUB_STEP_SUMMARY"'
 
