@@ -27,7 +27,7 @@ jobs:
       - name: Prepare non-secret configuration files
         run: |
           cp .env.example .env
-          sudo install -d -m 700 /etc/pcb-web
+          sudo install -d -m 755 /etc/pcb-web
           printf 'ACME_EMAIL=ci@example.invalid\n' | sudo tee /etc/pcb-web/proxy.env >/dev/null
           printf 'validation-only\n' | sudo tee /etc/pcb-web/staging.db-root-password >/dev/null
           mkdir -p .docker/deployment/proxy/sites
