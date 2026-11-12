@@ -170,7 +170,7 @@ jobs:
           target="$DEPLOY_USER@$DEPLOY_HOST"
           ssh_options=(-i "$RUNNER_TEMP/deploy-ssh/key" -o UserKnownHostsFile="$RUNNER_TEMP/deploy-ssh/known_hosts" -o StrictHostKeyChecking=yes)
 
-          release_path="$DEPLOY_PATH/$IMAGE_TAG"
+          release_path="$DEPLOY_PATH/$ENVIRONMENT/$IMAGE_TAG"
           ssh "${ssh_options[@]}" "$target" mkdir -p "$release_path"
           scp "${ssh_options[@]}" \
             .docker/compose.yaml \

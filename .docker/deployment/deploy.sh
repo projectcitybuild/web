@@ -26,7 +26,13 @@ case "$deploy_path" in
     *) echo "Deploy path must be absolute" >&2; exit 2 ;;
 esac
 
-deploy_root=$(dirname "$deploy_path")
+release_root=$(dirname "$deploy_path")
+deploy_root=$(dirname "$release_root")
+release_tag=${deploy_path##*/}
+if [ "${release_root##*/}" != "$environment" ] || [ "$release_tag" != "$image_tag" ]; then
+    echo "Deploy path must be DEPLOY_PATH/$environment/$image_tag" >&2
+    exit 2
+fi
 proxy_root="$deploy_root/proxy"
 app_env_file="/etc/pcb-web/${environment}.env"
 proxy_env_file=/etc/pcb-web/proxy.env
@@ -54,7 +60,7 @@ for file in "$compose_base" "$compose_server" "$proxy_compose" "$proxy_caddyfile
     fi
 done
 
-mkdir -p "$deploy_root" "$proxy_root/sites"
+mkdir -p "$deploy_root" "$release_root" "$proxy_root/sites"
 exec 9>"$deploy_root/.deploy.lock"
 flock -x 9
 
@@ -193,9 +199,26 @@ DEPLOY_ROOT="$deploy_root" docker compose --env-file "$proxy_env_file" \
     exec -T caddy caddy reload --config /etc/caddy/Caddyfile
 
 if docker ps -aq --filter "label=com.docker.compose.project=${old_project}" | grep -q .; then
-    compose "$old_project" stop --timeout 90 queue
+    compose "$old_project" stop --timeout 90
 fi
 
 switched=0
 scheduler_switched=0
 echo "Deployed ${image_tag} to ${environment} (${new_slot})"
+
+for old_release in "$release_root"/*; do
+    [ -d "$old_release" ] || continue
+    old_release_tag=${old_release##*/}
+    case "$old_release_tag" in
+        *[!a-f0-9]*|'') continue ;;
+    esac
+    [ "$old_release_tag" = "$image_tag" ] && continue
+    if ! rm -rf "$old_release"; then
+        echo "Warning: failed to remove old deployment directory: $old_release" >&2
+    fi
+done
+rm -f "$release_root/.current" "$release_root/.current.new" || true
+
+if ! docker image prune --all --force; then
+    echo "Warning: failed to prune unused Docker images" >&2
+fi

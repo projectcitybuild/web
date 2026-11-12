@@ -19,8 +19,8 @@ on:
         required: true
         type: number
       image-tag:
-        description: Commit SHA from a successful dev deployment
-        required: true
+        description: Existing image tag to promote; leave empty to build and deploy main directly
+        required: false
         type: string
 
 concurrency:
@@ -35,7 +35,7 @@ jobs:
       environment: production
       branch: main
       image-tag: ${{ inputs.image-tag }}
-      build-images: false
+      build-images: ${{ inputs.image-tag == '' }}
 
   tag:
     runs-on: ubuntu-latest
