@@ -8,6 +8,8 @@ services:
       - "80:80"
       - "443:443"
       - "443:443/udp"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     healthcheck:
       test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:2019/config/"]
       interval: 5s
@@ -16,6 +18,7 @@ services:
     volumes:
       - ${DEPLOY_ROOT:?DEPLOY_ROOT is required}/proxy/Caddyfile:/etc/caddy/Caddyfile:ro
       - ${DEPLOY_ROOT:?DEPLOY_ROOT is required}/proxy/sites:/etc/caddy/sites:ro
+      - /mnt/discourse_volume_nyc1_01/discourse_docker/shared/standalone:/run/discourse:ro
       - caddy-data:/data
       - caddy-config:/config
     networks:
