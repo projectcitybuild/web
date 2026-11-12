@@ -15,7 +15,7 @@ RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS curl-dev icu-dev libzi
     && mkdir -p /usr/src/php/ext/redis \
     && curl -fsSL https://github.com/phpredis/phpredis/archive/6.3.0.tar.gz | tar xz -C /usr/src/php/ext/redis --strip 1 \
     && docker-php-ext-install redis \
-    && apk add --no-cache icu-libs libzip mariadb-connector-c \
+    && apk add --no-cache icu-libs libzip mariadb-connector-c mariadb-client \
     && apk del .build-deps
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
