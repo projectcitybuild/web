@@ -2,4 +2,22 @@
     email {$ACME_EMAIL}
 }
 
+portal.projectcitybuild.com {
+    reverse_proxy host.docker.internal:8080 {
+        header_up Host localhost:8080
+    }
+}
+
+forums.projectcitybuild.com {
+    @options method OPTIONS
+    header @options {
+        Access-Control-Allow-Headers "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range"
+        Access-Control-Max-Age 1728000
+        Content-Type "text/plain; charset=utf-8"
+    }
+    respond @options "" 204
+
+    reverse_proxy unix//run/discourse/nginx.http.sock
+}
+
 import /etc/caddy/sites/*.caddy
