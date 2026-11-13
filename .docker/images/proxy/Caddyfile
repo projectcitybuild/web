@@ -3,9 +3,7 @@
 }
 
 portal.projectcitybuild.com {
-    reverse_proxy host.docker.internal:8080 {
-        header_up Host localhost:8080
-    }
+    reverse_proxy bookstack:80
 }
 
 forums.projectcitybuild.com {
