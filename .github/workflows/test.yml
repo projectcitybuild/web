@@ -81,6 +81,7 @@ jobs:
         run: |
           cp .env.testing .env
           echo "DB_HOST=127.0.0.1" >> .env
+          echo "REDIS_HOST=127.0.0.1" >> .env
 
       - name: Prepare Laravel
         run: |
