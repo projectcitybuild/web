@@ -25,5 +25,11 @@ final class PassportServiceProvider extends ServiceProvider
         Passport::tokensExpireIn(now()->addMinutes(30));
         Passport::refreshTokensExpireIn(now()->addDays(21));
         Passport::personalAccessTokensExpireIn(now()->addMonth());
+        Passport::tokensCan([
+            'openid' => 'OpenID Connect authentication',
+            'profile' => 'Access account profile information',
+            'email' => 'Access the account email address',
+        ]);
+        Passport::setDefaultScope(['openid']);
     }
 }
