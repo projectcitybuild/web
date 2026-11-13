@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Admin9\OidcServer\Concerns\HasOidcClaims;
+use Admin9\OidcServer\Contracts\OidcUserInterface;
 use Altek\Eventually\Eventually;
 use App\Core\Domains\Auditing\AuditAttributes;
 use App\Core\Domains\Auditing\Concerns\CausesActivity;
@@ -18,15 +20,19 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Cashier\Billable;
+use Laravel\Passport\Contracts\OAuthenticatable;
 use Laravel\Passport\HasApiTokens;
 
-final class Account extends Authenticatable implements LinkableAuditModel
+final class Account extends Authenticatable implements LinkableAuditModel, OAuthenticatable, OidcUserInterface
 {
     use Billable;
     use CausesActivity;
     use Eventually;
     use HasApiTokens;
     use HasFactory;
+    use HasOidcClaims {
+        resolveOidcClaim as protected resolveDefaultOidcClaim;
+    }
     use HasStaticTable;
     use LogsActivity;
     use Notifiable;
@@ -65,6 +71,22 @@ final class Account extends Authenticatable implements LinkableAuditModel
         'activated' => 'boolean',
         'terms_accepted' => 'boolean',
     ];
+
+    public function getOidcSubject(): string
+    {
+        return (string) $this->getAuthIdentifier();
+    }
+
+    protected function resolveOidcClaim(string $claim): mixed
+    {
+        return match ($claim) {
+            'sub' => $this->getOidcSubject(),
+            'email' => $this->email,
+            'name', 'nickname', 'preferred_username' => $this->username,
+            'email_verified', 'picture' => null,
+            default => $this->resolveDefaultOidcClaim($claim),
+        };
+    }
 
     public function minecraftAccount(): HasMany
     {

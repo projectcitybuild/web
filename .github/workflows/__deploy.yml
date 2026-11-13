@@ -42,6 +42,15 @@ jobs:
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd="redis-cli ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
@@ -58,6 +67,9 @@ jobs:
 
       - name: Install Composer dependencies
         uses: ./.github/actions/install-composer-deps
+
+      - name: Install MariaDB client
+        run: sudo apt-get update && sudo apt-get install --yes mariadb-client
 
       - name: Install npm dependencies
         uses: ./.github/actions/install-npm-deps
@@ -78,6 +90,7 @@ jobs:
       - name: Run test suite
         env:
           DB_HOST: 127.0.0.1
+          REDIS_HOST: 127.0.0.1
           MYSQL_USER: root
           MYSQL_ROOT_PASSWORD: root
         run: php artisan test

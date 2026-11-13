@@ -15,6 +15,8 @@ use Tests\Support\TestResponseMacros;
 
 abstract class TestCase extends BaseTestCase
 {
+    private static ?array $passportTestKeys = null;
+
     use CreatesApplication;
     use RefreshDatabase;
     use TemporaryConfig;
@@ -24,10 +26,41 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
+        $this->configurePassportTestKeys();
+
         $this->registerTestResponseMacros();
 
         // Throw an exception if a HTTP response hasn't been mocked
         Http::preventStrayRequests();
+    }
+
+    private function configurePassportTestKeys(): void
+    {
+        if (self::$passportTestKeys === null) {
+            $key = openssl_pkey_new([
+                'private_key_bits' => 2048,
+                'private_key_type' => OPENSSL_KEYTYPE_RSA,
+            ]);
+
+            if ($key === false || ! openssl_pkey_export($key, $privateKey)) {
+                throw new \RuntimeException('Unable to generate Passport test keys.');
+            }
+
+            $details = openssl_pkey_get_details($key);
+            if ($details === false) {
+                throw new \RuntimeException('Unable to read Passport test key details.');
+            }
+
+            self::$passportTestKeys = [
+                'private' => $privateKey,
+                'public' => $details['key'],
+            ];
+        }
+
+        config([
+            'passport.private_key' => self::$passportTestKeys['private'],
+            'passport.public_key' => self::$passportTestKeys['public'],
+        ]);
     }
 
     /** @deprecated Do this on a per-test basis */

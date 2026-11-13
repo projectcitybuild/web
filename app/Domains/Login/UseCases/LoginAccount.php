@@ -31,6 +31,8 @@ class LoginAccount
             remember: $shouldRemember,
         );
 
+        Session::forget(MfaAuthenticated::NEEDS_MFA_KEY);
+
         // Check if the user needs to complete 2FA
         if ($account->is_totp_enabled) {
             Session::put(MfaAuthenticated::NEEDS_MFA_KEY, 'true');

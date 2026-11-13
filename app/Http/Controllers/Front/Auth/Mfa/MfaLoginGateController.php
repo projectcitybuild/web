@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front\Auth\Mfa;
 
+use Admin9\OidcServer\Contracts\AuthenticationRecorder;
 use App\Http\Controllers\WebController;
 use App\Http\Middleware\MfaAuthenticated;
 use Illuminate\Http\Request;
@@ -42,6 +43,8 @@ class MfaLoginGateController extends WebController
         $request->user()->save();
 
         Session::forget(MfaAuthenticated::NEEDS_MFA_KEY);
+        $request->session()->regenerate(true);
+        app(AuthenticationRecorder::class)->markAuthenticated('web', $request->user());
 
         return redirect()->intended(route('front.account.profile'));
     }

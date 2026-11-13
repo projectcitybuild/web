@@ -2,6 +2,10 @@
 
 namespace App;
 
+use Admin9\OidcServer\Contracts\ReauthenticationHandler;
+use Admin9\OidcServer\Services\IdTokenService;
+use App\Core\Support\Passport\OidcIdTokenService;
+use App\Core\Support\Passport\OidcReauthenticationHandler;
 use App\Models\Account;
 use App\Models\Badge;
 use App\Models\BanAppeal;
@@ -27,6 +31,12 @@ use Illuminate\Validation\Rules\Password;
 
 final class AppServiceProvider extends ServiceProvider
 {
+    public function register(): void
+    {
+        $this->app->bind(ReauthenticationHandler::class, OidcReauthenticationHandler::class);
+        $this->app->singleton(IdTokenService::class, OidcIdTokenService::class);
+    }
+
     /**
      * Bootstrap any application services.
      *

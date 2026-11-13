@@ -1,5 +1,7 @@
 <?php
 
+use Admin9\OidcServer\Authentication\AuthenticationRecord;
+use Admin9\OidcServer\Contracts\AuthenticationRecorder;
 use App\Models\Account;
 use Illuminate\Support\Facades\Crypt;
 use PragmaRX\Google2FA\Google2FA;
@@ -28,6 +30,14 @@ class MfaLoginTest extends TestCase
             ->flagNeedsMfa();
 
         $validCode = $this->google2fa->getCurrentOtp(Crypt::decryptString($this->mfaAccount->totp_secret));
+        $recorder = Mockery::mock(AuthenticationRecorder::class);
+        $recorder->shouldReceive('markAuthenticated')
+            ->once()
+            ->with('web', Mockery::on(fn (Account $account) => $account->is($this->mfaAccount)))
+            ->andReturn(new AuthenticationRecord(
+                'web', Account::class, (string) $this->mfaAccount->getAuthIdentifier(), now()->timestamp, str_repeat('a', 64),
+            ));
+        $this->app->instance(AuthenticationRecorder::class, $recorder);
 
         $this->post(route('front.login.mfa.submit'), ['code' => $validCode])
             ->assertSessionHasNoErrors()

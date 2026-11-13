@@ -19,6 +19,7 @@ use App\Http\Controllers\Front\Auth\LoginController;
 use App\Http\Controllers\Front\Auth\LogoutController;
 use App\Http\Controllers\Front\Auth\Mfa\MfaLoginGateController;
 use App\Http\Controllers\Front\Auth\Mfa\MfaRecoveryController;
+use App\Http\Controllers\Front\Auth\OidcReauthenticationController;
 use App\Http\Controllers\Front\Auth\PasswordResetController;
 use App\Http\Controllers\Front\Auth\ReauthController;
 use App\Http\Controllers\Front\Auth\RegisterController;
@@ -118,12 +119,25 @@ Route::prefix('auth')->group(function () {
 
         Route::post('/', [LoginController::class, 'login'])
             ->name('front.login.submit')
-            ->middleware(['guest', 'throttle:login']);
+            ->middleware(['guest', 'throttle:login'])
+            ->block();
+    });
+
+    Route::prefix('oidc/reauth')->group(function () {
+        Route::get('/', [OidcReauthenticationController::class, 'show'])
+            ->name('front.oidc.reauth')
+            ->block();
+
+        Route::post('/', [OidcReauthenticationController::class, 'store'])
+            ->name('front.oidc.reauth.submit')
+            ->middleware('throttle:6,1')
+            ->block();
     });
 
     Route::get('logout', LogoutController::class)
         ->name('front.logout')
-        ->middleware(['auth']);
+        ->middleware(['auth'])
+        ->block();
 
     Route::prefix('confirm')->group(function () {
         Route::get('/', [ReauthController::class, 'show'])
@@ -142,7 +156,8 @@ Route::prefix('auth')->group(function () {
 
         Route::post('/', [MfaLoginGateController::class, 'store'])
             ->name('front.login.mfa.submit')
-            ->middleware(['auth', 'activated', 'active-mfa', 'throttle:6,1']);
+            ->middleware(['auth', 'activated', 'active-mfa', 'throttle:6,1'])
+            ->block();
 
         Route::get('recover', [MfaRecoveryController::class, 'show'])
             ->name('front.login.mfa-recover')

@@ -1,5 +1,7 @@
 <?php
 
+use Admin9\OidcServer\Authentication\AuthenticationRecord;
+use Admin9\OidcServer\Contracts\AuthenticationRecorder;
 use App\Http\Middleware\MfaAuthenticated;
 use App\Models\Account;
 
@@ -55,6 +57,20 @@ describe('successful login', function () {
         $this->assertAuthenticatedAs($this->account);
     });
 
+    it('records authentication after a non-mfa login', function () {
+        $recorder = Mockery::mock(AuthenticationRecorder::class);
+        $recorder->shouldReceive('markAuthenticated')
+            ->once()
+            ->with('web', Mockery::on(fn (Account $account) => $account->is($this->account)))
+            ->andReturn(new AuthenticationRecord(
+                'web', Account::class, (string) $this->account->getAuthIdentifier(), now()->timestamp, str_repeat('a', 64),
+            ));
+        $this->app->instance(AuthenticationRecorder::class, $recorder);
+
+        $this->post($this->submitEndpoint, $this->validCredentials)
+            ->assertSessionHasNoErrors();
+    });
+
     it('redirects to original destination', function () {
         $this->get(route('front.account.settings.billing'))
             ->assertRedirect($this->formEndpoint);
@@ -93,6 +109,10 @@ describe('mfa', function () {
             ->passwordHashed('secret')
             ->hasFinishedTotp()
             ->create();
+
+        $recorder = Mockery::mock(AuthenticationRecorder::class);
+        $recorder->shouldNotReceive('markAuthenticated');
+        $this->app->instance(AuthenticationRecorder::class, $recorder);
 
         $this->post($this->submitEndpoint, [
             'email' => $account->email,
