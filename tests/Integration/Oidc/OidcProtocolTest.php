@@ -1,9 +1,13 @@
 <?php
 
+use Admin9\OidcServer\Http\Middleware\EnforceAuthorizationPolicy;
 use Admin9\OidcServer\Services\ClaimsService;
 use Admin9\OidcServer\Services\IdTokenService;
 use Admin9\OidcServer\Services\PassportKeys;
+use App\Http\Middleware\MfaAuthenticated;
+use App\Http\Middleware\OidcSharedState;
 use App\Models\Account;
+use Illuminate\Http\Request;
 use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
@@ -115,6 +119,92 @@ it('requires an S256 challenge on every authorization code request', function ()
     $this->get('/oauth/authorize?response_type=code&code_challenge=challenge&code_challenge_method=plain')
         ->assertBadRequest()
         ->assertJsonPath('error', 'invalid_request');
+});
+
+it('fails closed when the session and cache Redis TLS settings differ', function () {
+    $cacheRedis = config('database.redis.cache');
+    $tlsDisabled = ['stream' => ['verify_peer' => false]];
+
+    config([
+        'session.driver' => 'redis',
+        'session.connection' => 'oidc',
+        'cache.default' => 'redis',
+        'oidc-server.freshness.redis_connection' => 'oidc',
+        'database.redis.default.context' => $tlsDisabled,
+        'database.redis.cache.context' => $tlsDisabled,
+        'database.redis.oidc' => array_replace($cacheRedis, [
+            'context' => ['stream' => ['verify_peer' => true]],
+        ]),
+    ]);
+
+    $response = app(OidcSharedState::class)->handle(
+        Request::create('/oauth/authorize?response_type=code&code_challenge=challenge&code_challenge_method=S256'),
+        fn () => response('', 204),
+    );
+
+    expect($response->getStatusCode())->toBe(503)
+        ->and(json_decode($response->getContent(), true)['error'])->toBe('server_error');
+});
+
+it('allows separate logical databases on the same session and cache Redis endpoint', function () {
+    $cacheRedis = config('database.redis.cache');
+
+    config([
+        'session.driver' => 'redis',
+        'session.connection' => 'oidc',
+        'cache.default' => 'redis',
+        'oidc-server.freshness.redis_connection' => 'oidc',
+        'database.redis.oidc' => array_replace($cacheRedis, ['database' => 2]),
+    ]);
+
+    $response = app(OidcSharedState::class)->handle(
+        Request::create('/oauth/authorize'),
+        fn () => response('', 204),
+    );
+
+    expect($response->getStatusCode())->toBe(204);
+});
+
+it('fails closed when a selected Redis database index is invalid', function () {
+    config([
+        'session.driver' => 'redis',
+        'session.connection' => 'default',
+        'cache.default' => 'redis',
+        'oidc-server.freshness.redis_connection' => 'default',
+        'database.redis.default.database' => 'not-a-database-index',
+    ]);
+
+    $response = app(OidcSharedState::class)->handle(
+        Request::create('/oauth/authorize'),
+        fn () => response('', 204),
+    );
+
+    expect($response->getStatusCode())->toBe(503);
+});
+
+it('prevents a pending MFA session from reaching OIDC authorization or approval', function () {
+    config([
+        'session.driver' => 'array',
+        'cache.default' => 'array',
+    ]);
+    $this->withoutMiddleware([OidcSharedState::class, EnforceAuthorizationPolicy::class]);
+
+    $account = Account::factory()->hasFinishedTotp()->create();
+    $this->actingAs($account, 'web')->withSession([
+        MfaAuthenticated::NEEDS_MFA_KEY => 'true',
+    ]);
+
+    $authorizationRequest = [
+        'response_type' => 'code',
+        'code_challenge' => 'challenge',
+        'code_challenge_method' => 'S256',
+    ];
+
+    $this->get('/oauth/authorize?'.http_build_query($authorizationRequest))
+        ->assertRedirect(route('front.login.mfa'));
+
+    $this->post('/oauth/authorize', $authorizationRequest)
+        ->assertForbidden();
 });
 
 it('preserves the legacy OAuth profile schema', function () {
