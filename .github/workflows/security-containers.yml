@@ -1,0 +1,51 @@
+name: Security - Container Scanning
+
+on:
+  pull_request:
+  push:
+  schedule:
+    - cron: '21 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  trivy:
+    name: Scan ${{ matrix.name }} image
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: production-fpm
+            target: fpm
+          - name: production-nginx
+            target: nginx
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f
+
+      - name: Build ${{ matrix.name }} image
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8
+        with:
+          context: .
+          file: .docker/images/fpm/Dockerfile
+          target: ${{ matrix.target }}
+          tags: local/pcb-web:${{ matrix.name }}
+          load: true
+
+      - name: Scan ${{ matrix.name }} image with Trivy
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25
+        with:
+          image-ref: local/pcb-web:${{ matrix.name }}
+          format: table
+          exit-code: '1'
+          ignore-unfixed: true
+          scanners: vuln
+          severity: HIGH,CRITICAL
