@@ -69,7 +69,7 @@ jobs:
           --health-timeout=5s
           --health-retries=3
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v4.2.2
         with:
           ref: ${{ inputs.image-tag || inputs.branch }}
 
@@ -78,18 +78,18 @@ jobs:
         run: echo "image-tag=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
       - name: Install PHP
-        uses: ./.github/actions/install-php
+        uses: $/.github/actions/install-php
         with:
           preset: test
 
       - name: Install Composer dependencies
-        uses: ./.github/actions/install-composer-deps
+        uses: $/.github/actions/install-composer-deps
 
       - name: Install MariaDB client
         run: sudo apt-get update && sudo apt-get install --yes mariadb-client
 
       - name: Install npm dependencies
-        uses: ./.github/actions/install-npm-deps
+        uses: $/.github/actions/install-npm-deps
 
       - name: Prepare Laravel
         run: |
@@ -121,7 +121,7 @@ jobs:
     outputs:
       image-repo: ${{ steps.repository.outputs.image-repo }}
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v4.2.2
         with:
           ref: ${{ needs.verify.outputs.image-tag }}
 
@@ -169,7 +169,7 @@ jobs:
     outputs:
       image-tag: ${{ needs.verify.outputs.image-tag }}
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v4.2.2
         with:
           ref: ${{ needs.verify.outputs.image-tag }}
 

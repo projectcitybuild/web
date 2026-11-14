@@ -12,14 +12,14 @@ runs:
   steps:
     - name: Setup PHP (default)
       if: inputs.preset == 'default'
-      uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231
+      uses: shivammathur/setup-php@2.31.1
       with:
         php-version: 8.4
         extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
 
     - name: Setup PHP (test)
       if: inputs.preset == 'test'
-      uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231
+      uses: shivammathur/setup-php@2.31.1
       with:
         php-version: 8.4
         extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
@@ -27,7 +27,7 @@ runs:
 
     - name: Setup PHP (lint)
       if: inputs.preset == 'lint'
-      uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231
+      uses: shivammathur/setup-php@2.31.1
       with:
         php-version: 8.4
         extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite

@@ -13,12 +13,12 @@ jobs:
       actions: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@v4.2.2
         with:
           persist-credentials: false
 
       - name: Run zizmor
-        uses: zizmorcore/zizmor-action@45d7276c9ca790aabd705e31ca99c6185c3e76dd
+        uses: zizmorcore/zizmor-action@v0.8.1
 
   actionlint:
     runs-on: ubuntu-latest
@@ -26,12 +26,12 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@v4.2.2
         with:
           persist-credentials: false
 
       - name: Run actionlint
-        uses: raven-actions/actionlint@3d39aea434753780c3b3d4a1a31c854b4dbf49d7
+        uses: raven-actions/actionlint@v2.2.0
 
   semgrep:
     name: semgrep-oss/scan
@@ -42,7 +42,7 @@ jobs:
       image: semgrep/semgrep@sha256:cc1b68266f267878b39739373ea9985b9a78e5d64497dd875c8de100b22695ed
     steps:
       - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@v4.2.2
         with:
           persist-credentials: false
 

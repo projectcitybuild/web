@@ -13,12 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@v6.1.0
         with:
           persist-credentials: false
 
       - name: Install PHP
-        uses: ./.github/actions/install-php
+        uses: $/.github/actions/install-php
         with:
           preset: default
 
@@ -29,12 +29,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@v6.1.0
         with:
           persist-credentials: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        uses: actions/setup-node@v6.5.0
         with:
           node-version: 22
 
