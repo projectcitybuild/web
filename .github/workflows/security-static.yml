@@ -35,7 +35,7 @@ jobs:
         with:
           # actionlint doesn't support the $/ Action reference format yet
           # https://github.com/rhysd/actionlint/issues/711
-          flags: '-ignore specifying\saction\s\x22\$/.+\x22\sinvalid\sformat\sbecause\sref\sis\smissing'
+          flags: '-ignore specifying\saction\s\x22\$/.+\x22\sin\sinvalid\sformat\sbecause\sref\sis\smissing'
 
   semgrep:
     name: semgrep-oss/scan

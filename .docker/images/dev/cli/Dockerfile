@@ -24,7 +24,7 @@ RUN apk add --no-cache mariadb-connector-c-dev mariadb-client && \
     docker-php-ext-install pdo_mysql
 
 # Install xdebug and sqlite for CI pipelines
-RUN apk add --no-cache --virtual .ci-build-deps $PHPIZE_DEPS curl-dev libxml2-dev oniguruma-dev sqlite-dev && \
+RUN apk add --no-cache --virtual .ci-build-deps $PHPIZE_DEPS curl-dev libxml2-dev oniguruma-dev sqlite-dev linux-headers && \
     docker-php-ext-install curl dom mbstring pcntl pdo_sqlite && \
     pecl install xdebug && \
     docker-php-ext-enable xdebug && \

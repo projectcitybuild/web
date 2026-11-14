@@ -24,7 +24,7 @@ class Activity extends \Spatie\Activitylog\Models\Activity
     public function getSystemCauserAttribute(): ?SystemCauser
     {
         // False positive
-        // nosemgrep: php.lang.security.exec-use
+        // nosemgrep: php.lang.security.exec-use.exec-use
         return SystemCauser::tryFromName($this->properties->get('system_causer'));
     }
 
