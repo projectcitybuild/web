@@ -97,6 +97,7 @@ jobs:
         run: |
           sh -n .docker/deployment/deploy.sh
           bash -n .docker/deployment/deploy.sh
+          bash -n .docker/deployment/restart.sh
 
       - name: Check deployment argument validation
         run: |
@@ -108,6 +109,14 @@ jobs:
             echo "Deployment script accepted an unsupported environment" >&2
             exit 1
           fi
+          if bash .docker/deployment/restart.sh >/dev/null 2>&1; then
+            echo "Restart script accepted missing arguments" >&2
+            exit 1
+          fi
+          if bash .docker/deployment/restart.sh development aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa ghcr.io/example/web /tmp/deploy >/dev/null 2>&1; then
+            echo "Restart script accepted an unsupported environment" >&2
+            exit 1
+          fi
 
       - name: Install ShellCheck
         run: |
@@ -115,4 +124,4 @@ jobs:
           sudo apt-get install --no-install-recommends -y shellcheck
 
       - name: Run ShellCheck
-        run: shellcheck .docker/deployment/deploy.sh
+        run: shellcheck .docker/deployment/deploy.sh .docker/deployment/restart.sh

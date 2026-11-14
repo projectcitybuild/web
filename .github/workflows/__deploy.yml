@@ -191,6 +191,7 @@ jobs:
             .docker/images/proxy/proxy-compose.yaml \
             .docker/images/proxy/Caddyfile \
             .docker/deployment/deploy.sh \
+            .docker/deployment/restart.sh \
             "$target:$release_path/"
 
           printf '%s' "$GHCR_PULL_TOKEN" | ssh "${ssh_options[@]}" "$target" \
