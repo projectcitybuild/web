@@ -8,7 +8,7 @@ runs:
       id: get-npm-cache
       shell: bash
       run: |
-        echo "::set-output name=dir::$(npm config get cache)"
+        echo "dir=$(npm config get cache)" >> "$GITHUB_OUTPUT"
 
     - name: Restore npm cache
       id: npm-cache
