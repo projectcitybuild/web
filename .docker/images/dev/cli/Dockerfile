@@ -23,6 +23,14 @@ RUN apk add --no-cache icu-dev && \
 RUN apk add --no-cache mariadb-connector-c-dev mariadb-client && \
     docker-php-ext-install pdo_mysql
 
+# Install xdebug and sqlite for CI pipelines
+RUN apk add --no-cache --virtual .ci-build-deps $PHPIZE_DEPS curl-dev libxml2-dev oniguruma-dev sqlite-dev && \
+    docker-php-ext-install curl dom mbstring pcntl pdo_sqlite sqlite3 && \
+    pecl install xdebug && \
+    docker-php-ext-enable xdebug && \
+    apk add --no-cache libxml2 oniguruma sqlite-libs && \
+    apk del .ci-build-deps
+
 # Install Redis driver
 RUN mkdir -p /usr/src/php/ext/redis; \
     curl -fsSL --ipv4 https://github.com/phpredis/phpredis/archive/6.3.0.tar.gz | tar xvz -C "/usr/src/php/ext/redis" --strip 1; \

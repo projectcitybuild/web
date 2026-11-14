@@ -1,0 +1,16 @@
+name: Run in devcontainer
+description: Runs a command in the repository devcontainer CLI service
+
+inputs:
+  command:
+    description: Shell command to run
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Run command
+      shell: bash
+      env:
+        COMMAND: ${{ inputs.command }}
+      run: docker compose -f .devcontainer/compose.yaml exec -T --user 0:0 cli sh -c "$COMMAND"

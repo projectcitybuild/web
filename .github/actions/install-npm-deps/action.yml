@@ -4,21 +4,20 @@ description: Downloads NPM dependencies from cache or CDN
 runs:
   using: composite
   steps:
-    - name: Get npm cache directory
-      id: get-npm-cache
+    - name: Prepare npm cache directory
       shell: bash
-      run: |
-        echo "dir=$(npm config get cache)" >> "$GITHUB_OUTPUT"
+      run: mkdir -p .cache/npm
 
     - name: Restore npm cache
       id: npm-cache
       uses: actions/cache@v6.1.0
       with:
-        path: ${{ steps.get-npm-cache.outputs.dir }}
-        key: ${{ runner.os }}-node-v3-${{ hashFiles('**/package-lock.json') }}
+        path: .cache/npm
+        key: ${{ runner.os }}-node-v4-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-
 
     - name: Install npm dependencies
-      shell: bash
-      run: npm ci
+      uses: $/.github/actions/run-in-devcontainer
+      with:
+        command: npm_config_cache=/workspaces/laravel/.cache/npm npm ci

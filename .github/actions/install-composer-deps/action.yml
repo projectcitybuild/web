@@ -4,21 +4,20 @@ description: Downloads Composer dependencies from cache or CDN
 runs:
   using: composite
   steps:
-    - name: Get Composer cache directory
-      id: get-composer-cache
+    - name: Prepare Composer cache directory
       shell: bash
-      run: |
-        echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
+      run: mkdir -p .cache/composer
 
     - name: Restore Composer cache
       id: composer-cache
       uses: actions/cache@v6.1.0
       with:
-        path: ${{ steps.get-composer-cache.outputs.dir }}
-        key: ${{ runner.os }}-composer-v3-${{ hashFiles('**/composer.lock') }}
+        path: .cache/composer
+        key: ${{ runner.os }}-composer-v4-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
           ${{ runner.os }}-composer-
 
     - name: Install Composer dependencies
-      shell: bash
-      run: composer install --prefer-dist --ignore-platform-reqs --no-interaction
+      uses: $/.github/actions/run-in-devcontainer
+      with:
+        command: COMPOSER_ALLOW_SUPERUSER=1 COMPOSER_CACHE_DIR=/workspaces/laravel/.cache/composer composer install --prefer-dist --ignore-platform-reqs --no-interaction

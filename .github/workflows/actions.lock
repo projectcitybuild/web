@@ -6,7 +6,6 @@ workflows:
     '.github/workflows/__deploy.yml':
         - 'actions/cache@v6.1.0'
         - 'actions/checkout@v4.2.2'
-        - 'shivammathur/setup-php@2.31.1'
     '.github/workflows/deploy-production.yml':
         - 'actions/checkout@v4.2.2'
         - 'softprops/action-gh-release@1fd6f3f2b1b859145679a1892abda586ef982a84'
@@ -15,10 +14,13 @@ workflows:
         - 'actions/checkout@v4.2.2'
         - 'docker/build-push-action@v6.19.2'
         - 'docker/setup-buildx-action@v3.12.0'
+    '.github/workflows/security-containers.yml':
+        - 'actions/checkout@v4.2.2'
+        - 'aquasecurity/trivy-action@v0.36.0'
+        - 'docker/build-push-action@v6.19.2'
+        - 'docker/setup-buildx-action@v3.12.0'
     '.github/workflows/security-dependencies.yml':
         - 'actions/checkout@v6.1.0'
-        - 'actions/setup-node@v6.5.0'
-        - 'shivammathur/setup-php@2.31.1'
     '.github/workflows/security-secrets.yml':
         - 'actions/checkout@v6.1.0'
         - 'gitleaks/gitleaks-action@v3.0.0'
@@ -29,12 +31,10 @@ workflows:
     '.github/workflows/test-openapi.yml':
         - 'actions/cache@v6.1.0'
         - 'actions/checkout@v4.2.2'
-        - 'shivammathur/setup-php@2.31.1'
     '.github/workflows/test.yml':
         - 'actions/cache@v6.1.0'
         - 'actions/checkout@v7.0.1'
         - 'codecov/codecov-action@v7.0.0'
-        - 'shivammathur/setup-php@2.31.1'
         - 'stefanzweifel/git-auto-commit-action@v7.1.0'
         - 'theowenyoung/folder-hash@v3'
 dependencies:
@@ -43,11 +43,21 @@ dependencies:
         commit: 'sha1-27d5ce7f107fe9357f9df03efb73ab90386fccae'
         owner_id: 44036562
         repo_id: 215566462
+    'actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb':
+        ref: 'v5.0.1'
+        commit: 'sha1-9255dc7a253b0ccc959486e2bca901246202afeb'
+        owner_id: 44036562
+        repo_id: 215566462
     'actions/cache@v6.1.0':
         ref: 'v6.1.0'
         commit: 'sha1-55cc8345863c7cc4c66a329aec7e433d2d1c52a9'
         owner_id: 44036562
         repo_id: 215566462
+    'actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8':
+        ref: 'v6.0.1'
+        commit: 'sha1-8e8c483db84b4bee98b60c0593521ed34d9990e8'
+        owner_id: 44036562
+        repo_id: 197814629
     'actions/checkout@v4.2.2':
         ref: 'v4.2.2'
         commit: 'sha1-11bd71901bbe5b1630ceea73d27597364c9af683'
@@ -73,11 +83,22 @@ dependencies:
         commit: 'sha1-ed597411d8f924073f98dfc5c65a23a2325f34cd'
         owner_id: 44036562
         repo_id: 205262760
-    'actions/setup-node@v6.5.0':
-        ref: 'v6.5.0'
-        commit: 'sha1-249970729cb0ef3589644e2896645e5dc5ba9c38'
-        owner_id: 44036562
-        repo_id: 189476904
+    'aquasecurity/setup-trivy@3fb12ec12f41e471780db15c232d5dd185dcb514':
+        ref: 'v0.2.6'
+        commit: 'sha1-3fb12ec12f41e471780db15c232d5dd185dcb514'
+        owner_id: 12783832
+        repo_id: 869952525
+        uses:
+            - 'actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb'
+            - 'actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8'
+    'aquasecurity/trivy-action@v0.36.0':
+        ref: 'v0.36.0'
+        commit: 'sha1-ed142fd0673e97e23eac54620cfb913e5ce36c25'
+        owner_id: 12783832
+        repo_id: 268833180
+        uses:
+            - 'actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae'
+            - 'aquasecurity/setup-trivy@3fb12ec12f41e471780db15c232d5dd185dcb514'
     'codecov/codecov-action@v7.0.0':
         ref: 'v7.0.0'
         commit: 'sha1-fb8b3582c8e4def4969c97caa2f19720cb33a72f'
@@ -113,11 +134,6 @@ dependencies:
         uses:
             - 'actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae'
             - 'actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3'
-    'shivammathur/setup-php@2.31.1':
-        ref: '2.31.1'
-        commit: 'sha1-c541c155eee45413f5b09a52248675b1a2575231'
-        owner_id: 1571086
-        repo_id: 206578964
     'softprops/action-gh-release@1fd6f3f2b1b859145679a1892abda586ef982a84':
         ref: 'master'
         commit: 'sha1-1fd6f3f2b1b859145679a1892abda586ef982a84'

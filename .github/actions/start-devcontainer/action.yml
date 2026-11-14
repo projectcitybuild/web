@@ -1,0 +1,23 @@
+name: Start devcontainer
+description: Builds the repository devcontainer and starts the requested services
+
+inputs:
+  services:
+    description: Compose services to start
+    required: false
+    default: cli
+
+runs:
+  using: composite
+  steps:
+    - name: Prepare environment
+      shell: bash
+      run: cp .env.testing .env
+
+    - name: Build and start services
+      shell: bash
+      env:
+        SERVICES: ${{ inputs.services }}
+      run: |
+        read -r -a services <<< "$SERVICES"
+        docker compose -f .devcontainer/compose.yaml up --detach --build --wait --wait-timeout 120 "${services[@]}"

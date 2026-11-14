@@ -13,46 +13,19 @@ permissions:
 jobs:
   unit-test:
     runs-on: ubuntu-latest
-    services:
-      mariadb:
-        image: mariadb:11.0.5
-        env:
-          MARIADB_DATABASE: testing
-          MARIADB_USER: dbuser
-          MARIADB_PASSWORD: dbpass
-          MARIADB_ROOT_PASSWORD: root
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="healthcheck.sh --connect --innodb_initialized"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
-      redis:
-        image: redis:7-alpine
-        ports:
-          - 6379:6379
-        options: >-
-          --health-cmd="redis-cli ping"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
     steps:
       - uses: actions/checkout@v7.0.1
 
-      - name: Install PHP
-        uses: $/.github/actions/install-php
+      - name: Start devcontainer
+        uses: $/.github/actions/start-devcontainer
         with:
-          preset: test
+          services: cli mariadb redis
 
       - name: Install Composer dependencies
         uses: $/.github/actions/install-composer-deps
 
       - name: Install npm dependencies
         uses: $/.github/actions/install-npm-deps
-
-      - name: Install MariaDB client
-        run: sudo apt-get update && sudo apt-get install --yes mariadb-client
 
       - name: Calculate front-end asset hash
         id: get-assets-cache
@@ -75,31 +48,27 @@ jobs:
 
       - name: Build front-end assets
         if: steps.assets-cache.outputs.cache-hit != 'true'
-        run: npm run build
-
-      - name: Prepare .env file
-        run: |
-          cp .env.testing .env
-          echo "DB_HOST=127.0.0.1" >> .env
+        uses: $/.github/actions/run-in-devcontainer
+        with:
+          command: npm run build
 
       - name: Prepare Laravel
-        run: |
-          php artisan key:generate
-          chmod -R 755 storage bootstrap/cache
+        uses: $/.github/actions/run-in-devcontainer
+        with:
+          command: php artisan key:generate && chmod -R 755 storage bootstrap/cache
 
       - name: Prepare database
-        run: php artisan migrate
+        uses: $/.github/actions/run-in-devcontainer
+        with:
+          command: php artisan migrate
 
       - name: Run tests
-        env:
-          DB_HOST: 127.0.0.1
-          REDIS_HOST: 127.0.0.1
-          MYSQL_USER: root
-          MYSQL_ROOT_PASSWORD: root
-        run: |
-          php artisan test \
-            --log-junit junit.xml \
-            --coverage-clover=coverage.xml
+        uses: $/.github/actions/run-in-devcontainer
+        with:
+          command: |
+            XDEBUG_MODE=coverage php artisan test \
+              --log-junit junit.xml \
+              --coverage-clover=coverage.xml
 
       - name: Upload test results to Codecov
         uses: codecov/codecov-action@v7.0.0
@@ -115,6 +84,10 @@ jobs:
           files: coverage.xml
           report_type: coverage
 
+      - name: Stop devcontainer
+        if: always()
+        run: docker compose -f .devcontainer/compose.yaml down --volumes
+
   lint:
     runs-on: ubuntu-latest
     permissions:
@@ -125,13 +98,22 @@ jobs:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.GH_ACTIONS_PAT }}  # Allows workflows to trigger from the resulting commit
 
-      - name: Install PHP
-        uses: $/.github/actions/install-php
+      - name: Start devcontainer
+        uses: $/.github/actions/start-devcontainer
         with:
-          preset: lint
+          services: cli
+
+      - name: Install Composer dependencies
+        uses: $/.github/actions/install-composer-deps
 
       - name: Run Pint
-        run: pint
+        uses: $/.github/actions/run-in-devcontainer
+        with:
+          command: vendor/bin/pint
 
       - name: Commit linted files
         uses: stefanzweifel/git-auto-commit-action@v7.1.0
+
+      - name: Stop devcontainer
+        if: always()
+        run: docker compose -f .devcontainer/compose.yaml down --volumes

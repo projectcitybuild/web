@@ -17,13 +17,19 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Install PHP
-        uses: $/.github/actions/install-php
+      - name: Start devcontainer
+        uses: $/.github/actions/start-devcontainer
         with:
-          preset: default
+          services: cli
 
       - name: Audit Composer dependencies
-        run: composer audit --locked
+        uses: $/.github/actions/run-in-devcontainer
+        with:
+          command: composer audit --locked
+
+      - name: Stop devcontainer
+        if: always()
+        run: docker compose -f .devcontainer/compose.yaml down --volumes
 
   npm-audit:
     runs-on: ubuntu-latest
@@ -33,10 +39,16 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v6.5.0
+      - name: Start devcontainer
+        uses: $/.github/actions/start-devcontainer
         with:
-          node-version: 22
+          services: cli
 
       - name: Audit npm dependencies
-        run: npm audit --package-lock-only
+        uses: $/.github/actions/run-in-devcontainer
+        with:
+          command: npm audit --package-lock-only
+
+      - name: Stop devcontainer
+        if: always()
+        run: docker compose -f .devcontainer/compose.yaml down --volumes
