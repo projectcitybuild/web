@@ -57,7 +57,7 @@ class AccountSecurityTest extends TestCase
 
         $account = $account->fresh();
         $decryptedSecret = Crypt::decryptString($account->totp_secret);
-        $this->assertEquals(16, strlen($decryptedSecret));
+        $this->assertEquals(32, strlen($decryptedSecret));
     }
 
     public function test_can_finish_setup()

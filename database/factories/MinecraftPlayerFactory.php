@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
+use App\Domains\Players\Data\MoveMode;
+use App\Domains\Players\Data\TeleportMode;
 use App\Models\MinecraftPlayer;
 
 class MinecraftPlayerFactory extends Factory
@@ -28,6 +30,14 @@ class MinecraftPlayerFactory extends Factory
             'muted' => false,
             'walk_speed' => 1.0,
             'fly_speed' => 1.0,
+            'teleport_mode' => TeleportMode::REQUEST->value,
+            'move_mode' => MoveMode::WALK->value,
+            'last_location_world_uuid' => null,
+            'last_location_x' => null,
+            'last_location_y' => null,
+            'last_location_z' => null,
+            'last_location_pitch' => null,
+            'last_location_yaw' => null,
             'sessions' => rand(0, 1000),
             'play_time' => rand(0, 1_000_000_000),
             'afk_time' => rand(0, 600_000_000),

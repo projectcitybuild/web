@@ -7,6 +7,8 @@ use App\Core\Domains\Auditing\Concerns\LogsActivity;
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Utilities\Traits\HasStaticTable;
+use App\Domains\Players\Data\MoveMode;
+use App\Domains\Players\Data\TeleportMode;
 use App\Domains\Players\Events\PlayerCreatedEvent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -32,6 +34,14 @@ final class MinecraftPlayer extends Model implements LinkableAuditModel
         'muted',
         'walk_speed',
         'fly_speed',
+        'teleport_mode',
+        'move_mode',
+        'last_location_world_uuid',
+        'last_location_x',
+        'last_location_y',
+        'last_location_z',
+        'last_location_pitch',
+        'last_location_yaw',
         'sessions',
         'play_time',
         'afk_time',
@@ -47,6 +57,13 @@ final class MinecraftPlayer extends Model implements LinkableAuditModel
     protected $casts = [
         'last_seen_at' => 'datetime',
         'last_connected_at' => 'datetime',
+        'teleport_mode' => TeleportMode::class,
+        'move_mode' => MoveMode::class,
+        'last_location_x' => 'float',
+        'last_location_y' => 'float',
+        'last_location_z' => 'float',
+        'last_location_pitch' => 'float',
+        'last_location_yaw' => 'float',
     ];
     protected $dispatchesEvents = [
         'created' => PlayerCreatedEvent::class,
