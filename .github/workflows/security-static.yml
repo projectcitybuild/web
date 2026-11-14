@@ -32,6 +32,10 @@ jobs:
 
       - name: Run actionlint
         uses: raven-actions/actionlint@v2.2.0
+        with:
+          # actionlint doesn't support the $/ Action reference format yet
+          # https://github.com/rhysd/actionlint/issues/711
+          flags: '-ignore specifying\saction\s\x22\$/.+\x22\sinvalid\sformat\sbecause\sref\sis\smissing'
 
   semgrep:
     name: semgrep-oss/scan
@@ -47,4 +51,5 @@ jobs:
           persist-credentials: false
 
       - name: Run Semgrep
-        run: semgrep scan --config auto --error
+        # Semgrep doesn't understand the $/ Action reference format
+        run: semgrep scan --config auto --error --exclude-rule yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag
