@@ -106,6 +106,8 @@ trait LogsActivity
 
     public function tapActivity(Activity $activity, string $eventName)
     {
+        // False positive
+        // nosemgrep: php.lang.security.exec-use
         $activity->properties = $activity->properties->put('system_causer', SystemCauseResolver::getCauserName());
     }
 }

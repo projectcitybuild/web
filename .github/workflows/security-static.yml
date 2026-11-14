@@ -47,4 +47,4 @@ jobs:
           persist-credentials: false
 
       - name: Run Semgrep
-        run: semgrep scan --config auto
+        run: semgrep scan --config auto --error

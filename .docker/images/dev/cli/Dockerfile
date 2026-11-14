@@ -31,4 +31,5 @@ RUN mkdir -p /usr/src/php/ext/redis; \
 RUN apk add --no-cache nodejs npm
 
 # Prevent container from exiting early
+USER user
 CMD ["sleep", "infinity"]

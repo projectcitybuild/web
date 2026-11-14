@@ -14,6 +14,8 @@ final class ExpireDonorPerks
 {
     public function execute(): void
     {
+        // False positive
+        // nosemgrep: php.lang.security.exec-use
         SystemCauseResolver::setCauser(SystemCauser::PERK_EXPIRY);
 
         DB::transaction(function () {

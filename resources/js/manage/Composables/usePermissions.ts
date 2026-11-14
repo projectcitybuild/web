@@ -35,34 +35,26 @@ export default function usePermissions() {
      *   permission: 'posts.edit'  -> true
      */
     const matchPermission = (permission: string, pattern: string): boolean => {
-        // Convert the wildcard pattern into a safe regex pattern:
-        // - Split on '*' (our wildcard)
-        // - Escape static segments to prevent unintended regex behavior
-        // - Rejoin using '.*' so '*' matches any characters
-        const escaped = pattern.split('*').map(escapeRegex).join('.*')
+        const segments = pattern.split('*')
+        if (segments.length === 1) {
+            return permission === pattern
+        }
+        if (!permission.startsWith(segments[0])) {
+            return false
+        }
 
-        // Add start (^) and end ($) anchors to require a full-string match
-        const regex = new RegExp('^' + escaped + '$')
+        let position = segments[0].length
+        for (const segment of segments.slice(1, -1)) {
+            const matchPosition = permission.indexOf(segment, position)
+            if (matchPosition === -1) {
+                return false
+            }
+            position = matchPosition + segment.length
+        }
 
-        // Test whether the permission matches the generated regex
-        return regex.test(permission)
+        const suffix = segments[segments.length - 1]
+        return permission.slice(position).endsWith(suffix)
     }
-
-    /**
-     * Escape special regex characters in a string so it can be safely used in a regex.
-     *
-     * When permission matching, we allow wildcards (*) to match multiple characters,
-     * but other characters (., +, ?, etc) must be treated literally.
-     *
-     * Example:
-     *   escapeRegex('admin.user.settings') => 'admin\.user\.settings'
-     *   escapeRegex('accounts.create?')    => 'accounts\.create\?'
-     *
-     * This ensures that when we later convert a wildcard pattern like 'accounts.*'
-     * into a regex, only the '*' acts as a wildcard and everything else matches literally.
-     */
-    const escapeRegex = (str: string) =>
-        str.replace(/[.+?^${}()|[\]\\]/g, '\\$&')
 
     return { can, cannot, permissions }
 }

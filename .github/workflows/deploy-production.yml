@@ -30,7 +30,15 @@ concurrency:
 jobs:
   deploy:
     uses: ./.github/workflows/__deploy.yml
-    secrets: inherit
+    secrets:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      DEPLOY_PRIVATE_KEY: ${{ secrets.DEPLOY_PRIVATE_KEY }}
+      DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+      DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+      DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+      DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+      GHCR_USERNAME: ${{ secrets.GHCR_USERNAME }}
+      GHCR_PULL_TOKEN: ${{ secrets.GHCR_PULL_TOKEN }}
     with:
       environment: production
       branch: main
@@ -50,17 +58,23 @@ jobs:
 
       - name: Determine version tag
         id: git_tag
+        env:
+          VERSION_MAJOR: ${{ inputs.major }}
+          VERSION_MINOR: ${{ inputs.minor }}
+          VERSION_PATCH: ${{ inputs.patch }}
         run: |
-          VERSION_TAG="v${{ inputs.major }}.${{ inputs.minor }}.${{ inputs.patch }}"
+          VERSION_TAG="v${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}"
           echo "Input version: $VERSION_TAG"
-          echo "VERSION_TAG=$VERSION_TAG" >> $GITHUB_OUTPUT
+          echo "VERSION_TAG=$VERSION_TAG" >> "$GITHUB_OUTPUT"
 
       - name: Create a new tag
+        env:
+          VERSION_TAG: ${{ steps.git_tag.outputs.VERSION_TAG }}
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git tag "${{ steps.git_tag.outputs.VERSION_TAG }}"
-          git push origin "${{ steps.git_tag.outputs.VERSION_TAG }}"
+          git tag "$VERSION_TAG"
+          git push origin "$VERSION_TAG"
 
       - name: Create a GitHub Release
         uses: softprops/action-gh-release@1fd6f3f2b1b859145679a1892abda586ef982a84

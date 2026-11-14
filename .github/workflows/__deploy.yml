@@ -15,6 +15,23 @@ on:
       build-images:
         required: true
         type: boolean
+    secrets:
+      GITHUB_TOKEN:
+        required: true
+      DEPLOY_PRIVATE_KEY:
+        required: true
+      DEPLOY_KNOWN_HOSTS:
+        required: true
+      DEPLOY_HOST:
+        required: true
+      DEPLOY_USER:
+        required: true
+      DEPLOY_PATH:
+        required: true
+      GHCR_USERNAME:
+        required: true
+      GHCR_PULL_TOKEN:
+        required: true
     outputs:
       image-tag:
         description: Commit SHA used to tag the deployed images
@@ -184,7 +201,8 @@ jobs:
           ssh_options=(-i "$RUNNER_TEMP/deploy-ssh/key" -o UserKnownHostsFile="$RUNNER_TEMP/deploy-ssh/known_hosts" -o StrictHostKeyChecking=yes)
 
           release_path="$DEPLOY_PATH/$ENVIRONMENT/$IMAGE_TAG"
-          ssh "${ssh_options[@]}" "$target" mkdir -p "$release_path"
+          printf '%s\n' "$release_path" | ssh "${ssh_options[@]}" "$target" \
+            "IFS= read -r release_path && mkdir -p -- \"\$release_path\""
           scp "${ssh_options[@]}" \
             .docker/compose.yaml \
             .docker/deployment/compose.server.yaml \
@@ -198,8 +216,9 @@ jobs:
             docker login ghcr.io --username "$GHCR_USERNAME" --password-stdin
 
           deploy_status=0
-          ssh "${ssh_options[@]}" "$target" sh "$release_path/deploy.sh" \
-            "$ENVIRONMENT" "$IMAGE_TAG" "$APP_DOMAIN" "$IMAGE_REPO" "$release_path" || deploy_status=$?
+          printf '%s\n' "$release_path/deploy.sh" "$ENVIRONMENT" "$IMAGE_TAG" "$APP_DOMAIN" "$IMAGE_REPO" "$release_path" |
+            ssh "${ssh_options[@]}" "$target" \
+              "IFS= read -r deploy_script && IFS= read -r environment && IFS= read -r image_tag && IFS= read -r app_domain && IFS= read -r image_repo && IFS= read -r release_path && sh \"\$deploy_script\" \"\$environment\" \"\$image_tag\" \"\$app_domain\" \"\$image_repo\" \"\$release_path\"" || deploy_status=$?
           ssh "${ssh_options[@]}" "$target" docker logout ghcr.io || true
           exit "$deploy_status"
 
