@@ -41,11 +41,15 @@ RUN composer dump-autoload --no-dev --optimize --no-interaction \
     && chown -R www-data:www-data storage bootstrap/cache \
     && ln -s ../storage/app/public public/storage
 
-FROM nginx:1.27-alpine AS nginx
+FROM nginx:1.29-alpine3.23 AS nginx
+
+RUN apk upgrade --no-cache
 
 COPY .docker/images/nginx/nginx.conf /etc/nginx/templates/default.conf.template
 COPY --from=fpm /var/www/html/public /var/www/html/public
 
-FROM nginx:1.27-alpine AS dev-nginx
+FROM nginx:1.29-alpine3.23 AS dev-nginx
+
+RUN apk upgrade --no-cache
 
 COPY .docker/images/nginx/nginx.conf /etc/nginx/templates/default.conf.template
