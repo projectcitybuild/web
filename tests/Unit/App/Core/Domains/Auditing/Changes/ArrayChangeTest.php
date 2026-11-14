@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Core\Domains\Auditing\Changes;
+namespace Tests\Unit\App\Core\Domains\Auditing\Changes;
 
+use App\Core\Domains\Auditing\Changes\ArrayChange;
 use App\Core\Domains\Auditing\Changes\ArrayDiff\ArrayWrapState;
 use App\Core\Domains\Auditing\Changes\Tokens\NotInAudit;
 use Tests\TestCase;

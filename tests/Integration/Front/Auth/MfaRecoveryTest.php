@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests\Integration\Front\Auth;
+
 use App\Domains\Mfa\Notifications\MfaBackupCodeUsedNotification;
 use App\Http\Middleware\MfaAuthenticated;
 use App\Models\Account;

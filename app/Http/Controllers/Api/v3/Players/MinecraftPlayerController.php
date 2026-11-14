@@ -37,28 +37,14 @@ class MinecraftPlayerController
         $player = MinecraftPlayer::whereUuid($uuid)->firstOrFail();
 
         $updated = [];
-        if ($validated->has('alias')) {
-            $updated['alias'] = $validated->get('alias');
-        }
-        if ($validated->has('nickname')) {
-            $updated['nickname'] = $validated->get('nickname');
-        }
-        if ($validated->has('muted')) {
-            $updated['muted'] = $validated->get('muted');
-        }
-        if ($validated->has('walk_speed')) {
-            $updated['walk_speed'] = $validated->get('walk_speed');
-        }
-        if ($validated->has('fly_speed')) {
-            $updated['fly_speed'] = $validated->get('fly_speed');
-        }
-        if ($validated->has('teleport_mode')) {
-            $updated['teleport_mode'] = $validated->get('teleport_mode');
-        }
-        if ($validated->has('move_mode')) {
-            $updated['move_mode'] = $validated->get('move_mode');
-        }
         foreach ([
+            'alias',
+            'nickname',
+            'muted',
+            'walk_speed',
+            'fly_speed',
+            'teleport_mode',
+            'move_mode',
             'last_location_world_uuid',
             'last_location_x',
             'last_location_y',

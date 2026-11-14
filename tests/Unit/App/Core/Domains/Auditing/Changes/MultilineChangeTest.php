@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Core\Domains\Auditing\Changes;
+namespace Tests\Unit\App\Core\Domains\Auditing\Changes;
 
+use App\Core\Domains\Auditing\Changes\MultilineChange;
 use App\Core\Domains\Auditing\Changes\Tokens\NotInAudit;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;

@@ -1,9 +1,12 @@
 <?php
 
+namespace Tests\Integration\Front\Auth;
+
 use Admin9\OidcServer\Authentication\AuthenticationRecord;
 use Admin9\OidcServer\Contracts\AuthenticationRecorder;
 use App\Models\Account;
 use Illuminate\Support\Facades\Crypt;
+use Mockery;
 use PragmaRX\Google2FA\Google2FA;
 use Tests\TestCase;
 

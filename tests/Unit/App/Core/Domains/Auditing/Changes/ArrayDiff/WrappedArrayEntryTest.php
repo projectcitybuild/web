@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Core\Domains\Auditing\Changes\ArrayDiff;
+namespace Tests\Unit\App\Core\Domains\Auditing\Changes\ArrayDiff;
 
+use App\Core\Domains\Auditing\Changes\ArrayDiff\ArrayWrapState;
+use App\Core\Domains\Auditing\Changes\ArrayDiff\WrappedArrayEntry;
 use Tests\TestCase;
 
 class WrappedArrayEntryTest extends TestCase

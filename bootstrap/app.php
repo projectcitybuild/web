@@ -7,12 +7,12 @@ use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\LogApiCalls;
 use App\Http\Middleware\MfaAuthenticated;
 use App\Http\Middleware\NotActivated;
+use App\Http\Middleware\PreventRequestForgery;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\RequireActivation;
 use App\Http\Middleware\RequireMfaEnabled;
 use App\Http\Middleware\RequirePassword;
 use App\Http\Middleware\RequireServerToken;
-use App\Http\Middleware\PreventRequestForgery;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -23,6 +23,7 @@ use Illuminate\Http\Middleware\TrustProxies;
 use Illuminate\Http\Request;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Validation\ValidationException;
+use League\OAuth2\Server\Exception\OAuthServerException;
 use Sentry\Laravel\Integration;
 use Stripe\Exception\OAuth\UnsupportedGrantTypeException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -84,6 +85,7 @@ return Application::configure(basePath: dirname(__DIR__))
             TokenMismatchException::class,
             ValidationException::class,
             UnsupportedGrantTypeException::class,
+            OAuthServerException::class,
         ]);
         $exceptions->render(function (BaseHttpException $e, Request $request) {
             // Convert all exceptions to a consistent JSON format
