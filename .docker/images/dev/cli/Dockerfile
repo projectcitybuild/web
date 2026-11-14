@@ -21,7 +21,7 @@ RUN apk add --no-cache icu-dev && \
 
 # Install MariaDB PDO driver
 RUN apk add --no-cache mariadb-connector-c-dev mariadb-client && \
-    docker-php-ext-install pdo_mysql
+    docker-php-ext-install pdo pdo_mysql
 
 # Install xdebug and sqlite for CI pipelines
 RUN apk add --no-cache --virtual .ci-build-deps $PHPIZE_DEPS curl-dev libxml2-dev oniguruma-dev sqlite-dev linux-headers && \

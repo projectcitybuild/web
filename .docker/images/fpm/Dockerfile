@@ -11,7 +11,7 @@ RUN npm run build
 FROM php:8.4-fpm-alpine AS php-base
 
 RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS curl-dev icu-dev libzip-dev libxml2-dev mariadb-connector-c-dev \
-    && docker-php-ext-install bcmath curl dom intl pcntl pdo_mysql zip \
+    && docker-php-ext-install bcmath curl dom intl pcntl pdo pdo_mysql zip \
     && mkdir -p /usr/src/php/ext/redis \
     && curl -fsSL https://github.com/phpredis/phpredis/archive/6.3.0.tar.gz | tar xz -C /usr/src/php/ext/redis --strip 1 \
     && docker-php-ext-install redis \
