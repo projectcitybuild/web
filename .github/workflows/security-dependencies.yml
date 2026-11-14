@@ -1,0 +1,42 @@
+name: Security - Dependency Audit
+
+on:
+  pull_request:
+  schedule:
+    - cron: '13 6 * * 1'
+
+permissions:
+  contents: read
+
+jobs:
+  composer-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+
+      - name: Install PHP
+        uses: ./.github/actions/install-php
+        with:
+          preset: default
+
+      - name: Audit Composer dependencies
+        run: composer audit --locked
+
+  npm-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 22
+
+      - name: Audit npm dependencies
+        run: npm audit --package-lock-only
