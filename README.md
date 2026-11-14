@@ -12,8 +12,8 @@
 The official repository for [Project City Build](https://projectcitybuild.com)'s homepage and related web services.
 
 ### Stack
-* Backend: Laravel 11
-* Frontend: Laravel Blade, Vue 3
+* Backend: Laravel 13
+* Frontend: Laravel Blade, Vue 3, InertiaJS
 * CI/CD: GitHub Actions
 
 All branches, commits and pull-requests are continuously tested

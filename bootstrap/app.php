@@ -12,7 +12,7 @@ use App\Http\Middleware\RequireActivation;
 use App\Http\Middleware\RequireMfaEnabled;
 use App\Http\Middleware\RequirePassword;
 use App\Http\Middleware\RequireServerToken;
-use App\Http\Middleware\VerifyCsrfToken;
+use App\Http\Middleware\PreventRequestForgery;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -49,7 +49,7 @@ return Application::configure(basePath: dirname(__DIR__))
             replace: App\Http\Middleware\TrustProxies::class,
         );
         $middleware->web(append: [
-            VerifyCsrfToken::class,
+            PreventRequestForgery::class,
             HandleInertiaRequests::class,
         ]);
         $middleware->api(append: [
