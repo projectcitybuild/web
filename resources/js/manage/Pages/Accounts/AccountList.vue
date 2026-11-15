@@ -6,10 +6,10 @@ import InfinitePagination from '../../Components/InfinitePagination.vue'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
 import Card from '../../Components/Card.vue'
 import type { Account } from '../../Data/Account'
-import { watch, ref } from 'vue'
+import { computed, watch, ref } from 'vue'
 import FilledButton from '../../Components/FilledButton.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
-import OutlinedButton from '../../Components/OutlinedButton.vue'
+import FilterPanel from '../../Components/FilterPanel.vue'
 import SpinnerRow from '../../Components/SpinnerRow.vue'
 import { Icons } from '../../Icons'
 import usePermissions from '../../Composables/usePermissions'
@@ -20,7 +20,6 @@ interface Props {
 }
 const props = defineProps<Props>()
 
-const filterExpanded = ref(false)
 const query = ref({})
 const itemCount = ref(0)
 
@@ -29,6 +28,12 @@ const form = useForm({
     email: null,
     activated: null,
 })
+
+const activeFilterCount = computed(() => [
+    Boolean(form.username),
+    Boolean(form.email),
+    form.activated !== null,
+].filter(Boolean).length)
 
 const { can } = usePermissions()
 
@@ -51,104 +56,88 @@ watch(
     <section>
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
-        <div class="flex flex-col md:flex-row md:items-start gap-4">
-            <Card v-show="filterExpanded" class="p-4 flex flex-col gap-4 md:sticky md:top-24">
-                <h2 class="font-bold">Filter</h2>
-
-                <hr />
-
-                <div class="flex flex-col gap-1">
-                    <label for="username" class="text-xs text-gray-700 font-bold">Username</label>
-                    <input
-                        v-model="form.username"
-                        type="text"
-                        id="username"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                        placeholder="Search..."
-                    >
-                </div>
-                <div class="flex flex-col gap-1">
-                    <label for="email" class="text-xs text-gray-700 font-bold">Email</label>
-                    <input
-                        v-model="form.email"
-                        type="text"
-                        id="email"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                        placeholder="Search..."
-                    >
-                </div>
-                <div class="flex flex-col gap-1">
-                    <label for="activated" class="text-xs text-gray-700 font-bold">Activated</label>
-                    <select
-                        v-model="form.activated"
-                        id="activated"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    >
-                        <option :value="null">Any</option>
-                        <option :value="1">Yes</option>
-                        <option :value="0">No</option>
-                    </select>
+        <Card>
+            <div class="flex flex-wrap items-center justify-between gap-3 p-4">
+                <div>
+                    <span v-if="accounts" class="text-sm text-gray-500">
+                        Showing <strong>{{ itemCount }}</strong> of <strong>{{ accounts?.total ?? 0 }}</strong>
+                    </span>
                 </div>
 
-                <hr />
-
-                <OutlinedButton variant="secondary" @click="form.reset()">
-                    Clear Filter
-                </OutlinedButton>
-            </Card>
-
-            <Card class="grow">
-                <div class="p-4 flex justify-between items-center">
-                    <div>
-                        <span v-if="accounts" class="text-sm text-gray-500">
-                            Showing <strong>{{ itemCount }}</strong> of <strong>{{ accounts?.total ?? 0 }}</strong>
-                        </span>
-                    </div>
-
-                    <div class="flex gap-2">
-                        <OutlinedButton
-                            variant="secondary"
-                            @click="filterExpanded = !filterExpanded"
-                        >
-                            <SvgIcon :svg="Icons.filter" />
-
-                            Filter
-
-                            <SvgIcon :svg="filterExpanded ? Icons.chevronUp : Icons.chevronDown" />
-                        </OutlinedButton>
-
-                        <Link
-                            href="/manage/accounts/create"
-                            as="button"
-                            v-if="can('web.manage.accounts.edit')"
-                        >
-                            <FilledButton variant="primary">
-                                <SvgIcon :svg="Icons.plus" />
-                                Create Account
-                            </FilledButton>
-                        </Link>
-                    </div>
-                </div>
-
-                <Deferred data="accounts">
-                    <template #fallback>
-                        <SpinnerRow />
-                    </template>
-
-                    <InfinitePagination
-                        :initial="accounts"
-                        :query="query"
-                        v-model:count="itemCount"
-                        v-slot="source"
-                        class="border-t border-gray-200"
+                <div class="flex flex-wrap gap-2">
+                    <FilterPanel
+                        id="account-filters"
+                        :active-count="activeFilterCount"
+                        apply-label="Done"
+                        @clear="form.reset()"
                     >
-                        <AccountListTable
-                            :accounts="source.data"
-                            :class="source.loading ? 'opacity-50' : ''"
-                        />
-                    </InfinitePagination>
-                </Deferred>
-            </Card>
-        </div>
+                        <div class="grid gap-4 sm:grid-cols-2">
+                            <label for="username" class="flex flex-col gap-1.5 text-sm font-medium text-foreground">
+                                Username
+                                <input
+                                    id="username"
+                                    v-model="form.username"
+                                    type="search"
+                                    class="min-h-11 w-full rounded-lg border border-border bg-surface px-3 text-sm text-foreground placeholder:text-muted focus:border-primary focus:ring-primary"
+                                    placeholder="Search usernames"
+                                >
+                            </label>
+                            <label for="email" class="flex flex-col gap-1.5 text-sm font-medium text-foreground">
+                                Email
+                                <input
+                                    id="email"
+                                    v-model="form.email"
+                                    type="search"
+                                    class="min-h-11 w-full rounded-lg border border-border bg-surface px-3 text-sm text-foreground placeholder:text-muted focus:border-primary focus:ring-primary"
+                                    placeholder="Search email addresses"
+                                >
+                            </label>
+                            <label for="activated" class="flex flex-col gap-1.5 text-sm font-medium text-foreground sm:col-span-2">
+                                Activation status
+                                <select
+                                    id="activated"
+                                    v-model="form.activated"
+                                    class="min-h-11 w-full rounded-lg border border-border bg-surface px-3 text-sm text-foreground focus:border-primary focus:ring-primary"
+                                >
+                                    <option :value="null">Any status</option>
+                                    <option :value="1">Activated</option>
+                                    <option :value="0">Not activated</option>
+                                </select>
+                            </label>
+                        </div>
+                    </FilterPanel>
+
+                    <Link
+                        href="/manage/accounts/create"
+                        as="button"
+                        v-if="can('web.manage.accounts.edit')"
+                    >
+                        <FilledButton variant="primary">
+                            <SvgIcon :svg="Icons.plus" />
+                            Create Account
+                        </FilledButton>
+                    </Link>
+                </div>
+            </div>
+
+            <Deferred data="accounts">
+                <template #fallback>
+                    <SpinnerRow />
+                </template>
+
+                <InfinitePagination
+                    :initial="accounts"
+                    :query="query"
+                    v-model:count="itemCount"
+                    v-slot="source"
+                    class="border-t border-gray-200"
+                >
+                    <AccountListTable
+                        :accounts="source.data"
+                        :class="source.loading ? 'opacity-50' : ''"
+                    />
+                </InfinitePagination>
+            </Deferred>
+        </Card>
     </section>
 </template>

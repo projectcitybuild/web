@@ -106,6 +106,8 @@ it('renders authorized player mail pages with the expected data', function () {
         ->component('PlayerMail/Index')
         ->where('filters.search', 'notice')
         ->where('filters.status', 'queued')
+        ->where('pending_appeals', 0)
+        ->where('pending_build_rank_apps', 0)
         ->where('broadcasts.data.0.subject', 'Server notice')
         ->where('broadcasts.data.0.sender', $account->username)
     );

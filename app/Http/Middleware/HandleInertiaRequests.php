@@ -42,13 +42,7 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        if ($request->is(patterns: 'manage*')) {
-            return [
-                ...parent::share($request),
-                'success' => fn () => $request->session()->get('success'),
-            ];
-        }
-        if ($request->is(patterns: 'review*')) {
+        if ($request->is(patterns: 'manage*') || $request->is(patterns: 'review*')) {
             $pendingAppeals = BanAppeal::pending()->count();
             $pendingBuildRankApps = BuilderRankApplication::pending()->count();
 
@@ -59,6 +53,7 @@ class HandleInertiaRequests extends Middleware
                 'pending_build_rank_apps' => fn () => $pendingBuildRankApps,
             ];
         }
+
         return [];
     }
 }

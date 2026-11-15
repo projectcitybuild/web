@@ -5,6 +5,7 @@ import Card from '../../Components/Card.vue'
 import FilledButton from '../../Components/FilledButton.vue'
 import usePermissions from '../../Composables/usePermissions'
 import BroadcastStatus from './Components/BroadcastStatus.vue'
+import FilterPanel from '../../Components/FilterPanel.vue'
 
 interface Broadcast {
     id: number,
@@ -35,6 +36,7 @@ const search = ref(props.filters.search)
 const status = ref(props.filters.status)
 const { can } = usePermissions()
 const hasFilters = computed(() => Boolean(props.filters.search || props.filters.status))
+const activeFilterCount = computed(() => [Boolean(search.value), Boolean(status.value)].filter(Boolean).length)
 
 function filterBroadcasts() {
     router.get('/manage/player-mail', {
@@ -45,6 +47,12 @@ function filterBroadcasts() {
         preserveScroll: true,
         replace: true,
     })
+}
+
+function clearFilters() {
+    search.value = ''
+    status.value = ''
+    filterBroadcasts()
 }
 
 function pageUrl(page: number): string {
@@ -90,34 +98,44 @@ function formatDate(value: string): string {
         </div>
 
         <Card>
-            <form class="flex flex-col gap-3 border-b border-gray-200 p-4 dark:border-gray-700 sm:flex-row" @submit.prevent="filterBroadcasts">
-                <label class="min-w-0 flex-1">
-                    <span class="sr-only">Search by subject</span>
-                    <input
-                        v-model="search"
-                        type="search"
-                        maxlength="191"
-                        placeholder="Search subjects"
-                        class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-                    >
-                </label>
-                <label>
-                    <span class="sr-only">Filter by status</span>
-                    <select
-                        v-model="status"
-                        class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-                    >
-                        <option value="">All statuses</option>
-                        <option value="queued">Pending</option>
-                        <option value="processing">Processing</option>
-                        <option value="completed">Completed</option>
-                        <option value="failed">Failed</option>
-                    </select>
-                </label>
-                <FilledButton variant="secondary" type="submit">
-                    Apply filters
-                </FilledButton>
-            </form>
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-gray-200 p-4 dark:border-gray-700">
+                <p class="text-sm text-gray-500">
+                    {{ broadcasts.total }} {{ broadcasts.total === 1 ? 'announcement' : 'announcements' }}
+                    <span v-if="hasFilters">matching filters</span>
+                </p>
+                <FilterPanel
+                    id="broadcast-filters"
+                    :active-count="activeFilterCount"
+                    @apply="filterBroadcasts"
+                    @clear="clearFilters"
+                >
+                    <form class="grid gap-4" @submit.prevent="filterBroadcasts">
+                        <label class="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-200">
+                            Search subject
+                            <input
+                                v-model="search"
+                                type="search"
+                                maxlength="191"
+                                placeholder="Search announcement subjects"
+                                class="min-h-11 w-full rounded-lg border border-gray-300 bg-white px-3 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                            >
+                        </label>
+                        <label class="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-200">
+                            Delivery status
+                            <select
+                                v-model="status"
+                                class="min-h-11 w-full rounded-lg border border-gray-300 bg-white px-3 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                            >
+                                <option value="">All statuses</option>
+                                <option value="queued">Pending</option>
+                                <option value="processing">Processing</option>
+                                <option value="completed">Completed</option>
+                                <option value="failed">Failed</option>
+                            </select>
+                        </label>
+                    </form>
+                </FilterPanel>
+            </div>
 
             <div v-if="broadcasts.data.length === 0" class="px-6 py-14 text-center">
                 <h2 class="text-base font-semibold text-gray-900 dark:text-white">
@@ -155,20 +173,20 @@ function formatDate(value: string): string {
                     <table class="w-full text-left text-sm">
                         <thead class="bg-gray-100 text-xs uppercase text-gray-500 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
+                                <th class="whitespace-nowrap px-4 py-3">Status</th>
                                 <th class="whitespace-nowrap px-4 py-3">Subject</th>
                                 <th class="whitespace-nowrap px-4 py-3">Sender</th>
                                 <th class="whitespace-nowrap px-4 py-3">Recipients</th>
-                                <th class="whitespace-nowrap px-4 py-3">Status</th>
                                 <th class="whitespace-nowrap px-4 py-3">Created</th>
                                 <th class="px-4 py-3 text-right">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="broadcast in broadcasts.data" :key="broadcast.id" class="border-b border-gray-100 last:border-0 dark:border-gray-700">
+                                <td class="px-4 py-3"><BroadcastStatus :status="broadcast.status" /></td>
                                 <td class="max-w-xs truncate px-4 py-3 font-medium text-gray-900 dark:text-white">{{ broadcast.subject }}</td>
                                 <td class="whitespace-nowrap px-4 py-3 text-gray-500">{{ broadcast.sender }}</td>
                                 <td class="whitespace-nowrap px-4 py-3 text-gray-500">{{ broadcast.recipients_count }}</td>
-                                <td class="px-4 py-3"><BroadcastStatus :status="broadcast.status" /></td>
                                 <td class="whitespace-nowrap px-4 py-3 text-gray-500">{{ formatDate(broadcast.created_at) }}</td>
                                 <td class="px-4 py-3 text-right">
                                     <Link
