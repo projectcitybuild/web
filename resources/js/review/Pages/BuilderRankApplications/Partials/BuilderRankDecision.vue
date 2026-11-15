@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { BuilderRankApplication, BuilderRankApplicationStatus } from '../../../../manage/Data/BuilderRankApplication'
 import { format } from '../../../../manage/Utilities/DateFormatter'
-import Card from '../../../../manage/Components/Card.vue'
+import Card from '../../../../shared/Components/Card.vue'
 
 interface Props {
     application: BuilderRankApplication,
@@ -12,11 +12,12 @@ defineProps<Props>()
 <template>
     <div>
         <Card
+            padding="none"
             v-if="application.status === BuilderRankApplicationStatus.denied"
             class="border-red-500"
         >
-            <div class="p-4 rounded-t-md bg-red-500">
-                <h2 class="font-bold text-white">Decision: Denied</h2>
+            <div class="rounded-t-md bg-red-500 p-4">
+                <h2 class="font-semibold text-white">Decision: Denied</h2>
             </div>
 
             <div class="p-4 italic">
@@ -34,11 +35,12 @@ defineProps<Props>()
         </Card>
 
         <Card
+            padding="none"
             v-if="application.status === BuilderRankApplicationStatus.approved"
             class="border-green-500"
         >
-            <div class="p-4 rounded-t-md bg-green-500">
-                <h2 class="font-bold text-white">Decision: Approved</h2>
+            <div class="rounded-t-md bg-green-500 p-4">
+                <h2 class="font-semibold text-white">Decision: Approved</h2>
             </div>
 
             <div class="p-4 border-t border-gray-200">

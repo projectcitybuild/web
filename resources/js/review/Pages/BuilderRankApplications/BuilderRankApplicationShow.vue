@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3'
-import Card from '../../../manage/Components/Card.vue'
+import Card from '../../../shared/Components/Card.vue'
 import BackButton from '../../../manage/Components/BackButton.vue'
 import MinecraftAvatar from '../../../manage/Components/MinecraftAvatar.vue'
 import { distance, distanceFromNow, format } from '../../../manage/Utilities/DateFormatter'
@@ -69,7 +69,7 @@ const alts = computed(() => props.application.account?.minecraft_account?.slice(
 
         <div class="mt-4 flex flex-col lg:flex-row gap-4">
             <section class="lg:min-w-[260px]">
-                <Card>
+                <Card padding="none">
                     <template v-if="player">
                         <div class="p-4">
                             <h2 class="font-bold">Player</h2>
@@ -157,7 +157,7 @@ const alts = computed(() => props.application.account?.minecraft_account?.slice(
                     class="mb-4"
                 />
 
-                <Card class="mb-4">
+                <Card padding="none" class="mb-4">
                     <div class="border-b border-border p-4">
                         <h2 class="font-bold">Application</h2>
                     </div>

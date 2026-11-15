@@ -34,8 +34,8 @@
     --radius-none: 0;
     --radius-sm: 4px;
     --radius-md: 8px;
-    --radius-lg: 12px;
-    --radius-xl: 16px;
+    --radius-lg: 8px;
+    --radius-xl: 12px;
     --radius-full: 9999px;
 
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
@@ -97,5 +97,69 @@
     ::selection {
         background-color: var(--color-primary);
         color: var(--color-primary-foreground);
+    }
+}
+
+:is(input:not([type='hidden']):not([type='checkbox']):not([type='radio']):not([type='submit']):not([type='button']):not([type='reset']):not([type='file']):not([type='color']):not([type='range']), select, textarea) {
+    width: 100%;
+    min-height: 2.5rem;
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    padding: 0.625rem 0.75rem;
+    font: inherit;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    transition: border-color 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
+}
+
+:is(input:not([type='hidden']):not([type='checkbox']):not([type='radio']):not([type='submit']):not([type='button']):not([type='reset']):not([type='file']):not([type='color']):not([type='range']), select, textarea)::placeholder {
+    color: var(--color-text-subtle);
+}
+
+:is(input:not([type='hidden']):not([type='checkbox']):not([type='radio']):not([type='submit']):not([type='button']):not([type='reset']):not([type='file']):not([type='color']):not([type='range']), select, textarea):hover:not(:disabled):not(:focus-visible) {
+    border-color: var(--color-text-subtle);
+}
+
+:is(input:not([type='hidden']):not([type='checkbox']):not([type='radio']):not([type='submit']):not([type='button']):not([type='reset']):not([type='file']):not([type='color']):not([type='range']), select, textarea):focus-visible {
+    border-color: var(--color-primary);
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 2px;
+}
+
+:is(input, select, textarea):disabled {
+    cursor: not-allowed;
+    border-color: var(--color-disabled);
+    background-color: var(--color-disabled);
+    color: var(--color-disabled-foreground);
+}
+
+:is(input[type='checkbox'], input[type='radio']) {
+    accent-color: var(--color-primary);
+}
+
+label {
+    color: var(--color-text);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+textarea {
+    resize: vertical;
+}
+
+form > .grid {
+    row-gap: 1.25rem;
+    column-gap: 1.5rem;
+}
+
+@media (max-width: 639px) {
+    .max-w-2xl.p-8 {
+        padding: 1rem;
+    }
+
+    form > .flex.flex-row.gap-2 {
+        flex-wrap: wrap;
     }
 }

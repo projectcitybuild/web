@@ -4,7 +4,7 @@ import { Paginated } from '../../../manage/Data/Paginated'
 import BanAppealListTable from './Partials/BanAppealListTable.vue'
 import InfinitePagination from '../../../manage/Components/InfinitePagination.vue'
 import SuccessAlert from '../../../manage/Components/SuccessAlert.vue'
-import Card from '../../../manage/Components/Card.vue'
+import Card from '../../../shared/Components/Card.vue'
 import { BanAppeal } from '../../../manage/Data/BanAppeal'
 import SpinnerRow from '../../../manage/Components/SpinnerRow.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
@@ -24,10 +24,7 @@ defineProps<Props>()
     <section>
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
-        <Card>
-            <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
-            </div>
-
+        <Card padding="none">
             <Deferred data="banAppeals">
                 <template #fallback>
                     <SpinnerRow />

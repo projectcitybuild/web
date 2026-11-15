@@ -3,7 +3,7 @@ import { Deferred, Head } from '@inertiajs/vue3'
 import { Paginated } from '../../../manage/Data/Paginated'
 import InfinitePagination from '../../../manage/Components/InfinitePagination.vue'
 import SuccessAlert from '../../../manage/Components/SuccessAlert.vue'
-import Card from '../../../manage/Components/Card.vue'
+import Card from '../../../shared/Components/Card.vue'
 import type { BuilderRankApplication } from '../../../manage/Data/BuilderRankApplication'
 import BuilderRankApplicationListTable from './Partials/BuilderRankApplicationListTable.vue'
 import SpinnerRow from '../../../manage/Components/SpinnerRow.vue'
@@ -25,10 +25,7 @@ defineProps<Props>()
         <section>
             <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
-            <Card>
-                <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
-                </div>
-
+            <Card padding="none">
                 <Deferred data="applications">
                     <template #fallback>
                         <SpinnerRow />

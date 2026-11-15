@@ -58,7 +58,7 @@ function destroy() {
         <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4"/>
 
         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-            <div class="col-span-2">
+            <div class="sm:col-span-2">
                 <label for="warned_uuid" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Player<span class="text-red-500">*</span>
                 </label>
@@ -71,7 +71,7 @@ function destroy() {
                     {{ form.errors.warned_uuid }}
                 </div>
             </div>
-            <div class="col-span-2">
+            <div>
                 <label for="created_at" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Date of Warning<span class="text-red-500">*</span>
                 </label>
@@ -83,7 +83,7 @@ function destroy() {
                     {{ form.errors.created_at }}
                 </div>
             </div>
-            <div class="col-span-2">
+            <div>
                 <label for="warner_uuid" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Warned By</label>
                 <PlayerPicker
                     v-model:uuid="form.warner_uuid"
@@ -93,7 +93,7 @@ function destroy() {
                     {{ form.errors.warner_uuid }}
                 </div>
             </div>
-            <div class="col-span-2">
+            <div class="sm:col-span-2">
                 <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Reason<span class="text-red-500">*</span>
                 </label>
@@ -107,7 +107,7 @@ function destroy() {
                     {{ form.errors.reason }}
                 </div>
             </div>
-            <div class="col-span-2">
+            <div class="sm:col-span-2">
                 <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Additional Information
                 </label>

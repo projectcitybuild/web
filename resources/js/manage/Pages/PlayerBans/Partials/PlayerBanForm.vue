@@ -67,7 +67,7 @@ function destroy() {
         <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4"/>
 
         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-            <div class="col-span-2">
+            <div class="sm:col-span-2">
                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Player<span class="text-red-500">*</span>
                 </label>
@@ -104,7 +104,7 @@ function destroy() {
                     {{ form.errors.expires_at }}
                 </div>
             </div>
-            <div class="col-span-2">
+            <div>
                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Banned By</label>
                 <PlayerPicker
                     v-model:uuid="form.banner_uuid"
@@ -117,7 +117,7 @@ function destroy() {
                     {{ form.errors.banner_uuid }}
                 </div>
             </div>
-            <div class="col-span-2">
+            <div class="sm:col-span-2">
                 <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Reason for Ban<span class="text-red-500">*</span>
                 </label>
@@ -136,7 +136,7 @@ function destroy() {
                     {{ form.errors.reason }}
                 </div>
             </div>
-            <div class="col-span-2">
+            <div class="sm:col-span-2">
                 <label for="additional_info" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Additional Information
                 </label>
@@ -157,9 +157,9 @@ function destroy() {
             </div>
 
             <template v-if="isEdit">
-                <hr class="col-span-2" />
+                <hr class="sm:col-span-2" />
 
-                <span class="col-span-2">Only fill this in to unban:</span>
+                <span class="sm:col-span-2">Only fill this in to unban:</span>
 
                 <div>
                     <label for="unbanned_at" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -195,7 +195,7 @@ function destroy() {
                     </div>
                 </div>
 
-                <div class="col-span-2">
+                <div class="sm:col-span-2">
                     <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Unbanned By
                     </label>
@@ -208,7 +208,7 @@ function destroy() {
                     </div>
                 </div>
 
-                <hr class="col-span-2" />
+                <hr class="sm:col-span-2" />
             </template>
         </div>
 

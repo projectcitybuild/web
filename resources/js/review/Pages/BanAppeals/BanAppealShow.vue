@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Head, useForm } from '@inertiajs/vue3'
-import Card from '../../../manage/Components/Card.vue'
+import Card from '../../../shared/Components/Card.vue'
 import BackButton from '../../../manage/Components/BackButton.vue'
 import ConfirmDialog from '../../../manage/Components/ConfirmDialog.vue'
 import MinecraftAvatar from '../../../manage/Components/MinecraftAvatar.vue'
@@ -112,7 +112,7 @@ function confirmDecision() {
 
         <div class="mt-4 flex flex-col lg:grid lg:grid-cols-2 gap-4">
             <section>
-                <Card>
+                <Card padding="none">
                     <div class="p-4">
                         <h2 class="font-bold">Appealer</h2>
                     </div>
@@ -146,7 +146,7 @@ function confirmDecision() {
                     </div>
                 </Card>
 
-                <Card class="mt-4" v-if="banAppeal.game_player_ban">
+                <Card padding="none" class="mt-4" v-if="banAppeal.game_player_ban">
                     <div class="flex items-center justify-between gap-2 border-b border-border p-4">
                         <h2 class="font-bold">Player Ban</h2>
 
@@ -216,7 +216,7 @@ function confirmDecision() {
             </section>
 
             <section>
-                <Card>
+                <Card padding="none">
                     <div class="border-b border-border p-4">
                         <h2 class="font-bold">Ban Appeal</h2>
                     </div>
@@ -250,7 +250,7 @@ function confirmDecision() {
                     </div>
                 </Card>
 
-                <Card class="mt-4" v-if="!hasDecision">
+                <Card padding="none" class="mt-4" v-if="!hasDecision">
                     <div class="border-b border-border p-4">
                         <h2 class="font-bold">Decision</h2>
                     </div>
@@ -309,7 +309,7 @@ function confirmDecision() {
                     </form>
                 </Card>
 
-                <Card v-else class="mt-4">
+                <Card v-else padding="none" class="mt-4">
                     <div class="border-b border-border p-4">
                         <h2 class="flex items-center gap-2 font-bold">
                             Decision

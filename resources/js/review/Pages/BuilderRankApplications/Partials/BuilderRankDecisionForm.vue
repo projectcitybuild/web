@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Card from '../../../../manage/Components/Card.vue'
+import Card from '../../../../shared/Components/Card.vue'
 import { useForm } from '@inertiajs/vue3'
 import { BuilderRankApplication } from '../../../../manage/Data/BuilderRankApplication'
 import ErrorAlert from '../../../../manage/Components/ErrorAlert.vue'
@@ -65,7 +65,7 @@ function confirmDecision() {
 
 <template>
     <div>
-        <Card>
+        <Card padding="none">
             <div class="p-4">
                 <h2 class="font-bold">Council Decision</h2>
             </div>

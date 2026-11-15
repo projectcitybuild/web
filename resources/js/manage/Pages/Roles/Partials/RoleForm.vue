@@ -58,7 +58,7 @@ function destroy() {
         <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4"/>
 
         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-            <div class="col-span-2">
+            <div>
                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Name<span class="text-red-500">*</span>
                 </label>
@@ -71,7 +71,7 @@ function destroy() {
                     {{ form.errors.name }}
                 </div>
             </div>
-            <div class="col-span-2">
+            <div>
                 <label for="alias" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Alias
                 </label>
@@ -84,7 +84,7 @@ function destroy() {
                     {{ form.errors.alias }}
                 </div>
             </div>
-            <div class="col-span-2">
+            <div>
                 <label for="role_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Role Type<span class="text-red-500">*</span>
                 </label>
@@ -102,7 +102,7 @@ function destroy() {
                     {{ form.errors.role_type }}
                 </div>
             </div>
-            <div class="col-span-2">
+            <div>
                 <label for="minecraft_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Minecraft Name
                 </label>
@@ -118,7 +118,7 @@ function destroy() {
                     {{ form.errors.minecraft_name }}
                 </div>
             </div>
-            <div class="col-span-2">
+            <div class="sm:col-span-2">
                 <label for="minecraft_display_name"
                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Minecraft Display Name
@@ -136,7 +136,7 @@ function destroy() {
                     {{ form.errors.minecraft_display_name }}
                 </div>
             </div>
-            <div class="col-span-2">
+            <div class="sm:col-span-2">
                 <label for="minecraft_hover_text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Minecraft Hover Text
                 </label>
@@ -154,7 +154,7 @@ function destroy() {
                     {{ form.errors.minecraft_hover_text }}
                 </div>
             </div>
-            <div class="col-span-2">
+            <div class="sm:col-span-2">
                 <label for="minecraft_hover_text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Minecraft Additional Homes
                 </label>
@@ -173,7 +173,7 @@ function destroy() {
                     {{ form.errors.additional_homes }}
                 </div>
             </div>
-            <div class="col-span-2">
+            <div class="sm:col-span-2">
                 <label for="display_priority" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Display Priority
                 </label>

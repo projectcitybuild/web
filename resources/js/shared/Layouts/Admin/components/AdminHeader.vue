@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import logo from '../../../../../images/logo-alt.png'
-import Badge from '../../../../manage/Components/Badge.vue'
+import Badge from '../../../Components/Badge.vue'
 import ThemeToggle from './ThemeToggle.vue'
 import useAdminNavigation, { adminAreas } from '../useAdminNavigation'
 
@@ -47,7 +47,9 @@ const { currentArea } = useAdminNavigation()
                 ]"
             >
                 {{ area.label }}
-                <Badge v-if="areaBadges[area.id]" :count="areaBadges[area.id]" />
+                <Badge v-if="areaBadges[area.id]" variant="danger" size="sm" tone="solid">
+                    {{ areaBadges[area.id] }}
+                </Badge>
             </a>
         </nav>
 

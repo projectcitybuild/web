@@ -37,7 +37,7 @@ function submit() {
         <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4"/>
 
         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-            <div class="col-span-2">
+            <div class="sm:col-span-2">
                 <div>
                     <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Player<span class="text-red-500">*</span>
@@ -49,7 +49,7 @@ function submit() {
                 </div>
                 <div class="text-gray-500 text-sm mt-4">or</div>
             </div>
-            <div class="col-span-2">
+            <div>
                 <Input
                     v-model="form.uuid"
                     id="uuid"
@@ -58,7 +58,7 @@ function submit() {
                     required
                 />
             </div>
-            <div class="col-span-2">
+            <div>
                 <Input
                     v-model="form.alias"
                     id="alias"
@@ -67,7 +67,7 @@ function submit() {
                     required
                 />
             </div>
-            <div class="col-span-2">
+            <div>
                 <Input
                     v-model="form.nickname"
                     id="nickname"
@@ -76,9 +76,9 @@ function submit() {
                 />
             </div>
 
-            <hr class="col-span-2" />
+            <hr class="sm:col-span-2" />
 
-            <div class="col-span-2">
+            <div>
                 <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     First Seen<span class="text-red-500">*</span>
                 </label>

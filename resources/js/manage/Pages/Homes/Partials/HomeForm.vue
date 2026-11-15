@@ -57,7 +57,7 @@ function destroy() {
         <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4"/>
 
         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-            <div class="col-span-2">
+            <div class="sm:col-span-2">
                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Player<span class="text-red-500">*</span>
                 </label>
@@ -69,7 +69,7 @@ function destroy() {
                     {{ form.errors.player_id }}
                 </div>
             </div>
-            <div class="col-span-2">
+            <div>
                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Name<span class="text-red-500">*</span>
                 </label>
@@ -85,7 +85,7 @@ function destroy() {
                     {{ form.errors.name }}
                 </div>
             </div>
-            <div class="col-span-2">
+            <div>
                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     World Name<span class="text-red-500">*</span>
                 </label>
@@ -101,7 +101,7 @@ function destroy() {
                     {{ form.errors.world }}
                 </div>
             </div>
-            <div class="col-span-2 grid grid-cols-3 gap-4">
+            <div class="sm:col-span-2 grid grid-cols-1 gap-4 sm:grid-cols-3">
                 <div>
                     <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         X<span class="text-red-500">*</span>

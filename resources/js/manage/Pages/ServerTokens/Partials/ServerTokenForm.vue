@@ -60,7 +60,7 @@ function destroy() {
         <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4"/>
 
         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-            <div class="col-span-2">
+            <div>
                 <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Description<span class="text-red-500">*</span>
                 </label>
@@ -77,7 +77,7 @@ function destroy() {
                     {{ form.errors.description }}
                 </div>
             </div>
-            <div class="col-span-2">
+            <div>
                 <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Access Token<span class="text-red-500">*</span>
                 </label>
@@ -98,7 +98,7 @@ function destroy() {
                     {{ form.errors.token }}
                 </div>
             </div>
-            <div class="col-span-2">
+            <div class="sm:col-span-2">
                 <label for="allowed_ips" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Allowed IPs
                 </label>

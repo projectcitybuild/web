@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { Link, usePage } from '@inertiajs/vue3'
-import Badge from '../../../../manage/Components/Badge.vue'
+import Badge from '../../../Components/Badge.vue'
 import { isAdminPathActive } from '../useAdminNavigation'
 
 const props = defineProps<{
@@ -25,6 +25,8 @@ const active = computed(() => isAdminPathActive(page.url, props.href))
     >
         <span class="flex size-5 shrink-0 items-center justify-center" aria-hidden="true"><slot name="icon" /></span>
         <span class="min-w-0 flex-1 truncate">{{ label }}</span>
-        <Badge v-if="badge && badge !== 0" :count="badge" />
+        <Badge v-if="badge && badge !== 0" variant="danger" tone="solid" size="sm">
+            {{ badge }}
+        </Badge>
     </Link>
 </template>

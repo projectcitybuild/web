@@ -35,7 +35,7 @@ function submit() {
         <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4" />
 
         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-            <div class="col-span-2">
+            <div>
                 <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Email Address<span class="text-red-500">*</span>
                 </label>
@@ -49,7 +49,7 @@ function submit() {
                     {{ form.errors.email }}
                 </div>
             </div>
-            <div class="col-span-2">
+            <div>
                 <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Username<span class="text-red-500">*</span>
                 </label>
@@ -62,7 +62,7 @@ function submit() {
                     {{ form.errors.username }}
                 </div>
             </div>
-            <div class="col-span-2">
+            <div>
                 <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Password<span v-if="!isEdit" class="text-red-500">*</span>
                 </label>
@@ -76,7 +76,7 @@ function submit() {
                     {{ form.errors.password }}
                 </div>
             </div>
-            <div class="col-span-2">
+            <div>
                 <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Created At<span class="text-red-500">*</span>
                 </label>
@@ -89,7 +89,7 @@ function submit() {
                 </div>
             </div>
 
-            <span v-if="!isEdit" class="text-gray-500 text-sm col-span-2">
+            <span v-if="!isEdit" class="text-gray-500 text-sm sm:col-span-2">
                 Note: This will create an <strong>unactivated</strong> account.<br /><br />
                 You will need to either force activate their account or send them their activation email afterwards.
             </span>
