@@ -12,9 +12,16 @@ use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
+use App\Http\Filters\BannedByPlayerFilter;
+use App\Http\Filters\BannedPlayerFilter;
+use App\Http\Filters\DateFilter;
+use App\Http\Filters\LikeFilter;
+use App\Http\Filters\PlayerBanHasExpiryFilter;
+use App\Http\Filters\PlayerBanStatusFilter;
 use App\Models\GamePlayerBan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Pipeline;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
@@ -31,13 +38,28 @@ class GamePlayerBanController extends WebController
     {
         $this->requires(WebManagePermission::UUID_BANS_VIEW);
 
-        $bans = function () {
-            return GamePlayerBan::with('bannedPlayer', 'bannerPlayer', 'unbannerPlayer')
+        $bans = function () use ($request) {
+            $reason = $request->query('reason');
+
+            $reason = is_string($reason) ? $reason : null;
+
+            return Pipeline::send(GamePlayerBan::query())
+                ->through([
+                    new BannedPlayerFilter($request->query('player')),
+                    new BannedByPlayerFilter($request->query('banner_uuid')),
+                    new LikeFilter('reason', $reason),
+                    new PlayerBanStatusFilter($request->query('status')),
+                    new PlayerBanHasExpiryFilter($request->query('has_expiry')),
+                    new DateFilter('created_at', $request->query('created_at')),
+                    new DateFilter('expires_at', $request->query('expires_at')),
+                ])
+                ->thenReturn()
+                ->with('bannedPlayer', 'bannerPlayer', 'unbannerPlayer')
                 ->orderBy('created_at', 'desc')
                 ->paginate(50);
         };
 
-        if (request()->wantsJson()) {
+        if ($request->wantsJson()) {
             return $bans();
         }
         return $this->inertiaRender('PlayerBans/PlayerBanList', [
