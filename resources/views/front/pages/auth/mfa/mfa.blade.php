@@ -22,6 +22,7 @@
             Enter the 6-digit code from your authenticator app to continue
         </div>
 
+        <label for="code" class="sr-only">Authentication code</label>
         <div class="flex justify-content-between items-center gap-2 mt-12">
             <input
                 class="
@@ -34,7 +35,7 @@
                 inputmode="numeric"
                 pattern="[0-9]*"
                 autocomplete="one-time-code"
-                placeholder="xxxxxxx"
+                placeholder="000000"
                 size="6"
                 maxlength="6"
                 autofocus
