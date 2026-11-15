@@ -1,0 +1,91 @@
+:root {
+    color-scheme: light;
+
+    --color-background: #f9fafb;
+    --color-surface: #ffffff;
+    --color-surface-muted: #f3f4f6;
+    --color-surface-hover: #e5e7eb;
+    --color-border: #e5e7eb;
+    --color-border-strong: #d1d5db;
+    --color-text: #111827;
+    --color-text-muted: #4b5563;
+    --color-text-subtle: #6b7280;
+    --color-primary: #1d4ed8;
+    --color-primary-hover: #1e40af;
+    --color-primary-active: #1e3a8a;
+    --color-primary-foreground: #ffffff;
+    --color-disabled: #e5e7eb;
+    --color-disabled-foreground: #6b7280;
+    --color-success: #166534;
+    --color-warning: #92400e;
+    --color-danger: #b91c1c;
+    --color-info: #1e40af;
+    --color-focus-ring: #2563eb;
+
+    --font-family-sans: Inter, sans-serif;
+    --font-family-display: 'Bebas Neue', sans-serif;
+    --font-family-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+    --radius-none: 0;
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --radius-full: 9999px;
+
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.dark {
+    color-scheme: dark;
+
+    --color-background: #111827;
+    --color-surface: #1f2937;
+    --color-surface-muted: #374151;
+    --color-surface-hover: #4b5563;
+    --color-border: #374151;
+    --color-border-strong: #4b5563;
+    --color-text: #f9fafb;
+    --color-text-muted: #d1d5db;
+    --color-text-subtle: #9ca3af;
+    --color-primary: #60a5fa;
+    --color-primary-hover: #93c5fd;
+    --color-primary-active: #bfdbfe;
+    --color-primary-foreground: #111827;
+    --color-disabled: #374151;
+    --color-disabled-foreground: #9ca3af;
+    --color-success: #86efac;
+    --color-warning: #fcd34d;
+    --color-danger: #fca5a5;
+    --color-info: #93c5fd;
+    --color-focus-ring: #60a5fa;
+
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.25);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.35), 0 4px 6px -4px rgb(0 0 0 / 0.35);
+}
+
+@layer base {
+    html {
+        min-height: 100%;
+    }
+
+    body {
+        min-height: 100vh;
+        background-color: var(--color-background);
+        color: var(--color-text);
+        font-family: var(--font-family-sans);
+    }
+
+    :focus-visible {
+        outline: 2px solid var(--color-focus-ring);
+        outline-offset: 2px;
+    }
+
+    ::selection {
+        background-color: var(--color-primary);
+        color: var(--color-primary-foreground);
+    }
+}
