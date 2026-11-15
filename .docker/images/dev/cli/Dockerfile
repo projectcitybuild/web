@@ -4,9 +4,9 @@ RUN addgroup -g 1000 -S user && adduser -u 1000 -D user -G user
 RUN apk add --no-cache bash curl git nano
 RUN apk add --no-cache composer
 
-# Composer uses its php binary, but we want it to use the container's one
-RUN rm -f /usr/bin/php84
-RUN ln -s /usr/local/bin/php /usr/bin/php84
+# Composer uses its versioned PHP binary, but we want it to use the container's one
+RUN rm -f /usr/bin/php85
+RUN ln -s /usr/local/bin/php /usr/bin/php85
 
 # Install zip extension
 RUN apk add --no-cache libzip-dev unzip && \
