@@ -20,4 +20,8 @@ runs:
     - name: Install Composer dependencies
       uses: $/.github/actions/run-in-devcontainer
       with:
-        command: COMPOSER_ALLOW_SUPERUSER=1 COMPOSER_CACHE_DIR=/workspaces/laravel/.cache/composer composer install --prefer-dist --ignore-platform-reqs --no-interaction
+        command: |
+          git config --global --add safe.directory /workspaces/laravel
+          php -r 'printf("PHP binary: %s; PDO loaded: %s\\n", PHP_BINARY, class_exists(PDO::class) ? "yes" : "no"); if (!class_exists(PDO::class)) { exit(1); }'
+          composer --version
+          COMPOSER_ALLOW_SUPERUSER=1 COMPOSER_CACHE_DIR=/workspaces/laravel/.cache/composer composer install --prefer-dist --ignore-platform-reqs --no-interaction
