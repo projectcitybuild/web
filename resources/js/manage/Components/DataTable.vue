@@ -1,5 +1,9 @@
 <script setup lang="ts" generic="T">
 import { useSlots } from 'vue'
+import Table from '../../shared/Components/Table.vue'
+import TableCell from '../../shared/Components/TableCell.vue'
+import TableHead from '../../shared/Components/TableHead.vue'
+import TableRow from '../../shared/Components/TableRow.vue'
 
 interface Field {
     key: string,
@@ -23,67 +27,34 @@ const slots = useSlots()
 </script>
 
 <template>
-    <div class="overflow-x-auto">
-        <table class="w-full text-sm text-left">
-            <thead class="text-xs text-gray-500 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                    <th
-                        v-if="showIndex"
-                        scope="col"
-                        class="px-4 py-3"
-                    >
-                        #
-                    </th>
-                    <th
-                        v-for="(field, index) in fields"
-                        :key="index"
-                        scope="col"
-                        class="px-4 py-3 whitespace-nowrap"
-                    >
-                        {{ field.label }}
-                    </th>
-                    <th
-                        v-if="slots.actions"
-                        scope="col"
-                        class="px-4 py-3 text-right"
-                    >
-                        Actions
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr
-                    class="border-b last:border-b-0 border-gray-50 dark:border-gray-700"
-                    v-for="(row, index) in rows"
-                    :key="index"
-                >
-                    <td
-                        v-if="showIndex"
-                        class="px-4 py-3 text-gray-300"
-                    >
-                        #{{ index + 1 }}
-                    </td>
+    <Table :empty="rows.length === 0" :columns="fields.length + (showIndex ? 1 : 0) + (slots.actions ? 1 : 0)">
+        <template #header>
+            <TableRow :hoverable="false">
+                <TableHead v-if="showIndex" class="uppercase">#</TableHead>
+                <TableHead v-for="field in fields" :key="field.key" class="uppercase">
+                    {{ field.label }}
+                </TableHead>
+                <TableHead v-if="slots.actions" align="end" class="uppercase">Actions</TableHead>
+            </TableRow>
+        </template>
 
-                    <td
-                        class="px-4 py-3 text-gray-500 dark:text-white"
-                        v-for="field in fields"
-                    >
-                        <template v-if="slots[field.key]">
-                            <slot :name="field.key" :item="row" />
-                        </template>
-                        <span v-else>
-                            {{ getValue(row, field.key) }}
-                        </span>
-                    </td>
+        <TableRow v-for="(row, index) in rows" :key="index">
+            <TableCell v-if="showIndex" class="text-subtle">
+                #{{ index + 1 }}
+            </TableCell>
 
-                    <td
-                        v-if="slots.actions"
-                        class="px-4 py-2 text-gray-900 dark:text-white flex justify-end"
-                    >
-                        <slot name="actions" :item="row" />
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+            <TableCell v-for="field in fields" :key="field.key" class="whitespace-nowrap">
+                <template v-if="slots[field.key]">
+                    <slot :name="field.key" :item="row" />
+                </template>
+                <span v-else>
+                    {{ getValue(row, field.key) }}
+                </span>
+            </TableCell>
+
+            <TableCell v-if="slots.actions" align="end">
+                <slot name="actions" :item="row" />
+            </TableCell>
+        </TableRow>
+    </Table>
 </template>

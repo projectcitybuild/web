@@ -13,6 +13,7 @@ import SpinnerRow from '../../Components/SpinnerRow.vue'
 import { ref, watch } from 'vue'
 import { Icons } from '../../Icons'
 import usePermissions from '../../Composables/usePermissions'
+import PageHeader from '../../../shared/Components/PageHeader.vue'
 
 interface Props {
     success?: string,
@@ -45,6 +46,8 @@ watch(
 
 <template>
     <Head title="Manage Players" />
+
+    <PageHeader title="Players" class="mb-4" />
 
     <section>
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>

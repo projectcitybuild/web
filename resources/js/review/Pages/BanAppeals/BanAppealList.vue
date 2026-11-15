@@ -7,6 +7,7 @@ import SuccessAlert from '../../../manage/Components/SuccessAlert.vue'
 import Card from '../../../manage/Components/Card.vue'
 import { BanAppeal } from '../../../manage/Data/BanAppeal'
 import SpinnerRow from '../../../manage/Components/SpinnerRow.vue'
+import PageHeader from '../../../shared/Components/PageHeader.vue'
 
 interface Props {
     success?: string,
@@ -17,6 +18,8 @@ defineProps<Props>()
 
 <template>
     <Head title="Ban Appeals" />
+
+    <PageHeader title="Ban Appeals" class="mb-4" />
 
     <section>
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>

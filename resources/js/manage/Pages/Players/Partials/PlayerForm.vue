@@ -7,6 +7,7 @@ import type { Player } from '../../../Data/Player'
 import PlayerPicker from '../../../Components/PlayerPicker.vue'
 import FilledButton from '../../../Components/FilledButton.vue'
 import Spinner from '../../../Components/Spinner.vue'
+import Input from '../../../../shared/Components/Input.vue'
 
 interface Props {
     player?: Player,
@@ -50,43 +51,30 @@ function submit() {
                 <div class="text-gray-500 text-sm mt-4">or</div>
             </div>
             <div class="col-span-2">
-                <label for="uuid" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    UUID<span class="text-red-500">*</span>
-                </label>
-                <input
+                <Input
                     v-model="form.uuid"
                     id="uuid"
-                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                >
-                <div v-if="form.errors.uuid" class="text-xs text-red-500 font-bold mt-2">
-                    {{ form.errors.uuid }}
-                </div>
+                    label="UUID"
+                    :error="form.errors.uuid"
+                    required
+                />
             </div>
             <div class="col-span-2">
-                <label for="alias" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Last Known Alias<span class="text-red-500">*</span>
-                </label>
-                <input
+                <Input
                     v-model="form.alias"
                     id="alias"
-                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                >
-                <div v-if="form.errors.alias" class="text-xs text-red-500 font-bold mt-2">
-                    {{ form.errors.alias }}
-                </div>
+                    label="Last Known Alias"
+                    :error="form.errors.alias"
+                    required
+                />
             </div>
             <div class="col-span-2">
-                <label for="nickname" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    In-Game Nickname
-                </label>
-                <input
+                <Input
                     v-model="form.nickname"
                     id="nickname"
-                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                >
-                <div v-if="form.errors.nickname" class="text-xs text-red-500 font-bold mt-2">
-                    {{ form.errors.nickname }}
-                </div>
+                    label="In-Game Nickname"
+                    :error="form.errors.nickname"
+                />
             </div>
 
             <hr class="col-span-2" />

@@ -8,6 +8,8 @@ module.exports = {
     "./resources/js/manage/**/*.vue",
     "./resources/js/review/**/*.js",
     "./resources/js/review/**/*.vue",
+    "./resources/js/shared/**/*.js",
+    "./resources/js/shared/**/*.vue",
     "./node_modules/flowbite/**/*.js",
   ],
   darkMode: 'class',
@@ -35,10 +37,23 @@ module.exports = {
         },
         disabled: 'var(--color-disabled)',
         'disabled-foreground': 'var(--color-disabled-foreground)',
-        success: 'var(--color-success)',
-        warning: 'var(--color-warning)',
-        danger: 'var(--color-danger)',
-        info: 'var(--color-info)',
+        success: {
+          DEFAULT: 'var(--color-success)',
+          foreground: 'var(--color-success-foreground)',
+        },
+        warning: {
+          DEFAULT: 'var(--color-warning)',
+          foreground: 'var(--color-warning-foreground)',
+        },
+        danger: {
+          DEFAULT: 'var(--color-danger)',
+          hover: 'var(--color-danger-hover)',
+          foreground: 'var(--color-danger-foreground)',
+        },
+        info: {
+          DEFAULT: 'var(--color-info)',
+          foreground: 'var(--color-info-foreground)',
+        },
         focus: 'var(--color-focus-ring)',
       },
       fontFamily: {

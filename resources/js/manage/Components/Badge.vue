@@ -1,12 +1,13 @@
 <script setup lang="ts">
-interface Props {
-    count: number,
-}
-defineProps<Props>()
+import SharedBadge from '../../shared/Components/Badge.vue'
+
+defineOptions({ inheritAttrs: false })
+
+defineProps<{ count: number }>()
 </script>
 
 <template>
-    <span class="rounded-md bg-red-600 py-1 px-1 md:px-2 text-white text-xs">
-        {{ count }}
-    </span>
+    <SharedBadge variant="danger" tone="solid" size="sm" v-bind="$attrs">
+        <slot>{{ count }}</slot>
+    </SharedBadge>
 </template>
