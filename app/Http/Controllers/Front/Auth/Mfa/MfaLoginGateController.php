@@ -27,8 +27,12 @@ class MfaLoginGateController extends WebController
             'code' => 'required|numeric',
         ]);
 
+        $secret = config('auth.totp.bypass')
+            ? null
+            : Crypt::decryptString($request->user()->totp_secret);
+
         $keyTimestamp = $this->google2FA->verifyKeyNewer(
-            Crypt::decryptString($request->user()->totp_secret),
+            $secret,
             $request->code,
             $request->user()->totp_last_used
         );
