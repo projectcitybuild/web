@@ -30,6 +30,7 @@ export type Permission =
   | "web.manage.remote_config.edit"
   | "web.manage.donations.view"
   | "web.manage.donations.edit"
+  | "web.manage.player_mail.send"
   | "web.review.ban_appeals.view"
   | "web.review.ban_appeals.decide"
   | "web.review.build_rank_apps.view"

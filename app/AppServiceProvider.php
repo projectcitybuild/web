@@ -4,6 +4,7 @@ namespace App;
 
 use Admin9\OidcServer\Contracts\ReauthenticationHandler;
 use Admin9\OidcServer\Services\IdTokenService;
+use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Support\Passport\OidcIdTokenService;
 use App\Core\Support\Passport\OidcReauthenticationHandler;
 use App\Models\Account;
@@ -58,6 +59,12 @@ final class AppServiceProvider extends ServiceProvider
 
         RateLimiter::for('login', function (Request $request) {
             return Limit::perMinute(6)->by($request->ip());
+        });
+
+        RateLimiter::for('player-mail-send', function (Request $request) {
+            $playerUuid = MinecraftUUID::tryParse((string) $request->route('minecraft_uuid'))?->trimmed();
+
+            return Limit::perMinute(5)->by($playerUuid ?? 'invalid:'.$request->ip());
         });
 
         Password::defaults(function () {

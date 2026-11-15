@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\v3\Builds\MinecraftBuildVoteController;
 use App\Http\Controllers\Api\v3\Players\Homes\MinecraftPlayerHomeController;
 use App\Http\Controllers\Api\v3\Players\Homes\MinecraftPlayerHomeLimitController;
 use App\Http\Controllers\Api\v3\Players\Homes\MinecraftPlayerHomeNameController;
+use App\Http\Controllers\Api\v3\Players\Mail\MinecraftPlayerMailController;
 use App\Http\Controllers\Api\v3\Players\MinecraftPlayerBanController;
 use App\Http\Controllers\Api\v3\Players\MinecraftPlayerController;
 use App\Http\Controllers\Api\v3\Server\MinecraftConfigController;
@@ -85,6 +86,30 @@ Route::domain(config('app.api_url'))->group(function () {
                 ->middleware('require-server-token');
 
             Route::get('bans', [MinecraftPlayerBanController::class, 'index']);
+
+            Route::prefix('mail')
+                ->middleware('require-server-token')
+                ->name('players.mail.')
+                ->group(function () {
+                    Route::get('/', [MinecraftPlayerMailController::class, 'index'])->name('index');
+                    Route::post('/', [MinecraftPlayerMailController::class, 'store'])
+                        ->middleware('throttle:player-mail-send')
+                        ->name('store');
+                    Route::get('unread-count', [MinecraftPlayerMailController::class, 'unreadCount'])
+                        ->name('unread-count');
+                    Route::get('{mailId}', [MinecraftPlayerMailController::class, 'show'])
+                        ->whereNumber('mailId')
+                        ->name('show');
+                    Route::patch('{mailId}/read', [MinecraftPlayerMailController::class, 'markRead'])
+                        ->whereNumber('mailId')
+                        ->name('read');
+                    Route::patch('{mailId}/unread', [MinecraftPlayerMailController::class, 'markUnread'])
+                        ->whereNumber('mailId')
+                        ->name('unread');
+                    Route::delete('{mailId}', [MinecraftPlayerMailController::class, 'destroy'])
+                        ->whereNumber('mailId')
+                        ->name('destroy');
+                });
 
             Route::prefix('homes')->group(function () {
                 Route::get('/', [MinecraftPlayerHomeController::class, 'index']);

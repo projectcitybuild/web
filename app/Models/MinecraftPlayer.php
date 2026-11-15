@@ -109,6 +109,22 @@ final class MinecraftPlayer extends Model implements LinkableAuditModel
         );
     }
 
+    public function sentMail(): HasMany
+    {
+        return $this->hasMany(
+            related: PlayerMail::class,
+            foreignKey: 'sender_player_id',
+        );
+    }
+
+    public function mailRecipients(): HasMany
+    {
+        return $this->hasMany(
+            related: PlayerMailRecipient::class,
+            foreignKey: 'player_id',
+        );
+    }
+
     public function banAppeals()
     {
         // We have to do this because game bans are a polymorphic relationship, but this is just what

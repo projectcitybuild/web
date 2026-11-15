@@ -6,8 +6,10 @@ use App\Domains\Donations\UseCases\ExpireDonorPerks;
 use App\Domains\HealthCheck\Data\SchedulerHealthCheck;
 use App\Domains\HealthCheck\HealthCheckReporter;
 use App\Domains\Permissions\WebManagePermission;
+use App\Domains\PlayerMail\Jobs\DistributePlayerMailJob;
 use App\Models\GamePlayerBan;
 use App\Models\Permission;
+use App\Models\PlayerMailBroadcast;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schedule;
@@ -74,6 +76,20 @@ Artisan::command('build-rank-apps:remind', function () {
 })->runInBackground()
     ->evenInMaintenanceMode()
     ->hourly();
+
+Schedule::call(static function (): void {
+    PlayerMailBroadcast::query()
+        ->whereIn('status', ['queued', 'processing'])
+        ->where('updated_at', '<=', now()->subMinutes(5))
+        ->orderBy('id')
+        ->chunkById(100, function ($broadcasts): void {
+            foreach ($broadcasts as $broadcast) {
+                DistributePlayerMailJob::dispatch($broadcast->id, $broadcast->last_player_id);
+            }
+        });
+})->name('player-mail.broadcast-recovery')
+    ->everyMinute()
+    ->withoutOverlapping(10);
 
 Artisan::command('permissions:seed', function () {
     foreach (WebManagePermission::cases() as $permission) {

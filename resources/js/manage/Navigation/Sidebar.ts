@@ -67,6 +67,11 @@ export const sidebarMenu: SidebarSection[] = [
     icon: Icons.cube,
     children: [
         {
+            title: 'Player Mail',
+            route: '/manage/player-mail',
+            permission: 'web.manage.player_mail.send',
+        },
+        {
             title: 'Players',
             route: '/manage/players',
             permission: 'web.manage.players.view',

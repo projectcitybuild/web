@@ -21,6 +21,7 @@ use App\Http\Controllers\Manage\Homes\HomeController;
 use App\Http\Controllers\Manage\Minecraft\MinecraftConfigController;
 use App\Http\Controllers\Manage\Minecraft\MinecraftWarpController;
 use App\Http\Controllers\Manage\Permissions\PermissionsController;
+use App\Http\Controllers\Manage\PlayerMail\PlayerMailBroadcastController;
 use App\Http\Controllers\Manage\Players\MinecraftPlayerAliasRefreshController;
 use App\Http\Controllers\Manage\Players\MinecraftPlayerBanController;
 use App\Http\Controllers\Manage\Players\MinecraftPlayerController;
@@ -115,6 +116,19 @@ Route::name('manage.')
         Route::get('permissions/{permission}/edit', [PermissionsController::class, 'edit']);
         Route::put('permissions/{permission}', [PermissionsController::class, 'update']);
         Route::delete('permissions/{permission}', [PermissionsController::class, 'destroy']);
+
+        Route::get('player-mail', [PlayerMailBroadcastController::class, 'index'])
+            ->name('player-mail.index');
+        Route::get('player-mail/create', [PlayerMailBroadcastController::class, 'create'])
+            ->name('player-mail.create');
+        Route::post('player-mail', [PlayerMailBroadcastController::class, 'storeFromManage'])
+            ->middleware('throttle:player-mail-send')
+            ->name('player-mail.store');
+        Route::get('player-mail/{broadcast}', [PlayerMailBroadcastController::class, 'show'])
+            ->name('player-mail.show');
+        Route::post('player-mail/broadcasts', [PlayerMailBroadcastController::class, 'store'])
+            ->middleware('throttle:player-mail-send')
+            ->name('player-mail.broadcasts.store');
 
         Route::get('homes', [HomeController::class, 'index'])->name('homes.index');
         Route::get('homes/create', [HomeController::class, 'create']);

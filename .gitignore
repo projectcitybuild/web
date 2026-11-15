@@ -39,3 +39,11 @@ clover.xml
 
 *.pem
 *:Zone.Identifier
+
+# Laravel Boost generated files
+/.mcp.json
+/boost.json
+/CLAUDE.md
+/AGENTS.md
+/.github/copilot-instructions.md
+/.github/skills

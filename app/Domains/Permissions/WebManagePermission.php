@@ -35,4 +35,5 @@ enum WebManagePermission: string
     case REMOTE_CONFIG_EDIT = 'web.manage.remote_config.edit';
     case DONATIONS_VIEW = 'web.manage.donations.view';
     case DONATIONS_EDIT = 'web.manage.donations.edit';
+    case PLAYER_MAIL_SEND = 'web.manage.player_mail.send';
 }
