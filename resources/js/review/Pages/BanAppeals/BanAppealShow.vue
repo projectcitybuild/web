@@ -2,18 +2,21 @@
 import { Head, useForm } from '@inertiajs/vue3'
 import Card from '../../../manage/Components/Card.vue'
 import BackButton from '../../../manage/Components/BackButton.vue'
+import ConfirmDialog from '../../../manage/Components/ConfirmDialog.vue'
 import MinecraftAvatar from '../../../manage/Components/MinecraftAvatar.vue'
 import { distance, distanceFromNow, format } from '../../../manage/Utilities/DateFormatter'
 import SuccessAlert from '../../../manage/Components/SuccessAlert.vue'
-import ToolBar from '../../../manage/Components/ToolBar.vue'
-import FilledButton from '../../../manage/Components/FilledButton.vue'
 import type { BanAppeal } from '../../../manage/Data/BanAppeal'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { BanAppealStatus } from '../../../manage/Data/BanAppealStatus'
 import ErrorAlert from '../../../manage/Components/ErrorAlert.vue'
 import SvgIcon from '../../../manage/Components/SvgIcon.vue'
 import OutlinedButton from '../../../manage/Components/OutlinedButton.vue'
 import { Icons } from '../../../manage/Icons'
+import Badge from '../../../shared/Components/Badge.vue'
+import Button from '../../../shared/Components/Button.vue'
+import PageHeader from '../../../shared/Components/PageHeader.vue'
+import Textarea from '../../../shared/Components/Textarea.vue'
 
 interface Props {
     banAppeal: BanAppeal,
@@ -25,6 +28,7 @@ const form = useForm({
     status: null,
     decision_note: null,
 })
+const confirmationDialog = ref<InstanceType<typeof ConfirmDialog> | null>(null)
 
 const hasDecision = computed(() => props.banAppeal.decided_at != null)
 
@@ -39,29 +43,53 @@ const status = computed(() => {
     switch (props.banAppeal.status) {
         case BanAppealStatus.denied:
             return {
-                border: 'border-red-500',
-                background: 'bg-red-500',
+                variant: 'danger' as const,
                 label: 'Denied',
             }
         case BanAppealStatus.unbanned:
             return {
-                border: 'border-green-500',
-                background: 'bg-green-500',
+                variant: 'success' as const,
                 label: 'Unbanned',
             }
         case BanAppealStatus.tempBanned:
             return {
-                border: 'border-green-500',
-                background: 'bg-green-500',
+                variant: 'info' as const,
                 label: 'Downgraded to Temp Ban',
             }
         case BanAppealStatus.pending:
-            return {}
+            return {
+                variant: 'warning' as const,
+                label: 'Pending',
+            }
     }
+})
+const confirmationMessage = computed(() => {
+    const decision = form.status === BanAppealStatus.unbanned
+        ? 'unban the player'
+        : form.status === BanAppealStatus.denied
+            ? 'keep the ban in place'
+            : 'finish the review'
+
+    return `You are about to ${decision} for Ban Appeal #${props.banAppeal.id}. This decision cannot be reversed.`
 })
 
 function submit() {
     form.put('/review/ban-appeals/' + props.banAppeal.id)
+}
+
+function requestConfirmation() {
+    if (!form.processing) {
+        confirmationDialog.value?.open()
+    }
+}
+
+function confirmDecision() {
+    if (form.processing) {
+        return
+    }
+
+    confirmationDialog.value?.close()
+    submit()
 }
 </script>
 
@@ -71,16 +99,16 @@ function submit() {
 
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
-        <ToolBar>
-            <template v-slot:left>
-                <BackButton href="/review/ban-appeals"/>
+        <PageHeader :title="`Ban Appeal #${banAppeal.id}`" class="mb-4">
+            <template #actions>
+                <Badge :variant="status.variant">{{ status.label }}</Badge>
+                <BackButton href="/review/ban-appeals" />
+                <span class="inline-flex items-center gap-2 text-sm text-muted">
+                    <SvgIcon :svg="Icons.clock" class="size-5" />
+                    Waiting Time: <strong class="text-foreground">{{ waitingTime }}</strong>
+                </span>
             </template>
-
-            <template v-slot:right>
-                <SvgIcon :svg="Icons.clock" class="size-6" />
-                Waiting Time: <strong>{{ waitingTime }}</strong>
-            </template>
-        </ToolBar>
+        </PageHeader>
 
         <div class="mt-4 flex flex-col lg:grid lg:grid-cols-2 gap-4">
             <section>
@@ -89,7 +117,7 @@ function submit() {
                         <h2 class="font-bold">Appealer</h2>
                     </div>
 
-                    <div class="space-y-4 border-t border-b border-gray-200 p-4">
+                    <div class="space-y-4 border-y border-border p-4">
                         <dl class="flex items-center justify-between gap-2">
                             <dt class="text-sm text-gray-500 dark:text-gray-400">Email</dt>
                             <dd class="text-sm text-gray-900 dark:text-white">
@@ -119,7 +147,7 @@ function submit() {
                 </Card>
 
                 <Card class="mt-4" v-if="banAppeal.game_player_ban">
-                    <div class="p-4 border-b border-gray-200 flex justify-between items-center gap-2">
+                    <div class="flex items-center justify-between gap-2 border-b border-border p-4">
                         <h2 class="font-bold">Player Ban</h2>
 
                         <a :href="'/manage/player-bans/' + banAppeal.game_player_ban.id + '/edit'">
@@ -165,7 +193,7 @@ function submit() {
                         </dl>
                     </div>
 
-                    <div class="space-y-4 border-t border-gray-200 p-4">
+                    <div class="space-y-4 border-t border-border p-4">
                         <dl class="flex items-center justify-between gap-2">
                             <dt class="text-sm text-gray-500 dark:text-gray-400">Created At</dt>
                             <dd class="text-sm text-gray-900 dark:text-white">
@@ -189,7 +217,7 @@ function submit() {
 
             <section>
                 <Card>
-                    <div class="p-4 border-b border-gray-200">
+                    <div class="border-b border-border p-4">
                         <h2 class="font-bold">Ban Appeal</h2>
                     </div>
 
@@ -210,7 +238,7 @@ function submit() {
                         </div>
                     </div>
 
-                    <div class="p-4 border-t border-gray-200">
+                    <div class="border-t border-border p-4">
                         <div class="space-y-4">
                             <dl class="flex items-center justify-between gap-2">
                                 <dt class="text-sm text-gray-500 dark:text-gray-400">Created At</dt>
@@ -223,11 +251,11 @@ function submit() {
                 </Card>
 
                 <Card class="mt-4" v-if="!hasDecision">
-                    <div class="p-4 border-b border-gray-200">
+                    <div class="border-b border-border p-4">
                         <h2 class="font-bold">Decision</h2>
                     </div>
 
-                    <form @submit.prevent="submit" class="p-4">
+                    <form @submit.prevent="requestConfirmation" class="p-4">
                         <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4"/>
 
                         <div class="space-y-6">
@@ -238,9 +266,9 @@ function submit() {
                                         :value="BanAppealStatus.denied"
                                         id="decision_denied"
                                         type="radio"
-                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                        class="size-4 accent-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
                                     >
-                                    <label for="decision_denied" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                    <label for="decision_denied" class="ms-2 text-sm font-medium text-foreground">
                                         Keep banned
                                     </label>
                                 </div>
@@ -250,54 +278,50 @@ function submit() {
                                         :value="BanAppealStatus.unbanned"
                                         id="decision_unban"
                                         type="radio"
-                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                        class="size-4 accent-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
                                     >
-                                    <label for="decision_unban" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                    <label for="decision_unban" class="ms-2 text-sm font-medium text-foreground">
                                         Unban
                                     </label>
                                 </div>
                             </div>
                             <div>
-                                <label for="decision_note" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                    Message to Player
-                                </label>
-                                <textarea
+                                <Textarea
                                     v-model="form.decision_note"
-                                    id="additional_info"
+                                    id="decision_note"
                                     rows="8"
-                                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                ></textarea>
-                                <span class="block mt-2 text-xs text-gray-400">
-                                    This is the message emailed to the player regarding their application. <br />
-                                    <strong>Please include the reasoning for your decision</strong>
-                                </span>
-                                <div v-if="form.errors.decision_note" class="text-xs text-red-500 font-bold mt-2">
-                                    {{ form.errors.decision_note }}
-                                </div>
+                                    label="Message to Player"
+                                    description="This message is emailed to the player. Include the reasoning for your decision."
+                                    :error="form.errors.decision_note"
+                                />
                             </div>
                         </div>
 
-                        <FilledButton
-                            variant="danger"
-                            :disabled="form.processing"
-                            type="submit"
+                        <Button
+                            :variant="form.status === BanAppealStatus.unbanned ? 'primary' : 'danger'"
+                            :loading="form.processing"
+                            type="button"
+                            @click="requestConfirmation"
                             class="mt-8"
                         >
                             Finish and Close
-                        </FilledButton>
+                        </Button>
                     </form>
                 </Card>
 
-                <Card v-else :class="'mt-4 ' + status.border">
-                    <div :class="'p-4 rounded-t-md text-white ' + status.background">
-                        <h2 class="font-bold">Decision: {{ status.label }}</h2>
+                <Card v-else class="mt-4">
+                    <div class="border-b border-border p-4">
+                        <h2 class="flex items-center gap-2 font-bold">
+                            Decision
+                            <Badge :variant="status.variant">{{ status.label }}</Badge>
+                        </h2>
                     </div>
 
                     <div class="p-4 italic">
                         {{ banAppeal.decision_note }}
                     </div>
 
-                    <div class="p-4 border-t border-gray-200">
+                    <div class="border-t border-border p-4">
                         <div class="space-y-4">
                             <dl class="flex items-center justify-between gap-2">
                                 <dt class="text-sm text-gray-500 dark:text-gray-400">Decided At</dt>
@@ -322,5 +346,14 @@ function submit() {
                 </Card>
             </section>
         </div>
+
+        <ConfirmDialog
+            ref="confirmationDialog"
+            title="Finish Ban Appeal?"
+            :message="confirmationMessage"
+            confirm-title="Finish and Close"
+            :confirm-variant="form.status === BanAppealStatus.unbanned ? 'primary' : 'danger'"
+            :on-confirm="confirmDecision"
+        />
     </div>
 </template>

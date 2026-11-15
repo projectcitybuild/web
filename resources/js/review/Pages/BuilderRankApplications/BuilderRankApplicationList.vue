@@ -7,6 +7,7 @@ import Card from '../../../manage/Components/Card.vue'
 import type { BuilderRankApplication } from '../../../manage/Data/BuilderRankApplication'
 import BuilderRankApplicationListTable from './Partials/BuilderRankApplicationListTable.vue'
 import SpinnerRow from '../../../manage/Components/SpinnerRow.vue'
+import PageHeader from '../../../shared/Components/PageHeader.vue'
 
 interface Props {
     success?: string,
@@ -18,25 +19,29 @@ defineProps<Props>()
 <template>
     <Head title="Builder Rank Applications" />
 
-    <section>
-        <SuccessAlert v-if="success" :message="success" class="mb-4"/>
+    <div class="space-y-4">
+        <PageHeader title="Builder Rank Applications" />
 
-        <Card>
-            <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
-            </div>
+        <section>
+            <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
-            <Deferred data="applications">
-                <template #fallback>
-                    <SpinnerRow />
-                </template>
+            <Card>
+                <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
+                </div>
 
-                <InfinitePagination
-                    :initial="applications"
-                    v-slot="source"
-                >
-                    <BuilderRankApplicationListTable :applications="source.data"/>
-                </InfinitePagination>
-            </Deferred>
-        </Card>
-    </section>
+                <Deferred data="applications">
+                    <template #fallback>
+                        <SpinnerRow />
+                    </template>
+
+                    <InfinitePagination
+                        :initial="applications"
+                        v-slot="source"
+                    >
+                        <BuilderRankApplicationListTable :applications="source.data"/>
+                    </InfinitePagination>
+                </Deferred>
+            </Card>
+        </section>
+    </div>
 </template>

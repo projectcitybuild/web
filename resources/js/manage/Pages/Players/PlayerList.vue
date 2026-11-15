@@ -14,6 +14,7 @@ import { ref, watch } from 'vue'
 import { Icons } from '../../Icons'
 import usePermissions from '../../Composables/usePermissions'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
+import Input from '../../../shared/Components/Input.vue'
 
 interface Props {
     success?: string,
@@ -53,31 +54,17 @@ watch(
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
         <div class="flex flex-col md:flex-row md:items-start gap-4">
-            <Card v-show="filterExpanded" class="p-4 flex flex-col gap-4 md:sticky md:top-24">
+            <Card
+                id="player-filters"
+                v-show="filterExpanded"
+                class="flex flex-col gap-4 p-4 md:sticky md:top-24"
+            >
                 <h2 class="font-bold">Filter</h2>
 
                 <hr />
 
-                <div class="flex flex-col gap-1">
-                    <label for="alias" class="text-xs text-gray-700 font-bold">Alias</label>
-                    <input
-                        v-model="form.alias"
-                        type="text"
-                        id="alias"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                        placeholder="Search..."
-                    >
-                </div>
-                <div class="flex flex-col gap-1">
-                    <label for="uuid" class="text-xs text-gray-700 font-bold">UUID</label>
-                    <input
-                        v-model="form.uuid"
-                        type="text"
-                        id="uuid"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                        placeholder="Search..."
-                    >
-                </div>
+                <Input v-model="form.alias" id="alias" label="Alias" placeholder="Search..." />
+                <Input v-model="form.uuid" id="uuid" label="UUID" placeholder="Search..." />
 
                 <hr />
 
@@ -87,16 +74,18 @@ watch(
             </Card>
 
             <Card class="grow">
-                <div class="flex flex-row items-center justify-between p-4">
+                    <div class="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <span v-if="players" class="text-sm text-gray-500">
+                        <span v-if="players" class="text-sm text-muted">
                             Showing <strong>{{ itemCount }}</strong> of <strong>{{ players?.total ?? 0 }}</strong>
                         </span>
                     </div>
 
-                    <div class="flex gap-2">
+                    <div class="flex flex-wrap gap-2 sm:justify-end">
                         <OutlinedButton
                             variant="secondary"
+                            :aria-expanded="filterExpanded"
+                            aria-controls="player-filters"
                             @click="filterExpanded = !filterExpanded"
                         >
                             <SvgIcon :svg="Icons.filter" />
@@ -125,7 +114,7 @@ watch(
                         :query="query"
                         v-model:count="itemCount"
                         v-slot="source"
-                        class="border-t border-gray-200"
+                        class="border-t border-border"
                     >
                         <PlayerListTable
                             :players="source.data"

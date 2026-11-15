@@ -114,9 +114,9 @@ function formatDate(value: string): string {
                         <option value="failed">Failed</option>
                     </select>
                 </label>
-                <button class="px-4 py-2 text-sm font-semibold text-white bg-gray-800 hover:bg-gray-700 dark:bg-gray-600 dark:hover:bg-gray-500" type="submit">
+                <FilledButton variant="secondary" type="submit">
                     Apply filters
-                </button>
+                </FilledButton>
             </form>
 
             <div v-if="broadcasts.data.length === 0" class="px-6 py-14 text-center">

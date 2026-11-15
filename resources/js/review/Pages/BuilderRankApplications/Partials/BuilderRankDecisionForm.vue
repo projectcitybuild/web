@@ -2,10 +2,13 @@
 import Card from '../../../../manage/Components/Card.vue'
 import { useForm } from '@inertiajs/vue3'
 import { BuilderRankApplication } from '../../../../manage/Data/BuilderRankApplication'
-import FilledButton from '../../../../manage/Components/FilledButton.vue'
 import ErrorAlert from '../../../../manage/Components/ErrorAlert.vue'
-import { ref } from 'vue'
+import ConfirmDialog from '../../../../manage/Components/ConfirmDialog.vue'
+import { computed, ref } from 'vue'
 import { Role } from '../../../../manage/Data/Role'
+import Button from '../../../../shared/Components/Button.vue'
+import Select from '../../../../shared/Components/Select.vue'
+import Textarea from '../../../../shared/Components/Textarea.vue'
 
 interface Props {
     application: BuilderRankApplication,
@@ -24,6 +27,11 @@ enum Decision {
     deny,
 }
 const decision = ref<Decision|null>(null)
+const confirmationDialog = ref<InstanceType<typeof ConfirmDialog> | null>(null)
+const confirmationMessage = computed(() => {
+    const action = decision.value === Decision.approve ? 'approve' : 'deny'
+    return `You are about to ${action} Builder Rank Application #${props.application.id}. This decision cannot be reversed.`
+})
 
 function approve() {
     form.post('/review/builder-ranks/' + props.application.id + '/approve')
@@ -31,6 +39,27 @@ function approve() {
 
 function deny() {
     form.post('/review/builder-ranks/' + props.application.id + '/deny')
+}
+
+function requestConfirmation() {
+    if (!form.processing) {
+        confirmationDialog.value?.open()
+    }
+}
+
+function confirmDecision() {
+    if (form.processing || decision.value === null) {
+        return
+    }
+
+    confirmationDialog.value?.close()
+
+    if (decision.value === Decision.approve) {
+        approve()
+        return
+    }
+
+    deny()
 }
 </script>
 
@@ -41,91 +70,96 @@ function deny() {
                 <h2 class="font-bold">Council Decision</h2>
             </div>
 
-            <div class="p-4 border-t border-gray-200 flex flex-col gap-2">
-                <label for="approve">
+            <fieldset class="flex flex-col gap-2 border-t border-border p-4">
+                <legend class="sr-only">Council decision</legend>
+                <label for="approve" class="flex items-center gap-2 text-sm font-medium text-foreground">
                     <input
                         id="approve"
                         type="radio"
                         name="decision"
                         v-model="decision"
                         :value="Decision.approve"
-                        class="mr-1"
+                        class="size-4 accent-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
                     />
                     Approve
                 </label>
-                <label for="deny">
+                <label for="deny" class="flex items-center gap-2 text-sm font-medium text-foreground">
                     <input
                         id="deny"
                         type="radio"
                         name="decision"
                         v-model="decision"
                         :value="Decision.deny"
-                        class="mr-1"
+                        class="size-4 accent-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
                     />
                     Deny
                 </label>
 
-                <div class="mt-4 text-sm">
+                <div class="mt-2 text-sm text-muted">
                     <strong>Applications cannot be re-opened after submitting this form.</strong><br />
                     Please finalize the decision with other council members before proceeding.
                 </div>
-            </div>
+            </fieldset>
 
-            <form @submit.prevent class="p-4 border-t border-gray-200" v-if="decision != null">
+            <form @submit.prevent class="border-t border-border p-4" v-if="decision != null">
                 <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4"/>
 
                 <template v-if="decision === Decision.approve">
                     <div class="space-y-6">
                         <div class="mb-4">
-                            <label for="activated" class="text-xs text-gray-700 font-bold">Promote to...</label>
-                            <select
-                                v-model="form.promote_role"
+                            <Select
+                                v-model.number="form.promote_role"
                                 id="activated"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                label="Promote to..."
+                                placeholder="Select a build role..."
+                                :error="form.errors.promote_role"
                             >
-                                <option :value="null">Select a build role...</option>
                                 <option v-for="role in buildRoles" :value="role.id">{{ role.name }}</option>
-                            </select>
+                            </Select>
                         </div>
                     </div>
 
-                    <FilledButton
-                        variant="danger"
-                        @click="approve"
-                        :disabled="form.processing"
+                    <Button
+                        variant="primary"
+                        @click="requestConfirmation"
+                        :loading="form.processing"
                         class="mt-8"
                     >
                         Promote and Close
-                    </FilledButton>
+                    </Button>
                 </template>
 
                 <template v-if="decision === Decision.deny">
                     <div>
-                        <label for="deny_reason" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                            Denial Reason & Feedback
-                        </label>
-                        <textarea
+                        <Textarea
                             v-model="form.deny_reason"
                             id="deny_reason"
                             rows="10"
-                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                        ></textarea>
-                        <span class="block mt-2 text-xs text-gray-400">
-                            This is the message emailed to the player regarding their application.<br />
-                            <strong>Please include the reasoning for the decision, and if possible, feedback on their build</strong>
-                        </span>
+                            label="Denial Reason & Feedback"
+                            description="This message is emailed to the player. Include the reasoning for the decision and, if possible, feedback on their build."
+                            :error="form.errors.deny_reason"
+                        />
                     </div>
 
-                    <FilledButton
+                    <Button
                         variant="danger"
-                        @click="deny"
-                        :disabled="form.processing"
+                        @click="requestConfirmation"
+                        :loading="form.processing"
                         class="mt-8"
                     >
                         Deny and Close
-                    </FilledButton>
+                    </Button>
                 </template>
             </form>
         </Card>
+
+        <ConfirmDialog
+            ref="confirmationDialog"
+            :title="decision === Decision.approve ? 'Approve Application?' : 'Deny Application?'"
+            :message="confirmationMessage"
+            :confirm-title="decision === Decision.approve ? 'Promote and Close' : 'Deny and Close'"
+            :confirm-variant="decision === Decision.approve ? 'primary' : 'danger'"
+            :on-confirm="confirmDecision"
+        />
     </div>
 </template>

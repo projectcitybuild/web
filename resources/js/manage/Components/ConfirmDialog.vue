@@ -8,8 +8,11 @@ interface Props {
     message: string,
     onConfirm: () => void,
     confirmTitle?: string,
+    confirmVariant?: 'primary' | 'danger',
 }
-defineProps<Props>()
+withDefaults(defineProps<Props>(), {
+    confirmVariant: 'danger',
+})
 
 defineExpose({
     open: open,
@@ -72,7 +75,7 @@ onMounted(() => {
             </OutlinedButton>
 
             <FilledButton
-                variant="danger"
+                :variant="confirmVariant"
                 @click="onConfirm"
                 class="grow"
             >

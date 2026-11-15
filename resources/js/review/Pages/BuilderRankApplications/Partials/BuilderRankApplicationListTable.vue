@@ -36,7 +36,7 @@ const rows = computed(
 </script>
 
 <template>
-    <DataTable :fields="fields" :rows="rows" :show-index="true" class="border-t border-gray-200">
+    <DataTable :fields="fields" :rows="rows" :show-index="true" class="border-t border-border">
         <template #status="{ item }">
             <Pill v-if="item.status === BuilderRankApplicationStatus.pending" variant="danger">
                 Awaiting Review

@@ -5,8 +5,7 @@ import ErrorAlert from '../../../Components/ErrorAlert.vue'
 import DateTimePicker from '../../../Components/DateTimePicker.vue'
 import type { Player } from '../../../Data/Player'
 import PlayerPicker from '../../../Components/PlayerPicker.vue'
-import FilledButton from '../../../Components/FilledButton.vue'
-import Spinner from '../../../Components/Spinner.vue'
+import Button from '../../../../shared/Components/Button.vue'
 import Input from '../../../../shared/Components/Input.vue'
 
 interface Props {
@@ -93,14 +92,13 @@ function submit() {
             </div>
         </div>
 
-        <FilledButton
+        <Button
             type="submit"
             variant="primary"
-            :disabled="form.processing"
+            :loading="form.processing"
             class="mt-8"
         >
-            <Spinner v-if="form.processing" />
-            <template v-else>{{ isEdit ? 'Update' : 'Create' }}</template>
-        </FilledButton>
+            {{ isEdit ? 'Update' : 'Create' }}
+        </Button>
     </form>
 </template>

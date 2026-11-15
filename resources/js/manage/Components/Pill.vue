@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import SharedBadge from '../../shared/Components/Badge.vue'
 
-type Variant = 'default' | 'danger' | 'success'
+type Variant = 'default' | 'danger' | 'success' | 'warning' | 'info'
 
 interface Props {
     variant?: Variant,

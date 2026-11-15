@@ -5,7 +5,6 @@ import BackButton from '../../../manage/Components/BackButton.vue'
 import MinecraftAvatar from '../../../manage/Components/MinecraftAvatar.vue'
 import { distance, distanceFromNow, format } from '../../../manage/Utilities/DateFormatter'
 import SuccessAlert from '../../../manage/Components/SuccessAlert.vue'
-import ToolBar from '../../../manage/Components/ToolBar.vue'
 import FilledButton from '../../../manage/Components/FilledButton.vue'
 import { computed } from 'vue'
 import ErrorAlert from '../../../manage/Components/ErrorAlert.vue'
@@ -18,6 +17,8 @@ import AwaitingDecisionAlert from './Partials/AwaitingDecisionAlert.vue'
 import BuilderRankDecision from './Partials/BuilderRankDecision.vue'
 import BuilderRankDecisionForm from './Partials/BuilderRankDecisionForm.vue'
 import { Icons } from '../../../manage/Icons'
+import Badge from '../../../shared/Components/Badge.vue'
+import PageHeader from '../../../shared/Components/PageHeader.vue'
 
 interface Props {
     application: BuilderRankApplication,
@@ -27,6 +28,16 @@ interface Props {
 const props = defineProps<Props>()
 
 const hasDecision = computed(() => props.application.status !== BuilderRankApplicationStatus.pending)
+const status = computed(() => {
+    switch (props.application.status) {
+        case BuilderRankApplicationStatus.approved:
+            return { variant: 'success' as const, label: 'Approved' }
+        case BuilderRankApplicationStatus.denied:
+            return { variant: 'danger' as const, label: 'Denied' }
+        default:
+            return { variant: 'warning' as const, label: 'Pending' }
+    }
+})
 
 const waitingTime = computed(() => {
     if (props.application.closed_at) {
@@ -45,16 +56,16 @@ const alts = computed(() => props.application.account?.minecraft_account?.slice(
 
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
-        <ToolBar>
-            <template v-slot:left>
-                <BackButton href="/review/builder-ranks"/>
+        <PageHeader :title="`Builder Application #${application.id}`" class="mb-4">
+            <template #actions>
+                <Badge :variant="status.variant">{{ status.label }}</Badge>
+                <BackButton href="/review/builder-ranks" />
+                <span class="inline-flex items-center gap-2 text-sm text-muted">
+                    <SvgIcon :svg="Icons.clock" class="size-5" />
+                    Waiting Time: <strong class="text-foreground">{{ waitingTime }}</strong>
+                </span>
             </template>
-
-            <template v-slot:right>
-                <SvgIcon :svg="Icons.clock" class="size-6" />
-                Waiting Time: <strong>{{ waitingTime }}</strong>
-            </template>
-        </ToolBar>
+        </PageHeader>
 
         <div class="mt-4 flex flex-col lg:flex-row gap-4">
             <section class="lg:min-w-[260px]">
@@ -96,7 +107,7 @@ const alts = computed(() => props.application.account?.minecraft_account?.slice(
 
                     <div
                         v-if="alts.length > 0"
-                        class="p-4 border-t border-gray-200"
+                        class="border-t border-border p-4"
                     >
                         <span class="text-gray-500 text-xs">Also known as...</span>
                         <ul>
@@ -115,7 +126,7 @@ const alts = computed(() => props.application.account?.minecraft_account?.slice(
                         </ul>
                     </div>
 
-                    <div class="p-4 space-y-4 border-t border-gray-200">
+                    <div class="space-y-4 border-t border-border p-4">
                         <h2 class="font-bold">Current Roles</h2>
 
                         <div class="flex flex-wrap gap-2">
@@ -147,34 +158,34 @@ const alts = computed(() => props.application.account?.minecraft_account?.slice(
                 />
 
                 <Card class="mb-4">
-                    <div class="p-4 border-b border-gray-200">
+                    <div class="border-b border-border p-4">
                         <h2 class="font-bold">Application</h2>
                     </div>
 
                     <ul class="p-4 space-y-8">
                         <li>
                             <h3 class="font-bold mb-2 text-sm">Minecraft Alias</h3>
-                            {{ application.minecraft_alias }}
+                            <div class="break-words whitespace-pre-wrap">{{ application.minecraft_alias }}</div>
                         </li>
                         <li>
                             <h3 class="font-bold mb-2 text-sm">Current Builder Rank</h3>
-                            {{ application.current_builder_rank }}
+                            <div class="break-words whitespace-pre-wrap">{{ application.current_builder_rank }}</div>
                         </li>
                         <li>
                             <h3 class="font-bold mb-2 text-sm">Build Location</h3>
-                            {{ application.build_location }}
+                            <div class="break-words whitespace-pre-wrap">{{ application.build_location }}</div>
                         </li>
                         <li>
                             <h3 class="font-bold mb-2 text-sm">Build Description</h3>
-                            {{ application.build_description }}
+                            <div class="break-words whitespace-pre-wrap">{{ application.build_description }}</div>
                         </li>
                         <li v-if="application.additional_notes">
                             <h3 class="font-bold mb-2 text-sm">Additional Notes</h3>
-                            {{ application.additional_notes }}
+                            <div class="break-words whitespace-pre-wrap">{{ application.additional_notes }}</div>
                         </li>
                     </ul>
 
-                    <div class="p-4 border-t border-gray-200">
+                    <div class="border-t border-border p-4">
                         <div class="space-y-4">
                             <dl class="flex items-center justify-between gap-2">
                                 <dt class="text-sm text-gray-500 dark:text-gray-400">Submitted At</dt>

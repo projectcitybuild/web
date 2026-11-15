@@ -41,7 +41,7 @@ const rows = computed(
         <template #uuid="{ item }">
             <Link
                 :href="'/manage/players/' + item.id"
-                class="text-blue-500"
+                class="text-primary underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
             >
                 {{ item.uuid }}
             </Link>
@@ -51,7 +51,7 @@ const rows = computed(
             <Link
                 v-if="item.account"
                 :href="'/manage/accounts/' + item.account?.id"
-                class="text-blue-500"
+                class="text-primary underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
             >
                 {{ item.account?.username }}
             </Link>

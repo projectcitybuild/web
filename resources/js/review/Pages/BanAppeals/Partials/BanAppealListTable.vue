@@ -38,7 +38,7 @@ const rows = computed(
 </script>
 
 <template>
-    <DataTable :fields="fields" :rows="rows" :show-index="true" class="border-t border-gray-200">
+    <DataTable :fields="fields" :rows="rows" :show-index="true" class="border-t border-border">
         <template #status="{ item }">
             <Pill v-if="item.status === 0" variant="danger">Awaiting Review</Pill>
             <Pill v-if="item.status === 1" variant="secondary">Unbanned</Pill>
