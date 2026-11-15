@@ -2,7 +2,6 @@
 import { distance, distanceFromNow, format } from '../../../../manage/Utilities/DateFormatter'
 import { computed } from 'vue'
 import DataTable from '../../../../manage/Components/DataTable.vue'
-import FilledButton from '../../../../manage/Components/FilledButton.vue'
 import Pill from '../../../../manage/Components/Pill.vue'
 import { Link } from '@inertiajs/vue3'
 import { BuilderRankApplication, BuilderRankApplicationStatus } from '../../../../manage/Data/BuilderRankApplication'
@@ -59,14 +58,15 @@ const rows = computed(
         </template>
 
         <template #actions="{ item }">
-            <Link :href="'/review/builder-ranks/' + item.id">
-                <FilledButton v-if="item.status === BuilderRankApplicationStatus.pending" variant="danger">
-                    <SvgIcon :svg="Icons.eye" />
-                    Review
-                </FilledButton>
-                <FilledButton v-else variant="secondary">
-                    View
-                </FilledButton>
+            <Link
+                :href="'/review/builder-ranks/' + item.id"
+                class="inline-flex min-h-10 items-center justify-center gap-2 rounded-[var(--radius-md)] px-4 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-surface motion-reduce:transition-none"
+                :class="item.status === BuilderRankApplicationStatus.pending
+                    ? 'bg-danger text-danger-foreground hover:bg-danger-hover active:bg-danger-hover'
+                    : 'bg-surface-muted text-foreground hover:bg-surface-hover active:bg-surface-hover'"
+            >
+                <SvgIcon v-if="item.status === BuilderRankApplicationStatus.pending" :svg="Icons.eye" aria-hidden="true" />
+                {{ item.status === BuilderRankApplicationStatus.pending ? 'Review' : 'View' }}
             </Link>
         </template>
     </DataTable>

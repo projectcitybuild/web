@@ -60,10 +60,12 @@ function sendAnnouncement() {
                                 required
                                 maxlength="191"
                                 autocomplete="off"
+                                :aria-invalid="form.errors.subject ? 'true' : undefined"
+                                :aria-describedby="form.errors.subject ? 'subject-error' : undefined"
                                 class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                             >
                             <div class="mt-1 flex justify-between gap-2 text-xs text-gray-500">
-                                <span v-if="form.errors.subject" class="font-medium text-red-600">{{ form.errors.subject }}</span>
+                                <span v-if="form.errors.subject" id="subject-error" role="alert" class="font-medium text-red-600">{{ form.errors.subject }}</span>
                                 <span class="ml-auto">{{ form.subject.length }} / 191</span>
                             </div>
                         </div>
@@ -76,10 +78,12 @@ function sendAnnouncement() {
                                 required
                                 maxlength="5000"
                                 rows="9"
+                                :aria-invalid="form.errors.body ? 'true' : undefined"
+                                :aria-describedby="form.errors.body ? 'body-error' : undefined"
                                 class="block w-full resize-y rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                             />
                             <div class="mt-1 flex justify-between gap-2 text-xs text-gray-500">
-                                <span v-if="form.errors.body" class="font-medium text-red-600">{{ form.errors.body }}</span>
+                                <span v-if="form.errors.body" id="body-error" role="alert" class="font-medium text-red-600">{{ form.errors.body }}</span>
                                 <span class="ml-auto">{{ form.body.length }} / 5,000</span>
                             </div>
                         </div>
@@ -107,19 +111,24 @@ function sendAnnouncement() {
             </div>
         </Card>
 
-        <dialog ref="confirmation" class="w-[min(42rem,calc(100%-2rem))] border border-gray-300 bg-white p-0 text-gray-900 shadow-xl backdrop:bg-gray-950/60 dark:border-gray-600 dark:bg-gray-800 dark:text-white">
+        <dialog
+            ref="confirmation"
+            aria-labelledby="confirmation-title"
+            aria-describedby="confirmation-description"
+            class="m-auto max-h-[calc(100dvh-2rem)] w-[min(42rem,calc(100%-2rem))] overflow-y-auto border border-border bg-surface p-0 text-foreground shadow-xl backdrop:bg-black/50"
+        >
             <div class="space-y-5 p-5 sm:p-7">
                 <div>
-                    <h2 class="text-lg font-bold">Confirm announcement</h2>
-                    <p class="mt-1 text-sm text-gray-500">Review the audience and message before sending.</p>
+                    <h2 id="confirmation-title" class="text-lg font-bold">Confirm announcement</h2>
+                    <p id="confirmation-description" class="mt-1 text-sm text-muted">Review the audience and message before sending.</p>
                 </div>
                 <dl class="grid gap-3 text-sm sm:grid-cols-2">
                     <div>
-                        <dt class="text-gray-500">Audience</dt>
+                        <dt class="text-muted">Audience</dt>
                         <dd class="font-medium">All Minecraft players (about {{ recipientCount }})</dd>
                     </div>
                     <div>
-                        <dt class="text-gray-500">Sending as</dt>
+                        <dt class="text-muted">Sending as</dt>
                         <dd class="font-medium">{{ sender }}</dd>
                     </div>
                 </dl>
@@ -128,7 +137,7 @@ function sendAnnouncement() {
                     This announcement cannot be recalled after delivery begins.
                 </p>
             </div>
-            <div class="flex flex-col-reverse justify-end gap-2 border-t border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900 sm:flex-row">
+            <div class="flex flex-col-reverse justify-end gap-2 border-t border-border bg-surface-muted p-4 sm:flex-row">
                 <button type="button" class="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 dark:text-gray-200 dark:hover:bg-gray-700" :disabled="form.processing" @click="confirmation?.close()">
                     Go back
                 </button>

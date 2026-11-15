@@ -49,23 +49,25 @@ onMounted(() => {
     <dialog
         :id="id"
         ref="dialog"
-        class="rounded-lg shadow-xl border border-gray-300"
+        :aria-labelledby="`${id}-title`"
+        :aria-describedby="`${id}-description`"
+        class="m-auto max-h-[calc(100dvh-2rem)] w-[min(32rem,calc(100%-2rem))] overflow-y-auto rounded-lg border border-border bg-surface p-0 text-foreground shadow-xl backdrop:bg-black/50"
     >
         <div class="p-8 flex flex-col justify-start">
-            <svg class="size-16 bg-red-50 p-4 rounded-full text-red-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <svg aria-hidden="true" class="size-16 rounded-full bg-surface-muted p-4 text-danger" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
             </svg>
 
-            <h1 class="mt-6 text-xl font-bold">
+            <h1 :id="`${id}-title`" class="mt-6 text-xl font-bold">
                 {{ title ?? 'Are You Sure?' }}
             </h1>
 
-            <div class="mt-4 text-sm text-gray-500 max-w-96">
+            <div :id="`${id}-description`" class="mt-4 max-w-96 break-words text-sm text-muted">
                 {{ message }}
             </div>
         </div>
 
-        <div class="px-8 py-6 flex flex-col md:flex-row justify-stretch md:justify-stretch gap-2 bg-gray-50">
+        <div class="flex flex-col justify-stretch gap-2 bg-surface-muted px-8 py-6 md:flex-row md:justify-stretch">
             <OutlinedButton
                 variant="secondary"
                 class="grow"

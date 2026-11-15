@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
 import { format } from '../../../Utilities/DateFormatter'
-import FilledButton from '../../../Components/FilledButton.vue'
+import MinecraftAvatar from '../../../Components/MinecraftAvatar.vue'
 import { computed } from 'vue'
 import DataTable from '../../../Components/DataTable.vue'
 import usePermissions from '../../../Composables/usePermissions'
@@ -49,10 +49,12 @@ const rows = computed(
         </template>
 
         <template #actions="{ item }">
-            <Link :href="'/manage/homes/' + item.id + '/edit'" v-if="can('web.manage.homes.edit')">
-                <FilledButton variant="secondary">
-                    Edit
-                </FilledButton>
+            <Link
+                v-if="can('web.manage.homes.edit')"
+                :href="'/manage/homes/' + item.id + '/edit'"
+                class="inline-flex min-h-10 items-center justify-center gap-2 rounded-[var(--radius-md)] bg-surface-muted px-4 text-sm font-medium text-foreground transition-colors hover:bg-surface-hover active:bg-surface-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-surface motion-reduce:transition-none"
+            >
+                Edit
             </Link>
         </template>
     </DataTable>

@@ -4,7 +4,6 @@ import { computed } from 'vue'
 import DataTable from '../../../../manage/Components/DataTable.vue'
 import { BanAppeal } from '../../../../manage/Data/BanAppeal'
 import { BanAppealStatus } from '../../../../manage/Data/BanAppealStatus'
-import FilledButton from '../../../../manage/Components/FilledButton.vue'
 import Pill from '../../../../manage/Components/Pill.vue'
 import { Link } from '@inertiajs/vue3'
 import MinecraftAvatar from '../../../../manage/Components/MinecraftAvatar.vue'
@@ -57,14 +56,15 @@ const rows = computed(
         </template>
 
         <template #actions="{ item }">
-            <Link :href="'/review/ban-appeals/' + item.id">
-                <FilledButton v-if="item.status === BanAppealStatus.pending" variant="danger">
-                    <SvgIcon :svg="Icons.eye" />
-                    Review
-                </FilledButton>
-                <FilledButton v-else variant="secondary">
-                    View
-                </FilledButton>
+            <Link
+                :href="'/review/ban-appeals/' + item.id"
+                class="inline-flex min-h-10 items-center justify-center gap-2 rounded-[var(--radius-md)] px-4 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-surface motion-reduce:transition-none"
+                :class="item.status === BanAppealStatus.pending
+                    ? 'bg-danger text-danger-foreground hover:bg-danger-hover active:bg-danger-hover'
+                    : 'bg-surface-muted text-foreground hover:bg-surface-hover active:bg-surface-hover'"
+            >
+                <SvgIcon v-if="item.status === BanAppealStatus.pending" :svg="Icons.eye" aria-hidden="true" />
+                {{ item.status === BanAppealStatus.pending ? 'Review' : 'View' }}
             </Link>
         </template>
     </DataTable>

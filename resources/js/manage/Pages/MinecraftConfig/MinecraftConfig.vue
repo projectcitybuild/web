@@ -77,7 +77,7 @@ function submit() {
                         :disabled="!isValidJson"
                         @click="submit"
                     >
-                        <SvgIcon :svg="Icons.cloud-push" />
+                        <SvgIcon :svg="Icons.cloudPush" />
                         Save & Deploy
                     </FilledButton>
                 </div>
