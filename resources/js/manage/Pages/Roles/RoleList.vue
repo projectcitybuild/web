@@ -52,7 +52,7 @@ defineProps<Props>()
                     <SpinnerRow />
                 </template>
 
-                <RoleListTable :roles="roles" class="border-t border-gray-200" />
+                <RoleListTable :roles="roles" class="border-t border-border" />
             </Deferred>
         </Card>
     </section>

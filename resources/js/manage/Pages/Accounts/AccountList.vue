@@ -27,12 +27,14 @@ const form = useForm({
     username: null,
     email: null,
     activated: null,
+    hasPlayer: '',
 })
 
 const activeFilterCount = computed(() => [
     Boolean(form.username),
     Boolean(form.email),
     form.activated !== null,
+    Boolean(form.hasPlayer),
 ].filter(Boolean).length)
 
 const { can } = usePermissions()
@@ -44,6 +46,7 @@ watch(
             ...(form.username ? { username: form.username } : {}),
             ...(form.email ? { email: form.email } : {}),
             ...(form.activated != null ? { activated: form.activated } : {}),
+            ...(form.hasPlayer ? { has_player: form.hasPlayer } : {}),
         }
     },
     { deep: true, }
@@ -104,6 +107,18 @@ watch(
                                     <option :value="0">Not activated</option>
                                 </select>
                             </label>
+                            <label for="has-player" class="flex flex-col gap-1.5 text-sm font-medium text-foreground sm:col-span-2">
+                                Has player
+                                <select
+                                    id="has-player"
+                                    v-model="form.hasPlayer"
+                                    class="min-h-11 w-full rounded-lg border border-border bg-surface px-3 text-sm text-foreground focus:border-primary focus:ring-primary"
+                                >
+                                    <option value="">Any</option>
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </label>
                         </div>
                     </FilterPanel>
 
@@ -130,7 +145,7 @@ watch(
                     :query="query"
                     v-model:count="itemCount"
                     v-slot="source"
-                    class="border-t border-gray-200"
+                    class="border-t border-border"
                 >
                     <AccountListTable
                         :accounts="source.data"

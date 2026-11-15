@@ -95,7 +95,7 @@ async function refreshAlias() {
                         <h1 class="mt-4 text-2xl font-bold text-gray-900 dark:text-white">{{ player.alias }}</h1>
                         <span class="mt-2 text-sm text-gray-500">{{ player.uuid }}</span>
                     </div>
-                    <div class="p-4 border-t border-gray-200">
+                    <div class="p-4 border-t border-border">
                         <div class="space-y-4">
                             <dl class="flex items-center justify-between gap-2">
                                 <dt class="text-sm text-gray-500 dark:text-gray-400">Created At</dt>

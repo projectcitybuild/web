@@ -24,7 +24,7 @@ defineProps<Props>()
                 {{ application.denied_reason }}
             </div>
 
-            <div class="p-4 border-t border-gray-200">
+            <div class="p-4 border-t border-border">
                 <dl class="flex items-center justify-between gap-2">
                     <dt class="text-sm text-gray-500 dark:text-gray-400">Decided At</dt>
                     <dd class="text-sm text-gray-900 dark:text-white">
@@ -43,7 +43,7 @@ defineProps<Props>()
                 <h2 class="font-semibold text-white">Decision: Approved</h2>
             </div>
 
-            <div class="p-4 border-t border-gray-200">
+            <div class="p-4 border-t border-border">
                 <dl class="flex items-center justify-between gap-2">
                     <dt class="text-sm text-gray-500 dark:text-gray-400">Decided At</dt>
                     <dd class="text-sm text-gray-900 dark:text-white">

@@ -121,7 +121,7 @@ function showUnlinkDialog(playerId: number) {
                         <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ account.username }}</h1>
                         <div class="mt-2 mb-2 text-sm text-gray-500">{{ account.email }}</div>
                     </div>
-                    <div class="p-4 border-t border-gray-200">
+                    <div class="p-4 border-t border-border">
                         <div class="space-y-4">
                             <dl class="flex items-center justify-between gap-2">
                                 <dt class="text-sm text-gray-500 dark:text-gray-400">Created At</dt>

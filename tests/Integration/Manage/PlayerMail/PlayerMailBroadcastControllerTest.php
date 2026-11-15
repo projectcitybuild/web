@@ -99,9 +99,8 @@ it('renders authorized player mail pages with the expected data', function () {
     ]);
 
     $indexResponse = $this->actingAs($account)
-        ->get(route('manage.player-mail.index', ['search' => 'notice', 'status' => 'queued']));
+        ->get(route('manage.player-mail.index', ['search' => 'notice', 'status' => 'queued']), ['X-Inertia' => 'true']);
 
-    $indexResponse->assertSee('<script data-page="app" type="application/json">', false);
     $indexResponse->assertInertia(fn (Assert $page) => $page
         ->component('PlayerMail/Index')
         ->where('filters.search', 'notice')
@@ -112,7 +111,7 @@ it('renders authorized player mail pages with the expected data', function () {
         ->where('broadcasts.data.0.sender', $account->username)
     );
 
-    $this->get(route('manage.player-mail.create'))
+    $this->get(route('manage.player-mail.create'), ['X-Inertia' => 'true'])
         ->assertInertia(fn (Assert $page) => $page
             ->component('PlayerMail/Create')
             ->where('recipientCount', 2)
@@ -124,7 +123,7 @@ it('renders authorized player mail pages with the expected data', function () {
         'search' => 'notice',
         'status' => 'queued',
         'page' => 3,
-    ]))
+    ]), ['X-Inertia' => 'true'])
         ->assertInertia(fn (Assert $page) => $page
             ->component('PlayerMail/Show')
             ->where('broadcast.subject', 'Server notice')

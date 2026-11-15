@@ -98,7 +98,7 @@ function formatDate(value: string): string {
         </div>
 
         <Card>
-            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-gray-200 p-4 dark:border-gray-700">
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-border p-4">
                 <p class="text-sm text-gray-500">
                     {{ broadcasts.total }} {{ broadcasts.total === 1 ? 'announcement' : 'announcements' }}
                     <span v-if="hasFilters">matching filters</span>
@@ -150,7 +150,7 @@ function formatDate(value: string): string {
             </div>
 
             <template v-else>
-                <div class="divide-y divide-gray-200 dark:divide-gray-700 md:hidden">
+                <div class="divide-y divide-border md:hidden">
                     <Link
                         v-for="broadcast in broadcasts.data"
                         :key="broadcast.id"

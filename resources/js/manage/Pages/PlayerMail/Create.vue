@@ -90,7 +90,7 @@ function sendAnnouncement() {
 
                         <div>
                             <span class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Audience</span>
-                            <div class="border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200">
+                            <div class="border border-border bg-gray-50 px-4 py-3 text-sm text-gray-700 dark:bg-gray-800 dark:text-gray-200">
                                 All Minecraft players <span class="text-gray-500">({{ recipientCount }} currently registered)</span>
                             </div>
                         </div>

@@ -32,7 +32,7 @@ const rows = computed(
 </script>
 
 <template>
-    <DataTable :fields="fields" :rows="rows" class="border-t border-gray-200">
+    <DataTable :fields="fields" :rows="rows" class="border-t border-border">
         <template #allowed_ips="{ item }">
             <span v-if="!item.allowed_ips">*</span>
             <ul v-else>

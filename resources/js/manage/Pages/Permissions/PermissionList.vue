@@ -48,7 +48,7 @@ defineProps<Props>()
                     <SpinnerRow />
                 </template>
 
-                <PermissionListTable :permissions="permissions" class="border-t border-gray-200" />
+                <PermissionListTable :permissions="permissions" class="border-t border-border" />
             </Deferred>
         </Card>
     </section>

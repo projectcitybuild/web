@@ -34,7 +34,7 @@ const { can } = usePermissions()
 </script>
 
 <template>
-    <DataTable :fields="fields" :rows="rows" :show-index="true" class="border-t border-gray-200">
+    <DataTable :fields="fields" :rows="rows" :show-index="true" class="border-t border-border">
         <template #status="{ item }">
             <PlayerBanStatus :ban="item" />
         </template>

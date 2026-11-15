@@ -75,7 +75,7 @@ onBeforeUnmount(() => {
                         <MailPreview :subject="broadcast.subject" :body="broadcast.body" />
                     </div>
 
-                    <div class="space-y-5 border-t border-gray-200 pt-5 dark:border-gray-700 lg:border-l lg:border-t-0 lg:pl-6 lg:pt-0">
+                    <div class="space-y-5 border-t border-border pt-5 lg:border-l lg:border-t-0 lg:pl-6 lg:pt-0">
                         <div>
                             <h2 class="mb-3 text-sm font-semibold text-gray-900 dark:text-white">Delivery</h2>
                             <BroadcastProgress

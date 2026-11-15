@@ -29,12 +29,21 @@ class AccountController extends WebController
         $this->requires(WebManagePermission::ACCOUNTS_VIEW);
 
         $accounts = function () use ($request) {
+            $hasPlayer = $request->query->get('has_player');
+            $query = Account::query();
+
+            if ($hasPlayer === '1') {
+                $query->has('minecraftAccount');
+            } elseif ($hasPlayer === '0') {
+                $query->doesntHave('minecraftAccount');
+            }
+
             $pipes = [
                 new LikeFilter('username', $request->query->get('username')),
                 new LikeFilter('email', $request->query->get('email')),
                 new EqualFilter('activated', $request->query->get('activated')),
             ];
-            return Pipeline::send(Account::query())
+            return Pipeline::send($query)
                 ->through($pipes)
                 ->thenReturn()
                 ->with('minecraftAccount')

@@ -34,7 +34,7 @@ function isActive(ban: IPBan) {
 </script>
 
 <template>
-    <DataTable :fields="fields" :rows="rows" :show-index="true" class="border-t border-gray-200">
+    <DataTable :fields="fields" :rows="rows" :show-index="true" class="border-t border-border">
         <template #status="{ item }">
             <Pill :variant="isActive(item) ? 'danger' : 'default'">
                 {{ isActive(item) ? 'Active' : 'Expired' }}
