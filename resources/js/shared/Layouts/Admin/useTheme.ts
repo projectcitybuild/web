@@ -1,13 +1,17 @@
 import { computed, ref } from 'vue'
 
 type Theme = 'light' | 'dark'
+type ThemePreference = Theme | 'system'
 
-const theme = ref<Theme>('light')
+const preference = ref<ThemePreference>('system')
+const prefersDark = ref(false)
+const theme = computed<Theme>(() => preference.value === 'system'
+    ? prefersDark.value ? 'dark' : 'light'
+    : preference.value)
 let initialized = false
 
-function applyTheme(value: Theme): void {
-    theme.value = value
-    document.documentElement.classList.toggle('dark', value === 'dark')
+function applyTheme(): void {
+    document.documentElement.classList.toggle('dark', theme.value === 'dark')
 }
 
 function initializeTheme(): void {
@@ -17,13 +21,16 @@ function initializeTheme(): void {
 
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
     const storedTheme = window.localStorage.getItem('admin-theme')
-    applyTheme(storedTheme === 'light' || storedTheme === 'dark'
+    prefersDark.value = mediaQuery.matches
+    preference.value = storedTheme === 'light' || storedTheme === 'dark' || storedTheme === 'system'
         ? storedTheme
-        : mediaQuery.matches ? 'dark' : 'light')
+        : 'system'
+    applyTheme()
 
     mediaQuery.addEventListener('change', event => {
-        if (!window.localStorage.getItem('admin-theme')) {
-            applyTheme(event.matches ? 'dark' : 'light')
+        prefersDark.value = event.matches
+        if (preference.value === 'system') {
+            applyTheme()
         }
     })
 
@@ -33,19 +40,26 @@ function initializeTheme(): void {
 export default function useTheme() {
     initializeTheme()
 
-    function setTheme(value: Theme): void {
+    function setTheme(value: ThemePreference): void {
         window.localStorage.setItem('admin-theme', value)
-        applyTheme(value)
+        preference.value = value
+        applyTheme()
     }
 
-    function toggleTheme(): void {
-        setTheme(theme.value === 'dark' ? 'light' : 'dark')
+    function cycleTheme(): void {
+        const nextTheme: Record<ThemePreference, ThemePreference> = {
+            light: 'dark',
+            dark: 'system',
+            system: 'light',
+        }
+        setTheme(nextTheme[preference.value])
     }
 
     return {
         theme,
+        preference,
         isDark: computed(() => theme.value === 'dark'),
         setTheme,
-        toggleTheme,
+        cycleTheme,
     }
 }
