@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import LinkButton from '../../../../shared/Components/LinkButton.vue'
 import { Link } from '@inertiajs/vue3'
 import MinecraftAvatar from '../../../Components/MinecraftAvatar.vue'
 import { PlayerBan } from '../../../Data/PlayerBan'
@@ -46,7 +47,7 @@ const { can } = usePermissions()
                 <MinecraftAvatar :uuid="item.banned_player.uuid" :size="16"/>
                 <Link
                     :href="'/manage/players/' + item.banned_player.id"
-                    class="text-blue-500"
+                    class="text-primary"
                 >
                     {{ item.banned_player.alias ?? '-' }}
                 </Link>
@@ -54,12 +55,10 @@ const { can } = usePermissions()
         </template>
 
         <template #actions="{ item }">
-            <Link :href="'/manage/player-bans/' + item.id + '/edit'" v-if="can('web.manage.uuid_bans.edit')">
-                <OutlinedButton variant="secondary" size="sm">
-                    <SvgIcon :svg="Icons.pencil" />
-                    Edit
-                </OutlinedButton>
-            </Link>
+            <LinkButton :href="'/manage/player-bans/' + item.id + '/edit'" v-if="can('web.manage.uuid_bans.edit')" variant="outline" size="sm">
+                <SvgIcon :svg="Icons.pencil" />
+                Edit
+            </LinkButton>
         </template>
     </DataTable>
 </template>

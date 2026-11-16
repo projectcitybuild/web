@@ -23,6 +23,6 @@ const fields = [
         </template>
     </DataTable>
     <div v-else class="flex p-4">
-        <span class="text-sm text-gray-400">No badges</span>
+        <span class="text-sm text-subtle">No badges</span>
     </div>
 </template>

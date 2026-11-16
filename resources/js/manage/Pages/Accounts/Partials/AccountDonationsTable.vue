@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import LinkButton from '../../../../shared/Components/LinkButton.vue'
 import type { Donation } from '../../../Data/Donation'
 import { format } from '../../../Utilities/DateFormatter'
 import { Link } from '@inertiajs/vue3'
@@ -24,14 +25,12 @@ const fields = [
             {{ format(item.created_at) }}
         </template>
         <template #actions="{ item }">
-                <Link :href="'/manage/donations/' + item.id + '/edit'">
-                    <OutlinedButton variant="secondary" size="sm">
-                        Edit
-                    </OutlinedButton>
-                </Link>
+                <LinkButton :href="'/manage/donations/' + item.id + '/edit'" variant="outline" size="sm">
+                    Edit
+                </LinkButton>
         </template>
     </DataTable>
     <div v-else class="flex p-4">
-        <span class="text-sm text-gray-400">No donations</span>
+        <span class="text-sm text-subtle">No donations</span>
     </div>
 </template>

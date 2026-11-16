@@ -68,90 +68,90 @@ function destroy() {
 
         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
             <div class="sm:col-span-2">
-                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Player<span class="text-red-500">*</span>
+                <label for="name" class="block mb-2 text-sm font-medium text-foreground">
+                    Player<span class="text-danger">*</span>
                 </label>
                 <PlayerPicker
                     v-model:uuid="form.banned_uuid"
                     v-model:alias="form.banned_alias"
                     :initial-search="uuidParam"
                 />
-                <div v-if="form.errors.banned_uuid" class="text-xs text-red-500 font-bold mt-2">
+                <div v-if="form.errors.banned_uuid" class="text-xs text-danger font-bold mt-2">
                     {{ form.errors.banned_uuid }}
                 </div>
             </div>
             <div>
-                <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Date of Ban<span class="text-red-500">*</span>
+                <label for="category" class="block mb-2 text-sm font-medium text-foreground">
+                    Date of Ban<span class="text-danger">*</span>
                 </label>
                 <DateTimePicker
                     v-model="form.created_at"
                     @change="form.created_at = $event"
                 />
-                <div v-if="form.errors.created_at" class="text-xs text-red-500 font-bold mt-2">
+                <div v-if="form.errors.created_at" class="text-xs text-danger font-bold mt-2">
                     {{ form.errors.created_at }}
                 </div>
             </div>
             <div>
-                <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <label for="category" class="block mb-2 text-sm font-medium text-foreground">
                     Expires At
                 </label>
                 <DateTimePicker
                     v-model="form.expires_at"
                     @change="form.expires_at = $event"
                 />
-                <div v-if="form.errors.expires_at" class="text-xs text-red-500 font-bold mt-2">
+                <div v-if="form.errors.expires_at" class="text-xs text-danger font-bold mt-2">
                     {{ form.errors.expires_at }}
                 </div>
             </div>
             <div>
-                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Banned By</label>
+                <label for="name" class="block mb-2 text-sm font-medium text-foreground">Banned By</label>
                 <PlayerPicker
                     v-model:uuid="form.banner_uuid"
                     v-model:alias="form.banner_alias"
                 />
-                <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
+                <span class="block mt-2 text-xs font-medium text-subtle">
                     Leaving this empty will show it as banned by System
                 </span>
-                <div v-if="form.errors.banner_uuid" class="text-xs text-red-500 font-bold mt-2">
+                <div v-if="form.errors.banner_uuid" class="text-xs text-danger font-bold mt-2">
                     {{ form.errors.banner_uuid }}
                 </div>
             </div>
             <div class="sm:col-span-2">
-                <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Reason for Ban<span class="text-red-500">*</span>
+                <label for="description" class="block mb-2 text-sm font-medium text-foreground">
+                    Reason for Ban<span class="text-danger">*</span>
                 </label>
                 <textarea
                     v-model="form.reason"
                     id="description"
                     rows="3"
-                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
                     placeholder="eg. Repeated and intentional griefing of builds"
                 ></textarea>
-                <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
+                <span class="block mt-2 text-xs font-medium text-subtle">
                     This is the message shown to the player - keep it short and concise.<br/>
                     <strong>Do not tell them to appeal</strong>, this is already appended to the end automatically.
                 </span>
-                <div v-if="form.errors.reason" class="text-xs text-red-500 font-bold mt-2">
+                <div v-if="form.errors.reason" class="text-xs text-danger font-bold mt-2">
                     {{ form.errors.reason }}
                 </div>
             </div>
             <div class="sm:col-span-2">
-                <label for="additional_info" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <label for="additional_info" class="block mb-2 text-sm font-medium text-foreground">
                     Additional Information
                 </label>
                 <textarea
                     v-model="form.additional_info"
                     id="additional_info"
                     rows="9"
-                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
                     placeholder="eg. Smashed over 500 blocks of Notch's house in creative. Witnessed use of an auto-clicker"
                 ></textarea>
-                <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
+                <span class="block mt-2 text-xs font-medium text-subtle">
                     Optional field to record full or extra details about the offence, notes in case they appeal, etc.
                     <strong>This will only be visible to staff</strong>
                 </span>
-                <div v-if="form.errors.additional_info" class="text-xs text-red-500 font-bold mt-2">
+                <div v-if="form.errors.additional_info" class="text-xs text-danger font-bold mt-2">
                     {{ form.errors.additional_info }}
                 </div>
             </div>
@@ -162,48 +162,48 @@ function destroy() {
                 <span class="sm:col-span-2">Only fill this in to unban:</span>
 
                 <div>
-                    <label for="unbanned_at" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    <label for="unbanned_at" class="block mb-2 text-sm font-medium text-foreground">
                         Date of Unban
                     </label>
                     <DateTimePicker
                         v-model="form.unbanned_at"
                         @change="form.unbanned_at = $event"
                     />
-                    <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
+                    <span class="block mt-2 text-xs font-medium text-subtle">
                     This is just for book-keeping. If <i>any</i> date is filled here, it will be considered as unbanned
                 </span>
-                    <div v-if="form.errors.unbanned_at" class="text-xs text-red-500 font-bold mt-2">
+                    <div v-if="form.errors.unbanned_at" class="text-xs text-danger font-bold mt-2">
                         {{ form.errors.unbanned_at }}
                     </div>
                 </div>
                 <div>
-                    <label for="unban_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    <label for="unban_type" class="block mb-2 text-sm font-medium text-foreground">
                         Unban Type
                     </label>
                     <select
                         v-model="form.unban_type"
                         id="unban_type"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="bg-surface-muted border border-border-strong text-foreground text-sm rounded-lg focus:ring-focus focus:border-primary block w-full p-2.5 placeholder:text-subtle"
                     >
                         <option :value="null">Select</option>
                         <option :value="UnbanType.expired">Expired</option>
                         <option :value="UnbanType.manual">Manual</option>
                         <option :value="UnbanType.appealed">Appealed</option>
                     </select>
-                    <div v-if="form.errors.unban_type" class="text-xs text-red-500 font-bold mt-2">
+                    <div v-if="form.errors.unban_type" class="text-xs text-danger font-bold mt-2">
                         {{ form.errors.unban_type }}
                     </div>
                 </div>
 
                 <div class="sm:col-span-2">
-                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    <label for="name" class="block mb-2 text-sm font-medium text-foreground">
                         Unbanned By
                     </label>
                     <PlayerPicker
                         v-model:uuid="form.unbanner_uuid"
                         v-model:alias="form.unbanner_alias"
                     />
-                    <div v-if="form.errors.unbanner_uuid" class="text-xs text-red-500 font-bold mt-2">
+                    <div v-if="form.errors.unbanner_uuid" class="text-xs text-danger font-bold mt-2">
                         {{ form.errors.unbanner_uuid }}
                     </div>
                 </div>
@@ -233,7 +233,7 @@ function destroy() {
             </OutlinedButton>
         </div>
 
-        <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
+        <span class="block mt-2 text-xs font-medium text-subtle">
             Note: The player will be kicked with a ban message if they are currently on the server
         </span>
     </form>

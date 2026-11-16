@@ -51,28 +51,28 @@ function destroy() {
 
         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
             <div>
-                <label for="amount" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Amount in dollars (AUD)<span class="text-red-500">*</span>
+                <label for="amount" class="block mb-2 text-sm font-medium text-foreground">
+                    Amount in dollars (AUD)<span class="text-danger">*</span>
                 </label>
                 <input
                     v-model="form.amount"
                     type="number"
                     id="amount"
-                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
                 >
-                <div v-if="form.errors.amount" class="text-xs text-red-500 font-bold mt-2">
+                <div v-if="form.errors.amount" class="text-xs text-danger font-bold mt-2">
                     {{ form.errors.amount }}
                 </div>
             </div>
             <div>
-                <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Date<span class="text-red-500">*</span>
+                <label for="category" class="block mb-2 text-sm font-medium text-foreground">
+                    Date<span class="text-danger">*</span>
                 </label>
                 <DateTimePicker
                     v-model="form.created_at"
                     @change="form.created_at = $event"
                 />
-                <div v-if="form.errors.created_at" class="text-xs text-red-500 font-bold mt-2">
+                <div v-if="form.errors.created_at" class="text-xs text-danger font-bold mt-2">
                     {{ form.errors.created_at }}
                 </div>
             </div>

@@ -34,7 +34,7 @@ function submit() {
 </script>
 
 <template>
-    <ManageFormPage title="Manage Account Badges" description="Choose which badges are assigned to this account." :framed="false">
+    <ManageFormPage title="Account Badges" description="Choose the badges assigned to this account." :breadcrumbs="[{ label: 'Manage', href: '/manage' }, { label: 'Accounts', href: '/manage/accounts' }, { label: 'Account #' + props.account_id, href: '/manage/accounts/' + props.account_id }, { label: 'Badges' }]" :framed="false">
         <template #actions>
             <FilledButton
                 variant="primary"
@@ -46,7 +46,7 @@ function submit() {
         </template>
 
         <section class="mt-4">
-            <Card>
+            <Card padding="none">
             <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4"/>
 
             <DataTable :fields="fields" :rows="badges">
@@ -56,7 +56,7 @@ function submit() {
                             :value="item.id"
                             :id="item.id"
                             type="checkbox"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            class="w-4 h-4 text-primary bg-surface-muted border-border-strong rounded focus:ring-focus ring-offset-surface focus:ring-2"
                         >
                 </template>
                 <template #list_hidden="{ item }">

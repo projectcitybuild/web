@@ -1,19 +1,20 @@
 <script setup lang="ts">
-import { Deferred, Head, Link } from '@inertiajs/vue3'
+import { Deferred, Head } from '@inertiajs/vue3'
 import PermissionListTable from './Partials/PermissionListTable.vue'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
-import Card from '../../Components/Card.vue'
-import FilledButton from '../../Components/FilledButton.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
 import SpinnerRow from '../../Components/SpinnerRow.vue'
 import usePermissions from '../../Composables/usePermissions'
 import { Icons } from '../../Icons'
-import { Permission } from '../../Data/Permission'
+import type { Permission } from '../../Data/Permission'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
+import ManageBreadcrumbs from '../../Components/ManageBreadcrumbs.vue'
+import ListPage from '../../Components/ListPage.vue'
+import LinkButton from '../../../shared/Components/LinkButton.vue'
 
 interface Props {
     success?: string,
-    permissions: Permission[],
+    permissions?: Permission[],
 }
 
 const { can } = usePermissions()
@@ -24,35 +25,35 @@ defineProps<Props>()
 <template>
     <Head title="Manage Permissions"/>
 
-    <PageHeader title="Permissions" class="mb-4" />
+    <div class="space-y-6">
+    <PageHeader title="Permissions" description="Review the permissions available to application roles.">
+        <template #breadcrumbs>
+            <ManageBreadcrumbs :items="[{ label: 'Manage', href: '/manage' }, { label: 'Permissions' }]" />
+        </template>
+        <template #actions>
+            <LinkButton
+                v-if="can('web.manage.permissions.edit')"
+                href="/manage/permissions/create"
+                variant="primary"
+            >
+                <SvgIcon :svg="Icons.plus" aria-hidden="true" />
+                Create Permission
+            </LinkButton>
+        </template>
+    </PageHeader>
 
     <section>
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
-        <Card>
-            <div class="flex flex-row items-center justify-between py-4">
-                <div></div>
-                <div>
-                    <Link
-                        href="/manage/permissions/create"
-                        as="button"
-                        v-if="can('web.manage.permissions.edit')"
-                    >
-                        <FilledButton variant="primary">
-                            <SvgIcon :svg="Icons.plus" />
-                            Create Permission
-                        </FilledButton>
-                    </Link>
-                </div>
-            </div>
-
+        <ListPage :count="permissions?.length" count-label="permissions">
             <Deferred data="permissions">
                 <template #fallback>
                     <SpinnerRow />
                 </template>
 
-                <PermissionListTable :permissions="permissions" class="border-t border-border" />
+                <PermissionListTable :permissions="permissions ?? []" />
             </Deferred>
-        </Card>
+        </ListPage>
     </section>
+    </div>
 </template>

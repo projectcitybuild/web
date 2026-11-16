@@ -36,60 +36,60 @@ function submit() {
 
         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
             <div>
-                <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Email Address<span class="text-red-500">*</span>
+                <label for="username" class="block mb-2 text-sm font-medium text-foreground">
+                    Email Address<span class="text-danger">*</span>
                 </label>
                 <input
                     v-model="form.email"
                     id="email"
                     type="email"
-                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
                 >
-                <div v-if="form.errors.email" class="text-xs text-red-500 font-bold mt-2">
+                <div v-if="form.errors.email" class="text-xs text-danger font-bold mt-2">
                     {{ form.errors.email }}
                 </div>
             </div>
             <div>
-                <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Username<span class="text-red-500">*</span>
+                <label for="username" class="block mb-2 text-sm font-medium text-foreground">
+                    Username<span class="text-danger">*</span>
                 </label>
                 <input
                     v-model="form.username"
                     id="username"
-                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
                 >
-                <div v-if="form.errors.username" class="text-xs text-red-500 font-bold mt-2">
+                <div v-if="form.errors.username" class="text-xs text-danger font-bold mt-2">
                     {{ form.errors.username }}
                 </div>
             </div>
             <div>
-                <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Password<span v-if="!isEdit" class="text-red-500">*</span>
+                <label for="password" class="block mb-2 text-sm font-medium text-foreground">
+                    Password<span v-if="!isEdit" class="text-danger">*</span>
                 </label>
                 <input
                     v-model="form.password"
                     id="password"
                     type="password"
-                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
                 >
-                <div v-if="form.errors.password" class="text-xs text-red-500 font-bold mt-2">
+                <div v-if="form.errors.password" class="text-xs text-danger font-bold mt-2">
                     {{ form.errors.password }}
                 </div>
             </div>
             <div>
-                <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Created At<span class="text-red-500">*</span>
+                <label for="category" class="block mb-2 text-sm font-medium text-foreground">
+                    Created At<span class="text-danger">*</span>
                 </label>
                 <DateTimePicker
                     v-model="form.created_at"
                     @change="form.created_at = $event"
                 />
-                <div v-if="form.errors.created_at" class="text-xs text-red-500 font-bold mt-2">
+                <div v-if="form.errors.created_at" class="text-xs text-danger font-bold mt-2">
                     {{ form.errors.created_at }}
                 </div>
             </div>
 
-            <span v-if="!isEdit" class="text-gray-500 text-sm sm:col-span-2">
+            <span v-if="!isEdit" class="text-muted text-sm sm:col-span-2">
                 Note: This will create an <strong>unactivated</strong> account.<br /><br />
                 You will need to either force activate their account or send them their activation email afterwards.
             </span>

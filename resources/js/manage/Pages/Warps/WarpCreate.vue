@@ -10,7 +10,7 @@ function submit(form: InertiaForm<Warp>) {
 </script>
 
 <template>
-    <ManageFormPage title="Create a Warp" description="Register a location players can freely teleport to">
+    <ManageFormPage title="Create Warp" description="Register a location that Minecraft players can teleport to." :breadcrumbs="[{ label: 'Manage', href: '/manage' }, { label: 'Minecraft' }, { label: 'Warps', href: '/manage/minecraft/warps' }, { label: 'Create' }]">
         <WarpForm :submit="submit" />
     </ManageFormPage>
 </template>

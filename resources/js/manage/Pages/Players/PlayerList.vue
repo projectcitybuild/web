@@ -13,9 +13,11 @@ import { computed, ref, watch } from 'vue'
 import { Icons } from '../../Icons'
 import usePermissions from '../../Composables/usePermissions'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
+import LinkButton from '../../../shared/Components/LinkButton.vue'
 import Input from '../../../shared/Components/Input.vue'
 import FilterPanel from '../../Components/FilterPanel.vue'
 import ShowingCount from '../../Components/ShowingCount.vue'
+import ManageBreadcrumbs from '../../Components/ManageBreadcrumbs.vue'
 
 interface Props {
     success?: string,
@@ -50,12 +52,23 @@ watch(
 <template>
     <Head title="Manage Players" />
 
-    <PageHeader title="Players" class="mb-4" />
+    <div class="space-y-6">
+        <PageHeader title="Players" description="Browse and manage Minecraft players.">
+            <template #breadcrumbs>
+                <ManageBreadcrumbs :items="[{ label: 'Manage', href: '/manage' }, { label: 'Minecraft' }, { label: 'Players' }]" />
+            </template>
+            <template #actions>
+                <LinkButton v-if="can('web.manage.players.edit')" href="/manage/players/create" variant="primary">
+                    <SvgIcon :svg="Icons.plus" />
+                    Create Player
+                </LinkButton>
+            </template>
+        </PageHeader>
 
     <section>
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
-        <Card>
+        <Card padding="none">
             <div class="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                     <ShowingCount
@@ -80,12 +93,6 @@ watch(
                         </div>
                     </FilterPanel>
 
-                    <Link href="/manage/players/create" v-if="can('web.manage.players.edit')">
-                        <FilledButton variant="primary">
-                            <SvgIcon :svg="Icons.plus" />
-                            Create Player
-                        </FilledButton>
-                    </Link>
                 </div>
             </div>
 
@@ -108,4 +115,5 @@ watch(
             </Deferred>
         </Card>
     </section>
+    </div>
 </template>

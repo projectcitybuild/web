@@ -5,6 +5,8 @@ import Card from '../../Components/Card.vue'
 import BroadcastProgress from './Components/BroadcastProgress.vue'
 import BroadcastStatus from './Components/BroadcastStatus.vue'
 import MailPreview from './Components/MailPreview.vue'
+import PageHeader from '../../../shared/Components/PageHeader.vue'
+import ManageBreadcrumbs from '../../Components/ManageBreadcrumbs.vue'
 
 interface Broadcast {
     id: number,
@@ -55,14 +57,21 @@ onBeforeUnmount(() => {
 <template>
     <Head :title="`Player Mail: ${broadcast.subject}`" />
 
+    <div class="space-y-6">
+        <PageHeader :title="broadcast.subject" description="Review the delivery status and details of this player-mail announcement.">
+            <template #breadcrumbs>
+                <ManageBreadcrumbs :items="[{ label: 'Manage', href: '/manage' }, { label: 'Minecraft' }, { label: 'Mail', href: backUrl }, { label: broadcast.subject }]" />
+            </template>
+        </PageHeader>
+
     <section>
-        <Card>
+        <Card padding="none">
             <div class="space-y-6 p-5 sm:p-8">
 
                 <header class="flex flex-wrap items-start justify-between gap-4">
                     <div class="min-w-0">
                         <p class="text-sm text-muted">Broadcast #{{ broadcast.id }}</p>
-                        <h1 class="mt-1 break-words text-2xl font-semibold text-foreground">{{ broadcast.subject }}</h1>
+                        <h2 class="mt-1 break-words text-xl font-semibold text-foreground">Announcement details</h2>
                     </div>
                     <BroadcastStatus :status="broadcast.status" />
                 </header>
@@ -101,7 +110,7 @@ onBeforeUnmount(() => {
                             </div>
                         </dl>
 
-                        <p v-if="broadcast.status === 'failed'" class="border-l-4 border-red-500 bg-red-50 px-3 py-2 text-sm text-red-800 dark:bg-red-950 dark:text-red-200">
+                        <p v-if="broadcast.status === 'failed'" class="border-l-4 border-danger bg-danger-soft px-3 py-2 text-sm text-danger dark:text-danger">
                             This broadcast failed. Retrying is not currently supported.
                         </p>
                         <p v-else-if="broadcast.status === 'queued' || broadcast.status === 'processing'" class="text-xs text-muted" role="status">
@@ -112,4 +121,5 @@ onBeforeUnmount(() => {
             </div>
         </Card>
     </section>
+    </div>
 </template>

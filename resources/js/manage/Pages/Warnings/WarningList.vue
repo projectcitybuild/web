@@ -14,6 +14,8 @@ import { Icons } from '../../Icons'
 import usePermissions from '../../Composables/usePermissions'
 import ShowingCount from '../../Components/ShowingCount.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
+import LinkButton from '../../../shared/Components/LinkButton.vue'
+import ManageBreadcrumbs from '../../Components/ManageBreadcrumbs.vue'
 
 interface Props {
     success?: string,
@@ -29,12 +31,23 @@ const { can } = usePermissions()
 <template>
     <Head title="Manage Warnings"/>
 
-    <PageHeader title="Warnings" class="mb-4" />
+    <div class="space-y-6">
+    <PageHeader title="Warnings" description="Review player warnings and recorded infractions.">
+        <template #breadcrumbs>
+            <ManageBreadcrumbs :items="[{ label: 'Manage', href: '/manage' }, { label: 'Moderation' }, { label: 'Warnings' }]" />
+        </template>
+        <template #actions>
+            <LinkButton v-if="can('web.manage.warnings.edit')" href="/manage/warnings/create" variant="primary">
+                <SvgIcon :svg="Icons.plus" />
+                Create Warning
+            </LinkButton>
+        </template>
+    </PageHeader>
 
     <section>
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
-        <Card>
+        <Card padding="none">
             <div class="flex flex-row items-center justify-between py-4">
                 <div>
                     <ShowingCount
@@ -42,16 +55,10 @@ const { can } = usePermissions()
                         :from="itemCount > 0 ? 1 : 0"
                         :to="itemCount"
                         :total="warnings.total"
-                        class="text-sm text-gray-500"
+                        class="text-sm text-muted"
                     />
                 </div>
                 <div>
-                    <Link href="/manage/warnings/create" v-if="can('web.manage.warnings.edit')">
-                        <FilledButton variant="primary">
-                            <SvgIcon :svg="Icons.plus" />
-                            Create Warning
-                        </FilledButton>
-                    </Link>
                 </div>
             </div>
 
@@ -70,4 +77,5 @@ const { can } = usePermissions()
             </Deferred>
         </Card>
     </section>
+    </div>
 </template>

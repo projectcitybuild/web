@@ -2,11 +2,11 @@
 import { Link } from '@inertiajs/vue3'
 import { Role } from '../../../Data/Role'
 import BooleanCheck from '../../../Components/BooleanCheck.vue'
-import OutlinedButton from '../../../Components/OutlinedButton.vue'
 import SvgIcon from '../../../Components/SvgIcon.vue'
 import { Icons } from '../../../Icons'
 import DataTable from '../../../Components/DataTable.vue'
 import usePermissions from '../../../Composables/usePermissions'
+import LinkButton from '../../../../shared/Components/LinkButton.vue'
 
 interface Props {
     roles: Role[],
@@ -34,7 +34,7 @@ const fields = [
         <template #accounts_count="{ item }">
             <Link
                 :href="'/manage/roles/' + item.id + '/accounts'"
-                class="text-blue-500 underline"
+                class="text-primary underline"
             >
                 {{ item.accounts_count }}
             </Link>
@@ -44,7 +44,7 @@ const fields = [
             <a
                 :href="'/manage/roles/' + item.id + '/permissions'"
                 v-if="can('web.manage.permissions.assign')"
-                class="text-blue-500 underline"
+                class="text-primary underline"
             >
                 {{ item.permissions_count }}
             </a>
@@ -60,12 +60,14 @@ const fields = [
         </template>
 
         <template #actions="{ item }" v-if="can('web.manage.roles.edit')">
-            <Link :href="'/manage/roles/' + item.id + '/edit'">
-                <OutlinedButton variant="secondary" size="sm">
-                    <SvgIcon :svg="Icons.pencil" />
-                    Edit
-                </OutlinedButton>
-            </Link>
+            <LinkButton
+                variant="outline"
+                size="sm"
+                :href="'/manage/roles/' + item.id + '/edit'"
+            >
+                <SvgIcon :svg="Icons.pencil" aria-hidden="true" />
+                Edit
+            </LinkButton>
         </template>
     </DataTable>
 </template>

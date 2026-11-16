@@ -16,7 +16,7 @@ function submit(form: InertiaForm<ServerToken>) {
 </script>
 
 <template>
-    <ManageFormPage title="Edit a Server Token" description="Creates an authorization token that grants access to the PCB API. For use with first-party applications only">
+    <ManageFormPage title="Edit Server Token" description="Update this API credential's name and access settings." :breadcrumbs="[{ label: 'Manage', href: '/manage' }, { label: 'Servers', href: '/manage/servers' }, { label: 'Tokens', href: '/manage/server-tokens' }, { label: 'Edit' }]">
         <ServerTokenForm :token="props.token" :submit="submit" />
     </ManageFormPage>
 </template>

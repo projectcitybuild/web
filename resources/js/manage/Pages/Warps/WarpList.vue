@@ -14,6 +14,8 @@ import { Icons } from '../../Icons'
 import usePermissions from '../../Composables/usePermissions'
 import ShowingCount from '../../Components/ShowingCount.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
+import LinkButton from '../../../shared/Components/LinkButton.vue'
+import ManageBreadcrumbs from '../../Components/ManageBreadcrumbs.vue'
 
 interface Props {
     success?: string,
@@ -29,12 +31,23 @@ const { can } = usePermissions()
 <template>
     <Head title="Manage Warps"/>
 
-    <PageHeader title="Warps" class="mb-4" />
+    <div class="space-y-6">
+    <PageHeader title="Warps" description="Manage teleport locations available to Minecraft players.">
+        <template #breadcrumbs>
+            <ManageBreadcrumbs :items="[{ label: 'Manage', href: '/manage' }, { label: 'Minecraft' }, { label: 'Warps' }]" />
+        </template>
+        <template #actions>
+            <LinkButton v-if="can('web.manage.warps.edit')" href="/manage/minecraft/warps/create" variant="primary">
+                <SvgIcon :svg="Icons.plus" />
+                Create Warp
+            </LinkButton>
+        </template>
+    </PageHeader>
 
     <section>
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
-        <Card>
+        <Card padding="none">
             <div class="flex flex-row items-center justify-between py-4">
                 <div>
                     <ShowingCount
@@ -42,17 +55,11 @@ const { can } = usePermissions()
                         :from="itemCount > 0 ? 1 : 0"
                         :to="itemCount"
                         :total="warps.total"
-                        class="text-sm text-gray-500"
+                        class="text-sm text-muted"
                     />
                 </div>
 
                 <div>
-                    <Link href="/manage/minecraft/warps/create" v-if="can('web.manage.warps.edit')">
-                        <FilledButton variant="primary">
-                            <SvgIcon :svg="Icons.plus" />
-                            Create Warp
-                        </FilledButton>
-                    </Link>
                 </div>
             </div>
 
@@ -71,4 +78,5 @@ const { can } = usePermissions()
             </Deferred>
         </Card>
     </section>
+    </div>
 </template>

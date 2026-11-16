@@ -9,5 +9,5 @@ defineProps({
 
 <template>
     <SvgIcon v-if="value" :svg="Icons.check" class="size-4" />
-    <SvgIcon v-else :svg="Icons.close" class="size-4 text-gray-300" />
+    <SvgIcon v-else :svg="Icons.close" class="size-4 text-subtle" />
 </template>

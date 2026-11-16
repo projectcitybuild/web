@@ -20,7 +20,7 @@ const fields = [
         <template #username="{ item }">
             <Link
                 :href="'/manage/accounts/' + item.account_id"
-                class="text-blue-500 font-bold"
+                class="text-primary font-bold"
             >
                 {{ item.username }}
             </Link>

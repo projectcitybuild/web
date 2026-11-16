@@ -10,7 +10,7 @@ function submit(form: InertiaForm<Player>) {
 </script>
 
 <template>
-    <ManageFormPage title="Create a Player" description="A Minecraft UUID that has connected to our server before">
+    <ManageFormPage title="Create Player" description="Register a Minecraft UUID that has connected to the server." :breadcrumbs="[{ label: 'Manage', href: '/manage' }, { label: 'Minecraft' }, { label: 'Players', href: '/manage/players' }, { label: 'Create' }]">
         <PlayerForm :submit="submit" />
     </ManageFormPage>
 </template>

@@ -16,7 +16,7 @@ const filteredMenu = computed(() =>
 </script>
 
 <template>
-    <ul class="space-y-1.5">
+    <ul class="space-y-1.5 mt-4">
         <li>
             <AdminNavLink href="/manage" label="Dashboard">
                 <template #icon>

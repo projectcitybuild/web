@@ -10,7 +10,7 @@ function submit(form: InertiaForm<Account>) {
 </script>
 
 <template>
-    <ManageFormPage title="Create an Account" description="Web account that can log in">
+    <ManageFormPage title="Create Account" description="Create a website account that can sign in to Project City Build." :breadcrumbs="[{ label: 'Manage', href: '/manage' }, { label: 'Accounts', href: '/manage/accounts' }, { label: 'Create' }]">
         <AccountForm :submit="submit" />
     </ManageFormPage>
 </template>

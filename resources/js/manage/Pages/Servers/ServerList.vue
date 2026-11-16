@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3'
+import { Head } from '@inertiajs/vue3'
 import ServerListTable from './Partials/ServerListTable.vue'
 import type { Server } from '../../Data/Server'
-import Card from '../../Components/Card.vue'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
-import FilledButton from '../../Components/FilledButton.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
 import { Icons } from '../../Icons'
 import usePermissions from '../../Composables/usePermissions'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
+import ManageBreadcrumbs from '../../Components/ManageBreadcrumbs.vue'
+import ListPage from '../../Components/ListPage.vue'
+import LinkButton from '../../../shared/Components/LinkButton.vue'
 
 interface Props {
     servers: Server[],
@@ -23,22 +24,28 @@ const { can } = usePermissions()
 <template>
     <Head title="Manage Servers"/>
 
-    <PageHeader title="Servers" class="mb-4" />
-
-    <SuccessAlert v-if="success" :message="success" class="mb-4"/>
+    <div class="space-y-6">
+    <PageHeader title="Servers" description="Manage registered Minecraft servers and their integrations.">
+        <template #breadcrumbs>
+            <ManageBreadcrumbs :items="[{ label: 'Manage', href: '/manage' }, { label: 'Servers' }]" />
+        </template>
+        <template #actions>
+            <LinkButton
+                v-if="can('web.manage.servers.edit')"
+                href="/manage/servers/create"
+                variant="primary"
+            >
+                <SvgIcon :svg="Icons.plus" aria-hidden="true" />
+                Create Server
+            </LinkButton>
+        </template>
+    </PageHeader>
 
     <section>
-        <Card>
-            <div class="flex justify-end space-y-3 md:space-y-0 md:space-x-4 p-4">
-                <Link href="/manage/servers/create" v-if="can('web.manage.servers.edit')">
-                    <FilledButton variant="primary">
-                        <SvgIcon :svg="Icons.plus" />
-                        Create Server
-                    </FilledButton>
-                </Link>
-            </div>
-
+        <SuccessAlert v-if="success" :message="success" class="mb-4"/>
+        <ListPage :count="props.servers.length" count-label="servers">
             <ServerListTable :servers="props.servers"/>
-        </Card>
+        </ListPage>
     </section>
+    </div>
 </template>

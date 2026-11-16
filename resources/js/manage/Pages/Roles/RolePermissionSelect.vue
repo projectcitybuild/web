@@ -37,7 +37,7 @@ function deselectAll() {
 </script>
 
 <template>
-    <ManageFormPage title="Manage Role Permissions" description="Choose the permissions granted by this role." :framed="false">
+    <ManageFormPage title="Role Permissions" description="Choose the permissions granted by this role." :breadcrumbs="[{ label: 'Manage', href: '/manage' }, { label: 'Roles', href: '/manage/roles' }, { label: 'Role #' + props.role_id }, { label: 'Permissions' }]" :framed="false">
         <template #actions>
             <FilledButton variant="primary" @click="submit" :disabled="form.processing">
                 Update
@@ -48,8 +48,8 @@ function deselectAll() {
 
         <div class="flex flex-col md:flex-row gap-2 mt-4">
             <section class="md:max-w-80">
-                <Card class="p-4">
-                    <span class="text-sm text-gray-500">
+                <Card padding="md">
+                    <span class="text-sm text-muted">
                         Note: Roles do not inherit permissions of other roles
                     </span>
                 </Card>
@@ -64,7 +64,7 @@ function deselectAll() {
             </section>
 
             <section class="grow">
-                <Card>
+                <Card padding="none">
                     <Table>
                         <template #header>
                             <TableRow :hoverable="false">
@@ -79,7 +79,7 @@ function deselectAll() {
                                     :value="permission.id"
                                     :id="permission.id"
                                     type="checkbox"
-                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                    class="w-4 h-4 text-primary bg-surface-muted border-border-strong rounded focus:ring-focus ring-offset-surface focus:ring-2"
                                 >
                             </TableCell>
                             <TableCell>{{ permission.name }}</TableCell>

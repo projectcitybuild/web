@@ -19,9 +19,20 @@ const props = defineProps<{
 
 const page = usePage()
 const { currentArea } = useAdminNavigation()
+
 const pageTitle = inject<Ref<string>>('adminPageTitle', ref(''))
-const area = computed(() => adminAreas.find(item => item.id === currentArea.value) ?? null)
-const breadcrumbs = computed(() => buildAdminBreadcrumbs(page.url, area.value, props.navigation, pageTitle.value))
+
+const area = computed(
+    () => adminAreas.find(item => item.id === currentArea.value) ?? null
+)
+const breadcrumbs = computed(
+    () => buildAdminBreadcrumbs(
+        page.url,
+        area.value,
+        props.navigation,
+        pageTitle.value
+    )
+)
 </script>
 
 <template>

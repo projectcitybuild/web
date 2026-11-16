@@ -8,11 +8,10 @@ import AccountPlayersTable from './Partials/AccountPlayersTable.vue'
 import Pill from '../../Components/Pill.vue'
 import AccountBadgesTable from './Partials/AccountBadgesTable.vue'
 import AccountRolesTable from './Partials/AccountRolesTable.vue'
-import ToolBar from '../../Components/ToolBar.vue'
 import FilledButton from '../../Components/FilledButton.vue'
 import OutlinedButton from '../../Components/OutlinedButton.vue'
 import ConfirmDialog from '../../Components/ConfirmDialog.vue'
-import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
 import AccountActivationsTable from './Partials/AccountActivationsTable.vue'
 import AccountDonationsTable from './Partials/AccountDonationsTable.vue'
@@ -21,6 +20,11 @@ import AccountBanAppealsTable from './Partials/AccountBanAppealsTable.vue'
 import AccountBuilderRankApplicationsTable from './Partials/AccountBuilderRankApplicationsTable.vue'
 import { Icons } from '../../Icons'
 import usePermissions from '../../Composables/usePermissions'
+import Tabs from '../../Components/Tabs.vue'
+import TabPanel from '../../Components/TabPanel.vue'
+import PageHeader from '../../../shared/Components/PageHeader.vue'
+import ManageBreadcrumbs from '../../Components/ManageBreadcrumbs.vue'
+import LinkButton from '../../../shared/Components/LinkButton.vue'
 
 interface Props {
     account: Account,
@@ -39,11 +43,7 @@ const tabs = [
     { id: 'applications', label: 'Applications' },
     { id: 'contributions', label: 'Contributions' },
 ] as const
-const activeTab = ref<(typeof tabs)[number]['id']>('linked')
-const tabNav = ref<HTMLElement>()
-const tabButtons = ref<HTMLButtonElement[]>([])
-const tabIndicatorStyle = ref({ width: '0px', transform: 'translateX(0px)' })
-let tabResizeObserver: ResizeObserver | undefined
+const activeTab = ref('linked')
 
 const { can } = usePermissions()
 
@@ -54,36 +54,6 @@ const initials = computed(() => props.account.username
     .map((part) => part.charAt(0))
     .join('')
     .toUpperCase())
-
-function updateTabIndicator() {
-    const activeTabIndex = tabs.findIndex((tab) => tab.id === activeTab.value)
-    const activeButton = tabButtons.value[activeTabIndex]
-
-    if (!activeButton) {
-        return
-    }
-
-    tabIndicatorStyle.value = {
-        width: activeButton.offsetWidth + 'px',
-        transform: 'translateX(' + activeButton.offsetLeft + 'px)',
-    }
-}
-
-watch(activeTab, () => {
-    void nextTick(updateTabIndicator)
-})
-
-onMounted(() => {
-    void nextTick(updateTabIndicator)
-
-    if (tabNav.value) {
-        tabResizeObserver = new ResizeObserver(updateTabIndicator)
-        tabResizeObserver.observe(tabNav.value)
-        tabButtons.value.forEach((button) => tabResizeObserver?.observe(button))
-    }
-})
-
-onBeforeUnmount(() => tabResizeObserver?.disconnect())
 
 function forceActivate() {
     activateModal.value?.close()
@@ -144,39 +114,37 @@ function showUnlinkDialog(playerId: number) {
             :on-confirm="unlinkPlayer"
         />
 
+        <PageHeader :title="account.username" description="Review account access, security, linked game data, and contributions.">
+            <template #breadcrumbs>
+                <ManageBreadcrumbs :items="[{ label: 'Manage', href: '/manage' }, { label: 'Accounts', href: '/manage/accounts' }, { label: account.username }]" />
+            </template>
+            <template #actions v-if="can('web.manage.accounts.edit')">
+                <LinkButton :href="'/manage/accounts/' + account.id + '/edit'" variant="outline">
+                    <SvgIcon :svg="Icons.pencil" class="size-4" aria-hidden="true" />
+                    Edit Account
+                </LinkButton>
+            </template>
+        </PageHeader>
+
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
-        <ToolBar>
-            <template v-slot:left>
-                    <h1 class="text-2xl font-semibold text-foreground">Account details</h1>
-            </template>
-            <template v-slot:right v-if="can('web.manage.accounts.edit')">
-                <Link :href="'/manage/accounts/' + account.id + '/edit'">
-                    <OutlinedButton variant="primary">
-                        <SvgIcon :svg="Icons.pencil" class="size-4" aria-hidden="true" />
-                        Edit Account
-                    </OutlinedButton>
-                </Link>
-            </template>
-        </ToolBar>
-
-        <Card class="mt-4">
+        <Card padding="none" class="mt-4">
             <div class="flex flex-col gap-5 p-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
                 <div class="flex min-w-0 items-center gap-4">
-                    <div class="flex size-14 shrink-0 items-center justify-center rounded-full bg-blue-100 text-lg font-semibold text-blue-800 dark:bg-blue-900/50 dark:text-blue-200">
+                    <div class="flex size-14 shrink-0 items-center justify-center rounded-full bg-info-soft text-lg font-semibold text-info dark:text-info">
                         {{ initials }}
                     </div>
                     <div class="min-w-0">
                         <h2 class="truncate text-xl font-semibold text-foreground">
                             {{ account.username }} <span class="font-normal text-muted">(#{{ account.id }})</span>
                         </h2>
-                        <p class="mt-1 truncate text-sm text-gray-500 dark:text-gray-400">{{ account.email }}</p>
+                        <p class="mt-1 truncate text-sm text-muted dark:text-subtle">{{ account.email }}</p>
                         <div v-if="account.roles?.length" class="mt-2 flex flex-wrap gap-1.5">
                             <Pill v-for="role in account.roles" :key="role.id" variant="info" class="text-xs font-medium">
                                 {{ role.name }}
                             </Pill>
                         </div>
-                        <p v-else class="mt-2 text-xs text-gray-500 dark:text-gray-400">No roles assigned</p>
+                        <p v-else class="mt-2 text-xs text-muted dark:text-subtle">No roles assigned</p>
                     </div>
                 </div>
                 <div class="flex flex-wrap gap-2 sm:justify-end">
@@ -209,42 +177,19 @@ function showUnlinkDialog(playerId: number) {
             </div>
         </Card>
 
-        <div class="mt-5 border-b border-border">
-            <nav ref="tabNav" class="relative flex gap-6 overflow-x-auto" role="tablist" aria-label="Account sections">
-                <button
-                    v-for="tab in tabs"
-                    :key="tab.id"
-                    ref="tabButtons"
-                    type="button"
-                    role="tab"
-                    class="shrink-0 border-b-2 border-transparent px-1 pb-3 text-sm font-medium transition-colors"
-                    :class="activeTab === tab.id ? 'text-primary-700 dark:text-primary-400' : 'text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'"
-                    :aria-selected="activeTab === tab.id"
-                    :aria-controls="'account-panel-' + tab.id"
-                    :id="'account-tab-' + tab.id"
-                    @click="activeTab = tab.id"
-                >
-                    {{ tab.label }}
-                </button>
-                <span
-                    aria-hidden="true"
-                    class="pointer-events-none absolute bottom-0 left-0 h-0.5 bg-primary-600 transition-[width,transform] duration-300 ease-in-out dark:bg-primary-400"
-                    :style="tabIndicatorStyle"
-                />
-            </nav>
-        </div>
+        <Tabs v-model="activeTab" :tabs="tabs" id-prefix="account" aria-label="Account sections" class="mt-5" />
 
-        <div v-if="activeTab === 'security'" id="account-panel-security" role="tabpanel" aria-labelledby="account-tab-security" class="mt-4 grid grid-cols-1 gap-4 xl:grid-cols-2">
-            <Card>
+        <TabPanel tab-id="security" id-prefix="account" :active-tab="activeTab" class="mt-4 grid grid-cols-1 gap-4 xl:grid-cols-2">
+            <Card padding="none">
                 <div class="border-b border-border p-4">
                     <h2 class="text-base font-semibold text-foreground">Access and security</h2>
-                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Verification and sign-in protection</p>
+                    <p class="mt-1 text-sm text-muted dark:text-subtle">Verification and sign-in protection</p>
                 </div>
                 <div class="space-y-4 p-4">
                     <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <div>
-                            <p class="text-sm font-medium text-gray-900 dark:text-white">Email verification</p>
-                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ account.activated ? 'This account can sign in.' : 'This account has not verified its email.' }}</p>
+                            <p class="text-sm font-medium text-foreground">Email verification</p>
+                            <p class="mt-1 text-sm text-muted dark:text-subtle">{{ account.activated ? 'This account can sign in.' : 'This account has not verified its email.' }}</p>
                         </div>
                         <div v-if="can('web.manage.accounts.edit')" class="flex flex-wrap gap-2">
                             <template v-if="!account.activated">
@@ -260,8 +205,8 @@ function showUnlinkDialog(playerId: number) {
                     <hr />
                     <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <div>
-                            <p class="text-sm font-medium text-gray-900 dark:text-white">Two-factor authentication</p>
-                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ account.is_totp_enabled ? 'An authenticator is configured.' : 'No authenticator is configured.' }}</p>
+                            <p class="text-sm font-medium text-foreground">Two-factor authentication</p>
+                            <p class="mt-1 text-sm text-muted dark:text-subtle">{{ account.is_totp_enabled ? 'An authenticator is configured.' : 'No authenticator is configured.' }}</p>
                         </div>
                         <OutlinedButton v-if="account.is_totp_enabled && can('web.manage.accounts.edit')" variant="danger" @click="disableMfaModal?.open()">
                             <SvgIcon :svg="Icons.unlock" />
@@ -271,7 +216,7 @@ function showUnlinkDialog(playerId: number) {
                 </div>
             </Card>
 
-            <Card v-if="can('web.manage.accounts.view_email')" class="xl:col-span-2">
+            <Card padding="none" v-if="can('web.manage.accounts.view_email')" class="xl:col-span-2">
                 <div class="border-b border-border p-4">
                     <h2 class="text-base font-semibold text-foreground">Pending email changes</h2>
                 </div>
@@ -280,85 +225,77 @@ function showUnlinkDialog(playerId: number) {
                 </div>
             </Card>
 
-            <Card>
+            <Card padding="none">
                 <div class="border-b border-border p-4">
                     <h2 class="text-base font-semibold text-foreground">Pending activations</h2>
                 </div>
                 <div class="overflow-x-auto"><AccountActivationsTable :activations="account.activations ?? []" /></div>
             </Card>
-        </div>
+        </TabPanel>
 
-        <div v-else-if="activeTab === 'linked'" id="account-panel-linked" role="tabpanel" aria-labelledby="account-tab-linked" class="mt-4 grid grid-cols-1 gap-4 xl:grid-cols-2">
-            <Card class="xl:col-span-2">
+        <TabPanel tab-id="linked" id-prefix="account" :active-tab="activeTab" class="mt-4 grid grid-cols-1 gap-4 xl:grid-cols-2">
+            <Card padding="none" class="xl:col-span-2">
                 <div class="flex items-center justify-between gap-4 border-b border-border p-4">
                     <div>
                         <h2 class="text-base font-semibold text-foreground">Linked players</h2>
-                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Game profiles connected to this account</p>
+                        <p class="mt-1 text-sm text-muted dark:text-subtle">Game profiles connected to this account</p>
                     </div>
-                    <Link v-if="can('web.manage.accounts.edit')" :href="'/manage/accounts/' + account.id + '/players'">
-                        <FilledButton variant="secondary">Add player</FilledButton>
-                    </Link>
+                    <LinkButton v-if="can('web.manage.accounts.edit')" :href="'/manage/accounts/' + account.id + '/players'" variant="secondary">Add player</LinkButton>
                 </div>
                 <div class="overflow-x-auto">
                     <AccountPlayersTable :players="account.minecraft_account ?? []" @unlink-tap="showUnlinkDialog" />
                 </div>
             </Card>
 
-            <Card>
+            <Card padding="none">
                 <div class="flex items-center justify-between gap-4 border-b border-border p-4">
                     <h2 class="text-base font-semibold text-foreground">Roles</h2>
-                    <Link v-if="can('web.manage.accounts.edit')" :href="'/manage/accounts/' + account.id + '/roles'">
-                        <OutlinedButton variant="secondary">
-                            <SvgIcon :svg="Icons.pencil" />
-                            Edit
-                        </OutlinedButton>
-                    </Link>
+                    <LinkButton v-if="can('web.manage.accounts.edit')" :href="'/manage/accounts/' + account.id + '/roles'" variant="outline">
+                        <SvgIcon :svg="Icons.pencil" />
+                        Edit
+                    </LinkButton>
                 </div>
                 <div class="overflow-x-auto"><AccountRolesTable :roles="account.roles ?? []" /></div>
             </Card>
 
-            <Card v-if="can('web.manage.badges.view')">
+            <Card padding="none" v-if="can('web.manage.badges.view')">
                 <div class="flex items-center justify-between gap-4 border-b border-border p-4">
                     <h2 class="text-base font-semibold text-foreground">Badges</h2>
-                    <Link v-if="can('web.manage.accounts.edit')" :href="'/manage/accounts/' + account.id + '/badges'">
-                        <OutlinedButton variant="secondary">
-                            <SvgIcon :svg="Icons.pencil" />
-                            Edit
-                        </OutlinedButton>
-                    </Link>
+                    <LinkButton v-if="can('web.manage.accounts.edit')" :href="'/manage/accounts/' + account.id + '/badges'" variant="outline">
+                        <SvgIcon :svg="Icons.pencil" />
+                        Edit
+                    </LinkButton>
                 </div>
                 <div class="overflow-x-auto"><AccountBadgesTable :badges="account.badges ?? []" /></div>
             </Card>
 
-        </div>
+        </TabPanel>
 
-        <div v-else-if="activeTab === 'applications'" id="account-panel-applications" role="tabpanel" aria-labelledby="account-tab-applications" class="mt-4 grid grid-cols-1 gap-4 xl:grid-cols-2">
-            <Card>
+        <TabPanel tab-id="applications" id-prefix="account" :active-tab="activeTab" class="mt-4 grid grid-cols-1 gap-4 xl:grid-cols-2">
+            <Card padding="none">
                 <div class="border-b border-border p-4">
                     <h2 class="text-base font-semibold text-foreground">Ban appeals</h2>
                 </div>
                 <AccountBanAppealsTable :account_id="account.id" />
             </Card>
 
-            <Card>
+            <Card padding="none">
                 <div class="border-b border-border p-4">
                     <h2 class="text-base font-semibold text-foreground">Builder applications</h2>
                 </div>
                 <AccountBuilderRankApplicationsTable :account_id="account.id" />
             </Card>
-        </div>
+        </TabPanel>
 
-        <div v-else-if="activeTab === 'contributions'" id="account-panel-contributions" role="tabpanel" aria-labelledby="account-tab-contributions" class="mt-4 grid grid-cols-1 gap-4 xl:grid-cols-2">
-            <Card v-if="can('web.manage.donations.view')" class="xl:col-span-2">
+        <TabPanel tab-id="contributions" id-prefix="account" :active-tab="activeTab" class="mt-4 grid grid-cols-1 gap-4 xl:grid-cols-2">
+            <Card padding="none" v-if="can('web.manage.donations.view')" class="xl:col-span-2">
                 <div class="flex items-center justify-between gap-4 border-b border-border p-4">
                     <h2 class="text-base font-semibold text-foreground">Donations</h2>
-                    <Link :href="'/manage/accounts/' + account.id + '/badges'">
-                        <FilledButton variant="secondary">Create</FilledButton>
-                    </Link>
+                    <LinkButton :href="'/manage/accounts/' + account.id + '/badges'" variant="secondary">Create</LinkButton>
                 </div>
                 <div class="overflow-x-auto"><AccountDonationsTable :donations="account.donations ?? []" /></div>
             </Card>
-        </div>
+        </TabPanel>
 
     </div>
 </template>

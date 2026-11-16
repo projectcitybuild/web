@@ -129,9 +129,10 @@ function formatConfig() {
 
 <template>
     <ManageFormPage
-        title="Minecraft Config"
+        title="Remote Config"
         wide
-        :description="'Version ' + config.version + ' - Last edited: ' + format(config.updated_at, 'yyyy/MM/dd h:ma')"
+        :description="'Review and deploy the Minecraft server configuration. Version ' + config.version + ' - Last edited: ' + format(config.updated_at, 'yyyy/MM/dd h:ma')"
+        :breadcrumbs="[{ label: 'Manage', href: '/manage' }, { label: 'Servers', href: '/manage/servers' }, { label: 'Remote Config' }]"
     >
         <template #actions>
                     <FilledButton
@@ -149,9 +150,9 @@ function formatConfig() {
 
         <div class="grid gap-6 xl:grid-cols-[minmax(0,1.6fr)_minmax(20rem,1fr)]">
             <section class="min-w-0 space-y-3">
-                <div class="flex flex-wrap items-center justify-between gap-3 border-b border-gray-200 pb-3 dark:border-gray-700">
+                <div class="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-3">
                 <div class="flex items-center gap-2">
-                    <span class="text-sm font-semibold text-gray-800 dark:text-gray-100">Configuration</span>
+                    <span class="text-sm font-semibold text-foreground dark:text-muted">Configuration</span>
                     <JsonValidity
                         v-if="isValidJson !== null"
                         :is-valid="isValidJson"
@@ -159,10 +160,10 @@ function formatConfig() {
                     />
                 </div>
                 <div class="flex items-center gap-4">
-                    <span class="text-xs tabular-nums text-gray-500 dark:text-gray-400">{{ lineCount }} lines</span>
+                    <span class="text-xs tabular-nums text-muted dark:text-subtle">{{ lineCount }} lines</span>
                     <OutlinedButton
                         type="button"
-                        class="text-sm font-medium text-primary-700 hover:text-primary-900 disabled:cursor-not-allowed disabled:opacity-50 dark:text-primary-300 dark:hover:text-primary-200"
+                        class="text-sm font-medium text-primary hover:text-primary-hover disabled:cursor-not-allowed disabled:opacity-50 dark:hover:text-primary-200"
                         :disabled="!isValidJson"
                         @click="formatConfig"
                     >
@@ -175,25 +176,25 @@ function formatConfig() {
                     <JsonEditor
                         v-model="form.config"
                         aria-label="Minecraft configuration JSON"
-                        class="rounded-lg border border-gray-300 bg-slate-50 shadow-inner focus-within:ring-2 focus-within:ring-primary-500/30 dark:border-gray-600 dark:bg-gray-900"
+                        class="rounded-lg border border-border-strong bg-surface-muted shadow-inner focus-within:ring-2 focus-within:ring-focus/30"
                         @select-keys="selectPreviewKeys"
                     />
                 </form>
 
             </section>
 
-            <section class="min-w-0 space-y-3 border-t border-gray-200 pt-4 dark:border-gray-700 xl:border-l xl:border-t-0 xl:pl-6 xl:pt-0">
+            <section class="min-w-0 space-y-3 border-t border-border pt-4 xl:border-l xl:border-t-0 xl:pl-6 xl:pt-0">
                 <div class="flex flex-wrap items-center justify-between gap-3">
-                    <h2 class="text-sm font-semibold text-gray-800 dark:text-gray-100">MiniMessage preview</h2>
+                    <h2 class="text-sm font-semibold text-foreground dark:text-muted">MiniMessage preview</h2>
                 </div>
-                <div class="min-h-20 break-words border border-gray-700 bg-gray-900 p-4 font-mono text-sm text-gray-100">
+                <div class="min-h-20 break-words border border-border bg-gray-900 p-4 font-mono text-sm text-muted">
                     <MiniMessageRenderer
                         :text="selectedPreviewText"
                         placeholder="Place the cursor on a string key or select lines with string values to preview."
                         class="whitespace-pre-wrap"
                     />
                 </div>
-                <span v-if="selectedEntryLabels" class="break-all font-mono text-xs text-gray-500 dark:text-gray-400">{{ selectedEntryLabels }}</span>
+                <span v-if="selectedEntryLabels" class="break-all font-mono text-xs text-muted dark:text-subtle">{{ selectedEntryLabels }}</span>
             </section>
         </div>
     </ManageFormPage>

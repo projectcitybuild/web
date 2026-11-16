@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import SvgIcon from '../../../../manage/Components/SvgIcon.vue'
 import { Icons } from '../../../../manage/Icons'
 import useAdminNavigation, { adminAreas } from '../useAdminNavigation'
+import logo from '../../../../../images/logo-alt.png'
 
 const props = defineProps<{
     open: boolean
@@ -51,10 +52,13 @@ defineExpose({ focusFirst })
         </button>
         <div class="h-full overflow-y-auto px-3 py-16 md:py-0">
             <div class="hidden h-14 items-center border-b border-border px-2 md:flex">
-                <p class="text-xs font-semibold tracking-wide text-subtle">{{ adminAreas.find(area => area.id === currentArea)?.label ?? 'Administration' }}</p>
+                <a href="/" class="flex h-14 w-full items-center justify-start border-b border-border" aria-label="Project City Build home">
+                    <img :src="logo" alt="" class="h-9 w-auto object-contain" />
+                </a>
             </div>
             <nav aria-label="Administrative areas" class="mb-4 border-b border-border pb-4 md:hidden">
                 <p class="mb-2 px-3 text-[11px] font-semibold tracking-wide text-subtle">Areas</p>
+
                 <ul class="space-y-1">
                     <li v-for="area in adminAreas" :key="area.id">
                         <a

@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import { Deferred, Head, Link, useForm } from '@inertiajs/vue3'
+import { Deferred, Head, useForm } from '@inertiajs/vue3'
 import { Paginated } from '../../Data/Paginated'
 import AccountListTable from './Partials/AccountListTable.vue'
 import InfinitePagination from '../../Components/InfinitePagination.vue'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
-import Card from '../../Components/Card.vue'
 import type { Account } from '../../Data/Account'
 import { computed, watch, ref } from 'vue'
-import FilledButton from '../../Components/FilledButton.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
-import FilterPanel from '../../Components/FilterPanel.vue'
 import SpinnerRow from '../../Components/SpinnerRow.vue'
 import { Icons } from '../../Icons'
 import usePermissions from '../../Composables/usePermissions'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
-import ShowingCount from '../../Components/ShowingCount.vue'
+import ManageBreadcrumbs from '../../Components/ManageBreadcrumbs.vue'
+import ListPage from '../../Components/ListPage.vue'
+import OutlinedButton from '../../Components/OutlinedButton.vue'
+import LinkButton from '../../../shared/Components/LinkButton.vue'
 
 interface Props {
     success?: string,
@@ -58,108 +58,108 @@ watch(
 <template>
     <Head title="Manage Accounts" />
 
-    <PageHeader title="Accounts" class="mb-2" />
+    <div class="space-y-6">
+        <PageHeader title="Accounts" description="Manage registered website accounts and their access.">
+            <template #breadcrumbs>
+                <ManageBreadcrumbs :items="[{ label: 'Manage', href: '/manage' }, { label: 'Accounts' }]" />
+            </template>
+            <template #actions>
+                <LinkButton
+                    v-if="can('web.manage.accounts.edit')"
+                    href="/manage/accounts/create"
+                    variant="primary"
+                >
+                    <SvgIcon :svg="Icons.plus" aria-hidden="true" />
+                    Create Account
+                </LinkButton>
+            </template>
+        </PageHeader>
 
-    <section>
-        <SuccessAlert v-if="success" :message="success" class="mb-4"/>
+        <section>
+            <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
-        <Card padding="none">
-            <div class="flex flex-wrap items-center justify-between gap-3 py-2.5">
-                <div>
-                    <ShowingCount
-                        v-if="accounts"
-                        :from="itemCount > 0 ? 1 : 0"
-                        :to="itemCount"
-                        :total="accounts.total"
-                        class="text-xs text-subtle"
-                    />
-                </div>
-
-                <div class="flex flex-wrap items-center gap-2">
-                    <FilterPanel
-                        id="account-filters"
-                        :active-count="activeFilterCount"
-                        apply-label="Done"
-                        @clear="form.reset()"
-                    >
-                        <div class="grid gap-4 sm:grid-cols-2">
-                            <label for="username" class="flex flex-col gap-1.5 text-sm font-medium text-foreground">
-                                Username
-                                <input
-                                    id="username"
-                                    v-model="form.username"
-                                    type="search"
-                                    class="min-h-10 w-full rounded-md border border-border-strong bg-surface px-3 text-sm text-foreground placeholder:text-subtle focus:border-primary focus:ring-focus"
-                                    placeholder="Search usernames"
-                                >
-                            </label>
-                            <label for="email" class="flex flex-col gap-1.5 text-sm font-medium text-foreground">
-                                Email
-                                <input
-                                    id="email"
-                                    v-model="form.email"
-                                    type="search"
-                                    class="min-h-10 w-full rounded-md border border-border-strong bg-surface px-3 text-sm text-foreground placeholder:text-subtle focus:border-primary focus:ring-focus"
-                                    placeholder="Search email addresses"
-                                >
-                            </label>
-                            <label for="activated" class="flex flex-col gap-1.5 text-sm font-medium text-foreground sm:col-span-2">
-                                Activation status
-                                <select
-                                    id="activated"
-                                    v-model="form.activated"
-                                    class="min-h-10 w-full rounded-md border border-border-strong bg-surface px-3 text-sm text-foreground focus:border-primary focus:ring-focus"
-                                >
-                                    <option :value="null">Any status</option>
-                                    <option :value="1">Activated</option>
-                                    <option :value="0">Not activated</option>
-                                </select>
-                            </label>
-                            <label for="has-player" class="flex flex-col gap-1.5 text-sm font-medium text-foreground sm:col-span-2">
-                                Has player
-                                <select
-                                    id="has-player"
-                                    v-model="form.hasPlayer"
-                                    class="min-h-10 w-full rounded-md border border-border-strong bg-surface px-3 text-sm text-foreground focus:border-primary focus:ring-focus"
-                                >
-                                    <option value="">Any</option>
-                                    <option value="1">Yes</option>
-                                    <option value="0">No</option>
-                                </select>
-                            </label>
-                        </div>
-                    </FilterPanel>
-
-                    <Link
-                        href="/manage/accounts/create"
-                        as="button"
-                        v-if="can('web.manage.accounts.edit')"
-                    >
-                        <FilledButton variant="primary" size="sm">
-                            <SvgIcon :svg="Icons.plus" />
-                            Create Account
-                        </FilledButton>
-                    </Link>
-                </div>
-            </div>
-
-            <Deferred data="accounts">
-                <template #fallback>
-                    <SpinnerRow />
+            <ListPage
+                :count="accounts ? itemCount : undefined"
+                :total="accounts?.total"
+                count-label="accounts"
+                :filter-count="activeFilterCount"
+            >
+                <template #filters>
+                    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                        <label for="username" class="flex flex-col gap-1.5 text-sm font-medium text-foreground">
+                            Username
+                            <input
+                                id="username"
+                                v-model="form.username"
+                                type="search"
+                                class="min-h-10 w-full rounded-md border border-border-strong bg-surface px-3 text-sm text-foreground placeholder:text-subtle focus:border-primary focus:ring-focus"
+                                placeholder="Search usernames"
+                            >
+                        </label>
+                        <label for="email" class="flex flex-col gap-1.5 text-sm font-medium text-foreground">
+                            Email
+                            <input
+                                id="email"
+                                v-model="form.email"
+                                type="search"
+                                class="min-h-10 w-full rounded-md border border-border-strong bg-surface px-3 text-sm text-foreground placeholder:text-subtle focus:border-primary focus:ring-focus"
+                                placeholder="Search email addresses"
+                            >
+                        </label>
+                        <label for="activated" class="flex flex-col gap-1.5 text-sm font-medium text-foreground">
+                            Activation status
+                            <select
+                                id="activated"
+                                v-model="form.activated"
+                                class="min-h-10 w-full rounded-md border border-border-strong bg-surface px-3 text-sm text-foreground focus:border-primary focus:ring-focus"
+                            >
+                                <option :value="null">Any status</option>
+                                <option :value="1">Activated</option>
+                                <option :value="0">Not activated</option>
+                            </select>
+                        </label>
+                        <label for="has-player" class="flex flex-col gap-1.5 text-sm font-medium text-foreground">
+                            Has player
+                            <select
+                                id="has-player"
+                                v-model="form.hasPlayer"
+                                class="min-h-10 w-full rounded-md border border-border-strong bg-surface px-3 text-sm text-foreground focus:border-primary focus:ring-focus"
+                            >
+                                <option value="">Any</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="mt-4 flex justify-end">
+                        <OutlinedButton
+                            variant="secondary"
+                            :disabled="activeFilterCount === 0"
+                            @click="form.reset()"
+                        >
+                            Clear filters
+                        </OutlinedButton>
+                    </div>
                 </template>
 
-                <InfinitePagination
-                    :initial="accounts"
-                    :query="query"
-                    v-model:count="itemCount"
-                    v-slot="source"
-                >
-                    <AccountListTable
-                        :accounts="source.data"
-                        :class="source.loading ? 'opacity-50' : ''"
-                    />
-                </InfinitePagination>
-            </Deferred>
-        </Card>
-    </section>
+                <Deferred data="accounts">
+                    <template #fallback>
+                        <SpinnerRow />
+                    </template>
+
+                    <InfinitePagination
+                        :initial="accounts"
+                        :query="query"
+                        v-model:count="itemCount"
+                        v-slot="source"
+                    >
+                        <AccountListTable
+                            :accounts="source.data"
+                            :class="source.loading ? 'opacity-50' : ''"
+                        />
+                    </InfinitePagination>
+                </Deferred>
+            </ListPage>
+        </section>
+    </div>
 </template>

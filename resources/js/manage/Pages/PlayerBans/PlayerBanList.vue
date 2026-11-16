@@ -16,6 +16,8 @@ import { Icons } from '../../Icons'
 import usePermissions from '../../Composables/usePermissions'
 import ShowingCount from '../../Components/ShowingCount.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
+import LinkButton from '../../../shared/Components/LinkButton.vue'
+import ManageBreadcrumbs from '../../Components/ManageBreadcrumbs.vue'
 
 interface Props {
     bans?: Paginated<PlayerBan>,
@@ -71,14 +73,24 @@ function clearFilters() {
 </script>
 
 <template>
-    <Head title="Manage Bans"/>
+    <Head title="Manage Player Bans"/>
 
-    <PageHeader title="Player Bans" class="mb-4" />
-
-    <SuccessAlert v-if="success" :message="success" class="mb-4"/>
+    <div class="space-y-6">
+    <PageHeader title="Player Bans" description="Review Minecraft player bans and their current status.">
+        <template #breadcrumbs>
+            <ManageBreadcrumbs :items="[{ label: 'Manage', href: '/manage' }, { label: 'Moderation' }, { label: 'Player Bans' }]" />
+        </template>
+        <template #actions>
+            <LinkButton v-if="can('web.manage.uuid_bans.edit')" href="/manage/player-bans/create" variant="primary">
+                <SvgIcon :svg="Icons.plus" />
+                Create Ban
+            </LinkButton>
+        </template>
+    </PageHeader>
 
     <section>
-        <Card>
+        <SuccessAlert v-if="success" :message="success" class="mb-4"/>
+        <Card padding="none">
             <div class="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                     <ShowingCount
@@ -86,7 +98,7 @@ function clearFilters() {
                         :from="itemCount > 0 ? 1 : 0"
                         :to="itemCount"
                         :total="bans.total"
-                        class="text-sm text-gray-500"
+                        class="text-sm text-muted"
                     />
                 </div>
                 <div class="flex flex-wrap gap-2 sm:justify-end">
@@ -169,12 +181,6 @@ function clearFilters() {
                         </div>
                     </FilterPanel>
 
-                    <Link href="/manage/player-bans/create" v-if="can('web.manage.uuid_bans.edit')">
-                        <FilledButton variant="primary">
-                            <SvgIcon :svg="Icons.plus" />
-                            Create Ban
-                        </FilledButton>
-                    </Link>
                 </div>
             </div>
 
@@ -194,4 +200,5 @@ function clearFilters() {
             </Deferred>
         </Card>
     </section>
+    </div>
 </template>

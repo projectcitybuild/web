@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import LinkButton from '../../../../shared/Components/LinkButton.vue'
 import { Link } from '@inertiajs/vue3'
 import type { ServerToken } from '../../../Data/ServerToken'
 import { format } from '../../../Utilities/DateFormatter'
@@ -43,12 +44,10 @@ const rows = computed(
         </template>
 
         <template #actions="{ item }" v-if="can('web.manage.server_tokens.edit')">
-            <Link :href="'/manage/server-tokens/' + item.id + '/edit'">
-                <OutlinedButton variant="secondary" size="sm">
-                    <SvgIcon :svg="Icons.pencil" />
-                    Edit
-                </OutlinedButton>
-            </Link>
+            <LinkButton :href="'/manage/server-tokens/' + item.id + '/edit'" variant="outline" size="sm">
+                <SvgIcon :svg="Icons.pencil" />
+                Edit
+            </LinkButton>
         </template>
     </DataTable>
 </template>

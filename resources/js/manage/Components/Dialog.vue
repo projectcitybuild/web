@@ -36,7 +36,7 @@ onMounted(() => {
     <dialog
         :id="id"
         ref="dialog"
-        class="rounded-lg shadow-xl border border-gray-300"
+        class="rounded-lg shadow-xl border border-border-strong"
     >
         <slot />
     </dialog>

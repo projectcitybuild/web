@@ -1,51 +1,64 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3'
-import { computed } from 'vue'
 import Card from '../../shared/Components/Card.vue'
 import PageHeader from '../../shared/Components/PageHeader.vue'
-import SvgIcon from '../Components/SvgIcon.vue'
-import usePermissions from '../Composables/usePermissions'
-import { filterSidebar } from '../Navigation/FilterSidebar'
-import { sidebarMenu } from '../Navigation/Sidebar'
+import MinecraftAvatar from '../Components/MinecraftAvatar.vue'
 
-const { can } = usePermissions()
-const sections = computed(() => filterSidebar(sidebarMenu, can))
+const props = defineProps({
+    recentActivities: {
+        type: Array,
+        default: null,
+    },
+    activityUrl: {
+        type: String,
+        default: null,
+    },
+})
+
 </script>
 
 <template>
     <Head title="Management" />
 
     <div class="space-y-6">
-        <PageHeader title="Management" />
+        <PageHeader title="Management" description="Manage the Project City Build platform." />
 
-        <section
-            v-if="sections.length > 0"
-            aria-label="Management areas"
-            class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3"
-        >
-            <Card v-for="section in sections" :key="section.title">
-                <template #header>
-                    <div class="flex items-center gap-3">
-                        <h2 class="text-base font-semibold text-foreground">{{ section.title }}</h2>
+        <section v-if="props.recentActivities" aria-label="Recent activity" class="space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+                <h2 class="text-base font-semibold text-foreground">Recent activity</h2>
+                <Link
+                    v-if="props.activityUrl"
+                    :href="props.activityUrl"
+                    class="text-sm font-medium text-foreground underline decoration-border underline-offset-4 hover:text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+                >
+                    View full audit log
+                </Link>
+            </div>
+
+            <Card padding="md">
+                <div v-if="props.recentActivities.length > 0" class="divide-y divide-border">
+                    <div
+                        v-for="activity in props.recentActivities"
+                        :key="activity.id"
+                        class="grid grid-cols-1 gap-1 px-4 py-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:gap-4"
+                    >
+                        <div class="flex min-w-0 items-center gap-3">
+                            <MinecraftAvatar
+                                v-if="activity.avatarUuid"
+                                :uuid="activity.avatarUuid"
+                                :size="32"
+                                class="shrink-0 overflow-hidden rounded-full"
+                            />
+                            <p class="min-w-0 break-words text-sm text-muted">
+                                <span class="font-medium text-foreground">{{ activity.actor }}</span>
+                                {{ activity.action }}
+                            </p>
+                        </div>
+                        <time class="text-xs text-muted sm:whitespace-nowrap">{{ activity.when }}</time>
                     </div>
-                </template>
-
-                <ul class="flex flex-col gap-2">
-                    <li v-for="item in section.children" :key="item.route">
-                        <Link
-                            :href="item.route"
-                            class="flex min-h-11 items-center gap-2.5 rounded-[var(--radius-md)] border border-border px-3 text-sm font-medium text-foreground transition-colors hover:bg-surface-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
-                        >
-                            <SvgIcon :svg="item.icon" class="size-4 shrink-0 text-muted" />
-                            {{ item.title }}
-                        </Link>
-                    </li>
-                </ul>
+                </div>
+                <p v-else class="p-4 text-sm text-muted">No recent activity.</p>
             </Card>
         </section>
-
-        <Card v-else class="text-sm text-muted">
-            No management areas are available to your account.
-        </Card>
     </div>
 </template>

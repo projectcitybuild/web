@@ -61,31 +61,31 @@ function destroy() {
 
         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
             <div>
-                <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Description<span class="text-red-500">*</span>
+                <label for="description" class="block mb-2 text-sm font-medium text-foreground">
+                    Description<span class="text-danger">*</span>
                 </label>
                 <input
                     v-model="form.description"
                     id="name"
-                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
                     placeholder="For PCBridge"
                 >
-                <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
+                <span class="block mt-2 text-xs font-medium text-subtle">
                     Write a description that notes what is consuming the token (eg. PCBridge)
                 </span>
-                <div v-if="form.errors.description" class="text-xs text-red-500 font-bold mt-2">
+                <div v-if="form.errors.description" class="text-xs text-danger font-bold mt-2">
                     {{ form.errors.description }}
                 </div>
             </div>
             <div>
-                <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Access Token<span class="text-red-500">*</span>
+                <label for="description" class="block mb-2 text-sm font-medium text-foreground">
+                    Access Token<span class="text-danger">*</span>
                 </label>
                 <div class="flex flex-row gap-2">
                     <input
                         v-model="form.token"
                         id="token"
-                        class="grow p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        class="grow p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
                     >
                     <FilledButton
                         variant="danger"
@@ -94,25 +94,25 @@ function destroy() {
                         <SvgIcon :svg="Icons.refresh" />
                     </FilledButton>
                 </div>
-                <div v-if="form.errors.token" class="text-xs text-red-500 font-bold mt-2">
+                <div v-if="form.errors.token" class="text-xs text-danger font-bold mt-2">
                     {{ form.errors.token }}
                 </div>
             </div>
             <div class="sm:col-span-2">
-                <label for="allowed_ips" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <label for="allowed_ips" class="block mb-2 text-sm font-medium text-foreground">
                     Allowed IPs
                 </label>
                 <textarea
                     v-model="form.allowed_ips"
                     id="allowed_ips"
                     rows="4"
-                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
                 ></textarea>
-                <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
+                <span class="block mt-2 text-xs font-medium text-subtle">
                     IP addresses permitted to use this token to hit the API - <strong>one per line</strong>.<br />
                     Leave blank if any IP address allowed.
                 </span>
-                <div v-if="form.errors.allowed_ips" class="text-xs text-red-500 font-bold mt-2">
+                <div v-if="form.errors.allowed_ips" class="text-xs text-danger font-bold mt-2">
                     {{ form.errors.allowed_ips }}
                 </div>
             </div>

@@ -13,7 +13,7 @@ const alignClasses: Record<Align, string> = {
 </script>
 
 <template>
-    <td class="border-r border-border-table px-3 py-2 last:border-r-0" :class="alignClasses[align]">
+    <td class="border-r border-border-table px-3 py-4 last:border-r-0" :class="alignClasses[align]">
         <slot />
     </td>
 </template>

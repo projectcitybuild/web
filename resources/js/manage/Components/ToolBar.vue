@@ -3,7 +3,7 @@ import Card from './Card.vue'
 </script>
 
 <template>
-    <Card>
+    <Card padding="none">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2 p-4">
             <slot name="left" />
 

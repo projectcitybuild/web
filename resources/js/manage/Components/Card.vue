@@ -1,11 +1,21 @@
 <script setup lang="ts">
 import SharedCard from '../../shared/Components/Card.vue'
 
+type Padding = 'none' | 'sm' | 'md' | 'lg'
+
+interface Props {
+    padding?: Padding,
+}
+
 defineOptions({ inheritAttrs: false })
+
+withDefaults(defineProps<Props>(), {
+    padding: 'md',
+})
 </script>
 
 <template>
-    <SharedCard padding="none" v-bind="$attrs">
+    <SharedCard :padding="padding" v-bind="$attrs">
         <template v-if="$slots.header" #header>
             <slot name="header" />
         </template>

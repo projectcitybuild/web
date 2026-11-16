@@ -56,7 +56,7 @@ function forceApprove() {
             </template>
         </DataTable>
         <div v-else class="flex p-4">
-            <span class="text-sm text-gray-400">No pending email changes</span>
+            <span class="text-sm text-subtle">No pending email changes</span>
         </div>
     </div>
 </template>

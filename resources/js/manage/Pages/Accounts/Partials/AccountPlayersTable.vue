@@ -28,7 +28,7 @@ const fields = [
         <template #uuid="{ item }">
                 <Link
                     :href="'/manage/players/' + item.id"
-                    class="text-blue-500"
+                    class="text-primary"
                 >
                     {{ item.uuid }}
                 </Link>
@@ -40,6 +40,6 @@ const fields = [
         </template>
     </DataTable>
     <div v-else class="flex p-4">
-        <span class="text-sm text-gray-400">No linked players</span>
+        <span class="text-sm text-subtle">No linked players</span>
     </div>
 </template>

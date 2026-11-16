@@ -13,10 +13,10 @@ defineProps({
         aria-live="polite"
         class="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-semibold"
         :class="isParsing
-            ? 'border-gray-200 bg-gray-50 text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300'
+            ? 'border-border bg-surface-muted text-muted border-border  dark:text-subtle'
             : isValid
-                ? 'border-green-200 bg-green-50 text-green-700 dark:border-green-800 dark:bg-green-950/50 dark:text-green-300'
-                : 'border-red-200 bg-red-50 text-red-700 dark:border-red-800 dark:bg-red-950/50 dark:text-red-300'"
+                ? 'border-success bg-success-soft text-success border-success bg-success-soft dark:text-success'
+                : 'border-danger bg-danger-soft text-danger border-danger bg-danger-soft dark:text-danger'"
     >
         <Spinner v-if="isParsing" />
         <template v-else>{{ isValid ? 'Valid JSON' : 'Invalid JSON' }}</template>

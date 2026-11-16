@@ -8,6 +8,7 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+
 const pageTitle = inject<Ref<string>>('adminPageTitle')
 
 watch(() => props.title, title => {

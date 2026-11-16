@@ -9,6 +9,7 @@ import OutlinedButton from '../../../Components/OutlinedButton.vue'
 import SvgIcon from '../../../Components/SvgIcon.vue'
 import { Icons } from '../../../Icons'
 import usePermissions from '../../../Composables/usePermissions'
+import LinkButton from '../../../../shared/Components/LinkButton.vue'
 
 interface Props {
     bans: IPBan[],
@@ -44,12 +45,10 @@ function isActive(ban: IPBan) {
         </template>
 
         <template #actions="{ item }" v-if="can('web.manage.ip_bans.edit')">
-            <Link :href="'/manage/ip-bans/' + item.id + '/edit'">
-                <OutlinedButton variant="secondary" size="sm">
-                    <SvgIcon :svg="Icons.pencil" />
-                    Edit
-                </OutlinedButton>
-            </Link>
+            <LinkButton :href="'/manage/ip-bans/' + item.id + '/edit'" variant="outline" size="sm">
+                <SvgIcon :svg="Icons.pencil" />
+                Edit
+            </LinkButton>
         </template>
     </DataTable>
 </template>

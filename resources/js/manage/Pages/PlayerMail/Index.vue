@@ -11,6 +11,9 @@ import Table from '../../../shared/Components/Table.vue'
 import TableCell from '../../../shared/Components/TableCell.vue'
 import TableHead from '../../../shared/Components/TableHead.vue'
 import TableRow from '../../../shared/Components/TableRow.vue'
+import PageHeader from '../../../shared/Components/PageHeader.vue'
+import ManageBreadcrumbs from '../../Components/ManageBreadcrumbs.vue'
+import LinkButton from '../../../shared/Components/LinkButton.vue'
 
 interface Broadcast {
     id: number,
@@ -91,18 +94,17 @@ function formatDate(value: string): string {
 <template>
     <Head title="Player Mail" />
 
-    <section class="space-y-4">
-        <div class="flex flex-wrap items-center justify-between gap-3">
-            <div>
-                <h1 class="text-2xl font-semibold text-foreground">Player Mail</h1>
-                <p class="mt-1 text-sm text-muted">Announcements sent to Minecraft players</p>
-            </div>
-            <Link v-if="can('web.manage.player_mail.send')" href="/manage/player-mail/create">
-                <FilledButton variant="primary">New announcement</FilledButton>
-            </Link>
-        </div>
+    <div class="space-y-6">
+        <PageHeader title="Player Mail" description="Review and manage announcements sent to Minecraft players.">
+            <template #breadcrumbs>
+                <ManageBreadcrumbs :items="[{ label: 'Manage', href: '/manage' }, { label: 'Minecraft' }, { label: 'Mail' }]" />
+            </template>
+            <template #actions>
+            <LinkButton v-if="can('web.manage.player_mail.send')" href="/manage/player-mail/create" variant="primary">New announcement</LinkButton>
+            </template>
+        </PageHeader>
 
-        <Card>
+        <Card padding="none">
             <div class="flex flex-wrap items-center justify-between gap-3 border-b border-border p-4">
                 <p class="text-sm text-muted">
                     {{ broadcasts.total }} {{ broadcasts.total === 1 ? 'announcement' : 'announcements' }}
@@ -115,21 +117,21 @@ function formatDate(value: string): string {
                     @clear="clearFilters"
                 >
                     <form class="grid gap-4" @submit.prevent="filterBroadcasts">
-                        <label class="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-200">
+                        <label class="flex flex-col gap-1.5 text-sm font-medium text-muted dark:text-muted">
                             Search subject
                             <input
                                 v-model="search"
                                 type="search"
                                 maxlength="191"
                                 placeholder="Search announcement subjects"
-                                class="min-h-11 w-full rounded-lg border border-gray-300 bg-white px-3 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                                class="min-h-11 w-full rounded-lg border border-border-strong bg-white px-3 text-sm text-foreground focus:border-primary focus:ring-focus"
                             >
                         </label>
-                        <label class="flex flex-col gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-200">
+                        <label class="flex flex-col gap-1.5 text-sm font-medium text-muted dark:text-muted">
                             Delivery status
                             <select
                                 v-model="status"
-                                class="min-h-11 w-full rounded-lg border border-gray-300 bg-white px-3 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                                class="min-h-11 w-full rounded-lg border border-border-strong bg-white px-3 text-sm text-foreground focus:border-primary focus:ring-focus"
                             >
                                 <option value="">All statuses</option>
                                 <option value="queued">Pending</option>
@@ -149,9 +151,9 @@ function formatDate(value: string): string {
                 <p class="mt-2 text-sm text-muted">
                     {{ broadcasts.total === 0 && !hasFilters ? 'Your sent and processing announcements will appear here.' : 'Try a different subject or status.' }}
                 </p>
-                <Link v-if="broadcasts.total === 0 && !hasFilters && can('web.manage.player_mail.send')" href="/manage/player-mail/create" class="mt-5 inline-block">
-                    <FilledButton variant="primary">Compose announcement</FilledButton>
-                </Link>
+                <LinkButton v-if="broadcasts.total === 0 && !hasFilters && can('web.manage.player_mail.send')" href="/manage/player-mail/create" variant="primary" class="mt-5">
+                    Compose announcement
+                </LinkButton>
             </div>
 
             <template v-else>
@@ -160,13 +162,13 @@ function formatDate(value: string): string {
                         v-for="broadcast in broadcasts.data"
                         :key="broadcast.id"
                         :href="broadcastUrl(broadcast.id)"
-                        class="block space-y-2 p-4 hover:bg-gray-50 dark:hover:bg-gray-700/40"
+                        class="block space-y-2 p-4 hover:bg-surface-muted hover:bg-surface-hover"
                     >
                         <div class="flex items-start justify-between gap-3">
-                            <span class="font-semibold text-gray-900 dark:text-white">{{ broadcast.subject }}</span>
+                            <span class="font-semibold text-foreground">{{ broadcast.subject }}</span>
                             <BroadcastStatus :status="broadcast.status" />
                         </div>
-                        <div class="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500">
+                        <div class="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted">
                             <span>{{ broadcast.sender }}</span>
                             <span>{{ broadcast.recipients_count }} delivered</span>
                             <time :datetime="broadcast.created_at">{{ formatDate(broadcast.created_at) }}</time>
@@ -195,7 +197,7 @@ function formatDate(value: string): string {
                             <TableCell align="end">
                                     <Link
                                         :href="broadcastUrl(broadcast.id)"
-                                        class="font-medium text-blue-700 hover:underline dark:text-blue-400"
+                                        class="font-medium text-primary hover:underline dark:text-info"
                                     >
                                         View details
                                     </Link>
@@ -204,15 +206,15 @@ function formatDate(value: string): string {
                     </Table>
                 </div>
 
-                <div class="flex flex-wrap items-center justify-between gap-3 p-4 text-sm text-gray-500">
+                <div class="flex flex-wrap items-center justify-between gap-3 p-4 text-sm text-muted">
                     <ShowingCount :from="broadcasts.from" :to="broadcasts.to" :total="broadcasts.total" />
                     <div class="flex items-center gap-2">
-                        <Link v-if="broadcasts.current_page > 1" :href="pageUrl(broadcasts.current_page - 1)" class="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Previous</Link>
+                        <LinkButton v-if="broadcasts.current_page > 1" :href="pageUrl(broadcasts.current_page - 1)" variant="ghost" size="sm" class="text-sm">Previous</LinkButton>
                         <span>Page {{ broadcasts.current_page }} of {{ broadcasts.last_page }}</span>
-                        <Link v-if="broadcasts.current_page < broadcasts.last_page" :href="pageUrl(broadcasts.current_page + 1)" class="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Next</Link>
+                        <LinkButton v-if="broadcasts.current_page < broadcasts.last_page" :href="pageUrl(broadcasts.current_page + 1)" variant="ghost" size="sm" class="text-sm">Next</LinkButton>
                     </div>
                 </div>
             </template>
         </Card>
-    </section>
+    </div>
 </template>

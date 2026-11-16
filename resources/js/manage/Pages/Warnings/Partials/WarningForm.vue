@@ -59,65 +59,65 @@ function destroy() {
 
         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
             <div class="sm:col-span-2">
-                <label for="warned_uuid" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Player<span class="text-red-500">*</span>
+                <label for="warned_uuid" class="block mb-2 text-sm font-medium text-foreground">
+                    Player<span class="text-danger">*</span>
                 </label>
                 <PlayerPicker
                     v-model:uuid="form.warned_uuid"
                     v-model:alias="form.warned_alias"
                     :initial-search="uuidParam"
                 />
-                <div v-if="form.errors.warned_uuid" class="text-xs text-red-500 font-bold mt-2">
+                <div v-if="form.errors.warned_uuid" class="text-xs text-danger font-bold mt-2">
                     {{ form.errors.warned_uuid }}
                 </div>
             </div>
             <div>
-                <label for="created_at" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Date of Warning<span class="text-red-500">*</span>
+                <label for="created_at" class="block mb-2 text-sm font-medium text-foreground">
+                    Date of Warning<span class="text-danger">*</span>
                 </label>
                 <DateTimePicker
                     v-model="form.created_at"
                     @change="form.created_at = $event"
                 />
-                <div v-if="form.errors.created_at" class="text-xs text-red-500 font-bold mt-2">
+                <div v-if="form.errors.created_at" class="text-xs text-danger font-bold mt-2">
                     {{ form.errors.created_at }}
                 </div>
             </div>
             <div>
-                <label for="warner_uuid" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Warned By</label>
+                <label for="warner_uuid" class="block mb-2 text-sm font-medium text-foreground">Warned By</label>
                 <PlayerPicker
                     v-model:uuid="form.warner_uuid"
                     v-model:alias="form.warner_alias"
                 />
-                <div v-if="form.errors.warner_uuid" class="text-xs text-red-500 font-bold mt-2">
+                <div v-if="form.errors.warner_uuid" class="text-xs text-danger font-bold mt-2">
                     {{ form.errors.warner_uuid }}
                 </div>
             </div>
             <div class="sm:col-span-2">
-                <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Reason<span class="text-red-500">*</span>
+                <label for="description" class="block mb-2 text-sm font-medium text-foreground">
+                    Reason<span class="text-danger">*</span>
                 </label>
                 <textarea
                     v-model="form.reason"
                     id="reason"
                     rows="3"
-                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
                 ></textarea>
-                <div v-if="form.errors.reason" class="text-xs text-red-500 font-bold mt-2">
+                <div v-if="form.errors.reason" class="text-xs text-danger font-bold mt-2">
                     {{ form.errors.reason }}
                 </div>
             </div>
             <div class="sm:col-span-2">
-                <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <label for="description" class="block mb-2 text-sm font-medium text-foreground">
                     Additional Information
                 </label>
                 <textarea
                     v-model="form.additional_info"
                     id="additional_info"
                     rows="8"
-                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
                 ></textarea>
-                <div v-if="form.errors.additional_info" class="text-xs text-red-500 font-bold mt-2">
+                <div v-if="form.errors.additional_info" class="text-xs text-danger font-bold mt-2">
                     {{ form.errors.additional_info }}
                 </div>
             </div>

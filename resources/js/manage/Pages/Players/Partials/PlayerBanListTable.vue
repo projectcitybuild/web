@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import LinkButton from '../../../../shared/Components/LinkButton.vue'
 import { format } from '../../../Utilities/DateFormatter'
 import { Link } from '@inertiajs/vue3'
 import { PlayerBan } from '../../../Data/PlayerBan'
@@ -30,12 +31,10 @@ const fields = [
             {{ format(item.created_at) }}
         </template>
         <template #actions="{ item }">
-            <Link :href="'/manage/player-bans/' + item.id + '/edit'">
-                <OutlinedButton variant="secondary" size="sm">
-                    <SvgIcon :svg="Icons.pencil" />
-                    Edit
-                </OutlinedButton>
-            </Link>
+            <LinkButton :href="'/manage/player-bans/' + item.id + '/edit'" variant="outline" size="sm">
+                <SvgIcon :svg="Icons.pencil" />
+                Edit
+            </LinkButton>
         </template>
     </DataTable>
 </template>

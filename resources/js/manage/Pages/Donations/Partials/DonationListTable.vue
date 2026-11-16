@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import LinkButton from '../../../../shared/Components/LinkButton.vue'
 import { Link } from '@inertiajs/vue3'
 import { Donation } from '../../../Data/Donation'
 import { format } from '../../../Utilities/DateFormatter'
@@ -37,7 +38,7 @@ const rows = computed(
         <template #account="{ item }">
             <Link
                 :href="'/manage/accounts/' + item.account?.id"
-                class="text-blue-500"
+                class="text-primary"
             >
                 {{ item.account?.username }}
             </Link>
@@ -52,12 +53,10 @@ const rows = computed(
         </template>
 
         <template #actions="{ item }">
-            <Link :href="'/manage/donations/' + item.id + '/edit'">
-                <OutlinedButton variant="secondary" size="sm">
-                    <SvgIcon :svg="Icons.pencil" />
-                    Edit
-                </OutlinedButton>
-            </Link>
+            <LinkButton :href="'/manage/donations/' + item.id + '/edit'" variant="outline" size="sm">
+                <SvgIcon :svg="Icons.pencil" />
+                Edit
+            </LinkButton>
         </template>
     </DataTable>
 </template>

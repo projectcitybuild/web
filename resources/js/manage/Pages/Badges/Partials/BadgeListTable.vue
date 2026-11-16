@@ -1,15 +1,13 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3'
 import { Badge } from '../../../Data/Badge'
 import { format } from '../../../Utilities/DateFormatter'
 import BooleanCheck from '../../../Components/BooleanCheck.vue'
-import FilledButton from '../../../Components/FilledButton.vue'
-import OutlinedButton from '../../../Components/OutlinedButton.vue'
 import SvgIcon from '../../../Components/SvgIcon.vue'
 import { Icons } from '../../../Icons'
 import { computed } from 'vue'
 import DataTable from '../../../Components/DataTable.vue'
 import usePermissions from '../../../Composables/usePermissions'
+import LinkButton from '../../../../shared/Components/LinkButton.vue'
 
 interface Props {
     badges: Badge[],
@@ -42,12 +40,14 @@ const rows = computed(
         </template>
 
         <template #actions="{ item }" v-if="can('web.manage.badges.edit')">
-            <Link :href="'/manage/badges/' + item.id + '/edit'">
-                <OutlinedButton variant="secondary" size="sm">
-                    <SvgIcon :svg="Icons.pencil" class="size-4" aria-hidden="true" />
-                    Edit
-                </OutlinedButton>
-            </Link>
+            <LinkButton
+                :href="'/manage/badges/' + item.id + '/edit'"
+                variant="outline"
+                size="sm"
+            >
+                <SvgIcon :svg="Icons.pencil" class="size-4" aria-hidden="true" />
+                Edit
+            </LinkButton>
         </template>
     </DataTable>
 </template>

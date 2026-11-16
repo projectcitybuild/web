@@ -28,6 +28,6 @@ defineProps<Props>()
         </TableRow>
     </Table>
     <div v-else class="flex p-4">
-        <span class="text-sm text-gray-400">No pending activations</span>
+        <span class="text-sm text-subtle">No pending activations</span>
     </div>
 </template>

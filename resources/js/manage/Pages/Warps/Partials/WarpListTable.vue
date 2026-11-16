@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import LinkButton from '../../../../shared/Components/LinkButton.vue'
 import { Link } from '@inertiajs/vue3'
 import { Warp } from '../../../Data/Warp'
 import { format } from '../../../Utilities/DateFormatter'
@@ -40,12 +41,10 @@ const rows = computed(
 <template>
     <DataTable :fields="fields" :rows="rows" :show-index="true" class="border-t border-border">
         <template #actions="{ item }">
-            <Link :href="'/manage/minecraft/warps/' + item.id + '/edit'" v-if="can('web.manage.warps.edit')">
-                <OutlinedButton variant="secondary" size="sm">
-                    <SvgIcon :svg="Icons.pencil" />
-                    Edit
-                </OutlinedButton>
-            </Link>
+            <LinkButton :href="'/manage/minecraft/warps/' + item.id + '/edit'" v-if="can('web.manage.warps.edit')" variant="outline" size="sm">
+                <SvgIcon :svg="Icons.pencil" />
+                Edit
+            </LinkButton>
         </template>
     </DataTable>
 </template>

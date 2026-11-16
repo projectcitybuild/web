@@ -9,6 +9,8 @@ import SvgIcon from '../../Components/SvgIcon.vue'
 import { Icons } from '../../Icons'
 import usePermissions from '../../Composables/usePermissions'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
+import ManageBreadcrumbs from '../../Components/ManageBreadcrumbs.vue'
+import LinkButton from '../../../shared/Components/LinkButton.vue'
 
 interface Props {
     tokens: ServerToken[],
@@ -23,22 +25,24 @@ const { can } = usePermissions()
 <template>
     <Head title="Manage Server Tokens"/>
 
-    <PageHeader title="Server Tokens" class="mb-4" />
-
-    <SuccessAlert v-if="success" :message="success" class="mb-4"/>
+    <div class="space-y-6">
+    <PageHeader title="Server Tokens" description="Manage credentials used by trusted applications to access the PCB API.">
+        <template #breadcrumbs>
+            <ManageBreadcrumbs :items="[{ label: 'Manage', href: '/manage' }, { label: 'Servers', href: '/manage/servers' }, { label: 'Tokens' }]" />
+        </template>
+        <template #actions>
+            <LinkButton v-if="can('web.manage.server_tokens.edit')" href="/manage/server-tokens/create" variant="primary">
+                <SvgIcon :svg="Icons.plus" />
+                Create Token
+            </LinkButton>
+        </template>
+    </PageHeader>
 
     <section>
-        <Card>
-            <div class="flex justify-end space-y-3 md:space-y-0 md:space-x-4 p-4">
-                <Link href="/manage/server-tokens/create" v-if="can('web.manage.server_tokens.edit')">
-                    <FilledButton variant="primary">
-                        <SvgIcon :svg="Icons.plus" />
-                        Create Token
-                    </FilledButton>
-                </Link>
-            </div>
-
+        <SuccessAlert v-if="success" :message="success" class="mb-4"/>
+        <Card padding="none">
             <ServerTokenListTable :tokens="props.tokens"/>
         </Card>
     </section>
+    </div>
 </template>

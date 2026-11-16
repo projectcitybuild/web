@@ -16,7 +16,7 @@ function submit(form: InertiaForm<Donation>) {
 </script>
 
 <template>
-    <ManageFormPage title="Edit a Donation" description="For book-keeping, and adds an amount to the &quot;donation bar&quot;">
+    <ManageFormPage title="Edit Donation" description="Update this contribution record and its donation-bar amount." :breadcrumbs="[{ label: 'Manage', href: '/manage' }, { label: 'Donations', href: '/manage/donations' }, { label: 'Edit' }]">
         <DonationForm :donation="props.donation" :submit="submit" />
     </ManageFormPage>
 </template>

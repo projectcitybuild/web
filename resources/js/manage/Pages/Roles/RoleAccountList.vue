@@ -7,8 +7,8 @@ import type { Account } from '../../Data/Account'
 import InfinitePagination from '../../Components/InfinitePagination.vue'
 import RoleMemberListTable from './Partials/RoleMemberListTable.vue'
 import { Role } from '../../Data/Role'
-import ToolBar from '../../Components/ToolBar.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
+import ManageBreadcrumbs from '../../Components/ManageBreadcrumbs.vue'
 
 interface Props {
     success?: string,
@@ -20,19 +20,19 @@ defineProps<Props>()
 </script>
 
 <template>
-    <Head title="Manage Roles"/>
+    <Head :title="'Members of ' + role.name"/>
 
-    <PageHeader title="Role Members" class="mb-4" />
+    <div class="space-y-6">
+    <PageHeader :title="'Members of ' + role.name" description="Review the accounts assigned to this role.">
+        <template #breadcrumbs>
+            <ManageBreadcrumbs :items="[{ label: 'Manage', href: '/manage' }, { label: 'Roles', href: '/manage/roles' }, { label: role.name }, { label: 'Members' }]" />
+        </template>
+    </PageHeader>
 
     <section>
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
-        <ToolBar>
-            <template v-slot:left>
-            </template>
-        </ToolBar>
-
-        <Card class="mt-4">
+        <Card padding="none" class="mt-4">
             <InfinitePagination
                 :initial="accounts"
                 v-slot="source"
@@ -41,4 +41,5 @@ defineProps<Props>()
             </InfinitePagination>
         </Card>
     </section>
+    </div>
 </template>

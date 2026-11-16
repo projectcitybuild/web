@@ -17,6 +17,6 @@ const fields = [
 <template>
     <DataTable v-if="roles.length > 0" :fields="fields" :rows="roles" />
     <div v-else class="flex p-4">
-        <span class="text-sm text-gray-400">No roles</span>
+        <span class="text-sm text-subtle">No roles</span>
     </div>
 </template>

@@ -15,7 +15,7 @@ function submit(form: InertiaForm<Account>) {
 </script>
 
 <template>
-    <ManageFormPage title="Edit an Account" description="Web account that can log in">
+    <ManageFormPage title="Edit Account" description="Update this website account and its sign-in details." :breadcrumbs="[{ label: 'Manage', href: '/manage' }, { label: 'Accounts', href: '/manage/accounts' }, { label: 'Edit' }]">
         <AccountForm :account="props.account" :submit="submit" />
     </ManageFormPage>
 </template>

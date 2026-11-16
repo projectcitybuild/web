@@ -10,7 +10,6 @@ import PlayerWarningListTable from './Partials/PlayerWarningListTable.vue'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
 import { ref } from 'vue'
 import Spinner from '../../Components/Spinner.vue'
-import ToolBar from '../../Components/ToolBar.vue'
 import OutlinedButton from '../../Components/OutlinedButton.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
 import FilledButton from '../../Components/FilledButton.vue'
@@ -20,6 +19,9 @@ import PlayerIPListTable from './Partials/PlayerIPListTable.vue'
 import PlayerHomeListTable from './Partials/PlayerHomeListTable.vue'
 import { Icons } from '../../Icons'
 import usePermissions from '../../Composables/usePermissions'
+import PageHeader from '../../../shared/Components/PageHeader.vue'
+import ManageBreadcrumbs from '../../Components/ManageBreadcrumbs.vue'
+import LinkButton from '../../../shared/Components/LinkButton.vue'
 
 interface Props {
     player: Player,
@@ -58,13 +60,11 @@ async function refreshAlias() {
     <div>
         <Head :title="'Viewing Player: ' + (player.alias ?? player.uuid)"/>
 
-        <SuccessAlert v-if="success" :message="success" class="mb-4"/>
-        <ErrorAlert v-if="error" :errors="[error]" class="mb-4" />
-
-        <ToolBar>
-            <template v-slot:left>
+        <PageHeader :title="player.alias ?? player.uuid" description="Review Minecraft player details, moderation history, homes, and linked account.">
+            <template #breadcrumbs>
+                <ManageBreadcrumbs :items="[{ label: 'Manage', href: '/manage' }, { label: 'Minecraft' }, { label: 'Players', href: '/manage/players' }, { label: player.alias ?? player.uuid }]" />
             </template>
-            <template v-slot:right v-if="can('web.manage.players.edit')">
+            <template #actions v-if="can('web.manage.players.edit')">
                 <OutlinedButton
                     variant="secondary"
                     @click="refreshAlias"
@@ -76,21 +76,22 @@ async function refreshAlias() {
                     </span>
                 </OutlinedButton>
 
-                <Link :href="'/manage/players/' + player.id + '/edit'">
-                    <OutlinedButton variant="primary">
-                        <SvgIcon :svg="Icons.pencil" />
-                        Edit Player
-                    </OutlinedButton>
-                </Link>
+                <LinkButton :href="'/manage/players/' + player.id + '/edit'" variant="outline">
+                    <SvgIcon :svg="Icons.pencil" />
+                    Edit Player
+                </LinkButton>
             </template>
-        </ToolBar>
+        </PageHeader>
 
-        <div class="mt-4 flex flex-col gap-4 md:flex-row">
+        <SuccessAlert v-if="success" :message="success" class="mb-4"/>
+        <ErrorAlert v-if="error" :errors="[error]" class="mb-4" />
+
+        <div class="mt-4 flex flex-col gap-4 xl:flex-row">
             <section>
-                <Card class="max-w-2xl">
+                <Card padding="none" class="max-w-2xl">
                     <div class="p-4 flex flex-col items-center">
                         <MinecraftAvatar :uuid="player.uuid" :size="96" class="shadow-lg" />
-                        <h1 class="mt-4 text-2xl font-semibold text-foreground">{{ player.alias }}</h1>
+                        <h2 class="mt-4 text-2xl font-semibold text-foreground">{{ player.alias ?? player.uuid }}</h2>
                         <span class="mt-2 text-sm text-muted">{{ player.uuid }}</span>
                     </div>
                     <div class="p-4 border-t border-border">
@@ -123,7 +124,7 @@ async function refreshAlias() {
                     </div>
                 </Card>
 
-                <Card class="max-w-2xl mt-4 p-4">
+                <Card padding="md" class="max-w-2xl mt-4">
                     <h2 class="text-base font-semibold">Meta</h2>
 
                     <div class="mt-4 space-y-4">
@@ -137,7 +138,7 @@ async function refreshAlias() {
                     </div>
                 </Card>
 
-                <Card class="max-w-2xl mt-4 p-4">
+                <Card padding="md" class="max-w-2xl mt-4">
                     <h2 class="text-base font-semibold">Owner</h2>
 
                     <div class="mt-4">
@@ -160,12 +161,10 @@ async function refreshAlias() {
             </section>
 
             <section class="grow">
-                <Card v-if="can('web.manage.uuid_bans.view')">
+                <Card padding="none" v-if="can('web.manage.uuid_bans.view')">
                     <div class="p-4 flex justify-between items-center">
                         <h2 class="text-base font-semibold">Player Bans</h2>
-                        <Link :href="'/manage/player-bans/create?uuid=' + player.uuid">
-                            <FilledButton variant="danger">Create</FilledButton>
-                        </Link>
+                        <LinkButton :href="'/manage/player-bans/create?uuid=' + player.uuid" variant="danger">Create</LinkButton>
                     </div>
                     <InfinitePagination
                         :path="'/manage/players/' + player.id + '/bans'"
@@ -176,12 +175,10 @@ async function refreshAlias() {
                     </InfinitePagination>
                 </Card>
 
-                <Card class="mt-4" v-if="can('web.manage.warnings.view')">
+                <Card padding="none" class="mt-4" v-if="can('web.manage.warnings.view')">
                     <div class="p-4 flex justify-between items-center">
                         <h2 class="text-base font-semibold">Player Warnings</h2>
-                        <Link :href="'/manage/warnings/create?uuid=' + player.uuid">
-                            <FilledButton variant="danger">Create</FilledButton>
-                        </Link>
+                        <LinkButton :href="'/manage/warnings/create?uuid=' + player.uuid" variant="danger">Create</LinkButton>
                     </div>
                     <InfinitePagination
                         :path="'/manage/players/' + player.id + '/warnings'"
@@ -192,7 +189,7 @@ async function refreshAlias() {
                     </InfinitePagination>
                 </Card>
 
-                <Card class="mt-4" v-if="can('web.manage.homes.view')">
+                <Card padding="none" class="mt-4" v-if="can('web.manage.homes.view')">
                     <div class="p-4 flex justify-between items-center">
                         <h2 class="text-base font-semibold">Homes</h2>
                     </div>
@@ -205,7 +202,7 @@ async function refreshAlias() {
                     </InfinitePagination>
                 </Card>
 
-                <Card class="mt-4" v-if="can('web.manage.players.view_ips')">
+                <Card padding="none" class="mt-4" v-if="can('web.manage.players.view_ips')">
                     <div class="p-4 flex justify-between items-center">
                         <h2 class="text-base font-semibold">Known IP Addresses</h2>
                     </div>

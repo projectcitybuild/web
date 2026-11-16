@@ -9,7 +9,7 @@ const props = defineProps<Props>()
 </script>
 
 <template>
-    <span>
+    <span class="text-xs text-subtle">
         Showing <strong>{{ props.from ?? 0 }}</strong>–<strong>{{ props.to ?? 0 }}</strong> of <strong>{{ props.total }}</strong>
     </span>
 </template>

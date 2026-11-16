@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { Link, useForm } from '@inertiajs/vue3'
+import { useForm } from '@inertiajs/vue3'
 import { ref } from 'vue'
 import ManageFormPage from '../../Components/ManageFormPage.vue'
-import Spinner from '../../Components/Spinner.vue'
-import FilledButton from '../../Components/FilledButton.vue'
+import Button from '../../../shared/Components/Button.vue'
+import LinkButton from '../../../shared/Components/LinkButton.vue'
 import MailPreview from './Components/MailPreview.vue'
 
 interface Props {
@@ -39,11 +39,11 @@ function sendAnnouncement() {
 
 <template>
     <section>
-        <ManageFormPage title="Compose announcement" description="This message will be sent to all Minecraft players.">
+        <ManageFormPage title="Compose Announcement" description="Prepare a message for delivery to all Minecraft players." :breadcrumbs="[{ label: 'Manage', href: '/manage' }, { label: 'Minecraft' }, { label: 'Mail', href: '/manage/player-mail' }, { label: 'Create' }]">
             <div class="grid gap-8 xl:grid-cols-2">
                     <form class="space-y-5" @submit.prevent="reviewAnnouncement">
                         <div>
-                            <label for="subject" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Subject <span class="text-red-600">*</span></label>
+                            <label for="subject" class="mb-2 block text-sm font-medium text-foreground">Subject <span class="text-danger">*</span></label>
                             <input
                                 id="subject"
                                 v-model="form.subject"
@@ -52,16 +52,16 @@ function sendAnnouncement() {
                                 autocomplete="off"
                                 :aria-invalid="form.errors.subject ? 'true' : undefined"
                                 :aria-describedby="form.errors.subject ? 'subject-error' : undefined"
-                                class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                                class="block w-full rounded-lg border border-border-strong bg-surface-muted p-2.5 text-sm text-foreground focus:border-primary focus:ring-focus"
                             >
-                            <div class="mt-1 flex justify-between gap-2 text-xs text-gray-500">
-                                <span v-if="form.errors.subject" id="subject-error" role="alert" class="font-medium text-red-600">{{ form.errors.subject }}</span>
+                            <div class="mt-1 flex justify-between gap-2 text-xs text-muted">
+                                <span v-if="form.errors.subject" id="subject-error" role="alert" class="font-medium text-danger">{{ form.errors.subject }}</span>
                                 <span class="ml-auto">{{ form.subject.length }} / 191</span>
                             </div>
                         </div>
 
                         <div>
-                            <label for="body" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Message <span class="text-red-600">*</span></label>
+                            <label for="body" class="mb-2 block text-sm font-medium text-foreground">Message <span class="text-danger">*</span></label>
                             <textarea
                                 id="body"
                                 v-model="form.body"
@@ -70,26 +70,26 @@ function sendAnnouncement() {
                                 rows="9"
                                 :aria-invalid="form.errors.body ? 'true' : undefined"
                                 :aria-describedby="form.errors.body ? 'body-error' : undefined"
-                                class="block w-full resize-y rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                                class="block w-full resize-y rounded-lg border border-border-strong bg-surface-muted p-2.5 text-sm text-foreground focus:border-primary focus:ring-focus"
                             />
-                            <div class="mt-1 flex justify-between gap-2 text-xs text-gray-500">
-                                <span v-if="form.errors.body" id="body-error" role="alert" class="font-medium text-red-600">{{ form.errors.body }}</span>
+                            <div class="mt-1 flex justify-between gap-2 text-xs text-muted">
+                                <span v-if="form.errors.body" id="body-error" role="alert" class="font-medium text-danger">{{ form.errors.body }}</span>
                                 <span class="ml-auto">{{ form.body.length }} / 5,000</span>
                             </div>
                         </div>
 
                         <div>
-                            <span class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Audience</span>
-                            <div class="border border-border bg-gray-50 px-4 py-3 text-sm text-gray-700 dark:bg-gray-800 dark:text-gray-200">
-                                All Minecraft players <span class="text-gray-500">({{ recipientCount }} currently registered)</span>
+                            <span class="mb-2 block text-sm font-medium text-foreground">Audience</span>
+                            <div class="border border-border bg-surface-muted px-4 py-3 text-sm text-muted dark:text-muted">
+                                All Minecraft players <span class="text-muted">({{ recipientCount }} currently registered)</span>
                             </div>
                         </div>
 
                         <div class="flex flex-wrap gap-3">
-                            <FilledButton variant="primary" type="submit" :disabled="form.processing">
+                            <Button variant="primary" type="submit" :disabled="form.processing">
                                 Review announcement
-                            </FilledButton>
-                            <Link href="/manage/player-mail" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700">Cancel</Link>
+                            </Button>
+                            <LinkButton href="/manage/player-mail" variant="ghost">Cancel</LinkButton>
                         </div>
                     </form>
 
@@ -122,18 +122,17 @@ function sendAnnouncement() {
                     </div>
                 </dl>
                 <MailPreview :subject="form.subject" :body="form.body" />
-                <p class="border-l-4 border-amber-500 bg-amber-50 px-3 py-2 text-sm text-amber-900 dark:bg-amber-950 dark:text-amber-100">
+                <p class="border-l-4 border-warning bg-warning-soft px-3 py-2 text-sm text-warning dark:text-warning">
                     This announcement cannot be recalled after delivery begins.
                 </p>
             </div>
             <div class="flex flex-col-reverse justify-end gap-2 border-t border-border bg-surface-muted p-4 sm:flex-row">
-                <button type="button" class="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 dark:text-gray-200 dark:hover:bg-gray-700" :disabled="form.processing" @click="confirmation?.close()">
+                <Button variant="secondary" :disabled="form.processing" @click="confirmation?.close()">
                     Go back
-                </button>
-                <button type="button" class="inline-flex items-center justify-center gap-2 bg-emerald-700 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-60" :disabled="form.processing" @click="sendAnnouncement">
-                    <Spinner v-if="form.processing" />
+                </Button>
+                <Button variant="primary" :loading="form.processing" @click="sendAnnouncement">
                     {{ form.processing ? 'Sending...' : 'Confirm and send' }}
-                </button>
+                </Button>
             </div>
         </dialog>
     </section>

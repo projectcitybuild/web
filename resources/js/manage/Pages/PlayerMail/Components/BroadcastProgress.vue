@@ -35,12 +35,12 @@ const summary = computed(() => {
 <template>
     <div>
         <div class="mb-2 flex flex-wrap items-baseline justify-between gap-2 text-sm">
-            <span class="font-medium text-gray-900 dark:text-white">{{ summary }}</span>
-            <span v-if="audienceSize > 0" class="text-gray-500">{{ percentage }}%</span>
+            <span class="font-medium text-foreground">{{ summary }}</span>
+            <span v-if="audienceSize > 0" class="text-muted">{{ percentage }}%</span>
         </div>
         <div
             v-if="audienceSize > 0"
-            class="h-2 overflow-hidden bg-gray-200 dark:bg-gray-700"
+            class="h-2 overflow-hidden bg-surface-hover"
             role="progressbar"
             :aria-valuenow="percentage"
             aria-valuemin="0"
@@ -49,11 +49,11 @@ const summary = computed(() => {
         >
             <div
                 class="h-full transition-[width] duration-300"
-                :class="status === 'failed' ? 'bg-red-600' : status === 'completed' ? 'bg-emerald-600' : 'bg-sky-600'"
+                :class="status === 'failed' ? 'bg-danger' : status === 'completed' ? 'bg-primary' : 'bg-info'"
                 :style="{ width: `${percentage}%` }"
             />
         </div>
-        <p v-if="status === 'failed'" class="mt-2 text-sm font-medium text-red-700 dark:text-red-300">
+        <p v-if="status === 'failed'" class="mt-2 text-sm font-medium text-danger dark:text-danger">
             Delivery stopped before the announcement reached its full audience.
         </p>
     </div>

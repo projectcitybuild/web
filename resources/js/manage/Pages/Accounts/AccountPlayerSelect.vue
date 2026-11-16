@@ -23,14 +23,14 @@ function submit() {
 </script>
 
 <template>
-    <ManageFormPage title="Link a Player" description="Associates a Minecraft player with this account">
+    <ManageFormPage title="Link Player" description="Associate a Minecraft player with this website account." :breadcrumbs="[{ label: 'Manage', href: '/manage' }, { label: 'Accounts', href: '/manage/accounts' }, { label: 'Account #' + props.account_id, href: '/manage/accounts/' + props.account_id }, { label: 'Link Player' }]">
         <form @submit.prevent="submit">
             <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4" />
 
             <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
                 <div class="col-span-2">
-                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                        Player<span class="text-red-500">*</span>
+                    <label for="name" class="block mb-2 text-sm font-medium text-foreground">
+                        Player<span class="text-danger">*</span>
                     </label>
                     <PlayerPicker
                         v-model:uuid="form.uuid"

@@ -5,7 +5,7 @@ import { Icons } from '../Icons'
 
 <template>
     <div role="status">
-        <SvgIcon :svg="Icons.loader" class="size-4 animate-spin text-blue-600" aria-hidden="true" />
+        <SvgIcon :svg="Icons.loader" class="size-4 animate-spin text-primary" aria-hidden="true" />
         <span class="sr-only">Loading...</span>
     </div>
 </template>

@@ -2,10 +2,17 @@
 import { Head } from '@inertiajs/vue3'
 import Card from './Card.vue'
 import PageHeader from '../../shared/Components/PageHeader.vue'
+import ManageBreadcrumbs from './ManageBreadcrumbs.vue'
+
+interface Breadcrumb {
+    label: string,
+    href?: string,
+}
 
 interface Props {
     title: string,
     description?: string,
+    breadcrumbs?: Breadcrumb[],
     framed?: boolean,
     wide?: boolean,
 }
@@ -25,6 +32,9 @@ defineSlots<{
         <Head :title="title" />
 
         <PageHeader :title="title" :description="description">
+            <template v-if="breadcrumbs?.length" #breadcrumbs>
+                <ManageBreadcrumbs :items="breadcrumbs" />
+            </template>
             <template v-if="$slots.actions" #actions>
                 <slot name="actions" />
             </template>

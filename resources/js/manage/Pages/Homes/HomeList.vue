@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { Deferred, Head, Link } from '@inertiajs/vue3'
+import { Deferred, Head } from '@inertiajs/vue3'
 import { Paginated } from '../../Data/Paginated'
 import InfinitePagination from '../../Components/InfinitePagination.vue'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
-import Card from '../../Components/Card.vue'
-import FilledButton from '../../Components/FilledButton.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
 import SpinnerRow from '../../Components/SpinnerRow.vue'
 import { ref } from 'vue'
@@ -12,8 +10,10 @@ import { Icons } from '../../Icons'
 import usePermissions from '../../Composables/usePermissions'
 import { Home } from '../../Data/Home'
 import HomeListTable from './Partials/HomeListTable.vue'
-import ShowingCount from '../../Components/ShowingCount.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
+import ManageBreadcrumbs from '../../Components/ManageBreadcrumbs.vue'
+import ListPage from '../../Components/ListPage.vue'
+import LinkButton from '../../../shared/Components/LinkButton.vue'
 
 interface Props {
     success?: string,
@@ -29,46 +29,45 @@ const { can } = usePermissions()
 <template>
     <Head title="Manage Homes"/>
 
-    <PageHeader title="Homes" class="mb-4" />
-
-    <section>
-        <SuccessAlert v-if="success" :message="success" class="mb-4"/>
-
-        <Card>
-            <div class="flex flex-row items-center justify-between py-4">
-                <div>
-                    <ShowingCount
-                        v-if="homes"
-                        :from="itemCount > 0 ? 1 : 0"
-                        :to="itemCount"
-                        :total="homes.total"
-                        class="text-sm text-gray-500"
-                    />
-                </div>
-
-                <div>
-                    <Link href="/manage/homes/create" v-if="can('web.manage.homes.edit')">
-                        <FilledButton variant="primary" size="sm">
-                            <SvgIcon :svg="Icons.plus" />
-                            Create Home
-                        </FilledButton>
-                    </Link>
-                </div>
-            </div>
-
-            <Deferred data="homes">
-                <template #fallback>
-                    <SpinnerRow />
-                </template>
-
-                <InfinitePagination
-                    :initial="homes"
-                    v-model:count="itemCount"
-                    v-slot="source"
+    <div class="space-y-6">
+        <PageHeader title="Homes" description="Manage saved player locations.">
+            <template #breadcrumbs>
+                <ManageBreadcrumbs :items="[{ label: 'Manage', href: '/manage' }, { label: 'Minecraft' }, { label: 'Homes' }]" />
+            </template>
+            <template #actions>
+                <LinkButton
+                    v-if="can('web.manage.homes.edit')"
+                    href="/manage/homes/create"
+                    variant="primary"
                 >
-                    <HomeListTable :homes="source.data"/>
-                </InfinitePagination>
-            </Deferred>
-        </Card>
-    </section>
+                    <SvgIcon :svg="Icons.plus" aria-hidden="true" />
+                    Create Home
+                </LinkButton>
+            </template>
+        </PageHeader>
+
+        <section>
+            <SuccessAlert v-if="success" :message="success" class="mb-4"/>
+
+            <ListPage
+                :count="homes ? itemCount : undefined"
+                :total="homes?.total"
+                count-label="homes"
+            >
+                <Deferred data="homes">
+                    <template #fallback>
+                        <SpinnerRow />
+                    </template>
+
+                    <InfinitePagination
+                        :initial="homes"
+                        v-model:count="itemCount"
+                        v-slot="source"
+                    >
+                        <HomeListTable :homes="source.data"/>
+                    </InfinitePagination>
+                </Deferred>
+            </ListPage>
+        </section>
+    </div>
 </template>

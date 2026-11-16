@@ -2,13 +2,13 @@
 import { Link } from '@inertiajs/vue3'
 import { format } from '../../../Utilities/DateFormatter'
 import MinecraftAvatar from '../../../Components/MinecraftAvatar.vue'
-import OutlinedButton from '../../../Components/OutlinedButton.vue'
 import SvgIcon from '../../../Components/SvgIcon.vue'
 import { computed } from 'vue'
 import DataTable from '../../../Components/DataTable.vue'
 import usePermissions from '../../../Composables/usePermissions'
 import { Home } from '../../../Data/Home'
 import { Icons } from '../../../Icons'
+import LinkButton from '../../../../shared/Components/LinkButton.vue'
 
 interface Props {
     homes: Home[],
@@ -45,22 +45,22 @@ const rows = computed(
             <MinecraftAvatar :uuid="item.player?.uuid" :size="16"/>
             <Link
                 :href="'/manage/players/' + item.player?.id"
-                class="text-blue-500"
+                class="text-primary"
             >
                 {{ item.player?.alias ?? "-" }}
             </Link>
         </template>
 
         <template #actions="{ item }">
-            <Link
+            <LinkButton
                 v-if="can('web.manage.homes.edit')"
                 :href="'/manage/homes/' + item.id + '/edit'"
+                variant="outline"
+                size="sm"
             >
-                <OutlinedButton variant="secondary" size="sm">
-                    <SvgIcon :svg="Icons.pencil" />
-                    Edit
-                </OutlinedButton>
-            </Link>
+                <SvgIcon :svg="Icons.pencil" aria-hidden="true" />
+                Edit
+            </LinkButton>
         </template>
     </DataTable>
 </template>

@@ -16,7 +16,7 @@ function submit(form: InertiaForm<PlayerWarning>) {
 </script>
 
 <template>
-    <ManageFormPage title="Edit a Player Warning" description="Record an infraction against a player">
+    <ManageFormPage title="Edit Warning" description="Update this recorded player infraction." :breadcrumbs="[{ label: 'Manage', href: '/manage' }, { label: 'Moderation' }, { label: 'Warnings', href: '/manage/warnings' }, { label: 'Edit' }]">
         <WarningForm :warning="props.warning" :submit="submit" />
     </ManageFormPage>
 </template>

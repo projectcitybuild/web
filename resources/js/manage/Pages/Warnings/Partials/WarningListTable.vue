@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import LinkButton from '../../../../shared/Components/LinkButton.vue'
 import { Link } from '@inertiajs/vue3'
 import { PlayerWarning } from '../../../Data/PlayerWarning'
 import { format } from '../../../Utilities/DateFormatter'
@@ -39,7 +40,7 @@ const rows = computed(
                 <MinecraftAvatar :uuid="item.warned_player.uuid" :size="16"/>
                 <Link
                     :href="'/manage/players/' + item.warned_player.id"
-                    class="text-blue-500"
+                    class="text-primary"
                 >
                     {{ item.warned_player.alias ?? '-' }}
                 </Link>
@@ -47,12 +48,10 @@ const rows = computed(
         </template>
 
         <template #actions="{ item }">
-            <Link :href="'/manage/warnings/' + item.id + '/edit'" v-if="can('web.manage.warnings.edit')">
-                <OutlinedButton variant="secondary" size="sm">
-                    <SvgIcon :svg="Icons.pencil" />
-                    Edit
-                </OutlinedButton>
-            </Link>
+            <LinkButton :href="'/manage/warnings/' + item.id + '/edit'" v-if="can('web.manage.warnings.edit')" variant="outline" size="sm">
+                <SvgIcon :svg="Icons.pencil" />
+                Edit
+            </LinkButton>
         </template>
     </DataTable>
 </template>

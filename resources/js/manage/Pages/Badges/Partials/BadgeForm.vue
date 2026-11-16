@@ -52,35 +52,35 @@ function destroy() {
 
         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
             <div class="sm:col-span-2">
-                <label for="display_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Name<span class="text-red-500">*</span>
+                <label for="display_name" class="block mb-2 text-sm font-medium text-foreground">
+                    Name<span class="text-danger">*</span>
                 </label>
                 <input
                     v-model="form.display_name"
                     id="display_name"
-                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
                     placeholder="eg. Build-Off Winner"
                 >
-                <div v-if="form.errors.display_name" class="text-xs text-red-500 font-bold mt-2">
+                <div v-if="form.errors.display_name" class="text-xs text-danger font-bold mt-2">
                     {{ form.errors.display_name }}
                 </div>
             </div>
             <div>
-                <label for="unicode_icon" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Unicode Icon<span class="text-red-500">*</span>
+                <label for="unicode_icon" class="block mb-2 text-sm font-medium text-foreground">
+                    Unicode Icon<span class="text-danger">*</span>
                 </label>
                 <input
                     v-model="form.unicode_icon"
                     id="unicode_icon"
                     placeholder="<gold>★</gold>"
-                    class="block p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    class="block p-2.5 text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
                 >
-                <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
-                    Character/s to use as the badge icon in chat. Supports <a class="text-blue-500"
+                <span class="block mt-2 text-xs font-medium text-subtle">
+                    Character/s to use as the badge icon in chat. Supports <a class="text-primary"
                                                                               href="https://docs.advntr.dev/minimessage/format.html"
                                                                               target="_blank">MiniMessage</a> format
                 </span>
-                <div v-if="form.errors.unicode_icon" class="text-xs text-red-500 font-bold mt-2">
+                <div v-if="form.errors.unicode_icon" class="text-xs text-danger font-bold mt-2">
                     {{ form.errors.unicode_icon }}
                 </div>
             </div>
@@ -92,16 +92,16 @@ function destroy() {
                         false-value="0"
                         id="list_hidden"
                         type="checkbox"
-                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        class="w-4 h-4 text-primary bg-surface-muted border-border-strong rounded focus:ring-focus ring-offset-surface focus:ring-2"
                     >
-                    <label for="list_hidden" class="ms-2 text-sm text-gray-900 dark:text-gray-300">
+                    <label for="list_hidden" class="ms-2 text-sm text-foreground dark:text-subtle">
                         Hidden in List
                     </label>
                 </div>
-                <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
+                <span class="block mt-2 text-xs font-medium text-subtle">
                     Whether this badge will appear in the "attainable badges" list
                 </span>
-                <div v-if="form.errors.list_hidden" class="text-xs text-red-500 font-bold mt-2">
+                <div v-if="form.errors.list_hidden" class="text-xs text-danger font-bold mt-2">
                     {{ form.errors.list_hidden }}
                 </div>
             </div>

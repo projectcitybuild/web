@@ -16,7 +16,7 @@ function submit(form: InertiaForm<Home>) {
 </script>
 
 <template>
-    <ManageFormPage title="Edit a Home" description="Register a saved home coordinate for a player">
+    <ManageFormPage title="Edit Home" description="Update this saved Minecraft player location." :breadcrumbs="[{ label: 'Manage', href: '/manage' }, { label: 'Minecraft' }, { label: 'Homes', href: '/manage/homes' }, { label: 'Edit' }]">
         <HomeForm :home="props.home" :submit="submit" />
     </ManageFormPage>
 </template>

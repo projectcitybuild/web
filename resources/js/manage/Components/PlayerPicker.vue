@@ -51,12 +51,12 @@ onMounted(() => {
 
 <template>
     <div v-if="uuid"
-         class="flex flex-row flex-wrap justify-between gap-5 items-center p-4 border border-gray-100 rounded-lg">
+         class="flex flex-row flex-wrap justify-between gap-5 items-center p-4 border border-border rounded-lg">
         <MinecraftAvatar :uuid="uuid" :size="64"/>
 
         <div class="grow">
-            <div class="text-lg text-gray-900 dark:text-white font-bold">{{ alias }}</div>
-            <div class="text-xs text-gray-400 dark:text-white">{{ uuid }}</div>
+            <div class="text-lg text-foreground font-bold">{{ alias }}</div>
+            <div class="text-xs text-subtle">{{ uuid }}</div>
         </div>
 
         <OutlinedButton
@@ -68,14 +68,14 @@ onMounted(() => {
     </div>
 
     <div v-else>
-        <div v-if="loadError" class="text-red-500 text-sm font-bold mb-2">{{ loadError }}</div>
+        <div v-if="loadError" class="text-danger text-sm font-bold mb-2">{{ loadError }}</div>
 
         <div class="flex flex-row gap-2 justify-center items-stretch">
             <input
                 type="text"
                 name="name"
                 id="name"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                class="bg-surface border border-border-strong text-foreground text-sm rounded-lg focus:ring-focus focus:border-primary block w-full p-2.5 placeholder:text-subtle"
                 placeholder="UUID or name"
                 :disabled="loading"
                 v-model="searchText"

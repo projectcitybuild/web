@@ -14,6 +14,8 @@ import { Icons } from '../../Icons'
 import usePermissions from '../../Composables/usePermissions'
 import ShowingCount from '../../Components/ShowingCount.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
+import LinkButton from '../../../shared/Components/LinkButton.vue'
+import ManageBreadcrumbs from '../../Components/ManageBreadcrumbs.vue'
 
 interface Props {
     bans?: Paginated<IPBan>,
@@ -29,12 +31,22 @@ const { can } = usePermissions()
 <template>
     <Head title="Manage IP Bans"/>
 
-    <PageHeader title="IP Bans" class="mb-4" />
-
-    <SuccessAlert v-if="success" :message="success" class="mb-4"/>
+    <div class="space-y-6">
+    <PageHeader title="IP Bans" description="Manage restrictions on Minecraft server IP addresses.">
+        <template #breadcrumbs>
+            <ManageBreadcrumbs :items="[{ label: 'Manage', href: '/manage' }, { label: 'Moderation' }, { label: 'IP Bans' }]" />
+        </template>
+        <template #actions>
+            <LinkButton v-if="can('web.manage.ip_bans.edit')" href="/manage/ip-bans/create" variant="primary">
+                <SvgIcon :svg="Icons.plus" />
+                Create Ban
+            </LinkButton>
+        </template>
+    </PageHeader>
 
     <section>
-        <Card>
+        <SuccessAlert v-if="success" :message="success" class="mb-4"/>
+        <Card padding="none">
             <div class="flex flex-row items-center justify-between py-4">
                 <div>
                     <ShowingCount
@@ -42,16 +54,10 @@ const { can } = usePermissions()
                         :from="itemCount > 0 ? 1 : 0"
                         :to="itemCount"
                         :total="bans.total"
-                        class="text-sm text-gray-500"
+                        class="text-sm text-muted"
                     />
                 </div>
                 <div>
-                    <Link href="/manage/ip-bans/create" v-if="can('web.manage.ip_bans.edit')">
-                        <FilledButton variant="primary">
-                            <SvgIcon :svg="Icons.plus" />
-                            Create Ban
-                        </FilledButton>
-                    </Link>
                 </div>
             </div>
 
@@ -70,4 +76,5 @@ const { can } = usePermissions()
             </Deferred>
         </Card>
     </section>
+    </div>
 </template>

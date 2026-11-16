@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import LinkButton from '../../../../shared/Components/LinkButton.vue'
 import { format } from '../../../Utilities/DateFormatter'
 import { Home } from '../../../Data/Home';
 import usePermissions from '../../../Composables/usePermissions';
@@ -46,12 +47,10 @@ defineProps<Props>()
             <TableCell>{{ Number(home.yaw).toFixed(2) }}</TableCell>
             <TableCell>{{ format(home.created_at) }}</TableCell>
             <TableCell v-if="can('web.manage.homes.edit')" align="end">
-                    <Link :href="'/manage/homes/' + home.id + '/edit'" v-if="can('web.manage.homes.edit')">
-                        <OutlinedButton variant="secondary" size="sm">
-                            <SvgIcon :svg="Icons.pencil" />
-                            Edit
-                        </OutlinedButton>
-                    </Link>
+                    <LinkButton :href="'/manage/homes/' + home.id + '/edit'" v-if="can('web.manage.homes.edit')" variant="outline" size="sm">
+                        <SvgIcon :svg="Icons.pencil" />
+                        Edit
+                    </LinkButton>
             </TableCell>
         </TableRow>
     </Table>

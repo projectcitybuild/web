@@ -31,7 +31,7 @@ function didFail(error: Error) {
 
 <template>
     <div
-        class="bg-gray-50 flex justify-center items-center"
+        class="bg-surface-muted flex justify-center items-center"
         :style="{width: props.size + 'px', height: props.size + 'px'}"
     >
         <Spinner v-if="loaded == null"/>
@@ -45,6 +45,6 @@ function didFail(error: Error) {
             :alt="props.uuid"
         />
 
-        <SvgIcon v-if="loaded?.isError()" :svg="Icons.close" class="size-6 text-gray-400" aria-hidden="true" />
+        <SvgIcon v-if="loaded?.isError()" :svg="Icons.close" class="size-6 text-subtle" aria-hidden="true" />
     </div>
 </template>

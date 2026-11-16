@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import { Deferred, Head, Link } from '@inertiajs/vue3'
+import { Deferred, Head } from '@inertiajs/vue3'
 import { Paginated } from '../../Data/Paginated'
 import type { Badge } from '../../Data/Badge'
 import BadgeListTable from './Partials/BadgeListTable.vue'
 import InfinitePagination from '../../Components/InfinitePagination.vue'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
-import Card from '../../Components/Card.vue'
-import FilledButton from '../../Components/FilledButton.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
 import SpinnerRow from '../../Components/SpinnerRow.vue'
 import { ref } from 'vue'
 import { Icons } from '../../Icons'
 import usePermissions from '../../Composables/usePermissions'
-import ShowingCount from '../../Components/ShowingCount.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
+import ManageBreadcrumbs from '../../Components/ManageBreadcrumbs.vue'
+import ListPage from '../../Components/ListPage.vue'
+import LinkButton from '../../../shared/Components/LinkButton.vue'
 
 interface Props {
     success?: string,
@@ -29,33 +29,31 @@ const { can } = usePermissions()
 <template>
     <Head title="Manage Badges"/>
 
-    <PageHeader title="Badges" class="mb-4" />
+    <div class="space-y-6">
+        <PageHeader title="Badges" description="Manage player badges and achievements.">
+            <template #breadcrumbs>
+                <ManageBreadcrumbs :items="[{ label: 'Manage', href: '/manage' }, { label: 'Badges' }]" />
+            </template>
+            <template #actions>
+                <LinkButton
+                    v-if="can('web.manage.badges.edit')"
+                    href="/manage/badges/create"
+                    variant="primary"
+                >
+                    <SvgIcon :svg="Icons.plus" aria-hidden="true" />
+                    Create Badge
+                </LinkButton>
+            </template>
+        </PageHeader>
 
-    <section>
-        <SuccessAlert v-if="success" :message="success" class="mb-4"/>
+        <section>
+            <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
-        <Card>
-            <div class="flex flex-row items-center justify-between py-4">
-                <div>
-                    <ShowingCount
-                        v-if="badges"
-                        :from="itemCount > 0 ? 1 : 0"
-                        :to="itemCount"
-                        :total="badges.total"
-                        class="text-sm text-gray-500"
-                    />
-                </div>
-
-                <div>
-                    <Link href="/manage/badges/create" v-if="can('web.manage.badges.edit')">
-                        <FilledButton variant="primary" size="sm">
-                            <SvgIcon :svg="Icons.plus" />
-                            Create Badge
-                        </FilledButton>
-                    </Link>
-                </div>
-            </div>
-
+            <ListPage
+                :count="badges ? itemCount : undefined"
+                :total="badges?.total"
+                count-label="badges"
+            >
             <Deferred data="badges">
                 <template #fallback>
                     <SpinnerRow />
@@ -69,6 +67,7 @@ const { can } = usePermissions()
                     <BadgeListTable :badges="source.data"/>
                 </InfinitePagination>
             </Deferred>
-        </Card>
-    </section>
+            </ListPage>
+        </section>
+    </div>
 </template>

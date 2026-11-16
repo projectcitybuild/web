@@ -50,63 +50,63 @@ function destroy() {
 
         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
             <div>
-                <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Name<span class="text-red-500">*</span>
+                <label for="description" class="block mb-2 text-sm font-medium text-foreground">
+                    Name<span class="text-danger">*</span>
                 </label>
                 <input
                     v-model="form.name"
                     id="name"
-                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
                 >
-                <div v-if="form.errors.name" class="text-xs text-red-500 font-bold mt-2">
+                <div v-if="form.errors.name" class="text-xs text-danger font-bold mt-2">
                     {{ form.errors.name }}
                 </div>
             </div>
             <div>
-                <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    IP Address<span class="text-red-500">*</span>
+                <label for="description" class="block mb-2 text-sm font-medium text-foreground">
+                    IP Address<span class="text-danger">*</span>
                 </label>
                 <input
                     v-model="form.ip"
                     id="ip"
-                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
                     placeholder="192.168.0.1"
                 >
-                <div v-if="form.errors.ip" class="text-xs text-red-500 font-bold mt-2">
+                <div v-if="form.errors.ip" class="text-xs text-danger font-bold mt-2">
                     {{ form.errors.ip }}
                 </div>
             </div>
             <div>
-                <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Port<span class="text-red-500">*</span>
+                <label for="description" class="block mb-2 text-sm font-medium text-foreground">
+                    Port<span class="text-danger">*</span>
                 </label>
                 <input
                     v-model="form.port"
                     id="port"
-                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
                     placeholder="25565"
                 >
-                <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
+                <span class="block mt-2 text-xs font-medium text-subtle">
                     The Minecraft server port
                 </span>
-                <div v-if="form.errors.port" class="text-xs text-red-500 font-bold mt-2">
+                <div v-if="form.errors.port" class="text-xs text-danger font-bold mt-2">
                     {{ form.errors.port }}
                 </div>
             </div>
             <div>
-                <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <label for="description" class="block mb-2 text-sm font-medium text-foreground">
                     Web Port
                 </label>
                 <input
                     v-model="form.web_port"
                     id="web_port"
-                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
                     placeholder="8080"
                 >
-                <span class="block mt-2 text-xs font-medium text-gray-400 dark:text-white">
+                <span class="block mt-2 text-xs font-medium text-subtle">
                     The web port to send webhook events to
                 </span>
-                <div v-if="form.errors.web_port" class="text-xs text-red-500 font-bold mt-2">
+                <div v-if="form.errors.web_port" class="text-xs text-danger font-bold mt-2">
                     {{ form.errors.web_port }}
                 </div>
             </div>
