@@ -8,6 +8,7 @@ import FilledButton from '../../Components/FilledButton.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
 import { Icons } from '../../Icons'
 import usePermissions from '../../Composables/usePermissions'
+import PageHeader from '../../../shared/Components/PageHeader.vue'
 
 interface Props {
     servers: Server[],
@@ -21,6 +22,8 @@ const { can } = usePermissions()
 
 <template>
     <Head title="Manage Servers"/>
+
+    <PageHeader title="Servers" class="mb-4" />
 
     <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 

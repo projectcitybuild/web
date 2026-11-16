@@ -8,6 +8,7 @@ import FilledButton from '../../Components/FilledButton.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
 import { Icons } from '../../Icons'
 import usePermissions from '../../Composables/usePermissions'
+import PageHeader from '../../../shared/Components/PageHeader.vue'
 
 interface Props {
     tokens: ServerToken[],
@@ -21,6 +22,8 @@ const { can } = usePermissions()
 
 <template>
     <Head title="Manage Server Tokens"/>
+
+    <PageHeader title="Server Tokens" class="mb-4" />
 
     <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 

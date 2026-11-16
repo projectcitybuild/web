@@ -2,7 +2,9 @@
 import { format } from '../../../Utilities/DateFormatter'
 import { Home } from '../../../Data/Home';
 import usePermissions from '../../../Composables/usePermissions';
-import FilledButton from '../../../Components/FilledButton.vue';
+import OutlinedButton from '../../../Components/OutlinedButton.vue';
+import SvgIcon from '../../../Components/SvgIcon.vue';
+import { Icons } from '../../../Icons';
 import { Link } from '@inertiajs/vue3';
 import Table from '../../../../shared/Components/Table.vue'
 import TableCell from '../../../../shared/Components/TableCell.vue'
@@ -45,9 +47,10 @@ defineProps<Props>()
             <TableCell>{{ format(home.created_at) }}</TableCell>
             <TableCell v-if="can('web.manage.homes.edit')" align="end">
                     <Link :href="'/manage/homes/' + home.id + '/edit'" v-if="can('web.manage.homes.edit')">
-                        <FilledButton variant="secondary" size="sm">
+                        <OutlinedButton variant="secondary" size="sm">
+                            <SvgIcon :svg="Icons.pencil" />
                             Edit
-                        </FilledButton>
+                        </OutlinedButton>
                     </Link>
             </TableCell>
         </TableRow>

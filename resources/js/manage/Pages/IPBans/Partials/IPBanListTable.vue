@@ -5,7 +5,9 @@ import { format } from '../../../Utilities/DateFormatter'
 import Pill from '../../../Components/Pill.vue'
 import { computed } from 'vue'
 import DataTable from '../../../Components/DataTable.vue'
-import FilledButton from '../../../Components/FilledButton.vue'
+import OutlinedButton from '../../../Components/OutlinedButton.vue'
+import SvgIcon from '../../../Components/SvgIcon.vue'
+import { Icons } from '../../../Icons'
 import usePermissions from '../../../Composables/usePermissions'
 
 interface Props {
@@ -43,9 +45,10 @@ function isActive(ban: IPBan) {
 
         <template #actions="{ item }" v-if="can('web.manage.ip_bans.edit')">
             <Link :href="'/manage/ip-bans/' + item.id + '/edit'">
-                <FilledButton variant="secondary" size="sm">
+                <OutlinedButton variant="secondary" size="sm">
+                    <SvgIcon :svg="Icons.pencil" />
                     Edit
-                </FilledButton>
+                </OutlinedButton>
             </Link>
         </template>
     </DataTable>

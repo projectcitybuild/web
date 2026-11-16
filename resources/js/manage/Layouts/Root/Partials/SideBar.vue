@@ -2,6 +2,7 @@
 import AdminNavGroup from '../../../../shared/Layouts/Admin/components/AdminNavGroup.vue'
 import AdminNavLink from '../../../../shared/Layouts/Admin/components/AdminNavLink.vue'
 import SvgIcon from '../../../Components/SvgIcon.vue'
+import { Icons } from '../../../Icons'
 import usePermissions from '../../../Composables/usePermissions';
 import { filterSidebar } from '../../../Navigation/FilterSidebar';
 import { sidebarMenu } from '../../../Navigation/Sidebar';
@@ -19,9 +20,7 @@ const filteredMenu = computed(() =>
         <li>
             <AdminNavLink href="/manage" label="Dashboard">
                 <template #icon>
-                    <svg class="size-5" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75h6.5v6.5h-6.5zm10 0h6.5v6.5h-6.5zm-10 10h6.5v6.5h-6.5zm10 0h6.5v6.5h-6.5z" />
-                    </svg>
+                    <SvgIcon :svg="Icons.dashboard" class="size-5" aria-hidden="true" />
                 </template>
             </AdminNavLink>
         </li>
@@ -32,15 +31,13 @@ const filteredMenu = computed(() =>
             :children="section.children"
         >
             <template #child-icon="{ child }">
-                <SvgIcon :svg="child.icon" :thickness="2" class="size-4" />
+                <SvgIcon :svg="child.icon" class="size-4" />
             </template>
         </AdminNavGroup>
         <li class="mt-4 border-t border-border pt-4">
             <AdminNavLink href="/manage/activity" label="Audit Logs">
                 <template #icon>
-                    <svg class="size-5" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 4h16v16H4zm0 4h16M8 4v16" />
-                    </svg>
+                    <SvgIcon :svg="Icons.auditLogs" class="size-5" aria-hidden="true" />
                 </template>
             </AdminNavLink>
         </li>

@@ -13,6 +13,7 @@ import usePermissions from '../../Composables/usePermissions'
 import { Home } from '../../Data/Home'
 import HomeListTable from './Partials/HomeListTable.vue'
 import ShowingCount from '../../Components/ShowingCount.vue'
+import PageHeader from '../../../shared/Components/PageHeader.vue'
 
 interface Props {
     success?: string,
@@ -28,11 +29,13 @@ const { can } = usePermissions()
 <template>
     <Head title="Manage Homes"/>
 
+    <PageHeader title="Homes" class="mb-4" />
+
     <section>
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
         <Card>
-            <div class="flex flex-row items-center justify-between p-4">
+            <div class="flex flex-row items-center justify-between py-4">
                 <div>
                     <ShowingCount
                         v-if="homes"
@@ -45,7 +48,7 @@ const { can } = usePermissions()
 
                 <div>
                     <Link href="/manage/homes/create" v-if="can('web.manage.homes.edit')">
-                        <FilledButton variant="primary">
+                        <FilledButton variant="primary" size="sm">
                             <SvgIcon :svg="Icons.plus" />
                             Create Home
                         </FilledButton>

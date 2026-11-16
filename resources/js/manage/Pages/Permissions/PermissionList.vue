@@ -9,6 +9,7 @@ import SpinnerRow from '../../Components/SpinnerRow.vue'
 import usePermissions from '../../Composables/usePermissions'
 import { Icons } from '../../Icons'
 import { Permission } from '../../Data/Permission'
+import PageHeader from '../../../shared/Components/PageHeader.vue'
 
 interface Props {
     success?: string,
@@ -23,11 +24,13 @@ defineProps<Props>()
 <template>
     <Head title="Manage Permissions"/>
 
+    <PageHeader title="Permissions" class="mb-4" />
+
     <section>
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
         <Card>
-            <div class="flex flex-row items-center justify-between p-4">
+            <div class="flex flex-row items-center justify-between py-4">
                 <div></div>
                 <div>
                     <Link

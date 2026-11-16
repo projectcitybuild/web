@@ -2,7 +2,9 @@
 import { Link } from '@inertiajs/vue3'
 import { Warp } from '../../../Data/Warp'
 import { format } from '../../../Utilities/DateFormatter'
-import FilledButton from '../../../Components/FilledButton.vue'
+import OutlinedButton from '../../../Components/OutlinedButton.vue'
+import SvgIcon from '../../../Components/SvgIcon.vue'
+import { Icons } from '../../../Icons'
 import { computed } from 'vue'
 import DataTable from '../../../Components/DataTable.vue'
 import usePermissions from '../../../Composables/usePermissions'
@@ -39,9 +41,10 @@ const rows = computed(
     <DataTable :fields="fields" :rows="rows" :show-index="true" class="border-t border-border">
         <template #actions="{ item }">
             <Link :href="'/manage/minecraft/warps/' + item.id + '/edit'" v-if="can('web.manage.warps.edit')">
-                <FilledButton variant="secondary" size="sm">
+                <OutlinedButton variant="secondary" size="sm">
+                    <SvgIcon :svg="Icons.pencil" />
                     Edit
-                </FilledButton>
+                </OutlinedButton>
             </Link>
         </template>
     </DataTable>

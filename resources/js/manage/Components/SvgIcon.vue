@@ -27,7 +27,7 @@ const props = defineProps<Props>()
         viewBox="0 0 24 24"
         :stroke="svg.fill ? 'none' : 'currentColor'"
         :fill="svg.fill ?? 'none'"
-        :stroke-width="thickness ?? 1.5"
+        :stroke-width="thickness ?? 2"
         :class="['size-4', $attrs.class]"
     >
         <path v-for="path in svg.paths"

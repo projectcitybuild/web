@@ -3,6 +3,8 @@ import { computed, inject, ref } from 'vue'
 import type { Ref } from 'vue'
 import { Link, usePage } from '@inertiajs/vue3'
 import logo from '../../../../../images/logo-alt.png'
+import SvgIcon from '../../../../manage/Components/SvgIcon.vue'
+import { Icons } from '../../../../manage/Icons'
 import ThemeToggle from './ThemeToggle.vue'
 import useAdminNavigation, { adminAreas, buildAdminBreadcrumbs } from '../useAdminNavigation'
 import type { AdminNavigationEntry } from '../useAdminNavigation'
@@ -37,9 +39,7 @@ const breadcrumbs = computed(() => buildAdminBreadcrumbs(page.url, area.value, p
                 :aria-expanded="menuOpen"
                 @click="onMenuClick"
             >
-                <svg aria-hidden="true" class="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                    <path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
+                <SvgIcon :svg="Icons.menu" class="size-6" aria-hidden="true" />
             </button>
 
             <a href="/" class="hidden shrink-0 items-center sm:flex md:hidden" aria-label="Project City Build home">
@@ -55,19 +55,14 @@ const breadcrumbs = computed(() => buildAdminBreadcrumbs(page.url, area.value, p
                 :aria-expanded="!sidebarCollapsed"
                 @click="onSidebarToggle"
             >
-                <svg aria-hidden="true" class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                    <rect x="3.5" y="4.5" width="17" height="15" rx="1.5" />
-                    <path stroke-linecap="round" d="M9 5v14m4-10h4m-4 4h4" />
-                </svg>
+                <SvgIcon :svg="Icons.sidebarCollapse" class="size-4" aria-hidden="true" />
             </button>
 
             <nav v-if="breadcrumbs.length" aria-label="Breadcrumb" class="min-w-0">
                 <ol class="flex min-w-0 items-center gap-2 text-sm">
                     <template v-for="(breadcrumb, index) in breadcrumbs" :key="`${breadcrumb.label}-${index}`">
                         <li v-if="index > 0" aria-hidden="true" class="flex items-center text-subtle">
-                            <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m9 18 6-6-6-6" />
-                            </svg>
+                            <SvgIcon :svg="Icons.chevronRight" class="size-4" aria-hidden="true" />
                         </li>
                         <li class="min-w-0 truncate">
                             <Link

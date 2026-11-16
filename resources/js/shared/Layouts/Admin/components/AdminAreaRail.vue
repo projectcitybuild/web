@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import logo from '../../../../../images/logo-alt.png'
+import SvgIcon from '../../../../manage/Components/SvgIcon.vue'
+import { Icons } from '../../../../manage/Icons'
 import useAdminNavigation, { adminAreas } from '../useAdminNavigation'
 
 const props = defineProps<{
@@ -27,13 +29,7 @@ const { currentArea } = useAdminNavigation()
                     currentArea === area.id ? 'bg-primary text-primary-foreground' : 'text-muted hover:bg-surface-hover hover:text-foreground',
                 ]"
             >
-                <svg v-if="area.id === 'manage'" aria-hidden="true" class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75h6.5v6.5h-6.5zm10 0h6.5v6.5h-6.5zm-10 10h6.5v6.5h-6.5zm10 0h6.5v6.5h-6.5z" />
-                </svg>
-                <svg v-else aria-hidden="true" class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3 19 6v5c0 4.5-2.8 7.7-7 10-4.2-2.3-7-5.5-7-10V6l7-3Z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m9 12 2 2 4-4" />
-                </svg>
+                <SvgIcon :svg="area.id === 'manage' ? Icons.dashboard : Icons.gavel" class="size-4" aria-hidden="true" />
 
                 <span
                     v-if="props.areaBadges[area.id]"

@@ -8,6 +8,7 @@ import InfinitePagination from '../../Components/InfinitePagination.vue'
 import RoleMemberListTable from './Partials/RoleMemberListTable.vue'
 import { Role } from '../../Data/Role'
 import ToolBar from '../../Components/ToolBar.vue'
+import PageHeader from '../../../shared/Components/PageHeader.vue'
 
 interface Props {
     success?: string,
@@ -20,6 +21,8 @@ defineProps<Props>()
 
 <template>
     <Head title="Manage Roles"/>
+
+    <PageHeader title="Role Members" class="mb-4" />
 
     <section>
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>

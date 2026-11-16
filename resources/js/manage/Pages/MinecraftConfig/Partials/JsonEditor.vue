@@ -1,9 +1,18 @@
 <script setup lang="ts">
 import { basicSetup, EditorView } from 'codemirror'
-import { syntaxTree } from '@codemirror/language'
+import { HighlightStyle, syntaxHighlighting, syntaxTree } from '@codemirror/language'
 import { json } from '@codemirror/lang-json'
 import type { SyntaxNode } from '@lezer/common'
+import { tags } from '@lezer/highlight'
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
+
+const jsonHighlighting = syntaxHighlighting(HighlightStyle.define([
+    { tag: tags.propertyName, color: 'var(--json-editor-property)' },
+    { tag: tags.string, color: 'var(--json-editor-string)' },
+    { tag: tags.number, color: 'var(--json-editor-number)' },
+    { tag: [tags.bool, tags.null], color: 'var(--json-editor-literal)' },
+    { tag: [tags.brace, tags.squareBracket, tags.separator], color: 'var(--json-editor-punctuation)' },
+]))
 
 const props = defineProps<{
     modelValue: string,
@@ -28,6 +37,7 @@ onMounted(() => {
         extensions: [
             basicSetup,
             json(),
+            jsonHighlighting,
             EditorView.lineWrapping,
             EditorView.contentAttributes.of({ 'aria-label': props.ariaLabel }),
             EditorView.updateListener.of((update) => {
@@ -41,8 +51,8 @@ onMounted(() => {
             }),
             EditorView.theme({
                 '&': {
-                    backgroundColor: '#f8fafc',
-                    color: '#111827',
+                    backgroundColor: 'var(--json-editor-background)',
+                    color: 'var(--json-editor-foreground)',
                     fontSize: '13px',
                     minHeight: '26rem',
                 },
@@ -54,21 +64,21 @@ onMounted(() => {
                     padding: '0 1rem',
                 },
                 '.cm-gutters': {
-                    backgroundColor: '#f1f5f9',
-                    color: '#64748b',
-                    borderRight: '1px solid #e2e8f0',
+                    backgroundColor: 'var(--json-editor-gutter-background)',
+                    color: 'var(--json-editor-gutter-foreground)',
+                    borderRight: '1px solid var(--json-editor-gutter-border)',
                 },
                 '.cm-activeLine': {
-                    backgroundColor: '#eef2f5',
+                    backgroundColor: 'var(--json-editor-active-line)',
                 },
                 '.cm-activeLineGutter': {
-                    backgroundColor: '#e2e8f0',
+                    backgroundColor: 'var(--json-editor-active-gutter)',
                 },
                 '.cm-cursor': {
-                    borderLeftColor: '#0f766e',
+                    borderLeftColor: 'var(--json-editor-cursor)',
                 },
                 '.cm-selectionBackground, &.cm-focused .cm-selectionBackground': {
-                    backgroundColor: '#a5f3fc',
+                    backgroundColor: 'var(--json-editor-selection)',
                 },
             }),
         ],
@@ -216,8 +226,39 @@ onBeforeUnmount(() => editor?.destroy())
 
 <style scoped>
 .json-editor {
+    --json-editor-background: #f8fafc;
+    --json-editor-foreground: #111827;
+    --json-editor-gutter-background: #f1f5f9;
+    --json-editor-gutter-foreground: #64748b;
+    --json-editor-gutter-border: #e2e8f0;
+    --json-editor-active-line: #eef2f5;
+    --json-editor-active-gutter: #e2e8f0;
+    --json-editor-cursor: #0f766e;
+    --json-editor-selection: #a5f3fc;
+    --json-editor-property: #1d4ed8;
+    --json-editor-string: #15803d;
+    --json-editor-number: #b45309;
+    --json-editor-literal: #7c3aed;
+    --json-editor-punctuation: #475569;
     height: min(60rem, max(26rem, calc(100dvh - 22rem)));
     overflow: hidden;
+}
+
+:global(html.dark .json-editor) {
+    --json-editor-background: #282c34;
+    --json-editor-foreground: #abb2bf;
+    --json-editor-gutter-background: #21252b;
+    --json-editor-gutter-foreground: #636d83;
+    --json-editor-gutter-border: #181a1f;
+    --json-editor-active-line: #2c313c;
+    --json-editor-active-gutter: #2c313a;
+    --json-editor-cursor: #528bff;
+    --json-editor-selection: #3e4451;
+    --json-editor-property: #e06c75;
+    --json-editor-string: #98c379;
+    --json-editor-number: #d19a66;
+    --json-editor-literal: #56b6c2;
+    --json-editor-punctuation: #abb2bf;
 }
 
 .json-editor :deep(.cm-editor) {

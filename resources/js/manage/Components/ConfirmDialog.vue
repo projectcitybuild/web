@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, useId } from 'vue'
+import SvgIcon from './SvgIcon.vue'
+import { Icons } from '../Icons'
 import FilledButton from './FilledButton.vue'
 import OutlinedButton from './OutlinedButton.vue'
 
@@ -54,9 +56,7 @@ onMounted(() => {
         class="m-auto max-h-[calc(100dvh-2rem)] w-[min(32rem,calc(100%-2rem))] overflow-y-auto rounded-lg border border-border bg-surface p-0 text-foreground shadow-xl backdrop:bg-black/50"
     >
         <div class="p-8 flex flex-col justify-start">
-            <svg aria-hidden="true" class="size-16 rounded-full bg-surface-muted p-4 text-danger" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
-            </svg>
+            <SvgIcon :svg="Icons.alert" aria-hidden="true" class="size-16 rounded-full bg-surface-muted p-4 text-danger" />
 
             <h1 :id="`${id}-title`" class="mt-6 text-lg font-semibold">
                 {{ title ?? 'Are You Sure?' }}

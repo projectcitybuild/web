@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
-import FilledButton from '../../../Components/FilledButton.vue'
+import OutlinedButton from '../../../Components/OutlinedButton.vue'
+import SvgIcon from '../../../Components/SvgIcon.vue'
+import { Icons } from '../../../Icons'
 import DataTable from '../../../Components/DataTable.vue'
 import usePermissions from '../../../Composables/usePermissions'
 import { Permission } from '../../../Data/Permission'
@@ -22,9 +24,10 @@ const fields = [
     <DataTable :fields="fields" :rows="permissions">
         <template #actions="{ item }" v-if="can('web.manage.permissions.edit')">
             <Link :href="'/manage/permissions/' + item.id + '/edit'">
-                <FilledButton variant="secondary" size="sm">
+                <OutlinedButton variant="secondary" size="sm">
+                    <SvgIcon :svg="Icons.pencil" />
                     Edit
-                </FilledButton>
+                </OutlinedButton>
             </Link>
         </template>
     </DataTable>

@@ -15,6 +15,7 @@ import { computed, ref, watch } from 'vue'
 import { Icons } from '../../Icons'
 import usePermissions from '../../Composables/usePermissions'
 import ShowingCount from '../../Components/ShowingCount.vue'
+import PageHeader from '../../../shared/Components/PageHeader.vue'
 
 interface Props {
     bans?: Paginated<PlayerBan>,
@@ -71,6 +72,8 @@ function clearFilters() {
 
 <template>
     <Head title="Manage Bans"/>
+
+    <PageHeader title="Player Bans" class="mb-4" />
 
     <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 

@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import SvgIcon from '../../../../manage/Components/SvgIcon.vue'
+import { Icons } from '../../../../manage/Icons'
 import useAdminNavigation, { adminAreas } from '../useAdminNavigation'
 
 const props = defineProps<{
@@ -45,9 +47,7 @@ defineExpose({ focusFirst })
             aria-label="Close navigation menu"
             @click.stop="$emit('close')"
         >
-            <svg aria-hidden="true" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                <path stroke-linecap="round" d="m6 6 12 12M18 6 6 18" />
-            </svg>
+            <SvgIcon :svg="Icons.close" class="size-5" aria-hidden="true" />
         </button>
         <div class="h-full overflow-y-auto px-3 py-16 md:py-0">
             <div class="hidden h-14 items-center border-b border-border px-2 md:flex">

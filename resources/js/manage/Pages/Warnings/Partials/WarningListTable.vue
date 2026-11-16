@@ -3,7 +3,9 @@ import { Link } from '@inertiajs/vue3'
 import { PlayerWarning } from '../../../Data/PlayerWarning'
 import { format } from '../../../Utilities/DateFormatter'
 import Pill from '../../../Components/Pill.vue'
-import FilledButton from '../../../Components/FilledButton.vue'
+import OutlinedButton from '../../../Components/OutlinedButton.vue'
+import SvgIcon from '../../../Components/SvgIcon.vue'
+import { Icons } from '../../../Icons'
 import { computed } from 'vue'
 import DataTable from '../../../Components/DataTable.vue'
 import MinecraftAvatar from '../../../Components/MinecraftAvatar.vue'
@@ -46,9 +48,10 @@ const rows = computed(
 
         <template #actions="{ item }">
             <Link :href="'/manage/warnings/' + item.id + '/edit'" v-if="can('web.manage.warnings.edit')">
-                <FilledButton variant="secondary" size="sm">
+                <OutlinedButton variant="secondary" size="sm">
+                    <SvgIcon :svg="Icons.pencil" />
                     Edit
-                </FilledButton>
+                </OutlinedButton>
             </Link>
         </template>
     </DataTable>

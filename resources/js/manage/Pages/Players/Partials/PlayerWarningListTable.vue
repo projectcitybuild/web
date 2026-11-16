@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { format } from '../../../Utilities/DateFormatter'
 import { Link } from '@inertiajs/vue3'
-import FilledButton from '../../../Components/FilledButton.vue'
+import OutlinedButton from '../../../Components/OutlinedButton.vue'
+import SvgIcon from '../../../Components/SvgIcon.vue'
+import { Icons } from '../../../Icons'
 import { PlayerWarning } from '../../../Data/PlayerWarning';
 import DataTable from '../../../Components/DataTable.vue'
 
@@ -24,9 +26,10 @@ const fields = [
         </template>
         <template #actions="{ item }">
             <Link :href="'/manage/warnings/' + item.id + '/edit'">
-                <FilledButton variant="secondary" size="sm">
+                <OutlinedButton variant="secondary" size="sm">
+                    <SvgIcon :svg="Icons.pencil" />
                     Edit
-                </FilledButton>
+                </OutlinedButton>
             </Link>
         </template>
     </DataTable>

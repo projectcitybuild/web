@@ -13,6 +13,7 @@ import { ref } from 'vue'
 import { Icons } from '../../Icons'
 import usePermissions from '../../Composables/usePermissions'
 import ShowingCount from '../../Components/ShowingCount.vue'
+import PageHeader from '../../../shared/Components/PageHeader.vue'
 
 interface Props {
     success?: string,
@@ -28,11 +29,13 @@ const { can } = usePermissions()
 <template>
     <Head title="Manage Badges"/>
 
+    <PageHeader title="Badges" class="mb-4" />
+
     <section>
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
         <Card>
-            <div class="flex flex-row items-center justify-between p-4">
+            <div class="flex flex-row items-center justify-between py-4">
                 <div>
                     <ShowingCount
                         v-if="badges"
@@ -45,7 +48,7 @@ const { can } = usePermissions()
 
                 <div>
                     <Link href="/manage/badges/create" v-if="can('web.manage.badges.edit')">
-                        <FilledButton variant="primary">
+                        <FilledButton variant="primary" size="sm">
                             <SvgIcon :svg="Icons.plus" />
                             Create Badge
                         </FilledButton>

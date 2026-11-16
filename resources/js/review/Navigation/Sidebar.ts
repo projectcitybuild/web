@@ -18,7 +18,7 @@ export const sidebarMenu: ReviewNavigationItem[] = [
     {
         title: 'Ban Appeals',
         route: '/review/ban-appeals',
-        icon: 'checkShield',
+        icon: 'gavel',
         permission: 'web.review.ban_appeals.view',
         countKey: 'pending_appeals',
     },

@@ -175,7 +175,7 @@ function formatConfig() {
                     <JsonEditor
                         v-model="form.config"
                         aria-label="Minecraft configuration JSON"
-                        class="rounded-lg border border-gray-300 bg-slate-50 shadow-inner focus-within:ring-2 focus-within:ring-primary-500/30 dark:border-gray-600"
+                        class="rounded-lg border border-gray-300 bg-slate-50 shadow-inner focus-within:ring-2 focus-within:ring-primary-500/30 dark:border-gray-600 dark:bg-gray-900"
                         @select-keys="selectPreviewKeys"
                     />
                 </form>

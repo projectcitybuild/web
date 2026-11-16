@@ -3,7 +3,9 @@ import { format } from '../../../Utilities/DateFormatter'
 import { Link } from '@inertiajs/vue3'
 import { PlayerBan } from '../../../Data/PlayerBan'
 import PlayerBanStatus from '../../PlayerBans/Partials/PlayerBanStatus.vue'
-import FilledButton from '../../../Components/FilledButton.vue'
+import OutlinedButton from '../../../Components/OutlinedButton.vue'
+import SvgIcon from '../../../Components/SvgIcon.vue'
+import { Icons } from '../../../Icons'
 import DataTable from '../../../Components/DataTable.vue'
 
 interface Props {
@@ -29,9 +31,10 @@ const fields = [
         </template>
         <template #actions="{ item }">
             <Link :href="'/manage/player-bans/' + item.id + '/edit'">
-                <FilledButton variant="secondary" size="sm">
+                <OutlinedButton variant="secondary" size="sm">
+                    <SvgIcon :svg="Icons.pencil" />
                     Edit
-                </FilledButton>
+                </OutlinedButton>
             </Link>
         </template>
     </DataTable>

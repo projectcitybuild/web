@@ -24,7 +24,7 @@ function countFor(item: typeof sidebarMenu[number]): number {
         <li v-for="item in visibleMenu" :key="item.route">
             <AdminNavLink :href="item.route" :label="item.title" :badge="countFor(item)">
                 <template #icon>
-                    <SvgIcon :svg="Icons[item.icon]" :thickness="1.8" class="size-5" />
+                    <SvgIcon :svg="Icons[item.icon]" class="size-5" />
                 </template>
             </AdminNavLink>
         </li>

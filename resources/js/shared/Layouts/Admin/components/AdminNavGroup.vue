@@ -3,6 +3,8 @@ import { computed, ref, watch } from 'vue'
 import { usePage } from '@inertiajs/vue3'
 import { isAdminPathActive } from '../useAdminNavigation'
 import AdminNavLink from './AdminNavLink.vue'
+import SvgIcon from '../../../../manage/Components/SvgIcon.vue'
+import { Icons } from '../../../../manage/Icons'
 
 interface ChildLink {
     title: string
@@ -38,9 +40,7 @@ watch(activeChild, active => {
             @click="expanded = !expanded"
         >
             <span class="min-w-0 flex-1 truncate">{{ title }}</span>
-            <svg aria-hidden="true" class="size-4 transition-transform" :class="expanded ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6" />
-            </svg>
+            <SvgIcon :svg="Icons.chevronDown" aria-hidden="true" class="size-4 transition-transform" :class="expanded ? 'rotate-180' : ''" />
         </button>
         <ul v-show="expanded" class="mt-1.5 space-y-0.5 border-border pl-2">
             <li v-for="child in children" :key="child.route">

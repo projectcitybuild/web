@@ -49,7 +49,7 @@ export const sidebarMenu: SidebarSection[] = [
     children: [
         {
             title: 'Player Bans',
-            icon: Icons.ban,
+            icon: Icons.playerBan,
             route: '/manage/player-bans',
             permission: 'web.manage.uuid_bans.view',
         },
@@ -71,16 +71,16 @@ export const sidebarMenu: SidebarSection[] = [
     title: 'Minecraft',
     children: [
         {
-            title: 'Player Mail',
-            icon: Icons.email,
-            route: '/manage/player-mail',
-            permission: 'web.manage.player_mail.send',
-        },
-        {
             title: 'Players',
             icon: Icons.users,
             route: '/manage/players',
             permission: 'web.manage.players.view',
+        },
+        {
+            title: 'Mail',
+            icon: Icons.email,
+            route: '/manage/player-mail',
+            permission: 'web.manage.player_mail.send',
         },
         {
             title: 'Homes',
@@ -124,7 +124,7 @@ export const sidebarMenu: SidebarSection[] = [
     children: [
         {
             title: 'Donations',
-            icon: Icons.cashier,
+            icon: Icons.cash,
             route: '/manage/donations',
             permission: 'web.manage.donations.view',
         },

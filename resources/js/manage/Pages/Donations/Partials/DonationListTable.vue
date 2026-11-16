@@ -2,7 +2,9 @@
 import { Link } from '@inertiajs/vue3'
 import { Donation } from '../../../Data/Donation'
 import { format } from '../../../Utilities/DateFormatter'
-import FilledButton from '../../../Components/FilledButton.vue'
+import OutlinedButton from '../../../Components/OutlinedButton.vue'
+import SvgIcon from '../../../Components/SvgIcon.vue'
+import { Icons } from '../../../Icons'
 import { computed } from 'vue'
 import DataTable from '../../../Components/DataTable.vue'
 
@@ -51,9 +53,10 @@ const rows = computed(
 
         <template #actions="{ item }">
             <Link :href="'/manage/donations/' + item.id + '/edit'">
-                <FilledButton variant="secondary" size="sm">
+                <OutlinedButton variant="secondary" size="sm">
+                    <SvgIcon :svg="Icons.pencil" />
                     Edit
-                </FilledButton>
+                </OutlinedButton>
             </Link>
         </template>
     </DataTable>

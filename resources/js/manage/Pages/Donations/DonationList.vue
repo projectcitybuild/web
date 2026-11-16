@@ -12,6 +12,7 @@ import SpinnerRow from '../../Components/SpinnerRow.vue'
 import { ref } from 'vue'
 import { Icons } from '../../Icons'
 import ShowingCount from '../../Components/ShowingCount.vue'
+import PageHeader from '../../../shared/Components/PageHeader.vue'
 
 interface Props {
     success?: string,
@@ -25,11 +26,13 @@ const itemCount = ref(0)
 <template>
     <Head title="Manage Donations"/>
 
+    <PageHeader title="Donations" class="mb-4" />
+
     <section>
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
         <Card>
-            <div class="flex flex-row items-center justify-between p-4">
+            <div class="flex flex-row items-center justify-between py-4">
                 <div>
                     <ShowingCount
                         v-if="donations"

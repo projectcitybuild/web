@@ -2,10 +2,13 @@
 import { Link } from '@inertiajs/vue3'
 import { format } from '../../../Utilities/DateFormatter'
 import MinecraftAvatar from '../../../Components/MinecraftAvatar.vue'
+import OutlinedButton from '../../../Components/OutlinedButton.vue'
+import SvgIcon from '../../../Components/SvgIcon.vue'
 import { computed } from 'vue'
 import DataTable from '../../../Components/DataTable.vue'
 import usePermissions from '../../../Composables/usePermissions'
 import { Home } from '../../../Data/Home'
+import { Icons } from '../../../Icons'
 
 interface Props {
     homes: Home[],
@@ -52,9 +55,11 @@ const rows = computed(
             <Link
                 v-if="can('web.manage.homes.edit')"
                 :href="'/manage/homes/' + item.id + '/edit'"
-                class="inline-flex min-h-8 items-center justify-center gap-2 rounded-[var(--radius-md)] bg-surface-muted px-3 text-xs font-medium text-foreground transition-colors hover:bg-surface-hover active:bg-surface-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-surface motion-reduce:transition-none"
             >
-                Edit
+                <OutlinedButton variant="secondary" size="sm">
+                    <SvgIcon :svg="Icons.pencil" />
+                    Edit
+                </OutlinedButton>
             </Link>
         </template>
     </DataTable>

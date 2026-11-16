@@ -13,6 +13,7 @@ import { ref } from 'vue'
 import { Icons } from '../../Icons'
 import usePermissions from '../../Composables/usePermissions'
 import ShowingCount from '../../Components/ShowingCount.vue'
+import PageHeader from '../../../shared/Components/PageHeader.vue'
 
 interface Props {
     bans?: Paginated<IPBan>,
@@ -28,11 +29,13 @@ const { can } = usePermissions()
 <template>
     <Head title="Manage IP Bans"/>
 
+    <PageHeader title="IP Bans" class="mb-4" />
+
     <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
     <section>
         <Card>
-            <div class="flex flex-row items-center justify-between p-4">
+            <div class="flex flex-row items-center justify-between py-4">
                 <div>
                     <ShowingCount
                         v-if="bans"

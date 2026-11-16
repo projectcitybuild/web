@@ -4,7 +4,9 @@ import MinecraftAvatar from '../../../Components/MinecraftAvatar.vue'
 import { PlayerBan } from '../../../Data/PlayerBan'
 import { format } from '../../../Utilities/DateFormatter'
 import PlayerBanStatus from './PlayerBanStatus.vue'
-import FilledButton from '../../../Components/FilledButton.vue'
+import OutlinedButton from '../../../Components/OutlinedButton.vue'
+import SvgIcon from '../../../Components/SvgIcon.vue'
+import { Icons } from '../../../Icons'
 import { computed } from 'vue'
 import DataTable from '../../../Components/DataTable.vue'
 import usePermissions from '../../../Composables/usePermissions'
@@ -53,9 +55,10 @@ const { can } = usePermissions()
 
         <template #actions="{ item }">
             <Link :href="'/manage/player-bans/' + item.id + '/edit'" v-if="can('web.manage.uuid_bans.edit')">
-                <FilledButton variant="secondary" size="sm">
+                <OutlinedButton variant="secondary" size="sm">
+                    <SvgIcon :svg="Icons.pencil" />
                     Edit
-                </FilledButton>
+                </OutlinedButton>
             </Link>
         </template>
     </DataTable>

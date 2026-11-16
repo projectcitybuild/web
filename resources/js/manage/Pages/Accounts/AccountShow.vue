@@ -152,12 +152,10 @@ function showUnlinkDialog(playerId: number) {
             </template>
             <template v-slot:right v-if="can('web.manage.accounts.edit')">
                 <Link :href="'/manage/accounts/' + account.id + '/edit'">
-                    <FilledButton variant="primary">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"/>
-                        </svg>
+                    <OutlinedButton variant="primary">
+                        <SvgIcon :svg="Icons.pencil" class="size-4" aria-hidden="true" />
                         Edit Account
-                    </FilledButton>
+                    </OutlinedButton>
                 </Link>
             </template>
         </ToolBar>
@@ -183,11 +181,11 @@ function showUnlinkDialog(playerId: number) {
                 </div>
                 <div class="flex flex-wrap gap-2 sm:justify-end">
                     <Pill :variant="account.activated ? 'success' : 'danger'" class="flex items-center gap-1 font-semibold">
-                        <SvgIcon :svg="account.activated ? Icons.check : Icons.close" :thickness="3" class="size-4" />
+                        <SvgIcon :svg="account.activated ? Icons.check : Icons.close" class="size-4" />
                         {{ account.activated ? 'Email verified' : 'Not verified' }}
                     </Pill>
                     <Pill :variant="account.is_totp_enabled ? 'success' : 'danger'" class="flex items-center gap-1 font-semibold">
-                        <SvgIcon :svg="account.is_totp_enabled ? Icons.checkShield : Icons.unlock" :thickness="3" class="size-4" />
+                        <SvgIcon :svg="account.is_totp_enabled ? Icons.checkShield : Icons.unlock" class="size-4" />
                         {{ account.is_totp_enabled ? '2FA enabled' : '2FA disabled' }}
                     </Pill>
                 </div>
@@ -310,7 +308,10 @@ function showUnlinkDialog(playerId: number) {
                 <div class="flex items-center justify-between gap-4 border-b border-border p-4">
                     <h2 class="text-base font-semibold text-foreground">Roles</h2>
                     <Link v-if="can('web.manage.accounts.edit')" :href="'/manage/accounts/' + account.id + '/roles'">
-                        <FilledButton variant="secondary">Edit</FilledButton>
+                        <OutlinedButton variant="secondary">
+                            <SvgIcon :svg="Icons.pencil" />
+                            Edit
+                        </OutlinedButton>
                     </Link>
                 </div>
                 <div class="overflow-x-auto"><AccountRolesTable :roles="account.roles ?? []" /></div>
@@ -320,7 +321,10 @@ function showUnlinkDialog(playerId: number) {
                 <div class="flex items-center justify-between gap-4 border-b border-border p-4">
                     <h2 class="text-base font-semibold text-foreground">Badges</h2>
                     <Link v-if="can('web.manage.accounts.edit')" :href="'/manage/accounts/' + account.id + '/badges'">
-                        <FilledButton variant="secondary">Edit</FilledButton>
+                        <OutlinedButton variant="secondary">
+                            <SvgIcon :svg="Icons.pencil" />
+                            Edit
+                        </OutlinedButton>
                     </Link>
                 </div>
                 <div class="overflow-x-auto"><AccountBadgesTable :badges="account.badges ?? []" /></div>
