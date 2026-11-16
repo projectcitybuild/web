@@ -7,10 +7,12 @@ interface Props {
     title: string,
     description?: string,
     framed?: boolean,
+    wide?: boolean,
 }
 
 withDefaults(defineProps<Props>(), {
     framed: true,
+    wide: false,
 })
 defineSlots<{
     default?: () => unknown,
@@ -19,7 +21,7 @@ defineSlots<{
 </script>
 
 <template>
-    <div class="manage-form-page mx-auto w-full max-w-5xl space-y-6">
+    <div class="manage-form-page mx-auto w-full space-y-6" :class="wide ? 'max-w-none' : 'max-w-5xl'">
         <Head :title="title" />
 
         <PageHeader :title="title" :description="description">
@@ -29,7 +31,7 @@ defineSlots<{
         </PageHeader>
 
         <template v-if="framed">
-            <Card padding="none" class="max-w-4xl">
+            <Card padding="none" :class="wide ? 'max-w-none' : 'max-w-4xl'">
                 <div class="space-y-6 p-5 sm:p-8">
                     <slot />
                 </div>

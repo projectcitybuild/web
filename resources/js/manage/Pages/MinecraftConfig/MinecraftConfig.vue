@@ -13,6 +13,13 @@ import FilledButton from '../../Components/FilledButton.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
 import { Icons } from '../../Icons'
 import OutlinedButton from '../../Components/OutlinedButton.vue'
+import MiniMessageRenderer from '../../Components/MiniMessageRenderer.vue'
+
+interface MessageEntry {
+    key: string,
+    label: string,
+    value: string,
+}
 
 interface Props {
     success?: string,
@@ -27,6 +34,29 @@ const form = useForm({
 const isValidJson = ref<boolean | null>(null)
 const isWaiting = ref(false)
 const lineCount = computed(() => form.config.split('\n').length)
+const messageEntries = computed(() => {
+    try {
+        return collectMessageEntries(JSON.parse(form.config))
+    } catch {
+        return []
+    }
+})
+const selectedKeys = ref<string[]>([])
+const selectedEntries = computed(() => selectedKeys.value.flatMap((key) => {
+    const entry = messageEntries.value.find((candidate) => candidate.key === key)
+    return entry ? [entry] : []
+}))
+const selectedEntryLabels = computed(() => selectedEntries.value.map((entry) => entry.label).join(', '))
+const selectedPreviewText = computed(() => selectedEntries.value.map((entry) => entry.value).join('\n'))
+
+watch(messageEntries, (entries) => {
+    const availableKeys = new Set(entries.map((entry) => entry.key))
+    selectedKeys.value = selectedKeys.value.filter((key) => availableKeys.has(key))
+
+    if (selectedKeys.value.length === 0 && entries.length > 0) {
+        selectedKeys.value = [entries[0].key]
+    }
+}, {immediate: true})
 
 watch(
     () => form.config,
@@ -52,6 +82,35 @@ function validateJson(json: string) {
     }
 }
 
+function collectMessageEntries(value: unknown, path: string[] = []): MessageEntry[] {
+    if (typeof value === 'string') {
+        if (path.length === 0) {
+            return []
+        }
+
+        return [{ key: JSON.stringify(path), label: path.join('.'), value }]
+    }
+
+    if (Array.isArray(value)) {
+        return value.flatMap((item, index) => collectMessageEntries(item, [...path, String(index)]))
+    }
+
+    if (value !== null && typeof value === 'object') {
+        return Object.entries(value).flatMap(([key, item]) => collectMessageEntries(item, [...path, key]))
+    }
+
+    return []
+}
+
+function selectPreviewKeys(keys: string[]) {
+    const availableKeys = new Set(messageEntries.value.map((entry) => entry.key))
+    const matchingKeys = keys.filter((key) => availableKeys.has(key))
+
+    if (matchingKeys.length > 0) {
+        selectedKeys.value = matchingKeys
+    }
+}
+
 function submit() {
     form.transform((data) => ({
         ...data,
@@ -71,6 +130,7 @@ function formatConfig() {
 <template>
     <ManageFormPage
         title="Minecraft Config"
+        wide
         :description="'Version ' + config.version + ' - Last edited: ' + format(config.updated_at, 'yyyy/MM/dd h:ma')"
     >
         <template #actions>
@@ -87,17 +147,16 @@ function formatConfig() {
         <SuccessAlert v-if="success" :message="success" />
         <ErrorAlert v-if="form.hasErrors" :errors="form.errors" />
 
-        <div class="space-y-3">
-            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-gray-200 pb-3 dark:border-gray-700">
+        <div class="grid gap-6 xl:grid-cols-[minmax(0,1.6fr)_minmax(20rem,1fr)]">
+            <section class="min-w-0 space-y-3">
+                <div class="flex flex-wrap items-center justify-between gap-3 border-b border-gray-200 pb-3 dark:border-gray-700">
                 <div class="flex items-center gap-2">
                     <span class="text-sm font-semibold text-gray-800 dark:text-gray-100">Configuration</span>
-                    <span class="rounded bg-gray-100 px-2 py-0.5 font-mono text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300">JSON</span>
-                    <span
-                        v-if="isValidJson === false && !isWaiting"
-                        class="rounded-full border border-red-200 bg-red-50 px-2.5 py-1 text-xs font-semibold text-red-700 dark:border-red-800 dark:bg-red-950/50 dark:text-red-300"
-                    >
-                        Invalid JSON
-                    </span>
+                    <JsonValidity
+                        v-if="isValidJson !== null"
+                        :is-valid="isValidJson"
+                        :is-parsing="isWaiting"
+                    />
                 </div>
                 <div class="flex items-center gap-4">
                     <span class="text-xs tabular-nums text-gray-500 dark:text-gray-400">{{ lineCount }} lines</span>
@@ -110,21 +169,32 @@ function formatConfig() {
                         Format JSON
                     </OutlinedButton>
                 </div>
-            </div>
+                </div>
 
-            <form @submit.prevent="submit">
-                <JsonEditor
-                    v-model="form.config"
-                    aria-label="Minecraft configuration JSON"
-                    class="rounded-lg border border-gray-300 bg-slate-50 shadow-inner focus-within:ring-2 focus-within:ring-primary-500/30 dark:border-gray-600"
-                />
-            </form>
+                <form @submit.prevent="submit">
+                    <JsonEditor
+                        v-model="form.config"
+                        aria-label="Minecraft configuration JSON"
+                        class="rounded-lg border border-gray-300 bg-slate-50 shadow-inner focus-within:ring-2 focus-within:ring-primary-500/30 dark:border-gray-600"
+                        @select-keys="selectPreviewKeys"
+                    />
+                </form>
 
-            <JsonValidity
-                v-if="isValidJson === true"
-                :is-valid="isValidJson"
-                :is-parsing="isWaiting"
-            />
+            </section>
+
+            <section class="min-w-0 space-y-3 border-t border-gray-200 pt-4 dark:border-gray-700 xl:border-l xl:border-t-0 xl:pl-6 xl:pt-0">
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                    <h2 class="text-sm font-semibold text-gray-800 dark:text-gray-100">MiniMessage preview</h2>
+                </div>
+                <div class="min-h-20 break-words border border-gray-700 bg-gray-900 p-4 font-mono text-sm text-gray-100">
+                    <MiniMessageRenderer
+                        :text="selectedPreviewText"
+                        placeholder="Place the cursor on a string key or select lines with string values to preview."
+                        class="whitespace-pre-wrap"
+                    />
+                </div>
+                <span v-if="selectedEntryLabels" class="break-all font-mono text-xs text-gray-500 dark:text-gray-400">{{ selectedEntryLabels }}</span>
+            </section>
         </div>
     </ManageFormPage>
 </template>
