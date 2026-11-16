@@ -47,3 +47,6 @@ clover.xml
 /AGENTS.md
 /.github/copilot-instructions.md
 /.github/skills
+
+# Composer
+/.cache/
