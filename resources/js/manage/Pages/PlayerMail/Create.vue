@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { Head, Link, useForm } from '@inertiajs/vue3'
+import { Link, useForm } from '@inertiajs/vue3'
 import { ref } from 'vue'
-import BackButton from '../../Components/BackButton.vue'
-import Card from '../../Components/Card.vue'
+import ManageFormPage from '../../Components/ManageFormPage.vue'
 import Spinner from '../../Components/Spinner.vue'
 import FilledButton from '../../Components/FilledButton.vue'
 import MailPreview from './Components/MailPreview.vue'
@@ -39,18 +38,9 @@ function sendAnnouncement() {
 </script>
 
 <template>
-    <Head title="New Player Mail Announcement" />
-
     <section>
-        <Card>
-            <div class="space-y-6 p-5 sm:p-8">
-                <BackButton href="/manage/player-mail" />
-                <header>
-                    <h1 class="text-xl font-bold text-gray-900 dark:text-white">Compose announcement</h1>
-                    <p class="mt-1 text-sm text-gray-500">This message will be sent to all Minecraft players.</p>
-                </header>
-
-                <div class="grid gap-8 xl:grid-cols-2">
+        <ManageFormPage title="Compose announcement" description="This message will be sent to all Minecraft players.">
+            <div class="grid gap-8 xl:grid-cols-2">
                     <form class="space-y-5" @submit.prevent="reviewAnnouncement">
                         <div>
                             <label for="subject" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Subject <span class="text-red-600">*</span></label>
@@ -104,12 +94,11 @@ function sendAnnouncement() {
                     </form>
 
                     <div class="space-y-3">
-                        <h2 class="text-sm font-semibold text-gray-900 dark:text-white">Player preview</h2>
+                        <h2 class="text-base font-semibold text-foreground">Player preview</h2>
                         <MailPreview :subject="form.subject" :body="form.body" />
                     </div>
-                </div>
             </div>
-        </Card>
+        </ManageFormPage>
 
         <dialog
             ref="confirmation"
@@ -119,7 +108,7 @@ function sendAnnouncement() {
         >
             <div class="space-y-5 p-5 sm:p-7">
                 <div>
-                    <h2 id="confirmation-title" class="text-lg font-bold">Confirm announcement</h2>
+                    <h2 id="confirmation-title" class="text-lg font-semibold">Confirm announcement</h2>
                     <p id="confirmation-description" class="mt-1 text-sm text-muted">Review the audience and message before sending.</p>
                 </div>
                 <dl class="grid gap-3 text-sm sm:grid-cols-2">

@@ -51,7 +51,7 @@ const rows = computed(
 
         <template #actions="{ item }">
             <Link :href="'/manage/donations/' + item.id + '/edit'">
-                <FilledButton variant="secondary">
+                <FilledButton variant="secondary" size="sm">
                     Edit
                 </FilledButton>
             </Link>

@@ -5,7 +5,7 @@ withDefaults(defineProps<{ hoverable?: boolean }>(), {
 </script>
 
 <template>
-    <tr :class="hoverable ? 'transition-colors motion-reduce:transition-none hover:bg-surface-muted' : ''">
+    <tr :class="hoverable ? 'border-b border-border-table transition-colors last:border-b-0 motion-reduce:transition-none hover:bg-surface-muted' : 'border-b border-border-table last:border-b-0'">
         <slot />
     </tr>
 </template>

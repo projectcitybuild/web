@@ -19,11 +19,13 @@ const active = computed(() => isAdminPathActive(page.url, props.href))
         :href="href"
         :aria-current="active ? 'page' : undefined"
         :class="[
-            'flex min-h-10 items-center gap-3 rounded-md px-3 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus',
-            active ? 'bg-surface-hover font-semibold text-foreground' : 'text-muted hover:bg-surface-hover hover:text-foreground',
+            'flex min-h-9 items-center gap-2.5 rounded-md px-2.5 text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus',
+            active ? 'bg-surface-muted font-semibold text-foreground' : 'text-muted hover:bg-surface-hover hover:text-foreground',
         ]"
     >
-        <span class="flex size-5 shrink-0 items-center justify-center" aria-hidden="true"><slot name="icon" /></span>
+        <span v-if="$slots.icon" class="flex size-4 shrink-0 items-center justify-center" aria-hidden="true">
+            <slot name="icon" />
+        </span>
         <span class="min-w-0 flex-1 truncate">{{ label }}</span>
         <Badge v-if="badge && badge !== 0" variant="danger" tone="solid" size="sm">
             {{ badge }}

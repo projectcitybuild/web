@@ -12,6 +12,7 @@ import SpinnerRow from '../../Components/SpinnerRow.vue'
 import { ref } from 'vue'
 import { Icons } from '../../Icons'
 import usePermissions from '../../Composables/usePermissions'
+import ShowingCount from '../../Components/ShowingCount.vue'
 
 interface Props {
     success?: string,
@@ -33,9 +34,13 @@ const { can } = usePermissions()
         <Card>
             <div class="flex flex-row items-center justify-between p-4">
                 <div>
-                    <span v-if="badges" class="text-sm text-gray-500">
-                        Showing <strong>{{ itemCount }}</strong> of <strong>{{ badges?.total ?? 0 }}</strong>
-                    </span>
+                    <ShowingCount
+                        v-if="badges"
+                        :from="itemCount > 0 ? 1 : 0"
+                        :to="itemCount"
+                        :total="badges.total"
+                        class="text-sm text-gray-500"
+                    />
                 </div>
 
                 <div>

@@ -1,10 +1,26 @@
 <script setup lang="ts">
+import { inject, onBeforeUnmount, watch } from 'vue'
+import type { Ref } from 'vue'
+
 interface Props {
     title: string,
     description?: string,
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
+const pageTitle = inject<Ref<string>>('adminPageTitle')
+
+watch(() => props.title, title => {
+    if (pageTitle) {
+        pageTitle.value = title
+    }
+}, { immediate: true })
+
+onBeforeUnmount(() => {
+    if (pageTitle) {
+        pageTitle.value = ''
+    }
+})
 </script>
 
 <template>

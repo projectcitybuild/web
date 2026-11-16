@@ -52,7 +52,7 @@ const rows = computed(
             <Link
                 v-if="can('web.manage.homes.edit')"
                 :href="'/manage/homes/' + item.id + '/edit'"
-                class="inline-flex min-h-10 items-center justify-center gap-2 rounded-[var(--radius-md)] bg-surface-muted px-4 text-sm font-medium text-foreground transition-colors hover:bg-surface-hover active:bg-surface-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-surface motion-reduce:transition-none"
+                class="inline-flex min-h-8 items-center justify-center gap-2 rounded-[var(--radius-md)] bg-surface-muted px-3 text-xs font-medium text-foreground transition-colors hover:bg-surface-hover active:bg-surface-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-surface motion-reduce:transition-none"
             >
                 Edit
             </Link>

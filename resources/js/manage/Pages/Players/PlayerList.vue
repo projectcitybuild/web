@@ -15,6 +15,7 @@ import usePermissions from '../../Composables/usePermissions'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 import Input from '../../../shared/Components/Input.vue'
 import FilterPanel from '../../Components/FilterPanel.vue'
+import ShowingCount from '../../Components/ShowingCount.vue'
 
 interface Props {
     success?: string,
@@ -57,9 +58,13 @@ watch(
         <Card>
             <div class="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                    <span v-if="players" class="text-sm text-muted">
-                        Showing <strong>{{ itemCount }}</strong> of <strong>{{ players?.total ?? 0 }}</strong>
-                    </span>
+                    <ShowingCount
+                        v-if="players"
+                        :from="itemCount > 0 ? 1 : 0"
+                        :to="itemCount"
+                        :total="players.total"
+                        class="text-sm text-muted"
+                    />
                 </div>
 
                 <div class="flex flex-wrap gap-2 sm:justify-end">
@@ -94,7 +99,6 @@ watch(
                     :query="query"
                     v-model:count="itemCount"
                     v-slot="source"
-                    class="border-t border-border"
                 >
                     <PlayerListTable
                         :players="source.data"

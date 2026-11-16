@@ -1,29 +1,35 @@
 :root {
     color-scheme: light;
 
-    --color-background: #f9fafb;
+    --color-background: #ffffff;
     --color-surface: #ffffff;
     --color-surface-muted: #f3f4f6;
-    --color-surface-hover: #e5e7eb;
-    --color-border: #e5e7eb;
-    --color-border-strong: #d1d5db;
-    --color-text: #111827;
-    --color-text-muted: #4b5563;
-    --color-text-subtle: #6b7280;
-    --color-primary: #1d4ed8;
-    --color-primary-hover: #1e40af;
-    --color-primary-active: #1e3a8a;
+    --color-surface-hover: #eef0f2;
+    --color-border: #e4e7eb;
+    --color-border-table: color-mix(in srgb, var(--color-border) 80%, var(--color-surface));
+    --color-border-strong: #cbd0d7;
+    --color-text: #17191c;
+    --color-text-muted: #555b63;
+    --color-text-subtle: #747b84;
+    --color-primary: #17191c;
+    --color-primary-hover: #30343a;
+    --color-primary-active: #08090a;
     --color-primary-foreground: #ffffff;
+    --color-primary-soft: #e9ebee;
     --color-disabled: #e5e7eb;
     --color-disabled-foreground: #6b7280;
     --color-success: #166534;
+    --color-success-soft: #dcfce7;
     --color-success-foreground: #ffffff;
     --color-warning: #92400e;
+    --color-warning-soft: #fef3c7;
     --color-warning-foreground: #ffffff;
     --color-danger: #b91c1c;
+    --color-danger-soft: #fee2e2;
     --color-danger-hover: #991b1b;
     --color-danger-foreground: #ffffff;
     --color-info: #1e40af;
+    --color-info-soft: #dbeafe;
     --color-info-foreground: #ffffff;
     --color-focus-ring: #2563eb;
 
@@ -39,36 +45,42 @@
     --radius-full: 9999px;
 
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-md: 0 3px 6px -2px rgb(0 0 0 / 0.12), 0 1px 3px -1px rgb(0 0 0 / 0.08);
+    --shadow-lg: 0 8px 16px -6px rgb(0 0 0 / 0.16), 0 2px 5px -2px rgb(0 0 0 / 0.08);
 }
 
 .dark {
     color-scheme: dark;
 
-    --color-background: #111827;
-    --color-surface: #1f2937;
-    --color-surface-muted: #374151;
-    --color-surface-hover: #4b5563;
-    --color-border: #374151;
-    --color-border-strong: #4b5563;
-    --color-text: #f9fafb;
-    --color-text-muted: #d1d5db;
-    --color-text-subtle: #9ca3af;
-    --color-primary: #60a5fa;
-    --color-primary-hover: #93c5fd;
-    --color-primary-active: #bfdbfe;
-    --color-primary-foreground: #111827;
+    --color-background: #202327;
+    --color-surface: #202327;
+    --color-surface-muted: #2a2e33;
+    --color-surface-hover: #343a40;
+    --color-border: #373d44;
+    --color-border-table: color-mix(in srgb, var(--color-border) 30%, var(--color-surface));
+    --color-border-strong: #4c545d;
+    --color-text: #f4f5f6;
+    --color-text-muted: #c6cbd1;
+    --color-text-subtle: #9aa2ab;
+    --color-primary: #f4f5f6;
+    --color-primary-hover: #e1e4e8;
+    --color-primary-active: #cdd2d8;
+    --color-primary-foreground: #17191c;
+    --color-primary-soft: #343a40;
     --color-disabled: #374151;
     --color-disabled-foreground: #9ca3af;
     --color-success: #86efac;
+    --color-success-soft: #163822;
     --color-success-foreground: #052e16;
     --color-warning: #fcd34d;
+    --color-warning-soft: #422b0b;
     --color-warning-foreground: #422006;
     --color-danger: #fca5a5;
+    --color-danger-soft: #451d20;
     --color-danger-hover: #fecaca;
     --color-danger-foreground: #7f1d1d;
     --color-info: #93c5fd;
+    --color-info-soft: #172f49;
     --color-info-foreground: #1e3a8a;
     --color-focus-ring: #60a5fa;
 
@@ -152,6 +164,38 @@ textarea {
 form > .grid {
     row-gap: 1.25rem;
     column-gap: 1.5rem;
+}
+
+.manage-form-page :is(input:not([type='hidden']):not([type='checkbox']):not([type='radio']):not([type='submit']):not([type='button']):not([type='reset']):not([type='file']):not([type='color']):not([type='range']), select, textarea) {
+    min-height: 2.5rem;
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    padding: 0.625rem 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+}
+
+.manage-form-page :is(input:not([type='hidden']):not([type='checkbox']):not([type='radio']):not([type='submit']):not([type='button']):not([type='reset']):not([type='file']):not([type='color']):not([type='range']), select, textarea):focus-visible {
+    border-color: var(--color-primary);
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 2px;
+    box-shadow: none;
+}
+
+.manage-form-page label {
+    color: var(--color-text);
+}
+
+.manage-form-page .text-gray-400,
+.manage-form-page .text-gray-500 {
+    color: var(--color-text-muted);
+}
+
+.manage-form-page [class~='font-bold'][class~='text-red-500'] {
+    color: var(--color-danger);
+    font-weight: 500;
 }
 
 @media (max-width: 639px) {

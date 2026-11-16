@@ -42,7 +42,7 @@ const rows = computed(
         <template #username="{ item }">
             <Link
                 :href="'/manage/accounts/' + item.id"
-                class="text-blue-500"
+                class="font-medium text-primary-active underline-offset-2 font-semibold underline"
             >
                 {{ item.username }}
             </Link>

@@ -8,7 +8,6 @@ import InfinitePagination from '../../Components/InfinitePagination.vue'
 import RoleMemberListTable from './Partials/RoleMemberListTable.vue'
 import { Role } from '../../Data/Role'
 import ToolBar from '../../Components/ToolBar.vue'
-import BackButton from '../../Components/BackButton.vue'
 
 interface Props {
     success?: string,
@@ -27,7 +26,6 @@ defineProps<Props>()
 
         <ToolBar>
             <template v-slot:left>
-                <BackButton href="/manage/roles" />
             </template>
         </ToolBar>
 

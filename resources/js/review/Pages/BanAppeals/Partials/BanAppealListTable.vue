@@ -58,9 +58,9 @@ const rows = computed(
         <template #actions="{ item }">
             <Link
                 :href="'/review/ban-appeals/' + item.id"
-                class="inline-flex min-h-10 items-center justify-center gap-2 rounded-[var(--radius-md)] px-4 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-surface motion-reduce:transition-none"
+                class="inline-flex min-h-8 items-center justify-center gap-2 rounded-[var(--radius-md)] px-3 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-surface motion-reduce:transition-none"
                 :class="item.status === BanAppealStatus.pending
-                    ? 'bg-danger text-danger-foreground hover:bg-danger-hover active:bg-danger-hover'
+                    ? 'bg-primary text-primary-foreground hover:bg-primary-hover active:bg-primary-active'
                     : 'bg-surface-muted text-foreground hover:bg-surface-hover active:bg-surface-hover'"
             >
                 <SvgIcon v-if="item.status === BanAppealStatus.pending" :svg="Icons.eye" aria-hidden="true" />

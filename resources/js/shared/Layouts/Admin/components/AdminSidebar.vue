@@ -1,8 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import useAdminNavigation, { adminAreas } from '../useAdminNavigation'
 
-defineProps<{ open: boolean }>()
+const props = defineProps<{
+    open: boolean
+    collapsed: boolean
+    areaBadges: Record<string, number | string>
+}>()
 const emit = defineEmits<{ close: [] }>()
+const { currentArea } = useAdminNavigation()
 
 const sidebar = ref<HTMLElement | null>(null)
 
@@ -23,8 +29,11 @@ defineExpose({ focusFirst })
     <aside
         id="admin-sidebar"
         ref="sidebar"
-        class="fixed bottom-0 left-0 top-16 z-50 w-64 border-r border-border bg-surface transition-transform duration-200 ease-out motion-reduce:transition-none md:visible md:z-30 md:translate-x-0"
-        :class="open ? 'visible translate-x-0' : 'invisible -translate-x-full md:visible'"
+        class="fixed bottom-0 left-0 top-14 z-50 w-64 border-r border-border bg-surface-muted transition-[width,transform] duration-200 ease-out motion-reduce:transition-none md:left-11 md:top-0 md:z-30 md:translate-x-0"
+        :class="[
+            open ? 'visible translate-x-0' : 'invisible -translate-x-full',
+            collapsed ? 'md:invisible md:w-0 md:overflow-hidden md:border-r-0' : 'md:visible md:w-52',
+        ]"
         :role="open ? 'dialog' : undefined"
         :aria-modal="open ? 'true' : undefined"
         aria-label="Administrative navigation"
@@ -40,7 +49,30 @@ defineExpose({ focusFirst })
                 <path stroke-linecap="round" d="m6 6 12 12M18 6 6 18" />
             </svg>
         </button>
-        <div class="h-full overflow-y-auto px-3 py-16 md:py-5">
+        <div class="h-full overflow-y-auto px-3 py-16 md:py-0">
+            <div class="hidden h-14 items-center border-b border-border px-2 md:flex">
+                <p class="text-xs font-semibold tracking-wide text-subtle">{{ adminAreas.find(area => area.id === currentArea)?.label ?? 'Administration' }}</p>
+            </div>
+            <nav aria-label="Administrative areas" class="mb-4 border-b border-border pb-4 md:hidden">
+                <p class="mb-2 px-3 text-[11px] font-semibold tracking-wide text-subtle">Areas</p>
+                <ul class="space-y-1">
+                    <li v-for="area in adminAreas" :key="area.id">
+                        <a
+                            :href="area.href"
+                            :aria-current="currentArea === area.id ? 'page' : undefined"
+                            :class="[
+                                'flex min-h-10 items-center justify-between rounded-md px-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus',
+                                currentArea === area.id ? 'bg-primary-soft text-foreground' : 'text-muted hover:bg-surface-hover hover:text-foreground',
+                            ]"
+                        >
+                            {{ area.label }}
+                            <span v-if="props.areaBadges[area.id]" class="rounded-full bg-danger-soft px-2 py-0.5 text-xs font-medium text-danger">
+                                {{ props.areaBadges[area.id] }}
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
             <nav aria-label="Main navigation">
                 <slot />
             </nav>

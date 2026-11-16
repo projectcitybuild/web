@@ -4,46 +4,41 @@ import { format } from '../../../Utilities/DateFormatter'
 import OutlinedButton from '../../../Components/OutlinedButton.vue'
 import { BuilderRankApplicationStatus } from '../../../Data/BuilderRankApplication'
 import Pill from '../../../Components/Pill.vue'
+import DataTable from '../../../Components/DataTable.vue'
 
 interface Props {
     account_id: number,
 }
 defineProps<Props>()
+
+const fields = [
+    { key: 'id', label: 'ID' },
+    { key: 'status', label: 'Status' },
+    { key: 'current_builder_rank', label: 'Current Build Rank' },
+    { key: 'created_at', label: 'Created At' },
+]
 </script>
 
 <template>
     <InfinitePagination
         :path="'/manage/accounts/' + account_id + '/builder-ranks'"
         v-slot="source"
-        class="overflow-x-auto border-t border-border"
+        class="overflow-x-auto"
     >
-        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-                <th scope="col" class="px-4 py-3">Id</th>
-                <th scope="col" class="px-4 py-3">Status</th>
-                <th scope="col" class="px-4 py-3">Current Build Rank</th>
-                <th scope="col" class="px-4 py-3">Created At</th>
-                <th scope="col" class="px-4 py-3"></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr class="border-b dark:border-gray-700" v-for="application in source.data">
-                <td class="px-4 py-3 text-gray-900 whitespace-nowrap dark:text-white">{{ application.id }}</td>
-                <td class="px-4 py-3 text-gray-900 whitespace-nowrap dark:text-white">
-                    <Pill v-if="application.status === BuilderRankApplicationStatus.pending">Pending</Pill>
-                    <Pill v-if="application.status === BuilderRankApplicationStatus.denied" variant="danger">Denied</Pill>
-                    <Pill v-if="application.status === BuilderRankApplicationStatus.approved" variant="success">Approved</Pill>
-                </td>
-                <td class="px-4 py-3 text-gray-900 whitespace-nowrap dark:text-white">{{ application.current_builder_rank }}</td>
-                <td class="px-4 py-3">{{ format(application.created_at) }}</td>
-                <td class="px-4 py-1 flex justify-end">
-                    <a :href="'/review/builder-ranks/' + application.id">
-                        <OutlinedButton variant="secondary">View</OutlinedButton>
-                    </a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+        <DataTable :fields="fields" :rows="source.data">
+            <template #status="{ item }">
+                <Pill v-if="item.status === BuilderRankApplicationStatus.pending">Pending</Pill>
+                <Pill v-if="item.status === BuilderRankApplicationStatus.denied" variant="danger">Denied</Pill>
+                <Pill v-if="item.status === BuilderRankApplicationStatus.approved" variant="success">Approved</Pill>
+            </template>
+            <template #created_at="{ item }">
+                {{ format(item.created_at) }}
+            </template>
+            <template #actions="{ item }">
+                <a :href="'/review/builder-ranks/' + item.id">
+                    <OutlinedButton variant="secondary" size="sm">View</OutlinedButton>
+                </a>
+            </template>
+        </DataTable>
     </InfinitePagination>
 </template>

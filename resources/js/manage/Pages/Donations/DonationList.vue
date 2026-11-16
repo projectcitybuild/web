@@ -11,6 +11,7 @@ import SvgIcon from '../../Components/SvgIcon.vue'
 import SpinnerRow from '../../Components/SpinnerRow.vue'
 import { ref } from 'vue'
 import { Icons } from '../../Icons'
+import ShowingCount from '../../Components/ShowingCount.vue'
 
 interface Props {
     success?: string,
@@ -30,9 +31,13 @@ const itemCount = ref(0)
         <Card>
             <div class="flex flex-row items-center justify-between p-4">
                 <div>
-                    <span v-if="donations" class="text-sm text-gray-500">
-                        Showing <strong>{{ itemCount }}</strong> of <strong>{{ donations?.total ?? 0 }}</strong>
-                    </span>
+                    <ShowingCount
+                        v-if="donations"
+                        :from="itemCount > 0 ? 1 : 0"
+                        :to="itemCount"
+                        :total="donations.total"
+                        class="text-sm text-gray-500"
+                    />
                 </div>
 
                 <div>

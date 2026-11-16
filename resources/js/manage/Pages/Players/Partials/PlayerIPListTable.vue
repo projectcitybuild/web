@@ -1,32 +1,29 @@
 <script setup lang="ts">
 import { format } from '../../../Utilities/DateFormatter'
 import { PlayerIP } from '../../../Data/PlayerIP'
+import DataTable from '../../../Components/DataTable.vue'
 
 interface Props {
     ips: PlayerIP[],
 }
 defineProps<Props>()
+
+const fields = [
+    { key: 'id', label: 'ID' },
+    { key: 'ip', label: 'IP Address' },
+    { key: 'times_connected', label: 'Times Connected' },
+    { key: 'updated_at', label: 'Last Used' },
+    { key: 'created_at', label: 'First Used' },
+]
 </script>
 
 <template>
-    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-        <tr>
-            <th scope="col" class="px-4 py-3">Id</th>
-            <th scope="col" class="px-4 py-3">IP Address</th>
-            <th scope="col" class="px-4 py-3">Times Connected</th>
-            <th scope="col" class="px-4 py-3">Last Used</th>
-            <th scope="col" class="px-4 py-3">First Used</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="border-b dark:border-gray-700" v-for="ip in ips">
-            <td class="px-4 py-3 text-gray-900 whitespace-nowrap dark:text-white">{{ ip.id }}</td>
-            <td class="px-4 py-3">{{ ip.ip }}</td>
-            <td class="px-4 py-3">{{ ip.times_connected }}</td>
-            <td class="px-4 py-3">{{ format(ip.updated_at) }}</td>
-            <td class="px-4 py-3">{{ format(ip.created_at) }}</td>
-        </tr>
-        </tbody>
-    </table>
+    <DataTable :fields="fields" :rows="ips">
+        <template #updated_at="{ item }">
+            {{ format(item.updated_at) }}
+        </template>
+        <template #created_at="{ item }">
+            {{ format(item.created_at) }}
+        </template>
+    </DataTable>
 </template>

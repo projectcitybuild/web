@@ -53,7 +53,7 @@ const { can } = usePermissions()
 
         <template #actions="{ item }">
             <Link :href="'/manage/player-bans/' + item.id + '/edit'" v-if="can('web.manage.uuid_bans.edit')">
-                <FilledButton variant="secondary">
+                <FilledButton variant="secondary" size="sm">
                     Edit
                 </FilledButton>
             </Link>

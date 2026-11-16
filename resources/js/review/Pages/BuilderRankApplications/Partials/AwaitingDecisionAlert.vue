@@ -3,15 +3,15 @@ import Card from '../../../../shared/Components/Card.vue'
 </script>
 
 <template>
-    <Card padding="none" class="border-red-500 p-4">
-        <h2 class="mb-4 flex items-center gap-2 text-lg font-semibold text-red-500">
+    <Card padding="none" class="border border-red-500 p-4">
+        <h2 class="mb-3 flex items-center gap-2 text-base font-semibold text-danger">
             <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.5 4h-13m13 16h-13M8 20v-3.333a2 2 0 0 1 .4-1.2L10 12.6a1 1 0 0 0 0-1.2L8.4 8.533a2 2 0 0 1-.4-1.2V4h8v3.333a2 2 0 0 1-.4 1.2L13.957 11.4a1 1 0 0 0 0 1.2l1.643 2.867a2 2 0 0 1 .4 1.2V20H8Z"/>
             </svg>
             Awaiting Decision
         </h2>
 
-        <span class="text-sm">
+        <span class="text-sm leading-6">
             <strong>Please discuss the submission in Discord.</strong><br />
             Once a decision has been reached, click the approve or deny button below to finish review of this application.
         </span>

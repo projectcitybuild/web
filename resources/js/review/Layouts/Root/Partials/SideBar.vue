@@ -20,7 +20,7 @@ function countFor(item: typeof sidebarMenu[number]): number {
 </script>
 
 <template>
-    <ul class="space-y-1">
+    <ul class="space-y-1.5">
         <li v-for="item in visibleMenu" :key="item.route">
             <AdminNavLink :href="item.route" :label="item.title" :badge="countFor(item)">
                 <template #icon>

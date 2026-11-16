@@ -17,7 +17,7 @@ defineProps<Props>()
             class="border-red-500"
         >
             <div class="rounded-t-md bg-red-500 p-4">
-                <h2 class="font-semibold text-white">Decision: Denied</h2>
+                <h2 class="text-base font-semibold text-white">Decision: Denied</h2>
             </div>
 
             <div class="p-4 italic">
@@ -26,8 +26,8 @@ defineProps<Props>()
 
             <div class="p-4 border-t border-border">
                 <dl class="flex items-center justify-between gap-2">
-                    <dt class="text-sm text-gray-500 dark:text-gray-400">Decided At</dt>
-                    <dd class="text-sm text-gray-900 dark:text-white">
+                    <dt class="text-sm text-muted">Decided At</dt>
+                    <dd class="text-sm text-foreground">
                         {{ format(application.closed_at) }}
                     </dd>
                 </dl>
@@ -40,13 +40,13 @@ defineProps<Props>()
             class="border-green-500"
         >
             <div class="rounded-t-md bg-green-500 p-4">
-                <h2 class="font-semibold text-white">Decision: Approved</h2>
+                <h2 class="text-base font-semibold text-white">Decision: Approved</h2>
             </div>
 
             <div class="p-4 border-t border-border">
                 <dl class="flex items-center justify-between gap-2">
-                    <dt class="text-sm text-gray-500 dark:text-gray-400">Decided At</dt>
-                    <dd class="text-sm text-gray-900 dark:text-white">
+                    <dt class="text-sm text-muted">Decided At</dt>
+                    <dd class="text-sm text-foreground">
                         {{ format(application.closed_at) }}
                     </dd>
                 </dl>

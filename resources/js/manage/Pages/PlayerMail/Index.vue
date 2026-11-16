@@ -6,6 +6,11 @@ import FilledButton from '../../Components/FilledButton.vue'
 import usePermissions from '../../Composables/usePermissions'
 import BroadcastStatus from './Components/BroadcastStatus.vue'
 import FilterPanel from '../../Components/FilterPanel.vue'
+import ShowingCount from '../../Components/ShowingCount.vue'
+import Table from '../../../shared/Components/Table.vue'
+import TableCell from '../../../shared/Components/TableCell.vue'
+import TableHead from '../../../shared/Components/TableHead.vue'
+import TableRow from '../../../shared/Components/TableRow.vue'
 
 interface Broadcast {
     id: number,
@@ -89,8 +94,8 @@ function formatDate(value: string): string {
     <section class="space-y-4">
         <div class="flex flex-wrap items-center justify-between gap-3">
             <div>
-                <h1 class="text-xl font-bold text-gray-900 dark:text-white">Player Mail</h1>
-                <p class="mt-1 text-sm text-gray-500">Announcements sent to Minecraft players</p>
+                <h1 class="text-2xl font-semibold text-foreground">Player Mail</h1>
+                <p class="mt-1 text-sm text-muted">Announcements sent to Minecraft players</p>
             </div>
             <Link v-if="can('web.manage.player_mail.send')" href="/manage/player-mail/create">
                 <FilledButton variant="primary">New announcement</FilledButton>
@@ -99,7 +104,7 @@ function formatDate(value: string): string {
 
         <Card>
             <div class="flex flex-wrap items-center justify-between gap-3 border-b border-border p-4">
-                <p class="text-sm text-gray-500">
+                <p class="text-sm text-muted">
                     {{ broadcasts.total }} {{ broadcasts.total === 1 ? 'announcement' : 'announcements' }}
                     <span v-if="hasFilters">matching filters</span>
                 </p>
@@ -138,10 +143,10 @@ function formatDate(value: string): string {
             </div>
 
             <div v-if="broadcasts.data.length === 0" class="px-6 py-14 text-center">
-                <h2 class="text-base font-semibold text-gray-900 dark:text-white">
+                <h2 class="text-base font-semibold text-foreground">
                     {{ broadcasts.total === 0 && !hasFilters ? 'No announcements yet' : 'No announcements match these filters' }}
                 </h2>
-                <p class="mt-2 text-sm text-gray-500">
+                <p class="mt-2 text-sm text-muted">
                     {{ broadcasts.total === 0 && !hasFilters ? 'Your sent and processing announcements will appear here.' : 'Try a different subject or status.' }}
                 </p>
                 <Link v-if="broadcasts.total === 0 && !hasFilters && can('web.manage.player_mail.send')" href="/manage/player-mail/create" class="mt-5 inline-block">
@@ -170,39 +175,37 @@ function formatDate(value: string): string {
                 </div>
 
                 <div class="hidden overflow-x-auto md:block">
-                    <table class="w-full text-left text-sm">
-                        <thead class="bg-gray-100 text-xs uppercase text-gray-500 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
-                                <th class="whitespace-nowrap px-4 py-3">Status</th>
-                                <th class="whitespace-nowrap px-4 py-3">Subject</th>
-                                <th class="whitespace-nowrap px-4 py-3">Sender</th>
-                                <th class="whitespace-nowrap px-4 py-3">Recipients</th>
-                                <th class="whitespace-nowrap px-4 py-3">Created</th>
-                                <th class="px-4 py-3 text-right">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="broadcast in broadcasts.data" :key="broadcast.id" class="border-b border-gray-100 last:border-0 dark:border-gray-700">
-                                <td class="px-4 py-3"><BroadcastStatus :status="broadcast.status" /></td>
-                                <td class="max-w-xs truncate px-4 py-3 font-medium text-gray-900 dark:text-white">{{ broadcast.subject }}</td>
-                                <td class="whitespace-nowrap px-4 py-3 text-gray-500">{{ broadcast.sender }}</td>
-                                <td class="whitespace-nowrap px-4 py-3 text-gray-500">{{ broadcast.recipients_count }}</td>
-                                <td class="whitespace-nowrap px-4 py-3 text-gray-500">{{ formatDate(broadcast.created_at) }}</td>
-                                <td class="px-4 py-3 text-right">
+                    <Table>
+                        <template #header>
+                            <TableRow :hoverable="false">
+                                <TableHead>Status</TableHead>
+                                <TableHead>Subject</TableHead>
+                                <TableHead>Sender</TableHead>
+                                <TableHead>Recipients</TableHead>
+                                <TableHead>Created</TableHead>
+                                <TableHead align="end">Action</TableHead>
+                            </TableRow>
+                        </template>
+                        <TableRow v-for="broadcast in broadcasts.data" :key="broadcast.id">
+                            <TableCell><BroadcastStatus :status="broadcast.status" /></TableCell>
+                            <TableCell class="max-w-xs truncate font-medium">{{ broadcast.subject }}</TableCell>
+                            <TableCell class="whitespace-nowrap text-muted">{{ broadcast.sender }}</TableCell>
+                            <TableCell class="whitespace-nowrap text-muted">{{ broadcast.recipients_count }}</TableCell>
+                            <TableCell class="whitespace-nowrap text-muted">{{ formatDate(broadcast.created_at) }}</TableCell>
+                            <TableCell align="end">
                                     <Link
                                         :href="broadcastUrl(broadcast.id)"
                                         class="font-medium text-blue-700 hover:underline dark:text-blue-400"
                                     >
                                         View details
                                     </Link>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                            </TableCell>
+                        </TableRow>
+                    </Table>
                 </div>
 
                 <div class="flex flex-wrap items-center justify-between gap-3 p-4 text-sm text-gray-500">
-                    <span>Showing {{ broadcasts.from }}–{{ broadcasts.to }} of {{ broadcasts.total }}</span>
+                    <ShowingCount :from="broadcasts.from" :to="broadcasts.to" :total="broadcasts.total" />
                     <div class="flex items-center gap-2">
                         <Link v-if="broadcasts.current_page > 1" :href="pageUrl(broadcasts.current_page - 1)" class="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Previous</Link>
                         <span>Page {{ broadcasts.current_page }} of {{ broadcasts.last_page }}</span>

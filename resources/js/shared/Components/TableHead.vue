@@ -13,7 +13,7 @@ const alignClasses: Record<Align, string> = {
 </script>
 
 <template>
-    <th scope="col" class="whitespace-nowrap bg-surface-muted px-4 py-3 font-medium" :class="alignClasses[align]">
+    <th scope="col" class="whitespace-nowrap border-r border-border-table px-3 py-2.5 font-medium last:border-r-0" :class="alignClasses[align]">
         <slot />
     </th>
 </template>

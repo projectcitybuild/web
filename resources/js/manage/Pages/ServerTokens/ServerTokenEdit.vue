@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { Head, InertiaForm } from '@inertiajs/vue3'
-import Card from '../../Components/Card.vue'
-import BackButton from '../../Components/BackButton.vue'
-import ServerForm from './Partials/ServerTokenForm.vue'
+import { InertiaForm } from '@inertiajs/vue3'
+import ManageFormPage from '../../Components/ManageFormPage.vue'
+import ServerTokenForm from './Partials/ServerTokenForm.vue'
 import type { ServerToken } from '../../Data/ServerToken'
 
 interface Props {
@@ -17,19 +16,7 @@ function submit(form: InertiaForm<ServerToken>) {
 </script>
 
 <template>
-    <section>
-        <Head title="Edit a Server Token"/>
-
-        <Card>
-            <div class="p-8 max-w-2xl">
-                <BackButton href="/manage/server-tokens" class="mb-4"/>
-
-                <h2 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">Edit a Server</h2>
-                <div class="text-sm text-gray-500">Registers a server for receiving webhooks and events</div>
-                <hr class="my-6"/>
-
-                <ServerForm :token="props.token" :submit="submit"/>
-            </div>
-        </Card>
-    </section>
+    <ManageFormPage title="Edit a Server Token" description="Creates an authorization token that grants access to the PCB API. For use with first-party applications only">
+        <ServerTokenForm :token="props.token" :submit="submit" />
+    </ManageFormPage>
 </template>

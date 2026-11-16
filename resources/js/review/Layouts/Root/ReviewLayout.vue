@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { usePage } from '@inertiajs/vue3'
 import SideBar from './Partials/SideBar.vue'
 import AdminLayout from '../../../shared/Layouts/Admin/AdminLayout.vue'
+import { sidebarMenu } from '../../Navigation/Sidebar'
 
 const page = usePage()
 const areaBadges = computed(() => {
@@ -12,7 +13,7 @@ const areaBadges = computed(() => {
 </script>
 
 <template>
-    <AdminLayout :area-badges="areaBadges">
+    <AdminLayout :area-badges="areaBadges" :navigation="sidebarMenu">
         <template #side-bar>
             <SideBar />
         </template>

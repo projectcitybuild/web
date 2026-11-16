@@ -1,17 +1,24 @@
 <script setup lang="ts">
-import { nextTick, onBeforeUnmount, ref, watch } from 'vue'
+import { nextTick, onBeforeUnmount, provide, ref, watch } from 'vue'
+import AdminAreaRail from './components/AdminAreaRail.vue'
 import AdminHeader from './components/AdminHeader.vue'
 import AdminSidebar from './components/AdminSidebar.vue'
 import useTheme from './useTheme'
+import type { AdminNavigationEntry } from './useAdminNavigation'
 
 const props = withDefaults(defineProps<{
     areaBadges?: Record<string, number | string>
+    navigation?: AdminNavigationEntry[]
 }>(), {
     areaBadges: () => ({}),
+    navigation: () => [],
 })
 
 const { theme } = useTheme()
+const pageTitle = ref('')
+provide('adminPageTitle', pageTitle)
 const sidebarOpen = ref(false)
+const sidebarCollapsed = ref(false)
 const sidebar = ref<InstanceType<typeof AdminSidebar> | null>(null)
 let previousBodyOverflow = ''
 
@@ -25,6 +32,10 @@ function openSidebar(): void {
     nextTick(() => sidebar.value?.focusFirst())
 }
 
+function toggleDesktopSidebar(): void {
+    sidebarCollapsed.value = !sidebarCollapsed.value
+}
+
 function onKeydown(event: KeyboardEvent): void {
     if (!sidebarOpen.value) {
         return
@@ -32,7 +43,6 @@ function onKeydown(event: KeyboardEvent): void {
 
     if (event.key === 'Escape') {
         closeSidebar()
-        menuButton.value?.focus()
         return
     }
 
@@ -77,10 +87,14 @@ onBeforeUnmount(() => {
 
 <template>
     <div class="min-h-screen bg-background text-foreground" :data-theme="theme">
+        <AdminAreaRail :area-badges="props.areaBadges" />
+
         <AdminHeader
-            :area-badges="props.areaBadges"
+            :sidebar-collapsed="sidebarCollapsed"
+            :on-sidebar-toggle="toggleDesktopSidebar"
             :menu-open="sidebarOpen"
             :on-menu-click="openSidebar"
+            :navigation="props.navigation"
         />
 
         <button
@@ -91,11 +105,14 @@ onBeforeUnmount(() => {
             @click="closeSidebar"
         />
 
-        <AdminSidebar ref="sidebar" :open="sidebarOpen" @close="closeSidebar">
+        <AdminSidebar ref="sidebar" :open="sidebarOpen" :collapsed="sidebarCollapsed" :area-badges="props.areaBadges" @close="closeSidebar">
             <slot name="side-bar" />
         </AdminSidebar>
 
-        <main class="mx-auto min-h-screen max-w-screen-xl px-4 pb-8 pt-20 sm:px-6 md:ml-64 md:px-8">
+        <main
+            class="min-h-screen min-w-0 px-4 pb-8 pt-20 transition-[margin] duration-200 motion-reduce:transition-none sm:px-6 md:px-6"
+            :class="sidebarCollapsed ? 'md:ml-11' : 'md:ml-[15.75rem]'"
+        >
             <slot />
         </main>
     </div>

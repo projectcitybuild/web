@@ -2,10 +2,12 @@
 import SharedButton from '../../shared/Components/Button.vue'
 
 type Variant = 'primary' | 'secondary' | 'danger'
+type Size = 'sm' | 'md' | 'lg'
 type ButtonType = 'button' | 'submit' | 'reset'
 
 interface Props {
     variant: Variant,
+    size?: Size,
     disabled?: boolean,
     loading?: boolean,
     type?: ButtonType,
@@ -16,6 +18,7 @@ defineOptions({ inheritAttrs: false })
 withDefaults(defineProps<Props>(), {
     disabled: false,
     loading: false,
+    size: 'md',
     type: 'button',
 })
 </script>
@@ -24,6 +27,7 @@ withDefaults(defineProps<Props>(), {
     <SharedButton
         v-bind="$attrs"
         :variant="variant"
+        :size="size"
         :disabled="disabled"
         :loading="loading"
         :type="type"

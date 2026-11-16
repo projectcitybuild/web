@@ -22,7 +22,7 @@ const fields = [
     <DataTable :fields="fields" :rows="permissions">
         <template #actions="{ item }" v-if="can('web.manage.permissions.edit')">
             <Link :href="'/manage/permissions/' + item.id + '/edit'">
-                <FilledButton variant="secondary">
+                <FilledButton variant="secondary" size="sm">
                     Edit
                 </FilledButton>
             </Link>

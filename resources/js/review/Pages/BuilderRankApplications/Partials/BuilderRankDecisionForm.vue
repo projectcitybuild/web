@@ -67,7 +67,7 @@ function confirmDecision() {
     <div>
         <Card padding="none">
             <div class="p-4">
-                <h2 class="font-bold">Council Decision</h2>
+                <h2 class="text-base font-semibold">Council Decision</h2>
             </div>
 
             <fieldset class="flex flex-col gap-2 border-t border-border p-4">

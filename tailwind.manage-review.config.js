@@ -22,6 +22,7 @@ module.exports = {
         'surface-hover': 'var(--color-surface-hover)',
         border: {
           DEFAULT: 'var(--color-border)',
+          table: 'var(--color-border-table)',
           strong: 'var(--color-border-strong)',
         },
         foreground: 'var(--color-text)',
@@ -34,25 +35,30 @@ module.exports = {
           hover: 'var(--color-primary-hover)',
           active: 'var(--color-primary-active)',
           foreground: 'var(--color-primary-foreground)',
+          soft: 'var(--color-primary-soft)',
         },
         disabled: 'var(--color-disabled)',
         'disabled-foreground': 'var(--color-disabled-foreground)',
         success: {
           DEFAULT: 'var(--color-success)',
           foreground: 'var(--color-success-foreground)',
+          soft: 'var(--color-success-soft)',
         },
         warning: {
           DEFAULT: 'var(--color-warning)',
           foreground: 'var(--color-warning-foreground)',
+          soft: 'var(--color-warning-soft)',
         },
         danger: {
           DEFAULT: 'var(--color-danger)',
           hover: 'var(--color-danger-hover)',
           foreground: 'var(--color-danger-foreground)',
+          soft: 'var(--color-danger-soft)',
         },
         info: {
           DEFAULT: 'var(--color-info)',
           foreground: 'var(--color-info-foreground)',
+          soft: 'var(--color-info-soft)',
         },
         focus: 'var(--color-focus-ring)',
       },

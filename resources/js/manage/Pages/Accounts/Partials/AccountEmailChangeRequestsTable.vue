@@ -5,6 +5,7 @@ import OutlinedButton from '../../../Components/OutlinedButton.vue'
 import { ref } from 'vue'
 import ConfirmDialog from '../../../Components/ConfirmDialog.vue'
 import { router } from '@inertiajs/vue3'
+import DataTable from '../../../Components/DataTable.vue'
 
 interface Props {
     requests: EmailChangeRequest[],
@@ -14,6 +15,12 @@ const props = defineProps<Props>()
 
 const approveModal = ref<InstanceType<typeof ConfirmDialog>>()
 const approveId = ref(null)
+const fields = [
+    { key: 'id', label: 'ID' },
+    { key: 'email', label: 'New Email' },
+    { key: 'created_at', label: 'Created At' },
+    { key: 'expires_at', label: 'Expires At' },
+]
 
 function showDialog(id: number) {
     approveId.value = id
@@ -35,30 +42,19 @@ function forceApprove() {
             :on-confirm="forceApprove"
         />
 
-        <table v-if="requests.length > 0" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-                <th scope="col" class="px-4 py-3">Id</th>
-                <th scope="col" class="px-4 py-3">New Email</th>
-                <th scope="col" class="px-4 py-3">Created At</th>
-                <th scope="col" class="px-4 py-3">Expires At</th>
-                <th scope="col" class="px-4 py-3"></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr class="border-b dark:border-gray-700" v-for="request in requests">
-                <td class="px-4 py-3 text-gray-900 whitespace-nowrap dark:text-white">{{ request.id }}</td>
-                <td class="px-4 py-3">{{ request.email }}</td>
-                <td class="px-4 py-3">{{ format(request.created_at) }}</td>
-                <td class="px-4 py-3">{{ format(request.expires_at) }}</td>
-                <td class="px-4 py-1 flex justify-end">
-                    <OutlinedButton variant="danger" @click="showDialog(request.id)">
-                        Approve
-                    </OutlinedButton>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+        <DataTable v-if="requests.length > 0" :fields="fields" :rows="requests">
+            <template #created_at="{ item }">
+                {{ format(item.created_at) }}
+            </template>
+            <template #expires_at="{ item }">
+                {{ format(item.expires_at) }}
+            </template>
+            <template #actions="{ item }">
+                <OutlinedButton variant="danger" size="sm" @click="showDialog(item.id)">
+                    Approve
+                </OutlinedButton>
+            </template>
+        </DataTable>
         <div v-else class="flex p-4">
             <span class="text-sm text-gray-400">No pending email changes</span>
         </div>

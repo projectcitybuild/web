@@ -12,6 +12,7 @@ import { Icons } from '../../Icons'
 import usePermissions from '../../Composables/usePermissions'
 import { Home } from '../../Data/Home'
 import HomeListTable from './Partials/HomeListTable.vue'
+import ShowingCount from '../../Components/ShowingCount.vue'
 
 interface Props {
     success?: string,
@@ -33,9 +34,13 @@ const { can } = usePermissions()
         <Card>
             <div class="flex flex-row items-center justify-between p-4">
                 <div>
-                    <span v-if="homes" class="text-sm text-gray-500">
-                        Showing <strong>{{ itemCount }}</strong> of <strong>{{ homes?.total ?? 0 }}</strong>
-                    </span>
+                    <ShowingCount
+                        v-if="homes"
+                        :from="itemCount > 0 ? 1 : 0"
+                        :to="itemCount"
+                        :total="homes.total"
+                        class="text-sm text-gray-500"
+                    />
                 </div>
 
                 <div>

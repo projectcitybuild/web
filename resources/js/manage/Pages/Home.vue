@@ -26,7 +26,6 @@ const sections = computed(() => filterSidebar(sidebarMenu, can))
             <Card v-for="section in sections" :key="section.title">
                 <template #header>
                     <div class="flex items-center gap-3">
-                        <SvgIcon :svg="section.icon" class="size-5 text-muted" />
                         <h2 class="text-base font-semibold text-foreground">{{ section.title }}</h2>
                     </div>
                 </template>
@@ -35,8 +34,9 @@ const sections = computed(() => filterSidebar(sidebarMenu, can))
                     <li v-for="item in section.children" :key="item.route">
                         <Link
                             :href="item.route"
-                            class="flex min-h-11 items-center rounded-[var(--radius-md)] border border-border px-3 text-sm font-medium text-foreground transition-colors hover:bg-surface-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
+                            class="flex min-h-11 items-center gap-2.5 rounded-[var(--radius-md)] border border-border px-3 text-sm font-medium text-foreground transition-colors hover:bg-surface-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
                         >
+                            <SvgIcon :svg="item.icon" class="size-4 shrink-0 text-muted" />
                             {{ item.title }}
                         </Link>
                     </li>

@@ -26,12 +26,12 @@ const slots = defineSlots<{
 }>()
 
 const variantClasses: Record<Variant, string> = {
-    default: 'border-border bg-surface-muted text-muted',
-    primary: 'border-primary bg-surface text-primary',
-    success: 'border-success bg-surface text-success',
-    warning: 'border-warning bg-surface text-warning',
-    danger: 'border-danger bg-surface text-danger',
-    info: 'border-info bg-surface text-info',
+    default: 'border-transparent bg-surface-muted text-muted',
+    primary: 'border-transparent bg-primary-soft text-primary-active',
+    success: 'border-transparent bg-success-soft text-success',
+    warning: 'border-transparent bg-warning-soft text-warning',
+    danger: 'border-transparent bg-danger-soft text-danger',
+    info: 'border-transparent bg-info-soft text-info',
 }
 
 const solidVariantClasses: Record<Exclude<Variant, 'default'>, string> = {

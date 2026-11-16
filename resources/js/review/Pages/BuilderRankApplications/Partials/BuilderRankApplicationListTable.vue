@@ -51,7 +51,7 @@ const rows = computed(
         <template #username="{ item }">
             <a
                 :href="'/manage/accounts/' + item.account_id"
-                class="text-blue-500"
+                class="font-medium text-primary-active underline-offset-2 hover:underline"
             >
                 {{ item.account.username }}
             </a>
@@ -60,9 +60,9 @@ const rows = computed(
         <template #actions="{ item }">
             <Link
                 :href="'/review/builder-ranks/' + item.id"
-                class="inline-flex min-h-10 items-center justify-center gap-2 rounded-[var(--radius-md)] px-4 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-surface motion-reduce:transition-none"
+                class="inline-flex min-h-8 items-center justify-center gap-2 rounded-[var(--radius-md)] px-3 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-surface motion-reduce:transition-none"
                 :class="item.status === BuilderRankApplicationStatus.pending
-                    ? 'bg-danger text-danger-foreground hover:bg-danger-hover active:bg-danger-hover'
+                    ? 'bg-primary text-primary-foreground hover:bg-primary-hover active:bg-primary-active'
                     : 'bg-surface-muted text-foreground hover:bg-surface-hover active:bg-surface-hover'"
             >
                 <SvgIcon v-if="item.status === BuilderRankApplicationStatus.pending" :svg="Icons.eye" aria-hidden="true" />

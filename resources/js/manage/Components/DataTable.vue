@@ -27,14 +27,14 @@ const slots = useSlots()
 </script>
 
 <template>
-    <Table :empty="rows.length === 0" :columns="fields.length + (showIndex ? 1 : 0) + (slots.actions ? 1 : 0)">
+    <Table density="compact" :empty="rows.length === 0" :columns="fields.length + (showIndex ? 1 : 0) + (slots.actions ? 1 : 0)">
         <template #header>
             <TableRow :hoverable="false">
-                <TableHead v-if="showIndex" class="uppercase">#</TableHead>
-                <TableHead v-for="field in fields" :key="field.key" class="uppercase">
+                <TableHead v-if="showIndex">#</TableHead>
+                <TableHead v-for="field in fields" :key="field.key">
                     {{ field.label }}
                 </TableHead>
-                <TableHead v-if="slots.actions" align="end" class="uppercase">Actions</TableHead>
+                <TableHead v-if="slots.actions" align="end">Actions</TableHead>
             </TableRow>
         </template>
 

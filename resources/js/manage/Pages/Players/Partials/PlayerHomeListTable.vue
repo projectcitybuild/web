@@ -4,6 +4,10 @@ import { Home } from '../../../Data/Home';
 import usePermissions from '../../../Composables/usePermissions';
 import FilledButton from '../../../Components/FilledButton.vue';
 import { Link } from '@inertiajs/vue3';
+import Table from '../../../../shared/Components/Table.vue'
+import TableCell from '../../../../shared/Components/TableCell.vue'
+import TableHead from '../../../../shared/Components/TableHead.vue'
+import TableRow from '../../../../shared/Components/TableRow.vue'
 
 const { can } = usePermissions()
 
@@ -14,40 +18,38 @@ defineProps<Props>()
 </script>
 
 <template>
-    <table class="min-w-full whitespace-nowrap text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-                <th scope="col" class="px-4 py-3">Id</th>
-                <th scope="col" class="px-4 py-3">Name</th>
-                <th scope="col" class="px-4 py-3">World</th>
-                <th scope="col" class="px-4 py-3">x</th>
-                <th scope="col" class="px-4 py-3">y</th>
-                <th scope="col" class="px-4 py-3">z</th>
-                <th scope="col" class="px-4 py-3">Pitch</th>
-                <th scope="col" class="px-4 py-3">Yaw</th>
-                <th scope="col" class="px-4 py-3">Created At</th>
-                <th scope="col" class="px-4 py-3" v-if="can('web.manage.homes.edit')">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="border-b dark:border-gray-700" v-for="home in homes">
-                <td class="px-4 py-3 text-gray-900 whitespace-nowrap dark:text-white">{{ home.id }}</td>
-                <td class="px-4 py-3">{{ home.name }}</td>
-                <td class="px-4 py-3">{{ home.world }}</td>
-                <td class="px-4 py-3">{{ Math.round(home.x) }}</td>
-                <td class="px-4 py-3">{{ Math.round(home.y) }}</td>
-                <td class="px-4 py-3">{{ Math.round(home.z) }}</td>
-                <td class="px-4 py-3">{{ Number(home.pitch).toFixed(2) }}</td>
-                <td class="px-4 py-3">{{ Number(home.yaw).toFixed(2) }}</td>
-                <td class="px-4 py-3">{{ format(home.created_at) }}</td>
-                <td class="px-4 py-3 text-right">
+    <Table density="compact">
+        <template #header>
+            <TableRow :hoverable="false">
+                <TableHead>ID</TableHead>
+                <TableHead>Name</TableHead>
+                <TableHead>World</TableHead>
+                <TableHead>x</TableHead>
+                <TableHead>y</TableHead>
+                <TableHead>z</TableHead>
+                <TableHead>Pitch</TableHead>
+                <TableHead>Yaw</TableHead>
+                <TableHead>Created At</TableHead>
+                <TableHead v-if="can('web.manage.homes.edit')" align="end">Actions</TableHead>
+            </TableRow>
+        </template>
+        <TableRow v-for="home in homes" :key="home.id">
+            <TableCell>{{ home.id }}</TableCell>
+            <TableCell>{{ home.name }}</TableCell>
+            <TableCell>{{ home.world }}</TableCell>
+            <TableCell>{{ Math.round(home.x) }}</TableCell>
+            <TableCell>{{ Math.round(home.y) }}</TableCell>
+            <TableCell>{{ Math.round(home.z) }}</TableCell>
+            <TableCell>{{ Number(home.pitch).toFixed(2) }}</TableCell>
+            <TableCell>{{ Number(home.yaw).toFixed(2) }}</TableCell>
+            <TableCell>{{ format(home.created_at) }}</TableCell>
+            <TableCell v-if="can('web.manage.homes.edit')" align="end">
                     <Link :href="'/manage/homes/' + home.id + '/edit'" v-if="can('web.manage.homes.edit')">
-                        <FilledButton variant="secondary">
+                        <FilledButton variant="secondary" size="sm">
                             Edit
                         </FilledButton>
                     </Link>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+            </TableCell>
+        </TableRow>
+    </Table>
 </template>

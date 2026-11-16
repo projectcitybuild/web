@@ -12,6 +12,7 @@ import SpinnerRow from '../../Components/SpinnerRow.vue'
 import { ref } from 'vue'
 import { Icons } from '../../Icons'
 import usePermissions from '../../Composables/usePermissions'
+import ShowingCount from '../../Components/ShowingCount.vue'
 
 interface Props {
     bans?: Paginated<IPBan>,
@@ -33,9 +34,13 @@ const { can } = usePermissions()
         <Card>
             <div class="flex flex-row items-center justify-between p-4">
                 <div>
-                    <span v-if="bans" class="text-sm text-gray-500">
-                        Showing <strong>{{ itemCount }}</strong> of <strong>{{ bans?.total ?? 0 }}</strong>
-                    </span>
+                    <ShowingCount
+                        v-if="bans"
+                        :from="itemCount > 0 ? 1 : 0"
+                        :to="itemCount"
+                        :total="bans.total"
+                        class="text-sm text-gray-500"
+                    />
                 </div>
                 <div>
                     <Link href="/manage/ip-bans/create" v-if="can('web.manage.ip_bans.edit')">

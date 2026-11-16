@@ -40,7 +40,7 @@ const rows = computed(
 
         <template #actions="{ item }" v-if="can('web.manage.badges.edit')">
             <Link :href="'/manage/badges/' + item.id + '/edit'">
-                <FilledButton variant="secondary">
+                <FilledButton variant="secondary" size="sm">
                     Edit
                 </FilledButton>
             </Link>

@@ -7,6 +7,10 @@ import AdminNavLink from './AdminNavLink.vue'
 interface ChildLink {
     title: string
     route: string
+    icon: {
+        fill?: string
+        paths: { d: string; strokeLineCap?: 'butt' | 'round' | 'square'; strokeLineJoin?: 'miter' | 'round' | 'bevel' }[]
+    }
 }
 
 const props = defineProps<{
@@ -29,19 +33,22 @@ watch(activeChild, active => {
     <li>
         <button
             type="button"
-            class="flex min-h-10 w-full items-center gap-3 rounded-md px-3 text-left text-sm text-muted transition-colors hover:bg-surface-hover hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+            class="flex min-h-9 w-full items-center gap-2.5 rounded-md px-2.5 text-left text-xs tracking-wide text-muted transition-colors hover:bg-surface-hover hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
             :aria-expanded="expanded"
             @click="expanded = !expanded"
         >
-            <span class="flex size-5 shrink-0 items-center justify-center" aria-hidden="true"><slot name="icon" /></span>
             <span class="min-w-0 flex-1 truncate">{{ title }}</span>
             <svg aria-hidden="true" class="size-4 transition-transform" :class="expanded ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                 <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6" />
             </svg>
         </button>
-        <ul v-show="expanded" class="ml-4 mt-1 space-y-1 border-l border-border pl-2">
+        <ul v-show="expanded" class="mt-1.5 space-y-0.5 border-border pl-2">
             <li v-for="child in children" :key="child.route">
-                <AdminNavLink :href="child.route" :label="child.title" />
+                <AdminNavLink :href="child.route" :label="child.title">
+                    <template #icon>
+                        <slot name="child-icon" :child="child" />
+                    </template>
+                </AdminNavLink>
             </li>
         </ul>
     </li>

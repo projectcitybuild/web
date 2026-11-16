@@ -13,6 +13,8 @@ import FilterPanel from '../../Components/FilterPanel.vue'
 import SpinnerRow from '../../Components/SpinnerRow.vue'
 import { Icons } from '../../Icons'
 import usePermissions from '../../Composables/usePermissions'
+import PageHeader from '../../../shared/Components/PageHeader.vue'
+import ShowingCount from '../../Components/ShowingCount.vue'
 
 interface Props {
     success?: string,
@@ -56,18 +58,24 @@ watch(
 <template>
     <Head title="Manage Accounts" />
 
+    <PageHeader title="Accounts" class="mb-2" />
+
     <section>
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
-        <Card>
-            <div class="flex flex-wrap items-center justify-between gap-3 p-4">
+        <Card padding="none">
+            <div class="flex flex-wrap items-center justify-between gap-3 py-2.5">
                 <div>
-                    <span v-if="accounts" class="text-sm text-gray-500">
-                        Showing <strong>{{ itemCount }}</strong> of <strong>{{ accounts?.total ?? 0 }}</strong>
-                    </span>
+                    <ShowingCount
+                        v-if="accounts"
+                        :from="itemCount > 0 ? 1 : 0"
+                        :to="itemCount"
+                        :total="accounts.total"
+                        class="text-xs text-subtle"
+                    />
                 </div>
 
-                <div class="flex flex-wrap gap-2">
+                <div class="flex flex-wrap items-center gap-2">
                     <FilterPanel
                         id="account-filters"
                         :active-count="activeFilterCount"
@@ -81,7 +89,7 @@ watch(
                                     id="username"
                                     v-model="form.username"
                                     type="search"
-                                    class="min-h-11 w-full rounded-lg border border-border bg-surface px-3 text-sm text-foreground placeholder:text-muted focus:border-primary focus:ring-primary"
+                                    class="min-h-10 w-full rounded-md border border-border-strong bg-surface px-3 text-sm text-foreground placeholder:text-subtle focus:border-primary focus:ring-focus"
                                     placeholder="Search usernames"
                                 >
                             </label>
@@ -91,7 +99,7 @@ watch(
                                     id="email"
                                     v-model="form.email"
                                     type="search"
-                                    class="min-h-11 w-full rounded-lg border border-border bg-surface px-3 text-sm text-foreground placeholder:text-muted focus:border-primary focus:ring-primary"
+                                    class="min-h-10 w-full rounded-md border border-border-strong bg-surface px-3 text-sm text-foreground placeholder:text-subtle focus:border-primary focus:ring-focus"
                                     placeholder="Search email addresses"
                                 >
                             </label>
@@ -100,7 +108,7 @@ watch(
                                 <select
                                     id="activated"
                                     v-model="form.activated"
-                                    class="min-h-11 w-full rounded-lg border border-border bg-surface px-3 text-sm text-foreground focus:border-primary focus:ring-primary"
+                                    class="min-h-10 w-full rounded-md border border-border-strong bg-surface px-3 text-sm text-foreground focus:border-primary focus:ring-focus"
                                 >
                                     <option :value="null">Any status</option>
                                     <option :value="1">Activated</option>
@@ -112,7 +120,7 @@ watch(
                                 <select
                                     id="has-player"
                                     v-model="form.hasPlayer"
-                                    class="min-h-11 w-full rounded-lg border border-border bg-surface px-3 text-sm text-foreground focus:border-primary focus:ring-primary"
+                                    class="min-h-10 w-full rounded-md border border-border-strong bg-surface px-3 text-sm text-foreground focus:border-primary focus:ring-focus"
                                 >
                                     <option value="">Any</option>
                                     <option value="1">Yes</option>
@@ -127,7 +135,7 @@ watch(
                         as="button"
                         v-if="can('web.manage.accounts.edit')"
                     >
-                        <FilledButton variant="primary">
+                        <FilledButton variant="primary" size="sm">
                             <SvgIcon :svg="Icons.plus" />
                             Create Account
                         </FilledButton>
@@ -145,7 +153,6 @@ watch(
                     :query="query"
                     v-model:count="itemCount"
                     v-slot="source"
-                    class="border-t border-border"
                 >
                     <AccountListTable
                         :accounts="source.data"

@@ -42,7 +42,7 @@ const rows = computed(
 
         <template #actions="{ item }" v-if="can('web.manage.server_tokens.edit')">
             <Link :href="'/manage/server-tokens/' + item.id + '/edit'">
-                <FilledButton variant="secondary">
+                <FilledButton variant="secondary" size="sm">
                     Edit
                 </FilledButton>
             </Link>

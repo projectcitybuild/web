@@ -24,10 +24,10 @@ const slots = defineSlots<{
 }>()
 
 const variantClasses: Record<Variant, string> = {
-    default: 'border border-border bg-surface',
-    outlined: 'border border-border-strong bg-surface',
-    elevated: 'border border-border bg-surface shadow-sm',
-    muted: 'border border-border bg-surface-muted',
+    default: 'bg-transparent',
+    outlined: 'bg-transparent',
+    elevated: 'bg-transparent',
+    muted: 'bg-transparent',
 }
 
 const paddingClasses: Record<Padding, string> = {
@@ -38,7 +38,6 @@ const paddingClasses: Record<Padding, string> = {
 }
 
 const cardClasses = computed(() => [
-    'rounded-[var(--radius-lg)]',
     variantClasses[props.variant],
     paddingClasses[props.padding],
 ])

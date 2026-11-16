@@ -14,6 +14,7 @@ import SpinnerRow from '../../Components/SpinnerRow.vue'
 import { computed, ref, watch } from 'vue'
 import { Icons } from '../../Icons'
 import usePermissions from '../../Composables/usePermissions'
+import ShowingCount from '../../Components/ShowingCount.vue'
 
 interface Props {
     bans?: Paginated<PlayerBan>,
@@ -77,9 +78,13 @@ function clearFilters() {
         <Card>
             <div class="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                    <span v-if="bans" class="text-sm text-gray-500">
-                        Showing <strong>{{ itemCount }}</strong> of <strong>{{ bans?.total ?? 0 }}</strong>
-                    </span>
+                    <ShowingCount
+                        v-if="bans"
+                        :from="itemCount > 0 ? 1 : 0"
+                        :to="itemCount"
+                        :total="bans.total"
+                        class="text-sm text-gray-500"
+                    />
                 </div>
                 <div class="flex flex-wrap gap-2 sm:justify-end">
                     <FilterPanel

@@ -9,6 +9,7 @@ import SvgIcon from '../../Components/SvgIcon.vue'
 import SpinnerRow from '../../Components/SpinnerRow.vue'
 import usePermissions from '../../Composables/usePermissions'
 import { Icons } from '../../Icons'
+import ShowingCount from '../../Components/ShowingCount.vue'
 
 interface Props {
     success?: string,
@@ -29,9 +30,13 @@ defineProps<Props>()
         <Card>
             <div class="flex flex-row items-center justify-between p-4">
                 <div>
-                    <span v-if="roles" class="text-sm text-gray-500">
-                        Showing <strong>{{ roles.length }}</strong> of <strong>{{ roles?.length ?? 0 }}</strong>
-                    </span>
+                    <ShowingCount
+                        v-if="roles"
+                        :from="roles.length > 0 ? 1 : 0"
+                        :to="roles.length"
+                        :total="roles.length"
+                        class="text-sm text-gray-500"
+                    />
                 </div>
                 <div>
                     <Link

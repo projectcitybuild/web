@@ -88,7 +88,7 @@ onBeforeUnmount(() => {
         type="button"
         :aria-expanded="isOpen"
         :aria-controls="id"
-        class="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-border bg-surface px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-surface-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
+        class="inline-flex min-h-8 items-center justify-center gap-2 rounded-md border border-border bg-surface px-3 py-1 text-xs font-medium text-foreground transition-colors hover:bg-surface-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
         @click="isOpen = true"
     >
         <SvgIcon :svg="Icons.filter" aria-hidden="true" />
@@ -139,7 +139,7 @@ onBeforeUnmount(() => {
                     >
                         <header class="flex shrink-0 items-center justify-between gap-4 border-b border-border px-5 py-4">
                             <div>
-                                <h2 :id="`${id}-title`" class="text-lg font-semibold text-foreground">Filters</h2>
+                                <h2 :id="`${id}-title`" class="text-base font-semibold text-foreground">Filters</h2>
                                 <p class="mt-0.5 text-sm text-muted">
                                     {{ activeCount ? `${activeCount} active` : 'No filters selected' }}
                                 </p>

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Head, useForm } from '@inertiajs/vue3'
 import Card from '../../../shared/Components/Card.vue'
-import BackButton from '../../../manage/Components/BackButton.vue'
 import ConfirmDialog from '../../../manage/Components/ConfirmDialog.vue'
 import MinecraftAvatar from '../../../manage/Components/MinecraftAvatar.vue'
 import { distance, distanceFromNow, format } from '../../../manage/Utilities/DateFormatter'
@@ -102,7 +101,6 @@ function confirmDecision() {
         <PageHeader :title="`Ban Appeal #${banAppeal.id}`" class="mb-4">
             <template #actions>
                 <Badge :variant="status.variant">{{ status.label }}</Badge>
-                <BackButton href="/review/ban-appeals" />
                 <span class="inline-flex items-center gap-2 text-sm text-muted">
                     <SvgIcon :svg="Icons.clock" class="size-5" />
                     Waiting Time: <strong class="text-foreground">{{ waitingTime }}</strong>
@@ -114,31 +112,31 @@ function confirmDecision() {
             <section>
                 <Card padding="none">
                     <div class="p-4">
-                        <h2 class="font-bold">Appealer</h2>
+                        <h2 class="text-base font-semibold">Appealer</h2>
                     </div>
 
                     <div class="space-y-4 border-y border-border p-4">
                         <dl class="flex items-center justify-between gap-2">
-                            <dt class="text-sm text-gray-500 dark:text-gray-400">Email</dt>
-                            <dd class="text-sm text-gray-900 dark:text-white">
+                            <dt class="text-sm text-muted">Email</dt>
+                            <dd class="text-sm text-foreground">
                                 {{ banAppeal.email }}
                             </dd>
                         </dl>
                         <dl class="flex items-center justify-between gap-2">
-                            <dt class="text-sm text-gray-500 dark:text-gray-400">Minecraft UUID</dt>
-                            <dd class="text-sm text-gray-900 dark:text-white">
+                            <dt class="text-sm text-muted">Minecraft UUID</dt>
+                            <dd class="text-sm text-foreground">
                                 {{ banAppeal.minecraft_uuid }}
                             </dd>
                         </dl>
                         <dl class="flex items-center justify-between gap-2">
-                            <dt class="text-sm text-gray-500 dark:text-gray-400">Account</dt>
-                            <dd class="text-sm text-gray-900 dark:text-white">
+                            <dt class="text-sm text-muted">Account</dt>
+                            <dd class="text-sm text-foreground">
                                 <a
                                     v-if="banAppeal.account"
                                     :href="'/manage/accounts/' + banAppeal.account.account_id"
-                                    class="text-blue-500 font-bold"
+                                    class="font-medium text-primary-active underline-offset-2 hover:underline"
                                 >
-                                    <h1>{{ banAppeal.account.username }}</h1>
+                                    {{ banAppeal.account.username }}
                                 </a>
                                 <span v-else class="italic">Guest</span>
                             </dd>
@@ -148,7 +146,7 @@ function confirmDecision() {
 
                 <Card padding="none" class="mt-4" v-if="banAppeal.game_player_ban">
                     <div class="flex items-center justify-between gap-2 border-b border-border p-4">
-                        <h2 class="font-bold">Player Ban</h2>
+                        <h2 class="text-base font-semibold">Player Ban</h2>
 
                         <a :href="'/manage/player-bans/' + banAppeal.game_player_ban.id + '/edit'">
                             <OutlinedButton variant="secondary">Edit</OutlinedButton>
@@ -157,13 +155,13 @@ function confirmDecision() {
 
                     <div class="p-4 space-y-4">
                         <dl>
-                            <dt class="text-sm text-gray-500 dark:text-gray-400">Player</dt>
-                            <dd class="text-sm text-gray-900 dark:text-white">
+                            <dt class="text-sm text-muted">Player</dt>
+                            <dd class="text-sm text-foreground">
                                 <div class="flex gap-2 items-center">
                                     <MinecraftAvatar :uuid="banAppeal.game_player_ban.banned_player.uuid" :size="24" />
                                     <a
                                         :href="'/manage/players/' + banAppeal.game_player_ban.banned_player.id"
-                                        class="text-blue-500"
+                                        class="font-medium text-primary-active underline-offset-2 hover:underline"
                                     >
                                         {{ banAppeal.game_player_ban.banned_player.alias }}
                                     </a>
@@ -171,13 +169,13 @@ function confirmDecision() {
                             </dd>
                         </dl>
                         <dl>
-                            <dt class="text-sm text-gray-500 dark:text-gray-400">Banned By</dt>
-                            <dd class="text-sm text-gray-900 dark:text-white">
+                            <dt class="text-sm text-muted">Banned By</dt>
+                            <dd class="text-sm text-foreground">
                                 <div v-if="banAppeal.game_player_ban.banner_player" class="flex gap-2 items-center">
                                     <MinecraftAvatar :uuid="banAppeal.game_player_ban.banner_player.uuid" :size="24" />
                                     <a
                                         :href="'/manage/players/' + banAppeal.game_player_ban.banner_player.id"
-                                        class="text-blue-500"
+                                        class="font-medium text-primary-active underline-offset-2 hover:underline"
                                     >
                                         {{ banAppeal.game_player_ban.banner_player.alias }}
                                     </a>
@@ -186,8 +184,8 @@ function confirmDecision() {
                             </dd>
                         </dl>
                         <dl>
-                            <dt class="text-sm text-gray-500 dark:text-gray-400">Reason</dt>
-                            <dd class="text-sm text-gray-900 dark:text-white italic">
+                            <dt class="text-sm text-muted">Reason</dt>
+                            <dd class="text-sm italic text-foreground">
                                 {{ banAppeal.game_player_ban.reason }}
                             </dd>
                         </dl>
@@ -195,14 +193,14 @@ function confirmDecision() {
 
                     <div class="space-y-4 border-t border-border p-4">
                         <dl class="flex items-center justify-between gap-2">
-                            <dt class="text-sm text-gray-500 dark:text-gray-400">Created At</dt>
-                            <dd class="text-sm text-gray-900 dark:text-white">
+                            <dt class="text-sm text-muted">Created At</dt>
+                            <dd class="text-sm text-foreground">
                                 {{ format(banAppeal.game_player_ban.created_at) }}
                             </dd>
                         </dl>
                         <dl class="flex items-center justify-between gap-2">
-                            <dt class="text-sm text-gray-500 dark:text-gray-400">Expires At</dt>
-                            <dd class="text-sm text-gray-900 dark:text-white">
+                            <dt class="text-sm text-muted">Expires At</dt>
+                            <dd class="text-sm text-foreground">
                                 <span v-if="banAppeal.game_player_ban.expires_at">
                                     {{ format(banAppeal.game_player_ban.expires_at) }}
                                 </span>
@@ -218,31 +216,31 @@ function confirmDecision() {
             <section>
                 <Card padding="none">
                     <div class="border-b border-border p-4">
-                        <h2 class="font-bold">Ban Appeal</h2>
+                        <h2 class="text-base font-semibold">Ban Appeal</h2>
                     </div>
 
                     <div class="p-4">
                         <div>
-                            <h3 class="text-gray-500 text-sm">Date of Ban</h3>
-                            <span class="italic">{{ banAppeal.date_of_ban }}</span>
+                            <h3 class="text-sm font-semibold text-muted">Date of Ban</h3>
+                            <span class="text-sm leading-6 text-foreground">{{ banAppeal.date_of_ban }}</span>
                         </div>
 
                         <div class="mt-4">
-                            <h3 class="text-gray-500 text-sm">Ban Reason</h3>
-                            <span class="italic">{{ banAppeal.ban_reason }}</span>
+                            <h3 class="text-sm font-semibold text-muted">Ban Reason</h3>
+                            <span class="text-sm leading-6 text-foreground">{{ banAppeal.ban_reason }}</span>
                         </div>
 
                         <div class="mt-4">
-                            <h3 class="text-gray-500 text-sm">Why should you be unbaned?</h3>
-                            <span class="italic">{{ banAppeal.unban_reason }}</span>
+                            <h3 class="text-sm font-semibold text-muted">Why should you be unbaned?</h3>
+                            <span class="text-sm leading-6 text-foreground">{{ banAppeal.unban_reason }}</span>
                         </div>
                     </div>
 
                     <div class="border-t border-border p-4">
                         <div class="space-y-4">
                             <dl class="flex items-center justify-between gap-2">
-                                <dt class="text-sm text-gray-500 dark:text-gray-400">Created At</dt>
-                                <dd class="text-sm text-gray-900 dark:text-white">
+                                <dt class="text-sm text-muted">Created At</dt>
+                                <dd class="text-sm text-foreground">
                                     {{ format(banAppeal.created_at) }}
                                 </dd>
                             </dl>
@@ -252,7 +250,7 @@ function confirmDecision() {
 
                 <Card padding="none" class="mt-4" v-if="!hasDecision">
                     <div class="border-b border-border p-4">
-                        <h2 class="font-bold">Decision</h2>
+                        <h2 class="text-base font-semibold">Decision</h2>
                     </div>
 
                     <form @submit.prevent="requestConfirmation" class="p-4">
@@ -311,31 +309,31 @@ function confirmDecision() {
 
                 <Card v-else padding="none" class="mt-4">
                     <div class="border-b border-border p-4">
-                        <h2 class="flex items-center gap-2 font-bold">
+                        <h2 class="flex items-center gap-2 text-base font-semibold">
                             Decision
                             <Badge :variant="status.variant">{{ status.label }}</Badge>
                         </h2>
                     </div>
 
-                    <div class="p-4 italic">
+                    <div class="p-4 text-sm leading-6 text-foreground">
                         {{ banAppeal.decision_note }}
                     </div>
 
                     <div class="border-t border-border p-4">
                         <div class="space-y-4">
                             <dl class="flex items-center justify-between gap-2">
-                                <dt class="text-sm text-gray-500 dark:text-gray-400">Decided At</dt>
-                                <dd class="text-sm text-gray-900 dark:text-white">
+                                <dt class="text-sm text-muted">Decided At</dt>
+                                <dd class="text-sm text-foreground">
                                     {{ format(banAppeal.decided_at) }}
                                 </dd>
                             </dl>
                             <dl class="flex items-center justify-between gap-2">
-                                <dt class="text-sm text-gray-500 dark:text-gray-400">Decided By</dt>
-                                <dd class="text-sm text-gray-900 dark:text-white flex items-center gap-2">
+                                <dt class="text-sm text-muted">Decided By</dt>
+                                <dd class="flex items-center gap-2 text-sm text-foreground">
                                     <MinecraftAvatar :uuid="banAppeal.decider_player.uuid" :size="24" />
                                     <a
                                         :href="'/manage/players/' + banAppeal.decider_player.id"
-                                        class="text-blue-500"
+                                        class="font-medium text-primary-active underline-offset-2 hover:underline"
                                     >
                                         {{ banAppeal.decider_player.alias }}
                                     </a>

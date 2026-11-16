@@ -43,7 +43,7 @@ function isActive(ban: IPBan) {
 
         <template #actions="{ item }" v-if="can('web.manage.ip_bans.edit')">
             <Link :href="'/manage/ip-bans/' + item.id + '/edit'">
-                <FilledButton variant="secondary">
+                <FilledButton variant="secondary" size="sm">
                     Edit
                 </FilledButton>
             </Link>

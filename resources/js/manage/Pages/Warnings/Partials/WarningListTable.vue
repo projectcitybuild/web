@@ -46,7 +46,7 @@ const rows = computed(
 
         <template #actions="{ item }">
             <Link :href="'/manage/warnings/' + item.id + '/edit'" v-if="can('web.manage.warnings.edit')">
-                <FilledButton variant="secondary">
+                <FilledButton variant="secondary" size="sm">
                     Edit
                 </FilledButton>
             </Link>

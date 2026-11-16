@@ -25,7 +25,7 @@ const fields = [
     <DataTable :fields="fields" :rows="servers" class="border-t border-border">
         <template #actions="{ item }" v-if="can('web.manage.servers.edit')">
             <Link :href="'/manage/servers/' + item.id + '/edit'">
-                <FilledButton variant="secondary">
+                <FilledButton variant="secondary" size="sm">
                     Edit
                 </FilledButton>
             </Link>

@@ -15,7 +15,7 @@ const filteredMenu = computed(() =>
 </script>
 
 <template>
-    <ul class="space-y-1">
+    <ul class="space-y-1.5">
         <li>
             <AdminNavLink href="/manage" label="Dashboard">
                 <template #icon>
@@ -31,8 +31,8 @@ const filteredMenu = computed(() =>
             :title="section.title"
             :children="section.children"
         >
-            <template #icon>
-                <SvgIcon :svg="section.icon" :thickness="2" class="size-5" />
+            <template #child-icon="{ child }">
+                <SvgIcon :svg="child.icon" :thickness="2" class="size-4" />
             </template>
         </AdminNavGroup>
         <li class="mt-4 border-t border-border pt-4">

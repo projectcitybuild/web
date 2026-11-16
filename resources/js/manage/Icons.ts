@@ -172,6 +172,87 @@ export const Icons: Record<string, Svg> = {
             },
         ],
     },
+    badges: {
+        paths: [
+            {
+                d: 'M16.5 6a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM8.25 10.5 7.5 21l4.5-2.25L16.5 21l-.75-10.5',
+                strokeLineCap: 'round',
+                strokeLineJoin: 'round',
+            },
+        ],
+    },
+    roles: {
+        paths: [
+            {
+                d: 'M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.5 20.25a7.5 7.5 0 0 1 15 0v.75h-15v-.75Z',
+                strokeLineCap: 'round',
+                strokeLineJoin: 'round',
+            },
+        ],
+    },
+    permissions: {
+        paths: [
+            {
+                d: 'M15.75 5.25a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Zm-3.75 4.5 7.5 7.5m-3-3 2.25-2.25m-5.25-.75 2.25-2.25',
+                strokeLineCap: 'round',
+                strokeLineJoin: 'round',
+            },
+        ],
+    },
+    ban: {
+        paths: [
+            {
+                d: 'M3.75 12a8.25 8.25 0 1 0 16.5 0 8.25 8.25 0 0 0-16.5 0Zm2.4-5.85 11.7 11.7',
+                strokeLineCap: 'round',
+                strokeLineJoin: 'round',
+            },
+        ],
+    },
+    warning: {
+        paths: [
+            {
+                d: 'M12 9v3.75m-9.17 4.5h18.34L12 3.75 2.83 17.25ZM12 16.5h.008v.008H12V16.5Z',
+                strokeLineCap: 'round',
+                strokeLineJoin: 'round',
+            },
+        ],
+    },
+    home: {
+        paths: [
+            {
+                d: 'm2.25 12 9.204-9.204a.75.75 0 0 1 1.06 0L21.75 12M4.5 9.75v10.5h5.25v-6h4.5v6h5.25V9.75M8.25 20.25h7.5',
+                strokeLineCap: 'round',
+                strokeLineJoin: 'round',
+            },
+        ],
+    },
+    warp: {
+        paths: [
+            {
+                d: 'M12 21s7.5-4.5 7.5-11.25a7.5 7.5 0 1 0-15 0C4.5 16.5 12 21 12 21Zm0-8.25a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z',
+                strokeLineCap: 'round',
+                strokeLineJoin: 'round',
+            },
+        ],
+    },
+    tokens: {
+        paths: [
+            {
+                d: 'M12 6.75a5.25 5.25 0 1 0 0 10.5 5.25 5.25 0 0 0 0-10.5Zm0 0V3m0 18v-3.75m5.25-5.25H21m-18 0h3.75m9-3.75 2.25-2.25m-12 12 2.25-2.25m7.5 0 2.25 2.25m-12-12 2.25 2.25',
+                strokeLineCap: 'round',
+                strokeLineJoin: 'round',
+            },
+        ],
+    },
+    config: {
+        paths: [
+            {
+                d: 'M10.5 6h3l.75 2.25 2.25.75 2.25-.75 1.5 2.598-1.5 1.902v2.5l1.5 1.902-1.5 2.598-2.25-.75-2.25.75L13.5 22h-3l-.75-2.25-2.25-.75-2.25.75-1.5-2.598 1.5-1.902v-2.5l-1.5-1.902 1.5-2.598 2.25.75 2.25-.75L10.5 6Zm4.5 7.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z',
+                strokeLineCap: 'round',
+                strokeLineJoin: 'round',
+            },
+        ],
+    },
     moderation: {
         paths: [
             {

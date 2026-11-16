@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, useForm } from '@inertiajs/vue3'
+import { useForm } from '@inertiajs/vue3'
 import { onMounted, ref, watch } from 'vue'
 import { watchDebounced } from '@vueuse/core'
 import { format } from '../../Utilities/DateFormatter'
@@ -7,7 +7,7 @@ import type { RemoteConfig } from '../../Data/RemoteConfig'
 import ErrorAlert from '../../Components/ErrorAlert.vue'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
 import JsonValidity from './Partials/JsonValidity.vue'
-import Card from '../../Components/Card.vue'
+import ManageFormPage from '../../Components/ManageFormPage.vue'
 import FilledButton from '../../Components/FilledButton.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
 import { Icons } from '../../Icons'
@@ -58,20 +58,11 @@ function submit() {
 </script>
 
 <template>
-    <Head title="Minecraft Config"/>
-
-    <SuccessAlert v-if="success" :message="success" class="mb-4"/>
-
-    <section>
-        <Card>
-            <div
-                class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
-                <div class="w-full md:w-1/2">
-                    <h1 class="text-xl">Version {{ config.version }}</h1>
-                    <span class="text-xs text-gray-500">
-                        (Last edited: {{ format(config.updated_at, 'yyyy/MM/dd h:ma') }})</span>
-                </div>
-                <div>
+    <ManageFormPage
+        title="Minecraft Config"
+        :description="'Version ' + config.version + ' - Last edited: ' + format(config.updated_at, 'yyyy/MM/dd h:ma')"
+    >
+        <template #actions>
                     <FilledButton
                         variant="primary"
                         :disabled="!isValidJson"
@@ -80,27 +71,25 @@ function submit() {
                         <SvgIcon :svg="Icons.cloudPush" />
                         Save & Deploy
                     </FilledButton>
-                </div>
-            </div>
-            <div class="p-4">
-                <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4"/>
+        </template>
 
-                <JsonValidity
-                    v-if="isValidJson != null"
-                    :is-valid="isValidJson"
-                    :is-parsing="isWaiting"
-                />
+        <SuccessAlert v-if="success" :message="success" />
+        <ErrorAlert v-if="form.hasErrors" :errors="form.errors" />
 
-                <form @submit.prevent="submit">
-                    <textarea
-                        v-model="form.config"
-                        id="config"
-                        rows="18"
-                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                        placeholder="{}"
-                    ></textarea>
-                </form>
-            </div>
-        </Card>
-    </section>
+        <JsonValidity
+            v-if="isValidJson != null"
+            :is-valid="isValidJson"
+            :is-parsing="isWaiting"
+        />
+
+        <form @submit.prevent="submit">
+            <textarea
+                v-model="form.config"
+                id="config"
+                rows="18"
+                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                placeholder="{}"
+            ></textarea>
+        </form>
+    </ManageFormPage>
 </template>

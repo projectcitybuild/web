@@ -57,7 +57,7 @@ watch(() => [props.subject, props.body], renderPreview)
             <span>Announcement</span>
         </div>
         <div class="p-5 font-mono">
-            <h3 class="mb-3 break-words text-base font-bold text-white">
+            <h3 class="mb-3 break-words text-base font-semibold text-white">
                 <span ref="subjectPreview" />
             </h3>
             <div ref="bodyPreview" class="min-h-24 whitespace-pre-wrap break-words text-sm leading-6 text-gray-200" />

@@ -59,7 +59,7 @@ const fields = [
 
         <template #actions="{ item }" v-if="can('web.manage.roles.edit')">
             <Link :href="'/manage/roles/' + item.id + '/edit'">
-                <FilledButton variant="secondary">
+                <FilledButton variant="secondary" size="sm">
                     Edit
                 </FilledButton>
             </Link>

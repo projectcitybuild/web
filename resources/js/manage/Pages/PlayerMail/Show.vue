@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Head, router } from '@inertiajs/vue3'
 import { onBeforeUnmount, onMounted } from 'vue'
-import BackButton from '../../Components/BackButton.vue'
 import Card from '../../Components/Card.vue'
 import BroadcastProgress from './Components/BroadcastProgress.vue'
 import BroadcastStatus from './Components/BroadcastStatus.vue'
@@ -59,25 +58,24 @@ onBeforeUnmount(() => {
     <section>
         <Card>
             <div class="space-y-6 p-5 sm:p-8">
-                <BackButton :href="backUrl" />
 
                 <header class="flex flex-wrap items-start justify-between gap-4">
                     <div class="min-w-0">
-                        <p class="text-sm text-gray-500">Broadcast #{{ broadcast.id }}</p>
-                        <h1 class="mt-1 break-words text-xl font-bold text-gray-900 dark:text-white">{{ broadcast.subject }}</h1>
+                        <p class="text-sm text-muted">Broadcast #{{ broadcast.id }}</p>
+                        <h1 class="mt-1 break-words text-2xl font-semibold text-foreground">{{ broadcast.subject }}</h1>
                     </div>
                     <BroadcastStatus :status="broadcast.status" />
                 </header>
 
                 <div class="grid gap-5 lg:grid-cols-[minmax(0,1.4fr)_minmax(16rem,0.6fr)]">
                     <div class="space-y-3">
-                        <h2 class="text-sm font-semibold text-gray-900 dark:text-white">Announcement</h2>
+                        <h2 class="text-base font-semibold text-foreground">Announcement</h2>
                         <MailPreview :subject="broadcast.subject" :body="broadcast.body" />
                     </div>
 
                     <div class="space-y-5 border-t border-border pt-5 lg:border-l lg:border-t-0 lg:pl-6 lg:pt-0">
                         <div>
-                            <h2 class="mb-3 text-sm font-semibold text-gray-900 dark:text-white">Delivery</h2>
+                            <h2 class="mb-3 text-base font-semibold text-foreground">Delivery</h2>
                             <BroadcastProgress
                                 :delivered="broadcast.recipients_count"
                                 :audience-size="audienceEstimate"
@@ -86,27 +84,27 @@ onBeforeUnmount(() => {
                         </div>
                         <dl class="grid grid-cols-2 gap-4 text-sm">
                             <div class="col-span-2">
-                                <dt class="text-gray-500">Sent by</dt>
-                                <dd class="mt-1 font-medium text-gray-900 dark:text-white">{{ broadcast.sender }}</dd>
+                                <dt class="text-muted">Sent by</dt>
+                                <dd class="mt-1 font-medium text-foreground">{{ broadcast.sender }}</dd>
                             </div>
                             <div>
-                                <dt class="text-gray-500">Created</dt>
-                                <dd class="mt-1 font-medium text-gray-900 dark:text-white">{{ formatDate(broadcast.created_at) }}</dd>
+                                <dt class="text-muted">Created</dt>
+                                <dd class="mt-1 font-medium text-foreground">{{ formatDate(broadcast.created_at) }}</dd>
                             </div>
                             <div>
-                                <dt class="text-gray-500">Started</dt>
-                                <dd class="mt-1 font-medium text-gray-900 dark:text-white">{{ formatDate(broadcast.started_at) }}</dd>
+                                <dt class="text-muted">Started</dt>
+                                <dd class="mt-1 font-medium text-foreground">{{ formatDate(broadcast.started_at) }}</dd>
                             </div>
                             <div class="col-span-2">
-                                <dt class="text-gray-500">Completed</dt>
-                                <dd class="mt-1 font-medium text-gray-900 dark:text-white">{{ formatDate(broadcast.completed_at) }}</dd>
+                                <dt class="text-muted">Completed</dt>
+                                <dd class="mt-1 font-medium text-foreground">{{ formatDate(broadcast.completed_at) }}</dd>
                             </div>
                         </dl>
 
                         <p v-if="broadcast.status === 'failed'" class="border-l-4 border-red-500 bg-red-50 px-3 py-2 text-sm text-red-800 dark:bg-red-950 dark:text-red-200">
                             This broadcast failed. Retrying is not currently supported.
                         </p>
-                        <p v-else-if="broadcast.status === 'queued' || broadcast.status === 'processing'" class="text-xs text-gray-500" role="status">
+                        <p v-else-if="broadcast.status === 'queued' || broadcast.status === 'processing'" class="text-xs text-muted" role="status">
                             Delivery details refresh automatically.
                         </p>
                     </div>

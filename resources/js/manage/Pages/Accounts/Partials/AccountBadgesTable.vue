@@ -1,34 +1,27 @@
 <script setup lang="ts">
 import type { Badge } from '../../../Data/Badge'
 import BooleanCheck from '../../../Components/BooleanCheck.vue'
+import DataTable from '../../../Components/DataTable.vue'
 
 interface Props {
     badges: Badge[],
 }
 defineProps<Props>()
+
+const fields = [
+    { key: 'id', label: 'ID' },
+    { key: 'display_name', label: 'Display Name' },
+    { key: 'unicode_icon', label: 'Unicode Icon' },
+    { key: 'list_hidden', label: 'Hidden in List?' },
+]
 </script>
 
 <template>
-    <table v-if="badges.length > 0" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-        <tr>
-            <th scope="col" class="px-4 py-3">Id</th>
-            <th scope="col" class="px-4 py-3">Display Name</th>
-            <th scope="col" class="px-4 py-3">Unicode Icon</th>
-            <th scope="col" class="px-4 py-3">Hidden in List?</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="border-b dark:border-gray-700" v-for="badge in badges">
-            <td class="px-4 py-3 text-gray-900 whitespace-nowrap dark:text-white">{{ badge.id }}</td>
-            <td class="px-4 py-3">{{ badge.display_name }}</td>
-            <td class="px-4 py-3">{{ badge.unicode_icon }}</td>
-            <td class="px-4 py-3">
-                <BooleanCheck :value="badge.list_hidden" />
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <DataTable v-if="badges.length > 0" :fields="fields" :rows="badges">
+        <template #list_hidden="{ item }">
+            <BooleanCheck :value="item.list_hidden" />
+        </template>
+    </DataTable>
     <div v-else class="flex p-4">
         <span class="text-sm text-gray-400">No badges</span>
     </div>
