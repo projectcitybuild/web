@@ -8,7 +8,6 @@ import SpinnerRow from '../../Components/SpinnerRow.vue'
 import usePermissions from '../../Composables/usePermissions'
 import { Icons } from '../../Icons'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
-import ManageBreadcrumbs from '../../Components/ManageBreadcrumbs.vue'
 import ListPage from '../../Components/ListPage.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 
@@ -27,9 +26,6 @@ defineProps<Props>()
 
     <div class="space-y-6">
     <PageHeader title="Roles" description="Manage roles and the access granted to their members.">
-        <template #breadcrumbs>
-            <ManageBreadcrumbs :items="[{ label: 'Manage', href: '/manage' }, { label: 'Roles' }]" />
-        </template>
         <template #actions>
             <LinkButton
                 v-if="can('web.manage.roles.edit')"

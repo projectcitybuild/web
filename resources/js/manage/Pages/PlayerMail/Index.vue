@@ -12,7 +12,6 @@ import TableCell from '../../../shared/Components/TableCell.vue'
 import TableHead from '../../../shared/Components/TableHead.vue'
 import TableRow from '../../../shared/Components/TableRow.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
-import ManageBreadcrumbs from '../../Components/ManageBreadcrumbs.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 
 interface Broadcast {
@@ -96,9 +95,6 @@ function formatDate(value: string): string {
 
     <div class="space-y-6">
         <PageHeader title="Player Mail" description="Review and manage announcements sent to Minecraft players.">
-            <template #breadcrumbs>
-                <ManageBreadcrumbs :items="[{ label: 'Manage', href: '/manage' }, { label: 'Minecraft' }, { label: 'Mail' }]" />
-            </template>
             <template #actions>
             <LinkButton v-if="can('web.manage.player_mail.send')" href="/manage/player-mail/create" variant="primary">New announcement</LinkButton>
             </template>

@@ -15,7 +15,6 @@ import usePermissions from '../../Composables/usePermissions'
 import ShowingCount from '../../Components/ShowingCount.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
-import ManageBreadcrumbs from '../../Components/ManageBreadcrumbs.vue'
 
 interface Props {
     success?: string,
@@ -33,9 +32,6 @@ const { can } = usePermissions()
 
     <div class="space-y-6">
     <PageHeader title="Warps" description="Manage teleport locations available to Minecraft players.">
-        <template #breadcrumbs>
-            <ManageBreadcrumbs :items="[{ label: 'Manage', href: '/manage' }, { label: 'Minecraft' }, { label: 'Warps' }]" />
-        </template>
         <template #actions>
             <LinkButton v-if="can('web.manage.warps.edit')" href="/manage/minecraft/warps/create" variant="primary">
                 <SvgIcon :svg="Icons.plus" />

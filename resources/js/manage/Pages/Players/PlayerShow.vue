@@ -20,7 +20,6 @@ import PlayerHomeListTable from './Partials/PlayerHomeListTable.vue'
 import { Icons } from '../../Icons'
 import usePermissions from '../../Composables/usePermissions'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
-import ManageBreadcrumbs from '../../Components/ManageBreadcrumbs.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 
 interface Props {
@@ -61,9 +60,6 @@ async function refreshAlias() {
         <Head :title="'Viewing Player: ' + (player.alias ?? player.uuid)"/>
 
         <PageHeader :title="player.alias ?? player.uuid" description="Review Minecraft player details, moderation history, homes, and linked account.">
-            <template #breadcrumbs>
-                <ManageBreadcrumbs :items="[{ label: 'Manage', href: '/manage' }, { label: 'Minecraft' }, { label: 'Players', href: '/manage/players' }, { label: player.alias ?? player.uuid }]" />
-            </template>
             <template #actions v-if="can('web.manage.players.edit')">
                 <OutlinedButton
                     variant="secondary"

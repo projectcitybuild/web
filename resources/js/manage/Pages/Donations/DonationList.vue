@@ -13,7 +13,6 @@ import { ref } from 'vue'
 import { Icons } from '../../Icons'
 import ShowingCount from '../../Components/ShowingCount.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
-import ManageBreadcrumbs from '../../Components/ManageBreadcrumbs.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 
 interface Props {
@@ -30,9 +29,6 @@ const itemCount = ref(0)
 
     <div class="space-y-6">
         <PageHeader title="Donations" description="Review and manage donation records.">
-            <template #breadcrumbs>
-                <ManageBreadcrumbs :items="[{ label: 'Manage', href: '/manage' }, { label: 'Donations' }]" />
-            </template>
             <template #actions>
                 <LinkButton href="/manage/donations/create" variant="primary">
                     <SvgIcon :svg="Icons.plus" />

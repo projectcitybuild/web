@@ -17,7 +17,6 @@ import usePermissions from '../../Composables/usePermissions'
 import ShowingCount from '../../Components/ShowingCount.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
-import ManageBreadcrumbs from '../../Components/ManageBreadcrumbs.vue'
 
 interface Props {
     bans?: Paginated<PlayerBan>,
@@ -77,9 +76,6 @@ function clearFilters() {
 
     <div class="space-y-6">
     <PageHeader title="Player Bans" description="Review Minecraft player bans and their current status.">
-        <template #breadcrumbs>
-            <ManageBreadcrumbs :items="[{ label: 'Manage', href: '/manage' }, { label: 'Moderation' }, { label: 'Player Bans' }]" />
-        </template>
         <template #actions>
             <LinkButton v-if="can('web.manage.uuid_bans.edit')" href="/manage/player-bans/create" variant="primary">
                 <SvgIcon :svg="Icons.plus" />

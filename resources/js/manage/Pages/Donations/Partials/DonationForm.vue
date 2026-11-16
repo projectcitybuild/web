@@ -1,19 +1,19 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
-import { computed, onMounted, ref } from 'vue'
+import { computed } from 'vue'
 import type { Donation } from '../../../Data/Donation'
-import ErrorAlert from '../../../Components/ErrorAlert.vue'
 import DateTimePicker from '../../../Components/DateTimePicker.vue'
-import FilledButton from '../../../Components/FilledButton.vue'
-import Spinner from '../../../Components/Spinner.vue'
-import ConfirmDialog from '../../../Components/ConfirmDialog.vue'
-import OutlinedButton from '../../../Components/OutlinedButton.vue'
-import SvgIcon from '../../../Components/SvgIcon.vue'
-import { Icons } from '../../../Icons'
+import DangerZone from '../../../Components/Forms/DangerZone.vue'
+import FormActions from '../../../Components/Forms/FormActions.vue'
+import FormErrorSummary from '../../../Components/Forms/FormErrorSummary.vue'
+import FormField from '../../../Components/Forms/FormField.vue'
+import FormSection from '../../../Components/Forms/FormSection.vue'
+import { useUnsavedChangesWarning } from '../../../Components/Forms/useUnsavedChangesWarning'
+import Input from '../../../../shared/Components/Input.vue'
 
 interface Props {
     donation?: Donation,
-    submit: Function,
+    submit: (form: ReturnType<typeof useForm<Donation>>) => void,
 }
 
 const props = defineProps<Props>()
@@ -25,78 +25,72 @@ const form = useForm<Donation>({
         : new Date(),
 })
 
-const deleteModal = ref<InstanceType<typeof ConfirmDialog>>()
 const isEdit = computed(() => props.donation != null)
+useUnsavedChangesWarning(form)
 
-function submit() {
+function submit(): void {
     props.submit(form)
 }
 
-function destroy() {
-    deleteModal?.value.close()
-    form.delete('/manage/donations/' + props.donation.id)
+function destroy(): void {
+    if (props.donation) {
+        form.delete(`/manage/donations/${props.donation.id}`)
+    }
 }
 </script>
 
 <template>
-    <form @submit.prevent="submit">
-        <ConfirmDialog
-            ref="deleteModal"
-            message="This cannot be undone."
-            confirm-title="Yes, Delete It"
-            :on-confirm="destroy"
+    <form class="grid gap-6" @submit.prevent="submit">
+        <FormErrorSummary :errors="form.errors" />
+
+        <FormSection
+            title="Donation Details"
+            description="Record the donation amount and date."
+        >
+            <div class="grid gap-4 sm:grid-cols-2">
+                <FormField
+                    id="amount"
+                    label="Amount in dollars (AUD)"
+                    :error="form.errors.amount"
+                    required
+                    v-slot="field"
+                >
+                    <Input v-bind="field" v-model="form.amount" type="number" />
+                </FormField>
+                <FormField
+                    id="created_at"
+                    label="Date"
+                    :error="form.errors.created_at"
+                    required
+                    v-slot="field"
+                >
+                    <DateTimePicker
+                        :id="field.id"
+                        v-model="form.created_at"
+                        aria-label="Date"
+                        :aria-invalid="field['aria-invalid']"
+                        :aria-describedby="form.errors.created_at ? field.id + '-error' : undefined"
+                        @change="form.created_at = $event"
+                    />
+                </FormField>
+            </div>
+        </FormSection>
+
+        <FormActions
+            :submit-label="isEdit ? 'Update donation' : 'Create donation'"
+            cancel-href="/manage/donations"
+            :processing="form.processing"
+            sticky
         />
 
-        <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4"/>
-
-        <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-            <div>
-                <label for="amount" class="block mb-2 text-sm font-medium text-foreground">
-                    Amount in dollars (AUD)<span class="text-danger">*</span>
-                </label>
-                <input
-                    v-model="form.amount"
-                    type="number"
-                    id="amount"
-                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
-                >
-                <div v-if="form.errors.amount" class="text-xs text-danger font-bold mt-2">
-                    {{ form.errors.amount }}
-                </div>
-            </div>
-            <div>
-                <label for="category" class="block mb-2 text-sm font-medium text-foreground">
-                    Date<span class="text-danger">*</span>
-                </label>
-                <DateTimePicker
-                    v-model="form.created_at"
-                    @change="form.created_at = $event"
-                />
-                <div v-if="form.errors.created_at" class="text-xs text-danger font-bold mt-2">
-                    {{ form.errors.created_at }}
-                </div>
-            </div>
-        </div>
-
-        <div class="flex flex-row gap-2 mt-8">
-            <FilledButton
-                type="submit"
-                variant="primary"
-                :disabled="form.processing"
-            >
-                <Spinner v-if="form.processing" />
-                <template v-else>{{ isEdit ? 'Update' : 'Create' }}</template>
-            </FilledButton>
-
-            <OutlinedButton
-                variant="danger"
-                v-if="isEdit"
-                type="button"
-                @click="deleteModal?.open()"
-            >
-                <SvgIcon :svg="Icons.bin" />
-                Delete
-            </OutlinedButton>
-        </div>
+        <DangerZone
+            v-if="isEdit"
+            title="Delete donation"
+            description="Permanently remove this donation record."
+            confirm-message="This cannot be undone."
+            confirm-title="Yes, Delete It"
+            :disabled="form.processing"
+            @confirm="destroy"
+        />
     </form>
 </template>

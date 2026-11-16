@@ -10,7 +10,7 @@ function submit(form: InertiaForm<Server>) {
 </script>
 
 <template>
-    <ManageFormPage title="Create Server" description="Register a server to receive webhooks and events." :breadcrumbs="[{ label: 'Manage', href: '/manage' }, { label: 'Servers', href: '/manage/servers' }, { label: 'Create' }]">
+    <ManageFormPage title="Create Server" description="Register a server to receive webhooks and events.">
         <ServerForm :submit="submit" />
     </ManageFormPage>
 </template>

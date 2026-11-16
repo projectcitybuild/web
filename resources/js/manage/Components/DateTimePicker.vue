@@ -2,7 +2,7 @@
 import { VueDatePicker } from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 
-const model = defineModel<Date>()
+const model = defineModel<Date | null>()
 </script>
 
 <style>

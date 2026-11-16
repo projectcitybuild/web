@@ -7,7 +7,6 @@ import SvgIcon from '../../Components/SvgIcon.vue'
 import { Icons } from '../../Icons'
 import usePermissions from '../../Composables/usePermissions'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
-import ManageBreadcrumbs from '../../Components/ManageBreadcrumbs.vue'
 import ListPage from '../../Components/ListPage.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 
@@ -26,9 +25,6 @@ const { can } = usePermissions()
 
     <div class="space-y-6">
     <PageHeader title="Servers" description="Manage registered Minecraft servers and their integrations.">
-        <template #breadcrumbs>
-            <ManageBreadcrumbs :items="[{ label: 'Manage', href: '/manage' }, { label: 'Servers' }]" />
-        </template>
         <template #actions>
             <LinkButton
                 v-if="can('web.manage.servers.edit')"

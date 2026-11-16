@@ -9,6 +9,8 @@ interface Props {
     description?: string,
     error?: string,
     placeholder?: string,
+    hideLabel?: boolean,
+    hideFeedback?: boolean,
 }
 
 defineOptions({ inheritAttrs: false })
@@ -62,7 +64,7 @@ function updateValue(event: Event): void {
 
 <template>
     <div class="grid gap-1.5">
-        <label v-if="label" :for="selectId" class="text-sm font-medium text-foreground">
+        <label v-if="label && !hideLabel" :for="selectId" class="text-sm font-medium text-foreground">
             {{ label }}
         </label>
         <select
@@ -77,10 +79,10 @@ function updateValue(event: Event): void {
             <option v-if="placeholder" value="" disabled>{{ placeholder }}</option>
             <slot v-if="slots.default" />
         </select>
-        <p v-if="description" :id="descriptionId" class="text-sm text-muted">
+        <p v-if="description && !hideFeedback" :id="descriptionId" class="text-sm text-muted">
             {{ description }}
         </p>
-        <p v-if="error" :id="errorId" class="text-sm text-danger" role="alert">
+        <p v-if="error && !hideFeedback" :id="errorId" class="text-sm text-danger" role="alert">
             {{ error }}
         </p>
     </div>

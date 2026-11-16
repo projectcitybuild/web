@@ -6,7 +6,6 @@ import BroadcastProgress from './Components/BroadcastProgress.vue'
 import BroadcastStatus from './Components/BroadcastStatus.vue'
 import MailPreview from './Components/MailPreview.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
-import ManageBreadcrumbs from '../../Components/ManageBreadcrumbs.vue'
 
 interface Broadcast {
     id: number,
@@ -59,9 +58,6 @@ onBeforeUnmount(() => {
 
     <div class="space-y-6">
         <PageHeader :title="broadcast.subject" description="Review the delivery status and details of this player-mail announcement.">
-            <template #breadcrumbs>
-                <ManageBreadcrumbs :items="[{ label: 'Manage', href: '/manage' }, { label: 'Minecraft' }, { label: 'Mail', href: backUrl }, { label: broadcast.subject }]" />
-            </template>
         </PageHeader>
 
     <section>

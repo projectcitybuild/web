@@ -10,7 +10,7 @@ function submit(form: InertiaForm<Warning>) {
 </script>
 
 <template>
-    <ManageFormPage title="Create Warning" description="Record an infraction against a Minecraft player." :breadcrumbs="[{ label: 'Manage', href: '/manage' }, { label: 'Moderation' }, { label: 'Warnings', href: '/manage/warnings' }, { label: 'Create' }]">
+    <ManageFormPage title="Create Warning" description="Record an infraction against a Minecraft player.">
         <WarningForm :submit="submit" />
     </ManageFormPage>
 </template>

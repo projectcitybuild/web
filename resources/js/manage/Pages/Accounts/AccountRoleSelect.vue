@@ -32,7 +32,7 @@ function submit() {
 </script>
 
 <template>
-    <ManageFormPage title="Account Roles" description="Choose the roles assigned to this website account." :breadcrumbs="[{ label: 'Manage', href: '/manage' }, { label: 'Accounts', href: '/manage/accounts' }, { label: 'Account #' + props.account_id, href: '/manage/accounts/' + props.account_id }, { label: 'Roles' }]" :framed="false">
+    <ManageFormPage title="Account Roles" description="Choose the roles assigned to this website account." :framed="false">
         <template #actions>
             <FilledButton variant="primary" @click="submit" :disabled="form.processing">
                 Update

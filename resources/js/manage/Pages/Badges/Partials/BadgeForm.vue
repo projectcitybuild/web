@@ -1,18 +1,19 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
-import { computed, onMounted, ref } from 'vue'
+import { computed } from 'vue'
 import type { Badge } from '../../../Data/Badge'
-import ErrorAlert from '../../../Components/ErrorAlert.vue'
-import FilledButton from '../../../Components/FilledButton.vue'
-import Spinner from '../../../Components/Spinner.vue'
-import ConfirmDialog from '../../../Components/ConfirmDialog.vue'
-import OutlinedButton from '../../../Components/OutlinedButton.vue'
-import SvgIcon from '../../../Components/SvgIcon.vue'
-import { Icons } from '../../../Icons'
+import DangerZone from '../../../Components/Forms/DangerZone.vue'
+import FormActions from '../../../Components/Forms/FormActions.vue'
+import FormErrorSummary from '../../../Components/Forms/FormErrorSummary.vue'
+import FormField from '../../../Components/Forms/FormField.vue'
+import FormSection from '../../../Components/Forms/FormSection.vue'
+import MiniMessageInput from '../../../Components/Forms/MiniMessageInput.vue'
+import Input from '../../../../shared/Components/Input.vue'
+import { useUnsavedChangesWarning } from '../../../Components/Forms/useUnsavedChangesWarning'
 
 interface Props {
     badge?: Badge,
-    submit: Function,
+    submit: (form: ReturnType<typeof useForm<Badge>>) => void,
 }
 
 const props = defineProps<Props>()
@@ -26,105 +27,94 @@ const form = useForm<Badge>({
         : new Date(),
 })
 
-const deleteModal = ref<InstanceType<typeof ConfirmDialog>>()
 const isEdit = computed(() => props.badge != null)
+useUnsavedChangesWarning(form)
 
-function submit() {
+function submit(): void {
     props.submit(form)
 }
 
-function destroy() {
-    deleteModal?.value.close()
-    form.delete('/manage/badges/' + props.badge.id)
+function destroy(): void {
+    if (props.badge) {
+        form.delete(`/manage/badges/${props.badge.id}`)
+    }
 }
 </script>
 
 <template>
-    <form @submit.prevent="submit">
-        <ConfirmDialog
-            ref="deleteModal"
-            message="This cannot be undone."
-            confirm-title="Yes, Delete It"
-            :on-confirm="destroy"
-        />
+    <form class="grid gap-6" @submit.prevent="submit">
+        <FormErrorSummary :errors="form.errors" />
 
-        <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4"/>
-
-        <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-            <div class="sm:col-span-2">
-                <label for="display_name" class="block mb-2 text-sm font-medium text-foreground">
-                    Name<span class="text-danger">*</span>
-                </label>
-                <input
-                    v-model="form.display_name"
+        <FormSection
+            title="Badge Details"
+            description="Set the badge name, icon, and visibility."
+        >
+            <div class="grid gap-4 sm:grid-cols-2">
+                <FormField
                     id="display_name"
-                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
-                    placeholder="eg. Build-Off Winner"
+                    label="Name"
+                    :error="form.errors.display_name"
+                    required
+                    v-slot="field"
                 >
-                <div v-if="form.errors.display_name" class="text-xs text-danger font-bold mt-2">
-                    {{ form.errors.display_name }}
-                </div>
-            </div>
-            <div>
-                <label for="unicode_icon" class="block mb-2 text-sm font-medium text-foreground">
-                    Unicode Icon<span class="text-danger">*</span>
-                </label>
-                <input
-                    v-model="form.unicode_icon"
+                    <Input v-bind="field" v-model="form.display_name" placeholder="eg. Build-Off Winner" />
+                </FormField>
+                <MiniMessageInput
                     id="unicode_icon"
+                    label="Unicode Icon"
+                    description="Character/s to use as the badge icon in chat. Supports MiniMessage format."
+                    :error="form.errors.unicode_icon"
+                    v-model="form.unicode_icon"
                     placeholder="<gold>★</gold>"
-                    class="block p-2.5 text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
+                    preview-placeholder="★"
+                />
+                <p class="text-sm text-muted">
+                    See the
+                    <a
+                        class="text-primary underline"
+                        href="https://docs.advntr.dev/minimessage/format.html"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >MiniMessage format documentation</a>.
+                </p>
+                <FormField
+                    id="list_hidden"
+                    label="Hidden in List"
+                    description="Whether this badge will appear in the &quot;attainable badges&quot; list."
+                    :error="form.errors.list_hidden"
+                    v-slot="field"
                 >
-                <span class="block mt-2 text-xs font-medium text-subtle">
-                    Character/s to use as the badge icon in chat. Supports <a class="text-primary"
-                                                                              href="https://docs.advntr.dev/minimessage/format.html"
-                                                                              target="_blank">MiniMessage</a> format
-                </span>
-                <div v-if="form.errors.unicode_icon" class="text-xs text-danger font-bold mt-2">
-                    {{ form.errors.unicode_icon }}
-                </div>
-            </div>
-            <div>
-                <div class="flex items-center gap-2 mb-4">
                     <input
+                        :id="field.id"
                         v-model="form.list_hidden"
+                        :aria-invalid="field['aria-invalid']"
+                        :aria-describedby="form.errors.list_hidden
+                            ? `${field.id}-description ${field.id}-error`
+                            : `${field.id}-description`"
                         true-value="1"
                         false-value="0"
-                        id="list_hidden"
                         type="checkbox"
-                        class="w-4 h-4 text-primary bg-surface-muted border-border-strong rounded focus:ring-focus ring-offset-surface focus:ring-2"
+                        class="size-4 rounded border-border-strong accent-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
                     >
-                    <label for="list_hidden" class="ms-2 text-sm text-foreground dark:text-subtle">
-                        Hidden in List
-                    </label>
-                </div>
-                <span class="block mt-2 text-xs font-medium text-subtle">
-                    Whether this badge will appear in the "attainable badges" list
-                </span>
-                <div v-if="form.errors.list_hidden" class="text-xs text-danger font-bold mt-2">
-                    {{ form.errors.list_hidden }}
-                </div>
+                </FormField>
             </div>
-        </div>
+        </FormSection>
 
-        <div class="flex flex-row gap-2 mt-8">
-            <FilledButton
-                variant="primary"
-                :disabled="form.processing"
-                type="submit"
-            >
-                <Spinner v-if="form.processing" />
-                <template v-else>{{ isEdit ? 'Update' : 'Create' }}</template>
-            </FilledButton>
+        <FormActions
+            :submit-label="isEdit ? 'Update badge' : 'Create badge'"
+            cancel-href="/manage/badges"
+            :processing="form.processing"
+            sticky
+        />
 
-            <OutlinedButton
-                variant="danger"
-                v-if="isEdit"
-                @click="deleteModal.open()"
-            >
-                <SvgIcon :svg="Icons.bin" />
-                Delete
-            </OutlinedButton>
-        </div>
+        <DangerZone
+            v-if="isEdit"
+            title="Delete badge"
+            description="Permanently remove this badge."
+            confirm-message="This cannot be undone."
+            confirm-title="Yes, Delete It"
+            :disabled="form.processing"
+            @confirm="destroy"
+        />
     </form>
 </template>

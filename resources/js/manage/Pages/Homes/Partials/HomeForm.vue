@@ -1,22 +1,24 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
-import { computed, onMounted, ref } from 'vue'
-import ErrorAlert from '../../../Components/ErrorAlert.vue'
-import FilledButton from '../../../Components/FilledButton.vue'
-import Spinner from '../../../Components/Spinner.vue'
-import ConfirmDialog from '../../../Components/ConfirmDialog.vue'
-import SvgIcon from '../../../Components/SvgIcon.vue'
-import OutlinedButton from '../../../Components/OutlinedButton.vue'
-import { Icons } from '../../../Icons'
-import { Home } from '../../../Data/Home'
+import { computed } from 'vue'
+import type { Home } from '../../../Data/Home'
 import PlayerPicker from '../../../Components/PlayerPicker.vue'
+import CoordinateFields from '../../../Components/Forms/CoordinateFields.vue'
+import DangerZone from '../../../Components/Forms/DangerZone.vue'
+import FormActions from '../../../Components/Forms/FormActions.vue'
+import FormErrorSummary from '../../../Components/Forms/FormErrorSummary.vue'
+import FormField from '../../../Components/Forms/FormField.vue'
+import FormSection from '../../../Components/Forms/FormSection.vue'
+import { useUnsavedChangesWarning } from '../../../Components/Forms/useUnsavedChangesWarning'
+import Input from '../../../../shared/Components/Input.vue'
 
 interface Props {
     home?: Home,
-    submit: Function,
+    submit: (form: ReturnType<typeof useForm<Home>>) => void,
 }
 
 const props = defineProps<Props>()
+
 const form = useForm<Home>({
     player_uuid: props.home?.player?.uuid,
     player_alias: props.home?.player?.alias,
@@ -32,168 +34,117 @@ const form = useForm<Home>({
         : new Date(),
 })
 
-const deleteModal = ref<InstanceType<typeof ConfirmDialog>>()
 const isEdit = computed(() => props.home != null)
+useUnsavedChangesWarning(form)
 
-function submit() {
+function submit(): void {
     props.submit(form)
 }
 
-function destroy() {
-    deleteModal?.value.close()
-    form.delete('/manage/homes/' + props.home.id)
+function destroy(): void {
+    if (props.home) {
+        form.delete(`/manage/homes/${props.home.id}`)
+    }
+}
+
+function updateCoordinates(values: Partial<Pick<Home, 'x' | 'y' | 'z'>>): void {
+    Object.assign(form, values)
+}
+
+function updateOrientation(values: Partial<Pick<Home, 'pitch' | 'yaw'>>): void {
+    Object.assign(form, values)
 }
 </script>
 
 <template>
-    <form @submit.prevent="submit">
-        <ConfirmDialog
-            ref="deleteModal"
-            message="This cannot be undone."
-            confirm-title="Yes, Delete It"
-            :on-confirm="destroy"
-        />
+    <form class="grid gap-6" @submit.prevent="submit">
+        <FormErrorSummary :errors="form.errors" />
 
-        <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4"/>
-
-        <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-            <div class="sm:col-span-2">
-                <label for="name" class="block mb-2 text-sm font-medium text-foreground">
-                    Player<span class="text-danger">*</span>
-                </label>
+        <FormSection
+            title="Home Ownership"
+            description="Select the player who owns this home."
+        >
+            <FormField
+                id="player_id"
+                label="Player"
+                :error="form.errors.player_id"
+                required
+            >
                 <PlayerPicker
+                    id="player_id"
                     v-model:uuid="form.player_uuid"
                     v-model:alias="form.player_alias"
                 />
-                <div v-if="form.errors.player_id" class="text-xs text-danger font-bold mt-2">
-                    {{ form.errors.player_id }}
-                </div>
-            </div>
-            <div>
-                <label for="name" class="block mb-2 text-sm font-medium text-foreground">
-                    Name<span class="text-danger">*</span>
-                </label>
-                <input
-                    v-model="form.name"
-                    id="ip"
-                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
+            </FormField>
+        </FormSection>
+
+        <FormSection
+            title="Home Information"
+            description="Set the home name and the Minecraft world where it is located."
+        >
+            <div class="grid gap-4 sm:grid-cols-2">
+                <FormField
+                    id="name"
+                    label="Name"
+                    description="Case-sensitive and cannot contain white space."
+                    :error="form.errors.name"
+                    required
+                    v-slot="field"
                 >
-                <span class="block mt-2 text-xs font-medium text-subtle">
-                    Case-sensitive and cannot contain white
-                </span>
-                <div v-if="form.errors.name" class="text-xs text-danger font-bold mt-2">
-                    {{ form.errors.name }}
-                </div>
-            </div>
-            <div>
-                <label for="name" class="block mb-2 text-sm font-medium text-foreground">
-                    World Name<span class="text-danger">*</span>
-                </label>
-                <input
-                    v-model="form.world"
+                    <Input v-bind="field" v-model="form.name" />
+                </FormField>
+                <FormField
                     id="world"
-                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
+                    label="World Name"
+                    description="Warning: Case-sensitive."
+                    :error="form.errors.world"
+                    required
+                    v-slot="field"
                 >
-                <span class="block mt-2 text-xs font-medium text-subtle">
-                    Warning: Case-sensitive
-                </span>
-                <div v-if="form.errors.world" class="text-xs text-danger font-bold mt-2">
-                    {{ form.errors.world }}
-                </div>
+                    <Input v-bind="field" v-model="form.world" />
+                </FormField>
             </div>
-            <div class="sm:col-span-2 grid grid-cols-1 gap-4 sm:grid-cols-3">
-                <div>
-                    <label for="name" class="block mb-2 text-sm font-medium text-foreground">
-                        X<span class="text-danger">*</span>
-                    </label>
-                    <input
-                        v-model="form.x"
-                        type="number"
-                        id="x"
-                        class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
-                    >
-                    <div v-if="form.errors.x" class="text-xs text-danger font-bold mt-2">
-                        {{ form.errors.x }}
-                    </div>
-                </div>
-                <div>
-                    <label for="name" class="block mb-2 text-sm font-medium text-foreground">
-                        Y<span class="text-danger">*</span>
-                    </label>
-                    <input
-                        v-model="form.y"
-                        type="number"
-                        id="y"
-                        class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
-                    >
-                    <div v-if="form.errors.y" class="text-xs text-danger font-bold mt-2">
-                        {{ form.errors.y }}
-                    </div>
-                </div>
-                <div>
-                    <label for="name" class="block mb-2 text-sm font-medium text-foreground">
-                        Z<span class="text-danger">*</span>
-                    </label>
-                    <input
-                        v-model="form.z"
-                        type="number"
-                        id="z"
-                        class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
-                    >
-                    <div v-if="form.errors.z" class="text-xs text-danger font-bold mt-2">
-                        {{ form.errors.z }}
-                    </div>
-                </div>
-            </div>
-            <div>
-                <label for="name" class="block mb-2 text-sm font-medium text-foreground">
-                    Pitch<span class="text-danger">*</span>
-                </label>
-                <input
-                    v-model="form.pitch"
-                    type="number"
-                    id="pitch"
-                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
-                >
-                <div v-if="form.errors.pitch" class="text-xs text-danger font-bold mt-2">
-                    {{ form.errors.pitch }}
-                </div>
-            </div>
-            <div>
-                <label for="name" class="block mb-2 text-sm font-medium text-foreground">
-                    Yaw<span class="text-danger">*</span>
-                </label>
-                <input
-                    v-model="form.yaw"
-                    type="number"
-                    id="yaw"
-                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
-                >
-                <div v-if="form.errors.yaw" class="text-xs text-danger font-bold mt-2">
-                    {{ form.errors.yaw }}
-                </div>
-            </div>
-        </div>
+        </FormSection>
 
-        <div class="flex flex-row gap-2 mt-8">
-            <FilledButton
-                type="submit"
-                variant="primary"
-                :disabled="form.processing"
-            >
-                <Spinner v-if="form.processing" />
-                <template v-else>{{ isEdit ? 'Update' : 'Create' }}</template>
-            </FilledButton>
+        <FormSection
+            title="Location"
+            description="Enter the block coordinates of the home."
+        >
+            <CoordinateFields
+                group="coordinates"
+                :model-value="{ x: form.x, y: form.y, z: form.z }"
+                :errors="{ x: form.errors.x, y: form.errors.y, z: form.errors.z }"
+                @update:model-value="updateCoordinates"
+            />
+        </FormSection>
 
-            <OutlinedButton
-                variant="danger"
-                v-if="isEdit"
-                type="button"
-                @click="deleteModal.open()"
-            >
-                <SvgIcon :svg="Icons.bin" />
-                Delete
-            </OutlinedButton>
-        </div>
+        <FormSection
+            title="Orientation"
+            description="Set the direction a player will face when arriving at the home."
+        >
+            <CoordinateFields
+                group="orientation"
+                :model-value="{ pitch: form.pitch, yaw: form.yaw }"
+                :errors="{ pitch: form.errors.pitch, yaw: form.errors.yaw }"
+                @update:model-value="updateOrientation"
+            />
+        </FormSection>
+
+        <FormActions
+            :submit-label="isEdit ? 'Update home' : 'Create home'"
+            cancel-href="/manage/homes"
+            :processing="form.processing"
+            sticky
+        />
+
+        <DangerZone
+            v-if="isEdit"
+            title="Delete home"
+            description="Permanently remove this home from the directory."
+            confirm-message="This cannot be undone."
+            confirm-title="Yes, Delete It"
+            :disabled="form.processing"
+            @confirm="destroy"
+        />
     </form>
 </template>

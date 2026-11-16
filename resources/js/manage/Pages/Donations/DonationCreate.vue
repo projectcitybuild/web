@@ -10,7 +10,7 @@ function submit(form: InertiaForm<Donation>) {
 </script>
 
 <template>
-    <ManageFormPage title="Create Donation" description="Record a contribution for bookkeeping and the donation bar." :breadcrumbs="[{ label: 'Manage', href: '/manage' }, { label: 'Donations', href: '/manage/donations' }, { label: 'Create' }]">
+    <ManageFormPage title="Create Donation" description="Record a contribution for bookkeeping and the donation bar.">
         <DonationForm :submit="submit" />
     </ManageFormPage>
 </template>

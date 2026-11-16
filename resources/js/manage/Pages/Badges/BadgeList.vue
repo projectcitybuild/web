@@ -11,7 +11,6 @@ import { ref } from 'vue'
 import { Icons } from '../../Icons'
 import usePermissions from '../../Composables/usePermissions'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
-import ManageBreadcrumbs from '../../Components/ManageBreadcrumbs.vue'
 import ListPage from '../../Components/ListPage.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 
@@ -31,9 +30,6 @@ const { can } = usePermissions()
 
     <div class="space-y-6">
         <PageHeader title="Badges" description="Manage player badges and achievements.">
-            <template #breadcrumbs>
-                <ManageBreadcrumbs :items="[{ label: 'Manage', href: '/manage' }, { label: 'Badges' }]" />
-            </template>
             <template #actions>
                 <LinkButton
                     v-if="can('web.manage.badges.edit')"

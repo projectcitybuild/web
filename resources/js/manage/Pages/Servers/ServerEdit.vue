@@ -16,7 +16,7 @@ function submit(form: InertiaForm<Server>) {
 </script>
 
 <template>
-    <ManageFormPage title="Edit Server" description="Update this server's registration and integration settings." :breadcrumbs="[{ label: 'Manage', href: '/manage' }, { label: 'Servers', href: '/manage/servers' }, { label: 'Edit' }]">
+    <ManageFormPage title="Edit Server" description="Update this server's registration and integration settings.">
         <ServerForm :server="props.server" :submit="submit" />
     </ManageFormPage>
 </template>

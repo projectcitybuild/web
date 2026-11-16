@@ -7,6 +7,8 @@ interface Props {
     label?: string,
     description?: string,
     error?: string,
+    hideLabel?: boolean,
+    hideFeedback?: boolean,
 }
 
 defineOptions({ inheritAttrs: false })
@@ -62,14 +64,14 @@ function updateValue(event: Event): void {
                 :class="controlClasses"
                 @change="updateValue"
             >
-            <label v-if="label" :for="checkboxId" class="text-sm font-medium text-foreground">
+            <label v-if="label && !hideLabel" :for="checkboxId" class="text-sm font-medium text-foreground">
                 {{ label }}
             </label>
         </div>
-        <p v-if="description" :id="descriptionId" class="text-sm text-muted" :class="label ? 'ms-6' : ''">
+        <p v-if="description && !hideFeedback" :id="descriptionId" class="text-sm text-muted" :class="label ? 'ms-6' : ''">
             {{ description }}
         </p>
-        <p v-if="error" :id="errorId" class="text-sm text-danger" role="alert" :class="label ? 'ms-6' : ''">
+        <p v-if="error && !hideFeedback" :id="errorId" class="text-sm text-danger" role="alert" :class="label ? 'ms-6' : ''">
             {{ error }}
         </p>
     </div>

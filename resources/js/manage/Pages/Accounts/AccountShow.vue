@@ -23,7 +23,6 @@ import usePermissions from '../../Composables/usePermissions'
 import Tabs from '../../Components/Tabs.vue'
 import TabPanel from '../../Components/TabPanel.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
-import ManageBreadcrumbs from '../../Components/ManageBreadcrumbs.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 
 interface Props {
@@ -115,9 +114,6 @@ function showUnlinkDialog(playerId: number) {
         />
 
         <PageHeader :title="account.username" description="Review account access, security, linked game data, and contributions.">
-            <template #breadcrumbs>
-                <ManageBreadcrumbs :items="[{ label: 'Manage', href: '/manage' }, { label: 'Accounts', href: '/manage/accounts' }, { label: account.username }]" />
-            </template>
             <template #actions v-if="can('web.manage.accounts.edit')">
                 <LinkButton :href="'/manage/accounts/' + account.id + '/edit'" variant="outline">
                     <SvgIcon :svg="Icons.pencil" class="size-4" aria-hidden="true" />

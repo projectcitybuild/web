@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref, useId } from 'vue'
 import Spinner from './Spinner.vue'
 import MinecraftAvatar from './MinecraftAvatar.vue'
 import { lookupPlayer } from '../Services/PlayerLookupService'
@@ -8,11 +8,14 @@ import OutlinedButton from './OutlinedButton.vue'
 
 interface Props {
     initialSearch?: string,
+    id?: string,
 }
 const props = defineProps<Props>()
 
 const uuid = defineModel<string>('uuid')
 const alias = defineModel<string>('alias')
+const generatedId = useId()
+const inputId = computed(() => props.id || `player-picker-${generatedId}`)
 
 const loading = ref(false)
 const loadError = ref<string | null>(null)
@@ -74,10 +77,12 @@ onMounted(() => {
             <input
                 type="text"
                 name="name"
-                id="name"
+                :id="inputId"
+                aria-label="Search for a Minecraft player by UUID or name"
                 class="bg-surface border border-border-strong text-foreground text-sm rounded-lg focus:ring-focus focus:border-primary block w-full p-2.5 placeholder:text-subtle"
                 placeholder="UUID or name"
                 :disabled="loading"
+                :aria-busy="loading"
                 v-model="searchText"
             >
 

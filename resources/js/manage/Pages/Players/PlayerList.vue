@@ -17,7 +17,6 @@ import LinkButton from '../../../shared/Components/LinkButton.vue'
 import Input from '../../../shared/Components/Input.vue'
 import FilterPanel from '../../Components/FilterPanel.vue'
 import ShowingCount from '../../Components/ShowingCount.vue'
-import ManageBreadcrumbs from '../../Components/ManageBreadcrumbs.vue'
 
 interface Props {
     success?: string,
@@ -54,9 +53,6 @@ watch(
 
     <div class="space-y-6">
         <PageHeader title="Players" description="Browse and manage Minecraft players.">
-            <template #breadcrumbs>
-                <ManageBreadcrumbs :items="[{ label: 'Manage', href: '/manage' }, { label: 'Minecraft' }, { label: 'Players' }]" />
-            </template>
             <template #actions>
                 <LinkButton v-if="can('web.manage.players.edit')" href="/manage/players/create" variant="primary">
                     <SvgIcon :svg="Icons.plus" />

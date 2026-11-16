@@ -1,16 +1,20 @@
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3'
+import { useForm, usePage } from '@inertiajs/vue3'
 import { computed, ref } from 'vue'
-import ErrorAlert from '../../../Components/ErrorAlert.vue'
-import DateTimePicker from '../../../Components/DateTimePicker.vue'
 import type { Player } from '../../../Data/Player'
 import PlayerPicker from '../../../Components/PlayerPicker.vue'
-import Button from '../../../../shared/Components/Button.vue'
+import ChoiceCard from '../../../Components/Forms/ChoiceCard.vue'
+import FormActions from '../../../Components/Forms/FormActions.vue'
+import FormErrorSummary from '../../../Components/Forms/FormErrorSummary.vue'
+import FormField from '../../../Components/Forms/FormField.vue'
+import FormSection from '../../../Components/Forms/FormSection.vue'
+import DateTimeInput from '../../../Components/Forms/DateTimeInput.vue'
 import Input from '../../../../shared/Components/Input.vue'
+import { useUnsavedChangesWarning } from '../../../Components/Forms/useUnsavedChangesWarning'
 
 interface Props {
     player?: Player,
-    submit: Function,
+    submit: (form: ReturnType<typeof useForm<Player>>) => void,
 }
 
 const props = defineProps<Props>()
@@ -26,79 +30,134 @@ const form = useForm<Player>({
 })
 
 const isEdit = computed(() => props.player != null)
+const entryMode = ref<'search' | 'manual'>(isEdit.value ? 'manual' : 'search')
+const uuidParam = new URLSearchParams(usePage().url.split('?')[1] ?? '').get('uuid') ?? undefined
+useUnsavedChangesWarning(form)
 
-function submit() {
-    props.submit(form)
+function submit(): void {
+    if (!form.processing) {
+        props.submit(form)
+    }
 }
 </script>
 
 <template>
-    <form @submit.prevent="submit">
-        <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4"/>
+    <form class="grid gap-6" @submit.prevent="submit">
+        <FormErrorSummary :errors="form.errors" />
 
-        <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-            <div class="sm:col-span-2">
-                <div>
-                    <label for="name" class="block mb-2 text-sm font-medium text-foreground">
-                        Player<span class="text-danger">*</span>
-                    </label>
-                    <PlayerPicker
-                        v-model:uuid="form.uuid"
-                        v-model:alias="form.alias"
+        <FormSection
+            title="Player Identification"
+            description="Find an existing Minecraft player or enter their UUID and last known alias manually."
+        >
+            <fieldset class="grid gap-3">
+                <legend class="text-sm font-medium text-foreground">Identification method</legend>
+                <div class="grid gap-3 sm:grid-cols-2">
+                    <ChoiceCard
+                        v-model="entryMode"
+                        name="player-entry-mode"
+                        value="search"
+                        title="Search for a player"
+                        description="Look up a Minecraft username or UUID."
+                    />
+                    <ChoiceCard
+                        v-model="entryMode"
+                        name="player-entry-mode"
+                        value="manual"
+                        title="Enter player details"
+                        description="Use this when the player cannot be found by search."
                     />
                 </div>
-                <div class="text-muted text-sm mt-4">or</div>
-            </div>
-            <div>
-                <Input
-                    v-model="form.uuid"
+            </fieldset>
+
+            <div v-if="entryMode === 'search'" class="grid gap-3">
+                <FormField
                     id="uuid"
-                    label="UUID"
+                    label="Find a player"
+                    description="Choose a result to fill in the UUID and last known alias."
+                >
+                    <PlayerPicker
+                        id="uuid"
+                        v-model:uuid="form.uuid"
+                        v-model:alias="form.alias"
+                        :initial-search="uuidParam"
+                    />
+                </FormField>
+            </div>
+            <div v-else class="grid gap-4 sm:grid-cols-2">
+                <FormField
+                    id="uuid"
+                    label="Minecraft UUID"
+                    description="The player's unique Minecraft identifier."
                     :error="form.errors.uuid"
                     required
-                />
-            </div>
-            <div>
-                <Input
-                    v-model="form.alias"
+                    v-slot="field"
+                >
+                    <Input v-bind="field" v-model="form.uuid" autocomplete="off" />
+                </FormField>
+                <FormField
                     id="alias"
-                    label="Last Known Alias"
+                    label="Last known alias"
+                    description="The most recent Minecraft username for this UUID."
                     :error="form.errors.alias"
                     required
-                />
+                    v-slot="field"
+                >
+                    <Input v-bind="field" v-model="form.alias" autocomplete="off" />
+                </FormField>
             </div>
-            <div>
-                <Input
-                    v-model="form.nickname"
-                    id="nickname"
-                    label="In-Game Nickname"
-                    :error="form.errors.nickname"
-                />
-            </div>
+            <p
+                v-if="entryMode === 'search' && (form.errors.uuid || form.errors.alias)"
+                class="text-sm text-danger"
+                role="alert"
+            >
+                {{ form.errors.uuid || form.errors.alias }}
+            </p>
+        </FormSection>
 
-            <hr class="sm:col-span-2" />
-
-            <div>
-                <label for="category" class="block mb-2 text-sm font-medium text-foreground">
-                    First Seen<span class="text-danger">*</span>
-                </label>
-                <DateTimePicker
-                    v-model="form.created_at"
-                    @change="form.created_at = $event"
-                />
-                <div v-if="form.errors.created_at" class="text-xs text-danger font-bold mt-2">
-                    {{ form.errors.created_at }}
-                </div>
-            </div>
-        </div>
-
-        <Button
-            type="submit"
-            variant="primary"
-            :loading="form.processing"
-            class="mt-8"
+        <FormSection
+            title="Player Profile"
+            description="Set optional display and account information."
         >
-            {{ isEdit ? 'Update' : 'Create' }}
-        </Button>
+            <div class="grid gap-4 sm:grid-cols-2">
+                <FormField
+                    id="nickname"
+                    label="In-game nickname"
+                    description="Optional nickname displayed for this player in the website."
+                    :error="form.errors.nickname"
+                    v-slot="field"
+                >
+                    <Input v-bind="field" v-model="form.nickname" />
+                </FormField>
+                <FormField
+                    id="account_id"
+                    label="Associated account ID"
+                    description="Leave blank if this Minecraft player is not linked to a website account."
+                    :error="form.errors.account_id"
+                    v-slot="field"
+                >
+                    <Input v-bind="field" v-model="form.account_id" type="number" min="1" step="1" />
+                </FormField>
+            </div>
+        </FormSection>
+
+        <FormSection
+            title="Registration Metadata"
+            description="Set when this player was first registered."
+        >
+            <DateTimeInput
+                id="created_at"
+                label="First seen"
+                :error="form.errors.created_at"
+                required
+                v-model="form.created_at"
+            />
+        </FormSection>
+
+        <FormActions
+            :submit-label="isEdit ? 'Update player' : 'Create player'"
+            :cancel-href="'/manage/players'"
+            :processing="form.processing"
+            sticky
+        />
     </form>
 </template>

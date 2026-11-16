@@ -10,7 +10,7 @@ function submit(form: InertiaForm<Permission>) {
 </script>
 
 <template>
-    <ManageFormPage title="Create Permission" description="Define a permission that can be assigned to a role." :breadcrumbs="[{ label: 'Manage', href: '/manage' }, { label: 'Permissions', href: '/manage/permissions' }, { label: 'Create' }]">
+    <ManageFormPage title="Create Permission" description="Define a permission that can be assigned to a role.">
         <PermissionForm :submit="submit" />
     </ManageFormPage>
 </template>

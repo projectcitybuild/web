@@ -16,7 +16,7 @@ function submit(form: InertiaForm<Role>) {
 </script>
 
 <template>
-    <ManageFormPage title="Edit Role" description="Update this role and the permissions assigned to its members." :breadcrumbs="[{ label: 'Manage', href: '/manage' }, { label: 'Roles', href: '/manage/roles' }, { label: 'Edit' }]">
+    <ManageFormPage title="Edit Role" description="Update this role and the permissions assigned to its members.">
         <RoleForm :role="props.role" :submit="submit" />
     </ManageFormPage>
 </template>

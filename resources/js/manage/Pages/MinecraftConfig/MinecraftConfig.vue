@@ -4,7 +4,6 @@ import { computed, onMounted, ref, watch } from 'vue'
 import { watchDebounced } from '@vueuse/core'
 import { format } from '../../Utilities/DateFormatter'
 import type { RemoteConfig } from '../../Data/RemoteConfig'
-import ErrorAlert from '../../Components/ErrorAlert.vue'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
 import JsonValidity from './Partials/JsonValidity.vue'
 import JsonEditor from './Partials/JsonEditor.vue'
@@ -14,6 +13,10 @@ import SvgIcon from '../../Components/SvgIcon.vue'
 import { Icons } from '../../Icons'
 import OutlinedButton from '../../Components/OutlinedButton.vue'
 import MiniMessageRenderer from '../../Components/MiniMessageRenderer.vue'
+import ConfirmDialog from '../../Components/ConfirmDialog.vue'
+import FormErrorSummary from '../../Components/Forms/FormErrorSummary.vue'
+import FormNotice from '../../Components/Forms/FormNotice.vue'
+import { useUnsavedChangesWarning } from '../../Components/Forms/useUnsavedChangesWarning'
 
 interface MessageEntry {
     key: string,
@@ -33,7 +36,9 @@ const form = useForm({
 
 const isValidJson = ref<boolean | null>(null)
 const isWaiting = ref(false)
+const deploymentDialog = ref<InstanceType<typeof ConfirmDialog>>()
 const lineCount = computed(() => form.config.split('\n').length)
+const canDeploy = computed(() => isValidJson.value === true && !isWaiting.value && !form.processing)
 const messageEntries = computed(() => {
     try {
         return collectMessageEntries(JSON.parse(form.config))
@@ -72,6 +77,7 @@ watchDebounced(
 )
 
 onMounted(() => isValidJson.value = validateJson(form.config))
+useUnsavedChangesWarning(form)
 
 function validateJson(json: string) {
     try {
@@ -111,7 +117,16 @@ function selectPreviewKeys(keys: string[]) {
     }
 }
 
-function submit() {
+function confirmDeployment(): void {
+    deploymentDialog.value?.open()
+}
+
+function submit(): void {
+    if (!canDeploy.value) {
+        return
+    }
+
+    deploymentDialog.value?.close()
     form.transform((data) => ({
         ...data,
         config: JSON.stringify(JSON.parse(data.config)),
@@ -132,21 +147,39 @@ function formatConfig() {
         title="Remote Config"
         wide
         :description="'Review and deploy the Minecraft server configuration. Version ' + config.version + ' - Last edited: ' + format(config.updated_at, 'yyyy/MM/dd h:ma')"
-        :breadcrumbs="[{ label: 'Manage', href: '/manage' }, { label: 'Servers', href: '/manage/servers' }, { label: 'Remote Config' }]"
     >
         <template #actions>
-                    <FilledButton
-                        variant="primary"
-                        :disabled="!isValidJson"
-                        @click="submit"
-                    >
-                        <SvgIcon :svg="Icons.cloudPush" />
-                        Save & Deploy
-                    </FilledButton>
+            <FilledButton
+                variant="primary"
+                :loading="form.processing"
+                :disabled="!canDeploy"
+                @click="confirmDeployment"
+            >
+                <SvgIcon :svg="Icons.cloudPush" />
+                Save & Deploy
+            </FilledButton>
         </template>
 
         <SuccessAlert v-if="success" :message="success" />
-        <ErrorAlert v-if="form.hasErrors" :errors="form.errors" />
+        <SuccessAlert v-else-if="form.recentlySuccessful" message="Configuration saved and deployed successfully." />
+        <FormErrorSummary :errors="form.errors" />
+        <FormNotice v-if="isWaiting" type="info" title="Checking JSON">
+            Validation will update when you pause editing.
+        </FormNotice>
+        <FormNotice v-else-if="isValidJson === false" type="danger" title="JSON is invalid">
+            Fix the syntax errors before this configuration can be deployed.
+        </FormNotice>
+        <FormNotice v-else-if="form.isDirty" type="warning" title="Valid JSON, not yet deployed">
+            The configuration is syntactically valid, but your changes have not been deployed.
+        </FormNotice>
+        <ConfirmDialog
+            ref="deploymentDialog"
+            title="Deploy remote configuration?"
+            message="This saves the current JSON and sends the configuration to the Minecraft server."
+            confirm-title="Save and deploy"
+            confirm-variant="primary"
+            :on-confirm="submit"
+        />
 
         <div class="grid gap-6 xl:grid-cols-[minmax(0,1.6fr)_minmax(20rem,1fr)]">
             <section class="min-w-0 space-y-3">
@@ -176,6 +209,7 @@ function formatConfig() {
                     <JsonEditor
                         v-model="form.config"
                         aria-label="Minecraft configuration JSON"
+                        :aria-invalid="form.errors.config ? 'true' : undefined"
                         class="rounded-lg border border-border-strong bg-surface-muted shadow-inner focus-within:ring-2 focus-within:ring-focus/30"
                         @select-keys="selectPreviewKeys"
                     />

@@ -16,7 +16,7 @@ function submit(form: InertiaForm<Permission>) {
 </script>
 
 <template>
-    <ManageFormPage title="Edit Permission" description="Update this permission and the resource access it represents." :breadcrumbs="[{ label: 'Manage', href: '/manage' }, { label: 'Permissions', href: '/manage/permissions' }, { label: 'Edit' }]">
+    <ManageFormPage title="Edit Permission" description="Update this permission and the resource access it represents.">
         <PermissionForm :permission="props.permission" :submit="submit" />
     </ManageFormPage>
 </template>

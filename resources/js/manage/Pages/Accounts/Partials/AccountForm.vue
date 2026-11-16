@@ -1,15 +1,19 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
-import ErrorAlert from '../../../Components/ErrorAlert.vue'
-import DateTimePicker from '../../../Components/DateTimePicker.vue'
-import FilledButton from '../../../Components/FilledButton.vue'
-import Spinner from '../../../Components/Spinner.vue'
 import type { Account } from '../../../Data/Account'
+import DateTimeInput from '../../../Components/Forms/DateTimeInput.vue'
+import FormActions from '../../../Components/Forms/FormActions.vue'
+import FormErrorSummary from '../../../Components/Forms/FormErrorSummary.vue'
+import FormField from '../../../Components/Forms/FormField.vue'
+import FormNotice from '../../../Components/Forms/FormNotice.vue'
+import FormSection from '../../../Components/Forms/FormSection.vue'
+import { useUnsavedChangesWarning } from '../../../Components/Forms/useUnsavedChangesWarning'
+import Input from '../../../../shared/Components/Input.vue'
 
 interface Props {
     account?: Account,
-    submit: Function,
+    submit: (form: ReturnType<typeof useForm<Account>>) => void,
 }
 
 const props = defineProps<Props>()
@@ -24,85 +28,90 @@ const form = useForm<Account>({
 })
 
 const isEdit = computed(() => props.account != null)
+useUnsavedChangesWarning(form)
 
-function submit() {
-    props.submit(form)
+function submit(): void {
+    if (!form.processing) {
+        props.submit(form)
+    }
 }
 </script>
 
 <template>
-    <form @submit.prevent="submit">
-        <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4" />
+    <form class="grid gap-6" @submit.prevent="submit">
+        <FormErrorSummary :errors="form.errors" />
 
-        <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-            <div>
-                <label for="username" class="block mb-2 text-sm font-medium text-foreground">
-                    Email Address<span class="text-danger">*</span>
-                </label>
-                <input
-                    v-model="form.email"
-                    id="email"
-                    type="email"
-                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
-                >
-                <div v-if="form.errors.email" class="text-xs text-danger font-bold mt-2">
-                    {{ form.errors.email }}
-                </div>
-            </div>
-            <div>
-                <label for="username" class="block mb-2 text-sm font-medium text-foreground">
-                    Username<span class="text-danger">*</span>
-                </label>
-                <input
-                    v-model="form.username"
-                    id="username"
-                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
-                >
-                <div v-if="form.errors.username" class="text-xs text-danger font-bold mt-2">
-                    {{ form.errors.username }}
-                </div>
-            </div>
-            <div>
-                <label for="password" class="block mb-2 text-sm font-medium text-foreground">
-                    Password<span v-if="!isEdit" class="text-danger">*</span>
-                </label>
-                <input
-                    v-model="form.password"
-                    id="password"
-                    type="password"
-                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
-                >
-                <div v-if="form.errors.password" class="text-xs text-danger font-bold mt-2">
-                    {{ form.errors.password }}
-                </div>
-            </div>
-            <div>
-                <label for="category" class="block mb-2 text-sm font-medium text-foreground">
-                    Created At<span class="text-danger">*</span>
-                </label>
-                <DateTimePicker
-                    v-model="form.created_at"
-                    @change="form.created_at = $event"
-                />
-                <div v-if="form.errors.created_at" class="text-xs text-danger font-bold mt-2">
-                    {{ form.errors.created_at }}
-                </div>
-            </div>
-
-            <span v-if="!isEdit" class="text-muted text-sm sm:col-span-2">
-                Note: This will create an <strong>unactivated</strong> account.<br /><br />
-                You will need to either force activate their account or send them their activation email afterwards.
-            </span>
-        </div>
-
-        <FilledButton
-            variant="primary"
-            :disabled="form.processing"
-            type="submit"
-            class="mt-8"
+        <FormSection
+            title="Account Information"
+            description="Set the account's sign-in name and email address."
         >
-            <Spinner v-if="form.processing" />
-            <template v-else>{{ isEdit ? 'Update' : 'Create' }}</template>
-        </FilledButton>
+            <div class="grid gap-4 sm:grid-cols-2">
+                <FormField
+                    id="username"
+                    label="Username"
+                    :error="form.errors.username"
+                    required
+                    v-slot="field"
+                >
+                    <Input v-bind="field" v-model="form.username" autocomplete="username" />
+                </FormField>
+                <FormField
+                    id="email"
+                    label="Email address"
+                    :error="form.errors.email"
+                    required
+                    v-slot="field"
+                >
+                    <Input v-bind="field" v-model="form.email" type="email" autocomplete="email" />
+                </FormField>
+            </div>
+        </FormSection>
+
+        <FormSection
+            title="Authentication"
+            description="Manage the password used to sign in to the website."
+        >
+            <FormField
+                id="password"
+                :label="isEdit ? 'New password' : 'Password'"
+                :description="isEdit
+                    ? 'Leave blank to keep the current password.'
+                    : 'Use a strong password that meets the configured password policy.'"
+                :error="form.errors.password"
+                :required="!isEdit"
+                v-slot="field"
+            >
+                <Input
+                    v-bind="field"
+                    v-model="form.password"
+                    type="password"
+                    autocomplete="new-password"
+                />
+            </FormField>
+        </FormSection>
+
+        <FormSection
+            title="Account Metadata"
+            description="Review the account creation date."
+        >
+            <DateTimeInput
+                id="created_at"
+                label="Created at"
+                :error="form.errors.created_at"
+                required
+                v-model="form.created_at"
+            />
+        </FormSection>
+
+        <FormNotice v-if="!isEdit" type="warning" title="Account activation">
+            This creates an unactivated account. After creation, either force-activate the account or send its activation email.
+        </FormNotice>
+
+        <FormActions
+            :submit-label="isEdit ? 'Update account' : 'Create account'"
+            :cancel-href="'/manage/accounts'"
+            :processing="form.processing"
+            sticky
+        />
     </form>
 </template>

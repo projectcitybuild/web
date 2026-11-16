@@ -8,7 +8,6 @@ import usePermissions from '../../Composables/usePermissions'
 import { Icons } from '../../Icons'
 import type { Permission } from '../../Data/Permission'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
-import ManageBreadcrumbs from '../../Components/ManageBreadcrumbs.vue'
 import ListPage from '../../Components/ListPage.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 
@@ -27,9 +26,6 @@ defineProps<Props>()
 
     <div class="space-y-6">
     <PageHeader title="Permissions" description="Review the permissions available to application roles.">
-        <template #breadcrumbs>
-            <ManageBreadcrumbs :items="[{ label: 'Manage', href: '/manage' }, { label: 'Permissions' }]" />
-        </template>
         <template #actions>
             <LinkButton
                 v-if="can('web.manage.permissions.edit')"

@@ -1,18 +1,20 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import type { Role } from '../../../Data/Role'
-import ErrorAlert from '../../../Components/ErrorAlert.vue'
-import FilledButton from '../../../Components/FilledButton.vue'
-import Spinner from '../../../Components/Spinner.vue'
-import ConfirmDialog from '../../../Components/ConfirmDialog.vue'
-import SvgIcon from '../../../Components/SvgIcon.vue'
-import OutlinedButton from '../../../Components/OutlinedButton.vue'
-import { Icons } from '../../../Icons'
+import FormActions from '../../../Components/Forms/FormActions.vue'
+import FormErrorSummary from '../../../Components/Forms/FormErrorSummary.vue'
+import FormField from '../../../Components/Forms/FormField.vue'
+import FormSection from '../../../Components/Forms/FormSection.vue'
+import DangerZone from '../../../Components/Forms/DangerZone.vue'
+import MiniMessageInput from '../../../Components/Forms/MiniMessageInput.vue'
+import { useUnsavedChangesWarning } from '../../../Components/Forms/useUnsavedChangesWarning'
+import Input from '../../../../shared/Components/Input.vue'
+import Select from '../../../../shared/Components/Select.vue'
 
 interface Props {
     role?: Role,
-    submit: Function,
+    submit: (form: ReturnType<typeof useForm<Role>>) => void,
 }
 
 const props = defineProps<Props>()
@@ -26,194 +28,151 @@ const form = useForm<Role>({
     is_admin: props.role?.is_admin,
     is_default: props.role?.is_default,
     role_type: props.role?.role_type ?? 'build',
-    display_priority: props.role?.priority,
+    display_priority: props.role?.display_priority,
     additional_homes: props.role?.additional_homes ?? 0,
     created_at: props.role?.created_at
         ? new Date(props.role.created_at)
         : new Date(),
 })
 
-const deleteModal = ref<InstanceType<typeof ConfirmDialog>>()
 const isEdit = computed(() => props.role != null)
+useUnsavedChangesWarning(form)
 
-function submit() {
-    props.submit(form)
+function submit(): void {
+    if (!form.processing) {
+        props.submit(form)
+    }
 }
 
-function destroy() {
-    deleteModal?.value.close()
-    form.delete('/manage/roles/' + props.role.id)
+function destroy(): void {
+    if (props.role && !form.processing) {
+        form.delete(`/manage/roles/${props.role.id}`)
+    }
 }
 </script>
 
 <template>
-    <form @submit.prevent="submit">
-        <ConfirmDialog
-            ref="deleteModal"
-            message="This cannot be undone."
-            confirm-title="Yes, Delete It"
-            :on-confirm="destroy"
+    <form class="grid gap-6" @submit.prevent="submit">
+        <FormErrorSummary :errors="form.errors" />
+
+        <FormSection
+            title="General Information"
+            description="Set the role's internal identity and type."
+        >
+            <div class="grid gap-4 sm:grid-cols-2">
+                <FormField
+                    id="name"
+                    label="Name"
+                    description="Internal role name used to identify it in Manage."
+                    :error="form.errors.name"
+                    required
+                    v-slot="field"
+                >
+                    <Input v-bind="field" v-model="form.name" />
+                </FormField>
+                <FormField
+                    id="alias"
+                    label="Alias"
+                    description="Optional short name shown in places with limited space."
+                    :error="form.errors.alias"
+                    v-slot="field"
+                >
+                    <Input v-bind="field" v-model="form.alias" />
+                </FormField>
+                <FormField
+                    id="role_type"
+                    label="Role type"
+                    :error="form.errors.role_type"
+                    required
+                    v-slot="field"
+                >
+                    <Select v-bind="field" v-model="form.role_type">
+                        <option value="build">Build</option>
+                        <option value="trust">Trust</option>
+                        <option value="donor">Donor</option>
+                        <option value="staff">Staff</option>
+                    </Select>
+                </FormField>
+            </div>
+        </FormSection>
+
+        <FormSection
+            title="Minecraft Integration"
+            description="Configure how this role is represented on the Minecraft server."
+        >
+            <FormField
+                id="minecraft_name"
+                label="Minecraft group name"
+                description="The permission-system group name this role is linked to (for example, in LuckPerms)."
+                :error="form.errors.minecraft_name"
+                v-slot="field"
+            >
+                <Input v-bind="field" v-model="form.minecraft_name" />
+            </FormField>
+            <MiniMessageInput
+                id="minecraft_display_name"
+                v-model="form.minecraft_display_name"
+                label="Minecraft display name"
+                description="The text shown for this role in chat. Supports MiniMessage formatting."
+                :error="form.errors.minecraft_display_name"
+                placeholder="<blue>[A]</blue>"
+                preview-placeholder="[Role]"
+            />
+            <MiniMessageInput
+                id="minecraft_hover_text"
+                v-model="form.minecraft_hover_text"
+                label="Minecraft hover text"
+                description="The text shown when a player hovers over the display name. Supports MiniMessage formatting."
+                :error="form.errors.minecraft_hover_text"
+                placeholder="Architect"
+            />
+        </FormSection>
+
+        <FormSection
+            title="Benefits"
+            description="Set the additional Minecraft homes granted by this role."
+        >
+            <FormField
+                id="additional_homes"
+                label="Additional homes"
+                description="Number of extra homes granted to members of this role."
+                :error="form.errors.additional_homes"
+                v-slot="field"
+            >
+                <Input v-bind="field" v-model="form.additional_homes" type="number" min="0" step="1" />
+            </FormField>
+        </FormSection>
+
+        <FormSection
+            title="Display Settings"
+            description="Control which role is displayed when a player has several roles of the same type."
+        >
+            <FormField
+                id="display_priority"
+                label="Display priority"
+                description="The role with the highest priority is displayed. Use a unique value among roles of the same type."
+                :error="form.errors.display_priority"
+                v-slot="field"
+            >
+                <Input v-bind="field" v-model="form.display_priority" type="number" step="1" />
+            </FormField>
+        </FormSection>
+
+        <FormActions
+            :submit-label="isEdit ? 'Update role' : 'Create role'"
+            :cancel-href="'/manage/roles'"
+            :processing="form.processing"
+            sticky
         />
 
-        <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4"/>
-
-        <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-            <div>
-                <label for="name" class="block mb-2 text-sm font-medium text-foreground">
-                    Name<span class="text-danger">*</span>
-                </label>
-                <input
-                    v-model="form.name"
-                    id="name"
-                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
-                >
-                <div v-if="form.errors.name" class="text-xs text-danger font-bold mt-2">
-                    {{ form.errors.name }}
-                </div>
-            </div>
-            <div>
-                <label for="alias" class="block mb-2 text-sm font-medium text-foreground">
-                    Alias
-                </label>
-                <input
-                    v-model="form.alias"
-                    id="alias"
-                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
-                >
-                <div v-if="form.errors.alias" class="text-xs text-danger font-bold mt-2">
-                    {{ form.errors.alias }}
-                </div>
-            </div>
-            <div>
-                <label for="role_type" class="block mb-2 text-sm font-medium text-foreground">
-                    Role Type<span class="text-danger">*</span>
-                </label>
-                <select
-                    v-model="form.role_type"
-                    id="role_type"
-                    class="bg-surface-muted border border-border-strong text-foreground text-sm rounded-lg focus:ring-focus focus:border-primary block w-full p-2.5 placeholder:text-subtle"
-                >
-                    <option value="build">Build</option>
-                    <option value="trust">Trust</option>
-                    <option value="donor">Donor</option>
-                    <option value="staff">Staff</option>
-                </select>
-                <div v-if="form.errors.role_type" class="text-xs text-danger font-bold mt-2">
-                    {{ form.errors.role_type }}
-                </div>
-            </div>
-            <div>
-                <label for="minecraft_name" class="block mb-2 text-sm font-medium text-foreground">
-                    Minecraft Name
-                </label>
-                <input
-                    v-model="form.minecraft_name"
-                    id="minecraft_name"
-                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
-                >
-                <span class="block mt-2 text-xs font-medium text-subtle">
-                    Name of the Minecraft group in the Permission system (eg. in <i>LuckPerms</i>) that this role is linked to
-                </span>
-                <div v-if="form.errors.minecraft_name" class="text-xs text-danger font-bold mt-2">
-                    {{ form.errors.minecraft_name }}
-                </div>
-            </div>
-            <div class="sm:col-span-2">
-                <label for="minecraft_display_name"
-                       class="block mb-2 text-sm font-medium text-foreground">
-                    Minecraft Display Name
-                </label>
-                <input
-                    v-model="form.minecraft_display_name"
-                    id="minecraft_display_name"
-                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
-                    placeholder="<blue>[A]</blue>"
-                >
-                <span class="block mt-2 text-xs font-medium text-subtle">
-                    The text displayed to represent this role in chat. Supports <a class="text-primary" href="https://docs.advntr.dev/minimessage/format.html" target="_blank">MiniMessage</a> format
-                </span>
-                <div v-if="form.errors.minecraft_display_name" class="text-xs text-danger font-bold mt-2">
-                    {{ form.errors.minecraft_display_name }}
-                </div>
-            </div>
-            <div class="sm:col-span-2">
-                <label for="minecraft_hover_text" class="block mb-2 text-sm font-medium text-foreground">
-                    Minecraft Hover Text
-                </label>
-                <input
-                    v-model="form.minecraft_hover_text"
-                    id="minecraft_hover_text"
-                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
-                    placeholder="Architect"
-                >
-                <span class="block mt-2 text-xs font-medium text-subtle">
-                    The text displayed when the Minecraft Display Name is hovered-over. Supports <a
-                    class="text-primary" href="https://docs.advntr.dev/minimessage/format.html" target="_blank">MiniMessage</a> format
-                </span>
-                <div v-if="form.errors.minecraft_hover_text" class="text-xs text-danger font-bold mt-2">
-                    {{ form.errors.minecraft_hover_text }}
-                </div>
-            </div>
-            <div class="sm:col-span-2">
-                <label for="minecraft_hover_text" class="block mb-2 text-sm font-medium text-foreground">
-                    Minecraft Additional Homes
-                </label>
-                <input
-                    v-model="form.additional_homes"
-                    id="additional_homes"
-                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
-                    placeholder="0"
-                    type="number"
-                >
-                <span class="block mt-2 text-xs font-medium text-subtle">
-                    The text displayed when the Minecraft Display Name is hovered-over. Supports <a
-                    class="text-primary" href="https://docs.advntr.dev/minimessage/format.html" target="_blank">MiniMessage</a> format
-                </span>
-                <div v-if="form.errors.additional_homes" class="text-xs text-danger font-bold mt-2">
-                    {{ form.errors.additional_homes }}
-                </div>
-            </div>
-            <div class="sm:col-span-2">
-                <label for="display_priority" class="block mb-2 text-sm font-medium text-foreground">
-                    Display Priority
-                </label>
-                <input
-                    v-model="form.display_priority"
-                    type="number"
-                    id="display_priority"
-                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
-                    placeholder="1"
-                >
-                <span class="block mt-2 text-xs font-medium text-subtle">
-                    If a player belongs to multiple roles of the same Role Type, the role with the <strong>highest</strong> Display Priority will be shown in chat.
-                    <br/><br/>
-                    Do not assign the same priority as another role in the same Role Type.
-                </span>
-                <div v-if="form.errors.display_priority" class="text-xs text-danger font-bold mt-2">
-                    {{ form.errors.display_priority }}
-                </div>
-            </div>
-        </div>
-
-        <div class="flex flex-row gap-2 mt-8">
-            <FilledButton
-                type="submit"
-                variant="primary"
-                :disabled="form.processing"
-            >
-                <Spinner v-if="form.processing" />
-                <template v-else>{{ isEdit ? 'Update' : 'Create' }}</template>
-            </FilledButton>
-
-            <OutlinedButton
-                variant="danger"
-                v-if="isEdit"
-                type="button"
-                @click="deleteModal.open()"
-            >
-                <SvgIcon :svg="Icons.bin" />
-                Delete
-            </OutlinedButton>
-        </div>
+        <DangerZone
+            v-if="isEdit"
+            title="Delete role"
+            description="Permanently remove this role. This does not perform any other account or permission changes."
+            confirm-message="This cannot be undone. Are you sure you want to delete this role?"
+            confirm-title="Yes, delete role"
+            :disabled="form.processing"
+            @confirm="destroy"
+        />
     </form>
 </template>

@@ -10,7 +10,7 @@ function submit(form: InertiaForm<ServerToken>) {
 </script>
 
 <template>
-    <ManageFormPage title="Create Server Token" description="Create an API credential for a trusted first-party application." :breadcrumbs="[{ label: 'Manage', href: '/manage' }, { label: 'Servers', href: '/manage/servers' }, { label: 'Tokens', href: '/manage/server-tokens' }, { label: 'Create' }]">
+    <ManageFormPage title="Create Server Token" description="Create an API credential for a trusted first-party application.">
         <ServerTokenForm :submit="submit" />
     </ManageFormPage>
 </template>

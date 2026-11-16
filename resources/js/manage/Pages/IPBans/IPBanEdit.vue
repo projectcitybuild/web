@@ -16,7 +16,7 @@ function submit(form: InertiaForm<IPBan>) {
 </script>
 
 <template>
-    <ManageFormPage title="Edit IP Ban" description="Update this IP address restriction; IP bans are unreliable and should be a last resort." :breadcrumbs="[{ label: 'Manage', href: '/manage' }, { label: 'Moderation' }, { label: 'IP Bans', href: '/manage/ip-bans' }, { label: 'Edit' }]">
+    <ManageFormPage title="Edit IP Ban" description="Update this IP address restriction; IP bans are unreliable and should be a last resort.">
         <BanForm :ban="props.ban" :submit="submit" />
     </ManageFormPage>
 </template>

@@ -9,7 +9,6 @@ import SvgIcon from '../../Components/SvgIcon.vue'
 import { Icons } from '../../Icons'
 import usePermissions from '../../Composables/usePermissions'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
-import ManageBreadcrumbs from '../../Components/ManageBreadcrumbs.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 
 interface Props {
@@ -27,9 +26,6 @@ const { can } = usePermissions()
 
     <div class="space-y-6">
     <PageHeader title="Server Tokens" description="Manage credentials used by trusted applications to access the PCB API.">
-        <template #breadcrumbs>
-            <ManageBreadcrumbs :items="[{ label: 'Manage', href: '/manage' }, { label: 'Servers', href: '/manage/servers' }, { label: 'Tokens' }]" />
-        </template>
         <template #actions>
             <LinkButton v-if="can('web.manage.server_tokens.edit')" href="/manage/server-tokens/create" variant="primary">
                 <SvgIcon :svg="Icons.plus" />

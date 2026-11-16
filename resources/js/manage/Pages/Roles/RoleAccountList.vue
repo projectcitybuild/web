@@ -8,7 +8,6 @@ import InfinitePagination from '../../Components/InfinitePagination.vue'
 import RoleMemberListTable from './Partials/RoleMemberListTable.vue'
 import { Role } from '../../Data/Role'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
-import ManageBreadcrumbs from '../../Components/ManageBreadcrumbs.vue'
 
 interface Props {
     success?: string,
@@ -24,9 +23,6 @@ defineProps<Props>()
 
     <div class="space-y-6">
     <PageHeader :title="'Members of ' + role.name" description="Review the accounts assigned to this role.">
-        <template #breadcrumbs>
-            <ManageBreadcrumbs :items="[{ label: 'Manage', href: '/manage' }, { label: 'Roles', href: '/manage/roles' }, { label: role.name }, { label: 'Members' }]" />
-        </template>
     </PageHeader>
 
     <section>

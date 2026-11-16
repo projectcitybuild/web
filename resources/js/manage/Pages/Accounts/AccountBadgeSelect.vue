@@ -34,7 +34,7 @@ function submit() {
 </script>
 
 <template>
-    <ManageFormPage title="Account Badges" description="Choose the badges assigned to this account." :breadcrumbs="[{ label: 'Manage', href: '/manage' }, { label: 'Accounts', href: '/manage/accounts' }, { label: 'Account #' + props.account_id, href: '/manage/accounts/' + props.account_id }, { label: 'Badges' }]" :framed="false">
+    <ManageFormPage title="Account Badges" description="Choose the badges assigned to this account." :framed="false">
         <template #actions>
             <FilledButton
                 variant="primary"

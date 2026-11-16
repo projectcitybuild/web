@@ -16,7 +16,7 @@ function submit(form: InertiaForm<Player>) {
 </script>
 
 <template>
-    <ManageFormPage title="Edit Player" description="Update this Minecraft player's registered details." :breadcrumbs="[{ label: 'Manage', href: '/manage' }, { label: 'Minecraft' }, { label: 'Players', href: '/manage/players' }, { label: 'Edit' }]">
+    <ManageFormPage title="Edit Player" description="Update this Minecraft player's registered details.">
         <PlayerForm :player="props.player" :submit="submit" />
     </ManageFormPage>
 </template>

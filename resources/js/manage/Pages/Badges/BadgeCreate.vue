@@ -10,7 +10,7 @@ function submit(form: InertiaForm<Badge>) {
 </script>
 
 <template>
-    <ManageFormPage title="Create Badge" description="Create a player accolade that can be displayed publicly." :breadcrumbs="[{ label: 'Manage', href: '/manage' }, { label: 'Badges', href: '/manage/badges' }, { label: 'Create' }]">
+    <ManageFormPage title="Create Badge" description="Create a player accolade that can be displayed publicly.">
         <BadgeForm :submit="submit" />
     </ManageFormPage>
 </template>

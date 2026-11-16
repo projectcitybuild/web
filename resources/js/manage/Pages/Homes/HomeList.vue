@@ -11,7 +11,6 @@ import usePermissions from '../../Composables/usePermissions'
 import { Home } from '../../Data/Home'
 import HomeListTable from './Partials/HomeListTable.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
-import ManageBreadcrumbs from '../../Components/ManageBreadcrumbs.vue'
 import ListPage from '../../Components/ListPage.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 
@@ -31,9 +30,6 @@ const { can } = usePermissions()
 
     <div class="space-y-6">
         <PageHeader title="Homes" description="Manage saved player locations.">
-            <template #breadcrumbs>
-                <ManageBreadcrumbs :items="[{ label: 'Manage', href: '/manage' }, { label: 'Minecraft' }, { label: 'Homes' }]" />
-            </template>
             <template #actions>
                 <LinkButton
                     v-if="can('web.manage.homes.edit')"

@@ -27,9 +27,6 @@ onBeforeUnmount(() => {
 <template>
     <header class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div class="min-w-0">
-            <nav v-if="$slots.breadcrumbs" aria-label="Breadcrumb" class="mb-2 text-sm text-muted">
-                <slot name="breadcrumbs" />
-            </nav>
             <h1 class="text-2xl font-semibold leading-tight text-foreground">
                 {{ title }}
             </h1>

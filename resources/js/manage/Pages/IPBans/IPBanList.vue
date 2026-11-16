@@ -15,7 +15,6 @@ import usePermissions from '../../Composables/usePermissions'
 import ShowingCount from '../../Components/ShowingCount.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
-import ManageBreadcrumbs from '../../Components/ManageBreadcrumbs.vue'
 
 interface Props {
     bans?: Paginated<IPBan>,
@@ -33,9 +32,6 @@ const { can } = usePermissions()
 
     <div class="space-y-6">
     <PageHeader title="IP Bans" description="Manage restrictions on Minecraft server IP addresses.">
-        <template #breadcrumbs>
-            <ManageBreadcrumbs :items="[{ label: 'Manage', href: '/manage' }, { label: 'Moderation' }, { label: 'IP Bans' }]" />
-        </template>
         <template #actions>
             <LinkButton v-if="can('web.manage.ip_bans.edit')" href="/manage/ip-bans/create" variant="primary">
                 <SvgIcon :svg="Icons.plus" />

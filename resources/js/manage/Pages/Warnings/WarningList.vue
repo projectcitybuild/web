@@ -15,7 +15,6 @@ import usePermissions from '../../Composables/usePermissions'
 import ShowingCount from '../../Components/ShowingCount.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
-import ManageBreadcrumbs from '../../Components/ManageBreadcrumbs.vue'
 
 interface Props {
     success?: string,
@@ -33,9 +32,6 @@ const { can } = usePermissions()
 
     <div class="space-y-6">
     <PageHeader title="Warnings" description="Review player warnings and recorded infractions.">
-        <template #breadcrumbs>
-            <ManageBreadcrumbs :items="[{ label: 'Manage', href: '/manage' }, { label: 'Moderation' }, { label: 'Warnings' }]" />
-        </template>
         <template #actions>
             <LinkButton v-if="can('web.manage.warnings.edit')" href="/manage/warnings/create" variant="primary">
                 <SvgIcon :svg="Icons.plus" />

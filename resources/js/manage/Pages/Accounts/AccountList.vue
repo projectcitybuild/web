@@ -11,7 +11,6 @@ import SpinnerRow from '../../Components/SpinnerRow.vue'
 import { Icons } from '../../Icons'
 import usePermissions from '../../Composables/usePermissions'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
-import ManageBreadcrumbs from '../../Components/ManageBreadcrumbs.vue'
 import ListPage from '../../Components/ListPage.vue'
 import OutlinedButton from '../../Components/OutlinedButton.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
@@ -60,9 +59,6 @@ watch(
 
     <div class="space-y-6">
         <PageHeader title="Accounts" description="Manage registered website accounts and their access.">
-            <template #breadcrumbs>
-                <ManageBreadcrumbs :items="[{ label: 'Manage', href: '/manage' }, { label: 'Accounts' }]" />
-            </template>
             <template #actions>
                 <LinkButton
                     v-if="can('web.manage.accounts.edit')"

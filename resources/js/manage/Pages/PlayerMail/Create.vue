@@ -39,7 +39,7 @@ function sendAnnouncement() {
 
 <template>
     <section>
-        <ManageFormPage title="Compose Announcement" description="Prepare a message for delivery to all Minecraft players." :breadcrumbs="[{ label: 'Manage', href: '/manage' }, { label: 'Minecraft' }, { label: 'Mail', href: '/manage/player-mail' }, { label: 'Create' }]">
+        <ManageFormPage title="Compose Announcement" description="Prepare a message for delivery to all Minecraft players.">
             <div class="grid gap-8 xl:grid-cols-2">
                     <form class="space-y-5" @submit.prevent="reviewAnnouncement">
                         <div>

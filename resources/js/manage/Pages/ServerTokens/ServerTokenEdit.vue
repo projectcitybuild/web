@@ -16,7 +16,7 @@ function submit(form: InertiaForm<ServerToken>) {
 </script>
 
 <template>
-    <ManageFormPage title="Edit Server Token" description="Update this API credential's name and access settings." :breadcrumbs="[{ label: 'Manage', href: '/manage' }, { label: 'Servers', href: '/manage/servers' }, { label: 'Tokens', href: '/manage/server-tokens' }, { label: 'Edit' }]">
+    <ManageFormPage title="Edit Server Token" description="Update this API credential's name and access settings.">
         <ServerTokenForm :token="props.token" :submit="submit" />
     </ManageFormPage>
 </template>

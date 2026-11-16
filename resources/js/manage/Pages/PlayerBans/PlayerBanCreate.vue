@@ -10,7 +10,7 @@ function submit(form: InertiaForm<PlayerBan>) {
 </script>
 
 <template>
-    <ManageFormPage title="Create Player Ban" description="Prevent a Minecraft player UUID from connecting to the server." :breadcrumbs="[{ label: 'Manage', href: '/manage' }, { label: 'Moderation' }, { label: 'Player Bans', href: '/manage/player-bans' }, { label: 'Create' }]">
+    <ManageFormPage title="Create Player Ban" description="Prevent a Minecraft player UUID from connecting to the server.">
         <BanForm :submit="submit" />
     </ManageFormPage>
 </template>

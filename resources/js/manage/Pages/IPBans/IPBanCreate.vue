@@ -10,7 +10,7 @@ function submit(form: InertiaForm<IPBan>) {
 </script>
 
 <template>
-    <ManageFormPage title="Create IP Ban" description="Restrict an IP address from connecting to the server; IP bans are unreliable and should be a last resort." :breadcrumbs="[{ label: 'Manage', href: '/manage' }, { label: 'Moderation' }, { label: 'IP Bans', href: '/manage/ip-bans' }, { label: 'Create' }]">
+    <ManageFormPage title="Create IP Ban" description="Restrict an IP address from connecting to the server; IP bans are unreliable and should be a last resort.">
         <BanForm :submit="submit" />
     </ManageFormPage>
 </template>

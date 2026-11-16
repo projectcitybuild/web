@@ -23,7 +23,7 @@ function submit() {
 </script>
 
 <template>
-    <ManageFormPage title="Link Player" description="Associate a Minecraft player with this website account." :breadcrumbs="[{ label: 'Manage', href: '/manage' }, { label: 'Accounts', href: '/manage/accounts' }, { label: 'Account #' + props.account_id, href: '/manage/accounts/' + props.account_id }, { label: 'Link Player' }]">
+    <ManageFormPage title="Link Player" description="Associate a Minecraft player with this website account.">
         <form @submit.prevent="submit">
             <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4" />
 

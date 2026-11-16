@@ -1,18 +1,19 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
-import { computed, onMounted, ref } from 'vue'
-import { Warp } from '../../../Data/Warp'
-import ErrorAlert from '../../../Components/ErrorAlert.vue'
-import FilledButton from '../../../Components/FilledButton.vue'
-import Spinner from '../../../Components/Spinner.vue'
-import ConfirmDialog from '../../../Components/ConfirmDialog.vue'
-import SvgIcon from '../../../Components/SvgIcon.vue'
-import OutlinedButton from '../../../Components/OutlinedButton.vue'
-import { Icons } from '../../../Icons'
+import { computed } from 'vue'
+import type { Warp } from '../../../Data/Warp'
+import CoordinateFields from '../../../Components/Forms/CoordinateFields.vue'
+import DangerZone from '../../../Components/Forms/DangerZone.vue'
+import FormActions from '../../../Components/Forms/FormActions.vue'
+import FormErrorSummary from '../../../Components/Forms/FormErrorSummary.vue'
+import FormField from '../../../Components/Forms/FormField.vue'
+import FormSection from '../../../Components/Forms/FormSection.vue'
+import Input from '../../../../shared/Components/Input.vue'
+import { useUnsavedChangesWarning } from '../../../Components/Forms/useUnsavedChangesWarning'
 
 interface Props {
     warp?: Warp,
-    submit: Function,
+    submit: (form: ReturnType<typeof useForm<Warp>>) => void,
 }
 
 const props = defineProps<Props>()
@@ -30,156 +31,101 @@ const form = useForm<Warp>({
         : new Date(),
 })
 
-const deleteModal = ref<InstanceType<typeof ConfirmDialog>>()
 const isEdit = computed(() => props.warp != null)
+useUnsavedChangesWarning(form)
 
-function submit() {
-    props.submit(form)
+function submit(): void {
+    if (!form.processing) {
+        props.submit(form)
+    }
 }
 
-function destroy() {
-    deleteModal?.value.close()
-    form.delete('/manage/minecraft/warps/' + props.warp.id)
+function destroy(): void {
+    if (props.warp && !form.processing) {
+        form.delete(`/manage/minecraft/warps/${props.warp.id}`)
+    }
+}
+
+function updateCoordinates(values: Partial<Record<'x' | 'y' | 'z', number | string>>): void {
+    Object.assign(form, values)
+}
+
+function updateOrientation(values: Partial<Record<'pitch' | 'yaw', number | string>>): void {
+    Object.assign(form, values)
 }
 </script>
 
 <template>
-    <form @submit.prevent="submit">
-        <ConfirmDialog
-            ref="deleteModal"
-            message="This cannot be undone."
-            confirm-title="Yes, Delete It"
-            :on-confirm="destroy"
+    <form class="grid gap-6" @submit.prevent="submit">
+        <FormErrorSummary :errors="form.errors" />
+
+        <FormSection
+            title="Warp Information"
+            description="Set the warp's name and the Minecraft world where it is located."
+        >
+            <div class="grid gap-4 sm:grid-cols-2">
+                <FormField
+                    id="name"
+                    label="Warp name"
+                    description="Case-sensitive. Do not include spaces."
+                    :error="form.errors.name"
+                    required
+                    v-slot="field"
+                >
+                    <Input v-bind="field" v-model="form.name" />
+                </FormField>
+                <FormField
+                    id="world"
+                    label="World name"
+                    description="Minecraft world names are case-sensitive."
+                    :error="form.errors.world"
+                    required
+                    v-slot="field"
+                >
+                    <Input v-bind="field" v-model="form.world" />
+                </FormField>
+            </div>
+        </FormSection>
+
+        <FormSection
+            title="Location"
+            description="Enter the block coordinates of the warp."
+        >
+            <CoordinateFields
+                group="coordinates"
+                :model-value="{ x: form.x, y: form.y, z: form.z }"
+                :errors="{ x: form.errors.x, y: form.errors.y, z: form.errors.z }"
+                @update:model-value="updateCoordinates"
+            />
+        </FormSection>
+
+        <FormSection
+            title="Orientation"
+            description="Set the direction a player will face when arriving at the warp."
+        >
+            <CoordinateFields
+                group="orientation"
+                :model-value="{ pitch: form.pitch, yaw: form.yaw }"
+                :errors="{ pitch: form.errors.pitch, yaw: form.errors.yaw }"
+                @update:model-value="updateOrientation"
+            />
+        </FormSection>
+
+        <FormActions
+            :submit-label="isEdit ? 'Update warp' : 'Create warp'"
+            :cancel-href="'/manage/minecraft/warps'"
+            :processing="form.processing"
+            sticky
         />
 
-        <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4"/>
-
-        <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-            <div>
-                <label for="name" class="block mb-2 text-sm font-medium text-foreground">
-                    Name<span class="text-danger">*</span>
-                </label>
-                <input
-                    v-model="form.name"
-                    id="ip"
-                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
-                >
-                <span class="block mt-2 text-xs font-medium text-subtle">
-                    Case-sensitive and cannot contain white
-                </span>
-                <div v-if="form.errors.name" class="text-xs text-danger font-bold mt-2">
-                    {{ form.errors.name }}
-                </div>
-            </div>
-            <div>
-                <label for="name" class="block mb-2 text-sm font-medium text-foreground">
-                    World Name<span class="text-danger">*</span>
-                </label>
-                <input
-                    v-model="form.world"
-                    id="world"
-                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
-                >
-                <span class="block mt-2 text-xs font-medium text-subtle">
-                    Warning: Case-sensitive
-                </span>
-                <div v-if="form.errors.world" class="text-xs text-danger font-bold mt-2">
-                    {{ form.errors.world }}
-                </div>
-            </div>
-            <div class="sm:col-span-2 grid grid-cols-1 gap-4 sm:grid-cols-3">
-                <div>
-                    <label for="name" class="block mb-2 text-sm font-medium text-foreground">
-                        X<span class="text-danger">*</span>
-                    </label>
-                    <input
-                        v-model="form.x"
-                        type="number"
-                        id="x"
-                        class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
-                    >
-                    <div v-if="form.errors.x" class="text-xs text-danger font-bold mt-2">
-                        {{ form.errors.x }}
-                    </div>
-                </div>
-                <div>
-                    <label for="name" class="block mb-2 text-sm font-medium text-foreground">
-                        Y<span class="text-danger">*</span>
-                    </label>
-                    <input
-                        v-model="form.y"
-                        type="number"
-                        id="y"
-                        class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
-                    >
-                    <div v-if="form.errors.y" class="text-xs text-danger font-bold mt-2">
-                        {{ form.errors.y }}
-                    </div>
-                </div>
-                <div>
-                    <label for="name" class="block mb-2 text-sm font-medium text-foreground">
-                        Z<span class="text-danger">*</span>
-                    </label>
-                    <input
-                        v-model="form.z"
-                        type="number"
-                        id="z"
-                        class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
-                    >
-                    <div v-if="form.errors.z" class="text-xs text-danger font-bold mt-2">
-                        {{ form.errors.z }}
-                    </div>
-                </div>
-            </div>
-            <div>
-                <label for="name" class="block mb-2 text-sm font-medium text-foreground">
-                    Pitch<span class="text-danger">*</span>
-                </label>
-                <input
-                    v-model="form.pitch"
-                    type="number"
-                    id="pitch"
-                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
-                >
-                <div v-if="form.errors.pitch" class="text-xs text-danger font-bold mt-2">
-                    {{ form.errors.pitch }}
-                </div>
-            </div>
-            <div>
-                <label for="name" class="block mb-2 text-sm font-medium text-foreground">
-                    Yaw<span class="text-danger">*</span>
-                </label>
-                <input
-                    v-model="form.yaw"
-                    type="number"
-                    id="yaw"
-                    class="block p-2.5 w-full text-sm text-foreground bg-surface-muted rounded-lg border border-border-strong focus:ring-focus focus:border-primary placeholder:text-subtle"
-                >
-                <div v-if="form.errors.yaw" class="text-xs text-danger font-bold mt-2">
-                    {{ form.errors.yaw }}
-                </div>
-            </div>
-        </div>
-
-        <div class="flex flex-row gap-2 mt-8">
-            <FilledButton
-                type="submit"
-                variant="primary"
-                :disabled="form.processing"
-            >
-                <Spinner v-if="form.processing" />
-                <template v-else>{{ isEdit ? 'Update' : 'Create' }}</template>
-            </FilledButton>
-
-            <OutlinedButton
-                variant="danger"
-                v-if="isEdit"
-                type="button"
-                @click="deleteModal.open()"
-            >
-                <SvgIcon :svg="Icons.bin" />
-                Delete
-            </OutlinedButton>
-        </div>
+        <DangerZone
+            v-if="isEdit"
+            title="Delete warp"
+            description="Permanently remove this warp from the Minecraft server directory."
+            confirm-message="This cannot be undone. Are you sure you want to delete this warp?"
+            confirm-title="Yes, delete warp"
+            :disabled="form.processing"
+            @confirm="destroy"
+        />
     </form>
 </template>
