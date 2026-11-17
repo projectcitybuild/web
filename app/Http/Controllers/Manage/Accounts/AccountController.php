@@ -6,7 +6,7 @@ use App\Core\Rules\DiscourseUsernameRule;
 use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Domains\Registration\UseCases\CreateUnactivatedAccount;
-use App\Http\Controllers\Manage\RendersManageApp;
+use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Controllers\WebController;
 use App\Http\Filters\EqualFilter;
 use App\Http\Filters\LikeFilter;
@@ -22,7 +22,7 @@ use Inertia\Inertia;
 class AccountController extends WebController
 {
     use AuthorizesPermissions;
-    use RendersManageApp;
+    use RendersAdminApp;
 
     public function index(Request $request)
     {

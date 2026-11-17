@@ -11,5 +11,5 @@ test('signed-in homepage avatar uses compact dimensions', function () {
         ->get(route('front.home'))
         ->assertOk()
         ->assertSee('width="32" height="32"', false)
-        ->assertSee('https://minotar.net/avatar/'.$player->uuid, false);
+        ->assertSee('https://minotar.net/helm/'.$player->uuid, false);
 });

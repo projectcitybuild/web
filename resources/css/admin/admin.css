@@ -1,0 +1,57 @@
+@import "flowbite/src/themes/default";
+@import "tailwindcss" source(none);
+@import "./manage-review/design-system.css";
+
+@source "../../views/admin/manage";
+@source "../../views/admin/review";
+@source "../../views/shared";
+@source "../../views/vendor/pagination";
+@source "../../js/admin/manage";
+@source "../../js/admin/review";
+@source "../../js/admin/shared";
+@source "../../../node_modules/flowbite";
+
+@theme inline {
+    --color-background: var(--app-color-background);
+    --color-surface: var(--app-color-surface);
+    --color-surface-muted: var(--app-color-surface-muted);
+    --color-surface-hover: var(--app-color-surface-hover);
+    --color-border: var(--app-color-border);
+    --color-border-table: var(--app-color-border-table);
+    --color-border-strong: var(--app-color-border-strong);
+    --color-foreground: var(--app-color-text);
+    --color-muted: var(--app-color-text-muted);
+    --color-subtle: var(--app-color-text-subtle);
+    --color-primary: var(--app-color-primary);
+    --color-primary-500: var(--app-color-primary);
+    --color-primary-600: var(--app-color-primary-hover);
+    --color-primary-hover: var(--app-color-primary-hover);
+    --color-primary-active: var(--app-color-primary-active);
+    --color-primary-foreground: var(--app-color-primary-foreground);
+    --color-primary-soft: var(--app-color-primary-soft);
+    --color-disabled: var(--app-color-disabled);
+    --color-disabled-foreground: var(--app-color-disabled-foreground);
+    --color-success: var(--app-color-success);
+    --color-success-foreground: var(--app-color-success-foreground);
+    --color-success-soft: var(--app-color-success-soft);
+    --color-warning: var(--app-color-warning);
+    --color-warning-foreground: var(--app-color-warning-foreground);
+    --color-warning-soft: var(--app-color-warning-soft);
+    --color-danger: var(--app-color-danger);
+    --color-danger-hover: var(--app-color-danger-hover);
+    --color-danger-foreground: var(--app-color-danger-foreground);
+    --color-danger-soft: var(--app-color-danger-soft);
+    --color-info: var(--app-color-info);
+    --color-info-foreground: var(--app-color-info-foreground);
+    --color-info-soft: var(--app-color-info-soft);
+    --color-focus: var(--app-color-focus-ring);
+    --font-sans: var(--app-font-family-sans);
+    --font-body: var(--app-font-family-sans);
+    --font-display: var(--app-font-family-display);
+    --font-mono: var(--app-font-family-mono);
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@plugin "@tailwindcss/forms";
+@plugin "flowbite/plugin";

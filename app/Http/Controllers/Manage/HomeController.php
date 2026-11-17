@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Manage;
 
 use App\Domains\Permissions\AuthorizesPermissions;
+use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Controllers\WebController;
 use App\Models\Account;
 use App\Models\Audit;
@@ -12,7 +13,7 @@ use Illuminate\Http\Request;
 class HomeController extends WebController
 {
     use AuthorizesPermissions;
-    use RendersManageApp;
+    use RendersAdminApp;
 
     public function __invoke(Request $request)
     {

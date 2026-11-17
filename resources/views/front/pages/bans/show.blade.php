@@ -47,7 +47,7 @@
                     Player Name
                 </td>
                 <td class="py-4 px-2">
-                    <img src="https://minotar.net/avatar//{{ $ban->bannedPlayer->uuid }}/16" class="rounded-md h-6">
+                    <img src="https://minotar.net/helm/{{ $ban->bannedPlayer->uuid }}/16" class="rounded-md h-6">
                     {{ $ban->banned_alias_at_time }}
                 </td>
             </tr>

@@ -15,7 +15,7 @@ class AttributeDiff extends Component
 
     public function render()
     {
-        return view('manage.components.audit.diffs.attribute-diff')->with([
+        return view('admin.manage.components.audit.diffs.attribute-diff')->with([
             'attribute' => $this->attribute,
             'changeType' => $this->change::class,
             'change' => $this->change,

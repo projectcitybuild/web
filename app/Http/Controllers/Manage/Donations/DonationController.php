@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Manage\Donations;
 use App\Domains\Donations\UseCases\GetAnnualDonationStats;
 use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
-use App\Http\Controllers\Manage\RendersManageApp;
+use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Controllers\WebController;
 use App\Models\Donation;
 use Illuminate\Http\Request;
@@ -15,7 +15,7 @@ use Inertia\Inertia;
 class DonationController extends WebController
 {
     use AuthorizesPermissions;
-    use RendersManageApp;
+    use RendersAdminApp;
 
     public function index(Request $request)
     {

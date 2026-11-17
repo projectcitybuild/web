@@ -117,7 +117,7 @@
                         Selected Ban
                     </div>
                     <div class="rounded-lg border border-gray-200 mt-3 bg-gray-50 py-3 px-4 flex flex-row items-center gap-6 overflow-x-auto mb-12">
-                        <img src="https://minotar.net/avatar/{{ $banAppeal->gamePlayerBan->bannedPlayer->uuid }}/32" class="rounded-md w-12 h-12">
+                        <img src="https://minotar.net/helm/{{ $banAppeal->gamePlayerBan->bannedPlayer->uuid }}/32" class="rounded-md w-12 h-12">
 
                         <div class="mt-1 flex flex-col gap-1 grow">
                             <strong class="text-2xl">{{ $banAppeal->gamePlayerBan->bannedPlayer->alias }}</strong>

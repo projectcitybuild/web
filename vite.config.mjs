@@ -10,10 +10,8 @@ export default defineConfig({
             input: [
                 'resources/css/front.css',
                 'resources/js/front/front.ts',
-                'resources/js/manage/manage.ts',
-                'resources/css/manage.css',
-                'resources/js/review/review.ts',
-                'resources/css/review.css',
+                'resources/js/admin/admin.ts',
+                'resources/css/admin/admin.css',
             ],
 
             // Refreshes when a change is made to resource/view files or routes

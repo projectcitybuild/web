@@ -28,7 +28,7 @@
             @else
                 @foreach($mcAccounts as $mcAccount)
                     <div class="rounded-md bg-gray-100 p-6 flex flex-row gap-4 content-between items-center flex-wrap">
-                        <img src="https://minotar.net/avatar/{{ $mcAccount->uuid }}/64" class="rounded-md" alt="">
+                        <img src="https://minotar.net/helm/{{ $mcAccount->uuid }}/64" class="rounded-md" alt="">
 
                         <div class="grow">
                             <div class="text-xl font-bold">

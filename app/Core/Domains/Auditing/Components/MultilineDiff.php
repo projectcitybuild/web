@@ -38,7 +38,7 @@ class MultilineDiff extends Component
 
     public function render()
     {
-        return view('manage.components.audit.diffs.multiline-diff')->with([
+        return view('admin.manage.components.audit.diffs.multiline-diff')->with([
             'attribute' => $this->attribute,
             'diff' => $this->getDiffHtml(),
             'old' => $this->old,

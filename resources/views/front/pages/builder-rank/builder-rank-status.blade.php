@@ -169,7 +169,7 @@
                     <span
                         class="absolute flex items-center justify-center w-6 h-6 rounded-full -start-3 ring-8 ring-white">
                         <img
-                            src="https://minotar.net/avatar//{{ $application->account->minecraftAccount?->first()?->alias }}/16"
+                            src="https://minotar.net/helm/{{ $application->account->minecraftAccount?->first()?->alias }}/16"
                             class="rounded-md h-6">
                     </span>
                     <div class="items-center justify-between p-4 bg-white border border-gray-200 rounded-lg sm:flex">

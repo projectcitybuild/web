@@ -75,8 +75,8 @@ return [
 
         'paths' => [
 
-            resource_path('js/manage/Pages'),
-            resource_path('js/review/Pages'),
+            resource_path('js/admin/manage/Pages'),
+            resource_path('js/admin/review/Pages'),
 
         ],
 

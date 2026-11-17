@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Manage\Permissions;
 
 use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
-use App\Http\Controllers\Manage\RendersManageApp;
+use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Controllers\WebController;
 use App\Models\Permission;
 use Illuminate\Http\RedirectResponse;
@@ -14,7 +14,7 @@ use Illuminate\Validation\Rule;
 class PermissionsController extends WebController
 {
     use AuthorizesPermissions;
-    use RendersManageApp;
+    use RendersAdminApp;
 
     public function index()
     {

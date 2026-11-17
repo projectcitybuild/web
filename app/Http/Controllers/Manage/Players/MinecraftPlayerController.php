@@ -7,7 +7,7 @@ use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
 use App\Core\Domains\MinecraftUUID\UseCases\LookupMinecraftUUID;
 use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
-use App\Http\Controllers\Manage\RendersManageApp;
+use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Controllers\WebController;
 use App\Http\Filters\LikeFilter;
 use App\Models\MinecraftPlayer;
@@ -19,7 +19,7 @@ use Inertia\Inertia;
 class MinecraftPlayerController extends WebController
 {
     use AuthorizesPermissions;
-    use RendersManageApp;
+    use RendersAdminApp;
 
     public function index(Request $request)
     {

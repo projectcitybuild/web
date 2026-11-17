@@ -10,7 +10,7 @@ use App\Domains\Homes\Exceptions\HomeLimitReachedException;
 use App\Domains\Homes\Services\HomeService;
 use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
-use App\Http\Controllers\Manage\RendersManageApp;
+use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Controllers\WebController;
 use App\Models\MinecraftHome;
 use App\Models\MinecraftPlayer;
@@ -23,7 +23,7 @@ use Inertia\Inertia;
 class HomeController extends WebController
 {
     use AuthorizesPermissions;
-    use RendersManageApp;
+    use RendersAdminApp;
     use ValidatesCoordinates;
 
     public function __construct(

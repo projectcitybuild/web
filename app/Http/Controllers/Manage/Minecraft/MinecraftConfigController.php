@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Manage\Minecraft;
 use App\Domains\MinecraftEventBus\Events\MinecraftConfigUpdated;
 use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
-use App\Http\Controllers\Manage\RendersManageApp;
+use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Controllers\WebController;
 use App\Models\MinecraftConfig;
 use Illuminate\Http\Request;
@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 class MinecraftConfigController extends WebController
 {
     use AuthorizesPermissions;
-    use RendersManageApp;
+    use RendersAdminApp;
 
     public function create()
     {

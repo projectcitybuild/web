@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Manage\Minecraft;
 use App\Core\Domains\MinecraftCoordinate\ValidatesCoordinates;
 use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
-use App\Http\Controllers\Manage\RendersManageApp;
+use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Controllers\WebController;
 use App\Models\MinecraftWarp;
 use Illuminate\Http\RedirectResponse;
@@ -16,7 +16,7 @@ use Inertia\Inertia;
 class MinecraftWarpController extends WebController
 {
     use AuthorizesPermissions;
-    use RendersManageApp;
+    use RendersAdminApp;
     use ValidatesCoordinates;
 
     public function index(Request $request)

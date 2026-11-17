@@ -11,7 +11,7 @@ use App\Domains\BanAppeals\UseCases\UpdateBanAppeal;
 use App\Domains\Bans\Exceptions\BanNotFoundException;
 use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebReviewPermission;
-use App\Http\Controllers\Review\RendersReviewApp;
+use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Requests\BanAppealUpdateRequest;
 use App\Http\Resources\BanAppealResource;
 use App\Models\BanAppeal;
@@ -22,7 +22,7 @@ use Inertia\Inertia;
 class BanAppealController
 {
     use AuthorizesPermissions;
-    use RendersReviewApp;
+    use RendersAdminApp;
 
     public function index(Request $request)
     {

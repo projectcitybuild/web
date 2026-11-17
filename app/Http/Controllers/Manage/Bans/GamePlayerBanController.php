@@ -10,7 +10,7 @@ use App\Domains\Bans\Data\UpdatePlayerBan;
 use App\Domains\Bans\Services\PlayerBanService;
 use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
-use App\Http\Controllers\Manage\RendersManageApp;
+use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Controllers\WebController;
 use App\Http\Filters\BannedByPlayerFilter;
 use App\Http\Filters\BannedPlayerFilter;
@@ -28,7 +28,7 @@ use Inertia\Inertia;
 class GamePlayerBanController extends WebController
 {
     use AuthorizesPermissions;
-    use RendersManageApp;
+    use RendersAdminApp;
 
     public function __construct(
         private readonly PlayerBanService $playerBanService,

@@ -7,7 +7,7 @@ use App\Domains\BuilderRankApplications\UseCases\ApproveBuildRankApplication;
 use App\Domains\BuilderRankApplications\UseCases\DenyBuildRankApplication;
 use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebReviewPermission;
-use App\Http\Controllers\Review\RendersReviewApp;
+use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Controllers\WebController;
 use App\Models\BuilderRankApplication;
 use App\Models\Role;
@@ -18,7 +18,7 @@ use Inertia\Inertia;
 class BuilderRanksController extends WebController
 {
     use AuthorizesPermissions;
-    use RendersReviewApp;
+    use RendersAdminApp;
 
     public function index(Request $request)
     {

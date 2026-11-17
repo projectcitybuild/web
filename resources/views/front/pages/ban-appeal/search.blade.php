@@ -44,7 +44,7 @@
             @if ($active_bans->count() > 0)
                 @foreach ($active_bans as $ban)
                     <div class="rounded-lg border border-gray-200 mt-3 bg-gray-50 py-3 px-4 flex flex-row items-center gap-6 overflow-x-auto">
-                        <img src="https://minotar.net/avatar/{{ $ban->bannedPlayer->uuid }}/32" class="rounded-md w-12 h-12">
+                        <img src="https://minotar.net/helm/{{ $ban->bannedPlayer->uuid }}/32" class="rounded-md w-12 h-12">
 
                         <div class="mt-1 flex flex-col gap-1 grow">
                             <strong class="text-2xl">{{ $ban->bannedPlayer->alias }}</strong>
@@ -105,7 +105,7 @@
                         @foreach($bans as $ban)
                             <tr>
                                 <td class="py-4 px-2 flex gap-2">
-                                    <img src="https://minotar.net/avatar//{{ $ban->bannedPlayer->uuid }}/16" class="rounded-md h-6">
+                                    <img src="https://minotar.net/helm/{{ $ban->bannedPlayer->uuid }}/16" class="rounded-md h-6">
                                     <span class="font-bold">{{ $ban->banned_alias_at_time }}</span>
                                 </td>
                                 <td class="py-4 px-2">

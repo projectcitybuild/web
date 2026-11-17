@@ -25,6 +25,7 @@ it('shares the authenticated account name and avatar with admin areas', function
     $this->actingAs($account)
         ->get(route($routeName))
         ->assertOk()
+        ->assertViewIs('admin.app')
         ->assertInertia(fn (Assert $page) => $page
             ->component('Home')
             ->where('account', [

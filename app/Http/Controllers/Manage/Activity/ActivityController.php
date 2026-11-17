@@ -7,7 +7,7 @@ use App\Core\Domains\Auditing\Changes\ArrayDiff\WrappedArrayEntry;
 use App\Core\Domains\Auditing\Changes\Change;
 use App\Core\Domains\Auditing\Changes\Tokens\NotInAudit;
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
-use App\Http\Controllers\Manage\RendersManageApp;
+use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Controllers\WebController;
 use App\Models\Audit;
 use BackedEnum;
@@ -21,7 +21,7 @@ use JsonException;
 
 class ActivityController extends WebController
 {
-    use RendersManageApp;
+    use RendersAdminApp;
 
     public function index(Request $request): Response
     {

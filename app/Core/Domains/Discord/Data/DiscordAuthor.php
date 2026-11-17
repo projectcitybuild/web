@@ -21,7 +21,7 @@ class DiscordAuthor
         return new DiscordAuthor(
             name: $name,
             url: $url,
-            iconUrl: 'https://minotar.net/avatar/'.$uuid,
+            iconUrl: 'https://minotar.net/helm/'.$uuid,
         );
     }
 

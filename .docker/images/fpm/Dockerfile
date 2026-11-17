@@ -5,7 +5,7 @@ COPY package.json package-lock.json ./
 RUN npm ci
 COPY resources ./resources
 COPY public ./public
-COPY vite.config.mjs tailwind.config.js tailwind.manage-review.config.js postcss.config.js tsconfig.json ./
+COPY vite.config.mjs tsconfig.json ./
 RUN npm run build
 
 FROM php:8.4-fpm-alpine AS php-base

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Manage\Accounts;
 use App\Domains\MinecraftEventBus\Events\MinecraftPlayerUpdated;
 use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
-use App\Http\Controllers\Manage\RendersManageApp;
+use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Models\Account;
 use App\Models\Badge;
 use Illuminate\Http\Request;
@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 class AccountBadgeController
 {
     use AuthorizesPermissions;
-    use RendersManageApp;
+    use RendersAdminApp;
 
     public function index(Request $request, Account $account)
     {

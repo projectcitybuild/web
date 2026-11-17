@@ -7,7 +7,7 @@ use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
 use App\Domains\MinecraftEventBus\Events\IpAddressBanned;
 use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
-use App\Http\Controllers\Manage\RendersManageApp;
+use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Controllers\WebController;
 use App\Models\GameIPBan;
 use App\Models\MinecraftPlayer;
@@ -17,7 +17,7 @@ use Inertia\Inertia;
 class GameIPBanController extends WebController
 {
     use AuthorizesPermissions;
-    use RendersManageApp;
+    use RendersAdminApp;
 
     public function index(Request $request)
     {
