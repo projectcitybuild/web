@@ -40,7 +40,7 @@ const rows = computed(
 </script>
 
 <template>
-    <DataTable :fields="fields" :rows="rows" :show-index="true" class="border-t border-border">
+    <DataTable :fields="fields" :rows="rows" :show-index="true">
         <template #player="{ item }">
             <MinecraftAvatar :uuid="item.player?.uuid" :size="16"/>
             <Link

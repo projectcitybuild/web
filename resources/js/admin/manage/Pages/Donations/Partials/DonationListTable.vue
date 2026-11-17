@@ -34,7 +34,7 @@ const rows = computed(
 </script>
 
 <template>
-    <DataTable :fields="fields" :rows="rows" :show-index="true" class="border-t border-border">
+    <DataTable :fields="fields" :rows="rows" :show-index="true">
         <template #account="{ item }">
             <Link
                 :href="'/manage/accounts/' + item.account?.id"

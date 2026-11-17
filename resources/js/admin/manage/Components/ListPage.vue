@@ -44,7 +44,7 @@ const countText = computed(() => {
 <template>
     <Card
         padding="none"
-        class="overflow-hidden rounded-[var(--radius-md)] border border-border bg-surface"
+        class="overflow-hidden rounded-[var(--radius-md)] border border-border bg-surface [&_.table-frame]:border-0 [&_.pagination-end]:border-0 [&_.pagination-spinner]:border-0"
     >
         <div class="flex flex-wrap items-center justify-between gap-3 border-b border-border bg-surface p-4">
             <p v-if="countText" class="text-sm text-muted" aria-live="polite">

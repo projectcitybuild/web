@@ -39,7 +39,7 @@ const rows = computed(
 </script>
 
 <template>
-    <DataTable :fields="fields" :rows="rows" :show-index="true" class="border-t border-border">
+    <DataTable :fields="fields" :rows="rows" :show-index="true">
         <template #actions="{ item }">
             <LinkButton :href="'/manage/minecraft/warps/' + item.id + '/edit'" v-if="can('web.manage.warps.edit')" variant="outline" size="sm">
                 <SvgIcon :svg="Icons.pencil" />

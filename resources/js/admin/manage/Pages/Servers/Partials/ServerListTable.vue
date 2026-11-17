@@ -23,7 +23,7 @@ const fields = [
 </script>
 
 <template>
-    <DataTable :fields="fields" :rows="servers" class="border-t border-border">
+    <DataTable :fields="fields" :rows="servers">
         <template #actions="{ item }" v-if="can('web.manage.servers.edit')">
             <LinkButton
                 :href="'/manage/servers/' + item.id + '/edit'"

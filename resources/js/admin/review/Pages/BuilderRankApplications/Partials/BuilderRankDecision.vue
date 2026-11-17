@@ -16,7 +16,7 @@ defineProps<Props>()
             v-if="application.status === BuilderRankApplicationStatus.denied"
             class="overflow-hidden rounded-xl border border-danger bg-surface"
         >
-            <div class="rounded-t-md bg-red-500 p-4">
+            <div class="bg-red-500 p-4">
                 <h2 class="text-base font-semibold text-white">Decision: Denied</h2>
             </div>
 
@@ -39,7 +39,7 @@ defineProps<Props>()
             v-if="application.status === BuilderRankApplicationStatus.approved"
             class="overflow-hidden rounded-xl border border-success bg-surface"
         >
-            <div class="rounded-t-md bg-green-500 p-4">
+            <div class="bg-green-500 p-4">
                 <h2 class="text-base font-semibold text-white">Decision: Approved</h2>
             </div>
 

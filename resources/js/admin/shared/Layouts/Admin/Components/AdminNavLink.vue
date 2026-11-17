@@ -20,7 +20,7 @@ const active = computed(() => isAdminPathActive(page.url, props.href, props.exac
         :href="href"
         :aria-current="active ? 'page' : undefined"
         :class="[
-            'flex min-h-10 items-center gap-3 rounded-lg px-3 text-sm transition-colors duration-150 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-surface-muted motion-reduce:transition-none',
+            'flex min-h-10 items-center gap-3 rounded-lg px-3 text-xs transition-colors duration-150 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-surface-muted motion-reduce:transition-none',
             active ? 'bg-surface-muted font-semibold text-foreground' : 'text-muted hover:bg-surface-hover hover:text-foreground',
         ]"
     >

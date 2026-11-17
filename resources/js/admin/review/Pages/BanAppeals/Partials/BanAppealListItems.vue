@@ -81,7 +81,7 @@ defineProps<Props>()
                     </div>
                 </div>
 
-                <div class="mt-4 rounded-lg border border-border bg-surface-muted p-3">
+                <div class="mt-4 rounded-none border border-border bg-surface-muted p-3">
                     <p class="mb-1 text-xs font-semibold uppercase tracking-wide text-subtle">Appeal message</p>
                     <p class="line-clamp-2 whitespace-pre-wrap text-sm leading-6 text-foreground">
                         {{ appeal.unban_reason }}

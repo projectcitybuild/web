@@ -23,7 +23,7 @@ const attrs = useAttrs()
 </script>
 
 <template>
-    <div class="table-frame w-full overflow-x-auto rounded-md border border-border-table">
+    <div class="table-frame w-full overflow-x-auto rounded-none border border-border-table">
         <table
             v-bind="attrs"
             class="w-full border-collapse border-t-0 text-left text-foreground"

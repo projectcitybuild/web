@@ -111,19 +111,17 @@ onBeforeMount(() => itemCount.value = items.value.length)
         <!-- Invisible element to trigger loading next page -->
         <div ref="lastElement" class="-translate-y-32"></div>
 
-        <div v-if="reachedEnd" class="flex items-center justify-center gap-2 rounded-b-md border-x border-b border-border-table bg-surface-muted p-3 text-xs text-muted">
+        <div v-if="reachedEnd" class="pagination-end flex items-center justify-center gap-2 rounded-none border-x border-b border-border-table bg-surface-muted p-3 text-xs text-muted">
             <SvgIcon :svg="Icons.hand" class="size-4" aria-hidden="true" />
             Reached the End
         </div>
 
-        <SpinnerRow v-else class="rounded-b-md border-x border-b border-border-table" />
+        <SpinnerRow v-else class="pagination-spinner rounded-none border-x border-b border-border-table" />
     </div>
 </template>
 
 <style scoped>
 .infinite-pagination :deep(.table-frame) {
     border-bottom: 0;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
 }
 </style>

@@ -191,12 +191,9 @@ function formatDate(value: string): string {
                             <TableCell class="whitespace-nowrap text-muted">{{ broadcast.recipients_count }}</TableCell>
                             <TableCell class="whitespace-nowrap text-muted">{{ formatDate(broadcast.created_at) }}</TableCell>
                             <TableCell align="end">
-                                    <Link
-                                        :href="broadcastUrl(broadcast.id)"
-                                        class="font-medium text-primary hover:underline dark:text-info"
-                                    >
-                                        View details
-                                    </Link>
+                                <LinkButton :href="broadcastUrl(broadcast.id)" variant="outline" size="sm">
+                                    View details
+                                </LinkButton>
                             </TableCell>
                         </TableRow>
                     </Table>

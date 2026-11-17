@@ -34,7 +34,7 @@ const rows = computed(
 </script>
 
 <template>
-    <DataTable :fields="fields" :rows="rows" :show-index="true" class="border-t border-border">
+    <DataTable :fields="fields" :rows="rows" :show-index="true">
         <template #player="{ item }">
             <div class="px-4 py-3 flex flex-row items-center gap-2">
                 <MinecraftAvatar :uuid="item.warned_player.uuid" :size="16"/>

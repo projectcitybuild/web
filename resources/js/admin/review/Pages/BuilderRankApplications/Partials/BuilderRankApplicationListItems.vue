@@ -76,7 +76,7 @@ defineProps<Props>()
                     </div>
                 </div>
 
-                <div class="mt-4 rounded-lg border border-border bg-surface-muted p-3">
+                <div class="mt-4 rounded-none border border-border bg-surface-muted p-3">
                     <p class="mb-1 text-xs font-semibold uppercase tracking-wide text-subtle">
                         Build summary
                     </p>

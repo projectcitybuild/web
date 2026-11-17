@@ -34,7 +34,7 @@ const rows = computed(
 </script>
 
 <template>
-    <DataTable :fields="fields" :rows="rows" :show-index="true" class="border-t border-border">
+    <DataTable :fields="fields" :rows="rows" :show-index="true">
         <template #list_hidden="{ item }">
             <BooleanCheck :value="item.list_hidden" />
         </template>

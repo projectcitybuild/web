@@ -246,21 +246,21 @@ function confirmDecision() {
                     <div class="space-y-4 p-4">
                         <div>
                             <h3 class="text-sm font-semibold text-muted">Date of Ban</h3>
-                            <div class="mt-2 rounded-lg border border-border bg-surface-muted p-3 text-sm leading-6 text-foreground">
+                            <div class="mt-2 rounded-none border border-border bg-surface-muted p-3 text-sm leading-6 text-foreground">
                                 {{ banAppeal.date_of_ban }}
                             </div>
                         </div>
 
                         <div>
                             <h3 class="text-sm font-semibold text-muted">Ban Reason</h3>
-                            <div class="mt-2 rounded-lg border border-border bg-surface-muted p-3 text-sm leading-6 text-foreground">
+                            <div class="mt-2 rounded-none border border-border bg-surface-muted p-3 text-sm leading-6 text-foreground">
                                 {{ banAppeal.ban_reason }}
                             </div>
                         </div>
 
                         <div>
                             <h3 class="text-sm font-semibold text-muted">Why should this ban be lifted?</h3>
-                            <div class="mt-2 rounded-lg border border-border bg-surface-muted p-4 text-sm leading-6 text-foreground">
+                            <div class="mt-2 rounded-none border border-border bg-surface-muted p-4 text-sm leading-6 text-foreground">
                                 {{ banAppeal.unban_reason }}
                             </div>
                         </div>
