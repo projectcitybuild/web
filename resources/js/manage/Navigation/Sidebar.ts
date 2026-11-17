@@ -1,11 +1,11 @@
-import type { Svg } from "../Components/SvgIcon.vue"
+import type { IconComponent } from "../Components/SvgIcon.vue"
 import { Icons } from "../Icons"
 import { Permission } from "../Permissions"
 
 export interface SidebarChild {
   title: string
   route: string
-  icon: Svg
+  icon: IconComponent
   permission?: Permission
 }
 
