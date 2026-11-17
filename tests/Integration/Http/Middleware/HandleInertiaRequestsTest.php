@@ -37,3 +37,29 @@ it('shares the authenticated account name and avatar with admin areas', function
     'manage' => 'manage.index',
     'review' => 'review.index',
 ]);
+
+it('shares the authenticated account name and avatar with the auditing area', function () {
+    $account = $this->adminAccount();
+    $player = MinecraftPlayer::factory()->create([
+        'account_id' => $account->id,
+    ]);
+
+    Gate::before(fn () => true);
+    config(['inertia.ssr.enabled' => false]);
+    $this->withoutMiddleware([
+        MfaAuthenticated::class,
+        RequireMfaEnabled::class,
+    ]);
+
+    $this->actingAs($account)
+        ->get(route('auditing.index'))
+        ->assertOk()
+        ->assertViewIs('admin.app')
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('Activity/AuditList')
+            ->where('account', [
+                'name' => $account->username,
+                'avatarUuid' => $player->uuid,
+            ])
+        );
+});

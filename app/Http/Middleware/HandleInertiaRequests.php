@@ -43,19 +43,20 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        if ($request->is(patterns: 'manage*') || $request->is(patterns: 'review*')) {
-            $pendingAppeals = BanAppeal::pending()->count();
-            $pendingBuildRankApps = BuilderRankApplication::pending()->count();
+        $isAdminArea = $request->is(patterns: 'manage*')
+            || $request->is(patterns: 'review*')
+            || $request->is(patterns: 'auditing*');
 
+        if ($isAdminArea) {
             $sharedProps = [
                 ...parent::share($request),
-                'success' => fn () => $request->session()->get('success'),
-                'pending_appeals' => fn () => $pendingAppeals,
-                'pending_build_rank_apps' => fn () => $pendingBuildRankApps,
             ];
 
-            $account = $request->user();
+            $sharedProps['success'] = fn () => $request->session()->get('success');
+            $sharedProps['pending_appeals'] = fn () => BanAppeal::pending()->count();
+            $sharedProps['pending_build_rank_apps'] = fn () => BuilderRankApplication::pending()->count();
 
+            $account = $request->user();
             $sharedProps['account'] = fn () => $account instanceof Account
                 ? [
                     'name' => $account->username,

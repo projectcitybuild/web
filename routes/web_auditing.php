@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\Auditing\ActivityController;
+use App\Http\Controllers\Admin\Auditing\ActivityController;
+use App\Http\Controllers\Admin\Auditing\PlayerOpElevationController;
 use Illuminate\Support\Facades\Route;
 use Inertia\EncryptHistoryMiddleware;
 
@@ -23,4 +24,7 @@ Route::name('auditing.')
 
         Route::get('activity/audits/{audit}', [ActivityController::class, 'showAudit'])
             ->name('activity.audit.show');
+
+        Route::get('op-elevations', [PlayerOpElevationController::class, 'index'])
+            ->name('op-elevations.index');
     });

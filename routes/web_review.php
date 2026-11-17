@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\Review\BanAppeals\BanAppealController;
-use App\Http\Controllers\Review\BuilderRanks\BuilderRanksController;
-use App\Http\Controllers\Review\HomeController;
+use App\Http\Controllers\Admin\Review\BanAppeals\BanAppealController;
+use App\Http\Controllers\Admin\Review\BuilderRanks\BuilderRanksController;
+use App\Http\Controllers\Admin\Review\HomeController;
 use Illuminate\Support\Facades\Route;
 use Inertia\EncryptHistoryMiddleware;
 

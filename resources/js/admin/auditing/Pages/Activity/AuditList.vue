@@ -92,7 +92,7 @@ function paginationLabel(label: string): string {
     <div class="space-y-6">
         <PageHeader
             title="Audit Logs"
-            description="Review administrative and system changes across the platform."
+            description="Review user and system changes across the platform."
         />
 
         <ListPage :filter-count="activeFilterCount">

@@ -2,11 +2,16 @@
 
 use App\Models\Account;
 use App\Models\Audit;
+use App\Models\MinecraftPlayer;
+use App\Models\PlayerOpElevation;
 use App\Models\Server;
 use Inertia\Testing\AssertableInertia as Assert;
 
 beforeEach(function () {
-    config(['audit.console' => true]);
+    config([
+        'audit.console' => true,
+        'inertia.ssr.enabled' => false,
+    ]);
 });
 
 it('renders audit records in the auditing application', function () {
@@ -27,6 +32,42 @@ it('renders audit records in the auditing application', function () {
             ->where('audits.data.0.action', 'Server created')
             ->where('audits.data.0.subject', 'Server #'.$server->id)
             ->where('audits.data.0.showUrl', route('auditing.activity.audit.show', $audit))
+        );
+});
+
+it('renders player operator elevations with duration details', function () {
+    $this->actingAs($this->adminAccount());
+    $this->travelTo('2026-07-14 12:00:00');
+
+    $activePlayer = MinecraftPlayer::factory()->create(['alias' => 'Active Player']);
+    $endedPlayer = MinecraftPlayer::factory()->create(['alias' => 'Ended Player']);
+
+    PlayerOpElevation::create([
+        'player_id' => $endedPlayer->id,
+        'reason' => 'Finished maintenance',
+        'started_at' => now()->subDay(),
+        'ended_at' => now()->subHours(20),
+    ]);
+
+    PlayerOpElevation::create([
+        'player_id' => $activePlayer->id,
+        'reason' => 'Current maintenance',
+        'started_at' => now()->subHour(),
+        'ended_at' => now()->addHour(),
+    ]);
+
+    $this->get(route('auditing.op-elevations.index'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('OpElevations/OpElevationList')
+            ->where('elevations.data.0.player', 'Active Player')
+            ->where('elevations.data.0.reason', 'Current maintenance')
+            ->where('elevations.data.0.startedAt', '2026-07-14T11:00:00+00:00')
+            ->where('elevations.data.0.endedAt', '2026-07-14T13:00:00+00:00')
+            ->where('elevations.data.0.isActive', true)
+            ->where('elevations.data.1.player', 'Ended Player')
+            ->where('elevations.data.1.reason', 'Finished maintenance')
+            ->where('elevations.data.1.isActive', false)
         );
 });
 
@@ -62,6 +103,10 @@ it('forbids non-admins from accessing the auditing area', function () {
 
     $this->actingAs(Account::factory()->create())
         ->get(route('auditing.activity.audit.show', $audit))
+        ->assertForbidden();
+
+    $this->actingAs(Account::factory()->create())
+        ->get(route('auditing.op-elevations.index'))
         ->assertForbidden();
 });
 

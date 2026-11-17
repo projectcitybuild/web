@@ -11,11 +11,14 @@ class PlayerOpElevationFactory extends Factory
 
     public function definition()
     {
+        $startedAt = $this->faker->dateTime();
+        $endedAt = $startedAt->modify('+3 hours');
+
         return [
             'player_id' => MinecraftPlayer::factory()->create()->id,
-            'reason' => $this->faker->text(32),
-            'started_at' => $this->faker->dateTime(),
-            'ended_at' => $this->faker->dateTime(),
+            'reason' => $this->faker->sentence(),
+            'started_at' => $startedAt,
+            'ended_at' => $endedAt,
         ];
     }
 
@@ -23,7 +26,8 @@ class PlayerOpElevationFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'ended_at' => now()->addDay(),
+                'started_at' => now()->subtract(1, 'minute'),
+                'ended_at' => now()->addYears(10),
             ];
         });
     }

@@ -1,0 +1,178 @@
+<?php
+
+namespace App\Http\Controllers\Admin\Manage\Bans;
+
+use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
+use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
+use App\Domains\Bans\Data\CreatePlayerBan;
+use App\Domains\Bans\Data\UnbanType;
+use App\Domains\Bans\Data\UpdatePlayerBan;
+use App\Domains\Bans\Services\PlayerBanService;
+use App\Domains\Permissions\AuthorizesPermissions;
+use App\Domains\Permissions\WebManagePermission;
+use App\Http\Controllers\Admin\RendersAdminApp;
+use App\Http\Controllers\WebController;
+use App\Http\Filters\BannedByPlayerFilter;
+use App\Http\Filters\BannedPlayerFilter;
+use App\Http\Filters\DateFilter;
+use App\Http\Filters\LikeFilter;
+use App\Http\Filters\PlayerBanHasExpiryFilter;
+use App\Http\Filters\PlayerBanStatusFilter;
+use App\Models\GamePlayerBan;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Pipeline;
+use Illuminate\Validation\Rule;
+use Inertia\Inertia;
+
+class GamePlayerBanController extends WebController
+{
+    use AuthorizesPermissions;
+    use RendersAdminApp;
+
+    public function __construct(
+        private readonly PlayerBanService $playerBanService,
+    ) {}
+
+    public function index(Request $request)
+    {
+        $this->requires(WebManagePermission::UUID_BANS_VIEW);
+
+        $bans = function () use ($request) {
+            $reason = $request->query('reason');
+
+            $reason = is_string($reason) ? $reason : null;
+
+            return Pipeline::send(GamePlayerBan::query())
+                ->through([
+                    new BannedPlayerFilter($request->query('player')),
+                    new BannedByPlayerFilter($request->query('banner_uuid')),
+                    new LikeFilter('reason', $reason),
+                    new PlayerBanStatusFilter($request->query('status')),
+                    new PlayerBanHasExpiryFilter($request->query('has_expiry')),
+                    new DateFilter('created_at', $request->query('created_at')),
+                    new DateFilter('expires_at', $request->query('expires_at')),
+                ])
+                ->thenReturn()
+                ->with('bannedPlayer', 'bannerPlayer', 'unbannerPlayer')
+                ->orderBy('created_at', 'desc')
+                ->paginate(50);
+        };
+
+        if ($request->wantsJson()) {
+            return $bans();
+        }
+        return $this->inertiaRender('PlayerBans/PlayerBanList', [
+            'bans' => Inertia::defer($bans),
+        ]);
+    }
+
+    public function create(Request $request)
+    {
+        $this->requires(WebManagePermission::UUID_BANS_EDIT);
+
+        $account = $request->user();
+        $account->load('minecraftAccount');
+
+        return $this->inertiaRender('PlayerBans/PlayerBanCreate', [
+            'account' => $account,
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $this->requires(WebManagePermission::UUID_BANS_EDIT);
+
+        $validated = collect($request->validate([
+            'banned_uuid' => ['required', new MinecraftUUIDRule],
+            'banned_alias' => ['required', 'string'],
+            'banner_uuid' => ['nullable', new MinecraftUUIDRule],
+            'banner_alias' => ['nullable', 'string'],
+            'reason' => 'required',
+            'additional_info' => 'nullable',
+            'expires_at' => ['nullable', 'date'],
+            'created_at' => ['required', 'date'],
+        ]));
+
+        $this->playerBanService->store(
+            new CreatePlayerBan(
+                bannedUuid: new MinecraftUUID($validated->get('banned_uuid')),
+                bannedAlias: $validated->get('banned_alias'),
+                bannerUuid: optional($validated->get('banner_uuid'), fn ($it) => new MinecraftUUID($it)),
+                bannerAlias: $validated->get('banner_alias'),
+                reason: $validated->get('reason'),
+                additionalInfo: $validated->get('additional_info'),
+                expiresAt: optional($validated->get('expires_at'), fn ($it) => Carbon::parse($it)),
+                createdAt: optional($validated->get('created_at'), fn ($it) => Carbon::parse($it), now()),
+                unbannedAt: optional($validated->get('unbanned_at'), fn ($it) => Carbon::parse($it)),
+                unbannerUuid: optional($validated->get('unbanner_uuid'), fn ($it) => new MinecraftUUID($it)),
+                unbannerAlias: $validated->get('unbanner_alias'),
+            ),
+        );
+
+        return to_route('manage.player-bans.index')
+            ->with(['success' => 'Ban created successfully.']);
+    }
+
+    public function edit(GamePlayerBan $playerBan)
+    {
+        $this->requires(WebManagePermission::UUID_BANS_EDIT);
+
+        $playerBan->load('bannedPlayer', 'bannerPlayer', 'unbannerPlayer');
+
+        return $this->inertiaRender('PlayerBans/PlayerBanEdit', [
+            'ban' => $playerBan,
+        ]);
+    }
+
+    public function update(Request $request, GamePlayerBan $playerBan)
+    {
+        $this->requires(WebManagePermission::UUID_BANS_EDIT);
+
+        $validated = collect($request->validate([
+            'banned_uuid' => ['required', new MinecraftUUIDRule],
+            'banned_alias' => ['required', 'string'],
+            'banner_uuid' => ['nullable', new MinecraftUUIDRule],
+            'banner_alias' => ['nullable', 'string'],
+            'reason' => 'required',
+            'additional_info' => 'nullable',
+            'expires_at' => ['nullable', 'date'],
+            'created_at' => ['required', 'date'],
+            'unbanned_at' => ['nullable', 'date'],
+            'unbanner_uuid' => ['nullable', new MinecraftUUIDRule],
+            'unbanner_alias' => ['nullable', 'string'],
+            'unban_type' => ['nullable', Rule::in(UnbanType::values())],
+        ]));
+
+        $this->playerBanService->update(
+            new UpdatePlayerBan(
+                id: $playerBan->id,
+                bannedUuid: new MinecraftUUID($validated->get('banned_uuid')),
+                bannedAlias: $validated->get('banned_alias'),
+                bannerUuid: optional($validated->get('banner_uuid'), fn ($it) => new MinecraftUUID($it)),
+                bannerAlias: $validated->get('banner_alias'),
+                reason: $validated->get('reason'),
+                additionalInfo: $validated->get('additional_info'),
+                expiresAt: optional($validated->get('expires_at'), fn ($it) => Carbon::parse($it)),
+                createdAt: Carbon::parse($validated->get('created_at')),
+                unbannedAt: optional($validated->get('unbanned_at'), fn ($it) => Carbon::parse($it)),
+                unbannerUuid: optional($validated->get('unbanner_uuid'), fn ($it) => new MinecraftUUID($it)),
+                unbannerAlias: $validated->get('unbanner_alias'),
+                unbanType: UnbanType::tryFrom($validated->get('unban_type')),
+            ),
+        );
+
+        return to_route('manage.player-bans.index')
+            ->with(['success' => 'Ban updated successfully.']);
+    }
+
+    public function destroy(Request $request, GamePlayerBan $playerBan)
+    {
+        $this->requires(WebManagePermission::UUID_BANS_EDIT);
+
+        $this->playerBanService->delete(id: $playerBan->id);
+
+        return to_route('manage.player-bans.index')
+            ->with(['success' => 'Ban deleted successfully.']);
+    }
+}

@@ -7,6 +7,7 @@ use App\Models\MinecraftBuild;
 use App\Models\MinecraftHome;
 use App\Models\MinecraftPlayer;
 use App\Models\MinecraftPlayerIp;
+use App\Models\PlayerOpElevation;
 use Illuminate\Database\Seeder;
 
 class MinecraftPlayerSeeder extends Seeder
@@ -25,6 +26,7 @@ class MinecraftPlayerSeeder extends Seeder
         $this->createBuilds($players);
         $this->createHomes($players);
         $this->createIps($players);
+        $this->createOpElevations($players);
     }
 
     private function createBuilds($players)
@@ -54,6 +56,25 @@ class MinecraftPlayerSeeder extends Seeder
                 MinecraftPlayerIp::factory()
                     ->create(['player_id' => $player]);
             }
+        }
+    }
+
+    private function createOpElevations($players)
+    {
+        for ($i = 0; $i < 2; $i++) {
+            $player = $players->random();
+
+            PlayerOpElevation::factory()
+                ->active()
+                ->create(['player_id' => $player]);
+        }
+
+        for ($i = 0; $i < 15; $i++) {
+            $player = $players->random();
+
+            PlayerOpElevation::factory()
+                ->ended()
+                ->create(['player_id' => $player]);
         }
     }
 }

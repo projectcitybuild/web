@@ -12,4 +12,9 @@ export const sidebarMenu: AuditingNavigationItem[] = [
         route: '/auditing',
         icon: 'auditLogs',
     },
+    {
+        title: 'OP Elevations',
+        route: '/auditing/op-elevations',
+        icon: 'hourglass',
+    },
 ]
