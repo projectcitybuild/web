@@ -2,10 +2,12 @@
 import logo from '../../../../../images/logo-alt.png'
 import SvgIcon from '../../../../manage/Components/SvgIcon.vue'
 import { Icons } from '../../../../manage/Icons'
+import AdminAccountMenu from './AdminAccountMenu.vue'
 import useAdminNavigation, { adminAreas } from '../useAdminNavigation'
 
 const props = defineProps<{
     areaBadges: Record<string, number | string>
+    collapsed: boolean
 }>()
 
 const { currentArea } = useAdminNavigation()
@@ -49,5 +51,9 @@ const { currentArea } = useAdminNavigation()
                 </span>
             </a>
         </nav>
+
+        <div v-if="props.collapsed" class="mt-auto w-full border-t border-border py-3">
+            <AdminAccountMenu collapsed />
+        </div>
     </aside>
 </template>

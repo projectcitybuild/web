@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Account;
 use App\Models\BanAppeal;
 use App\Models\BuilderRankApplication;
 use Illuminate\Http\Request;
@@ -46,12 +47,23 @@ class HandleInertiaRequests extends Middleware
             $pendingAppeals = BanAppeal::pending()->count();
             $pendingBuildRankApps = BuilderRankApplication::pending()->count();
 
-            return [
+            $sharedProps = [
                 ...parent::share($request),
                 'success' => fn () => $request->session()->get('success'),
                 'pending_appeals' => fn () => $pendingAppeals,
                 'pending_build_rank_apps' => fn () => $pendingBuildRankApps,
             ];
+
+            $account = $request->user();
+
+            $sharedProps['account'] = fn () => $account instanceof Account
+                ? [
+                    'name' => $account->username,
+                    'avatarUuid' => $account->minecraftAccount()->value('uuid'),
+                ]
+                : null;
+
+            return $sharedProps;
         }
 
         return [];

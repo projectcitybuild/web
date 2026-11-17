@@ -1,7 +1,6 @@
 <script setup>
 import { Head, Link, usePage } from '@inertiajs/vue3'
 import { computed } from 'vue'
-import Badge from '../../shared/Components/Badge.vue'
 import Card from '../../shared/Components/Card.vue'
 import PageHeader from '../../shared/Components/PageHeader.vue'
 import SvgIcon from '../../manage/Components/SvgIcon.vue'
@@ -15,34 +14,37 @@ const queues = computed(() => sidebarMenu.filter(item =>
     item.route !== '/review' && (!item.permission || can(item.permission))
 ))
 
+const metricLabels = {
+    pending_appeals: 'Ban Appeals',
+    pending_build_rank_apps: 'Applications',
+}
+
+const metrics = computed(() => queues.value.filter(item => item.countKey))
+
 function countFor(item) {
     return item.countKey ? Number(page.props[item.countKey] ?? 0) : 0
 }
 </script>
 
 <template>
-    <Head title="Review" />
+    <Head title="Overview" />
 
     <div class="space-y-6">
-        <PageHeader title="Review" />
+        <PageHeader title="Overview" description="Your review workspace at a glance." class="border-b border-border pb-6" />
 
         <section
-            v-if="queues.length > 0"
+            v-if="metrics.length > 0"
             aria-label="Review queues"
             class="grid grid-cols-1 gap-4 sm:grid-cols-2"
         >
-            <Card v-for="item in queues" :key="item.route" padding="none">
+            <Card v-for="item in metrics" :key="item.route" padding="none" class="overflow-hidden rounded-xl border border-border bg-surface-muted">
                 <Link
                     :href="item.route"
-                    class="flex min-h-24 items-center justify-between gap-4 rounded-[var(--radius-lg)] p-4 text-foreground transition-colors hover:bg-surface-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-inset"
+                    class="flex min-h-40 flex-col items-start gap-3 rounded-xl p-4 text-foreground transition-colors hover:bg-surface-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-inset"
                 >
-                    <span class="flex min-w-0 items-center gap-3">
-                        <SvgIcon :svg="Icons[item.icon]" class="size-5 shrink-0 text-muted" />
-                        <span class="truncate font-semibold">{{ item.title }}</span>
-                    </span>
-                    <Badge :variant="countFor(item) > 0 ? 'warning' : 'default'">
-                        {{ countFor(item) }} pending
-                    </Badge>
+                    <SvgIcon :svg="Icons[item.icon]" class="size-5 shrink-0 text-muted" aria-hidden="true" />
+                    <span class="text-3xl font-semibold leading-none text-foreground">{{ countFor(item) }}</span>
+                    <span class="text-sm font-medium text-muted">{{ metricLabels[item.countKey] }}</span>
                 </Link>
             </Card>
         </section>

@@ -1,0 +1,38 @@
+<?php
+
+use App\Http\Middleware\MfaAuthenticated;
+use App\Http\Middleware\RequireMfaEnabled;
+use App\Models\Account;
+use App\Models\MinecraftPlayer;
+use Illuminate\Support\Facades\Gate;
+use Inertia\Testing\AssertableInertia as Assert;
+
+it('shares the authenticated account name and avatar with admin areas', function (string $routeName) {
+    $account = Account::factory()->create([
+        'username' => 'ReviewUser',
+    ]);
+    $player = MinecraftPlayer::factory()->create([
+        'account_id' => $account->id,
+    ]);
+
+    Gate::before(fn () => true);
+    config(['inertia.ssr.enabled' => false]);
+    $this->withoutMiddleware([
+        MfaAuthenticated::class,
+        RequireMfaEnabled::class,
+    ]);
+
+    $this->actingAs($account)
+        ->get(route($routeName))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('Home')
+            ->where('account', [
+                'name' => 'ReviewUser',
+                'avatarUuid' => $player->uuid,
+            ])
+        );
+})->with([
+    'manage' => 'manage.index',
+    'review' => 'review.index',
+]);

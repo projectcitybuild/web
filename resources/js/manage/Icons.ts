@@ -5,6 +5,7 @@ const icon = (...paths: string[]): Svg => ({
 })
 
 export const Icons: Record<string, Svg> = {
+    moreHorizontal: icon('M5 12h.01M12 12h.01M19 12h.01'),
     plus: {
         paths: [
             {
@@ -609,4 +610,3 @@ export const Icons: Record<string, Svg> = {
         'M6 4v2a6 6 0 1 0 12 0v-2a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1',
     ),
 }
-

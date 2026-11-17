@@ -87,7 +87,7 @@ onBeforeUnmount(() => {
 
 <template>
     <div class="min-h-screen bg-background text-foreground" :data-theme="theme">
-        <AdminAreaRail :area-badges="props.areaBadges" />
+        <AdminAreaRail :area-badges="props.areaBadges" :collapsed="sidebarCollapsed" />
 
         <AdminHeader
             :sidebar-collapsed="sidebarCollapsed"
