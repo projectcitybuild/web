@@ -12,7 +12,7 @@ trait AppendsSystemAuditTag
      */
     protected function appendSystemAuditTag(array $data): array
     {
-        $systemCauser = SystemCauseResolver::getCauserName();
+        $systemCauser = SystemCauseResolver::getCauserName(); // nosemgrep: php.lang.security.exec-use.exec-use -- reads an enum-backed audit tag, no command is run.
 
         if ($systemCauser !== null) {
             $tags = array_filter(explode(',', $data['tags'] ?? ''));

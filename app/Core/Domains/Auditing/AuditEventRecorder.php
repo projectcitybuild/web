@@ -33,7 +33,7 @@ class AuditEventRecorder
         $command = Request::server('argv', []);
         $userModel = $user instanceof Model ? $user : null;
 
-        return Audit::create([
+        return Audit::create([ // nosemgrep: php.lang.security.exec-use.exec-use -- argv is stored as audit metadata, never executed.
             'event' => $event,
             'auditable_type' => $subject->getMorphClass(),
             'auditable_id' => $subject->getKey(),

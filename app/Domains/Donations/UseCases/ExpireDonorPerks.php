@@ -14,7 +14,7 @@ final class ExpireDonorPerks
 {
     public function execute(): void
     {
-        SystemCauseResolver::runAs(SystemCauser::PERK_EXPIRY, function () {
+        SystemCauseResolver::runAs(SystemCauser::PERK_EXPIRY, function () { // nosemgrep: php.lang.security.exec-use.exec-use -- invokes an in-process callback, not a shell command.
             DB::transaction(function () {
                 $now = now();
                 $expiredPerks = DonationPerk::where('is_active', true)
