@@ -16,8 +16,6 @@ on:
         required: true
         type: boolean
     secrets:
-      GITHUB_TOKEN:
-        required: true
       DEPLOY_PRIVATE_KEY:
         required: true
       DEPLOY_KNOWN_HOSTS:
