@@ -15,7 +15,7 @@
         </a>
 
         <div class="flex flex-row items-center">
-            <h1 class="text-4xl font-bold mt-6 flex-grow">Ban Details</h1>
+            <h1 class="text-4xl font-bold mt-6 grow">Ban Details</h1>
 
             @if ($ban->isActive())
                 <x-button href="{{ route('front.appeal.form.prefilled', $ban) }}" size="sm">

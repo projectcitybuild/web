@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import "flowbite/src/themes/default";
+@import "tailwindcss" source(none);
+@import "./front/command.css";
+@import "./front/modal.css";
+
+@source "../views/front";
+@source "../views/errors";
+@source "../views/shared";
+@source "../views/vendor/pagination";
+@source "../js/front";
+@source "../../node_modules/flowbite";
+
+@theme {
+    --font-display: "Bebas Neue", sans-serif;
+    --font-body: "Inter", sans-serif;
+}
+
+@plugin "@tailwindcss/forms";
+@plugin "flowbite/plugin";
+
+body {
+    font-family: "Inter", sans-serif;
+    background-color: hsl(0, 0%, 94%);
+}

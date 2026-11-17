@@ -44,7 +44,7 @@ const breadcrumbs = computed(
             <button
                 id="admin-menu-toggle"
                 type="button"
-                class="inline-flex size-10 shrink-0 items-center justify-center rounded-md text-muted hover:bg-surface-hover hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus md:hidden"
+                class="inline-flex size-10 shrink-0 items-center justify-center rounded-md text-muted hover:bg-surface-hover hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus md:hidden"
                 aria-label="Open navigation menu"
                 aria-controls="admin-sidebar"
                 :aria-expanded="menuOpen"
@@ -59,7 +59,7 @@ const breadcrumbs = computed(
 
             <button
                 type="button"
-                class="hidden size-8 shrink-0 items-center justify-center rounded-md text-muted hover:bg-surface-hover hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus md:inline-flex"
+                class="hidden size-8 shrink-0 items-center justify-center rounded-md text-muted hover:bg-surface-hover hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus md:inline-flex"
                 :aria-label="sidebarCollapsed ? 'Expand navigation' : 'Collapse navigation'"
                 :title="sidebarCollapsed ? 'Expand navigation' : 'Collapse navigation'"
                 aria-controls="admin-sidebar"

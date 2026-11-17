@@ -12,7 +12,7 @@
             md:flex-row md:mx-auto md:mt-8
         "
     >
-        <div class="rounded-lg bg-white flex-grow p-6 m-2">
+        <div class="rounded-lg bg-white grow p-6 m-2">
             <section>
                 <h1 class="text-2xl font-bold mb-3">Your Donations</h1>
 

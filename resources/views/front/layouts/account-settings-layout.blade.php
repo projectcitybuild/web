@@ -66,7 +66,7 @@
                     <path d="M8 16.25a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Z" />
                     <path fill-rule="evenodd" d="M4 4a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V4Zm4-1.5v.75c0 .414.336.75.75.75h2.5a.75.75 0 0 0 .75-.75V2.5h1A1.5 1.5 0 0 1 14.5 4v12a1.5 1.5 0 0 1-1.5 1.5H7A1.5 1.5 0 0 1 5.5 16V4A1.5 1.5 0 0 1 7 2.5h1Z" clip-rule="evenodd" />
                 </svg>
-                <span class="text-gray-800 flex-grow">2-Factor Authentication</span>
+                <span class="text-gray-800 grow">2-Factor Authentication</span>
 
                 @if (Auth::user()->is_totp_enabled)
                     <div class="bg-green-500 rounded-md text-xs text-white py-1 px-2 font-normal">ON</div>
@@ -88,7 +88,7 @@
             </a>
         </div>
 
-        <div class="rounded-lg bg-white flex-grow p-6 m-2">
+        <div class="rounded-lg bg-white grow p-6 m-2">
             @yield('content')
         </div>
     </main>

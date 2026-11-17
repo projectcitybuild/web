@@ -16,7 +16,7 @@
     </script>
     @vite([
         'resources/js/review/review.ts',
-        'resources/sass/review.scss',
+        'resources/css/review.css',
     ])
     @inertiaHead
 </head>

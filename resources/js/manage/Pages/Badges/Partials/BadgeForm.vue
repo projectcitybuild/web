@@ -94,7 +94,7 @@ function destroy(): void {
                         true-value="1"
                         false-value="0"
                         type="checkbox"
-                        class="size-4 rounded border-border-strong accent-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+                        class="size-4 rounded border-border-strong accent-primary focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus"
                     >
                 </FormField>
             </div>

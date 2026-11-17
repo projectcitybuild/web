@@ -1,17 +1,19 @@
 import { defineConfig } from 'vite'
 import laravel from 'laravel-vite-plugin'
 import vue from '@vitejs/plugin-vue'
+import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
     plugins: [
+        tailwindcss(),
         laravel({
             input: [
-                'resources/sass/front.scss',
+                'resources/css/front.css',
                 'resources/js/front/front.ts',
                 'resources/js/manage/manage.ts',
-                'resources/sass/manage.scss',
+                'resources/css/manage.css',
                 'resources/js/review/review.ts',
-                'resources/sass/review.scss',
+                'resources/css/review.css',
             ],
 
             // Refreshes when a change is made to resource/view files or routes

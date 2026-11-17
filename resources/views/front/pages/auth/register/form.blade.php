@@ -75,7 +75,7 @@
                 name="terms"
                 {{ old('terms') ? 'checked' : '' }}
                 class="
-                        rounded-sm
+                        rounded-xs
                         bg-gray-300 border-0
                         checked:bg-gray-900
                     "

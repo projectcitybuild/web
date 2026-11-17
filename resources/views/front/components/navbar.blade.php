@@ -2,7 +2,7 @@
     'variant' => 'opaque',
 ])
 
-<nav class="border-gray-200 border-opacity-65 absolute md:relative w-full {{ $variant != 'opaque' ? 'border-b' : 'bg-[#362f2b]' }}">
+<nav class="border-gray-200/65 absolute md:relative w-full {{ $variant != 'opaque' ? 'border-b' : 'bg-[#362f2b]' }}">
     <div class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4">
         <x-logo />
 
@@ -48,7 +48,7 @@
                 </a>
             @endauth
 
-            <button data-collapse-toggle="mega-menu-full" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200" aria-controls="navbar-cta" aria-expanded="false">
+            <button data-collapse-toggle="mega-menu-full" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-hidden focus:ring-2 focus:ring-gray-200" aria-controls="navbar-cta" aria-expanded="false">
                 <span class="sr-only">Open main menu</span>
                 <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
@@ -133,7 +133,7 @@
         </div>
     </div>
 
-    <div id="mega-menu-full-dropdown" class="hidden shadow-xl md:shadow-sm bg-gray-50 w-full absolute bg-white/90 backdrop-blur-md">
+    <div id="mega-menu-full-dropdown" class="hidden shadow-xl md:shadow-xs bg-gray-50 w-full absolute bg-white/90 backdrop-blur-md">
         <div class="grid max-w-screen-xl px-4 py-5 mx-auto text-gray-900 sm:grid-cols-3 md:px-6 md:py-8">
             <ul>
                 <li>

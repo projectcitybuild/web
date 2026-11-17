@@ -20,9 +20,9 @@
         <x-front::navbar />
 
         <iframe
-            class="size-full flex-grow"
+            class="size-full grow"
             src="https://maps.pcbmc.co"
-            style="flex-grow: 1; border: 0">
+            style="grow: 1; border: 0">
             Your browser does not support or has disabled iFrames
         </iframe>
     </div>

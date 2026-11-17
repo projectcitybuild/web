@@ -40,7 +40,7 @@ function countFor(item) {
             <Card v-for="item in metrics" :key="item.route" padding="none" class="overflow-hidden rounded-xl border border-border bg-surface-muted">
                 <Link
                     :href="item.route"
-                    class="flex min-h-40 flex-col items-start gap-3 rounded-xl p-4 text-foreground transition-colors hover:bg-surface-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-inset"
+                    class="flex min-h-40 flex-col items-start gap-3 rounded-xl p-4 text-foreground transition-colors hover:bg-surface-hover focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-inset"
                 >
                     <SvgIcon :svg="Icons[item.icon]" class="size-5 shrink-0 text-muted" aria-hidden="true" />
                     <span class="text-3xl font-semibold leading-none text-foreground">{{ countFor(item) }}</span>

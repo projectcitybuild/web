@@ -88,7 +88,7 @@ onBeforeUnmount(() => {
         type="button"
         :aria-expanded="isOpen"
         :aria-controls="id"
-        class="inline-flex min-h-8 items-center justify-center gap-2 rounded-md border border-border bg-surface px-3 py-1 text-xs font-medium text-foreground transition-colors hover:bg-surface-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
+        class="inline-flex min-h-8 items-center justify-center gap-2 rounded-md border border-border bg-surface px-3 py-1 text-xs font-medium text-foreground transition-colors hover:bg-surface-hover focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
         @click="isOpen = true"
     >
         <SvgIcon :svg="Icons.filter" aria-hidden="true" />
@@ -135,7 +135,7 @@ onBeforeUnmount(() => {
                         aria-modal="true"
                         :aria-labelledby="`${id}-title`"
                         tabindex="-1"
-                        class="relative flex h-[min(85dvh,48rem)] w-full max-w-xl flex-col rounded-t-lg border border-border bg-surface shadow-2xl outline-none sm:rounded-lg"
+                        class="relative flex h-[min(85dvh,48rem)] w-full max-w-xl flex-col rounded-t-lg border border-border bg-surface shadow-2xl outline-hidden sm:rounded-lg"
                     >
                         <header class="flex shrink-0 items-center justify-between gap-4 border-b border-border px-5 py-4">
                             <div>
@@ -147,7 +147,7 @@ onBeforeUnmount(() => {
                             <button
                                 ref="closeButton"
                                 type="button"
-                                class="inline-flex size-10 shrink-0 items-center justify-center rounded-lg text-muted transition-colors hover:bg-surface-hover hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+                                class="inline-flex size-10 shrink-0 items-center justify-center rounded-lg text-muted transition-colors hover:bg-surface-hover hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus"
                                 aria-label="Close filters"
                                 title="Close filters"
                                 @click="closePanel"

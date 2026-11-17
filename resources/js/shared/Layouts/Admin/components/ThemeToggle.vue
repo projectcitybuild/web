@@ -19,7 +19,7 @@ const nextTheme = computed(() => {
 <template>
     <button
         type="button"
-        class="inline-flex size-10 items-center justify-center rounded-md text-muted hover:bg-surface-hover hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+        class="inline-flex size-10 items-center justify-center rounded-md text-muted hover:bg-surface-hover hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus"
         :aria-label="`Theme: ${preference === 'system' ? 'automatic' : preference}. Switch to ${nextTheme} theme`"
         :title="`Theme: ${preference === 'system' ? 'automatic' : preference}. Switch to ${nextTheme} theme`"
         @click="cycleTheme"

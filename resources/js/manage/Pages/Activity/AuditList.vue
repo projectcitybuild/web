@@ -159,7 +159,7 @@ function paginationLabel(label: string): string {
                                 v-if="link.url"
                                 :href="link.url"
                                 :aria-current="link.active ? 'page' : undefined"
-                                class="inline-flex min-h-9 min-w-9 items-center justify-center rounded-md border px-3 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+                                class="inline-flex min-h-9 min-w-9 items-center justify-center rounded-md border px-3 text-sm transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus"
                                 :class="link.active
                                     ? 'border-primary bg-primary text-primary-foreground'
                                     : 'border-border bg-surface text-foreground hover:bg-surface-hover'"

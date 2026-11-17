@@ -25,7 +25,7 @@ const iconSizeClasses: Record<ButtonSize, string> = {
 export function getButtonClasses(variant: ButtonVariant, size: ButtonSize, iconOnly = false): string[] {
     return [
         'inline-flex items-center justify-center gap-2 rounded-[var(--radius-md)] font-medium transition-colors motion-reduce:transition-none',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-surface',
+        'focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-surface',
         'disabled:cursor-not-allowed disabled:border-disabled disabled:bg-disabled disabled:text-disabled-foreground disabled:hover:bg-disabled disabled:active:bg-disabled',
         iconOnly ? iconSizeClasses[size] : sizeClasses[size],
         variantClasses[variant],

@@ -3,6 +3,8 @@ import.meta.glob([
     '../../images/**',
 ]);
 
+import 'flowbite';
+
 // Server feed copy-to-clipboard
 document.querySelectorAll(`[data-server-address]`).forEach(element => {
     let value = element.getAttribute("data-server-address")

@@ -16,7 +16,7 @@
     </script>
     @vite([
         'resources/js/manage/manage.ts',
-        'resources/sass/manage.scss',
+        'resources/css/manage.css',
     ])
     @inertiaHead
 </head>

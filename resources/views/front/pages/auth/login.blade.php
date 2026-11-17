@@ -62,7 +62,7 @@
                     name="remember_me"
                     id="remember_me"
                     class="
-                        rounded-sm
+                        rounded-xs
                         bg-gray-300 border-0
                         checked:bg-gray-900
                     "

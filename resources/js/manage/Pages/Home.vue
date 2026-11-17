@@ -29,7 +29,7 @@ const props = defineProps({
                 <Link
                     v-if="props.activityUrl"
                     :href="props.activityUrl"
-                    class="text-sm font-medium text-foreground underline decoration-border underline-offset-4 hover:text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+                    class="text-sm font-medium text-foreground underline decoration-border underline-offset-4 hover:text-muted focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus"
                 >
                     View full audit log
                 </Link>

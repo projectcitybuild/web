@@ -31,7 +31,7 @@ function focusField(id: string): void {
         tabindex="-1"
         role="alert"
         aria-labelledby="form-error-summary-title"
-        class="rounded-lg border border-danger bg-danger-soft p-4 text-sm text-danger focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-danger"
+        class="rounded-lg border border-danger bg-danger-soft p-4 text-sm text-danger focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-danger"
     >
         <h2 id="form-error-summary-title" class="font-semibold">
             Please correct the following errors
@@ -40,7 +40,7 @@ function focusField(id: string): void {
             <li v-for="[field, message] in entries" :key="field">
                 <a
                     :href="`#${field}`"
-                    class="underline underline-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-danger"
+                    class="underline underline-offset-2 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-danger"
                     @click.prevent="focusField(field)"
                 >
                     {{ message }}

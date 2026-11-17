@@ -6,8 +6,8 @@
 ">
     <x-front::navbar variant="clear" />
 
-    <div class="flex flex-grow items-center justify-end">
-        <div class="visible:m flex-grow"></div>
+    <div class="flex grow items-center justify-end">
+        <div class="visible:m grow"></div>
 
         <div class="sm:text-right py-32 px-4 sm:pr-24">
             <h1 class="text-7xl font-display sm:text-8xl lg:text-8xl text-gray-50 tracking-tight">

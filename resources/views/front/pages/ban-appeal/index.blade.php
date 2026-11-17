@@ -33,7 +33,7 @@
 
         <section class="max-w-screen-lg mx-auto px-6">
             <div class="flex flex-col md:flex-row justify-between gap-6">
-                <div class="flex-grow md:w-0 rounded-xl border border-gray-200 bg-gray-50 p-8 flex flex-col">
+                <div class="grow md:w-0 rounded-xl border border-gray-200 bg-gray-50 p-8 flex flex-col">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 0 1 0 3.75H5.625a1.875 1.875 0 0 1 0-3.75Z" />
                     </svg>
@@ -45,7 +45,7 @@
                         If logged-in, you'll be shown your active bans in addition to the main list.
                     </div>
 
-                    <div class="flex-grow"></div>
+                    <div class="grow"></div>
 
                     <x-button class="mt-9" href="{{ route('front.appeal.search') }}">
                         Proceed
@@ -59,7 +59,7 @@
                     or
                 </div>
 
-                <div class="flex-grow md:w-0 rounded-xl border border-gray-200 bg-gray-50 p-8 flex flex-col">
+                <div class="grow md:w-0 rounded-xl border border-gray-200 bg-gray-50 p-8 flex flex-col">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
                     </svg>
@@ -70,7 +70,7 @@
                         No login required, but all details will need to be filled-in manually.
                     </div>
 
-                    <div class="flex-grow"></div>
+                    <div class="grow"></div>
 
                     <x-button class="mt-9" href="{{ route('front.appeal.form') }}">
                         Proceed

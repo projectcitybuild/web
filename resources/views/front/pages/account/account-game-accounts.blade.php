@@ -12,7 +12,7 @@
             md:flex-row md:mx-auto md:mt-8
         "
     >
-        <div class="rounded-lg bg-white flex-grow p-6 m-2">
+        <div class="rounded-lg bg-white grow p-6 m-2">
             <section class="mb-6">
                 <h1 class="text-2xl font-bold mb-3">Minecraft Account</h1>
                 <p>The Minecraft account linked to this account. By linking, you will automatically receive your rank in-game.</p>
@@ -30,7 +30,7 @@
                     <div class="rounded-md bg-gray-100 p-6 flex flex-row gap-4 content-between items-center flex-wrap">
                         <img src="https://minotar.net/avatar/{{ $mcAccount->uuid }}/64" class="rounded-md" alt="">
 
-                        <div class="flex-grow">
+                        <div class="grow">
                             <div class="text-xl font-bold">
                                 @if($mcAccount->alias === null)
                                     <em>No known name</em>

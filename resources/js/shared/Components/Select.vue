@@ -44,7 +44,7 @@ const describedBy = computed(() => {
 
 const controlClasses = computed(() => [
     'block min-h-10 w-full rounded-[var(--radius-md)] border border-border-strong bg-surface px-3 py-2 text-sm text-foreground',
-    'focus-visible:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus',
+    'focus-visible:border-primary focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus',
     'disabled:cursor-not-allowed disabled:border-disabled disabled:bg-disabled disabled:text-disabled-foreground',
     props.error ? 'border-danger focus-visible:border-danger focus-visible:ring-danger' : '',
 ])

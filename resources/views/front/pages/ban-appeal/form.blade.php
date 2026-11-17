@@ -42,7 +42,7 @@
                     <div class="rounded-lg border border-gray-200 mt-3 bg-gray-50 py-3 px-4 flex flex-row items-center gap-6 overflow-x-auto mb-12">
                         <img src="https://minotar.net/avatar/{{ $ban->bannedPlayer->uuid }}/32" class="rounded-md w-12 h-12">
 
-                        <div class="mt-1 flex flex-col gap-1 flex-grow">
+                        <div class="mt-1 flex flex-col gap-1 grow">
                             <strong class="text-2xl">{{ $ban->bannedPlayer->alias }}</strong>
                             <span class="text-gray-500 text-xs">UUID: {{ $ban->bannedPlayer->uuid }}</span>
                             <span class="text-sm">{{ $ban->created_at->format('jS \of M, Y - h:i A') }}</span>
@@ -55,7 +55,7 @@
                 <h2 class="text-xl">Ban Details</h2>
 
                 <div class="flex flex-col md:flex-row gap-3 justify-between">
-                    <div class="flex flex-col flex-grow md:w-0">
+                    <div class="flex flex-col grow md:w-0">
                         <label for="minecraft_uuid" class="text-md font-bold mt-6">
                             Minecraft UUID
                         </label>
@@ -78,7 +78,7 @@
                         </p>
                     </div>
 
-                    <div class="flex flex-col flex-grow md:w-0">
+                    <div class="flex flex-col grow md:w-0">
                         <label for="date_of_ban" class="text-md font-bold mt-6">
                             Date of Ban
                         </label>

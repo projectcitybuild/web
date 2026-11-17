@@ -35,7 +35,7 @@ watch(activeChild, active => {
     <li>
         <button
             type="button"
-            class="flex min-h-9 w-full items-center gap-2.5 rounded-md px-2.5 text-left text-xs tracking-wide text-muted transition-colors hover:bg-surface-hover hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+            class="flex min-h-9 w-full items-center gap-2.5 rounded-md px-2.5 text-left text-xs tracking-wide text-muted transition-colors hover:bg-surface-hover hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus"
             :aria-expanded="expanded"
             @click="expanded = !expanded"
         >

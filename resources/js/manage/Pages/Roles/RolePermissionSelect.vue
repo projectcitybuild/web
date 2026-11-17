@@ -170,7 +170,7 @@ function deselectAll(): void {
                                             :value="permission.id"
                                             :id="`permission-${permission.id}`"
                                             type="checkbox"
-                                            class="size-4 rounded border-border-strong accent-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+                                            class="size-4 rounded border-border-strong accent-primary focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus"
                                         >
                                     </TableCell>
                                     <TableCell>

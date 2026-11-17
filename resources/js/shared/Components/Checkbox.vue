@@ -42,7 +42,7 @@ const describedBy = computed(() => {
 })
 
 const controlClasses = computed(() => [
-    'mt-0.5 size-4 shrink-0 rounded border-border-strong accent-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus disabled:cursor-not-allowed disabled:opacity-60',
+    'mt-0.5 size-4 shrink-0 rounded border-border-strong accent-primary focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus disabled:cursor-not-allowed disabled:opacity-60',
     props.error ? 'border-danger accent-danger focus-visible:ring-danger' : '',
 ])
 

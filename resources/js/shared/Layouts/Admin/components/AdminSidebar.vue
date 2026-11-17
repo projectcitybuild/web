@@ -45,7 +45,7 @@ defineExpose({ focusFirst })
     >
         <button
             type="button"
-            class="absolute right-3 top-3 inline-flex size-10 items-center justify-center rounded-md text-muted hover:bg-surface-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus md:hidden"
+            class="absolute right-3 top-3 inline-flex size-10 items-center justify-center rounded-md text-muted hover:bg-surface-hover focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus md:hidden"
             aria-label="Close navigation menu"
             @click.stop="$emit('close')"
         >
@@ -66,7 +66,7 @@ defineExpose({ focusFirst })
                             :href="area.href"
                             :aria-current="currentArea === area.id ? 'page' : undefined"
                             :class="[
-                                'flex min-h-10 items-center justify-between rounded-md px-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus',
+                                'flex min-h-10 items-center justify-between rounded-md px-3 text-sm font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus',
                                 currentArea === area.id ? 'bg-primary-soft text-foreground' : 'text-muted hover:bg-surface-hover hover:text-foreground',
                             ]"
                         >

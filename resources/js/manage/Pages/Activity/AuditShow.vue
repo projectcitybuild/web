@@ -83,7 +83,7 @@ defineProps<Props>()
                                 <Link
                                     v-if="audit.subject.href"
                                     :href="audit.subject.href"
-                                    class="underline decoration-border underline-offset-4 hover:text-primary-active focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+                                    class="underline decoration-border underline-offset-4 hover:text-primary-active focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus"
                                 >
                                     {{ audit.subject.text }}
                                 </Link>

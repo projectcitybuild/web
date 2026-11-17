@@ -32,7 +32,7 @@
     <title>@yield('title', 'Project City Build')</title>
 
     @vite([
-        'resources/sass/front.scss',
+        'resources/css/front.css',
         'resources/js/front/front.ts',
     ])
 
@@ -45,8 +45,6 @@
 </div>
 
 @stack('end')
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
 
 </body>
 </html>

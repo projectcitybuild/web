@@ -33,7 +33,7 @@ jobs:
         with:
           path: |
             resources/js
-            resources/sass
+            resources/css
             public
 
       - name: Restore front-end asset cache
@@ -42,7 +42,7 @@ jobs:
         with:
           path: |
             resources/js
-            resources/sass
+            resources/css
             public
           key: ${{ runner.os }}-assets-v1-${{ steps.get-assets-cache.outputs.hash }}-${{ hashFiles('package-lock.json') }}
 

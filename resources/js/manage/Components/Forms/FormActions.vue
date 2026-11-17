@@ -33,7 +33,7 @@ defineEmits<{
             <Link
                 v-if="cancelHref"
                 :href="cancelHref"
-                class="inline-flex min-h-11 items-center justify-center rounded-md px-4 text-sm font-medium text-muted hover:bg-surface-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+                class="inline-flex min-h-11 items-center justify-center rounded-md px-4 text-sm font-medium text-muted hover:bg-surface-hover focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus"
             >
                 {{ cancelLabel }}
             </Link>

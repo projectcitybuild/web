@@ -80,7 +80,7 @@ function confirmDecision() {
                         name="decision"
                         v-model="decision"
                         :value="Decision.approve"
-                        class="size-4 accent-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+                        class="size-4 accent-primary focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus"
                     />
                     Approve
                 </label>
@@ -91,7 +91,7 @@ function confirmDecision() {
                         name="decision"
                         v-model="decision"
                         :value="Decision.deny"
-                        class="size-4 accent-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+                        class="size-4 accent-primary focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus"
                     />
                     Deny
                 </label>

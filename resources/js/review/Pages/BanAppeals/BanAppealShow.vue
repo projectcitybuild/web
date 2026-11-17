@@ -299,7 +299,7 @@ function confirmDecision() {
                                         :value="BanAppealStatus.denied"
                                         id="decision_denied"
                                         type="radio"
-                                        class="size-4 accent-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+                                        class="size-4 accent-primary focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus"
                                     >
                                     <label for="decision_denied" class="ms-2 text-sm font-medium text-foreground">
                                         Keep banned
@@ -311,7 +311,7 @@ function confirmDecision() {
                                         :value="BanAppealStatus.unbanned"
                                         id="decision_unban"
                                         type="radio"
-                                        class="size-4 accent-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+                                        class="size-4 accent-primary focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus"
                                     >
                                     <label for="decision_unban" class="ms-2 text-sm font-medium text-foreground">
                                         Unban

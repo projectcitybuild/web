@@ -178,7 +178,7 @@ onBeforeUnmount(() => {
             :aria-controls="menuId"
             :title="props.collapsed ? accountName : undefined"
             :class="[
-                'group flex items-center rounded-md text-left text-foreground transition-colors hover:bg-surface-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus',
+                'group flex items-center rounded-md text-left text-foreground transition-colors hover:bg-surface-hover focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus',
                 props.collapsed ? 'relative size-10 justify-center' : 'min-h-11 w-full gap-3 px-2 py-1.5',
             ]"
             @click="toggleMenu"
@@ -214,7 +214,7 @@ onBeforeUnmount(() => {
 
             <span
                 v-if="props.collapsed"
-                class="absolute bottom-0 right-0 flex size-4 items-center justify-center rounded-full bg-surface text-muted shadow-sm"
+                class="absolute bottom-0 right-0 flex size-4 items-center justify-center rounded-full bg-surface text-muted shadow-xs"
                 aria-hidden="true"
             >
                 <SvgIcon :svg="Icons.moreHorizontal" class="size-3" />
@@ -246,7 +246,7 @@ onBeforeUnmount(() => {
                     href="/"
                     role="menuitem"
                     tabindex="-1"
-                    class="flex min-h-10 items-center px-3 text-sm text-muted transition-colors hover:bg-surface-hover hover:text-foreground focus-visible:bg-surface-hover focus-visible:outline-none"
+                    class="flex min-h-10 items-center px-3 text-sm text-muted transition-colors hover:bg-surface-hover hover:text-foreground focus-visible:bg-surface-hover focus-visible:outline-hidden"
                     @click="closeMenu()"
                 >
                     Back to main website
@@ -255,7 +255,7 @@ onBeforeUnmount(() => {
                     href="/account/settings"
                     role="menuitem"
                     tabindex="-1"
-                    class="flex min-h-10 items-center px-3 text-sm text-muted transition-colors hover:bg-surface-hover hover:text-foreground focus-visible:bg-surface-hover focus-visible:outline-none"
+                    class="flex min-h-10 items-center px-3 text-sm text-muted transition-colors hover:bg-surface-hover hover:text-foreground focus-visible:bg-surface-hover focus-visible:outline-hidden"
                     @click="closeMenu()"
                 >
                     Settings
