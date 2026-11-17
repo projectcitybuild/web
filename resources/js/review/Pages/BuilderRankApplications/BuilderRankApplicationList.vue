@@ -3,9 +3,8 @@ import { Deferred, Head } from '@inertiajs/vue3'
 import { Paginated } from '../../../manage/Data/Paginated'
 import InfinitePagination from '../../../manage/Components/InfinitePagination.vue'
 import SuccessAlert from '../../../manage/Components/SuccessAlert.vue'
-import Card from '../../../shared/Components/Card.vue'
 import type { BuilderRankApplication } from '../../../manage/Data/BuilderRankApplication'
-import BuilderRankApplicationListTable from './Partials/BuilderRankApplicationListTable.vue'
+import BuilderRankApplicationListItems from './Partials/BuilderRankApplicationListItems.vue'
 import SpinnerRow from '../../../manage/Components/SpinnerRow.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 
@@ -20,12 +19,14 @@ defineProps<Props>()
     <Head title="Builder Rank Applications" />
 
     <div class="space-y-4">
-        <PageHeader title="Builder Rank Applications" />
+        <PageHeader
+            title="Builder Rank Applications"
+            description="Review builder applications and the applicant's submitted work."
+        />
 
-        <section>
-            <SuccessAlert v-if="success" :message="success" class="mb-4"/>
+        <SuccessAlert v-if="success" :message="success" />
 
-            <Card padding="none">
+        <section aria-label="Builder application review queue">
                 <Deferred data="applications">
                     <template #fallback>
                         <SpinnerRow />
@@ -35,10 +36,9 @@ defineProps<Props>()
                         :initial="applications"
                         v-slot="source"
                     >
-                        <BuilderRankApplicationListTable :applications="source.data"/>
+                        <BuilderRankApplicationListItems :applications="source.data"/>
                     </InfinitePagination>
                 </Deferred>
-            </Card>
         </section>
     </div>
 </template>

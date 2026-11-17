@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { Deferred, Head } from '@inertiajs/vue3'
 import { Paginated } from '../../../manage/Data/Paginated'
-import BanAppealListTable from './Partials/BanAppealListTable.vue'
+import BanAppealListItems from './Partials/BanAppealListItems.vue'
 import InfinitePagination from '../../../manage/Components/InfinitePagination.vue'
 import SuccessAlert from '../../../manage/Components/SuccessAlert.vue'
-import Card from '../../../shared/Components/Card.vue'
 import { BanAppeal } from '../../../manage/Data/BanAppeal'
 import SpinnerRow from '../../../manage/Components/SpinnerRow.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
@@ -19,12 +18,15 @@ defineProps<Props>()
 <template>
     <Head title="Ban Appeals" />
 
-    <PageHeader title="Ban Appeals" class="mb-4" />
+    <div class="space-y-4">
+        <PageHeader
+            title="Ban Appeals"
+            description="Review player requests and follow up on their ban."
+        />
 
-    <section>
-        <SuccessAlert v-if="success" :message="success" class="mb-4"/>
+        <SuccessAlert v-if="success" :message="success" />
 
-        <Card padding="none">
+        <section aria-label="Ban appeal review queue">
             <Deferred data="banAppeals">
                 <template #fallback>
                     <SpinnerRow />
@@ -34,9 +36,9 @@ defineProps<Props>()
                     :initial="banAppeals"
                     v-slot="source"
                 >
-                    <BanAppealListTable :banAppeals="source.data"/>
+                    <BanAppealListItems :banAppeals="source.data"/>
                 </InfinitePagination>
             </Deferred>
-        </Card>
-    </section>
+        </section>
+    </div>
 </template>

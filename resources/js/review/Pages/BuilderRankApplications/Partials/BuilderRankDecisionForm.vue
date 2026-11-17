@@ -65,9 +65,10 @@ function confirmDecision() {
 
 <template>
     <div>
-        <Card padding="none">
+        <Card padding="none" class="overflow-hidden rounded-xl border border-border bg-surface">
             <div class="p-4">
-                <h2 class="text-base font-semibold">Council Decision</h2>
+                <h2 class="text-base font-semibold">Review panel</h2>
+                <p class="mt-1 text-sm text-muted">Choose an outcome for this application.</p>
             </div>
 
             <fieldset class="flex flex-col gap-2 border-t border-border p-4">

@@ -14,7 +14,7 @@ defineProps<Props>()
         <Card
             padding="none"
             v-if="application.status === BuilderRankApplicationStatus.denied"
-            class="border-red-500"
+            class="overflow-hidden rounded-xl border border-danger bg-surface"
         >
             <div class="rounded-t-md bg-red-500 p-4">
                 <h2 class="text-base font-semibold text-white">Decision: Denied</h2>
@@ -37,7 +37,7 @@ defineProps<Props>()
         <Card
             padding="none"
             v-if="application.status === BuilderRankApplicationStatus.approved"
-            class="border-green-500"
+            class="overflow-hidden rounded-xl border border-success bg-surface"
         >
             <div class="rounded-t-md bg-green-500 p-4">
                 <h2 class="text-base font-semibold text-white">Decision: Approved</h2>

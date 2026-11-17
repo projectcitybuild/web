@@ -18,11 +18,13 @@ export interface AdminBreadcrumb {
     current?: boolean
 }
 
-export function isAdminPathActive(currentUrl: string, href: string): boolean {
+export function isAdminPathActive(currentUrl: string, href: string, exact = false): boolean {
     const currentPath = currentUrl.split(/[?#]/, 1)[0].replace(/\/$/, '') || '/'
     const targetPath = href.replace(/\/$/, '') || '/'
 
-    return currentPath === targetPath || currentPath.startsWith(`${targetPath}/`)
+    return exact
+        ? currentPath === targetPath
+        : currentPath === targetPath || currentPath.startsWith(`${targetPath}/`)
 }
 
 function normalizePath(path: string): string {

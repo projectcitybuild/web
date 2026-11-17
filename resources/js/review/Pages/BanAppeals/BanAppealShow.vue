@@ -98,19 +98,24 @@ function confirmDecision() {
 
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
-        <PageHeader :title="`Ban Appeal #${banAppeal.id}`" class="mb-4">
+        <PageHeader
+            :title="`Ban Appeal #${banAppeal.id}`"
+            description="Review the player's request and the context for their ban."
+            class="mb-4"
+        >
             <template #actions>
                 <Badge :variant="status.variant">{{ status.label }}</Badge>
                 <span class="inline-flex items-center gap-2 text-sm text-muted">
                     <SvgIcon :svg="Icons.clock" class="size-5" />
-                    Waiting Time: <strong class="text-foreground">{{ waitingTime }}</strong>
+                    {{ hasDecision ? 'Resolved in' : 'Open for' }}
+                    <strong class="text-foreground">{{ waitingTime }}</strong>
                 </span>
             </template>
         </PageHeader>
 
-        <div class="mt-4 flex flex-col lg:grid lg:grid-cols-2 gap-4">
-            <section>
-                <Card padding="none">
+        <div class="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
+            <section aria-label="Requester and ban details" class="space-y-4">
+                <Card padding="none" class="overflow-hidden rounded-xl border border-border bg-surface">
                     <div class="p-4">
                         <h2 class="text-base font-semibold">Appealer</h2>
                     </div>
@@ -144,7 +149,11 @@ function confirmDecision() {
                     </div>
                 </Card>
 
-                <Card padding="none" class="mt-4" v-if="banAppeal.game_player_ban">
+                <Card
+                    v-if="banAppeal.game_player_ban"
+                    padding="none"
+                    class="overflow-hidden rounded-xl border border-border bg-surface"
+                >
                     <div class="flex items-center justify-between gap-2 border-b border-border p-4">
                         <h2 class="text-base font-semibold">Player Ban</h2>
 
@@ -213,26 +222,47 @@ function confirmDecision() {
                 </Card>
             </section>
 
-            <section>
-                <Card padding="none">
+            <section aria-label="Appeal review" class="space-y-4">
+                <Card
+                    v-if="!hasDecision"
+                    padding="none"
+                    class="rounded-xl border border-warning bg-warning-soft p-4"
+                >
+                    <h2 class="mb-2 flex items-center gap-2 text-base font-semibold text-warning">
+                        <SvgIcon :svg="Icons.hourglass" class="size-6" aria-hidden="true" />
+                        Awaiting Decision
+                    </h2>
+                    <p class="text-sm leading-6 text-foreground">
+                        Review the player's request and ban details, then record your decision in the review panel.
+                    </p>
+                </Card>
+
+                <Card padding="none" class="overflow-hidden rounded-xl border border-border bg-surface">
                     <div class="border-b border-border p-4">
-                        <h2 class="text-base font-semibold">Ban Appeal</h2>
+                        <h2 class="text-base font-semibold">Appeal request</h2>
+                        <p class="mt-1 text-xs text-muted">Submitted {{ format(banAppeal.created_at) }}</p>
                     </div>
 
-                    <div class="p-4">
+                    <div class="space-y-4 p-4">
                         <div>
                             <h3 class="text-sm font-semibold text-muted">Date of Ban</h3>
-                            <span class="text-sm leading-6 text-foreground">{{ banAppeal.date_of_ban }}</span>
+                            <div class="mt-2 rounded-lg border border-border bg-surface-muted p-3 text-sm leading-6 text-foreground">
+                                {{ banAppeal.date_of_ban }}
+                            </div>
                         </div>
 
-                        <div class="mt-4">
+                        <div>
                             <h3 class="text-sm font-semibold text-muted">Ban Reason</h3>
-                            <span class="text-sm leading-6 text-foreground">{{ banAppeal.ban_reason }}</span>
+                            <div class="mt-2 rounded-lg border border-border bg-surface-muted p-3 text-sm leading-6 text-foreground">
+                                {{ banAppeal.ban_reason }}
+                            </div>
                         </div>
 
-                        <div class="mt-4">
-                            <h3 class="text-sm font-semibold text-muted">Why should you be unbaned?</h3>
-                            <span class="text-sm leading-6 text-foreground">{{ banAppeal.unban_reason }}</span>
+                        <div>
+                            <h3 class="text-sm font-semibold text-muted">Why should this ban be lifted?</h3>
+                            <div class="mt-2 rounded-lg border border-border bg-surface-muted p-4 text-sm leading-6 text-foreground">
+                                {{ banAppeal.unban_reason }}
+                            </div>
                         </div>
                     </div>
 
@@ -248,9 +278,14 @@ function confirmDecision() {
                     </div>
                 </Card>
 
-                <Card padding="none" class="mt-4" v-if="!hasDecision">
+                <Card
+                    v-if="!hasDecision"
+                    padding="none"
+                    class="overflow-hidden rounded-xl border border-border bg-surface"
+                >
                     <div class="border-b border-border p-4">
                         <h2 class="text-base font-semibold">Decision</h2>
+                        <p class="mt-1 text-sm text-muted">Record the outcome and the message the player will receive.</p>
                     </div>
 
                     <form @submit.prevent="requestConfirmation" class="p-4">
@@ -307,10 +342,14 @@ function confirmDecision() {
                     </form>
                 </Card>
 
-                <Card v-else padding="none" class="mt-4">
+                <Card
+                    v-else
+                    padding="none"
+                    class="overflow-hidden rounded-xl border border-border bg-surface"
+                >
                     <div class="border-b border-border p-4">
                         <h2 class="flex items-center gap-2 text-base font-semibold">
-                            Decision
+                            Review outcome
                             <Badge :variant="status.variant">{{ status.label }}</Badge>
                         </h2>
                     </div>

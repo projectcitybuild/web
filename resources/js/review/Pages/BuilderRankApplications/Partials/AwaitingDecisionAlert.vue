@@ -5,15 +5,14 @@ import { Icons } from '../../../../manage/Icons'
 </script>
 
 <template>
-    <Card padding="none" class="border border-red-500 p-4">
-        <h2 class="mb-3 flex items-center gap-2 text-base font-semibold text-danger">
+    <Card padding="none" class="rounded-xl border border-warning bg-warning-soft p-4">
+        <h2 class="mb-2 flex items-center gap-2 text-base font-semibold text-warning">
             <SvgIcon :svg="Icons.hourglass" class="size-6" aria-hidden="true" />
-            Awaiting Decision
+            Review in progress
         </h2>
 
-        <span class="text-sm leading-6">
-            <strong>Please discuss the submission in Discord.</strong><br />
-            Once a decision has been reached, click the approve or deny button below to finish review of this application.
-        </span>
+        <p class="text-sm leading-6 text-foreground">
+            Discuss the submission with the council, then record the final decision in the review panel.
+        </p>
     </Card>
 </template>

@@ -55,19 +55,24 @@ const alts = computed(() => props.application.account?.minecraft_account?.slice(
 
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
-        <PageHeader :title="`Builder Application #${application.id}`" class="mb-4">
+        <PageHeader
+            :title="`Builder Application #${application.id}`"
+            description="Review the applicant's builder-rank request and submitted build."
+            class="mb-4"
+        >
             <template #actions>
                 <Badge :variant="status.variant">{{ status.label }}</Badge>
                 <span class="inline-flex items-center gap-2 text-sm text-muted">
                     <SvgIcon :svg="Icons.clock" class="size-5" />
-                    Waiting Time: <strong class="text-foreground">{{ waitingTime }}</strong>
+                    {{ hasDecision ? 'Resolved in' : 'Open for' }}
+                    <strong class="text-foreground">{{ waitingTime }}</strong>
                 </span>
             </template>
         </PageHeader>
 
-        <div class="mt-4 flex flex-col lg:flex-row gap-4">
-            <section class="lg:min-w-[260px]">
-                <Card padding="none">
+        <div class="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-[minmax(16rem,0.8fr)_minmax(0,1.8fr)]">
+            <section aria-label="Applicant details">
+                <Card padding="none" class="overflow-hidden rounded-xl border border-border bg-surface">
                     <template v-if="player">
                         <div class="p-4">
                             <h2 class="text-base font-semibold">Player</h2>
@@ -149,13 +154,16 @@ const alts = computed(() => props.application.account?.minecraft_account?.slice(
                 </Card>
             </section>
 
-            <section>
+            <section aria-label="Application review" class="min-w-0">
                 <AwaitingDecisionAlert
                     v-if="!hasDecision"
                     class="mb-4"
                 />
 
-                <Card padding="none" class="mb-4">
+                <Card
+                    padding="none"
+                    class="mb-4 overflow-hidden rounded-xl border border-border bg-surface"
+                >
                     <div class="border-b border-border p-4">
                         <h2 class="text-base font-semibold">Application</h2>
                     </div>
