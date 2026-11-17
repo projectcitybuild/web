@@ -25,8 +25,7 @@ function countFor(item: typeof sidebarMenu[number]): number {
             <h2 class="text-lg font-semibold leading-7 text-foreground">Review Center</h2>
             <p class="mt-1 text-xs leading-5 text-muted">Moderation and submissions</p>
         </div>
-        <p class="mb-3 mt-8 px-2.5 text-xs font-semibold tracking-[0.12em] text-subtle">WORKSPACE</p>
-        <ul class="space-y-2">
+        <ul class="mt-8 space-y-2">
             <li v-for="item in visibleMenu" :key="item.route">
                 <AdminNavLink
                     :href="item.route"

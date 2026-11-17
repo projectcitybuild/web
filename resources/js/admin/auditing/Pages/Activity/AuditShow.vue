@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3'
-import { format } from '../../Utilities/DateFormatter'
-import Badge from '../../Components/Badge.vue'
-import Card from '../../Components/Card.vue'
+import { format } from '../../../manage/Utilities/DateFormatter'
+import Badge from '../../../manage/Components/Badge.vue'
+import Card from '../../../manage/Components/Card.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 import AuditChange from './Partials/AuditChange.vue'

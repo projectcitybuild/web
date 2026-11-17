@@ -6,6 +6,8 @@ import ManageSideBar from '../../../manage/Layouts/Root/Partials/SideBar.vue'
 import { sidebarMenu as manageNavigation } from '../../../manage/Navigation/Sidebar'
 import ReviewSideBar from '../../../review/Layouts/Root/Partials/SideBar.vue'
 import { sidebarMenu as reviewNavigation } from '../../../review/Navigation/Sidebar'
+import AuditingSideBar from '../../../auditing/Layouts/Root/Partials/SideBar.vue'
+import { sidebarMenu as auditingNavigation } from '../../../auditing/Navigation/Sidebar'
 import { usePage } from '@inertiajs/vue3'
 
 const page = usePage()
@@ -26,6 +28,10 @@ const navigation = computed<AdminNavigationEntry[]>(() => {
         return reviewNavigation
     }
 
+    if (currentArea.value === 'auditing') {
+        return auditingNavigation
+    }
+
     return []
 })
 </script>
@@ -35,6 +41,7 @@ const navigation = computed<AdminNavigationEntry[]>(() => {
         <template #side-bar>
             <ManageSideBar v-if="currentArea === 'manage'" />
             <ReviewSideBar v-else-if="currentArea === 'review'" />
+            <AuditingSideBar v-else-if="currentArea === 'auditing'" />
         </template>
 
         <slot />

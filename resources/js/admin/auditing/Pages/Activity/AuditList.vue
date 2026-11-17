@@ -2,9 +2,9 @@
 import { Head, Link, router } from '@inertiajs/vue3'
 import { computed, reactive, watch } from 'vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
-import ShowingCount from '../../Components/ShowingCount.vue'
-import ListPage from '../../Components/ListPage.vue'
-import OutlinedButton from '../../Components/OutlinedButton.vue'
+import ShowingCount from '../../../manage/Components/ShowingCount.vue'
+import ListPage from '../../../manage/Components/ListPage.vue'
+import OutlinedButton from '../../../manage/Components/OutlinedButton.vue'
 import AuditListTable from './Partials/AuditListTable.vue'
 
 interface AuditRecord {

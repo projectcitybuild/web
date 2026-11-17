@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Manage\Activity;
+namespace App\Http\Controllers\Auditing;
 
 use App\Core\Domains\Auditing\Changes\ArrayChange;
 use App\Core\Domains\Auditing\Changes\ArrayDiff\WrappedArrayEntry;
@@ -54,7 +54,7 @@ class ActivityController extends WebController
                     'event' => $audit->event,
                     'subject' => $subjectType.($audit->auditable_id !== null ? ' #'.$audit->auditable_id : ''),
                     'createdAt' => $audit->created_at->toIso8601String(),
-                    'showUrl' => route('manage.activity.audit.show', $audit),
+                    'showUrl' => route('auditing.activity.audit.show', $audit),
                 ];
             });
         $allAuditableTypes = Audit::query()
@@ -81,7 +81,7 @@ class ActivityController extends WebController
                 'auditable_type' => $activeAuditFilters['auditable_type'] ?? '',
                 'audit_event' => $activeAuditFilters['audit_event'] ?? '',
             ],
-            'indexUrl' => route('manage.activity.index'),
+            'indexUrl' => route('auditing.index'),
         ]);
     }
 
@@ -130,7 +130,7 @@ class ActivityController extends WebController
                 'createdAt' => $audit->created_at->toIso8601String(),
                 'changes' => $changes,
             ],
-            'indexUrl' => route('manage.activity.index'),
+            'indexUrl' => route('auditing.index'),
         ]);
     }
 

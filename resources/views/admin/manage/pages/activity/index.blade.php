@@ -36,7 +36,7 @@
                 @endif
             </td>
             <td>
-                <a href="{{ route('manage.activity.audit.show', $audit) }}">Show</a>
+                <a href="{{ route('auditing.activity.audit.show', $audit) }}">Show</a>
             </td>
         </tr>
     @endforeach

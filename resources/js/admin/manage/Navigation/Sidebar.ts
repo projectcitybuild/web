@@ -130,14 +130,4 @@ export const sidebarMenu: SidebarSection[] = [
         },
     ],
   },
-  {
-    title: 'Auditing',
-    children: [
-        {
-            title: 'Activity',
-            icon: Icons.auditLogs,
-            route: '/manage/activity',
-        },
-    ],
-  },
 ]

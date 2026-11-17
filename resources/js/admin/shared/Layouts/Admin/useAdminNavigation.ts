@@ -4,6 +4,7 @@ import { usePage } from '@inertiajs/vue3'
 export const adminAreas = [
     { id: 'manage', label: 'Manage', href: '/manage' },
     { id: 'review', label: 'Review', href: '/review' },
+    { id: 'auditing', label: 'Audit', href: '/auditing' },
 ] as const
 
 export interface AdminNavigationEntry {

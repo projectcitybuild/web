@@ -77,6 +77,7 @@ return [
 
             resource_path('js/admin/manage/Pages'),
             resource_path('js/admin/review/Pages'),
+            resource_path('js/admin/auditing/Pages'),
 
         ],
 

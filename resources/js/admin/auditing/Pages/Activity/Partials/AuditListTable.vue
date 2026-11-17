@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
-import Badge from '../../../Components/Badge.vue'
-import DataTable from '../../../Components/DataTable.vue'
+import Badge from '../../../../manage/Components/Badge.vue'
+import DataTable from '../../../../manage/Components/DataTable.vue'
 import LinkButton from '../../../../shared/Components/LinkButton.vue'
-import { format, timeAgo } from '../../../Utilities/DateFormatter'
+import { format, timeAgo } from '../../../../manage/Utilities/DateFormatter'
 
 interface AuditRecord {
     id: number,

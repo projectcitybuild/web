@@ -18,7 +18,7 @@ const filteredMenu = computed(() =>
 <template>
     <ul class="mt-4 space-y-1.5">
         <li>
-            <AdminNavLink href="/manage" label="Dashboard" exact>
+            <AdminNavLink href="/manage" label="Overview" exact>
                 <template #icon>
                     <SvgIcon :svg="Icons.dashboard" class="size-5" aria-hidden="true" />
                 </template>

@@ -9,12 +9,12 @@ beforeEach(function () {
     config(['audit.console' => true]);
 });
 
-it('renders audit records in the manage application', function () {
+it('renders audit records in the auditing application', function () {
     $this->actingAs($this->adminAccount());
     $server = Server::factory()->create(['name' => 'Audited Server']);
     $audit = $server->audits()->where('event', 'created')->firstOrFail();
 
-    $this->get(route('manage.activity.index', [
+    $this->get(route('auditing.index', [
         'auditable_type' => $audit->auditable_type,
         'audit_event' => 'created',
     ]))
@@ -26,7 +26,7 @@ it('renders audit records in the manage application', function () {
             ->where('audits.data.0.id', $audit->id)
             ->where('audits.data.0.action', 'Server created')
             ->where('audits.data.0.subject', 'Server #'.$server->id)
-            ->where('audits.data.0.showUrl', route('manage.activity.audit.show', $audit))
+            ->where('audits.data.0.showUrl', route('auditing.activity.audit.show', $audit))
         );
 });
 
@@ -35,7 +35,7 @@ it('shows audit changes to administrators', function () {
     $server = Server::factory()->create(['name' => 'Audited Server']);
     $audit = $server->audits()->where('event', 'created')->firstOrFail();
 
-    $this->get(route('manage.activity.audit.show', $audit))
+    $this->get(route('auditing.activity.audit.show', $audit))
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
             ->component('Activity/AuditShow')
@@ -47,7 +47,7 @@ it('shows audit changes to administrators', function () {
         );
 });
 
-it('forbids non-admins from viewing audit records', function () {
+it('forbids non-admins from accessing the auditing area', function () {
     $audit = Audit::create([
         'event' => 'created',
         'auditable_type' => Server::class,
@@ -57,17 +57,27 @@ it('forbids non-admins from viewing audit records', function () {
     ]);
 
     $this->actingAs(Account::factory()->create())
-        ->get(route('manage.activity.audit.show', $audit))
+        ->get(route('auditing.index'))
+        ->assertForbidden();
+
+    $this->actingAs(Account::factory()->create())
+        ->get(route('auditing.activity.audit.show', $audit))
         ->assertForbidden();
 });
 
-it('includes new audit records in recent manage activity', function () {
+it('includes recent audit records in the management overview', function () {
     $this->actingAs($this->adminAccount());
-    Server::factory()->create(['name' => 'Recent Audited Server']);
+    $server = Server::factory()->create(['name' => 'Recent Audited Server']);
+    $audit = $server->audits()->where('event', 'created')->firstOrFail();
 
     $this->get(route('manage.index'))
         ->assertInertia(fn (Assert $page) => $page
             ->component('Home')
-            ->where('recentActivities', fn ($activities) => $activities->contains('action', 'Server created'))
+            ->where('recentActivities', fn ($activities) => $activities->contains(fn ($activity) => $activity['id'] === 'audit-'.$audit->id
+                && $activity['action'] === 'Server created'
+                && $activity['event'] === 'created'
+                && $activity['subject'] === 'Server #'.$server->id
+                && $activity['createdAt'] === $audit->created_at->toIso8601String()))
+            ->where('activityUrl', route('auditing.index'))
         );
 });

@@ -3,7 +3,6 @@ import {
     IconAlertCircle,
     IconAlertTriangle,
     IconArrowLeft,
-    IconAward,
     IconBan,
     IconCash,
     IconCheck,
@@ -17,6 +16,7 @@ import {
     IconDeviceDesktop,
     IconDots,
     IconEye,
+    IconEyeSearch,
     IconFilter,
     IconGavel,
     IconGridDots,
@@ -50,6 +50,7 @@ import {
     IconUsers,
     IconUserX,
     IconX,
+    IconMedal,
 } from '@tabler/icons-vue'
 
 export const Icons = {
@@ -74,7 +75,7 @@ export const Icons = {
     clock: IconClock,
     eye: IconEye,
     users: IconUsers,
-    badges: IconAward,
+    badges: IconMedal,
     roles: IconUser,
     permissions: IconUserCheck,
     ban: IconBan,
@@ -91,6 +92,7 @@ export const Icons = {
     cash: IconCash,
     dashboard: IconLayoutDashboard,
     auditLogs: IconClipboardList,
+    eyeSearch: IconEyeSearch,
     menu: IconMenu2,
     sidebarCollapse: IconLayoutSidebarLeftCollapse,
     chevronRight: IconChevronRight,

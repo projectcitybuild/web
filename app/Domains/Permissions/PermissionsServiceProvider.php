@@ -2,6 +2,7 @@
 
 namespace App\Domains\Permissions;
 
+use App\Models\Account;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -26,6 +27,7 @@ class PermissionsServiceProvider extends ServiceProvider
         );
         Gate::define('access-manage', fn () => Gate::allows('permission', 'web.manage.*'));
         Gate::define('access-review', fn () => Gate::allows('permission', 'web.review.*'));
+        Gate::define('access-auditing', fn (Account $account): bool => $account->isAdmin());
     }
 
     private function registerInertiaProps(PermissionsRepository $permissionsRepository)

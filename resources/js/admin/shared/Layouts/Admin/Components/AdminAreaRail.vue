@@ -37,7 +37,15 @@ const { currentArea } = useAdminNavigation()
                     class="absolute bottom-2 left-0 h-6 w-0.5 rounded-r bg-primary"
                     aria-hidden="true"
                 />
-                <SvgIcon :svg="area.id === 'manage' ? Icons.dashboard : Icons.gavel" class="size-5" aria-hidden="true" />
+                <SvgIcon
+                    :svg="area.id === 'manage'
+                        ? Icons.dashboard
+                        : area.id === 'review'
+                            ? Icons.gavel
+                            : Icons.eyeSearch"
+                    class="size-5"
+                    aria-hidden="true"
+                />
 
                 <span
                     v-if="props.areaBadges[area.id]"

@@ -9,13 +9,14 @@ use App\Models\Account;
 use App\Models\Audit;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Http\Request;
+use Inertia\Response;
 
 class HomeController extends WebController
 {
     use AuthorizesPermissions;
     use RendersAdminApp;
 
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): Response
     {
         $this->requires('web.manage.*');
 
@@ -32,6 +33,9 @@ class HomeController extends WebController
             ->get()
             ->map(function (Audit $audit): array {
                 $user = $audit->user;
+                $subjectType = $audit->auditable
+                    ? class_basename($audit->auditable)
+                    : ucfirst(class_basename($audit->auditable_type ?? 'Unknown item'));
 
                 return [
                     'id' => 'audit-'.$audit->id,
@@ -42,6 +46,9 @@ class HomeController extends WebController
                         ? $user->minecraftAccount->first()?->uuid
                         : null,
                     'action' => $audit->human_action,
+                    'event' => $audit->event,
+                    'subject' => $subjectType.($audit->auditable_id !== null ? ' #'.$audit->auditable_id : ''),
+                    'createdAt' => $audit->created_at?->toIso8601String() ?? '',
                     'when' => $audit->created_at?->shortRelativeDiffForHumans() ?? '',
                 ];
             })
@@ -51,7 +58,7 @@ class HomeController extends WebController
         $props = ['recentActivities' => $recentActivities];
 
         if ($request->user()->isAdmin()) {
-            $props['activityUrl'] = route('manage.activity.index');
+            $props['activityUrl'] = route('auditing.index');
         }
 
         return $this->inertiaRender('Home', $props);

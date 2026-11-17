@@ -11,7 +11,6 @@ use App\Http\Controllers\Manage\Accounts\AccountMfaController;
 use App\Http\Controllers\Manage\Accounts\AccountPlayerController;
 use App\Http\Controllers\Manage\Accounts\AccountResendActivationController;
 use App\Http\Controllers\Manage\Accounts\AccountRoleController;
-use App\Http\Controllers\Manage\Activity\ActivityController;
 use App\Http\Controllers\Manage\Badges\BadgeController;
 use App\Http\Controllers\Manage\Bans\GameIPBanController;
 use App\Http\Controllers\Manage\Bans\GamePlayerBanController;
@@ -155,9 +154,4 @@ Route::name('manage.')
         Route::resource('player-bans', GamePlayerBanController::class)
             ->except(['show']);
 
-        Route::resource('activity', ActivityController::class)
-            ->only(['index']);
-
-        Route::get('activity/audits/{audit}', [ActivityController::class, 'showAudit'])
-            ->name('activity.audit.show');
     });
