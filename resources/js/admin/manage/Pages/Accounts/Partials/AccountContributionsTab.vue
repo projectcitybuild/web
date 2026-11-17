@@ -1,0 +1,30 @@
+<script setup lang="ts">
+import type { Account } from '../../../Data/Account'
+import Card from '../../../Components/Card.vue'
+import usePermissions from '../../../Composables/usePermissions'
+import AccountDonationsTable from './AccountDonationsTable.vue'
+import TabPanel from '../../../Components/TabPanel.vue'
+import LinkButton from '../../../../shared/Components/LinkButton.vue'
+
+interface Props {
+    account: Account,
+    activeTab: string,
+}
+const props = defineProps<Props>()
+
+const { can } = usePermissions()
+</script>
+
+<template>
+    <TabPanel tab-id="contributions" id-prefix="account" :active-tab="props.activeTab" class="mt-4 grid grid-cols-1 gap-4 xl:grid-cols-2">
+        <Card v-if="can('web.manage.donations.view')" padding="none" class="xl:col-span-2">
+            <div class="flex items-center justify-between gap-4 border-b border-border p-4">
+                <h2 class="text-base font-semibold text-foreground">Donations</h2>
+                <LinkButton :href="'/manage/accounts/' + props.account.id + '/badges'" variant="secondary">Create</LinkButton>
+            </div>
+            <div class="overflow-x-auto">
+                <AccountDonationsTable :donations="props.account.donations ?? []" />
+            </div>
+        </Card>
+    </TabPanel>
+</template>

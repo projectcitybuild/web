@@ -9,7 +9,7 @@ type PageModule = {
 }
 
 const pages = import.meta.glob<PageModule>(
-    ['./manage/Pages/**/*.vue', './review/Pages/**/*.vue', './auditing/Pages/**/*.vue']
+    ['./manage/Pages/**/*.vue', './review/Pages/**/*.vue', './audit/Pages/**/*.vue']
 )
 
 createInertiaApp({

@@ -21,17 +21,17 @@ const fields = [
 </script>
 
 <template>
-    <DataTable v-if="players.length > 0" :fields="fields" :rows="players">
+    <DataTable :fields="fields" :rows="players" empty-message="No players linked to this account">
         <template #skin="{ item }">
-            <MinecraftAvatar :uuid="item.uuid" :size="32" />
+            <MinecraftAvatar :uuid="item.uuid" :size="64" />
         </template>
         <template #uuid="{ item }">
-                <Link
-                    :href="'/manage/players/' + item.id"
-                    class="text-primary"
-                >
-                    {{ item.uuid }}
-                </Link>
+            <Link
+                :href="'/manage/players/' + item.id"
+                class="text-primary"
+            >
+                {{ item.uuid }}
+            </Link>
         </template>
         <template #actions="{ item }">
             <FilledButton variant="danger" size="sm" @click="$emit('unlinkTap', item.id)">
@@ -39,7 +39,4 @@ const fields = [
             </FilledButton>
         </template>
     </DataTable>
-    <div v-else class="flex p-4">
-        <span class="text-sm text-subtle">No linked players</span>
-    </div>
 </template>

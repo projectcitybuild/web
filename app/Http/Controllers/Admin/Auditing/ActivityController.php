@@ -57,6 +57,7 @@ class ActivityController extends WebController
                     'showUrl' => route('auditing.activity.audit.show', $audit),
                 ];
             });
+
         $allAuditableTypes = Audit::query()
             ->select('auditable_type')
             ->distinct()
@@ -67,6 +68,7 @@ class ActivityController extends WebController
                 'label' => class_basename($type),
             ])
             ->values();
+
         $allAuditEvents = Audit::query()
             ->select('event')
             ->distinct()
@@ -85,19 +87,21 @@ class ActivityController extends WebController
         ]);
     }
 
-    public function showAudit(Request $request, Audit $audit): Response
+    public function show(Request $request, Audit $audit): Response
     {
         if (! $request->user()->isAdmin()) {
             abort(403);
         }
 
         $audit->load(['auditable', 'user']);
+
         $description = match ($audit->event) {
             'created' => 'Set',
             'deleted' => 'Removed',
             'restored' => 'Restored',
             default => 'Updated',
         };
+
         $changes = $audit->processed_changes
             ->map(function (Change $change, string $attribute) use ($description): array {
                 return [

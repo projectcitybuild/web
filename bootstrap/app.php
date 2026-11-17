@@ -32,10 +32,8 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: [
             __DIR__.'/../routes/web.php',
-            __DIR__.'/../routes/web_manage.php',
+            __DIR__.'/../routes/web_admin.php',
             __DIR__.'/../routes/web_review.php',
-            __DIR__.'/../routes/web_auditing.php',
-            __DIR__.'/../routes/web_redirects.php',
             __DIR__.'/../routes/web_tests.php',
         ],
         api: [

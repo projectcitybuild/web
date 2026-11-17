@@ -20,7 +20,7 @@ const fields = [
 </script>
 
 <template>
-    <DataTable v-if="donations.length > 0" :fields="fields" :rows="donations">
+    <DataTable :fields="fields" :rows="donations" empty-message="No donations">
         <template #created_at="{ item }">
             {{ format(item.created_at) }}
         </template>
@@ -30,7 +30,4 @@ const fields = [
                 </LinkButton>
         </template>
     </DataTable>
-    <div v-else class="flex p-4">
-        <span class="text-sm text-subtle">No donations</span>
-    </div>
 </template>

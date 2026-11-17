@@ -16,9 +16,9 @@ const { currentArea } = useAdminNavigation()
 
 <template>
     <aside class="fixed inset-y-0 left-0 z-40 hidden w-14 flex-col items-center border-r border-border bg-surface-muted md:flex" aria-label="Area navigation">
-        <a href="/" class="flex h-14 w-full items-center justify-center border-b border-border transition-colors hover:bg-surface-hover focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-focus motion-reduce:transition-none" aria-label="Project City Build home">
-            <img :src="logo" alt="" class="size-7 object-contain" />
-        </a>
+        <div class="flex h-14 w-full items-center justify-center border-b border-border transition-colors hover:bg-surface-hover focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-focus motion-reduce:transition-none text-xs" aria-label="Project City Build home">
+            PCB
+        </div>
 
         <nav class="flex w-full flex-col items-center gap-2.5 py-5" aria-label="Administrative areas">
             <Link

@@ -1,27 +1,19 @@
 <script setup lang="ts">
-import { Head, Link, router } from '@inertiajs/vue3'
+import { Head, router, usePage } from '@inertiajs/vue3'
 import Card from '../../Components/Card.vue'
 import { format, timeAgo } from '../../Utilities/DateFormatter'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
-import { Account } from '../../Data/Account'
-import AccountPlayersTable from './Partials/AccountPlayersTable.vue'
+import type { Account } from '../../Data/Account'
 import Pill from '../../Components/Pill.vue'
-import AccountBadgesTable from './Partials/AccountBadgesTable.vue'
-import AccountRolesTable from './Partials/AccountRolesTable.vue'
-import FilledButton from '../../Components/FilledButton.vue'
-import OutlinedButton from '../../Components/OutlinedButton.vue'
-import ConfirmDialog from '../../Components/ConfirmDialog.vue'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
-import AccountActivationsTable from './Partials/AccountActivationsTable.vue'
-import AccountDonationsTable from './Partials/AccountDonationsTable.vue'
-import AccountEmailChangeRequestsTable from './Partials/AccountEmailChangeRequestsTable.vue'
-import AccountBanAppealsTable from './Partials/AccountBanAppealsTable.vue'
-import AccountBuilderRankApplicationsTable from './Partials/AccountBuilderRankApplicationsTable.vue'
 import { Icons } from '../../Icons'
 import usePermissions from '../../Composables/usePermissions'
 import Tabs from '../../Components/Tabs.vue'
-import TabPanel from '../../Components/TabPanel.vue'
+import AccountSecurityTab from './Partials/AccountSecurityTab.vue'
+import AccountLinkedDataTab from './Partials/AccountLinkedDataTab.vue'
+import AccountApplicationsTab from './Partials/AccountApplicationsTab.vue'
+import AccountContributionsTab from './Partials/AccountContributionsTab.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 
@@ -31,20 +23,31 @@ interface Props {
 }
 const props = defineProps<Props>()
 
-const activateModal = ref<InstanceType<typeof ConfirmDialog>>()
-const deactivateModal = ref<InstanceType<typeof ConfirmDialog>>()
-const disableMfaModal = ref<InstanceType<typeof ConfirmDialog>>()
-const unlinkPlayerModal = ref<InstanceType<typeof ConfirmDialog>>()
-const unlinkPlayerId = ref<number|null>(null)
 const tabs = [
     { id: 'linked', label: 'Linked Data' },
     { id: 'security', label: 'Access and Security' },
     { id: 'applications', label: 'Applications' },
     { id: 'contributions', label: 'Contributions' },
 ] as const
-const activeTab = ref('linked')
+const page = usePage()
+const tabFromUrl = new URLSearchParams(page.url.split('?')[1] ?? '').get('tab')
+const activeTab = ref(tabs.find((tab) => tab.id === tabFromUrl)?.id ?? tabs[0].id)
 
 const { can } = usePermissions()
+
+function updateTabUrl(tabId: string): void {
+    const url = new URL(page.url, window.location.origin)
+    url.searchParams.set('tab', tabId)
+
+    router.replace({
+        url: url.pathname + url.search + url.hash,
+        preserveState: true,
+        preserveScroll: true,
+    })
+}
+
+watch(activeTab, updateTabUrl)
+onMounted(() => updateTabUrl(activeTab.value))
 
 const initials = computed(() => props.account.username
     .split(/[\s._-]+/)
@@ -54,66 +57,13 @@ const initials = computed(() => props.account.username
     .join('')
     .toUpperCase())
 
-function forceActivate() {
-    activateModal.value?.close()
-    router.post('/manage/accounts/' + props.account.id + '/activate')
-}
-
-function forceDeactivate() {
-    deactivateModal.value?.close()
-    router.delete('/manage/accounts/' + props.account.id + '/activate')
-}
-
-function sendVerificationEmail() {
-    router.post('/manage/accounts/' + props.account.id + '/activate/send')
-}
-
-function disableMfa() {
-    disableMfaModal.value?.close()
-    router.delete('/manage/accounts/' + props.account.id + '/mfa')
-}
-
-function unlinkPlayer() {
-    unlinkPlayerModal.value?.close()
-    router.delete('/manage/accounts/' + props.account.id + '/players/' + unlinkPlayerId.value)
-}
-
-function showUnlinkDialog(playerId: number) {
-    unlinkPlayerId.value = playerId
-    unlinkPlayerModal.value?.open()
-}
 </script>
 
 <template>
     <div class="[&_.table-frame]:border-t-0">
         <Head :title="'Viewing Account: ' + account.username" />
 
-        <ConfirmDialog
-            ref="activateModal"
-            message="This will allow the user to login without having verified their email address. We won't be able to guarantee it's valid and belongs to them."
-            confirm-title="Yes, Proceed"
-            :on-confirm="forceActivate"
-        />
-        <ConfirmDialog
-            ref="deactivateModal"
-            message="This will prevent the user from logging-in until they reverify their email address. Note: this will NOT send them the verification email."
-            confirm-title="Yes, Proceed"
-            :on-confirm="forceDeactivate"
-        />
-        <ConfirmDialog
-            ref="disableMfaModal"
-            message="This will remove Two-Factor Authentication on the account."
-            confirm-title="Yes, Disable It"
-            :on-confirm="disableMfa"
-        />
-        <ConfirmDialog
-            ref="unlinkPlayerModal"
-            message="This will disassociate the player from this account."
-            confirm-title="Yes, Proceed"
-            :on-confirm="unlinkPlayer"
-        />
-
-        <PageHeader :title="account.username" description="Review account access, security, linked game data, and contributions.">
+        <PageHeader title="Account Details">
             <template #actions v-if="can('web.manage.accounts.edit')">
                 <LinkButton :href="'/manage/accounts/' + account.id + '/edit'" variant="outline">
                     <SvgIcon :svg="Icons.pencil" class="size-4" aria-hidden="true" />
@@ -122,10 +72,10 @@ function showUnlinkDialog(playerId: number) {
             </template>
         </PageHeader>
 
-        <SuccessAlert v-if="success" :message="success" class="mb-4"/>
+        <SuccessAlert v-if="success" :message="success" class="my-4"/>
 
-        <Card padding="none" class="mt-4">
-            <div class="flex flex-col gap-5 p-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+        <Card padding="none">
+            <div class="flex flex-col gap-5 p-5 sm:flex-row sm:items-center sm:justify-between">
                 <div class="flex min-w-0 items-center gap-4">
                     <div class="flex size-14 shrink-0 items-center justify-center rounded-full bg-info-soft text-lg font-semibold text-info dark:text-info">
                         {{ initials }}
@@ -140,7 +90,7 @@ function showUnlinkDialog(playerId: number) {
                                 {{ role.name }}
                             </Pill>
                         </div>
-                        <p v-else class="mt-2 text-xs text-muted dark:text-subtle">No roles assigned</p>
+                        <p v-else class="mt-2 text-xs text-muted dark:text-subtle">Member</p>
                     </div>
                 </div>
                 <div class="flex flex-wrap gap-2 sm:justify-end">
@@ -173,125 +123,16 @@ function showUnlinkDialog(playerId: number) {
             </div>
         </Card>
 
-        <Tabs v-model="activeTab" :tabs="tabs" id-prefix="account" aria-label="Account sections" class="mt-5" />
-
-        <TabPanel tab-id="security" id-prefix="account" :active-tab="activeTab" class="mt-4 grid grid-cols-1 gap-4 xl:grid-cols-2">
-            <Card padding="none">
-                <div class="border-b border-border p-4">
-                    <h2 class="text-base font-semibold text-foreground">Access and security</h2>
-                    <p class="mt-1 text-sm text-muted dark:text-subtle">Verification and sign-in protection</p>
-                </div>
-                <div class="space-y-4 p-4">
-                    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                        <div>
-                            <p class="text-sm font-medium text-foreground">Email verification</p>
-                            <p class="mt-1 text-sm text-muted dark:text-subtle">{{ account.activated ? 'This account can sign in.' : 'This account has not verified its email.' }}</p>
-                        </div>
-                        <div v-if="can('web.manage.accounts.edit')" class="flex flex-wrap gap-2">
-                            <template v-if="!account.activated">
-                                <FilledButton variant="secondary" @click="sendVerificationEmail">
-                                    <SvgIcon :svg="Icons.email" />
-                                    Send email
-                                </FilledButton>
-                                <OutlinedButton variant="danger" @click="activateModal?.open()">Force activate</OutlinedButton>
-                            </template>
-                            <OutlinedButton v-else variant="danger" @click="deactivateModal?.open()">Force re-verification</OutlinedButton>
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                        <div>
-                            <p class="text-sm font-medium text-foreground">Two-factor authentication</p>
-                            <p class="mt-1 text-sm text-muted dark:text-subtle">{{ account.is_totp_enabled ? 'An authenticator is configured.' : 'No authenticator is configured.' }}</p>
-                        </div>
-                        <OutlinedButton v-if="account.is_totp_enabled && can('web.manage.accounts.edit')" variant="danger" @click="disableMfaModal?.open()">
-                            <SvgIcon :svg="Icons.unlock" />
-                            Disable 2FA
-                        </OutlinedButton>
-                    </div>
-                </div>
-            </Card>
-
-            <Card padding="none" v-if="can('web.manage.accounts.view_email')" class="xl:col-span-2">
-                <div class="border-b border-border p-4">
-                    <h2 class="text-base font-semibold text-foreground">Pending email changes</h2>
-                </div>
-                <div class="overflow-x-auto">
-                    <AccountEmailChangeRequestsTable :requests="account.email_change_requests ?? []" :account_id="account.id" />
-                </div>
-            </Card>
-
-            <Card padding="none">
-                <div class="border-b border-border p-4">
-                    <h2 class="text-base font-semibold text-foreground">Pending activations</h2>
-                </div>
-                <div class="overflow-x-auto"><AccountActivationsTable :activations="account.activations ?? []" /></div>
-            </Card>
-        </TabPanel>
-
-        <TabPanel tab-id="linked" id-prefix="account" :active-tab="activeTab" class="mt-4 grid grid-cols-1 gap-4 xl:grid-cols-2">
-            <Card padding="none" class="xl:col-span-2">
-                <div class="flex items-center justify-between gap-4 border-b border-border p-4">
-                    <div>
-                        <h2 class="text-base font-semibold text-foreground">Linked players</h2>
-                        <p class="mt-1 text-sm text-muted dark:text-subtle">Game profiles connected to this account</p>
-                    </div>
-                    <LinkButton v-if="can('web.manage.accounts.edit')" :href="'/manage/accounts/' + account.id + '/players'" variant="secondary">Add player</LinkButton>
-                </div>
-                <div class="overflow-x-auto">
-                    <AccountPlayersTable :players="account.minecraft_account ?? []" @unlink-tap="showUnlinkDialog" />
-                </div>
-            </Card>
-
-            <Card padding="none">
-                <div class="flex items-center justify-between gap-4 border-b border-border p-4">
-                    <h2 class="text-base font-semibold text-foreground">Roles</h2>
-                    <LinkButton v-if="can('web.manage.accounts.edit')" :href="'/manage/accounts/' + account.id + '/roles'" variant="outline">
-                        <SvgIcon :svg="Icons.pencil" />
-                        Edit
-                    </LinkButton>
-                </div>
-                <div class="overflow-x-auto"><AccountRolesTable :roles="account.roles ?? []" /></div>
-            </Card>
-
-            <Card padding="none" v-if="can('web.manage.badges.view')">
-                <div class="flex items-center justify-between gap-4 border-b border-border p-4">
-                    <h2 class="text-base font-semibold text-foreground">Badges</h2>
-                    <LinkButton v-if="can('web.manage.accounts.edit')" :href="'/manage/accounts/' + account.id + '/badges'" variant="outline">
-                        <SvgIcon :svg="Icons.pencil" />
-                        Edit
-                    </LinkButton>
-                </div>
-                <div class="overflow-x-auto"><AccountBadgesTable :badges="account.badges ?? []" /></div>
-            </Card>
-
-        </TabPanel>
-
-        <TabPanel tab-id="applications" id-prefix="account" :active-tab="activeTab" class="mt-4 grid grid-cols-1 gap-4 xl:grid-cols-2">
-            <Card padding="none">
-                <div class="border-b border-border p-4">
-                    <h2 class="text-base font-semibold text-foreground">Ban appeals</h2>
-                </div>
-                <AccountBanAppealsTable :account_id="account.id" />
-            </Card>
-
-            <Card padding="none">
-                <div class="border-b border-border p-4">
-                    <h2 class="text-base font-semibold text-foreground">Builder applications</h2>
-                </div>
-                <AccountBuilderRankApplicationsTable :account_id="account.id" />
-            </Card>
-        </TabPanel>
-
-        <TabPanel tab-id="contributions" id-prefix="account" :active-tab="activeTab" class="mt-4 grid grid-cols-1 gap-4 xl:grid-cols-2">
-            <Card padding="none" v-if="can('web.manage.donations.view')" class="xl:col-span-2">
-                <div class="flex items-center justify-between gap-4 border-b border-border p-4">
-                    <h2 class="text-base font-semibold text-foreground">Donations</h2>
-                    <LinkButton :href="'/manage/accounts/' + account.id + '/badges'" variant="secondary">Create</LinkButton>
-                </div>
-                <div class="overflow-x-auto"><AccountDonationsTable :donations="account.donations ?? []" /></div>
-            </Card>
-        </TabPanel>
+        <Tabs
+            v-model="activeTab"
+            :tabs="tabs"
+            id-prefix="account"
+            aria-label="Account sections" class="mt-5"
+        />
+        <AccountLinkedDataTab :account="account" :active-tab="activeTab" />
+        <AccountSecurityTab :account="account" :active-tab="activeTab" />
+        <AccountApplicationsTab :account="account" :active-tab="activeTab" />
+        <AccountContributionsTab :account="account" :active-tab="activeTab" />
 
     </div>
 </template>

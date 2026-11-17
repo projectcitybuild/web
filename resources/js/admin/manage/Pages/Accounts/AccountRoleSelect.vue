@@ -26,6 +26,12 @@ const fields = [
     { key: 'role_type', label: 'Role Type' },
 ]
 
+function toggleRole(role: Role): void {
+    form.account_role_ids = form.account_role_ids.includes(role.id)
+        ? form.account_role_ids.filter(id => id !== role.id)
+        : [...form.account_role_ids, role.id]
+}
+
 function submit() {
     form.put('/manage/accounts/' + props.account_id + '/roles')
 }
@@ -60,7 +66,7 @@ function submit() {
 
             <section class="grow">
                 <Card padding="none">
-                    <DataTable :fields="fields" :rows="roles">
+                    <DataTable :fields="fields" :rows="roles" :on-select="toggleRole">
                         <template #select="{ item }">
                             <input
                                 v-model="form.account_role_ids"
@@ -68,7 +74,8 @@ function submit() {
                                 :id="item.id"
                                 type="checkbox"
                                 class="w-4 h-4 text-primary bg-surface-muted border-border-strong rounded focus:ring-focus ring-offset-surface focus:ring-2"
-                            >
+                                @click.stop
+                            />
                         </template>
                     </DataTable>
                 </Card>

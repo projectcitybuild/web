@@ -5,7 +5,7 @@ import Card from '../../../manage/Components/Card.vue'
 import DataTable from '../../../manage/Components/DataTable.vue'
 import ShowingCount from '../../../manage/Components/ShowingCount.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
-import { distance, distanceFromNow, format, timeAgo } from '../../../manage/Utilities/DateFormatter'
+import { distance, distanceFromNow, format, timeAgo } from '../../../manage/Utilities/DateFormatter.js'
 import { Player } from '../../../manage/Data/Player.js'
 
 interface OpElevation {

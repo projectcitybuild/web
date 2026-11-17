@@ -35,13 +35,13 @@ const rows = computed(
 <template>
     <DataTable :fields="fields" :rows="rows" :show-index="true">
         <template #skin="{ item }">
-            <MinecraftAvatar :uuid="item.uuid" :size="16"/>
+            <MinecraftAvatar :uuid="item.uuid" :size="32"/>
         </template>
 
         <template #uuid="{ item }">
             <Link
                 :href="'/manage/players/' + item.id"
-                class="text-primary underline-offset-2 hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus"
+                class="text-primary font-semibold underline-offset-2 underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus"
             >
                 {{ item.uuid }}
             </Link>

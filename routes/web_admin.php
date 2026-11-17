@@ -1,12 +1,14 @@
 <?php
 
+use App\Http\Controllers\Admin\Auditing\ActivityController;
+use App\Http\Controllers\Admin\Auditing\PlayerOpElevationController;
 use App\Http\Controllers\Admin\Manage\Accounts\AccountActivateController;
 use App\Http\Controllers\Admin\Manage\Accounts\AccountApproveEmailChangeController;
 use App\Http\Controllers\Admin\Manage\Accounts\AccountBadgeController;
 use App\Http\Controllers\Admin\Manage\Accounts\AccountBanAppealController;
 use App\Http\Controllers\Admin\Manage\Accounts\AccountBuilderRankApplicationsController;
 use App\Http\Controllers\Admin\Manage\Accounts\AccountController;
-use App\Http\Controllers\Admin\Manage\Accounts\AccountGameAccountController;
+use App\Http\Controllers\Admin\Manage\Accounts\AccountGameAccountController as ManageAccountGameAccountController;
 use App\Http\Controllers\Admin\Manage\Accounts\AccountMfaController;
 use App\Http\Controllers\Admin\Manage\Accounts\AccountPlayerController;
 use App\Http\Controllers\Admin\Manage\Accounts\AccountResendActivationController;
@@ -14,7 +16,7 @@ use App\Http\Controllers\Admin\Manage\Accounts\AccountRoleController;
 use App\Http\Controllers\Admin\Manage\Badges\BadgeController;
 use App\Http\Controllers\Admin\Manage\Bans\GameIPBanController;
 use App\Http\Controllers\Admin\Manage\Bans\GamePlayerBanController;
-use App\Http\Controllers\Admin\Manage\Donations\DonationController;
+use App\Http\Controllers\Admin\Manage\Donations\DonationController as ManageDonationController;
 use App\Http\Controllers\Admin\Manage\HomeController as HomeIndexController;
 use App\Http\Controllers\Admin\Manage\Homes\HomeController;
 use App\Http\Controllers\Admin\Manage\Minecraft\MinecraftConfigController;
@@ -61,7 +63,7 @@ Route::name('manage.')
             Route::delete('mfa', [AccountMfaController::class, 'destroy']);
 
             Route::post('email-change/{accountEmailChange}/approve', AccountApproveEmailChangeController::class);
-            Route::delete('player/{minecraftPlayer}', [AccountGameAccountController::class, 'delete']);
+            Route::delete('player/{minecraftPlayer}', [ManageAccountGameAccountController::class, 'delete']);
 
             Route::get('roles', [AccountRoleController::class, 'index']);
             Route::put('roles', [AccountRoleController::class, 'update']);
@@ -138,7 +140,7 @@ Route::name('manage.')
 
         Route::resource('badges', BadgeController::class);
 
-        Route::resource('donations', DonationController::class);
+        Route::resource('donations', ManageDonationController::class);
 
         Route::resource('servers', ServerController::class)
             ->except(['show']);
@@ -153,5 +155,65 @@ Route::name('manage.')
 
         Route::resource('player-bans', GamePlayerBanController::class)
             ->except(['show']);
-
     });
+
+Route::name('auditing.')
+    ->prefix('audit')
+    ->middleware([
+        'auth',
+        'activated',
+        'mfa',
+        'can:access-audit',
+        'require-mfa',
+        EncryptHistoryMiddleware::class,
+    ])
+    ->group(function () {
+        Route::get('/', [ActivityController::class, 'index'])
+            ->name('index');
+
+        Route::resource('activity', ActivityController::class)
+            ->only(['index']);
+
+        Route::get('activity/audits/{audit}', [ActivityController::class, 'show'])
+            ->name('activity.audit.show');
+
+        Route::get('op-elevations', [PlayerOpElevationController::class, 'index'])
+            ->name('op-elevations.index');
+    });
+
+Route::permanentRedirect('terms', 'https://portal.projectcitybuild.com/books/legal-and-compliance/page/terms-of-service')
+    ->name('terms');
+
+Route::permanentRedirect('privacy', 'https://portal.projectcitybuild.com/books/legal-and-compliance/page/privacy-policy')
+    ->name('privacy');
+
+Route::permanentRedirect('wiki', 'https://wiki.projectcitybuild.com')
+    ->name('wiki');
+
+Route::permanentRedirect('portal', 'https://portal.projectcitybuild.com/')
+    ->name('portal');
+
+Route::permanentRedirect('report', 'https://tally.so/r/lbbVQV')
+    ->name('report');
+
+Route::permanentRedirect('staff-apply', 'https://tally.so/r/yPMkZd')
+    ->name('staff-apply');
+
+Route::permanentRedirect('rules', 'https://portal.projectcitybuild.com/books/rules/page/community-rules')
+    ->name('rules');
+
+Route::permanentRedirect('ranks', 'https://portal.projectcitybuild.com/books/player-ranks/page/list-of-ranks')
+    ->name('ranks');
+
+Route::permanentRedirect('staff', 'https://portal.projectcitybuild.com/books/list-of-staff/page/active')
+    ->name('staff');
+
+Route::permanentRedirect('vote', 'https://portal.projectcitybuild.com/books/server-voting/page/server-voting')
+    ->name('vote');
+
+Route::permanentRedirect('map-archive', 'https://portal.projectcitybuild.com/books/map-archive/page/map-archive')
+    ->name('map-archive');
+
+Route::permanentRedirect('login', 'https://projectcitybuild.com/auth/login');
+
+Route::permanentRedirect('register', 'https://projectcitybuild.com/auth/register');

@@ -10,7 +10,7 @@ interface Props {
 defineProps<Props>()
 
 const fields = [
-    { key: 'account_id', label: 'ID' },
+    { key: 'id', label: 'ID' },
     { key: 'username', label: 'Username' },
 ]
 </script>
@@ -19,7 +19,7 @@ const fields = [
     <DataTable :fields="fields" :rows="accounts" :show-index="true">
         <template #username="{ item }">
             <Link
-                :href="'/manage/accounts/' + item.account_id"
+                :href="'/manage/accounts/' + item.id"
                 class="text-primary font-bold"
             >
                 {{ item.username }}

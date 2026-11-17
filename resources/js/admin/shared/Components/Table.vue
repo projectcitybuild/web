@@ -15,7 +15,7 @@ defineOptions({ inheritAttrs: false })
 withDefaults(defineProps<Props>(), {
     density: 'default',
     empty: false,
-    emptyMessage: 'No results found.',
+    emptyMessage: 'No results found',
     columns: 1,
 })
 

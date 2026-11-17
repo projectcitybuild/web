@@ -10,7 +10,7 @@ import usePermissions from '../../../../manage/Composables/usePermissions'
 import { filterSidebar } from '../../../../manage/Navigation/FilterSidebar'
 import { sidebarMenu as manageMenu } from '../../../../manage/Navigation/Sidebar'
 import { sidebarMenu as reviewMenu } from '../../../../review/Navigation/Sidebar'
-import { sidebarMenu as auditingMenu } from '../../../../auditing/Navigation/Sidebar'
+import { sidebarMenu as auditingMenu } from '../../../../audit/Navigation/Sidebar.js'
 import useAdminNavigation, { adminAreas } from '../useAdminNavigation'
 
 const props = defineProps<{
@@ -32,6 +32,26 @@ const visibleReviewMenu = computed(() => reviewMenu.filter(item =>
 function countFor(item: typeof reviewMenu[number]): number {
     return item.countKey ? Number(page.props[item.countKey] ?? 0) : 0
 }
+
+const activeAreaMenu = computed(() => {
+    if (currentArea.value === 'review') {
+        return visibleReviewMenu.value.map(item => ({
+            ...item,
+            badge: countFor(item),
+            exact: item.route === '/review',
+        }))
+    }
+
+    if (currentArea.value === 'audit') {
+        return auditingMenu.map(item => ({
+            ...item,
+            badge: undefined,
+            exact: item.route === '/audit',
+        }))
+    }
+
+    return []
+})
 
 function focusFirst(): void {
     sidebar.value?.querySelector<HTMLElement>('button, a[href]')?.focus()
@@ -69,63 +89,59 @@ defineExpose({ focusFirst })
             <SvgIcon :svg="Icons.close" class="size-5" aria-hidden="true" />
         </button>
 
-        <div class="min-h-0 flex-1 overflow-y-auto px-3 py-16 md:py-0">
+        <div class="min-h-0 flex-1 overflow-y-auto py-16 md:py-0">
             <div class="hidden h-14 items-center border-b border-border px-2 md:flex">
 
             </div>
-            <nav aria-label="Administrative areas" class="mb-4 border-b border-border pb-4 md:hidden">
-                <p class="mb-2 px-3 text-[11px] font-semibold tracking-wide text-subtle">Areas</p>
+            <div class="px-3 mt-6">
+                <nav aria-label="Administrative areas" class="mb-4 border-b border-border pb-4 md:hidden">
+                    <p class="mb-2 px-3 text-[11px] font-semibold tracking-wide text-subtle">Areas</p>
 
-                <ul class="space-y-1">
-                    <li v-for="area in adminAreas" :key="area.id">
-                        <Link
-                            :href="area.href"
-                            :aria-current="currentArea === area.id ? 'page' : undefined"
-                            :class="[
-                                'flex min-h-10 items-center justify-between rounded-md px-3 text-sm font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus',
-                                currentArea === area.id ? 'bg-primary-soft text-foreground' : 'text-muted hover:bg-surface-hover hover:text-foreground',
-                            ]"
+                    <ul class="space-y-1">
+                        <li v-for="area in adminAreas" :key="area.id">
+                            <Link
+                                :href="area.href"
+                                :aria-current="currentArea === area.id ? 'page' : undefined"
+                                :class="[
+                                    'flex min-h-10 items-center justify-between rounded-md px-3 text-sm font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus',
+                                    currentArea === area.id ? 'bg-primary-soft text-foreground' : 'text-muted hover:bg-surface-hover hover:text-foreground',
+                                ]"
+                            >
+                                {{ area.label }}
+                                <span v-if="props.areaBadges[area.id]" class="rounded-full bg-danger-soft px-2 py-0.5 text-xs font-medium text-danger">
+                                    {{ props.areaBadges[area.id] }}
+                                </span>
+                            </Link>
+                        </li>
+                    </ul>
+                </nav>
+                <nav aria-label="Main navigation">
+                    <ul v-if="currentArea === 'manage'" class="mt-4 space-y-1">
+                        <li>
+                            <AdminNavLink href="/manage" label="Overview" exact>
+                                <template #icon>
+                                    <SvgIcon :svg="Icons.dashboard" class="size-5" aria-hidden="true" />
+                                </template>
+                            </AdminNavLink>
+                        </li>
+                        <AdminNavGroup
+                            v-for="section in visibleManageMenu"
+                            :key="section.title"
+                            :title="section.title"
+                            :children="section.children"
                         >
-                            {{ area.label }}
-                            <span v-if="props.areaBadges[area.id]" class="rounded-full bg-danger-soft px-2 py-0.5 text-xs font-medium text-danger">
-                                {{ props.areaBadges[area.id] }}
-                            </span>
-                        </Link>
-                    </li>
-                </ul>
-            </nav>
-            <nav aria-label="Main navigation">
-                <ul v-if="currentArea === 'manage'" class="mt-4 space-y-1">
-                    <li>
-                        <AdminNavLink href="/manage" label="Overview" exact>
-                            <template #icon>
-                                <SvgIcon :svg="Icons.dashboard" class="size-5" aria-hidden="true" />
+                            <template #child-icon="{ child }">
+                                <SvgIcon :svg="child.icon" class="size-4" />
                             </template>
-                        </AdminNavLink>
-                    </li>
-                    <AdminNavGroup
-                        v-for="section in visibleManageMenu"
-                        :key="section.title"
-                        :title="section.title"
-                        :children="section.children"
-                    >
-                        <template #child-icon="{ child }">
-                            <SvgIcon :svg="child.icon" class="size-4" />
-                        </template>
-                    </AdminNavGroup>
-                </ul>
-                <div v-else-if="currentArea === 'review'">
-                    <div class="border-b border-border px-2 pb-4 pt-4">
-                        <h2 class="text-lg font-semibold leading-7 text-foreground">Review Center</h2>
-                        <p class="mt-1 text-xs leading-5 text-muted">Moderation and submissions</p>
-                    </div>
-                    <ul class="mt-4 space-y-1">
-                        <li v-for="item in visibleReviewMenu" :key="item.route">
+                        </AdminNavGroup>
+                    </ul>
+                    <ul v-else-if="currentArea === 'review' || currentArea === 'audit'" class="mt-4 space-y-1">
+                        <li v-for="item in activeAreaMenu" :key="item.route">
                             <AdminNavLink
                                 :href="item.route"
                                 :label="item.title"
-                                :badge="countFor(item)"
-                                :exact="item.route === '/review'"
+                                :badge="item.badge"
+                                :exact="item.exact"
                             >
                                 <template #icon>
                                     <SvgIcon :svg="Icons[item.icon]" class="size-[18px]" aria-hidden="true" />
@@ -133,21 +149,8 @@ defineExpose({ focusFirst })
                             </AdminNavLink>
                         </li>
                     </ul>
-                </div>
-                <ul v-else-if="currentArea === 'auditing'" class="mt-4 space-y-1">
-                    <li v-for="item in auditingMenu" :key="item.route">
-                        <AdminNavLink
-                            :href="item.route"
-                            :label="item.title"
-                            :exact="item.route === '/auditing'"
-                        >
-                            <template #icon>
-                                <SvgIcon :svg="Icons[item.icon]" class="size-[18px]" aria-hidden="true" />
-                            </template>
-                        </AdminNavLink>
-                    </li>
-                </ul>
-            </nav>
+                </nav>
+            </div>
         </div>
         <div v-if="!collapsed || open" class="shrink-0 border-t border-border px-3 py-3">
             <AdminAccountMenu />

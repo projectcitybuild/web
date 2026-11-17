@@ -21,7 +21,7 @@ const active = computed(() => isAdminPathActive(page.url, props.href, props.exac
         :aria-current="active ? 'page' : undefined"
         :class="[
             'flex min-h-8 items-center gap-3 rounded-lg px-2 text-sm transition-colors duration-150 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-surface-muted motion-reduce:transition-none',
-            active ? 'bg-surface-muted font-semibold text-foreground' : 'text-gray-800 hover:bg-surface-hover hover:text-foreground',
+            active ? 'bg-surface-muted font-semibold text-foreground' : 'text-gray-800 dark:text-gray-200 hover:bg-surface-hover hover:text-foreground',
         ]"
     >
         <span v-if="$slots.icon" class="flex size-5 shrink-0 items-center justify-center" aria-hidden="true">

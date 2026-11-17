@@ -31,6 +31,12 @@ const fields = [
 function submit() {
     form.put('/manage/accounts/' + props.account_id + '/badges')
 }
+
+function toggleBadge(badge: Badge): void {
+    form.account_badge_ids = form.account_badge_ids.includes(badge.id)
+        ? form.account_badge_ids.filter(id => id !== badge.id)
+        : [...form.account_badge_ids, badge.id]
+}
 </script>
 
 <template>
@@ -49,15 +55,16 @@ function submit() {
             <Card padding="none">
             <ErrorAlert v-if="form.hasErrors" :errors="form.errors" class="mb-4"/>
 
-            <DataTable :fields="fields" :rows="badges">
+            <DataTable :fields="fields" :rows="badges" :on-select="toggleBadge">
                 <template #select="{ item }">
-                        <input
-                            v-model="form.account_badge_ids"
-                            :value="item.id"
-                            :id="item.id"
-                            type="checkbox"
-                            class="w-4 h-4 text-primary bg-surface-muted border-border-strong rounded focus:ring-focus ring-offset-surface focus:ring-2"
-                        >
+                    <input
+                        v-model="form.account_badge_ids"
+                        :value="item.id"
+                        :id="item.id"
+                        type="checkbox"
+                        class="w-4 h-4 text-primary bg-surface-muted border-border-strong rounded focus:ring-focus ring-offset-surface focus:ring-2"
+                        @click.stop
+                    />
                 </template>
                 <template #list_hidden="{ item }">
                     <BooleanCheck :value="item.list_hidden" />

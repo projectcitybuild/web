@@ -13,6 +13,7 @@ import TableHead from '../../../shared/Components/TableHead.vue'
 import TableRow from '../../../shared/Components/TableRow.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
+import EmptyState from '../../../shared/Components/EmptyState.vue'
 
 interface Broadcast {
     id: number,
@@ -140,17 +141,17 @@ function formatDate(value: string): string {
                 </FilterPanel>
             </div>
 
-            <div v-if="broadcasts.data.length === 0" class="px-6 py-14 text-center">
-                <h2 class="text-base font-semibold text-foreground">
-                    {{ broadcasts.total === 0 && !hasFilters ? 'No announcements yet' : 'No announcements match these filters' }}
-                </h2>
-                <p class="mt-2 text-sm text-muted">
-                    {{ broadcasts.total === 0 && !hasFilters ? 'Your sent and processing announcements will appear here.' : 'Try a different subject or status.' }}
-                </p>
-                <LinkButton v-if="broadcasts.total === 0 && !hasFilters && can('web.manage.player_mail.send')" href="/manage/player-mail/create" variant="primary" class="mt-5">
-                    Compose announcement
-                </LinkButton>
-            </div>
+            <EmptyState
+                v-if="broadcasts.data.length === 0"
+                :title="broadcasts.total === 0 && !hasFilters ? 'No announcements yet' : 'No announcements match these filters'"
+                :description="broadcasts.total === 0 && !hasFilters ? 'Your sent and processing announcements will appear here.' : 'Try a different subject or status.'"
+            >
+                <template v-if="broadcasts.total === 0 && !hasFilters && can('web.manage.player_mail.send')" #actions>
+                    <LinkButton href="/manage/player-mail/create" variant="primary">
+                        Compose announcement
+                    </LinkButton>
+                </template>
+            </EmptyState>
 
             <template v-else>
                 <div class="divide-y divide-border md:hidden">

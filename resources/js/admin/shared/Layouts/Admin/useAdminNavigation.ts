@@ -4,7 +4,7 @@ import { usePage } from '@inertiajs/vue3'
 export const adminAreas = [
     { id: 'manage', label: 'Manage', href: '/manage' },
     { id: 'review', label: 'Review', href: '/review' },
-    { id: 'auditing', label: 'Audit', href: '/auditing' },
+    { id: 'audit', label: 'Audit', href: '/audit' },
 ] as const
 
 export interface AdminNavigationEntry {
@@ -58,7 +58,10 @@ export function buildAdminBreadcrumbs(
     const match = entries
         .filter(entry => entry.route && entry.route !== areaPath && isAdminPathActive(currentPath, entry.route))
         .sort((left, right) => (right.route?.length ?? 0) - (left.route?.length ?? 0))[0]
-    const breadcrumbs: AdminBreadcrumb[] = area.id === 'manage' ? [] : [{
+
+    const isRoot = ['manage', 'review', 'audit'].includes(area.id)
+
+    const breadcrumbs: AdminBreadcrumb[] = isRoot ? [] : [{
         label: area.label,
         href: currentPath === areaPath ? undefined : area.href,
         current: currentPath === areaPath,

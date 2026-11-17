@@ -9,12 +9,12 @@ export interface AuditingNavigationItem {
 export const sidebarMenu: AuditingNavigationItem[] = [
     {
         title: 'Audit Logs',
-        route: '/auditing',
+        route: '/audit',
         icon: 'auditLogs',
     },
     {
         title: 'OP Elevations',
-        route: '/auditing/op-elevations',
+        route: '/audit/op-elevations',
         icon: 'hourglass',
     },
 ]

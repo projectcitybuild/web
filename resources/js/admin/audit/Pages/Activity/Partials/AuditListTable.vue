@@ -3,7 +3,7 @@ import { Link } from '@inertiajs/vue3'
 import Badge from '../../../../manage/Components/Badge.vue'
 import DataTable from '../../../../manage/Components/DataTable.vue'
 import LinkButton from '../../../../shared/Components/LinkButton.vue'
-import { format, timeAgo } from '../../../../manage/Utilities/DateFormatter'
+import { format, timeAgo } from '../../../../manage/Utilities/DateFormatter.js'
 
 interface AuditRecord {
     id: number,

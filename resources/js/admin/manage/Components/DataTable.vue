@@ -14,6 +14,7 @@ interface Props {
     fields: Field[],
     rows: T[],
     showIndex?: boolean,
+    onSelect?: (row: T) => void,
 }
 withDefaults(defineProps<Props>(), {
     showIndex: false,
@@ -38,7 +39,7 @@ const slots = useSlots()
             </TableRow>
         </template>
 
-        <TableRow v-for="(row, index) in rows" :key="index">
+        <TableRow v-for="(row, index) in rows" :key="index" @click="onSelect?.(row)">
             <TableCell v-if="showIndex" class="text-subtle">
                 #{{ index + 1 }}
             </TableCell>

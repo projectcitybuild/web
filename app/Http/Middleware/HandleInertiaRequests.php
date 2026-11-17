@@ -43,10 +43,11 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        $isAdminArea = $request->is(patterns: 'manage*')
-            || $request->is(patterns: 'review*')
-            || $request->is(patterns: 'auditing*');
-
+        $isAdminArea = $request->is(patterns: [
+            'manage*',
+            'review*',
+            'audit*',
+        ]);
         if ($isAdminArea) {
             $sharedProps = [
                 ...parent::share($request),

@@ -41,7 +41,7 @@ function submit() {
 
             <FilledButton
                 variant="primary"
-                :disabled="form.processing"
+                :disabled="form.processing || form.uuid === null"
                 type="submit"
                 class="mt-8"
             >

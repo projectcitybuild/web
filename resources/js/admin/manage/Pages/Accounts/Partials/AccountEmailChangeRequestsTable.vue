@@ -42,7 +42,7 @@ function forceApprove() {
             :on-confirm="forceApprove"
         />
 
-        <DataTable v-if="requests.length > 0" :fields="fields" :rows="requests">
+        <DataTable :fields="fields" :rows="requests" empty-message="No pending email changes">
             <template #created_at="{ item }">
                 {{ format(item.created_at) }}
             </template>
@@ -55,8 +55,5 @@ function forceApprove() {
                 </OutlinedButton>
             </template>
         </DataTable>
-        <div v-else class="flex p-4">
-            <span class="text-sm text-subtle">No pending email changes</span>
-        </div>
     </div>
 </template>
