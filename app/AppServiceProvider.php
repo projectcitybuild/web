@@ -16,8 +16,13 @@ use App\Models\DonationPerk;
 use App\Models\DonationTier;
 use App\Models\GameIPBan;
 use App\Models\GamePlayerBan;
+use App\Models\MinecraftBuild;
+use App\Models\MinecraftHome;
 use App\Models\MinecraftPlayer;
+use App\Models\MinecraftWarp;
+use App\Models\PlayerOpElevation;
 use App\Models\PlayerWarning;
+use App\Models\Role;
 use App\Models\Server;
 use App\Models\ServerToken;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -95,6 +100,11 @@ final class AppServiceProvider extends ServiceProvider
             'game_player_ban' => GamePlayerBan::class,
             'game_ip_ban' => GameIPBan::class,
             'minecraft_player' => MinecraftPlayer::class,
+            'minecraft_build' => MinecraftBuild::class,
+            'minecraft_home' => MinecraftHome::class,
+            'minecraft_warp' => MinecraftWarp::class,
+            'player_op_elevation' => PlayerOpElevation::class,
+            'role' => Role::class,
             'server' => Server::class,
             'server_token' => ServerToken::class,
             'player_warning' => PlayerWarning::class,

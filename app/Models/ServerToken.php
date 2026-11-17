@@ -4,33 +4,37 @@ namespace App\Models;
 
 use Altek\Eventually\Eventually;
 use App\Core\Domains\Auditing\AuditAttributes;
-use App\Core\Domains\Auditing\Concerns\LogsActivity;
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
+use App\Core\Domains\Auditing\Redactors\MaskedValueRedactor;
 use App\Core\Utilities\Traits\HasStaticTable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use OwenIt\Auditing\Auditable;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-final class ServerToken extends Model implements LinkableAuditModel
+final class ServerToken extends Model implements AuditableContract, LinkableAuditModel
 {
+    use Auditable;
     use Eventually;
     use HasFactory;
     use HasStaticTable;
-    use LogsActivity;
 
     protected $table = 'server_tokens';
+    protected $auditInclude = [
+        'description',
+        'token',
+        'server_id',
+    ];
+    protected $attributeModifiers = [
+        'token' => MaskedValueRedactor::class,
+    ];
     protected $fillable = [
         'token',
         'server_id',
         'description',
         'allowed_ips',
     ];
-    protected static $recordEvents = [
-        'created',
-        'updated',
-        'deleted',
-    ];
-
     public function server(): HasOne
     {
         return $this->hasOne(

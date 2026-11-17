@@ -60,7 +60,7 @@ class ProcessDonation
         int $numberOfMonths,
     ) {
         $donorRole = Role::getDonorOrThrow();
-        $account->roles()->syncWithoutDetaching([$donorRole->id]);
+        $account->auditSyncWithoutDetaching('roles', [$donorRole->id], ['roles.id', 'roles.name']);
 
         $donationTier = $product->donationTier;
         if ($donationTier === null) {

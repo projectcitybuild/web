@@ -10,14 +10,27 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
+use OwenIt\Auditing\Auditable;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-final class BuilderRankApplication extends Model implements LinkableAuditModel
+final class BuilderRankApplication extends Model implements AuditableContract, LinkableAuditModel
 {
+    use Auditable;
     use HasFactory;
     use HasStaticTable;
     use Notifiable;
 
     protected $table = 'builder_rank_applications';
+    protected $auditEvents = ['created'];
+    protected $auditInclude = [
+        'account_id',
+        'minecraft_alias',
+        'current_builder_rank',
+        'build_location',
+        'build_description',
+        'additional_notes',
+        'status',
+    ];
     protected $fillable = [
         'account_id',
         'minecraft_alias',

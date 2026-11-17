@@ -32,10 +32,10 @@ defineExpose({ focusFirst })
     <aside
         id="admin-sidebar"
         ref="sidebar"
-        class="fixed bottom-0 left-0 top-14 z-50 w-64 border-r border-border bg-surface-muted transition-[width,transform] duration-200 ease-out motion-reduce:transition-none md:left-11 md:top-0 md:z-30 md:translate-x-0"
+        class="fixed bottom-0 left-0 top-14 z-50 w-64 border-r border-border bg-surface-muted transition-[width,transform] duration-200 ease-out motion-reduce:transition-none md:left-14 md:top-0 md:z-30 md:translate-x-0"
         :class="[
             open ? 'visible translate-x-0' : 'invisible -translate-x-full',
-            collapsed ? 'md:invisible md:w-0 md:overflow-hidden md:border-r-0' : 'md:visible md:w-52',
+            collapsed ? 'md:invisible md:w-0 md:overflow-hidden md:border-r-0' : 'md:visible md:w-60',
         ]"
         :role="open ? 'dialog' : undefined"
         :aria-modal="open ? 'true' : undefined"

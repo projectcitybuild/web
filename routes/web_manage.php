@@ -156,5 +156,8 @@ Route::name('manage.')
             ->except(['show']);
 
         Route::resource('activity', ActivityController::class)
-            ->only(['index', 'show']);
+            ->only(['index']);
+
+        Route::get('activity/audits/{audit}', [ActivityController::class, 'showAudit'])
+            ->name('activity.audit.show');
     });

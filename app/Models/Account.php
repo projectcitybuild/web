@@ -6,8 +6,7 @@ use Admin9\OidcServer\Concerns\HasOidcClaims;
 use Admin9\OidcServer\Contracts\OidcUserInterface;
 use Altek\Eventually\Eventually;
 use App\Core\Domains\Auditing\AuditAttributes;
-use App\Core\Domains\Auditing\Concerns\CausesActivity;
-use App\Core\Domains\Auditing\Concerns\LogsActivity;
+use App\Core\Domains\Auditing\Concerns\AppendsSystemAuditTag;
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Core\Utilities\Traits\HasStaticTable;
 use Illuminate\Database\Eloquent\Builder;
@@ -22,11 +21,14 @@ use Illuminate\Support\Facades\Hash;
 use Laravel\Cashier\Billable;
 use Laravel\Passport\Contracts\OAuthenticatable;
 use Laravel\Passport\HasApiTokens;
+use OwenIt\Auditing\Auditable;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-final class Account extends Authenticatable implements LinkableAuditModel, OAuthenticatable, OidcUserInterface
+final class Account extends Authenticatable implements AuditableContract, LinkableAuditModel, OAuthenticatable, OidcUserInterface
 {
+    use AppendsSystemAuditTag;
+    use Auditable;
     use Billable;
-    use CausesActivity;
     use Eventually;
     use HasApiTokens;
     use HasFactory;
@@ -34,10 +36,14 @@ final class Account extends Authenticatable implements LinkableAuditModel, OAuth
         resolveOidcClaim as protected resolveDefaultOidcClaim;
     }
     use HasStaticTable;
-    use LogsActivity;
     use Notifiable;
 
     protected $table = 'accounts';
+    protected $auditInclude = [
+        'email',
+        'username',
+        'activated',
+    ];
     protected $fillable = [
         'email',
         'username',
@@ -58,12 +64,6 @@ final class Account extends Authenticatable implements LinkableAuditModel, OAuth
         'trial_ends_at',
         'stripe_id',
         'last_login_ip',
-    ];
-    protected static $recordEvents = [
-        'created',
-        'updated',
-        'deleted',
-        'synced',
     ];
     protected $casts = [
         'last_login_at' => 'datetime',
@@ -256,6 +256,24 @@ final class Account extends Authenticatable implements LinkableAuditModel, OAuth
             ->add('email', 'username')
             ->addBoolean('activated')
             ->addArray('role_names');
+    }
+
+    /**
+     * @param  array<string, mixed>  $data
+     * @return array<string, mixed>
+     */
+    public function transformAudit(array $data): array
+    {
+        foreach (['old_values', 'new_values'] as $side) {
+            if (array_key_exists('roles', $data[$side] ?? [])) {
+                $data[$side]['role_names'] = collect($data[$side]['roles'])
+                    ->pluck('name')
+                    ->all();
+                unset($data[$side]['roles']);
+            }
+        }
+
+        return $this->appendSystemAuditTag($data);
     }
 
     public function getActivitySubjectLink(): ?string

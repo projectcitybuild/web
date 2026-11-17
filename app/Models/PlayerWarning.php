@@ -3,20 +3,33 @@
 namespace App\Models;
 
 use App\Core\Domains\Auditing\AuditAttributes;
-use App\Core\Domains\Auditing\Concerns\LogsActivity;
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Core\Utilities\Traits\HasStaticTable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use OwenIt\Auditing\Auditable;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-final class PlayerWarning extends Model implements LinkableAuditModel
+final class PlayerWarning extends Model implements AuditableContract, LinkableAuditModel
 {
+    use Auditable;
     use HasFactory;
     use HasStaticTable;
-    use LogsActivity;
 
     protected $table = 'player_warnings';
+    protected $auditInclude = [
+        'warned_player_id',
+        'warner_player_id',
+        'reason',
+        'additional_info',
+        'weight',
+        'is_acknowledged',
+        'created_at',
+        'updated_at',
+        'acknowledged_at',
+    ];
+    protected $auditTimestamps = true;
     protected $fillable = [
         'warned_player_id',
         'warner_player_id',

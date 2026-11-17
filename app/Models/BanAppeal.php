@@ -12,9 +12,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\URL;
+use OwenIt\Auditing\Auditable;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class BanAppeal extends Model implements LinkableAuditModel
+class BanAppeal extends Model implements AuditableContract, LinkableAuditModel
 {
+    use Auditable;
     use HasFactory;
     use HasStaticTable;
     use Notifiable;
@@ -22,6 +25,17 @@ class BanAppeal extends Model implements LinkableAuditModel
     protected $casts = [
         'status' => BanAppealStatus::class,
         'decided_at' => 'datetime',
+    ];
+    protected $auditEvents = ['created'];
+    protected $auditInclude = [
+        'game_ban_id',
+        'account_id',
+        'email',
+        'minecraft_uuid',
+        'date_of_ban',
+        'ban_reason',
+        'unban_reason',
+        'status',
     ];
     protected $fillable = [
         'game_ban_id',

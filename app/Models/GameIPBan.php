@@ -3,20 +3,32 @@
 namespace App\Models;
 
 use App\Core\Domains\Auditing\AuditAttributes;
-use App\Core\Domains\Auditing\Concerns\LogsActivity;
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Core\Utilities\Traits\HasStaticTable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use OwenIt\Auditing\Auditable;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-final class GameIPBan extends Model implements LinkableAuditModel
+final class GameIPBan extends Model implements AuditableContract, LinkableAuditModel
 {
+    use Auditable;
     use HasFactory;
     use HasStaticTable;
-    use LogsActivity;
 
     protected $table = 'game_ip_bans';
+    protected $auditInclude = [
+        'banner_player_id',
+        'unbanner_player_id',
+        'ip_address',
+        'reason',
+        'created_at',
+        'updated_at',
+        'unbanned_at',
+        'unban_type',
+    ];
+    protected $auditTimestamps = true;
     protected $fillable = [
         'banner_player_id',
         'ip_address',

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Manage;
 use App\Domains\Permissions\AuthorizesPermissions;
 use App\Http\Controllers\WebController;
 use App\Models\Account;
-use App\Models\Activity;
+use App\Models\Audit;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Http\Request;
 
@@ -18,35 +18,36 @@ class HomeController extends WebController
     {
         $this->requires('web.manage.*');
 
-        $props = [
-            'recentActivities' => Activity::query()
-                ->with([
-                    'causer' => fn (MorphTo $morphTo) => $morphTo->morphWith([
-                        Account::class => ['minecraftAccount'],
-                    ]),
-                ])
-                ->latest()
-                ->limit(8)
-                ->get()
-                ->map(function (Activity $activity): array {
-                    $causer = $activity->causer;
+        $recentActivities = Audit::query()
+            ->with([
+                'auditable',
+                'user' => fn (MorphTo $morphTo) => $morphTo->morphWith([
+                    Account::class => ['minecraftAccount'],
+                ]),
+            ])
+            ->latest()
+            ->orderByDesc('id')
+            ->limit(8)
+            ->get()
+            ->map(function (Audit $audit): array {
+                $user = $audit->user;
 
-                    return [
-                        'id' => $activity->id,
-                        'actor' => $causer?->getAttribute('username')
-                            ?? $causer?->getAttribute('name')
-                            ?? $activity->systemCauser?->displayName()
-                            ?? 'System',
-                        'avatarUuid' => $causer instanceof Account
-                            ? $causer->minecraftAccount->first()?->uuid
-                            : null,
-                        'action' => $activity->human_action,
-                        'when' => $activity->created_at?->shortRelativeDiffForHumans() ?? '',
-                    ];
-                })
-                ->values()
-                ->all(),
-        ];
+                return [
+                    'id' => 'audit-'.$audit->id,
+                    'actor' => $user?->getAttribute('username')
+                        ?? $user?->getAttribute('name')
+                        ?? 'System',
+                    'avatarUuid' => $user instanceof Account
+                        ? $user->minecraftAccount->first()?->uuid
+                        : null,
+                    'action' => $audit->human_action,
+                    'when' => $audit->created_at?->shortRelativeDiffForHumans() ?? '',
+                ];
+            })
+            ->values()
+            ->all();
+
+        $props = ['recentActivities' => $recentActivities];
 
         if ($request->user()->isAdmin()) {
             $props['activityUrl'] = route('manage.activity.index');

@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Core\Domains\Auditing\AuditAttributes;
-use App\Core\Domains\Auditing\Concerns\LogsActivity;
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Utilities\Traits\HasStaticTable;
@@ -18,15 +17,20 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use OwenIt\Auditing\Auditable;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-final class MinecraftPlayer extends Model implements LinkableAuditModel
+final class MinecraftPlayer extends Model implements AuditableContract, LinkableAuditModel
 {
+    use Auditable;
     use HasFactory;
     use HasStaticTable;
-    use LogsActivity;
     use Notifiable;
 
     protected $table = 'players';
+    protected $auditInclude = [
+        'account_id',
+    ];
     protected $fillable = [
         'uuid',
         'alias',

@@ -8,14 +8,16 @@ use App\Http\Controllers\Manage\RendersManageApp;
 use App\Http\Controllers\WebController;
 use App\Models\Account;
 use App\Models\Role;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Inertia\Response;
 
 class AccountRoleController extends WebController
 {
     use AuthorizesPermissions;
     use RendersManageApp;
 
-    public function index(Request $request, Account $account)
+    public function index(Request $request, Account $account): Response
     {
         $this->requires(WebManagePermission::ACCOUNTS_VIEW);
 
@@ -29,7 +31,7 @@ class AccountRoleController extends WebController
         ]);
     }
 
-    public function update(Request $request, Account $account)
+    public function update(Request $request, Account $account): RedirectResponse
     {
         $this->requires(WebManagePermission::ACCOUNTS_EDIT);
 
@@ -37,8 +39,11 @@ class AccountRoleController extends WebController
             'account_role_ids' => ['array'],
         ]));
 
-        $account->roles()->sync(
+        $account->auditSync(
+            'roles',
             $validated->get('account_role_ids', []),
+            true,
+            ['roles.id', 'roles.name'],
         );
 
         return to_route('manage.accounts.show', $account)

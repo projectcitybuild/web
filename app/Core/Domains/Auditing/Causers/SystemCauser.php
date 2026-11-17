@@ -2,8 +2,6 @@
 
 namespace App\Core\Domains\Auditing\Causers;
 
-use ReflectionEnum;
-
 enum SystemCauser
 {
     case STRIPE_WEBHOOK;
@@ -19,15 +17,5 @@ enum SystemCauser
             self::PERK_EXPIRY => 'Perk Expiry',
             self::DONOR_REWARDS => 'Donor Rewards',
         };
-    }
-
-    public static function tryFromName($name)
-    {
-        if ($name === null) {
-            return null;
-        }
-        $rc = new ReflectionEnum(self::class);
-
-        return $rc->hasCase($name) ? $rc->getConstant($name) : null;
     }
 }

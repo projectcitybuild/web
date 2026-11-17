@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Core\Domains\Auditing\AuditAttributes;
-use App\Core\Domains\Auditing\Concerns\LogsActivity;
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Core\Utilities\Traits\HasStaticTable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,14 +14,22 @@ use Money\Currency;
 use Money\Formatter\IntlMoneyFormatter;
 use Money\Money;
 use NumberFormatter;
+use OwenIt\Auditing\Auditable;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-final class Donation extends Model implements LinkableAuditModel
+final class Donation extends Model implements AuditableContract, LinkableAuditModel
 {
+    use Auditable;
     use HasFactory;
     use HasStaticTable;
-    use LogsActivity;
 
     protected $table = 'donations';
+    protected $auditInclude = [
+        'account_id',
+        'amount',
+        'created_at',
+    ];
+    protected $auditTimestamps = true;
     protected $fillable = [
         'account_id',
         'amount',

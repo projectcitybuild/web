@@ -3,22 +3,32 @@
 namespace App\Models;
 
 use App\Core\Domains\Auditing\AuditAttributes;
-use App\Core\Domains\Auditing\Concerns\LogsActivity;
+use App\Core\Domains\Auditing\Concerns\AppendsSystemAuditTag;
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Core\Utilities\Traits\HasStaticTable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use OwenIt\Auditing\Auditable;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 use function now;
 
-final class DonationPerk extends Model implements LinkableAuditModel
+final class DonationPerk extends Model implements AuditableContract, LinkableAuditModel
 {
+    use AppendsSystemAuditTag;
+    use Auditable;
     use HasFactory;
     use HasStaticTable;
-    use LogsActivity;
 
     protected $table = 'donation_perks';
+    protected $auditInclude = [
+        'donation_id',
+        'account_id',
+        'donation_tier_id',
+        'is_active',
+        'expires_at',
+    ];
     protected $fillable = [
         'donation_id',
         'account_id',
@@ -76,5 +86,14 @@ final class DonationPerk extends Model implements LinkableAuditModel
             ->addRelationship('account_id', Account::class)
             ->addBoolean('is_active')
             ->add('expires_at');
+    }
+
+    /**
+     * @param  array<string, mixed>  $data
+     * @return array<string, mixed>
+     */
+    public function transformAudit(array $data): array
+    {
+        return $this->appendSystemAuditTag($data);
     }
 }

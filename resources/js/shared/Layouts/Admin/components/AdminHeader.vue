@@ -38,7 +38,7 @@ const breadcrumbs = computed(
 <template>
     <header
         class="fixed inset-x-0 top-0 z-40 flex h-14 items-center justify-between border-b border-border bg-surface px-4 transition-[left] duration-200 motion-reduce:transition-none sm:px-6"
-        :class="sidebarCollapsed ? 'md:left-11' : 'md:left-[15.75rem]'"
+        :class="sidebarCollapsed ? 'md:left-14' : 'md:left-[18.5rem]'"
     >
         <div class="flex min-w-0 items-center gap-3">
             <button

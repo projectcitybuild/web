@@ -3,19 +3,18 @@
 namespace App\Models;
 
 use App\Core\Domains\Auditing\AuditAttributes;
-use App\Core\Domains\Auditing\Concerns\CausesActivity;
-use App\Core\Domains\Auditing\Concerns\LogsActivity;
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Core\Utilities\Traits\HasStaticTable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Auditable;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-final class Server extends Model implements LinkableAuditModel
+final class Server extends Model implements AuditableContract, LinkableAuditModel
 {
-    use CausesActivity;
+    use Auditable;
     use HasFactory;
     use HasStaticTable;
-    use LogsActivity;
 
     protected $table = 'servers';
     protected $fillable = [
@@ -23,20 +22,13 @@ final class Server extends Model implements LinkableAuditModel
         'ip',
         'ip_alias',
         'port',
-        'web_port',
     ];
-
-    public function address(): string
-    {
-        if ($this->ip_alias) {
-            return $this->ip_alias;
-        }
-        if ($this->port && $this->is_port_visible) {
-            return $this->ip.':'.$this->port;
-        }
-
-        return $this->ip;
-    }
+    protected $auditInclude = [
+        'name',
+        'ip',
+        'ip_alias',
+        'port',
+    ];
 
     public function getActivitySubjectLink(): ?string
     {

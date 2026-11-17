@@ -55,7 +55,7 @@ export function buildAdminBreadcrumbs(
     const match = entries
         .filter(entry => entry.route && entry.route !== areaPath && isAdminPathActive(currentPath, entry.route))
         .sort((left, right) => (right.route?.length ?? 0) - (left.route?.length ?? 0))[0]
-    const breadcrumbs: AdminBreadcrumb[] = [{
+    const breadcrumbs: AdminBreadcrumb[] = area.id === 'manage' ? [] : [{
         label: area.label,
         href: currentPath === areaPath ? undefined : area.href,
         current: currentPath === areaPath,
@@ -95,6 +95,5 @@ export default function useAdminNavigation() {
     const currentArea = computed(() =>
         adminAreas.find(area => isAdminPathActive(page.url, area.href))?.id ?? null
     )
-
     return { currentArea }
 }

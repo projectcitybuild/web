@@ -20,13 +20,20 @@ function countFor(item: typeof sidebarMenu[number]): number {
 </script>
 
 <template>
-    <ul class="space-y-1.5">
-        <li v-for="item in visibleMenu" :key="item.route">
-            <AdminNavLink :href="item.route" :label="item.title" :badge="countFor(item)">
-                <template #icon>
-                    <SvgIcon :svg="Icons[item.icon]" class="size-5" />
-                </template>
-            </AdminNavLink>
-        </li>
-    </ul>
+    <div>
+        <div class="px-2.5 pt-5">
+            <h2 class="text-sm font-semibold leading-5 text-foreground">Review Center</h2>
+            <p class="mt-1 text-xs leading-4 text-muted">Moderation and submissions</p>
+        </div>
+        <p class="mb-2 mt-6 px-2.5 text-[10px] font-semibold tracking-[0.12em] text-subtle">WORKSPACE</p>
+        <ul class="space-y-1.5">
+            <li v-for="item in visibleMenu" :key="item.route">
+                <AdminNavLink :href="item.route" :label="item.title" :badge="countFor(item)">
+                    <template #icon>
+                        <SvgIcon :svg="Icons[item.icon]" class="size-5" aria-hidden="true" />
+                    </template>
+                </AdminNavLink>
+            </li>
+        </ul>
+    </div>
 </template>

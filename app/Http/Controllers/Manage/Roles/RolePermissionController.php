@@ -37,8 +37,11 @@ class RolePermissionController extends WebController
             'role_permission_ids' => ['array'],
         ]));
 
-        $role->permissions()->sync(
+        $role->auditSync(
+            'permissions',
             $validated->get('role_permission_ids', []),
+            true,
+            ['permissions.id', 'permissions.name'],
         );
 
         return to_route('manage.roles.index')

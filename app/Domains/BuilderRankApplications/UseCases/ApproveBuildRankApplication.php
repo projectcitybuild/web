@@ -2,6 +2,7 @@
 
 namespace App\Domains\BuilderRankApplications\UseCases;
 
+use App\Core\Domains\Auditing\AuditEventRecorder;
 use App\Domains\BuilderRankApplications\Data\ApplicationStatus;
 use App\Domains\BuilderRankApplications\Notifications\BuilderRankAppApprovedNotification;
 use App\Models\BuilderRankApplication;
@@ -10,6 +11,10 @@ use Illuminate\Support\Facades\DB;
 
 class ApproveBuildRankApplication
 {
+    public function __construct(
+        private AuditEventRecorder $auditEventRecorder,
+    ) {}
+
     public function execute(
         int $applicationId,
         int $promoteRoleId,
@@ -18,6 +23,8 @@ class ApproveBuildRankApplication
         $promoteRole = Role::find($promoteRoleId);
 
         abort_if($application->isReviewed(), 409);
+
+        $oldStatus = $application->getRawOriginal('status');
 
         DB::transaction(function () use ($application, $promoteRole) {
             $application->status = ApplicationStatus::APPROVED->value;
@@ -31,7 +38,7 @@ class ApproveBuildRankApplication
                 ->get()
                 ->push($promoteRole);
 
-            $application->account->roles()->sync($updatedRoleIds);
+            $application->account->auditSync('roles', $updatedRoleIds, true, ['roles.id', 'roles.name']);
         });
 
         $application->account->notify(
@@ -41,9 +48,12 @@ class ApproveBuildRankApplication
             )
         );
 
-        activity()
-            ->on($application)
-            ->log('approved');
+        $this->auditEventRecorder->record(
+            subject: $application,
+            event: 'approved',
+            oldValues: ['status' => $oldStatus],
+            newValues: ['status' => ApplicationStatus::APPROVED->value],
+        );
 
         return $application;
     }

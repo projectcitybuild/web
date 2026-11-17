@@ -137,3 +137,21 @@ it('does not remove donor role if user has another active perk', function () {
         'role_id' => $this->donorRole->id,
     ]);
 });
+
+it('tags expiry audits and restores console auditing configuration', function () {
+    config(['audit.console' => false]);
+    $this->account->roles()->attach($this->donorRole);
+    $perk = DonationPerk::factory()
+        ->for($this->account)
+        ->for(Donation::factory()->for($this->account))
+        ->expired()
+        ->create();
+
+    $this->useCase->execute();
+
+    expect($perk->audits()->where('event', 'updated')->firstOrFail()->tags)
+        ->toBe('Perk Expiry');
+    expect($this->account->audits()->where('event', 'detach')->firstOrFail()->tags)
+        ->toBe('Perk Expiry');
+    expect(config('audit.console'))->toBeFalse();
+});

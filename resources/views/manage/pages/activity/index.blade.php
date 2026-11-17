@@ -1,4 +1,5 @@
-@include('manage.pages.activity._filter')
+<h2>Audit records</h2>
+@include('manage.pages.activity._audit-filter')
 <table class="table table-hover">
     <thead>
     <tr>
@@ -10,36 +11,36 @@
     </tr>
     </thead>
     <tbody>
-    @foreach($activities as $activity)
+    @foreach($audits as $audit)
         <tr>
             <td>
-                @if($activity->causer)
-                    <x-audit-support::model :model="$activity->causer"/>
+                @if($audit->user)
+                    <x-audit-support::model :model="$audit->user"/>
                 @else
-                    {{ $activity->system_causer?->displayName() ?? 'System' }}
+                    System
                 @endif
             </td>
             <td>
-                <strong>
-                    {{ $activity->human_action }}
-                </strong>
+                <strong>{{ $audit->human_action }}</strong>
             </td>
             <td>
-                    <span title="{{ $activity->created_at }}" data-bs-toggle="tooltip">
-                        {{ $activity->created_at->shortRelativeDiffForHumans() }}
-                    </span>
+                <span title="{{ $audit->created_at }}" data-bs-toggle="tooltip">
+                    {{ $audit->created_at->shortRelativeDiffForHumans() }}
+                </span>
             </td>
             <td>
-                <x-audit-support::model :model="$activity->subject"/>
+                @if($audit->auditable)
+                    <x-audit-support::model :model="$audit->auditable"/>
+                @else
+                    {{ class_basename($audit->auditable_type) }} #{{ $audit->auditable_id }}
+                @endif
             </td>
             <td>
-                <a href="{{ route('manage.activity.show', $activity) }}">
-                    Show
-                </a>
+                <a href="{{ route('manage.activity.audit.show', $audit) }}">Show</a>
             </td>
         </tr>
     @endforeach
     </tbody>
 </table>
 
-{{ $activities->links('vendor.pagination.bootstrap-4') }}
+{{ $audits->links('vendor.pagination.bootstrap-4') }}

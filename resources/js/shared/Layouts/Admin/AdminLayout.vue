@@ -111,7 +111,7 @@ onBeforeUnmount(() => {
 
         <main
             class="min-h-screen min-w-0 px-4 pb-8 pt-20 transition-[margin] duration-200 motion-reduce:transition-none sm:px-6 md:px-6"
-            :class="sidebarCollapsed ? 'md:ml-11' : 'md:ml-[15.75rem]'"
+            :class="sidebarCollapsed ? 'md:ml-14' : 'md:ml-[18.5rem]'"
         >
             <slot />
         </main>

@@ -34,12 +34,5 @@ const filteredMenu = computed(() =>
                 <SvgIcon :svg="child.icon" class="size-4" />
             </template>
         </AdminNavGroup>
-        <li class="mt-4 border-t border-border pt-4">
-            <AdminNavLink href="/manage/activity" label="Audit Logs">
-                <template #icon>
-                    <SvgIcon :svg="Icons.auditLogs" class="size-5" aria-hidden="true" />
-                </template>
-            </AdminNavLink>
-        </li>
     </ul>
 </template>

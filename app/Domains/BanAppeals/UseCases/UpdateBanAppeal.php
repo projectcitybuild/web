@@ -3,6 +3,7 @@
 namespace App\Domains\BanAppeals\UseCases;
 
 use App\Core\Data\Exceptions\NotImplementedException;
+use App\Core\Domains\Auditing\AuditEventRecorder;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Domains\BanAppeals\Data\BanAppealStatus;
 use App\Domains\BanAppeals\Exceptions\AppealAlreadyDecidedException;
@@ -17,6 +18,10 @@ use Illuminate\Support\Facades\DB;
 
 class UpdateBanAppeal
 {
+    public function __construct(
+        private AuditEventRecorder $auditEventRecorder,
+    ) {}
+
     /**
      * @param  BanAppeal  $banAppeal  The ban appeal to update
      * @param  Account  $decidingAccount  The account of the deciding staff
@@ -32,7 +37,7 @@ class UpdateBanAppeal
         BanAppeal $banAppeal,
         Account $decidingAccount,
         string $decisionNote,
-        BanAppealStatus $status
+        BanAppealStatus $status,
     ): void {
         if ($banAppeal->status != BanAppealStatus::PENDING) {
             throw new AppealAlreadyDecidedException;
@@ -56,11 +61,15 @@ class UpdateBanAppeal
             $banAppeal->decider_player_minecraft_id = $decidingPlayer->id;
             $banAppeal->status = $status;
             $banAppeal->decided_at = now();
+            $oldStatus = $banAppeal->getOriginal('status');
             $banAppeal->save();
 
-            activity()
-                ->on($banAppeal)
-                ->log(strtolower($status->humanReadable()));
+            $this->auditEventRecorder->record(
+                subject: $banAppeal,
+                event: strtolower($status->humanReadable()),
+                oldValues: ['status' => $oldStatus instanceof BanAppealStatus ? $oldStatus->value : $oldStatus],
+                newValues: ['status' => $status->value],
+            );
 
             if ($status == BanAppealStatus::ACCEPTED_UNBAN) {
                 $unbannerUuid = new MinecraftUUID($decidingPlayer->uuid);
