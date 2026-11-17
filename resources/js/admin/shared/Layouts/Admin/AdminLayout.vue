@@ -105,9 +105,7 @@ onBeforeUnmount(() => {
             @click="closeSidebar"
         />
 
-        <AdminSidebar ref="sidebar" :open="sidebarOpen" :collapsed="sidebarCollapsed" :area-badges="props.areaBadges" @close="closeSidebar">
-            <slot name="side-bar" />
-        </AdminSidebar>
+        <AdminSidebar ref="sidebar" :open="sidebarOpen" :collapsed="sidebarCollapsed" :area-badges="props.areaBadges" @close="closeSidebar" />
 
         <main
             class="min-h-screen min-w-0 px-4 pb-8 pt-20 transition-[margin] duration-200 motion-reduce:transition-none sm:px-6 md:px-6"

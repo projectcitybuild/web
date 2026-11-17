@@ -23,27 +23,18 @@ const navigation = computed<AdminNavigationEntry[]>(() => {
     if (currentArea.value === 'manage') {
         return manageNavigation
     }
-
     if (currentArea.value === 'review') {
         return reviewNavigation
     }
-
     if (currentArea.value === 'auditing') {
         return auditingNavigation
     }
-
     return []
 })
 </script>
 
 <template>
     <AdminLayout :area-badges="areaBadges" :navigation="navigation">
-        <template #side-bar>
-            <ManageSideBar v-if="currentArea === 'manage'" />
-            <ReviewSideBar v-else-if="currentArea === 'review'" />
-            <AuditingSideBar v-else-if="currentArea === 'auditing'" />
-        </template>
-
         <slot />
     </AdminLayout>
 </template>

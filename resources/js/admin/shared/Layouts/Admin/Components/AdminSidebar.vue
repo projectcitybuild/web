@@ -1,11 +1,17 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { Link } from '@inertiajs/vue3'
+import { computed, ref } from 'vue'
+import { Link, usePage } from '@inertiajs/vue3'
 import AdminAccountMenu from './AdminAccountMenu.vue'
+import AdminNavGroup from './AdminNavGroup.vue'
+import AdminNavLink from './AdminNavLink.vue'
 import SvgIcon from '../../../../manage/Components/SvgIcon.vue'
 import { Icons } from '../../../../manage/Icons'
+import usePermissions from '../../../../manage/Composables/usePermissions'
+import { filterSidebar } from '../../../../manage/Navigation/FilterSidebar'
+import { sidebarMenu as manageMenu } from '../../../../manage/Navigation/Sidebar'
+import { sidebarMenu as reviewMenu } from '../../../../review/Navigation/Sidebar'
+import { sidebarMenu as auditingMenu } from '../../../../auditing/Navigation/Sidebar'
 import useAdminNavigation, { adminAreas } from '../useAdminNavigation'
-import logo from '../../../../../../images/logo-alt.png'
 
 const props = defineProps<{
     open: boolean
@@ -14,8 +20,18 @@ const props = defineProps<{
 }>()
 const emit = defineEmits<{ close: [] }>()
 const { currentArea } = useAdminNavigation()
+const page = usePage()
+const { can } = usePermissions()
 
 const sidebar = ref<HTMLElement | null>(null)
+const visibleManageMenu = computed(() => filterSidebar(manageMenu, can))
+const visibleReviewMenu = computed(() => reviewMenu.filter(item =>
+    !item.permission || can(item.permission)
+))
+
+function countFor(item: typeof reviewMenu[number]): number {
+    return item.countKey ? Number(page.props[item.countKey] ?? 0) : 0
+}
 
 function focusFirst(): void {
     sidebar.value?.querySelector<HTMLElement>('button, a[href]')?.focus()
@@ -34,7 +50,7 @@ defineExpose({ focusFirst })
     <aside
         id="admin-sidebar"
         ref="sidebar"
-        class="fixed bottom-0 left-0 top-14 z-50 flex w-64 flex-col border-r border-border bg-surface-muted transition-[width,transform] duration-200 ease-out motion-reduce:transition-none md:left-14 md:top-0 md:z-30 md:translate-x-0"
+        class="fixed bottom-0 left-0 top-14 z-50 flex w-64 flex-col w-90 border-r border-border bg-surface-muted transition-[width,transform] duration-200 ease-out motion-reduce:transition-none md:left-14 md:top-0 md:z-30 md:translate-x-0"
         :class="[
             open ? 'visible translate-x-0' : 'invisible -translate-x-full',
             collapsed ? 'md:invisible md:w-0 md:overflow-hidden md:border-r-0' : 'md:visible md:w-60',
@@ -52,11 +68,10 @@ defineExpose({ focusFirst })
         >
             <SvgIcon :svg="Icons.close" class="size-5" aria-hidden="true" />
         </button>
+
         <div class="min-h-0 flex-1 overflow-y-auto px-3 py-16 md:py-0">
             <div class="hidden h-14 items-center border-b border-border px-2 md:flex">
-                <a href="/" class="flex h-14 w-full items-center justify-start border-b border-border" aria-label="Project City Build home">
-                    <img :src="logo" alt="" class="h-9 w-auto object-contain" />
-                </a>
+
             </div>
             <nav aria-label="Administrative areas" class="mb-4 border-b border-border pb-4 md:hidden">
                 <p class="mb-2 px-3 text-[11px] font-semibold tracking-wide text-subtle">Areas</p>
@@ -80,7 +95,58 @@ defineExpose({ focusFirst })
                 </ul>
             </nav>
             <nav aria-label="Main navigation">
-                <slot />
+                <ul v-if="currentArea === 'manage'" class="mt-4 space-y-1">
+                    <li>
+                        <AdminNavLink href="/manage" label="Overview" exact>
+                            <template #icon>
+                                <SvgIcon :svg="Icons.dashboard" class="size-5" aria-hidden="true" />
+                            </template>
+                        </AdminNavLink>
+                    </li>
+                    <AdminNavGroup
+                        v-for="section in visibleManageMenu"
+                        :key="section.title"
+                        :title="section.title"
+                        :children="section.children"
+                    >
+                        <template #child-icon="{ child }">
+                            <SvgIcon :svg="child.icon" class="size-4" />
+                        </template>
+                    </AdminNavGroup>
+                </ul>
+                <div v-else-if="currentArea === 'review'">
+                    <div class="border-b border-border px-2 pb-4 pt-4">
+                        <h2 class="text-lg font-semibold leading-7 text-foreground">Review Center</h2>
+                        <p class="mt-1 text-xs leading-5 text-muted">Moderation and submissions</p>
+                    </div>
+                    <ul class="mt-4 space-y-1">
+                        <li v-for="item in visibleReviewMenu" :key="item.route">
+                            <AdminNavLink
+                                :href="item.route"
+                                :label="item.title"
+                                :badge="countFor(item)"
+                                :exact="item.route === '/review'"
+                            >
+                                <template #icon>
+                                    <SvgIcon :svg="Icons[item.icon]" class="size-[18px]" aria-hidden="true" />
+                                </template>
+                            </AdminNavLink>
+                        </li>
+                    </ul>
+                </div>
+                <ul v-else-if="currentArea === 'auditing'" class="mt-4 space-y-1">
+                    <li v-for="item in auditingMenu" :key="item.route">
+                        <AdminNavLink
+                            :href="item.route"
+                            :label="item.title"
+                            :exact="item.route === '/auditing'"
+                        >
+                            <template #icon>
+                                <SvgIcon :svg="Icons[item.icon]" class="size-[18px]" aria-hidden="true" />
+                            </template>
+                        </AdminNavLink>
+                    </li>
+                </ul>
             </nav>
         </div>
         <div v-if="!collapsed || open" class="shrink-0 border-t border-border px-3 py-3">

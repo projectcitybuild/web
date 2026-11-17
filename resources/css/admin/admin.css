@@ -1,6 +1,6 @@
 @import "flowbite/src/themes/default";
 @import "tailwindcss" source(none);
-@import "./manage-review/design-system.css";
+@import "design-system.css";
 
 @source "../../views/admin/manage";
 @source "../../views/admin/review";
