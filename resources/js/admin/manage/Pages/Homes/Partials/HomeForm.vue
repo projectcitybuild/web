@@ -140,7 +140,7 @@ function updateOrientation(values: Partial<Pick<Home, 'pitch' | 'yaw'>>): void {
         <DangerZone
             v-if="isEdit"
             title="Delete home"
-            description="Permanently remove this home from the directory."
+            description="Permanently remove this home."
             confirm-message="This cannot be undone."
             confirm-title="Yes, Delete It"
             :disabled="form.processing"

@@ -28,13 +28,13 @@ const fields = [
         <template #uuid="{ item }">
             <Link
                 :href="'/manage/players/' + item.id"
-                class="text-primary"
+                class="text-primary font-semibold underline"
             >
                 {{ item.uuid }}
             </Link>
         </template>
         <template #actions="{ item }">
-            <FilledButton variant="danger" size="sm" @click="$emit('unlinkTap', item.id)">
+            <FilledButton variant=" danger" size="sm" @click="$emit('unlinkTap', item.id)">
                 Unlink
             </FilledButton>
         </template>

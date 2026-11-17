@@ -22,12 +22,14 @@ const fields = [
     { key: 'linked_account', label: 'Linked Account' },
     { key: 'created_at', label: 'Created At' },
     { key: 'updated_at', label: 'Updated At' },
+    { key: 'last_seen_at', label: 'Last Seen At' }
 ]
 const rows = computed(
     () => props.players.map((player) => ({
         ...player,
         created_at: format(player.created_at),
         updated_at: format(player.updated_at),
+        last_seen_at: format(player.last_seen_at),
     }))
 )
 </script>
@@ -51,7 +53,7 @@ const rows = computed(
             <Link
                 v-if="item.account"
                 :href="'/manage/accounts/' + item.account?.id"
-                class="text-primary underline-offset-2 hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus"
+                class="text-primary font-semibold underline-offset-2 underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus"
             >
                 {{ item.account?.username }}
             </Link>

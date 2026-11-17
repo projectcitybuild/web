@@ -8,9 +8,10 @@ import PlayerBanListTable from './Partials/PlayerBanListTable.vue'
 import InfinitePagination from '../../Components/InfinitePagination.vue'
 import PlayerWarningListTable from './Partials/PlayerWarningListTable.vue'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import Spinner from '../../Components/Spinner.vue'
 import OutlinedButton from '../../Components/OutlinedButton.vue'
+import Pill from '../../Components/Pill.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
 import FilledButton from '../../Components/FilledButton.vue'
 import ErrorAlert from '../../Components/ErrorAlert.vue'
@@ -21,6 +22,7 @@ import { Icons } from '../../Icons'
 import usePermissions from '../../Composables/usePermissions'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
+import CopyLocationButton from '../../Components/CopyLocationButton.vue'
 
 interface Props {
     player: Player,
@@ -33,6 +35,17 @@ const props = defineProps<Props>()
 const error = ref<string|null>(null)
 
 const isRefreshingAlias = ref(false)
+const hasLastLocation = computed(() => {
+    const coordinates = [
+        props.player.last_location_x,
+        props.player.last_location_y,
+        props.player.last_location_z,
+        props.player.last_location_yaw,
+        props.player.last_location_pitch,
+    ]
+
+    return coordinates.every((coordinate) => typeof coordinate === 'number' && Number.isFinite(coordinate))
+})
 
 async function refreshAlias() {
     isRefreshingAlias.value = true
@@ -56,10 +69,10 @@ async function refreshAlias() {
 </script>
 
 <template>
-    <div>
+    <div class="space-y-6">
         <Head :title="'Viewing Player: ' + (player.alias ?? player.uuid)"/>
 
-        <PageHeader :title="player.alias ?? player.uuid" description="Review Minecraft player details, moderation history, homes, and linked account.">
+        <PageHeader title="Player Details">
             <template #actions v-if="can('web.manage.players.edit')">
                 <OutlinedButton
                     variant="secondary"
@@ -68,7 +81,8 @@ async function refreshAlias() {
                     <Spinner v-if="isRefreshingAlias" />
                     <span v-else class="flex flex-row items-center justify-center gap-2">
                         <SvgIcon :svg="Icons.refresh" />
-                        Fetch Alias
+                        <span v-if="player.alias">Refetch Alias</span>
+                        <span v-else>Fetch Alias</span>
                     </span>
                 </OutlinedButton>
 
@@ -79,88 +93,57 @@ async function refreshAlias() {
             </template>
         </PageHeader>
 
-        <SuccessAlert v-if="success" :message="success" class="mb-4"/>
-        <ErrorAlert v-if="error" :errors="[error]" class="mb-4" />
+        <SuccessAlert v-if="success" :message="success" />
+        <ErrorAlert v-if="error" :errors="[error]" />
 
-        <div class="mt-4 flex flex-col gap-4 xl:flex-row">
-            <section>
-                <Card padding="none" class="max-w-2xl">
-                    <div class="p-4 flex flex-col items-center">
-                        <MinecraftAvatar :uuid="player.uuid" :size="96" class="shadow-lg" />
-                        <h2 class="mt-4 text-2xl font-semibold text-foreground">{{ player.alias ?? player.uuid }}</h2>
-                        <span class="mt-2 text-sm text-muted">{{ player.uuid }}</span>
-                    </div>
-                    <div class="p-4 border-t border-border">
-                        <div class="space-y-4">
-                            <dl class="flex items-center justify-between gap-2">
-                                <dt class="text-sm text-muted">Created At</dt>
-                                <dd class="text-sm text-foreground">
-                                    {{ format(player.created_at) }}
-                                </dd>
-                            </dl>
-                            <dl class="flex items-center justify-between gap-2">
-                                <dt class="text-sm text-muted">Updated At</dt>
-                                <dd class="text-sm text-foreground">
-                                    {{ format(player.updated_at) }}
-                                </dd>
-                            </dl>
-                            <dl class="flex items-center justify-between gap-2">
-                                <dt class="text-sm text-muted">Last Connected At</dt>
-                                <dd class="text-sm text-foreground">
-                                    {{ player.last_connected_at ? format(player.last_connected_at) : 'Never' }}
-                                </dd>
-                            </dl>
-                            <dl class="flex items-center justify-between gap-2">
-                                <dt class="text-sm text-muted">Last Seen At</dt>
-                                <dd class="text-sm text-foreground">
-                                    {{ player.last_seen_at ? format(player.last_seen_at) : 'Never' }}
-                                </dd>
-                            </dl>
+        <Card padding="none">
+            <div class="flex flex-col gap-5 p-5 sm:flex-row sm:items-center sm:gap-6 sm:p-6">
+                <MinecraftAvatar :uuid="player.uuid" :size="88" class="shrink-0 rounded-lg shadow-md" />
+                <div class="min-w-0">
+                    <p class="text-xs font-semibold uppercase tracking-wide text-muted">Minecraft player</p>
+                    <h2 class="mt-1 truncate text-xl font-semibold text-foreground sm:text-2xl">
+                        {{ player.alias ?? "-" }}  <span class="font-normal text-muted">(#{{ player.id }})</span>
+                    </h2>
+                    <p class="mt-1 break-all font-mono text-sm text-muted">{{ player.uuid }}</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 gap-4 border-t border-border p-5 sm:grid-cols-2 sm:gap-6 sm:p-6 xl:grid-cols-4">
+                <div>
+                    <p class="text-xs text-muted">Created</p>
+                    <p class="mt-1 text-sm font-medium text-foreground">{{ format(player.created_at) }}</p>
+                </div>
+                <div>
+                    <p class="text-xs text-muted">Last updated</p>
+                    <p class="mt-1 text-sm font-medium text-foreground">{{ format(player.updated_at) }}</p>
+                </div>
+                <div>
+                    <p class="text-xs text-muted">Last connected</p>
+                    <p class="mt-1 text-sm font-medium text-foreground">
+                        {{ player.last_connected_at ? format(player.last_connected_at) : 'Never' }}
+                    </p>
+                </div>
+                <div>
+                    <p class="text-xs text-muted">Last seen</p>
+                    <p class="mt-1 text-sm font-medium text-foreground">
+                        {{ player.last_seen_at ? format(player.last_seen_at) : 'Never' }}
+                    </p>
+                </div>
+            </div>
+        </Card>
+
+        <div class="grid gap-6 xl:grid-cols-[minmax(0,1.7fr)_minmax(18rem,0.8fr)] xl:items-start">
+            <section class="order-2 space-y-4 xl:order-1">
+                <Card v-if="can('web.manage.uuid_bans.view')" padding="none">
+                    <div class="flex items-center justify-between gap-4 p-4 sm:px-5">
+                        <div>
+                            <h2 class="text-base font-semibold text-foreground">Player bans</h2>
+                            <p class="mt-0.5 text-sm text-muted">Restrictions associated with this player.</p>
                         </div>
-                    </div>
-                </Card>
-
-                <Card padding="md" class="max-w-2xl mt-4">
-                    <h2 class="text-base font-semibold">Meta</h2>
-
-                    <div class="mt-4 space-y-4">
-                        <dl class="flex items-center justify-between gap-2">
-                            <dt class="text-sm text-muted">Nickname</dt>
-                            <dd class="text-sm text-foreground">
-                                <span v-if="player.nickname">{{ player.nickname }}</span>
-                                <span v-else class="italic text-muted">Not set</span>
-                            </dd>
-                        </dl>
-                    </div>
-                </Card>
-
-                <Card padding="md" class="max-w-2xl mt-4">
-                    <h2 class="text-base font-semibold">Owner</h2>
-
-                    <div class="mt-4">
-                        <div v-if="player.account_id" class="flex items-center gap-2">
-                            <SvgIcon :svg="Icons.link" class="size-4" aria-hidden="true" />
-
-                            <Link
-                                :href="'/manage/accounts/' + player.account_id"
-                                class="font-medium text-primary-active underline-offset-2 hover:underline"
-                            >
-                                {{ player.account?.username }}
-                            </Link>
-                        </div>
-                        <div v-else class="flex items-center gap-2 text-muted">
-                            <SvgIcon :svg="Icons.unlink" class="size-4" aria-hidden="true" />
-                            No Linked Account
-                        </div>
-                    </div>
-                </Card>
-            </section>
-
-            <section class="grow">
-                <Card padding="none" v-if="can('web.manage.uuid_bans.view')">
-                    <div class="p-4 flex justify-between items-center">
-                        <h2 class="text-base font-semibold">Player Bans</h2>
-                        <LinkButton :href="'/manage/player-bans/create?uuid=' + player.uuid" variant="danger">Create</LinkButton>
+                        <LinkButton :href="'/manage/player-bans/create?uuid=' + player.uuid" variant="outline">
+                            <SvgIcon :svg="Icons.plus" class="size-4" aria-hidden="true" />
+                            Create
+                        </LinkButton>
                     </div>
                     <InfinitePagination
                         :path="'/manage/players/' + player.id + '/bans'"
@@ -171,10 +154,16 @@ async function refreshAlias() {
                     </InfinitePagination>
                 </Card>
 
-                <Card padding="none" class="mt-4" v-if="can('web.manage.warnings.view')">
-                    <div class="p-4 flex justify-between items-center">
-                        <h2 class="text-base font-semibold">Player Warnings</h2>
-                        <LinkButton :href="'/manage/warnings/create?uuid=' + player.uuid" variant="danger">Create</LinkButton>
+                <Card v-if="can('web.manage.warnings.view')" padding="none">
+                    <div class="flex items-center justify-between gap-4 p-4 sm:px-5">
+                        <div>
+                            <h2 class="text-base font-semibold text-foreground">Player warnings</h2>
+                            <p class="mt-0.5 text-sm text-muted">Moderation notes recorded for this player.</p>
+                        </div>
+                        <LinkButton :href="'/manage/warnings/create?uuid=' + player.uuid" variant="outline">
+                            <SvgIcon :svg="Icons.plus" class="size-4" aria-hidden="true" />
+                            Create
+                        </LinkButton>
                     </div>
                     <InfinitePagination
                         :path="'/manage/players/' + player.id + '/warnings'"
@@ -185,9 +174,10 @@ async function refreshAlias() {
                     </InfinitePagination>
                 </Card>
 
-                <Card padding="none" class="mt-4" v-if="can('web.manage.homes.view')">
-                    <div class="p-4 flex justify-between items-center">
-                        <h2 class="text-base font-semibold">Homes</h2>
+                <Card v-if="can('web.manage.homes.view')" padding="none">
+                    <div class="p-4 sm:px-5">
+                        <h2 class="text-base font-semibold text-foreground">Homes</h2>
+                        <p class="mt-0.5 text-sm text-muted">Saved locations belonging to this player.</p>
                     </div>
                     <InfinitePagination
                         :path="'/manage/players/' + player.id + '/homes'"
@@ -198,9 +188,10 @@ async function refreshAlias() {
                     </InfinitePagination>
                 </Card>
 
-                <Card padding="none" class="mt-4" v-if="can('web.manage.players.view_ips')">
-                    <div class="p-4 flex justify-between items-center">
-                        <h2 class="text-base font-semibold">Known IP Addresses</h2>
+                <Card v-if="can('web.manage.players.view_ips')" padding="none">
+                    <div class="p-4 sm:px-5">
+                        <h2 class="text-base font-semibold text-foreground">Known IP addresses</h2>
+                        <p class="mt-0.5 text-sm text-muted">Network addresses seen for this player.</p>
                     </div>
                     <InfinitePagination
                         :path="'/manage/players/' + player.id + '/ips'"
@@ -211,6 +202,159 @@ async function refreshAlias() {
                     </InfinitePagination>
                 </Card>
             </section>
+
+            <aside class="order-1 space-y-4 xl:order-2">
+                <Card padding="none">
+                    <header class="border-b border-border p-4">
+                        <h2 class="text-base font-semibold text-foreground">Player details</h2>
+                        <p class="mt-1 text-sm text-muted">Profile, activity, and location</p>
+                    </header>
+
+                    <section class="space-y-3 p-4">
+                        <h3 class="text-xs font-semibold uppercase tracking-wide text-muted">Identity</h3>
+
+                        <Link
+                            v-if="player.account_id"
+                            :href="'/manage/accounts/' + player.account_id"
+                            class="group flex items-center justify-between gap-3 rounded-md border border-border p-3 transition-colors hover:border-primary"
+                        >
+                            <span class="flex min-w-0 items-center gap-3">
+                                <span class="flex size-9 shrink-0 items-center justify-center rounded-full bg-info-soft text-info">
+                                    <SvgIcon :svg="Icons.link" class="size-4" aria-hidden="true" />
+                                </span>
+                                <span class="min-w-0">
+                                    <span class="block text-xs text-muted">Linked account</span>
+                                    <span class="block truncate text-sm font-medium text-primary-active group-hover:underline">
+                                        {{ player.account?.username ?? 'Account #' + player.account_id }}
+                                    </span>
+                                </span>
+                            </span>
+                            <SvgIcon :svg="Icons.chevronRight" class="size-4 shrink-0 text-muted" aria-hidden="true" />
+                        </Link>
+                        <div v-else class="flex items-center gap-3 rounded-md border border-dashed border-border p-3">
+                            <span class="flex size-9 shrink-0 items-center justify-center rounded-full bg-surface-muted text-muted">
+                                <SvgIcon :svg="Icons.unlink" class="size-4" aria-hidden="true" />
+                            </span>
+                            <span>
+                                <span class="block text-xs text-muted">Linked account</span>
+                                <span class="block text-sm text-foreground">No account linked</span>
+                            </span>
+                        </div>
+
+                        <dl class="grid gap-3">
+                            <div class="rounded-md border border-border p-3">
+                                <dt class="text-xs text-muted">Nickname</dt>
+                                <dd class="mt-1 text-sm font-medium text-foreground">
+                                    <span v-if="player.nickname">{{ player.nickname }}</span>
+                                    <span v-else class="font-normal italic text-muted">Not set</span>
+                                </dd>
+                            </div>
+                        </dl>
+                    </section>
+
+                    <section class="space-y-3 border-t border-border p-4">
+                        <h3 class="text-xs font-semibold uppercase tracking-wide text-muted">Activity</h3>
+                        <div class="grid grid-cols-2 gap-3">
+                            <dl class="rounded-md border border-border p-3">
+                                <dt class="text-xs text-muted">Chat status</dt>
+                                <dd class="mt-2">
+                                    <Pill :variant="player.muted ? 'warning' : 'success'" size="sm">
+                                        {{ player.muted ? 'Muted' : 'Not muted' }}
+                                    </Pill>
+                                </dd>
+                            </dl>
+                            <dl class="rounded-md border border-border p-3">
+                                <dt class="text-xs text-muted">Play time</dt>
+                                <dd class="mt-1 text-sm font-semibold tabular-nums text-foreground">{{ player.play_time }}</dd>
+                            </dl>
+                            <dl class="rounded-md border border-border p-3">
+                                <dt class="text-xs text-muted">AFK time</dt>
+                                <dd class="mt-1 text-sm font-semibold tabular-nums text-foreground">{{ player.afk_time }}</dd>
+                            </dl>
+                        </div>
+                    </section>
+
+                    <section class="space-y-3 border-t border-border p-4">
+                        <h3 class="text-xs font-semibold uppercase tracking-wide text-muted">Block activity</h3>
+                        <div class="grid grid-cols-3 gap-2">
+                            <dl class="rounded-md border border-border p-2.5">
+                                <dt class="text-xs leading-tight text-muted">Placed</dt>
+                                <dd class="mt-1 text-sm font-semibold tabular-nums text-foreground">{{ player.blocks_placed }}</dd>
+                            </dl>
+                            <dl class="rounded-md border border-border p-2.5">
+                                <dt class="text-xs leading-tight text-muted">Destroyed</dt>
+                                <dd class="mt-1 text-sm font-semibold tabular-nums text-foreground">{{ player.blocks_destroyed }}</dd>
+                            </dl>
+                            <dl class="rounded-md border border-border p-2.5">
+                                <dt class="text-xs leading-tight text-muted">Travelled</dt>
+                                <dd class="mt-1 text-sm font-semibold tabular-nums text-foreground">{{ player.blocks_travelled }}</dd>
+                            </dl>
+                        </div>
+                    </section>
+
+                    <section class="space-y-3 border-t border-border p-4">
+                        <h3 class="text-xs font-semibold uppercase tracking-wide text-muted">Movement</h3>
+                        <div class="grid grid-cols-2 gap-3">
+                            <dl class="rounded-md border border-border p-3">
+                                <dt class="text-xs text-muted">Walk speed</dt>
+                                <dd class="mt-1 text-sm font-medium tabular-nums text-foreground">{{ player.walk_speed }}</dd>
+                            </dl>
+                            <dl class="rounded-md border border-border p-3">
+                                <dt class="text-xs text-muted">Fly speed</dt>
+                                <dd class="mt-1 text-sm font-medium tabular-nums text-foreground">{{ player.fly_speed }}</dd>
+                            </dl>
+                        </div>
+                    </section>
+
+                    <section class="space-y-3 border-t border-border p-4">
+                        <div class="flex items-center justify-between gap-3">
+                            <h3 class="text-xs font-semibold uppercase tracking-wide text-muted">Last location</h3>
+                            <CopyLocationButton
+                                :x="player.last_location_x"
+                                :y="player.last_location_y"
+                                :z="player.last_location_z"
+                                :yaw="player.last_location_yaw"
+                                :pitch="player.last_location_pitch"
+                            />
+                        </div>
+                        <template v-if="hasLastLocation">
+                            <dl class="rounded-md border border-border p-3">
+                                <dt class="text-xs text-muted">World UUID</dt>
+                                <dd class="mt-1 break-all font-mono text-xs text-foreground">
+                                    {{ player.last_location_world_uuid ?? 'Not recorded' }}
+                                </dd>
+                            </dl>
+                            <div class="grid grid-cols-3 gap-2">
+                                <dl class="rounded-md border border-border p-2.5">
+                                    <dt class="text-xs text-muted">X</dt>
+                                    <dd class="mt-1 text-sm font-medium tabular-nums text-foreground">{{ player.last_location_x }}</dd>
+                                </dl>
+                                <dl class="rounded-md border border-border p-2.5">
+                                    <dt class="text-xs text-muted">Y</dt>
+                                    <dd class="mt-1 text-sm font-medium tabular-nums text-foreground">{{ player.last_location_y }}</dd>
+                                </dl>
+                                <dl class="rounded-md border border-border p-2.5">
+                                    <dt class="text-xs text-muted">Z</dt>
+                                    <dd class="mt-1 text-sm font-medium tabular-nums text-foreground">{{ player.last_location_z }}</dd>
+                                </dl>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <dl class="rounded-md border border-border p-3">
+                                    <dt class="text-xs text-muted">Pitch</dt>
+                                    <dd class="mt-1 text-sm font-medium tabular-nums text-foreground">{{ player.last_location_pitch }}</dd>
+                                </dl>
+                                <dl class="rounded-md border border-border p-3">
+                                    <dt class="text-xs text-muted">Yaw</dt>
+                                    <dd class="mt-1 text-sm font-medium tabular-nums text-foreground">{{ player.last_location_yaw }}</dd>
+                                </dl>
+                            </div>
+                        </template>
+                        <p v-else class="rounded-md border border-dashed border-border p-3 text-sm text-muted">
+                            No location has been recorded for this player yet.
+                        </p>
+                    </section>
+                </Card>
+            </aside>
         </div>
     </div>
 </template>

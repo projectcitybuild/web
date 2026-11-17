@@ -9,6 +9,7 @@ import { Icons } from '../../../Icons'
 import { computed } from 'vue'
 import DataTable from '../../../Components/DataTable.vue'
 import usePermissions from '../../../Composables/usePermissions'
+import CopyLocationButton from '../../../Components/CopyLocationButton.vue'
 
 interface Props {
     warps: Warp[],
@@ -41,10 +42,24 @@ const rows = computed(
 <template>
     <DataTable :fields="fields" :rows="rows" :show-index="true">
         <template #actions="{ item }">
-            <LinkButton :href="'/manage/minecraft/warps/' + item.id + '/edit'" v-if="can('web.manage.warps.edit')" variant="outline" size="sm">
-                <SvgIcon :svg="Icons.pencil" />
-                Edit
-            </LinkButton>
+            <div class="flex items-center justify-end gap-2">
+                <CopyLocationButton
+                    :x="item.x"
+                    :y="item.y"
+                    :z="item.z"
+                    :yaw="item.yaw"
+                    :pitch="item.pitch"
+                />
+                <LinkButton
+                    v-if="can('web.manage.warps.edit')"
+                    :href="'/manage/minecraft/warps/' + item.id + '/edit'"
+                    variant="outline"
+                    size="sm"
+                >
+                    <SvgIcon :svg="Icons.pencil" aria-hidden="true" />
+                    Edit
+                </LinkButton>
+            </div>
         </template>
     </DataTable>
 </template>

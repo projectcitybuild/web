@@ -45,29 +45,6 @@ export const sidebarMenu: SidebarSection[] = [
     ],
   },
   {
-    title: 'Moderation',
-    children: [
-        {
-            title: 'Player Bans',
-            icon: Icons.playerBan,
-            route: '/manage/player-bans',
-            permission: 'web.manage.uuid_bans.view',
-        },
-        {
-            title: 'IP Bans',
-            icon: Icons.ban,
-            route: '/manage/ip-bans',
-            permission: 'web.manage.ip_bans.view',
-        },
-        {
-            title: 'Warnings',
-            icon: Icons.warning,
-            route: '/manage/warnings',
-            permission: 'web.manage.warnings.view',
-        },
-    ],
-  },
-  {
     title: 'Minecraft',
     children: [
         {
@@ -93,6 +70,29 @@ export const sidebarMenu: SidebarSection[] = [
             icon: Icons.warp,
             route: '/manage/minecraft/warps',
             permission: 'web.manage.warps.view',
+        },
+    ],
+  },
+  {
+    title: 'Moderation',
+    children: [
+        {
+            title: 'Player Bans',
+            icon: Icons.playerBan,
+            route: '/manage/player-bans',
+            permission: 'web.manage.uuid_bans.view',
+        },
+        {
+            title: 'IP Bans',
+            icon: Icons.ban,
+            route: '/manage/ip-bans',
+            permission: 'web.manage.ip_bans.view',
+        },
+        {
+            title: 'Warnings',
+            icon: Icons.warning,
+            route: '/manage/warnings',
+            permission: 'web.manage.warnings.view',
         },
     ],
   },

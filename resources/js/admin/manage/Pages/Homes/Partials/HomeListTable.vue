@@ -9,6 +9,7 @@ import usePermissions from '../../../Composables/usePermissions'
 import { Home } from '../../../Data/Home'
 import { Icons } from '../../../Icons'
 import LinkButton from '../../../../shared/Components/LinkButton.vue'
+import CopyLocationButton from '../../../Components/CopyLocationButton.vue'
 
 interface Props {
     homes: Home[],
@@ -19,8 +20,8 @@ const { can } = usePermissions()
 
 const fields = [
     { key: 'id', label: 'ID' },
-    { key: 'player', label: 'Player' },
     { key: 'name', label: 'Name' },
+    { key: 'player', label: 'Player' },
     { key: 'world', label: 'World' },
     { key: 'x', label: 'x' },
     { key: 'y', label: 'y' },
@@ -42,25 +43,36 @@ const rows = computed(
 <template>
     <DataTable :fields="fields" :rows="rows" :show-index="true">
         <template #player="{ item }">
-            <MinecraftAvatar :uuid="item.player?.uuid" :size="16"/>
-            <Link
-                :href="'/manage/players/' + item.player?.id"
-                class="text-primary"
-            >
-                {{ item.player?.alias ?? "-" }}
-            </Link>
+            <div class="flex flex-row items-center gap-3">
+                <MinecraftAvatar :uuid="item.player?.uuid" :size="32"/>
+                <Link
+                    :href="'/manage/players/' + item.player?.id"
+                    class="text-primary font-semibold underline"
+                >
+                    {{ item.player?.alias ?? "-" }}
+                </Link>
+            </div>
         </template>
 
         <template #actions="{ item }">
-            <LinkButton
-                v-if="can('web.manage.homes.edit')"
-                :href="'/manage/homes/' + item.id + '/edit'"
-                variant="outline"
-                size="sm"
-            >
-                <SvgIcon :svg="Icons.pencil" aria-hidden="true" />
-                Edit
-            </LinkButton>
+            <div class="flex items-center justify-end gap-2">
+                <CopyLocationButton
+                    :x="item.x"
+                    :y="item.y"
+                    :z="item.z"
+                    :yaw="item.yaw"
+                    :pitch="item.pitch"
+                />
+                <LinkButton
+                    v-if="can('web.manage.homes.edit')"
+                    :href="'/manage/homes/' + item.id + '/edit'"
+                    variant="outline"
+                    size="sm"
+                >
+                    <SvgIcon :svg="Icons.pencil" aria-hidden="true" />
+                    Edit
+                </LinkButton>
+            </div>
         </template>
     </DataTable>
 </template>
