@@ -1,21 +1,5 @@
-export interface BuilderRankApplication {
-    id: number,
-    account_id: number,
-    account?: App.Http.Data.AdminAccountData,
-    minecraft_alias: string,
-    current_builder_rank: string,
-    build_location: string,
-    build_description: string,
-    additional_notes?: string,
-    status: BuilderRankApplicationStatus,
-    denied_reason?: string,
-    closed_at?: string,
-    created_at: string,
-    updated_at: string,
-}
-
-export enum BuilderRankApplicationStatus {
-    pending = 1,
-    approved,
-    denied,
-}
+export const BuilderRankApplicationStatus = {
+    pending: 1,
+    approved: 2,
+    denied: 3,
+} as const satisfies Record<string, App.Domains.BuilderRankApplications.Data.ApplicationStatus>

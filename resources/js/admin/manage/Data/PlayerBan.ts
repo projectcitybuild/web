@@ -1,21 +1,10 @@
-import { Player } from './Player'
+export type PlayerBan = Omit<
+    App.Http.Data.AdminGamePlayerBanData,
+    'banned_player' | 'banner_player' | 'unbanner_player'
+>
 
-export interface PlayerBan {
-    id: number,
-    banned_player: Player,
-    banner_player?: Player,
-    reason?: string,
-    additional_info?: string,
-    expires_at: string | null,
-    created_at: string | null,
-    updated_at: string,
-    unbanned_at?: string,
-    unban_type?: UnbanType,
-    unbanner_player?: Player,
-}
-
-export enum UnbanType {
-    expired = 'expired',
-    manual = 'manual',
-    appealed = 'appealed',
-}
+export const UnbanType = {
+    expired: 'expired',
+    manual: 'manual',
+    appealed: 'appealed',
+} as const satisfies Record<string, App.Domains.Bans.Data.UnbanType>

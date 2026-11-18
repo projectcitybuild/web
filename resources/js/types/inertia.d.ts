@@ -48,7 +48,7 @@ declare global {
                 current_page: number
                 total: number
                 path: string
-                next_page_url?: string | null
+                next_page_url: string | null
             }
         }
         'manage/Badges/BadgeCreate': {}
@@ -61,7 +61,7 @@ declare global {
                 current_page: number
                 total: number
                 path: string
-                next_page_url?: string | null
+                next_page_url: string | null
             }
         }
         'manage/Homes/HomeCreate': {}
@@ -74,7 +74,7 @@ declare global {
                 current_page: number
                 total: number
                 path: string
-                next_page_url?: string | null
+                next_page_url: string | null
             }
         }
         'manage/Warps/WarpCreate': {}
@@ -101,7 +101,7 @@ declare global {
                 current_page: number
                 total: number
                 path: string
-                next_page_url?: string | null
+                next_page_url: string | null
             }
         }
         'manage/PlayerBans/PlayerBanCreate': {}
@@ -114,7 +114,7 @@ declare global {
                 current_page: number
                 total: number
                 path: string
-                next_page_url?: string | null
+                next_page_url: string | null
             }
         }
         'manage/IPBans/IPBanCreate': {}
@@ -127,7 +127,7 @@ declare global {
                 current_page: number
                 total: number
                 path: string
-                next_page_url?: string | null
+                next_page_url: string | null
             }
         }
         'manage/Warnings/WarningCreate': {}
@@ -153,7 +153,7 @@ declare global {
                 current_page: number
                 total: number
                 path: string
-                next_page_url?: string | null
+                next_page_url: string | null
             }
         }
         'manage/Donations/DonationList': {
@@ -162,10 +162,13 @@ declare global {
                 current_page: number
                 total: number
                 path: string
-                next_page_url?: string | null
+                next_page_url: string | null
             }
         }
         'manage/Donations/DonationCreate': {}
+        'manage/Donations/DonationShow': {
+            donation: App.Http.Data.AdminDonationData
+        }
         'manage/Donations/DonationEdit': {
             donation: App.Http.Data.AdminDonationData
         }
@@ -182,7 +185,7 @@ declare global {
                 current_page: number
                 total: number
                 path: string
-                next_page_url?: string | null
+                next_page_url: string | null
             }
         }
         'manage/Players/PlayerCreate': {}
@@ -198,7 +201,7 @@ declare global {
                 current_page: number
                 total: number
                 path: string
-                next_page_url?: string | null
+                next_page_url: string | null
             }
         }
         'review/BuilderRankApplications/BuilderRankApplicationShow': {
@@ -247,7 +250,7 @@ declare global {
                 current_page: number
                 total: number
                 path: string
-                next_page_url?: string | null
+                next_page_url: string | null
             }
         }
         'manage/Home': {

@@ -5,13 +5,13 @@ import MinecraftAvatar from '../../../../manage/Components/MinecraftAvatar.vue'
 import Badge from '../../../../shared/Components/Badge.vue'
 import { distance, distanceFromNow, format } from '../../../../manage/Utilities/DateFormatter'
 
-const statusLabels: Record<BuilderRankApplicationStatus, string> = {
+const statusLabels: Record<App.Domains.BuilderRankApplications.Data.ApplicationStatus, string> = {
     [BuilderRankApplicationStatus.pending]: 'Awaiting review',
     [BuilderRankApplicationStatus.approved]: 'Approved',
     [BuilderRankApplicationStatus.denied]: 'Denied',
 }
 
-const statusVariants: Record<BuilderRankApplicationStatus, 'warning' | 'success' | 'danger'> = {
+const statusVariants: Record<App.Domains.BuilderRankApplications.Data.ApplicationStatus, 'warning' | 'success' | 'danger'> = {
     [BuilderRankApplicationStatus.pending]: 'warning',
     [BuilderRankApplicationStatus.approved]: 'success',
     [BuilderRankApplicationStatus.denied]: 'danger',

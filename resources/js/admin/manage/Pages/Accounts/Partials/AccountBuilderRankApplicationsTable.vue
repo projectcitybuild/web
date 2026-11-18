@@ -2,7 +2,7 @@
 import InfinitePagination from '../../../Components/InfinitePagination.vue'
 import { format } from '../../../Utilities/DateFormatter'
 import OutlinedButton from '../../../Components/OutlinedButton.vue'
-import { BuilderRankApplicationStatus, type BuilderRankApplication } from '../../../Data/BuilderRankApplication'
+import { BuilderRankApplicationStatus } from '../../../Data/BuilderRankApplication'
 import Pill from '../../../Components/Pill.vue'
 import DataTable from '../../../Components/DataTable.vue'
 
@@ -20,7 +20,7 @@ const fields = [
 </script>
 
 <template>
-    <!-- @vue-generic {BuilderRankApplication} -->
+    <!-- @vue-generic {App.Http.Data.AdminBuilderRankApplicationData} -->
     <InfinitePagination
         :path="'/manage/accounts/' + account_id + '/builder-ranks'"
         v-slot="source"

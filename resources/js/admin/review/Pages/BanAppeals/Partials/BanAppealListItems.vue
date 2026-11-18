@@ -5,14 +5,14 @@ import MinecraftAvatar from '../../../../manage/Components/MinecraftAvatar.vue'
 import Badge from '../../../../shared/Components/Badge.vue'
 import { distance, distanceFromNow, format } from '../../../../manage/Utilities/DateFormatter'
 
-const statusLabels: Record<BanAppealStatus, string> = {
+const statusLabels: Record<App.Domains.BanAppeals.Data.BanAppealStatus, string> = {
     [BanAppealStatus.pending]: 'Awaiting review',
     [BanAppealStatus.unbanned]: 'Unbanned',
     [BanAppealStatus.tempBanned]: 'Temp banned',
     [BanAppealStatus.denied]: 'Denied',
 }
 
-const statusVariants: Record<BanAppealStatus, 'warning' | 'success' | 'info' | 'danger'> = {
+const statusVariants: Record<App.Domains.BanAppeals.Data.BanAppealStatus, 'warning' | 'success' | 'info' | 'danger'> = {
     [BanAppealStatus.pending]: 'warning',
     [BanAppealStatus.unbanned]: 'success',
     [BanAppealStatus.tempBanned]: 'info',

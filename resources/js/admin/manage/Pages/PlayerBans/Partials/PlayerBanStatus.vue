@@ -4,10 +4,7 @@ import { compareAsc } from 'date-fns'
 import { computed } from 'vue'
 
 interface Props {
-    ban: {
-        unbanned_at?: string | null,
-        expires_at: string | null,
-    },
+    ban: Pick<App.Http.Data.AdminGamePlayerBanData, 'unbanned_at' | 'expires_at'>,
 }
 const props = defineProps<Props>()
 

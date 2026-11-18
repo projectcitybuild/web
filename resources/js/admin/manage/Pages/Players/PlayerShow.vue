@@ -24,7 +24,6 @@ import LinkButton from '../../../shared/Components/LinkButton.vue'
 import CopyLocationButton from '../../Components/CopyLocationButton.vue'
 import type { PlayerBan } from '../../Data/PlayerBan'
 import type { PlayerWarning } from '../../Data/PlayerWarning'
-import type { Home } from '../../Data/Home'
 import type { PlayerIP } from '../../Data/PlayerIP'
 
 const { can } = usePermissions()
@@ -49,7 +48,9 @@ async function refreshAlias() {
     isRefreshingAlias.value = true
 
     try {
-        const response = await axios.post('/manage/players/' + props.player.id + '/alias/refresh')
+        const response = await axios.post<App.Http.Data.MinecraftPlayerData>(
+            '/manage/players/' + props.player.id + '/alias/refresh',
+        )
         const player = response.data
         router.replace({
             props: (currentProps) => ({
@@ -185,7 +186,7 @@ async function refreshAlias() {
                         <h2 class="text-base font-semibold text-foreground">Homes</h2>
                         <p class="mt-0.5 text-sm text-muted">Saved locations belonging to this player.</p>
                     </div>
-                    <!-- @vue-generic {Home} -->
+                    <!-- @vue-generic {App.Http.Data.MinecraftHomeData} -->
                     <InfinitePagination
                         :path="'/manage/players/' + player.id + '/homes'"
                         v-slot="source"
