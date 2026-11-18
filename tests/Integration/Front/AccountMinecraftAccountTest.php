@@ -4,64 +4,50 @@ namespace Tests\Integration\Front;
 
 use App\Models\Account;
 use App\Models\MinecraftPlayer;
-use Tests\TestCase;
 
-class AccountMinecraftAccountTest extends TestCase
-{
-    private Account $account;
-    private MinecraftPlayer $mcPlayer;
+it('shows linked Minecraft accounts in the list', function () {
+    $account = Account::factory()->create();
+    $mcPlayer = MinecraftPlayer::factory()->for($account)->create();
 
-    protected function setUp(): void
-    {
-        parent::setUp();
+    $this->actingAs($account);
 
-        $this->account = Account::factory()->create();
+    $this->get(route('front.account.games'))
+        ->assertOk()
+        ->assertSee($mcPlayer->uuid);
+});
 
-        $this->mcPlayer = MinecraftPlayer::factory()
-            ->for($this->account)
-            ->create();
-    }
+it('shows linked Minecraft accounts without aliases', function () {
+    $account = Account::factory()->create();
+    $this->actingAs($account);
 
-    public function test_minecraft_account_shown_in_list()
-    {
-        $this->actingAs($this->account);
+    $noAliasMcPlayer = MinecraftPlayer::factory()
+        ->for($account)
+        ->create();
 
-        $this->get(route('front.account.games'))
-            ->assertOk()
-            ->assertSee($this->mcPlayer->uuid);
-    }
+    $this->get(route('front.account.games'))
+        ->assertOk()
+        ->assertSee($noAliasMcPlayer->uuid);
+});
 
-    public function test_minecraft_account_without_alias()
-    {
-        $this->actingAs($this->account);
+it('allows an account to unlink its own Minecraft account', function () {
+    $account = Account::factory()->create();
+    $mcPlayer = MinecraftPlayer::factory()->for($account)->create();
+    $this->actingAs($account);
 
-        $noAliasMcPlayer = MinecraftPlayer::factory()
-            ->for($this->account)
-            ->create();
+    $this->delete(route('front.account.games.delete', $mcPlayer->id))
+        ->assertRedirect();
 
-        $this->get(route('front.account.games'))
-            ->assertOk()
-            ->assertSee($noAliasMcPlayer->uuid);
-    }
+    $this->assertDatabaseHas(MinecraftPlayer::tableName(), [
+        'uuid' => $mcPlayer->uuid,
+        'account_id' => null,
+    ]);
+});
 
-    public function test_can_unlink_own_account()
-    {
-        $this->actingAs($this->account);
+it('forbids unlinking another account Minecraft account', function () {
+    $account = Account::factory()->create();
+    $mcPlayer = MinecraftPlayer::factory()->for($account)->create();
+    $this->actingAs(Account::factory()->create());
 
-        $this->delete(route('front.account.games.delete', $this->mcPlayer->id))
-            ->assertRedirect();
-
-        $this->assertDatabaseHas(MinecraftPlayer::tableName(), [
-            'uuid' => $this->mcPlayer->uuid,
-            'account_id' => null,
-        ]);
-    }
-
-    public function test_cannot_unlink_others_account()
-    {
-        $this->actingAs(Account::factory()->create());
-
-        $this->delete(route('front.account.games.delete', $this->mcPlayer->id))
-            ->assertForbidden();
-    }
-}
+    $this->delete(route('front.account.games.delete', $mcPlayer->id))
+        ->assertForbidden();
+});

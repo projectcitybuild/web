@@ -9,23 +9,20 @@ use App\Models\Account;
 use Illuminate\Support\Facades\Crypt;
 use PragmaRX\Google2FA\Google2FA;
 
-function oidcReauthenticationChallenge(): ReauthenticationChallenge
-{
-    return new ReauthenticationChallenge(
-        transactionId: 'transaction-id',
-        token: 'challenge-token',
-        guard: 'web',
-        expectedIdentity: null,
-        issuedAt: now()->timestamp,
-        expiresAt: now()->addMinutes(5)->timestamp,
-    );
-}
+$createReauthenticationChallenge = fn (): ReauthenticationChallenge => new ReauthenticationChallenge(
+    transactionId: 'transaction-id',
+    token: 'challenge-token',
+    guard: 'web',
+    expectedIdentity: null,
+    issuedAt: now()->timestamp,
+    expiresAt: now()->addMinutes(5)->timestamp,
+);
 
-it('records a completed password-only reauthentication for its OIDC challenge', function () {
+it('records a completed password-only reauthentication for its OIDC challenge', function () use ($createReauthenticationChallenge) {
     $account = Account::factory()
         ->passwordHashed('secret')
         ->create();
-    $challenge = oidcReauthenticationChallenge();
+    $challenge = $createReauthenticationChallenge();
 
     $reauthentication = Mockery::mock(ReauthenticationService::class);
     $reauthentication->shouldReceive('challenge')->once()->andReturn($challenge);
@@ -49,12 +46,12 @@ it('records a completed password-only reauthentication for its OIDC challenge', 
     ])->assertRedirect('/oauth/authorize/continue');
 });
 
-it('does not complete OIDC reauthentication until TOTP succeeds', function () {
+it('does not complete OIDC reauthentication until TOTP succeeds', function () use ($createReauthenticationChallenge) {
     $account = Account::factory()
         ->passwordHashed('secret')
         ->hasFinishedTotp()
         ->create();
-    $challenge = oidcReauthenticationChallenge();
+    $challenge = $createReauthenticationChallenge();
 
     $reauthentication = Mockery::mock(ReauthenticationService::class);
     $reauthentication->shouldReceive('challenge')->twice()->andReturn($challenge);

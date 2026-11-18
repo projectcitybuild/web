@@ -1,110 +1,74 @@
 <?php
 
 use App\Domains\Activation\Notifications\AccountNeedsActivationNotification;
-use App\Domains\Captcha\Validator\CaptchaValidator;
 use App\Models\Account;
 use App\Models\Role;
 use Illuminate\Support\Facades\Notification;
-use Mockery\MockInterface;
+use Tests\Support\RegistrationTestHelpers;
 
-function unactivatedAccount(array $attributes = []): Account
-{
-    return Account::factory()
-        ->unactivated()
-        ->make($attributes);
-}
-
-function validFormDataFor(Account $account): array
-{
-    return array_merge($account->toArray(), [
-        'password' => 'password123456',
-        'captcha-response' => 'captcha',
-        'terms' => 1,
-    ]);
-}
-
-beforeEach(function () {
-    $this->formEndpoint = route('front.register');
-    $this->submitEndpoint = route('front.register.submit');
-
-    $this->allFieldKeys = [
-        'email',
-        'username',
-        'password',
-        'captcha-response',
-        'terms',
-    ];
-
-    $this->mockCaptcha = function (bool $passed = true) {
-        $this->mock(CaptchaValidator::class, function (MockInterface $mock) use ($passed) {
-            $mock->shouldReceive('passed')
-                ->once()
-                ->andReturn($passed);
-        });
-    };
-});
+uses(RegistrationTestHelpers::class);
 
 it('redirects to account settings if logged in', function () {
     $this->actingAs(Account::factory()->create())
-        ->get($this->formEndpoint)
+        ->get(route('front.register'))
         ->assertRedirect(route('front.account.profile'));
 });
 
 it('shows a page', function () {
-    $this->get($this->formEndpoint)
+    $this->get(route('front.register'))
         ->assertSuccessful();
 });
 
 describe('validation errors', function () {
     it('throws if fields are missing', function () {
-        $this->post($this->submitEndpoint, [])
-            ->assertInvalid($this->allFieldKeys);
+        $this->post(route('front.register.submit'), [])
+            ->assertInvalid(['email', 'username', 'password', 'captcha-response', 'terms']);
     });
 
     it('throws if password is too short', function () {
-        $this->mockCaptcha->call($this);
+        $this->mockCaptcha();
 
-        $unactivatedAccount = unactivatedAccount();
-        $formData = validFormDataFor($unactivatedAccount);
+        $unactivatedAccount = $this->createUnactivatedAccount();
+        $formData = $this->validFormDataFor($unactivatedAccount);
         $formData['password'] = '123';
 
-        $this->post($this->submitEndpoint, $formData)
+        $this->post(route('front.register.submit'), $formData)
             ->assertInvalid(['password']);
     });
 
     it('throws if username is already in use', function () {
-        $this->mockCaptcha->call($this);
+        $this->mockCaptcha();
 
         Account::factory()->create(['username' => 'taken']);
         $this->assertDatabaseHas('accounts', ['username' => 'taken']);
 
-        $unactivatedAccount = unactivatedAccount(['username' => 'taken']);
-        $formData = validFormDataFor($unactivatedAccount);
+        $unactivatedAccount = $this->createUnactivatedAccount(['username' => 'taken']);
+        $formData = $this->validFormDataFor($unactivatedAccount);
 
-        $this->post($this->submitEndpoint, $formData)
+        $this->post(route('front.register.submit'), $formData)
             ->assertInvalid(['username']);
     });
 
     it('throws if email is already in use', function () {
-        $this->mockCaptcha->call($this);
+        $this->mockCaptcha();
 
         Account::factory()->create(['email' => 'me@pcbmc.co']);
         $this->assertDatabaseHas('accounts', ['email' => 'me@pcbmc.co']);
 
-        $unactivatedAccount = unactivatedAccount(['email' => 'me@pcbmc.co']);
-        $formData = validFormDataFor($unactivatedAccount);
+        $unactivatedAccount = $this->createUnactivatedAccount(['email' => 'me@pcbmc.co']);
+        $formData = $this->validFormDataFor($unactivatedAccount);
 
-        $this->post($this->submitEndpoint, $formData)
+        $this->post(route('front.register.submit'), $formData)
             ->assertInvalid(['email']);
     });
 
     it('throws if captcha is invalid', function () {
-        $this->mockCaptcha->call($this, passed: false);
+        $this->mockCaptcha(passed: false);
 
-        $unactivatedAccount = unactivatedAccount();
-        $formData = validFormDataFor($unactivatedAccount);
+        $unactivatedAccount = $this->createUnactivatedAccount();
+        $formData = $this->validFormDataFor($unactivatedAccount);
 
-        $this->post($this->submitEndpoint, $formData)
+        $this->post(route('front.register.submit'), $formData)
             ->assertInvalid(['captcha-response']);
     });
 });
@@ -112,55 +76,64 @@ describe('validation errors', function () {
 describe('successful submit', function () {
     beforeEach(function () {
         Role::factory()->create(['is_default' => true]);
-
-        $this->unactivatedAccount = unactivatedAccount();
-        $this->formData = validFormDataFor($this->unactivatedAccount);
-
-        $this->mockCaptcha->call($this);
+        $this->mockCaptcha();
     });
 
     it('creates an unactivated account from valid form data', function () {
-        $this->post($this->submitEndpoint, $this->formData)
+        $unactivatedAccount = $this->createUnactivatedAccount();
+        $formData = $this->validFormDataFor($unactivatedAccount);
+
+        $this->post(route('front.register.submit'), $formData)
             ->assertSessionHasNoErrors()
-            ->assertValid($this->allFieldKeys);
+            ->assertValid(['email', 'username', 'password', 'captcha-response', 'terms']);
 
         $this->assertDatabaseHas('accounts', [
-            'email' => $this->unactivatedAccount->email,
-            'username' => $this->unactivatedAccount->username,
+            'email' => $unactivatedAccount->email,
+            'username' => $unactivatedAccount->username,
             'activated' => false,
         ]);
     });
 
     it('hashes the password', function () {
-        $this->post($this->submitEndpoint, $this->formData);
+        $unactivatedAccount = $this->createUnactivatedAccount();
+        $formData = $this->validFormDataFor($unactivatedAccount);
+        $this->post(route('front.register.submit'), $formData);
 
-        $account = Account::where('email', $this->unactivatedAccount->email)->firstOrFail();
+        $account = Account::where('email', $unactivatedAccount->email)->firstOrFail();
 
         expect($account->password)
             ->not
-            ->toBe($this->unactivatedAccount->password);
+            ->toBe($unactivatedAccount->password);
     });
 
     it('sends an email to activate the account', function () {
         Notification::fake();
+        $unactivatedAccount = $this->createUnactivatedAccount();
+        $formData = $this->validFormDataFor($unactivatedAccount);
 
-        $this->post($this->submitEndpoint, $this->formData);
+        $this->post(route('front.register.submit'), $formData);
 
-        $account = Account::where('email', $this->unactivatedAccount->email)->firstOrFail();
+        $account = Account::where('email', $unactivatedAccount->email)->firstOrFail();
 
         Notification::assertSentTo($account, AccountNeedsActivationNotification::class);
     });
 
     it('authenticates as user', function () {
-        $this->assertGuest();
-        $this->post($this->submitEndpoint, $this->formData);
+        $unactivatedAccount = $this->createUnactivatedAccount();
+        $formData = $this->validFormDataFor($unactivatedAccount);
 
-        $account = Account::whereEmail($this->formData['email'])->firstOrFail();
+        $this->assertGuest();
+        $this->post(route('front.register.submit'), $formData);
+
+        $account = Account::whereEmail($formData['email'])->firstOrFail();
         $this->assertAuthenticatedAs($account);
     });
 
     it('redirects to activation flow', function () {
-        $this->post($this->submitEndpoint, $this->formData)
+        $unactivatedAccount = $this->createUnactivatedAccount();
+        $formData = $this->validFormDataFor($unactivatedAccount);
+
+        $this->post(route('front.register.submit'), $formData)
             ->assertRedirect(route('front.activate'));
     });
 });

@@ -6,99 +6,80 @@ use App\Domains\EmailChange\Notifications\VerifyNewEmailAddressNotification;
 use App\Models\Account;
 use App\Models\EmailChange;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Testing\TestResponse;
-use Tests\TestCase;
+use Tests\Support\AccountSettingsTestActions;
 
-class AccountSettingsEmailTest extends TestCase
-{
-    private $account;
+uses(AccountSettingsTestActions::class);
 
-    protected function setUp(): void
-    {
-        parent::setUp();
+beforeEach(function () {
+    Notification::fake();
+});
 
-        Notification::fake();
+it('changes the email address', function () {
+    $account = Account::factory()->create();
+    Notification::assertNothingSent();
 
-        $this->account = Account::factory()->create();
-    }
+    $newEmail = 'valid@email.com';
 
-    private function submitEmailChange(string $newEmail): TestResponse
-    {
-        return $this
-            ->actingAs($this->account)
-            ->post(
-                uri: route('front.account.settings.email'),
-                data: ['email' => $newEmail]
-            );
-    }
+    $this->submitEmailChange($account, $newEmail);
 
-    public function test_change_email_address()
-    {
-        Notification::assertNothingSent();
+    $this->assertDatabaseHas('account_email_changes', [
+        'email' => $newEmail,
+        'account_id' => $account->id,
+    ]);
 
-        $newEmail = 'valid@email.com';
+    Notification::assertSentTo(
+        Notification::route('mail', $newEmail),
+        VerifyNewEmailAddressNotification::class,
+    );
+});
 
-        $this->submitEmailChange($newEmail);
+it('replaces an existing email change request', function () {
+    $account = Account::factory()->create();
+    EmailChange::create([
+        'token' => 'test',
+        'account_id' => $account->id,
+        'email' => 'foo@bar.com',
+        'expires_at' => now()->addDay(),
+    ]);
+    $this->assertDatabaseHas('account_email_changes', [
+        'token' => 'test',
+        'account_id' => $account->id,
+        'email' => 'foo@bar.com',
+    ]);
 
-        $this->assertDatabaseHas('account_email_changes', [
-            'email' => $newEmail,
-            'account_id' => $this->account->id,
-        ]);
+    $newEmail = 'valid@email.com';
 
-        Notification::assertSentTo(
-            Notification::route('mail', $newEmail),
-            VerifyNewEmailAddressNotification::class,
-        );
-    }
+    $this->submitEmailChange($account, $newEmail);
 
-    public function test_deletes_existing_email_change()
-    {
-        EmailChange::create([
-            'token' => 'test',
-            'account_id' => $this->account->id,
-            'email' => 'foo@bar.com',
-            'expires_at' => now()->addDay(),
-        ]);
-        $this->assertDatabaseHas('account_email_changes', [
-            'token' => 'test',
-            'account_id' => $this->account->id,
-            'email' => 'foo@bar.com',
-        ]);
+    $this->assertDatabaseMissing('account_email_changes', [
+        'token' => 'test',
+        'account_id' => $account->id,
+        'email' => 'foo@bar.com',
+    ]);
+});
 
-        $newEmail = 'valid@email.com';
+it('rejects an email address already used by another account', function () {
+    $account = Account::factory()->create();
+    $otherAccount = Account::factory()->create();
 
-        $this->submitEmailChange($newEmail);
+    $this->submitEmailChange($account, $otherAccount->email)
+        ->assertSessionHasErrors();
+});
 
-        $this->assertDatabaseMissing('account_email_changes', [
-            'token' => 'test',
-            'account_id' => $this->account->id,
-            'email' => 'foo@bar.com',
-        ]);
-    }
+it('rejects an empty email address', function () {
+    $account = Account::factory()->create();
+    $this->submitEmailChange($account, '')
+        ->assertSessionHasErrors();
+});
 
-    public function test_cant_change_ema_il_to_existing_email()
-    {
-        $otherAccount = Account::factory()->create();
+it('rejects an invalid email address', function () {
+    $account = Account::factory()->create();
+    $this->submitEmailChange($account, 'test')
+        ->assertSessionHasErrors();
+});
 
-        $this->submitEmailChange($otherAccount->email)
-            ->assertSessionHasErrors();
-    }
-
-    public function test_cant_submit_empty_email()
-    {
-        $this->submitEmailChange('')
-            ->assertSessionHasErrors();
-    }
-
-    public function test_cant_submit_invalid_email()
-    {
-        $this->submitEmailChange('test')
-            ->assertSessionHasErrors();
-    }
-
-    public function test_cant_submit_same_email()
-    {
-        $this->submitEmailChange($this->account->email)
-            ->assertSessionHasErrors();
-    }
-}
+it('rejects the account current email address', function () {
+    $account = Account::factory()->create();
+    $this->submitEmailChange($account, $account->email)
+        ->assertSessionHasErrors();
+});

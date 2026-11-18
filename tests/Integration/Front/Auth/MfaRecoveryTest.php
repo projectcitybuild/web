@@ -8,62 +8,49 @@ use App\Models\Account;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
-use Tests\TestCase;
 
-class MfaRecoveryTest extends TestCase
-{
-    private Account $mfaAccount;
+it('shows the backup form when MFA is required', function () {
+    $mfaAccount = Account::factory()->hasFinishedTotp()->create();
+    $this->actingAs($mfaAccount)
+        ->flagNeedsMfa();
 
-    protected function setUp(): void
-    {
-        parent::setUp();
+    $this->get(route('front.login.mfa-recover'))
+        ->assertOk();
+});
 
-        $this->mfaAccount = Account::factory()->hasFinishedTotp()->create();
-    }
+it('uses a backup code to recover the account', function () {
+    Notification::fake();
+    $mfaAccount = Account::factory()->hasFinishedTotp()->create();
 
-    public function test_can_view_backup_form_when2_f_aing()
-    {
-        $this->actingAs($this->mfaAccount)
-            ->flagNeedsMfa();
+    $this->actingAs($mfaAccount)
+        ->flagNeedsMfa();
 
-        $this->get(route('front.login.mfa-recover'))
-            ->assertOk();
-    }
+    $this->delete(route('front.login.mfa-recover'), [
+        'backup_code' => Crypt::decryptString($mfaAccount->totp_backup_code),
+    ])
+        ->assertSessionHasNoErrors()
+        ->assertRedirect(route('front.login'))
+        ->assertSessionHas('success')
+        ->assertSessionMissing(MfaAuthenticated::NEEDS_MFA_KEY);
 
-    public function test_can_submit_backup_form()
-    {
-        Notification::fake();
+    $this->assertGuest();
 
-        $this->actingAs($this->mfaAccount)
-            ->flagNeedsMfa();
+    Notification::assertSentTo($mfaAccount, MfaBackupCodeUsedNotification::class);
 
-        $this->delete(route('front.login.mfa-recover'), [
-            'backup_code' => Crypt::decryptString($this->mfaAccount->totp_backup_code),
-        ])
-            ->assertSessionHasNoErrors()
-            ->assertRedirect(route('front.login'))
-            ->assertSessionHas('success')
-            ->assertSessionMissing(MfaAuthenticated::NEEDS_MFA_KEY);
+    $account = $mfaAccount->refresh();
 
-        $this->assertGuest();
+    $this->assertEmpty($account->totp_secret);
+    $this->assertEmpty($account->totp_backup_code);
+    $this->assertEmpty($account->totp_last_used);
+    $this->assertFalse($account->is_totp_enabled);
+});
 
-        Notification::assertSentTo($this->mfaAccount, MfaBackupCodeUsedNotification::class);
+it('rejects an invalid backup code', function () {
+    $mfaAccount = Account::factory()->hasFinishedTotp()->create();
+    $this->actingAs($mfaAccount)
+        ->flagNeedsMfa();
 
-        $account = $this->mfaAccount->refresh();
-
-        $this->assertEmpty($account->totp_secret);
-        $this->assertEmpty($account->totp_backup_code);
-        $this->assertEmpty($account->totp_last_used);
-        $this->assertFalse($account->is_totp_enabled);
-    }
-
-    public function test_wrong_backup_code_doesnt_work()
-    {
-        $this->actingAs($this->mfaAccount)
-            ->flagNeedsMfa();
-
-        $this->delete(route('front.login.mfa-recover'), [
-            'backup_code' => Str::random(32),
-        ])->assertSessionHasErrors();
-    }
-}
+    $this->delete(route('front.login.mfa-recover'), [
+        'backup_code' => Str::random(32),
+    ])->assertSessionHasErrors();
+});

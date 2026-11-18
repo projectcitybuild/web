@@ -10,95 +10,78 @@ use App\Models\Account;
 use Illuminate\Support\Facades\Crypt;
 use Mockery;
 use PragmaRX\Google2FA\Google2FA;
-use Tests\TestCase;
 
-class MfaLoginTest extends TestCase
-{
-    private Account $mfaAccount;
-    private Google2FA $google2fa;
+it('removes the MFA flag after a valid code', function () {
+    $mfaAccount = Account::factory()->passwordHashed()->hasFinishedTotp()->create();
+    $google2fa = $this->app->make(Google2FA::class);
 
-    protected function setUp(): void
-    {
-        parent::setUp();
+    $this->actingAs($mfaAccount)
+        ->flagNeedsMfa();
 
-        $this->mfaAccount = Account::factory()
-            ->passwordHashed()
-            ->hasFinishedTotp()
-            ->create();
+    $validCode = $google2fa->getCurrentOtp(Crypt::decryptString($mfaAccount->totp_secret));
+    $recorder = Mockery::mock(AuthenticationRecorder::class);
+    $recorder->shouldReceive('markAuthenticated')
+        ->once()
+        ->with('web', Mockery::on(fn (Account $account) => $account->is($mfaAccount)))
+        ->andReturn(new AuthenticationRecord(
+            'web', Account::class, (string) $mfaAccount->getAuthIdentifier(), now()->timestamp, str_repeat('a', 64),
+        ));
+    $this->app->instance(AuthenticationRecorder::class, $recorder);
 
-        $this->google2fa = $this->app->make(Google2FA::class);
-    }
+    $this->post(route('front.login.mfa.submit'), ['code' => $validCode])
+        ->assertSessionHasNoErrors()
+        ->assertRedirect();
+});
 
-    public function test_submit_mfa_code_removes_flag()
-    {
-        $this->actingAs($this->mfaAccount)
-            ->flagNeedsMfa();
+it('accepts the bypass code without decrypting the TOTP secret', function () {
+    $this->setTemporaryConfig('auth.totp.bypass', true);
+    $this->setTemporaryConfig('app.debug', true);
+    $this->app->instance(Google2FA::class, new Google2FAFake);
 
-        $validCode = $this->google2fa->getCurrentOtp(Crypt::decryptString($this->mfaAccount->totp_secret));
-        $recorder = Mockery::mock(AuthenticationRecorder::class);
-        $recorder->shouldReceive('markAuthenticated')
-            ->once()
-            ->with('web', Mockery::on(fn (Account $account) => $account->is($this->mfaAccount)))
-            ->andReturn(new AuthenticationRecord(
-                'web', Account::class, (string) $this->mfaAccount->getAuthIdentifier(), now()->timestamp, str_repeat('a', 64),
-            ));
-        $this->app->instance(AuthenticationRecorder::class, $recorder);
+    $mfaAccount = Account::factory()->passwordHashed()->hasFinishedTotp()->create();
+    $mfaAccount->totp_secret = 'invalid-ciphertext';
+    $mfaAccount->save();
 
-        $this->post(route('front.login.mfa.submit'), ['code' => $validCode])
-            ->assertSessionHasNoErrors()
-            ->assertRedirect();
-    }
+    $this->actingAs($mfaAccount)
+        ->flagNeedsMfa();
 
-    public function test_bypass_code_does_not_decrypt_totp_secret()
-    {
-        $this->setTemporaryConfig('auth.totp.bypass', true);
-        $this->setTemporaryConfig('app.debug', true);
-        $this->app->instance(Google2FA::class, new Google2FAFake);
+    $recorder = Mockery::mock(AuthenticationRecorder::class);
+    $recorder->shouldReceive('markAuthenticated')
+        ->once()
+        ->with('web', Mockery::on(fn (Account $account) => $account->is($mfaAccount)))
+        ->andReturn(new AuthenticationRecord(
+            'web', Account::class, (string) $mfaAccount->getAuthIdentifier(), now()->timestamp, str_repeat('a', 64),
+        ));
+    $this->app->instance(AuthenticationRecorder::class, $recorder);
 
-        $this->mfaAccount->totp_secret = 'invalid-ciphertext';
-        $this->mfaAccount->save();
+    $this->post(route('front.login.mfa.submit'), ['code' => '0000'])
+        ->assertSessionMissing(MfaAuthenticated::NEEDS_MFA_KEY)
+        ->assertRedirect();
+});
 
-        $this->actingAs($this->mfaAccount)
-            ->flagNeedsMfa();
+it('rejects an incorrect MFA code', function () {
+    $mfaAccount = Account::factory()->passwordHashed()->hasFinishedTotp()->create();
+    $this->actingAs($mfaAccount)
+        ->flagNeedsMfa();
 
-        $recorder = Mockery::mock(AuthenticationRecorder::class);
-        $recorder->shouldReceive('markAuthenticated')
-            ->once()
-            ->with('web', Mockery::on(fn (Account $account) => $account->is($this->mfaAccount)))
-            ->andReturn(new AuthenticationRecord(
-                'web', Account::class, (string) $this->mfaAccount->getAuthIdentifier(), now()->timestamp, str_repeat('a', 64),
-            ));
-        $this->app->instance(AuthenticationRecorder::class, $recorder);
+    $this->post(route('front.login.mfa.submit'), ['code' => '000000'])
+        ->assertSessionHasErrors(['code']);
+});
 
-        $this->post(route('front.login.mfa.submit'), ['code' => '0000'])
-            ->assertSessionMissing(MfaAuthenticated::NEEDS_MFA_KEY)
-            ->assertRedirect();
-    }
+it('requires an MFA code', function () {
+    $mfaAccount = Account::factory()->passwordHashed()->hasFinishedTotp()->create();
+    $this->actingAs($mfaAccount)
+        ->flagNeedsMfa();
 
-    public function test_cant_submit_wrong_mfa_code()
-    {
-        $this->actingAs($this->mfaAccount)
-            ->flagNeedsMfa();
+    $this->post(route('front.login.mfa.submit'), [])
+        ->assertSessionHasErrors(['code']);
+});
 
-        $this->post(route('front.login.mfa.submit'), ['code' => '000000'])
-            ->assertSessionHasErrors(['code']);
-    }
+it('rejects a malformed MFA code', function () {
+    $mfaAccount = Account::factory()->passwordHashed()->hasFinishedTotp()->create();
+    $this->actingAs($mfaAccount)
+        ->flagNeedsMfa();
 
-    public function test_cant_submit_no_mfa_code()
-    {
-        $this->actingAs($this->mfaAccount)
-            ->flagNeedsMfa();
-
-        $this->post(route('front.login.mfa.submit'), [])
-            ->assertSessionHasErrors(['code']);
-    }
-
-    public function test_cant_submit_malformed_mfa_code()
-    {
-        $this->actingAs($this->mfaAccount)
-            ->flagNeedsMfa();
-
-        $this->post(route('front.login.mfa.submit'), ['backup_code' => 'abcdefg'])
-            ->assertSessionHasErrors(['code']);
-    }
-}
+    $this->post(route('front.login.mfa.submit'), ['backup_code' => 'abcdefg'])
+        ->assertSessionHasErrors(['code']);
+});

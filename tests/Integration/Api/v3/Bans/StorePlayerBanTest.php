@@ -5,11 +5,9 @@ namespace Tests\Integration\Api\v2\Bans\StorePlayerBanTest;
 use App\Models\GamePlayerBan;
 use App\Models\MinecraftPlayer;
 use Illuminate\Support\Facades\Event;
+use Tests\Support\ApiBanRequests;
 
-function postBan(array $data)
-{
-    return test()->withServerToken()->post('http://api.localhost/v3/bans/uuid', $data);
-}
+uses(ApiBanRequests::class);
 
 beforeEach(function () {
     Event::fake();
@@ -17,7 +15,7 @@ beforeEach(function () {
 
 describe('validation', function () {
     it('fails when fields missing', function () {
-        postBan([])->assertInvalid([
+        $this->postBan([])->assertInvalid([
             'banned_uuid',
             'banned_alias',
             'reason',
@@ -25,7 +23,7 @@ describe('validation', function () {
     });
 
     it('fails when invalid UUID is given', function () {
-        postBan([
+        $this->postBan([
             'banned_uuid' => 'not-a-uuid',
             'banned_alias' => fake()->userName(),
             'reason' => fake()->text(),
@@ -33,7 +31,7 @@ describe('validation', function () {
     });
 
     it('fails when expires_at is not a date', function () {
-        postBan([
+        $this->postBan([
             'banned_uuid' => fake()->uuid(),
             'banned_alias' => fake()->userName(),
             'reason' => fake()->text(),
@@ -42,7 +40,7 @@ describe('validation', function () {
     });
 
     it('fails when created_at is not a date', function () {
-        postBan([
+        $this->postBan([
             'banned_uuid' => fake()->uuid(),
             'banned_alias' => fake()->userName(),
             'reason' => fake()->text(),
@@ -51,7 +49,7 @@ describe('validation', function () {
     });
 
     it('fails when an invalid unban_type is given', function () {
-        postBan([
+        $this->postBan([
             'banned_uuid' => fake()->uuid(),
             'banned_alias' => fake()->userName(),
             'reason' => fake()->text(),
@@ -64,7 +62,7 @@ it('returns conflict when player is already banned', function () {
     $player = MinecraftPlayer::factory()->create();
     GamePlayerBan::factory()->bannedPlayer($player)->create();
 
-    postBan([
+    $this->postBan([
         'banned_uuid' => $player->uuid,
         'banned_alias' => $player->alias,
         'reason' => fake()->text(),
@@ -75,7 +73,7 @@ it('creates ban with existing players', function () {
     $banned = MinecraftPlayer::factory()->create();
     $banner = MinecraftPlayer::factory()->create();
 
-    postBan([
+    $this->postBan([
         'banned_uuid' => $banned->uuid,
         'banned_alias' => $banned->alias,
         'banner_uuid' => $banner->uuid,
@@ -93,7 +91,7 @@ it('creates ban with existing players', function () {
 it('allows anonymous bans when banner is null', function () {
     $banned = MinecraftPlayer::factory()->create();
 
-    postBan([
+    $this->postBan([
         'banned_uuid' => $banned->uuid,
         'banned_alias' => $banned->alias,
         'reason' => fake()->text(),
@@ -108,7 +106,7 @@ it('allows anonymous bans when banner is null', function () {
 it('creates the banned player when they do not exist', function () {
     $banned = MinecraftPlayer::factory()->make();
 
-    postBan([
+    $this->postBan([
         'banned_uuid' => $banned->uuid,
         'banned_alias' => $banned->alias,
         'reason' => fake()->text(),
@@ -124,7 +122,7 @@ it('creates the banner player when they do not exist', function () {
     $banned = MinecraftPlayer::factory()->create();
     $banner = MinecraftPlayer::factory()->make();
 
-    postBan([
+    $this->postBan([
         'banned_uuid' => $banned->uuid,
         'banned_alias' => $banned->alias,
         'banner_uuid' => $banner->uuid,

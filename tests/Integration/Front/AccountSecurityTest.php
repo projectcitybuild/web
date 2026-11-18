@@ -9,206 +9,177 @@ use App\Models\Account;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Notification;
 use PragmaRX\Google2FA\Google2FA;
-use Tests\TestCase;
 
-class AccountSecurityTest extends TestCase
-{
-    private $g2fa;
+it('shows the security page', function () {
+    $this->actingAs(Account::factory()->create());
+    $this->get(route('front.account.settings.mfa'))
+        ->assertSee('Security')
+        ->assertOk();
+});
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->g2fa = new Google2FA;
-    }
+it('creates TOTP secrets when setup starts', function () {
+    $account = Account::factory()->create();
+    $this->actingAs($account);
 
-    public function test_can_view_security_page()
-    {
-        $this->actingAs(Account::factory()->create());
-        $this->get(route('front.account.settings.mfa'))
-            ->assertSee('Security')
-            ->assertOk();
-    }
+    $resp = $this->followingRedirects()
+        ->post(route('front.account.settings.mfa.start'))
+        ->assertOk();
 
-    public function test_starting_setup_sets_secret()
-    {
-        $account = Account::factory()->create();
-        $this->actingAs($account);
+    $account = $account->fresh();
+    $this->assertNotNull($account->totp_secret);
+    $this->assertNotNull($account->totp_backup_code);
+    $this->assertFalse($account->is_totp_enabled);
 
-        $resp = $this->followingRedirects()
-            ->post(route('front.account.settings.mfa.start'))
-            ->assertOk();
+    $resp->assertSee(Crypt::decryptString($account->totp_backup_code))
+        ->assertSee(Crypt::decryptString($account->totp_secret));
+});
 
-        $account = $account->fresh();
-        $this->assertNotNull($account->totp_secret);
-        $this->assertNotNull($account->totp_backup_code);
-        $this->assertFalse($account->is_totp_enabled);
+it('stores TOTP secrets encrypted', function () {
+    $account = Account::factory()->create();
+    $this->actingAs($account);
 
-        $resp->assertSee(Crypt::decryptString($account->totp_backup_code))
-            ->assertSee(Crypt::decryptString($account->totp_secret));
-    }
+    $this->post(route('front.account.settings.mfa.start'))
+        ->assertRedirect(route('front.account.settings.mfa.setup'));
 
-    public function test_secret_is_encrypted()
-    {
-        $account = Account::factory()->create();
-        $this->actingAs($account);
+    $account = $account->fresh();
+    $decryptedSecret = Crypt::decryptString($account->totp_secret);
+    $this->assertEquals(32, strlen($decryptedSecret));
+});
 
-        $this->post(route('front.account.settings.mfa.start'))
-            ->assertRedirect(route('front.account.settings.mfa.setup'));
+it('enables TOTP with a valid code', function () {
+    $account = Account::factory()->hasStartedTotp()->create();
 
-        $account = $account->fresh();
-        $decryptedSecret = Crypt::decryptString($account->totp_secret);
-        $this->assertEquals(32, strlen($decryptedSecret));
-    }
+    $validCode = (new Google2FA)->getCurrentOtp(Crypt::decryptString($account->totp_secret));
 
-    public function test_can_finish_setup()
-    {
-        $account = Account::factory()->hasStartedTotp()->create();
+    $this->actingAs($account);
 
-        $validCode = $this->g2fa->getCurrentOtp(Crypt::decryptString($account->totp_secret));
+    $this->post(route('front.account.settings.mfa.finish'), [
+        'backup_saved' => 1,
+        'code' => $validCode,
+    ])
+        ->assertRedirect(route('front.account.settings.mfa'));
 
-        $this->actingAs($account);
+    $this->assertDatabaseHas(Account::tableName(), [
+        'id' => $account->id,
+        'is_totp_enabled' => true,
+    ]);
+});
 
-        $this->post(route('front.account.settings.mfa.finish'), [
-            'backup_saved' => 1,
-            'code' => $validCode,
-        ])
-            ->assertRedirect(route('front.account.settings.mfa'));
+it('sends a notification when TOTP setup completes', function () {
+    Notification::fake();
+    $account = Account::factory()->hasStartedTotp()->create();
+    $validCode = (new Google2FA)->getCurrentOtp(Crypt::decryptString($account->totp_secret));
+    $this->actingAs($account);
+    $this->post(route('front.account.settings.mfa.finish'), [
+        'backup_saved' => 1,
+        'code' => $validCode,
+    ]);
+    Notification::assertSentTo($account, MfaEnabledNotification::class);
+});
 
-        $this->assertDatabaseHas(Account::tableName(), [
-            'id' => $account->id,
-            'is_totp_enabled' => true,
-        ]);
-    }
+it('forbids starting TOTP setup when already enabled', function () {
+    $this->actingAs(Account::factory()->hasFinishedTotp()->create());
+    $this->post(route('front.account.settings.mfa.start'))
+        ->assertForbidden();
+});
 
-    public function test_setup_sends_notification()
-    {
-        Notification::fake();
-        $account = Account::factory()->hasStartedTotp()->create();
-        $validCode = $this->g2fa->getCurrentOtp(Crypt::decryptString($account->totp_secret));
-        $this->actingAs($account);
-        $this->post(route('front.account.settings.mfa.finish'), [
-            'backup_saved' => 1,
-            'code' => $validCode,
-        ]);
-        Notification::assertSentTo($account, MfaEnabledNotification::class);
-    }
+it('forbids viewing setup when TOTP is already enabled', function () {
+    $this->actingAs(Account::factory()->hasFinishedTotp()->create());
+    $this->get(route('front.account.settings.mfa.setup'))
+        ->assertForbidden();
+});
 
-    public function test_cant_re_start_if_set_up()
-    {
-        $this->actingAs(Account::factory()->hasFinishedTotp()->create());
-        $this->post(route('front.account.settings.mfa.start'))
-            ->assertForbidden();
-    }
+it('forbids completing setup when TOTP is already enabled', function () {
+    $this->actingAs(Account::factory()->hasFinishedTotp()->create());
+    $this->post(route('front.account.settings.mfa.finish'), [
+        'backup_saved' => 1,
+        'code' => '000000',
+    ])->assertForbidden();
+});
 
-    public function test_cant_re_setup_if_set_up()
-    {
-        $this->actingAs(Account::factory()->hasFinishedTotp()->create());
-        $this->get(route('front.account.settings.mfa.setup'))
-            ->assertForbidden();
-    }
+it('requires password confirmation before disabling TOTP', function () {
+    $this->actingAs(Account::factory()->hasFinishedTotp()->create());
 
-    public function test_cant_re_finish_if_set_up()
-    {
-        $this->actingAs(Account::factory()->hasFinishedTotp()->create());
-        $this->post(route('front.account.settings.mfa.finish'), [
-            'backup_saved' => 1,
-            'code' => '000000',
-        ])->assertForbidden();
-    }
+    $this->get(route('front.account.settings.mfa.disable'))
+        ->assertRedirect(route('front.password.confirm'));
+});
 
-    public function test_asked_to_confirm_password_to_disable()
-    {
-        $this->actingAs(Account::factory()->hasFinishedTotp()->create());
+it('redirects when disabling TOTP that is not enabled', function () {
+    $this->actingAs(Account::factory()->hasStartedTotp()->create());
+    $this->disableReauthMiddleware();
+    $this->get(route('front.account.settings.mfa.disable'))
+        ->assertRedirect(route('front.account.settings.mfa'));
+});
 
-        $this->get(route('front.account.settings.mfa.disable'))
-            ->assertRedirect(route('front.password.confirm'));
-    }
+it('shows the disable page after password confirmation', function () {
+    $this->actingAs(Account::factory()->hasFinishedTotp()->create());
+    $this->disableReauthMiddleware();
+    $this->get(route('front.account.settings.mfa.disable'))
+        ->assertOk();
+});
 
-    public function test_cant_disable_if_not_enabled()
-    {
-        $this->actingAs(Account::factory()->hasStartedTotp()->create());
-        $this->disableReauthMiddleware();
-        $this->get(route('front.account.settings.mfa.disable'))
-            ->assertRedirect(route('front.account.settings.mfa'));
-    }
+it('clears TOTP data when TOTP is disabled', function () {
+    $account = Account::factory()->hasFinishedTotp()->create();
+    $this->actingAs($account);
+    $this->disableReauthMiddleware();
+    $this->delete(route('front.account.settings.mfa.disable'))
+        ->assertRedirect();
 
-    public function test_can_see_disable_when_confirmed()
-    {
-        $this->actingAs(Account::factory()->hasFinishedTotp()->create());
-        $this->disableReauthMiddleware();
-        $this->get(route('front.account.settings.mfa.disable'))
-            ->assertOk();
-    }
+    $this->assertDatabaseHas(Account::tableName(), [
+        'id' => $account->id,
+        'totp_secret' => null,
+        'totp_backup_code' => null,
+        'is_totp_enabled' => 0,
+        'totp_last_used' => null,
+    ]);
+});
 
-    public function test_can_disable_totp()
-    {
-        $account = Account::factory()->hasFinishedTotp()->create();
-        $this->actingAs($account);
-        $this->disableReauthMiddleware();
-        $this->delete(route('front.account.settings.mfa.disable'))
-            ->assertRedirect();
+it('sends a notification when TOTP is disabled', function () {
+    Notification::fake();
+    $account = Account::factory()->hasFinishedTotp()->create();
+    $this->actingAs($account);
+    $this->disableReauthMiddleware();
+    $this->delete(route('front.account.settings.mfa.disable'))
+        ->assertRedirect();
+    Notification::assertSentTo($account, MfaDisabledNotification::class);
+});
 
-        $this->assertDatabaseHas(Account::tableName(), [
-            'id' => $account->id,
-            'totp_secret' => null,
-            'totp_backup_code' => null,
-            'is_totp_enabled' => 0,
-            'totp_last_used' => null,
-        ]);
-    }
+it('forbids refreshing a backup code when TOTP is not enabled', function () {
+    $this->actingAs(Account::factory()->hasStartedTotp()->create());
+    $this->disableReauthMiddleware();
+    $this->get(route('front.account.settings.mfa.reset-backup'))
+        ->assertForbidden();
+});
 
-    public function test_disabling_sends_notification()
-    {
-        Notification::fake();
-        $account = Account::factory()->hasFinishedTotp()->create();
-        $this->actingAs($account);
-        $this->disableReauthMiddleware();
-        $this->delete(route('front.account.settings.mfa.disable'))
-            ->assertRedirect();
-        Notification::assertSentTo($account, MfaDisabledNotification::class);
-    }
+it('requires password confirmation before refreshing a backup code', function () {
+    $this->actingAs(Account::factory()->hasFinishedTotp()->create());
 
-    public function test_cant_refresh_backup_if_not_enabled()
-    {
-        $this->actingAs(Account::factory()->hasStartedTotp()->create());
-        $this->disableReauthMiddleware();
-        $this->get(route('front.account.settings.mfa.reset-backup'))
-            ->assertForbidden();
-    }
+    $this->get(route('front.account.settings.mfa.reset-backup'))
+        ->assertRedirect(route('front.password.confirm'));
+});
 
-    public function test_asked_to_confirm_pass_word_to_refresh_backup()
-    {
-        $this->actingAs(Account::factory()->hasFinishedTotp()->create());
+it('shows the new backup code after confirmation', function () {
+    $account = Account::factory()->hasFinishedTotp()->create();
+    $originalCode = $account->totp_backup_code;
 
-        $this->get(route('front.account.settings.mfa.reset-backup'))
-            ->assertRedirect(route('front.password.confirm'));
-    }
+    $this->withoutExceptionHandling();
+    $this->actingAs($account);
+    $this->disableReauthMiddleware();
 
-    public function test_can_see_new_backup_code_after_confirming()
-    {
-        $account = Account::factory()->hasFinishedTotp()->create();
-        $originalCode = $account->totp_backup_code;
+    $resp = $this->post(route('front.account.settings.mfa.reset-backup'))
+        ->assertOk();
 
-        $this->withoutExceptionHandling();
-        $this->actingAs($account);
-        $this->disableReauthMiddleware();
+    $account = $account->fresh();
+    $newCode = $account->totp_backup_code;
+    $this->assertNotEquals($originalCode, $newCode);
 
-        $resp = $this->post(route('front.account.settings.mfa.reset-backup'))
-            ->assertOk();
+    $resp->assertSee(Crypt::decryptString($newCode));
+});
 
-        $account = $account->fresh();
-        $newCode = $account->totp_backup_code;
-        $this->assertNotEquals($originalCode, $newCode);
-
-        $resp->assertSee(Crypt::decryptString($newCode));
-    }
-
-    public function test_regenerating_backup_code_sends_notification()
-    {
-        Notification::fake();
-        $account = Account::factory()->hasFinishedTotp()->create();
-        $this->actingAs($account)->disableReauthMiddleware();
-        $this->post(route('front.account.settings.mfa.reset-backup'));
-        Notification::assertSentTo($account, MfaBackupCodeRegeneratedNotification::class);
-    }
-}
+it('notifies the account when its backup code is regenerated', function () {
+    Notification::fake();
+    $account = Account::factory()->hasFinishedTotp()->create();
+    $this->actingAs($account)->disableReauthMiddleware();
+    $this->post(route('front.account.settings.mfa.reset-backup'));
+    Notification::assertSentTo($account, MfaBackupCodeRegeneratedNotification::class);
+});

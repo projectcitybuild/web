@@ -12,28 +12,19 @@ use App\Models\PlayerMailBroadcast;
 use App\Models\Role;
 use Illuminate\Support\Facades\Queue;
 use Inertia\Testing\AssertableInertia as Assert;
+use Tests\Support\StaffAccountFactory;
 
-function playerMailBroadcaster(): Account
-{
-    $account = Account::factory()
-        ->hasFinishedTotp()
-        ->create();
-    $role = Role::factory()->staff()->create();
-    $account->roles()->attach($role->id);
-    $role->permissions()->attach([
-        Permission::create(['name' => 'web.manage.*'])->id,
-        Permission::create(['name' => WebManagePermission::PLAYER_MAIL_SEND->value])->id,
-    ]);
-
-    return $account;
-}
+uses(StaffAccountFactory::class);
 
 beforeEach(function () {
     config(['inertia.ssr.enabled' => false]);
 });
 
 it('queues an authorized staff announcement for the captured player audience', function () {
-    $account = playerMailBroadcaster();
+    $account = $this->createStaffAccountWithPermissions([
+        'web.manage.*',
+        WebManagePermission::PLAYER_MAIL_SEND->value,
+    ]);
     $players = MinecraftPlayer::factory()->count(2)->create();
     Queue::fake([DistributePlayerMailJob::class]);
 
@@ -86,7 +77,10 @@ it('forbids staff without the player mail permission from broadcasting', functio
 });
 
 it('renders authorized player mail pages with the expected data', function () {
-    $account = playerMailBroadcaster();
+    $account = $this->createStaffAccountWithPermissions([
+        'web.manage.*',
+        WebManagePermission::PLAYER_MAIL_SEND->value,
+    ]);
     $players = MinecraftPlayer::factory()->count(2)->create();
     $mail = PlayerMail::factory()->create([
         'sender_player_id' => null,
@@ -156,7 +150,10 @@ it('renders authorized player mail pages with the expected data', function () {
 });
 
 it('submits a confirmed manage form through the existing broadcast use case', function () {
-    $account = playerMailBroadcaster();
+    $account = $this->createStaffAccountWithPermissions([
+        'web.manage.*',
+        WebManagePermission::PLAYER_MAIL_SEND->value,
+    ]);
     Queue::fake([DistributePlayerMailJob::class]);
 
     $response = $this->actingAs($account)
@@ -214,7 +211,10 @@ it('forbids staff without the player mail permission from viewing broadcast deta
 });
 
 it('rejects invalid announcement content without creating a broadcast', function () {
-    $account = playerMailBroadcaster();
+    $account = $this->createStaffAccountWithPermissions([
+        'web.manage.*',
+        WebManagePermission::PLAYER_MAIL_SEND->value,
+    ]);
     Queue::fake([DistributePlayerMailJob::class]);
 
     $this->actingAs($account)

@@ -5,69 +5,60 @@ namespace Tests\Unit\App\Core\Domains\Environment;
 use App\Core\Domains\Environment\Environment;
 use App\Core\Domains\Environment\EnvironmentLevel;
 use Tests\Support\TemporaryConfig;
-use Tests\TestCase;
 
-class EnvironmentTest extends TestCase
-{
-    use TemporaryConfig;
+uses(TemporaryConfig::class);
 
-    public function test_can_get_level()
-    {
-        collect(EnvironmentLevel::cases())->each(function ($environmentLevel) {
-            $this->setTemporaryConfig('app.env', $environmentLevel->value);
+it('returns the configured environment level', function () {
+    collect(EnvironmentLevel::cases())->each(function ($environmentLevel) {
+        $this->setTemporaryConfig('app.env', $environmentLevel->value);
 
-            $this->assertEquals(
-                expected: $environmentLevel,
-                actual: Environment::getLevel()
-            );
-        });
-    }
+        $this->assertEquals(
+            expected: $environmentLevel,
+            actual: Environment::getLevel()
+        );
+    });
+});
 
-    public function test_is_production_level()
-    {
-        collect(EnvironmentLevel::cases())->each(function ($environmentLevel) {
-            $this->setTemporaryConfig('app.env', $environmentLevel->value);
+it('identifies production environments', function () {
+    collect(EnvironmentLevel::cases())->each(function ($environmentLevel) {
+        $this->setTemporaryConfig('app.env', $environmentLevel->value);
 
-            $this->assertEquals(
-                expected: $environmentLevel == EnvironmentLevel::PRODUCTION,
-                actual: Environment::isProduction(),
-            );
-        });
-    }
+        $this->assertEquals(
+            expected: $environmentLevel == EnvironmentLevel::PRODUCTION,
+            actual: Environment::isProduction(),
+        );
+    });
+});
 
-    public function test_is_staging_level()
-    {
-        collect(EnvironmentLevel::cases())->each(function ($environmentLevel) {
-            $this->setTemporaryConfig('app.env', $environmentLevel->value);
+it('identifies staging environments', function () {
+    collect(EnvironmentLevel::cases())->each(function ($environmentLevel) {
+        $this->setTemporaryConfig('app.env', $environmentLevel->value);
 
-            $this->assertEquals(
-                expected: $environmentLevel == EnvironmentLevel::STAGING,
-                actual: Environment::isStaging(),
-            );
-        });
-    }
+        $this->assertEquals(
+            expected: $environmentLevel == EnvironmentLevel::STAGING,
+            actual: Environment::isStaging(),
+        );
+    });
+});
 
-    public function test_is_testing_level()
-    {
-        collect(EnvironmentLevel::cases())->each(function ($environmentLevel) {
-            $this->setTemporaryConfig('app.env', $environmentLevel->value);
+it('identifies testing environments', function () {
+    collect(EnvironmentLevel::cases())->each(function ($environmentLevel) {
+        $this->setTemporaryConfig('app.env', $environmentLevel->value);
 
-            $this->assertEquals(
-                expected: $environmentLevel == EnvironmentLevel::TESTING,
-                actual: Environment::isTest(),
-            );
-        });
-    }
+        $this->assertEquals(
+            expected: $environmentLevel == EnvironmentLevel::TESTING,
+            actual: Environment::isTest(),
+        );
+    });
+});
 
-    public function test_is_local_dev_level()
-    {
-        collect(EnvironmentLevel::cases())->each(function ($environmentLevel) {
-            $this->setTemporaryConfig('app.env', $environmentLevel->value);
+it('identifies development environments', function () {
+    collect(EnvironmentLevel::cases())->each(function ($environmentLevel) {
+        $this->setTemporaryConfig('app.env', $environmentLevel->value);
 
-            $this->assertEquals(
-                expected: $environmentLevel == EnvironmentLevel::DEVELOPMENT,
-                actual: Environment::isLocalDev(),
-            );
-        });
-    }
-}
+        $this->assertEquals(
+            expected: $environmentLevel == EnvironmentLevel::DEVELOPMENT,
+            actual: Environment::isLocalDev(),
+        );
+    });
+});

@@ -4,25 +4,12 @@ use App\Core\Utilities\Redact;
 use App\Domains\Permissions\WebManagePermission;
 use App\Models\Account;
 use App\Models\MinecraftPlayer;
-use App\Models\Permission;
-use App\Models\Role;
+use Tests\Support\StaffAccountFactory;
 
-function accountManagerForFilters(): Account
-{
-    $account = Account::factory()
-        ->hasFinishedTotp()
-        ->create();
-    $role = Role::factory()->staff()->create();
-    $account->roles()->attach($role->id);
-    $role->permissions()->attach(Permission::create([
-        'name' => WebManagePermission::ACCOUNTS_VIEW->value,
-    ])->id);
-
-    return $account;
-}
+uses(StaffAccountFactory::class);
 
 it('filters accounts by whether they have a player', function () {
-    $manager = accountManagerForFilters();
+    $manager = $this->createStaffAccountWithPermissions([WebManagePermission::ACCOUNTS_VIEW->value]);
     $accountWithPlayer = Account::factory()->create();
     $accountWithoutPlayer = Account::factory()->create();
     MinecraftPlayer::factory()->create(['account_id' => $manager->id]);
@@ -43,7 +30,7 @@ it('filters accounts by whether they have a player', function () {
 it('redacts account email for managers without email permission', function () {
     config(['inertia.ssr.enabled' => false]);
 
-    $manager = accountManagerForFilters();
+    $manager = $this->createStaffAccountWithPermissions([WebManagePermission::ACCOUNTS_VIEW->value]);
     $account = Account::factory()->create(['email' => 'private@example.com']);
 
     $this->actingAs($manager)

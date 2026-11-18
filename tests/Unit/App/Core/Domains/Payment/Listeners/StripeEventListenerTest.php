@@ -7,24 +7,22 @@ use App\Models\Payment;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Cashier\Events\WebhookReceived;
+use Tests\Support\JsonFixture;
 
 beforeEach(function () {
-    $this->account = Account::factory()->create([
-        'stripe_id' => 'cus_JyjQ8xLdu1UmFs',
-    ]);
-
     Notification::fake();
     Event::fake();
 });
 
 describe('one time payment', function () {
     it('creates a Payment', function () {
-        $json = loadJsonFromFile('stripe/webhook-checkout-session-completed.json');
+        $account = Account::factory()->create(['stripe_id' => 'cus_JyjQ8xLdu1UmFs']);
+        $json = JsonFixture::loadFromStorage('stripe/webhook-checkout-session-completed.json');
         $listener = $this->app->make(StripeEventListener::class);
         $listener->handle(new WebhookReceived($json));
 
         $this->assertDatabaseHas(Payment::tableName(), [
-            'account_id' => $this->account->id,
+            'account_id' => $account->id,
             'stripe_price' => 'price_1JJL5mAtUyfM4v5IJNHp1Tk2',
             'stripe_product' => 'prod_JxFaAltmFPewxs',
             'paid_unit_amount' => 300,
@@ -36,7 +34,8 @@ describe('one time payment', function () {
     });
 
     it('dispatches a PaymentCreated event', function () {
-        $json = loadJsonFromFile('stripe/webhook-checkout-session-completed.json');
+        Account::factory()->create(['stripe_id' => 'cus_JyjQ8xLdu1UmFs']);
+        $json = JsonFixture::loadFromStorage('stripe/webhook-checkout-session-completed.json');
         $listener = $this->app->make(StripeEventListener::class);
         $listener->handle(new WebhookReceived($json));
 
@@ -46,12 +45,13 @@ describe('one time payment', function () {
 
 describe('subscription payment', function () {
     it('creates a Payment', function () {
-        $json = loadJsonFromFile('stripe/webhook-invoice-paid.json');
+        $account = Account::factory()->create(['stripe_id' => 'cus_JyjQ8xLdu1UmFs']);
+        $json = JsonFixture::loadFromStorage('stripe/webhook-invoice-paid.json');
         $listener = $this->app->make(StripeEventListener::class);
         $listener->handle(new WebhookReceived($json));
 
         $this->assertDatabaseHas(Payment::tableName(), [
-            'account_id' => $this->account->id,
+            'account_id' => $account->id,
             'stripe_price' => 'price_1JJL5mAtUyfM4v5ISwJrrVur',
             'stripe_product' => 'prod_JxFaAltmFPewxs',
             'paid_unit_amount' => 300,
@@ -63,7 +63,8 @@ describe('subscription payment', function () {
     });
 
     it('dispatches a PaymentCreated event', function () {
-        $json = loadJsonFromFile('stripe/webhook-invoice-paid.json');
+        Account::factory()->create(['stripe_id' => 'cus_JyjQ8xLdu1UmFs']);
+        $json = JsonFixture::loadFromStorage('stripe/webhook-invoice-paid.json');
         $listener = $this->app->make(StripeEventListener::class);
         $listener->handle(new WebhookReceived($json));
 

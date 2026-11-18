@@ -5,11 +5,9 @@ namespace Tests\Integration\Api\v2\Bans\DeletePlayerBanTest;
 use App\Models\GamePlayerBan;
 use App\Models\MinecraftPlayer;
 use Illuminate\Support\Facades\Event;
+use Tests\Support\ApiBanRequests;
 
-function putBan(int $id, array $data)
-{
-    return test()->withServerToken()->put("http://api.localhost/v3/bans/uuid/{$id}", $data);
-}
+uses(ApiBanRequests::class);
 
 beforeEach(function () {
     Event::fake();
@@ -24,7 +22,7 @@ it('deletes an existing ban', function () {
         ->bannedBy($banner)
         ->create();
 
-    putBan($ban->id, [
+    $this->putBan($ban->id, [
         'banned_uuid' => $banned->uuid,
         'banned_alias' => $banned->alias,
         'banner_uuid' => $banner->uuid,

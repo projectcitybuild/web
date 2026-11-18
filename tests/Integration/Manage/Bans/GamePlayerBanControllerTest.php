@@ -5,25 +5,12 @@ use App\Domains\Permissions\WebManagePermission;
 use App\Models\Account;
 use App\Models\GamePlayerBan;
 use App\Models\MinecraftPlayer;
-use App\Models\Permission;
-use App\Models\Role;
+use Tests\Support\StaffAccountFactory;
 
-function playerBanManager(): Account
-{
-    $account = Account::factory()
-        ->hasFinishedTotp()
-        ->create();
-    $role = Role::factory()->staff()->create();
-    $account->roles()->attach($role->id);
-    $role->permissions()->attach(Permission::create([
-        'name' => WebManagePermission::UUID_BANS_VIEW->value,
-    ])->id);
-
-    return $account;
-}
+uses(StaffAccountFactory::class);
 
 it('filters player bans by player, reason, status, and dates', function () {
-    $manager = playerBanManager();
+    $manager = $this->createStaffAccountWithPermissions([WebManagePermission::UUID_BANS_VIEW->value]);
     $targetPlayer = MinecraftPlayer::factory()
         ->for(Account::factory())
         ->create(['alias' => 'FilterTarget']);

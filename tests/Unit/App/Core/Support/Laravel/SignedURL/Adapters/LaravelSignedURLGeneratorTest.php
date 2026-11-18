@@ -4,48 +4,42 @@ namespace Tests\Unit\App\Core\Support\Laravel\SignedURL\Adapters;
 
 use App\Core\Support\Laravel\SignedURL\Adapters\LaravelSignedURLGenerator;
 use Illuminate\Support\Carbon;
-use Tests\TestCase;
 
-class LaravelSignedURLGeneratorTest extends TestCase
-{
-    private const ROUTE_NAME = 'test-signed';
+it('generates a valid signed URL', function () {
+    $routeName = 'test-signed';
+    $generator = new LaravelSignedURLGenerator;
+    $url = $generator->make(
+        routeName: $routeName,
+        parameters: ['key' => 'value'],
+    );
 
-    public function test_make_generates_valid_url()
-    {
+    $this->assertTrue(str_contains(haystack: $url, needle: 'key=value'));
+    $this->get($url)->assertSuccessful();
+});
+
+it('generates a valid temporary signed URL', function () {
+    $routeName = 'test-signed';
+    $this->freezeTime(function (Carbon $now) use ($routeName) {
         $generator = new LaravelSignedURLGenerator;
-        $url = $generator->make(
-            routeName: self::ROUTE_NAME,
+        $url = $generator->makeTemporary(
+            routeName: $routeName,
+            expiresAt: $now->addDay(),
             parameters: ['key' => 'value'],
         );
 
         $this->assertTrue(str_contains(haystack: $url, needle: 'key=value'));
         $this->get($url)->assertSuccessful();
-    }
+    });
+});
 
-    public function test_generates_temporary_valid_url()
-    {
-        $this->freezeTime(function (Carbon $now) {
-            $generator = new LaravelSignedURLGenerator;
-            $url = $generator->makeTemporary(
-                routeName: self::ROUTE_NAME,
-                expiresAt: $now->addDay(),
-                parameters: ['key' => 'value'],
-            );
+it('rejects an expired temporary URL', function () {
+    $routeName = 'test-signed';
+    $generator = new LaravelSignedURLGenerator;
+    $url = $generator->makeTemporary(
+        routeName: $routeName,
+        expiresAt: now()->addDays(-1),
+        parameters: ['key' => 'value'],
+    );
 
-            $this->assertTrue(str_contains(haystack: $url, needle: 'key=value'));
-            $this->get($url)->assertSuccessful();
-        });
-    }
-
-    public function test_temporary_url_expires()
-    {
-        $generator = new LaravelSignedURLGenerator;
-        $url = $generator->makeTemporary(
-            routeName: self::ROUTE_NAME,
-            expiresAt: now()->addDays(-1),
-            parameters: ['key' => 'value'],
-        );
-
-        $this->get($url)->assertStatus(403);
-    }
-}
+    $this->get($url)->assertStatus(403);
+});

@@ -3,68 +3,44 @@
 namespace Tests\Integration\Front;
 
 use App\Models\Account;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
-use Tests\TestCase;
+use Tests\Support\AccountSettingsTestActions;
 
-class AccountSettingsPasswordTest extends TestCase
-{
-    use WithFaker;
+uses(AccountSettingsTestActions::class);
 
-    private $account;
+it('changes the password', function () {
+    $account = Account::factory()->passwordHashed()->create();
+    $newPassword = 'new_password_1234';
 
-    protected function setUp(): void
-    {
-        parent::setUp();
+    $this->submitPasswordChange($account, 'abcdef123456', $newPassword, $newPassword)
+        ->assertSessionHasNoErrors();
 
-        $this->account = Account::factory()
-            ->passwordHashed()
-            ->create();
-    }
+    $this->assertTrue(Auth::attempt([
+        'email' => $account->email,
+        'password' => $newPassword,
+    ]));
+});
 
-    private function submitPasswordChange($old, $new, $newConfirmation)
-    {
-        return $this->actingAs($this->account)->post(route('front.account.settings.password'), [
-            'old_password' => $old,
-            'new_password' => $new,
-            'new_password_confirm' => $newConfirmation,
-        ]);
-    }
+it('rejects an incorrect current password', function () {
+    $account = Account::factory()->passwordHashed()->create();
+    $this->submitPasswordChange($account, 'wrong', 'password', 'password')
+        ->assertSessionHasErrors();
+});
 
-    public function test_password_change()
-    {
-        $newPassword = 'new_password_1234';
+it('rejects a mismatched new password confirmation', function () {
+    $account = Account::factory()->passwordHashed()->create();
+    $this->submitPasswordChange($account, 'secret', 'password', 'different')
+        ->assertSessionHasErrors();
+});
 
-        $this->submitPasswordChange('abcdef123456', $newPassword, $newPassword)
-            ->assertSessionHasNoErrors();
+it('rejects an empty current password', function () {
+    $account = Account::factory()->passwordHashed()->create();
+    $this->submitPasswordChange($account, '', 'new', 'new')
+        ->assertSessionHasErrors();
+});
 
-        $this->assertTrue(Auth::attempt([
-            'email' => $this->account->email,
-            'password' => $newPassword,
-        ]));
-    }
-
-    public function test_incorrect_current_password()
-    {
-        $this->submitPasswordChange('wrong', 'password', 'password')
-            ->assertSessionHasErrors();
-    }
-
-    public function test_mismatching_password_confirmation()
-    {
-        $this->submitPasswordChange('secret', 'password', 'different')
-            ->assertSessionHasErrors();
-    }
-
-    public function test_empty_current_password()
-    {
-        $this->submitPasswordChange('', 'new', 'new')
-            ->assertSessionHasErrors();
-    }
-
-    public function test_empty_new_password()
-    {
-        $this->submitPasswordChange('secret', '', '')
-            ->assertSessionHasErrors();
-    }
-}
+it('rejects an empty new password', function () {
+    $account = Account::factory()->passwordHashed()->create();
+    $this->submitPasswordChange($account, 'secret', '', '')
+        ->assertSessionHasErrors();
+});

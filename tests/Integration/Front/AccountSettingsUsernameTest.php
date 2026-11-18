@@ -4,59 +4,40 @@ namespace Tests\Integration\Front;
 
 use App\Models\Account;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Testing\TestResponse;
-use Tests\TestCase;
+use Tests\Support\AccountSettingsTestActions;
 
-class AccountSettingsUsernameTest extends TestCase
-{
-    use WithFaker;
+uses(WithFaker::class, AccountSettingsTestActions::class);
 
-    private $account;
+it('changes the username', function () {
+    $account = Account::factory()->create();
+    $this->withoutExceptionHandling();
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->account = Account::factory()->create();
-    }
+    $newUsername = $this->faker->userName;
+    $this->submitUsernameChange($account, $newUsername)
+        ->assertSessionHasNoErrors();
 
-    private function submitUsernameChange($newUsername): TestResponse
-    {
-        return $this->actingAs($this->account)->post(route('front.account.settings.username'), [
-            'username' => $newUsername,
-        ]);
-    }
+    $this->assertDatabaseHas('accounts', [
+        'email' => $account->email,
+        'username' => $newUsername,
+    ]);
+});
 
-    public function test_change_username()
-    {
-        $this->withoutExceptionHandling();
+it('rejects a username already used by another account', function () {
+    $account = Account::factory()->create();
+    $otherAccount = Account::factory()->create();
 
-        $newUsername = $this->faker->userName;
-        $this->submitUsernameChange($newUsername)
-            ->assertSessionHasNoErrors();
+    $this->submitUsernameChange($account, $otherAccount->username)
+        ->assertSessionHasErrors();
+});
 
-        $this->assertDatabaseHas('accounts', [
-            'email' => $this->account->email,
-            'username' => $newUsername,
-        ]);
-    }
+it('rejects an empty username', function () {
+    $account = Account::factory()->create();
+    $this->submitUsernameChange($account, '')
+        ->assertSessionHasErrors();
+});
 
-    public function test_cant_change_to_existing_username()
-    {
-        $otherAccount = Account::factory()->create();
-
-        $this->submitUsernameChange($otherAccount->username)
-            ->assertSessionHasErrors();
-    }
-
-    public function test_cant_submit_empty_username()
-    {
-        $this->submitUsernameChange('')
-            ->assertSessionHasErrors();
-    }
-
-    public function test_cant_submit_same_username()
-    {
-        $this->submitUsernameChange($this->account->username)
-            ->assertSessionHasErrors();
-    }
-}
+it('rejects the account current username', function () {
+    $account = Account::factory()->create();
+    $this->submitUsernameChange($account, $account->username)
+        ->assertSessionHasErrors();
+});

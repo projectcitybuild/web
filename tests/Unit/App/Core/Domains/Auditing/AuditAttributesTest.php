@@ -9,71 +9,55 @@ use App\Core\Domains\Auditing\Changes\Change;
 use App\Core\Domains\Auditing\Changes\MultilineChange;
 use App\Core\Domains\Auditing\Changes\RelationshipChange;
 use App\Core\Domains\Auditing\DummyLinkable;
-use Tests\TestCase;
 
-class AuditAttributesTest extends TestCase
-{
-    public function test_build_returns_empty_instance()
-    {
-        $this->assertEquals([], AuditAttributes::build()->getAttributeNames());
-    }
+it('builds an empty attribute set', function () {
+    $this->assertEquals([], AuditAttributes::build()->getAttributeNames());
+});
 
-    private function assertAdded($attributes, $className)
-    {
-        $this->assertEquals(
-            ['foo'],
-            $attributes->getAttributeNames()
-        );
+it('adds a plain attribute', function () {
+    $attrs = AuditAttributes::build()->add('foo');
+    expect($attrs->getAttributeNames())->toBe(['foo']);
+    expect($attrs->getChangeType('foo'))->toBeInstanceOf(Change::class);
+});
 
-        $this->assertInstanceOf($className, $attributes->getChangeType('foo'));
-    }
+it('adds multiple plain attributes', function () {
+    $attrs = AuditAttributes::build()->add('foo', 'bar');
+    $this->assertEquals(
+        ['foo', 'bar'],
+        $attrs->getAttributeNames()
+    );
 
-    public function test_add_plain_attribute()
-    {
-        $attrs = AuditAttributes::build()->add('foo');
-        $this->assertAdded($attrs, Change::class);
-    }
+    $this->assertContainsOnlyInstancesOf(Change::class,
+        [$attrs->getChangeType('foo'), $attrs->getChangeType('bar')]
+    );
+});
 
-    public function test_add_multiple_plain_attributes()
-    {
-        $attrs = AuditAttributes::build()->add('foo', 'bar');
-        $this->assertEquals(
-            ['foo', 'bar'],
-            $attrs->getAttributeNames()
-        );
+it('adds a relationship attribute', function () {
+    $attrs = AuditAttributes::build()
+        ->addRelationship('foo', DummyLinkable::class);
 
-        $this->assertContainsOnlyInstancesOf(Change::class,
-            [$attrs->getChangeType('foo'), $attrs->getChangeType('bar')]
-        );
-    }
+    expect($attrs->getAttributeNames())->toBe(['foo']);
+    expect($attrs->getChangeType('foo'))->toBeInstanceOf(RelationshipChange::class);
+});
 
-    public function test_add_relationship()
-    {
-        $attrs = AuditAttributes::build()
-            ->addRelationship('foo', DummyLinkable::class);
+it('adds an array attribute', function () {
+    $attrs = AuditAttributes::build()
+        ->addArray('foo');
 
-        $this->assertAdded($attrs, RelationshipChange::class);
-    }
+    expect($attrs->getAttributeNames())->toBe(['foo']);
+    expect($attrs->getChangeType('foo'))->toBeInstanceOf(ArrayChange::class);
+});
 
-    public function test_add_array()
-    {
-        $attrs = AuditAttributes::build()
-            ->addArray('foo');
+it('adds a boolean attribute', function () {
+    $attrs = AuditAttributes::build()
+        ->addBoolean('foo');
+    expect($attrs->getAttributeNames())->toBe(['foo']);
+    expect($attrs->getChangeType('foo'))->toBeInstanceOf(BooleanChange::class);
+});
 
-        $this->assertAdded($attrs, ArrayChange::class);
-    }
-
-    public function test_add_boolean()
-    {
-        $attrs = AuditAttributes::build()
-            ->addBoolean('foo');
-        $this->assertAdded($attrs, BooleanChange::class);
-    }
-
-    public function test_add_multiline()
-    {
-        $attrs = AuditAttributes::build()
-            ->addMultiline('foo');
-        $this->assertAdded($attrs, MultilineChange::class);
-    }
-}
+it('adds a multiline attribute', function () {
+    $attrs = AuditAttributes::build()
+        ->addMultiline('foo');
+    expect($attrs->getAttributeNames())->toBe(['foo']);
+    expect($attrs->getChangeType('foo'))->toBeInstanceOf(MultilineChange::class);
+});
