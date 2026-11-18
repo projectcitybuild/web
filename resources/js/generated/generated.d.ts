@@ -1,38 +1,38 @@
 declare namespace App {
-    namespace Core {
-        namespace Domains {
-            namespace Auditing {
-                namespace Changes {
-                    namespace ArrayDiff {
+    export namespace Core {
+        export namespace Domains {
+            export namespace Auditing {
+                export namespace Changes {
+                    export namespace ArrayDiff {
                         export type ArrayWrapState =
                             "added" | "kept" | "removed";
                     }
                 }
             }
-            namespace Environment {
+            export namespace Environment {
                 export type EnvironmentLevel =
                     "production" | "staging" | "testing" | "local";
             }
         }
     }
-    namespace Domains {
-        namespace BanAppeals {
-            namespace Data {
+    export namespace Domains {
+        export namespace BanAppeals {
+            export namespace Data {
                 export type BanAppealStatus = 0 | 1 | 2 | 3;
             }
         }
-        namespace Bans {
-            namespace Data {
+        export namespace Bans {
+            export namespace Data {
                 export type UnbanType = "expired" | "manual" | "appealed";
             }
         }
-        namespace BuilderRankApplications {
-            namespace Data {
+        export namespace BuilderRankApplications {
+            export namespace Data {
                 export type ApplicationStatus = 1 | 2 | 3;
                 export type BuilderRank = 0 | 1 | 2 | 3;
             }
         }
-        namespace Permissions {
+        export namespace Permissions {
             export type WebManagePermission =
                 | "web.manage.roles.view"
                 | "web.manage.roles.edit"
@@ -72,22 +72,22 @@ declare namespace App {
                 | "web.review.build_rank_apps.view"
                 | "web.review.build_rank_apps.decide";
         }
-        namespace PlayerMail {
-            namespace Data {
+        export namespace PlayerMail {
+            export namespace Data {
                 export type MailCategory = "direct" | "announcement" | "system";
                 export type PlayerMailBroadcastStatus =
                     "queued" | "processing" | "completed" | "failed";
             }
         }
-        namespace Players {
-            namespace Data {
+        export namespace Players {
+            export namespace Data {
                 export type MoveMode = "walk" | "fly";
                 export type TeleportMode = "off" | "request" | "auto";
             }
         }
     }
-    namespace Http {
-        namespace Data {
+    export namespace Http {
+        export namespace Data {
             export type AdminAccountActivationData = {
                 id: number;
                 account_id: number;
@@ -529,7 +529,7 @@ declare namespace Illuminate {
         Illuminate.LengthAwarePaginator<TKey, TValue>;
 }
 declare namespace Spatie {
-    namespace LaravelData {
+    export namespace LaravelData {
         export type CursorPaginatedDataCollection<TKey, TValue> =
             Illuminate.CursorPaginator<TKey, TValue>;
         export type PaginatedDataCollection<TKey, TValue> =

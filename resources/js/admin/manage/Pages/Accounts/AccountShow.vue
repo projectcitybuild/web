@@ -16,7 +16,7 @@ import AccountContributionsTab from './Partials/AccountContributionsTab.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 
-const props = defineProps<AdminPageProps<'manage/Accounts/AccountShow'>>()
+const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Accounts/AccountShow']>()
 
 const tabs = [
     { id: 'linked', label: 'Linked Data' },

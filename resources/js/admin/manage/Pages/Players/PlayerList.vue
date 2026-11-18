@@ -16,7 +16,7 @@ import Input from '../../../shared/Components/Input.vue'
 import FilterPanel from '../../Components/FilterPanel.vue'
 import ShowingCount from '../../Components/ShowingCount.vue'
 
-defineProps<AdminPageProps<'manage/Players/PlayerList'>>()
+defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Players/PlayerList']>()
 
 const { can } = usePermissions()
 

@@ -7,7 +7,7 @@ import InfinitePagination from '../../Components/InfinitePagination.vue'
 import RoleMemberListTable from './Partials/RoleMemberListTable.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 
-defineProps<AdminPageProps<'manage/Roles/RoleAccountList'>>()
+defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Roles/RoleAccountList']>()
 </script>
 
 <template>

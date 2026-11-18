@@ -2,7 +2,7 @@
 import ManageFormPage from '../../Components/ManageFormPage.vue'
 import BadgeForm from './Partials/BadgeForm.vue'
 
-const props = defineProps<AdminPageProps<'manage/Badges/BadgeEdit'>>()
+const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Badges/BadgeEdit']>()
 
 function submit(form: Parameters<InstanceType<typeof BadgeForm>['$props']['submit']>[0]) {
     form.put('/manage/badges/' + props.badge.id)

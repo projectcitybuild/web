@@ -6,7 +6,7 @@ import ErrorAlert from '../../Components/ErrorAlert.vue'
 import FilledButton from '../../Components/FilledButton.vue'
 import DataTable from '../../Components/DataTable.vue'
 
-const props = defineProps<AdminPageProps<'manage/Accounts/AccountRoleSelect'>>()
+const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Accounts/AccountRoleSelect']>()
 
 const form = useForm({
     account_role_ids: props.account_role_ids,

@@ -2,7 +2,7 @@
 import ManageFormPage from '../../Components/ManageFormPage.vue'
 import ServerTokenForm from './Partials/ServerTokenForm.vue'
 
-const props = defineProps<AdminPageProps<'manage/ServerTokens/ServerTokenEdit'>>()
+const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/ServerTokens/ServerTokenEdit']>()
 
 function submit(form: Parameters<InstanceType<typeof ServerTokenForm>['$props']['submit']>[0]) {
     form.put('/manage/server-tokens/' + props.token.id)

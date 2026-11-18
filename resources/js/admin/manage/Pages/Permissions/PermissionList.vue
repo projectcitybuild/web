@@ -12,7 +12,7 @@ import LinkButton from '../../../shared/Components/LinkButton.vue'
 
 const { can } = usePermissions()
 
-defineProps<AdminPageProps<'manage/Permissions/PermissionList'>>()
+defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Permissions/PermissionList']>()
 </script>
 
 <template>

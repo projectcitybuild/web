@@ -14,7 +14,7 @@ import ShowingCount from '../../Components/ShowingCount.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 
-defineProps<AdminPageProps<'manage/Warps/WarpList'>>()
+defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Warps/WarpList']>()
 
 const itemCount = ref(0)
 

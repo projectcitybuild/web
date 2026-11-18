@@ -2,7 +2,7 @@
 import ManageFormPage from '../../Components/ManageFormPage.vue'
 import AccountForm from './Partials/AccountForm.vue'
 
-defineProps<AdminPageProps<'manage/Accounts/AccountCreate'>>()
+defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Accounts/AccountCreate']>()
 
 function submit(form: Parameters<InstanceType<typeof AccountForm>['$props']['submit']>[0]) {
     form.post('/manage/accounts')

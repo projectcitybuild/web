@@ -14,7 +14,7 @@ import ListPage from '../../Components/ListPage.vue'
 import OutlinedButton from '../../Components/OutlinedButton.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 
-const props = defineProps<AdminPageProps<'manage/Accounts/AccountList'>>()
+const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Accounts/AccountList']>()
 
 const query = ref({})
 const itemCount = ref(0)

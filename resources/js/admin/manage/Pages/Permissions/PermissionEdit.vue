@@ -2,7 +2,7 @@
 import ManageFormPage from '../../Components/ManageFormPage.vue'
 import PermissionForm from './Partials/PermissionForm.vue'
 
-const props = defineProps<AdminPageProps<'manage/Permissions/PermissionEdit'>>()
+const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Permissions/PermissionEdit']>()
 
 function submit(form: Parameters<InstanceType<typeof PermissionForm>['$props']['submit']>[0]) {
     form.put('/manage/permissions/' + props.permission.id)

@@ -2,7 +2,7 @@
 import ManageFormPage from '../../Components/ManageFormPage.vue'
 import ServerForm from './Partials/ServerForm.vue'
 
-const props = defineProps<AdminPageProps<'manage/Servers/ServerEdit'>>()
+const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Servers/ServerEdit']>()
 
 function submit(form: Parameters<InstanceType<typeof ServerForm>['$props']['submit']>[0]) {
     form.put('/manage/servers/' + props.server.id)

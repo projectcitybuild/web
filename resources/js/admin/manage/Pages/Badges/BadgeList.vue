@@ -12,7 +12,7 @@ import PageHeader from '../../../shared/Components/PageHeader.vue'
 import ListPage from '../../Components/ListPage.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 
-defineProps<AdminPageProps<'manage/Badges/BadgeList'>>()
+defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Badges/BadgeList']>()
 
 const itemCount = ref(0)
 

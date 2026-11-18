@@ -2,7 +2,7 @@
 import ManageFormPage from '../../Components/ManageFormPage.vue'
 import HomeForm from './Partials/HomeForm.vue'
 
-const props = defineProps<AdminPageProps<'manage/Homes/HomeEdit'>>()
+const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Homes/HomeEdit']>()
 
 function submit(form: Parameters<InstanceType<typeof HomeForm>['$props']['submit']>[0]) {
     form.put('/manage/homes/' + props.home.id)

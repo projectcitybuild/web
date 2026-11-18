@@ -7,7 +7,7 @@ import PageHeader from '../../../shared/Components/PageHeader.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 import AuditChange from './Partials/AuditChange.vue'
 
-defineProps<AdminPageProps<'audit/Activity/AuditShow'>>()
+defineProps<AdminSharedPageProps & AdminInertiaPageProps['audit/Activity/AuditShow']>()
 </script>
 
 <template>

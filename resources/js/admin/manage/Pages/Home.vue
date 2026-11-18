@@ -6,7 +6,7 @@ import PageHeader from '../../shared/Components/PageHeader.vue'
 import MinecraftAvatar from '../Components/MinecraftAvatar.vue'
 import { format, timeAgo } from '../Utilities/DateFormatter'
 
-const props = defineProps<AdminPageProps<'manage/Home'>>()
+const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Home']>()
 
 function eventVariant(event: string): 'default' | 'success' | 'info' | 'warning' | 'danger' {
     switch (event) {

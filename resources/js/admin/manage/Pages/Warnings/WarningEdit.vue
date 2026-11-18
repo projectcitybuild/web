@@ -2,7 +2,7 @@
 import ManageFormPage from '../../Components/ManageFormPage.vue'
 import WarningForm from './Partials/WarningForm.vue'
 
-const props = defineProps<AdminPageProps<'manage/Warnings/WarningEdit'>>()
+const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Warnings/WarningEdit']>()
 
 function submit(form: Parameters<InstanceType<typeof WarningForm>['$props']['submit']>[0]) {
     form.put('/manage/warnings/' + props.warning.id)

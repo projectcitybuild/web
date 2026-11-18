@@ -10,7 +10,7 @@ import usePermissions from '../../Composables/usePermissions'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 
-const props = defineProps<AdminPageProps<'manage/ServerTokens/ServerTokensList'>>()
+const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/ServerTokens/ServerTokensList']>()
 
 const { can } = usePermissions()
 </script>

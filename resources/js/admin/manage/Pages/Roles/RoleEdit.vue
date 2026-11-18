@@ -2,7 +2,7 @@
 import ManageFormPage from '../../Components/ManageFormPage.vue'
 import RoleForm from './Partials/RoleForm.vue'
 
-const props = defineProps<AdminPageProps<'manage/Roles/RoleEdit'>>()
+const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Roles/RoleEdit']>()
 
 function submit(form: Parameters<InstanceType<typeof RoleForm>['$props']['submit']>[0]) {
     form.put('/manage/roles/' + props.role.id)

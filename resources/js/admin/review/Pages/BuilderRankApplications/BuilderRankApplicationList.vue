@@ -6,7 +6,7 @@ import BuilderRankApplicationListItems from './Partials/BuilderRankApplicationLi
 import SpinnerRow from '../../../manage/Components/SpinnerRow.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 
-defineProps<AdminPageProps<'review/BuilderRankApplications/BuilderRankApplicationList'>>()
+defineProps<AdminSharedPageProps & AdminInertiaPageProps['review/BuilderRankApplications/BuilderRankApplicationList']>()
 </script>
 
 <template>

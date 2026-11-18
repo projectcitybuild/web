@@ -9,7 +9,7 @@ import PageHeader from '../../../shared/Components/PageHeader.vue'
 import ListPage from '../../Components/ListPage.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 
-const props = defineProps<AdminPageProps<'manage/Servers/ServerList'>>()
+const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Servers/ServerList']>()
 
 const { can } = usePermissions()
 </script>

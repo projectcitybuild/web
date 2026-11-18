@@ -19,7 +19,7 @@ import { Icons } from '../../../manage/Icons'
 import Badge from '../../../shared/Components/Badge.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 
-const props = defineProps<AdminPageProps<'review/BuilderRankApplications/BuilderRankApplicationShow'>>()
+const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['review/BuilderRankApplications/BuilderRankApplicationShow']>()
 
 const hasDecision = computed(() => props.application.status !== BuilderRankApplicationStatus.pending)
 const status = computed(() => {

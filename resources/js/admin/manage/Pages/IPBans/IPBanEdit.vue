@@ -2,7 +2,7 @@
 import ManageFormPage from '../../Components/ManageFormPage.vue'
 import BanForm from './Partials/IPBanForm.vue'
 
-const props = defineProps<AdminPageProps<'manage/IPBans/IPBanEdit'>>()
+const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/IPBans/IPBanEdit']>()
 
 function submit(form: Parameters<InstanceType<typeof BanForm>['$props']['submit']>[0]) {
     form.put('/manage/ip-bans/' + props.ban.id)

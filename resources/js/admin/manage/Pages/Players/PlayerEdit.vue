@@ -2,7 +2,7 @@
 import ManageFormPage from '../../Components/ManageFormPage.vue'
 import PlayerForm from './Partials/PlayerForm.vue'
 
-const props = defineProps<AdminPageProps<'manage/Players/PlayerEdit'>>()
+const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Players/PlayerEdit']>()
 
 function submit(form: Parameters<InstanceType<typeof PlayerForm>['$props']['submit']>[0]) {
     form.put('/manage/players/' + props.player.id)

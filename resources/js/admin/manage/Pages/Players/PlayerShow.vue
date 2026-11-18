@@ -29,7 +29,7 @@ import type { PlayerIP } from '../../Data/PlayerIP'
 
 const { can } = usePermissions()
 
-const props = defineProps<AdminPageProps<'manage/Players/PlayerShow'>>()
+const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Players/PlayerShow']>()
 const error = ref<string|null>(null)
 
 const isRefreshingAlias = ref(false)

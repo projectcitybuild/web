@@ -28,7 +28,7 @@ declare global {
         'manage/Accounts/AccountEdit': {
             account: App.Http.Data.AdminAccountData
         }
-        'manage/Accounts/AccountCreate': Record<never, never>
+        'manage/Accounts/AccountCreate': {}
         'manage/Accounts/AccountPlayerSelect': {
             account_id: number
         }
@@ -51,7 +51,7 @@ declare global {
                 next_page_url?: string | null
             }
         }
-        'manage/Badges/BadgeCreate': Record<never, never>
+        'manage/Badges/BadgeCreate': {}
         'manage/Badges/BadgeEdit': {
             badge: App.Http.Data.AdminAccountBadgeData
         }
@@ -64,7 +64,7 @@ declare global {
                 next_page_url?: string | null
             }
         }
-        'manage/Homes/HomeCreate': Record<never, never>
+        'manage/Homes/HomeCreate': {}
         'manage/Homes/HomeEdit': {
             home: App.Http.Data.MinecraftHomeData
         }
@@ -77,21 +77,21 @@ declare global {
                 next_page_url?: string | null
             }
         }
-        'manage/Warps/WarpCreate': Record<never, never>
+        'manage/Warps/WarpCreate': {}
         'manage/Warps/WarpEdit': {
             warp: App.Http.Data.MinecraftWarpData
         }
         'manage/Servers/ServerList': {
             servers: App.Http.Data.AdminServerData[]
         }
-        'manage/Servers/ServerCreate': Record<never, never>
+        'manage/Servers/ServerCreate': {}
         'manage/Servers/ServerEdit': {
             server: App.Http.Data.AdminServerData
         }
         'manage/ServerTokens/ServerTokensList': {
             tokens: App.Http.Data.AdminServerTokenData[]
         }
-        'manage/ServerTokens/ServerTokenCreate': Record<never, never>
+        'manage/ServerTokens/ServerTokenCreate': {}
         'manage/ServerTokens/ServerTokenEdit': {
             token: App.Http.Data.AdminServerTokenData
         }
@@ -104,7 +104,7 @@ declare global {
                 next_page_url?: string | null
             }
         }
-        'manage/PlayerBans/PlayerBanCreate': Record<never, never>
+        'manage/PlayerBans/PlayerBanCreate': {}
         'manage/PlayerBans/PlayerBanEdit': {
             ban: App.Http.Data.AdminGamePlayerBanData
         }
@@ -117,7 +117,7 @@ declare global {
                 next_page_url?: string | null
             }
         }
-        'manage/IPBans/IPBanCreate': Record<never, never>
+        'manage/IPBans/IPBanCreate': {}
         'manage/IPBans/IPBanEdit': {
             ban: App.Http.Data.AdminGameIPBanData
         }
@@ -130,14 +130,14 @@ declare global {
                 next_page_url?: string | null
             }
         }
-        'manage/Warnings/WarningCreate': Record<never, never>
+        'manage/Warnings/WarningCreate': {}
         'manage/Warnings/WarningEdit': {
             warning: App.Http.Data.AdminPlayerWarningData
         }
         'manage/Roles/RoleList': {
             roles?: App.Http.Data.AdminRoleData[]
         }
-        'manage/Roles/RoleCreate': Record<never, never>
+        'manage/Roles/RoleCreate': {}
         'manage/Roles/RoleEdit': {
             role: App.Http.Data.AdminRoleData
         }
@@ -165,14 +165,14 @@ declare global {
                 next_page_url?: string | null
             }
         }
-        'manage/Donations/DonationCreate': Record<never, never>
+        'manage/Donations/DonationCreate': {}
         'manage/Donations/DonationEdit': {
             donation: App.Http.Data.AdminDonationData
         }
         'manage/Permissions/PermissionList': {
             permissions: App.Http.Data.AdminPermissionData[]
         }
-        'manage/Permissions/PermissionCreate': Record<never, never>
+        'manage/Permissions/PermissionCreate': {}
         'manage/Permissions/PermissionEdit': {
             permission: App.Http.Data.AdminPermissionData
         }
@@ -185,7 +185,7 @@ declare global {
                 next_page_url?: string | null
             }
         }
-        'manage/Players/PlayerCreate': Record<never, never>
+        'manage/Players/PlayerCreate': {}
         'manage/Players/PlayerEdit': {
             player: App.Http.Data.MinecraftPlayerData
         }
@@ -254,7 +254,7 @@ declare global {
             recentActivities: App.Http.Data.ManageHomeRecentActivityData[]
             activityUrl?: string
         }
-        'review/Home': Record<never, never>
+        'review/Home': {}
         'manage/MinecraftConfig/MinecraftConfig': {
             config: App.Http.Data.MinecraftConfigPageData
         }
@@ -281,8 +281,7 @@ declare global {
     }
 
     type AdminPageProps<Component extends keyof AdminInertiaPageProps> =
-        Omit<AdminSharedPageProps, keyof AdminInertiaPageProps[Component]>
-        & AdminInertiaPageProps[Component]
+        AdminSharedPageProps & AdminInertiaPageProps[Component]
 }
 
 export {}

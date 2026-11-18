@@ -13,7 +13,7 @@ import ShowingCount from '../../Components/ShowingCount.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 
-defineProps<AdminPageProps<'manage/Donations/DonationList'>>()
+defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Donations/DonationList']>()
 
 const itemCount = ref(0)
 </script>

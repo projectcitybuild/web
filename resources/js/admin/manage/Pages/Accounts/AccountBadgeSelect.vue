@@ -7,7 +7,7 @@ import BooleanCheck from '../../Components/BooleanCheck.vue'
 import FilledButton from '../../Components/FilledButton.vue'
 import DataTable from '../../Components/DataTable.vue'
 
-const props = defineProps<AdminPageProps<'manage/Accounts/AccountBadgeSelect'>>()
+const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Accounts/AccountBadgeSelect']>()
 
 const form = useForm({
     account_badge_ids: props.account_badge_ids,

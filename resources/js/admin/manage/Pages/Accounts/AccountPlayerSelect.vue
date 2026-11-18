@@ -6,7 +6,7 @@ import FilledButton from '../../Components/FilledButton.vue'
 import Spinner from '../../Components/Spinner.vue'
 import PlayerPicker from '../../Components/PlayerPicker.vue'
 
-const props = defineProps<AdminPageProps<'manage/Accounts/AccountPlayerSelect'>>()
+const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Accounts/AccountPlayerSelect']>()
 
 const form = useForm({
     uuid: null,

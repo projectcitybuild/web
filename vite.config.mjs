@@ -2,6 +2,12 @@ import { defineConfig } from 'vite'
 import laravel from 'laravel-vite-plugin'
 import vue from '@vitejs/plugin-vue'
 import tailwindcss from '@tailwindcss/vite'
+import { fileURLToPath } from 'node:url'
+
+const globalTypeFiles = [
+    fileURLToPath(new URL('./resources/js/generated/generated.d.ts', import.meta.url)),
+    fileURLToPath(new URL('./resources/js/types/inertia.d.ts', import.meta.url)),
+]
 
 export default defineConfig({
     plugins: [
@@ -18,6 +24,9 @@ export default defineConfig({
             refresh: true,
         }),
         vue({
+            script: {
+                globalTypeFiles,
+            },
             template: {
                 transformAssetUrls: {
                     // The Vue plugin will re-write asset URLs, when referenced

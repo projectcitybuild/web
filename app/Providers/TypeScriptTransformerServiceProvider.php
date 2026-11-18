@@ -8,7 +8,6 @@ use Spatie\TypeScriptTransformer\Formatters\PrettierFormatter;
 use Spatie\TypeScriptTransformer\Transformers\AttributedClassTransformer;
 use Spatie\TypeScriptTransformer\Transformers\EnumTransformer;
 use Spatie\TypeScriptTransformer\TypeScriptTransformerConfigFactory;
-use Spatie\TypeScriptTransformer\Writers\GlobalNamespaceWriter;
 
 class TypeScriptTransformerServiceProvider extends BaseTypeScriptTransformerServiceProvider
 {
@@ -19,7 +18,7 @@ class TypeScriptTransformerServiceProvider extends BaseTypeScriptTransformerServ
             ->transformer(AttributedClassTransformer::class)
             ->transformer(EnumTransformer::class)
             ->transformDirectories(app_path())
-            ->writer(new GlobalNamespaceWriter('generated.d.ts'))
+            ->writer(new VueCompatibleGlobalNamespaceWriter('generated.d.ts'))
             ->formatter(PrettierFormatter::class);
     }
 }

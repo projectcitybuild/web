@@ -15,7 +15,7 @@ import PageHeader from '../../../shared/Components/PageHeader.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 import EmptyState from '../../../shared/Components/EmptyState.vue'
 
-const props = defineProps<AdminPageProps<'manage/PlayerMail/Index'>>()
+const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/PlayerMail/Index']>()
 const search = ref(props.filters.search)
 const status = ref(props.filters.status)
 const { can } = usePermissions()

@@ -16,7 +16,7 @@ import ShowingCount from '../../Components/ShowingCount.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 
-defineProps<AdminPageProps<'manage/PlayerBans/PlayerBanList'>>()
+defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/PlayerBans/PlayerBanList']>()
 
 const { can } = usePermissions()
 

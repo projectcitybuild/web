@@ -12,7 +12,7 @@ import PageHeader from '../../../shared/Components/PageHeader.vue'
 import ListPage from '../../Components/ListPage.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 
-defineProps<AdminPageProps<'manage/Homes/HomeList'>>()
+defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Homes/HomeList']>()
 
 const itemCount = ref(0)
 

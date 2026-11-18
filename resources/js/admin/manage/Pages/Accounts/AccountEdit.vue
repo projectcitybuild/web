@@ -2,7 +2,7 @@
 import ManageFormPage from '../../Components/ManageFormPage.vue'
 import AccountForm from './Partials/AccountForm.vue'
 
-const props = defineProps<AdminPageProps<'manage/Accounts/AccountEdit'>>()
+const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Accounts/AccountEdit']>()
 
 function submit(form: Parameters<InstanceType<typeof AccountForm>['$props']['submit']>[0]) {
     form.put('/manage/accounts/' + props.account.id)

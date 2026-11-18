@@ -14,7 +14,7 @@ import ShowingCount from '../../Components/ShowingCount.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 
-defineProps<AdminPageProps<'manage/IPBans/IPBanList'>>()
+defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/IPBans/IPBanList']>()
 
 const itemCount = ref(0)
 

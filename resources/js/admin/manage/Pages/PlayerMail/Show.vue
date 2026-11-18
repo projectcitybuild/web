@@ -7,7 +7,7 @@ import BroadcastStatus from './Components/BroadcastStatus.vue'
 import MailPreview from './Components/MailPreview.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 
-const props = defineProps<AdminPageProps<'manage/PlayerMail/Show'>>()
+const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/PlayerMail/Show']>()
 let refreshTimer: ReturnType<typeof setInterval> | undefined
 
 function formatDate(value: string | null): string {

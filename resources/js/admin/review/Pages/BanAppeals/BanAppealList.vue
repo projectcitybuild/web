@@ -7,7 +7,7 @@ import SuccessAlert from '../../../manage/Components/SuccessAlert.vue'
 import SpinnerRow from '../../../manage/Components/SpinnerRow.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 
-defineProps<AdminPageProps<'review/BanAppeals/BanAppealList'>>()
+defineProps<AdminSharedPageProps & AdminInertiaPageProps['review/BanAppeals/BanAppealList']>()
 </script>
 
 <template>

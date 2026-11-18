@@ -7,7 +7,7 @@ import ListPage from '../../../manage/Components/ListPage.vue'
 import OutlinedButton from '../../../manage/Components/OutlinedButton.vue'
 import AuditListTable from './Partials/AuditListTable.vue'
 
-const props = defineProps<AdminPageProps<'audit/Activity/AuditList'>>()
+const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['audit/Activity/AuditList']>()
 
 const filters = reactive({ ...props.filters })
 

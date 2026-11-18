@@ -7,7 +7,7 @@ import ShowingCount from '../../../manage/Components/ShowingCount.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 import { distance, distanceFromNow, format, timeAgo } from '../../../manage/Utilities/DateFormatter.js'
 
-defineProps<AdminPageProps<'audit/OpElevations/OpElevationList'>>()
+defineProps<AdminSharedPageProps & AdminInertiaPageProps['audit/OpElevations/OpElevationList']>()
 
 const fields = [
     { key: 'status', label: 'Status' },

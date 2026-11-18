@@ -16,7 +16,7 @@ import Button from '../../../shared/Components/Button.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 import Textarea from '../../../shared/Components/Textarea.vue'
 
-const props = defineProps<AdminPageProps<'review/BanAppeals/BanAppealShow'>>()
+const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['review/BanAppeals/BanAppealShow']>()
 
 const form = useForm({
     status: null,

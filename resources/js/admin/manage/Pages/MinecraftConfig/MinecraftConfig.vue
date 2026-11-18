@@ -23,7 +23,7 @@ interface MessageEntry {
     value: string,
 }
 
-const props = defineProps<AdminPageProps<'manage/MinecraftConfig/MinecraftConfig'>>()
+const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/MinecraftConfig/MinecraftConfig']>()
 const form = useForm({
     config: JSON.stringify(props.config.config, null, 2),
 })
