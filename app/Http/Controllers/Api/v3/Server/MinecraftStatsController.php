@@ -7,6 +7,7 @@ use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
 use App\Domains\MinecraftStats\Data\PlayerStatIncrement;
 use App\Domains\MinecraftStats\Jobs\IncrementPlayerStatsJob;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Validator;
 
 class MinecraftStatsController
@@ -26,6 +27,8 @@ class MinecraftStatsController
         $uuidValidator = Validator::make(array_keys($uuids), ['*' => new MinecraftUUIDRule]);
         $uuidValidator->validate();
 
+        $jobs = [];
+
         foreach ($uuids as $uuid => $stats) {
             $increment = new PlayerStatIncrement(
                 afkTime: $stats['afk_time'] ?? 0,
@@ -34,8 +37,10 @@ class MinecraftStatsController
                 blocksTravelled: $stats['blocks_travelled'] ?? 0,
             );
             if ($increment->isNonZero()) {
-                IncrementPlayerStatsJob::dispatch(new MinecraftUUID($uuid), $increment);
+                $jobs[] = new IncrementPlayerStatsJob(new MinecraftUUID($uuid), $increment);
             }
         }
+
+        Bus::bulk($jobs);
     }
 }

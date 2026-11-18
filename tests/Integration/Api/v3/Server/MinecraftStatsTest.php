@@ -4,6 +4,9 @@ use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Domains\MinecraftStats\Data\PlayerStatIncrement;
 use App\Domains\MinecraftStats\Jobs\IncrementPlayerStatsJob;
 use App\Models\MinecraftPlayer;
+use Illuminate\Database\Events\QueryExecuted;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Queue;
 
 describe('endpoint', function () {
@@ -69,6 +72,32 @@ describe('endpoint', function () {
             return $job->uuid == $uuid2 && $job->increment == $stats2;
         });
     });
+});
+
+it('bulk inserts stat jobs for multiple players', function () {
+    Config::set('queue.default', 'database');
+
+    $jobInsertQueries = 0;
+    DB::listen(function (QueryExecuted $query) use (&$jobInsertQueries) {
+        if (str_starts_with(strtolower(trim($query->sql)), 'insert into `jobs`')) {
+            $jobInsertQueries++;
+        }
+    });
+
+    $uuid1 = MinecraftUUID::random();
+    $uuid2 = MinecraftUUID::random();
+
+    $this->withServerToken()
+        ->postJson('http://api.localhost/v3/server/stats', [
+            'players' => [
+                $uuid1->trimmed() => ['afk_time' => 1],
+                $uuid2->trimmed() => ['blocks_placed' => 2],
+            ],
+        ])
+        ->assertOk();
+
+    expect($jobInsertQueries)->toBe(1);
+    expect(DB::table('jobs')->count())->toBe(2);
 });
 
 describe('job', function () {
