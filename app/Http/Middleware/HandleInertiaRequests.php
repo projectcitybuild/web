@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Http\Data\AdminAccountSummaryData;
+use App\Http\Data\AdminSharedPagePropsData;
 use App\Models\Account;
 use App\Models\BanAppeal;
 use App\Models\BuilderRankApplication;
@@ -54,17 +55,29 @@ class HandleInertiaRequests extends Middleware
                 ...parent::share($request),
             ];
 
-            $sharedProps['success'] = fn () => $request->session()->get('success');
-            $sharedProps['pending_appeals'] = fn () => BanAppeal::pending()->count();
-            $sharedProps['pending_build_rank_apps'] = fn () => BuilderRankApplication::pending()->count();
+            $sharedProps['success'] = fn () => AdminSharedPagePropsData::serializeProp(
+                'success',
+                $request->session()->get('success'),
+            );
+            $sharedProps['pending_appeals'] = fn () => AdminSharedPagePropsData::serializeProp(
+                'pending_appeals',
+                BanAppeal::pending()->count(),
+            );
+            $sharedProps['pending_build_rank_apps'] = fn () => AdminSharedPagePropsData::serializeProp(
+                'pending_build_rank_apps',
+                BuilderRankApplication::pending()->count(),
+            );
 
             $account = $request->user();
-            $sharedProps['account'] = fn () => $account instanceof Account
-                ? (new AdminAccountSummaryData(
-                    name: $account->username,
-                    avatarUuid: $account->minecraftAccount()->value('uuid'),
-                ))->toArray()
-                : null;
+            $sharedProps['account'] = fn () => AdminSharedPagePropsData::serializeProp(
+                'account',
+                $account instanceof Account
+                    ? new AdminAccountSummaryData(
+                        name: $account->username,
+                        avatarUuid: $account->minecraftAccount()->value('uuid'),
+                    )
+                    : null,
+            );
 
             return $sharedProps;
         }

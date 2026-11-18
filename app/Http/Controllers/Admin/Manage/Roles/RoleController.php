@@ -6,6 +6,7 @@ use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Controllers\WebController;
+use App\Http\Data\AdminRoleData;
 use App\Models\Account;
 use App\Models\Role;
 use Illuminate\Http\RedirectResponse;
@@ -38,7 +39,9 @@ class RoleController extends WebController
         };
 
         return $this->inertiaRender('Roles/RoleList', [
-            'roles' => Inertia::defer($roles),
+            'roles' => Inertia::defer(fn () => $roles()->map(
+                fn (Role $role): array => AdminRoleData::fromModel($role)->toArray(),
+            )),
         ]);
     }
 
@@ -78,7 +81,9 @@ class RoleController extends WebController
     {
         $this->requires(WebManagePermission::ROLES_EDIT);
 
-        return $this->inertiaRender('Roles/RoleEdit', compact('role'));
+        return $this->inertiaRender('Roles/RoleEdit', [
+            'role' => AdminRoleData::fromModel($role),
+        ]);
     }
 
     public function update(Request $request, Role $role): RedirectResponse

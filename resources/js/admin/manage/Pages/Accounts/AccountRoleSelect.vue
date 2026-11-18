@@ -2,18 +2,11 @@
 import { useForm } from '@inertiajs/vue3'
 import Card from '../../Components/Card.vue'
 import ManageFormPage from '../../Components/ManageFormPage.vue'
-import { Role } from '../../Data/Role'
 import ErrorAlert from '../../Components/ErrorAlert.vue'
 import FilledButton from '../../Components/FilledButton.vue'
 import DataTable from '../../Components/DataTable.vue'
 
-interface Props {
-    success?: string,
-    roles: Role[],
-    account_role_ids: number[],
-    account_id: number,
-}
-const props = defineProps<Props>()
+const props = defineProps<AdminPageProps<'manage/Accounts/AccountRoleSelect'>>()
 
 const form = useForm({
     account_role_ids: props.account_role_ids,
@@ -26,7 +19,7 @@ const fields = [
     { key: 'role_type', label: 'Role Type' },
 ]
 
-function toggleRole(role: Role): void {
+function toggleRole(role: App.Http.Data.AdminAccountRoleData): void {
     form.account_role_ids = form.account_role_ids.includes(role.id)
         ? form.account_role_ids.filter(id => id !== role.id)
         : [...form.account_role_ids, role.id]

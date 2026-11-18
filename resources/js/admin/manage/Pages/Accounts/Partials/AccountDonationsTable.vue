@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import LinkButton from '../../../../shared/Components/LinkButton.vue'
-import type { Donation } from '../../../Data/Donation'
 import { format } from '../../../Utilities/DateFormatter'
 import { Link } from '@inertiajs/vue3'
 import FilledButton from '../../../Components/FilledButton.vue'
@@ -8,7 +7,7 @@ import OutlinedButton from '../../../Components/OutlinedButton.vue'
 import DataTable from '../../../Components/DataTable.vue'
 
 interface Props {
-    donations: Donation[],
+    donations: App.Http.Data.AdminDonationData[],
 }
 defineProps<Props>()
 

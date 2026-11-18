@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
-import { Account } from '../../../Data/Account'
 import DataTable from '../../../Components/DataTable.vue'
 
 interface Props {
-    accounts: Account[],
+    accounts: App.Http.Data.AdminAccountData[],
 }
 
 defineProps<Props>()

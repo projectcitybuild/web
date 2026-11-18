@@ -6,6 +6,7 @@ use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Controllers\WebController;
+use App\Http\Data\AdminPermissionData;
 use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Http\Request;
@@ -19,7 +20,9 @@ class RolePermissionController extends WebController
     {
         $this->requires(WebManagePermission::PERMISSIONS_ASSIGN);
 
-        $permissions = Permission::orderBy('name', 'asc')->get();
+        $permissions = Permission::orderBy('name', 'asc')
+            ->get()
+            ->map(fn (Permission $permission): array => AdminPermissionData::fromModel($permission)->toArray());
         $rolePermissionIds = $role->permissions->pluck(Permission::primaryKey());
 
         return $this->inertiaRender('Roles/RolePermissionSelect', [

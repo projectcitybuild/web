@@ -9,6 +9,7 @@ use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Controllers\WebController;
+use App\Http\Data\MinecraftPlayerData;
 use App\Http\Filters\LikeFilter;
 use App\Models\MinecraftPlayer;
 use Illuminate\Http\Request;
@@ -42,7 +43,9 @@ class MinecraftPlayerController extends WebController
             return $players();
         }
         return $this->inertiaRender('Players/PlayerList', [
-            'players' => Inertia::defer($players),
+            'players' => Inertia::defer(fn () => $players()->through(
+                fn (MinecraftPlayer $player): array => MinecraftPlayerData::fromModel($player)->toArray(),
+            )),
         ]);
     }
 
@@ -52,7 +55,9 @@ class MinecraftPlayerController extends WebController
 
         $player->load(['account']);
 
-        return $this->inertiaRender('Players/PlayerShow', compact('player'));
+        return $this->inertiaRender('Players/PlayerShow', [
+            'player' => MinecraftPlayerData::fromModel($player),
+        ]);
     }
 
     public function create()
@@ -105,7 +110,9 @@ class MinecraftPlayerController extends WebController
     {
         $this->requires(WebManagePermission::PLAYERS_EDIT);
 
-        return $this->inertiaRender('Players/PlayerEdit', compact('player'));
+        return $this->inertiaRender('Players/PlayerEdit', [
+            'player' => MinecraftPlayerData::fromModel($player),
+        ]);
     }
 
     public function update(Request $request, MinecraftPlayer $player)

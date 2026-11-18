@@ -3,18 +3,11 @@ import { useForm } from '@inertiajs/vue3'
 import Card from '../../Components/Card.vue'
 import ManageFormPage from '../../Components/ManageFormPage.vue'
 import ErrorAlert from '../../Components/ErrorAlert.vue'
-import type { Badge } from '../../Data/Badge'
 import BooleanCheck from '../../Components/BooleanCheck.vue'
 import FilledButton from '../../Components/FilledButton.vue'
 import DataTable from '../../Components/DataTable.vue'
 
-interface Props {
-    success?: string,
-    badges: Badge[],
-    account_badge_ids: number[],
-    account_id: number,
-}
-const props = defineProps<Props>()
+const props = defineProps<AdminPageProps<'manage/Accounts/AccountBadgeSelect'>>()
 
 const form = useForm({
     account_badge_ids: props.account_badge_ids,
@@ -32,7 +25,7 @@ function submit() {
     form.put('/manage/accounts/' + props.account_id + '/badges')
 }
 
-function toggleBadge(badge: Badge): void {
+function toggleBadge(badge: App.Http.Data.AdminAccountBadgeData): void {
     form.account_badge_ids = form.account_badge_ids.includes(badge.id)
         ? form.account_badge_ids.filter(id => id !== badge.id)
         : [...form.account_badge_ids, badge.id]

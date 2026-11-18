@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { InertiaForm, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
-import type { Server } from '../../../Data/Server'
 import DangerZone from '../../../Components/Forms/DangerZone.vue'
 import FormActions from '../../../Components/Forms/FormActions.vue'
 import FormErrorSummary from '../../../Components/Forms/FormErrorSummary.vue'
@@ -11,7 +10,7 @@ import Input from '../../../../shared/Components/Input.vue'
 import { useUnsavedChangesWarning } from '../../../Components/Forms/useUnsavedChangesWarning'
 
 interface Props {
-    server?: Server,
+    server?: App.Http.Data.AdminServerData,
     submit: (form: InertiaForm<ServerFormData>) => void,
 }
 

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { router } from '@inertiajs/vue3'
 import { ref } from 'vue'
-import type { Account } from '../../../Data/Account'
 import Card from '../../../Components/Card.vue'
 import ConfirmDialog from '../../../Components/ConfirmDialog.vue'
 import SvgIcon from '../../../Components/SvgIcon.vue'
@@ -14,7 +13,7 @@ import TabPanel from '../../../Components/TabPanel.vue'
 import LinkButton from '../../../../shared/Components/LinkButton.vue'
 
 interface Props {
-    account: Account,
+    account: App.Http.Data.AdminAccountData,
     activeTab: string,
 }
 const props = defineProps<Props>()

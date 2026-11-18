@@ -23,12 +23,7 @@ interface MessageEntry {
     value: string,
 }
 
-interface Props {
-    success?: string,
-    config: App.Http.Data.MinecraftConfigPageData,
-}
-
-const props = defineProps<Props>()
+const props = defineProps<AdminPageProps<'manage/MinecraftConfig/MinecraftConfig'>>()
 const form = useForm({
     config: JSON.stringify(props.config.config, null, 2),
 })

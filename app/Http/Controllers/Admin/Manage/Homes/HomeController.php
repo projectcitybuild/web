@@ -12,6 +12,7 @@ use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Controllers\WebController;
+use App\Http\Data\MinecraftHomeData;
 use App\Models\MinecraftHome;
 use App\Models\MinecraftPlayer;
 use Illuminate\Http\RedirectResponse;
@@ -44,7 +45,9 @@ class HomeController extends WebController
             return $homes();
         }
         return $this->inertiaRender('Homes/HomeList', [
-            'homes' => Inertia::defer($homes),
+            'homes' => Inertia::defer(fn () => $homes()->through(
+                fn (MinecraftHome $home): array => MinecraftHomeData::fromModel($home)->toArray(),
+            )),
         ]);
     }
 
@@ -93,7 +96,9 @@ class HomeController extends WebController
 
         $home->load('player');
 
-        return $this->inertiaRender('Homes/HomeEdit', compact('home'));
+        return $this->inertiaRender('Homes/HomeEdit', [
+            'home' => MinecraftHomeData::fromModel($home),
+        ]);
     }
 
     public function update(Request $request, MinecraftHome $home)

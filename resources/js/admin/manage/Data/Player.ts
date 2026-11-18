@@ -1,8 +1,6 @@
-import { Account } from './Account'
-
 export interface Player {
     id: number,
-    account?: Account,
+    account?: App.Http.Data.AdminAccountData,
     account_id?: number,
     uuid: string,
     alias?: string,

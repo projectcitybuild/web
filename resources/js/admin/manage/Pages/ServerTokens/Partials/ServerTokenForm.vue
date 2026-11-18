@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { InertiaForm, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
-import type { ServerToken } from '../../../Data/ServerToken'
 import DangerZone from '../../../Components/Forms/DangerZone.vue'
 import FormActions from '../../../Components/Forms/FormActions.vue'
 import FormErrorSummary from '../../../Components/Forms/FormErrorSummary.vue'
@@ -15,7 +14,7 @@ import { Icons } from '../../../Icons'
 import FilledButton from '../../../Components/FilledButton.vue'
 
 interface Props {
-    token?: ServerToken,
+    token?: App.Http.Data.AdminServerTokenData,
     submit: (form: InertiaForm<ServerTokenFormData>) => void,
 }
 

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { BuilderRankApplication, BuilderRankApplicationStatus } from '../../../../manage/Data/BuilderRankApplication'
+import { BuilderRankApplicationStatus } from '../../../../manage/Data/BuilderRankApplication'
 import { format } from '../../../../manage/Utilities/DateFormatter'
 import Card from '../../../../shared/Components/Card.vue'
 
 interface Props {
-    application: BuilderRankApplication,
+    application: App.Http.Data.AdminBuilderRankApplicationData,
 }
 defineProps<Props>()
 </script>

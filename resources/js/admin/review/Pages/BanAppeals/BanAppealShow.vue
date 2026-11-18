@@ -5,7 +5,6 @@ import ConfirmDialog from '../../../manage/Components/ConfirmDialog.vue'
 import MinecraftAvatar from '../../../manage/Components/MinecraftAvatar.vue'
 import { distance, distanceFromNow, format } from '../../../manage/Utilities/DateFormatter'
 import SuccessAlert from '../../../manage/Components/SuccessAlert.vue'
-import type { BanAppeal } from '../../../manage/Data/BanAppeal'
 import { computed, ref } from 'vue'
 import { BanAppealStatus } from '../../../manage/Data/BanAppealStatus'
 import ErrorAlert from '../../../manage/Components/ErrorAlert.vue'
@@ -17,11 +16,7 @@ import Button from '../../../shared/Components/Button.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 import Textarea from '../../../shared/Components/Textarea.vue'
 
-interface Props {
-    banAppeal: BanAppeal,
-    success?: string,
-}
-const props = defineProps<Props>()
+const props = defineProps<AdminPageProps<'review/BanAppeals/BanAppealShow'>>()
 
 const form = useForm({
     status: null,
@@ -59,6 +54,11 @@ const status = computed(() => {
             return {
                 variant: 'warning' as const,
                 label: 'Pending',
+            }
+        default:
+            return {
+                variant: 'warning' as const,
+                label: 'Unknown',
             }
     }
 })

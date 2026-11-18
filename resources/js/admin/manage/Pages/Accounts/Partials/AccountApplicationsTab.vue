@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import type { Account } from '../../../Data/Account'
 import Card from '../../../Components/Card.vue'
 import AccountBanAppealsTable from './AccountBanAppealsTable.vue'
 import AccountBuilderRankApplicationsTable from './AccountBuilderRankApplicationsTable.vue'
 import TabPanel from '../../../Components/TabPanel.vue'
 
 interface Props {
-    account: Account,
+    account: App.Http.Data.AdminAccountData,
     activeTab: string,
 }
 const props = defineProps<Props>()

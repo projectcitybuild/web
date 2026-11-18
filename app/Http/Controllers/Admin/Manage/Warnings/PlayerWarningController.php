@@ -8,6 +8,7 @@ use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Controllers\WebController;
+use App\Http\Data\AdminPlayerWarningData;
 use App\Models\MinecraftPlayer;
 use App\Models\PlayerWarning;
 use Illuminate\Http\Request;
@@ -32,7 +33,9 @@ class PlayerWarningController extends WebController
             return $warnings();
         }
         return $this->inertiaRender('Warnings/WarningList', [
-            'warnings' => Inertia::defer($warnings),
+            'warnings' => Inertia::defer(fn () => $warnings()->through(
+                fn (PlayerWarning $warning): array => AdminPlayerWarningData::fromModel($warning)->toArray(),
+            )),
         ]);
     }
 
@@ -83,7 +86,9 @@ class PlayerWarningController extends WebController
 
         $warning->load('warnedPlayer', 'warnerPlayer');
 
-        return $this->inertiaRender('Warnings/WarningEdit', compact('warning'));
+        return $this->inertiaRender('Warnings/WarningEdit', [
+            'warning' => AdminPlayerWarningData::fromModel($warning),
+        ]);
     }
 
     public function update(Request $request, PlayerWarning $warning)

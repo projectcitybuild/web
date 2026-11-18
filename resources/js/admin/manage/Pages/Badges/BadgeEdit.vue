@@ -1,13 +1,8 @@
 <script setup lang="ts">
 import ManageFormPage from '../../Components/ManageFormPage.vue'
 import BadgeForm from './Partials/BadgeForm.vue'
-import type { Badge } from '../../Data/Badge'
 
-interface Props {
-    badge: Badge,
-}
-
-const props = defineProps<Props>()
+const props = defineProps<AdminPageProps<'manage/Badges/BadgeEdit'>>()
 
 function submit(form: Parameters<InstanceType<typeof BadgeForm>['$props']['submit']>[0]) {
     form.put('/manage/badges/' + props.badge.id)

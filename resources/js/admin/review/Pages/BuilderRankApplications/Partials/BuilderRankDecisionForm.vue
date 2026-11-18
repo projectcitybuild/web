@@ -1,18 +1,16 @@
 <script setup lang="ts">
 import Card from '../../../../shared/Components/Card.vue'
 import { useForm } from '@inertiajs/vue3'
-import { BuilderRankApplication } from '../../../../manage/Data/BuilderRankApplication'
 import ErrorAlert from '../../../../manage/Components/ErrorAlert.vue'
 import ConfirmDialog from '../../../../manage/Components/ConfirmDialog.vue'
 import { computed, ref } from 'vue'
-import { Role } from '../../../../manage/Data/Role'
 import Button from '../../../../shared/Components/Button.vue'
 import Select from '../../../../shared/Components/Select.vue'
 import Textarea from '../../../../shared/Components/Textarea.vue'
 
 interface Props {
-    application: BuilderRankApplication,
-    buildRoles: Role[],
+    application: App.Http.Data.AdminBuilderRankApplicationData,
+    buildRoles: App.Http.Data.AdminRoleData[],
 }
 const props = defineProps<Props>()
 

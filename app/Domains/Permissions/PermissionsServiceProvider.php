@@ -2,6 +2,7 @@
 
 namespace App\Domains\Permissions;
 
+use App\Http\Data\AdminSharedPagePropsData;
 use App\Models\Account;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -36,16 +37,19 @@ class PermissionsServiceProvider extends ServiceProvider
             'is_admin' => function () {
                 $account = Auth::user();
                 if (! $account) {
-                    return false;
+                    return AdminSharedPagePropsData::serializeProp('is_admin', false);
                 }
-                return $account->isAdmin();
+                return AdminSharedPagePropsData::serializeProp('is_admin', $account->isAdmin());
             },
             'permissions' => function () use ($permissionsRepository) {
                 $account = Auth::user();
                 if (! $account) {
-                    return null;
+                    return AdminSharedPagePropsData::serializeProp('permissions', null);
                 }
-                return $permissionsRepository->getPermissionNames($account);
+                return AdminSharedPagePropsData::serializeProp(
+                    'permissions',
+                    $permissionsRepository->getPermissionNames($account),
+                );
             },
         ]);
     }

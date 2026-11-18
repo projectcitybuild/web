@@ -7,49 +7,7 @@ import ListPage from '../../../manage/Components/ListPage.vue'
 import OutlinedButton from '../../../manage/Components/OutlinedButton.vue'
 import AuditListTable from './Partials/AuditListTable.vue'
 
-interface AuditRecord {
-    id: number,
-    actor: string,
-    action: string,
-    event: string,
-    subject: string,
-    createdAt: string,
-    showUrl: string,
-}
-
-interface PaginationLink {
-    url: string | null,
-    label: string,
-    active: boolean,
-}
-
-interface PaginatedAudits {
-    data: AuditRecord[],
-    current_page: number,
-    from: number | null,
-    last_page: number,
-    links: PaginationLink[],
-    to: number | null,
-    total: number,
-}
-
-interface AuditType {
-    value: string,
-    label: string,
-}
-
-interface Props {
-    audits: PaginatedAudits,
-    auditableTypes: AuditType[],
-    auditEvents: string[],
-    filters: {
-        auditable_type: string,
-        audit_event: string,
-    },
-    indexUrl: string,
-}
-
-const props = defineProps<Props>()
+const props = defineProps<AdminPageProps<'audit/Activity/AuditList'>>()
 
 const filters = reactive({ ...props.filters })
 

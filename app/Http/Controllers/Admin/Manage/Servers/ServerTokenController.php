@@ -6,6 +6,7 @@ use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Controllers\WebController;
+use App\Http\Data\AdminServerTokenData;
 use App\Models\Server;
 use App\Models\ServerToken;
 use Illuminate\Http\Request;
@@ -19,7 +20,9 @@ class ServerTokenController extends WebController
     {
         $this->requires(WebManagePermission::SERVER_TOKENS_VIEW);
 
-        $tokens = ServerToken::orderBy('created_at', 'desc')->get();
+        $tokens = ServerToken::orderBy('created_at', 'desc')
+            ->get()
+            ->map(fn (ServerToken $serverToken): array => AdminServerTokenData::fromModel($serverToken)->toArray());
 
         return $this->inertiaRender('ServerTokens/ServerTokensList', compact('tokens'));
     }
@@ -63,7 +66,7 @@ class ServerTokenController extends WebController
         $this->requires(WebManagePermission::SERVER_TOKENS_EDIT);
 
         return $this->inertiaRender('ServerTokens/ServerTokenEdit', [
-            'token' => $serverToken,
+            'token' => AdminServerTokenData::fromModel($serverToken),
         ]);
     }
 

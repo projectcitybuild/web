@@ -7,13 +7,7 @@ import BroadcastStatus from './Components/BroadcastStatus.vue'
 import MailPreview from './Components/MailPreview.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 
-interface Props {
-    broadcast: App.Http.Data.PlayerMailBroadcastPageData,
-    audienceEstimate: number,
-    backUrl: string,
-}
-
-const props = defineProps<Props>()
+const props = defineProps<AdminPageProps<'manage/PlayerMail/Show'>>()
 let refreshTimer: ReturnType<typeof setInterval> | undefined
 
 function formatDate(value: string | null): string {

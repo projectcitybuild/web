@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { BanAppeal } from '../../../../manage/Data/BanAppeal'
 import { BanAppealStatus } from '../../../../manage/Data/BanAppealStatus'
 import { Link } from '@inertiajs/vue3'
 import MinecraftAvatar from '../../../../manage/Components/MinecraftAvatar.vue'
@@ -21,7 +20,7 @@ const statusVariants: Record<BanAppealStatus, 'warning' | 'success' | 'info' | '
 }
 
 interface Props {
-    banAppeals: BanAppeal[],
+    banAppeals: App.Http.Data.AdminBanAppealData[],
 }
 defineProps<Props>()
 </script>
@@ -46,7 +45,7 @@ defineProps<Props>()
                             class="flex size-10 shrink-0 items-center justify-center rounded-full bg-surface-muted text-sm font-semibold text-muted"
                             aria-hidden="true"
                         >
-                            {{ appeal.email.charAt(0).toUpperCase() }}
+                                    {{ appeal.email?.charAt(0).toUpperCase() ?? '?' }}
                         </div>
 
                         <div class="min-w-0">
@@ -55,10 +54,10 @@ defineProps<Props>()
                                     {{ appeal.game_player_ban?.banned_player.alias ?? appeal.email }}
                                 </h2>
                                 <Badge
-                                    :variant="statusVariants[appeal.status]"
+                                    :variant="appeal.status === null ? 'warning' : statusVariants[appeal.status]"
                                     size="sm"
                                 >
-                                    {{ statusLabels[appeal.status] }}
+                                    {{ appeal.status === null ? 'Unknown' : statusLabels[appeal.status] }}
                                 </Badge>
                             </div>
                             <p class="mt-1 text-xs text-muted">

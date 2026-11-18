@@ -7,34 +7,7 @@ import PageHeader from '../../../shared/Components/PageHeader.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 import AuditChange from './Partials/AuditChange.vue'
 
-interface AuditValue {
-    text: string,
-    href: string | null,
-    kind: 'unset' | 'null' | 'boolean' | 'link' | 'value',
-}
-
-interface AuditChangeRecord {
-    attribute: string,
-    description: string,
-    oldValue: AuditValue,
-    newValue: AuditValue,
-    oldEntries: Array<{ state: string, text: string }> | null,
-    newEntries: Array<{ state: string, text: string }> | null,
-}
-
-interface Props {
-    audit: {
-        id: number,
-        actor: string,
-        subject: AuditValue,
-        event: string,
-        createdAt: string,
-        changes: AuditChangeRecord[],
-    },
-    indexUrl: string,
-}
-
-defineProps<Props>()
+defineProps<AdminPageProps<'audit/Activity/AuditShow'>>()
 </script>
 
 <template>

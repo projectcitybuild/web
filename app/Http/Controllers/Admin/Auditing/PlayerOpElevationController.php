@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Auditing;
 
 use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Controllers\WebController;
+use App\Http\Data\AdminPlayerOpElevationData;
 use App\Models\PlayerOpElevation;
 use Illuminate\Http\Request;
 use Inertia\Response;
@@ -24,14 +25,7 @@ class PlayerOpElevationController extends WebController
             ->orderByDesc('id')
             ->paginate(100, pageName: 'elevation_page')
             ->withQueryString()
-            ->through(fn (PlayerOpElevation $elevation): array => [
-                'id' => $elevation->id,
-                'player' => $elevation->player,
-                'reason' => $elevation->reason,
-                'startedAt' => $elevation->started_at->toIso8601String(),
-                'endedAt' => $elevation->ended_at->toIso8601String(),
-                'isActive' => $elevation->ended_at->isFuture(),
-            ]);
+            ->through(fn (PlayerOpElevation $elevation): array => AdminPlayerOpElevationData::fromModel($elevation)->toArray());
 
         return $this->inertiaRender('OpElevations/OpElevationList', [
             'elevations' => $elevations,

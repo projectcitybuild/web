@@ -1,13 +1,8 @@
 <script setup lang="ts">
 import ManageFormPage from '../../Components/ManageFormPage.vue'
 import PlayerForm from './Partials/PlayerForm.vue'
-import type { Player } from '../../Data/Player'
 
-interface Props {
-    player: Player,
-}
-
-const props = defineProps<Props>()
+const props = defineProps<AdminPageProps<'manage/Players/PlayerEdit'>>()
 
 function submit(form: Parameters<InstanceType<typeof PlayerForm>['$props']['submit']>[0]) {
     form.put('/manage/players/' + props.player.id)

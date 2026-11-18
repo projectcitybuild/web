@@ -1,9 +1,8 @@
-import { Account } from './Account'
 import { Payment } from './Payment'
 
 export interface Donation {
     id: number,
-    account?: Account,
+    account?: App.Http.Data.AdminAccountData,
     payment?: Payment,
     amount: number,
     created_at: string,

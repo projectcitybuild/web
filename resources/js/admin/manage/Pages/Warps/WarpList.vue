@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { Deferred, Head, Link } from '@inertiajs/vue3'
-import { Paginated } from '../../Data/Paginated'
-import type { Warp } from '../../Data/Warp'
 import WarpListTable from './Partials/WarpListTable.vue'
 import InfinitePagination from '../../Components/InfinitePagination.vue'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
@@ -16,11 +14,7 @@ import ShowingCount from '../../Components/ShowingCount.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 
-interface Props {
-    success?: string,
-    warps?: Paginated<Warp>,
-}
-defineProps<Props>()
+defineProps<AdminPageProps<'manage/Warps/WarpList'>>()
 
 const itemCount = ref(0)
 

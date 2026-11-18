@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { InertiaForm, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
-import type { Donation } from '../../../Data/Donation'
 import DateTimePicker from '../../../Components/DateTimePicker.vue'
 import DangerZone from '../../../Components/Forms/DangerZone.vue'
 import FormActions from '../../../Components/Forms/FormActions.vue'
@@ -12,7 +11,7 @@ import { useUnsavedChangesWarning } from '../../../Components/Forms/useUnsavedCh
 import Input from '../../../../shared/Components/Input.vue'
 
 interface Props {
-    donation?: Donation,
+    donation?: App.Http.Data.AdminDonationData,
     submit: (form: InertiaForm<DonationFormData>) => void,
 }
 

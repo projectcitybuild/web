@@ -2,6 +2,7 @@
 
 namespace App\Http\Data;
 
+use App\Models\MinecraftWarp;
 use Carbon\CarbonInterface;
 use Spatie\LaravelData\Attributes\WithTransformer;
 use Spatie\LaravelData\Data;
@@ -33,4 +34,20 @@ class MinecraftWarpData extends Data
         )]
         public ?CarbonInterface $updated_at,
     ) {}
+
+    public static function fromModel(MinecraftWarp $warp): self
+    {
+        return new self(
+            id: $warp->id,
+            name: $warp->name,
+            world: $warp->world,
+            x: $warp->x,
+            y: $warp->y,
+            z: $warp->z,
+            pitch: $warp->pitch,
+            yaw: $warp->yaw,
+            created_at: $warp->created_at,
+            updated_at: $warp->updated_at,
+        );
+    }
 }

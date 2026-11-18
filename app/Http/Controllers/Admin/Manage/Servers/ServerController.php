@@ -6,6 +6,7 @@ use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Controllers\WebController;
+use App\Http\Data\AdminServerData;
 use App\Models\Server;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -19,7 +20,9 @@ class ServerController extends WebController
     {
         $this->requires(WebManagePermission::SERVERS_VIEW);
 
-        $servers = Server::orderBy('created_at', 'desc')->get();
+        $servers = Server::orderBy('created_at', 'desc')
+            ->get()
+            ->map(fn (Server $server): array => AdminServerData::fromModel($server)->toArray());
 
         return $this->inertiaRender('Servers/ServerList', compact('servers'));
     }
@@ -52,7 +55,9 @@ class ServerController extends WebController
     {
         $this->requires(WebManagePermission::SERVERS_EDIT);
 
-        return $this->inertiaRender('Servers/ServerEdit', compact('server'));
+        return $this->inertiaRender('Servers/ServerEdit', [
+            'server' => AdminServerData::fromModel($server),
+        ]);
     }
 
     public function update(Request $request, Server $server)

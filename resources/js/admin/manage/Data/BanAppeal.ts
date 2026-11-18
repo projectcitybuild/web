@@ -1,7 +1,6 @@
 import { BanAppealStatus } from './BanAppealStatus'
 import { Player } from './Player'
 import { PlayerBan } from './PlayerBan'
-import { Account } from './Account'
 
 export interface BanAppeal {
     id: number,
@@ -11,7 +10,7 @@ export interface BanAppeal {
     unban_reason: string,
     email: string,
     status: BanAppealStatus,
-    account?: Account,
+    account?: App.Http.Data.AdminAccountData,
     game_player_ban: PlayerBan,
     created_at: string,
     updated_at: string,

@@ -6,15 +6,7 @@ import PageHeader from '../../shared/Components/PageHeader.vue'
 import MinecraftAvatar from '../Components/MinecraftAvatar.vue'
 import { format, timeAgo } from '../Utilities/DateFormatter'
 
-interface Props {
-    recentActivities?: App.Http.Data.ManageHomeRecentActivityData[] | null,
-    activityUrl?: string | null,
-}
-
-const props = withDefaults(defineProps<Props>(), {
-    recentActivities: null,
-    activityUrl: null,
-})
+const props = defineProps<AdminPageProps<'manage/Home'>>()
 
 function eventVariant(event: string): 'default' | 'success' | 'info' | 'warning' | 'danger' {
     switch (event) {

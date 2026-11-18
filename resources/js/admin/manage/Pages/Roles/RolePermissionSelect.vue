@@ -9,7 +9,6 @@ import FormNotice from '../../Components/Forms/FormNotice.vue'
 import FormSection from '../../Components/Forms/FormSection.vue'
 import { useUnsavedChangesWarning } from '../../Components/Forms/useUnsavedChangesWarning'
 import FilledButton from '../../Components/FilledButton.vue'
-import { Permission } from '../../Data/Permission'
 import Input from '../../../shared/Components/Input.vue'
 import Table from '../../../shared/Components/Table.vue'
 import TableCell from '../../../shared/Components/TableCell.vue'
@@ -18,14 +17,14 @@ import TableRow from '../../../shared/Components/TableRow.vue'
 
 interface Props {
     success?: string,
-    permissions: Permission[],
+    permissions: App.Http.Data.AdminPermissionData[],
     role_permission_ids: number[],
     role_id: number,
 }
 
 interface PermissionGroup {
     name: string,
-    permissions: Permission[],
+    permissions: App.Http.Data.AdminPermissionData[],
 }
 
 const props = defineProps<Props>()
@@ -40,7 +39,7 @@ const filteredPermissions = computed(() => {
     return props.permissions.filter(permission => permission.name.toLowerCase().includes(query))
 })
 const permissionGroups = computed<PermissionGroup[]>(() => {
-    const groups = new Map<string, Permission[]>()
+    const groups = new Map<string, App.Http.Data.AdminPermissionData[]>()
 
     for (const permission of filteredPermissions.value) {
         const segments = permission.name.split('.')

@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import type { Role } from '../../../Data/Role'
 import DataTable from '../../../Components/DataTable.vue'
 
 interface Props {
-    roles: Role[],
+    roles: App.Http.Data.AdminAccountRoleData[],
 }
 defineProps<Props>()
 

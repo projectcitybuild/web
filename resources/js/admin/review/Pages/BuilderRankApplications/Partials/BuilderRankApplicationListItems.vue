@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
-import { BuilderRankApplication, BuilderRankApplicationStatus } from '../../../../manage/Data/BuilderRankApplication'
+import { BuilderRankApplicationStatus } from '../../../../manage/Data/BuilderRankApplication'
 import MinecraftAvatar from '../../../../manage/Components/MinecraftAvatar.vue'
 import Badge from '../../../../shared/Components/Badge.vue'
 import { distance, distanceFromNow, format } from '../../../../manage/Utilities/DateFormatter'
@@ -18,7 +18,7 @@ const statusVariants: Record<BuilderRankApplicationStatus, 'warning' | 'success'
 }
 
 interface Props {
-    applications: BuilderRankApplication[],
+    applications: App.Http.Data.AdminBuilderRankApplicationData[],
 }
 defineProps<Props>()
 </script>

@@ -4,7 +4,6 @@ import { Paginated } from '../../Data/Paginated'
 import AccountListTable from './Partials/AccountListTable.vue'
 import InfinitePagination from '../../Components/InfinitePagination.vue'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
-import type { Account } from '../../Data/Account'
 import { computed, watch, ref } from 'vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
 import SpinnerRow from '../../Components/SpinnerRow.vue'
@@ -15,11 +14,7 @@ import ListPage from '../../Components/ListPage.vue'
 import OutlinedButton from '../../Components/OutlinedButton.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 
-interface Props {
-    success?: string,
-    accounts?: Paginated<Account>,
-}
-const props = defineProps<Props>()
+const props = defineProps<AdminPageProps<'manage/Accounts/AccountList'>>()
 
 const query = ref({})
 const itemCount = ref(0)

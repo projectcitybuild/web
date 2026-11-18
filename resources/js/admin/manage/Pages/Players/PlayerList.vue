@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import { Deferred, Head, Link, useForm } from '@inertiajs/vue3'
-import { Paginated } from '../../Data/Paginated'
 import PlayerListTable from './Partials/PlayerListTable.vue'
 import InfinitePagination from '../../Components/InfinitePagination.vue'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
-import type { Player } from '../../Data/Player'
 import Card from '../../Components/Card.vue'
 import FilledButton from '../../Components/FilledButton.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
@@ -18,11 +16,7 @@ import Input from '../../../shared/Components/Input.vue'
 import FilterPanel from '../../Components/FilterPanel.vue'
 import ShowingCount from '../../Components/ShowingCount.vue'
 
-interface Props {
-    success?: string,
-    players?: Paginated<Player>,
-}
-defineProps<Props>()
+defineProps<AdminPageProps<'manage/Players/PlayerList'>>()
 
 const { can } = usePermissions()
 

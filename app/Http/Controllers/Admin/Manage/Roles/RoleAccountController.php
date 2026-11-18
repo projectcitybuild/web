@@ -6,6 +6,8 @@ use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Controllers\WebController;
+use App\Http\Data\AdminAccountData;
+use App\Http\Data\AdminRoleData;
 use App\Models\Account;
 use App\Models\Role;
 use Illuminate\Http\Request;
@@ -30,9 +32,14 @@ class RoleAccountController extends WebController
         if ($request->wantsJson()) {
             return $accounts;
         }
+        $accounts->through(fn (Account $account): array => AdminAccountData::fromModel($account, canViewEmail: true)->toArray());
+
         return $this->inertiaRender(
             'Roles/RoleAccountList',
-            compact('accounts', 'role'),
+            [
+                'accounts' => $accounts,
+                'role' => AdminRoleData::fromModel($role),
+            ],
         );
     }
 }

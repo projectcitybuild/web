@@ -3,7 +3,6 @@ import { Head, router, usePage } from '@inertiajs/vue3'
 import Card from '../../Components/Card.vue'
 import { format, timeAgo } from '../../Utilities/DateFormatter'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
-import type { Account } from '../../Data/Account'
 import Pill from '../../Components/Pill.vue'
 import { computed, onMounted, ref, watch } from 'vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
@@ -17,11 +16,7 @@ import AccountContributionsTab from './Partials/AccountContributionsTab.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 
-interface Props {
-    account: Account,
-    success?: string,
-}
-const props = defineProps<Props>()
+const props = defineProps<AdminPageProps<'manage/Accounts/AccountShow'>>()
 
 const tabs = [
     { id: 'linked', label: 'Linked Data' },

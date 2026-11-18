@@ -1,13 +1,8 @@
 <script setup lang="ts">
 import ManageFormPage from '../../Components/ManageFormPage.vue'
 import WarpForm from './Partials/WarpForm.vue'
-import type { Warp } from '../../Data/Warp'
 
-interface Props {
-    warp: Warp,
-}
-
-const props = defineProps<Props>()
+const props = defineProps<AdminPageProps<'manage/Warps/WarpEdit'>>()
 
 function submit(form: Parameters<InstanceType<typeof WarpForm>['$props']['submit']>[0]) {
     form.put('/manage/minecraft/warps/' + props.warp.id)

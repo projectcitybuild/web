@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
-import type { Player } from '../../../Data/Player'
 import MinecraftAvatar from '../../../Components/MinecraftAvatar.vue'
 import FilledButton from '../../../Components/FilledButton.vue'
 import DataTable from '../../../Components/DataTable.vue'
 
 interface Props {
-    players: Player[],
+    players: App.Http.Data.MinecraftPlayerData[],
 }
 defineProps<Props>()
 

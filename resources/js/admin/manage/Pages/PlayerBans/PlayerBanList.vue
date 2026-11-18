@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { Deferred, Head, Link } from '@inertiajs/vue3'
 import BanListTable from './Partials/PlayerBanListTable.vue'
-import { Paginated } from '../../Data/Paginated'
-import { PlayerBan } from '../../Data/PlayerBan'
 import InfinitePagination from '../../Components/InfinitePagination.vue'
 import Card from '../../Components/Card.vue'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
@@ -18,11 +16,7 @@ import ShowingCount from '../../Components/ShowingCount.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 
-interface Props {
-    bans?: Paginated<PlayerBan>,
-    success?: string,
-}
-defineProps<Props>()
+defineProps<AdminPageProps<'manage/PlayerBans/PlayerBanList'>>()
 
 const { can } = usePermissions()
 

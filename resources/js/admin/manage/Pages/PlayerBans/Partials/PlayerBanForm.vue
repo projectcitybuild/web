@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { InertiaForm, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
-import { PlayerBan, UnbanType } from '../../../Data/PlayerBan'
+import { UnbanType } from '../../../Data/PlayerBan'
 import DateTimePicker from '../../../Components/DateTimePicker.vue'
 import PlayerPicker from '../../../Components/PlayerPicker.vue'
 import DangerZone from '../../../Components/Forms/DangerZone.vue'
@@ -15,7 +15,7 @@ import Select from '../../../../shared/Components/Select.vue'
 import { useUnsavedChangesWarning } from '../../../Components/Forms/useUnsavedChangesWarning'
 
 interface Props {
-    ban?: PlayerBan,
+    ban?: App.Http.Data.AdminGamePlayerBanData,
     submit: (form: InertiaForm<PlayerBanFormData>) => void,
 }
 
@@ -31,7 +31,7 @@ interface PlayerBanFormData {
     unbanned_at: Date | null,
     unbanner_uuid: string | null,
     unbanner_alias: string | null,
-    unban_type: UnbanType | null,
+    unban_type: App.Domains.Bans.Data.UnbanType | null,
 }
 
 const props = defineProps<Props>()

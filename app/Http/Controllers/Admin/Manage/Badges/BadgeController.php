@@ -6,6 +6,7 @@ use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Controllers\WebController;
+use App\Http\Data\AdminAccountBadgeData;
 use App\Models\Badge;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -28,7 +29,9 @@ class BadgeController extends WebController
             return $badges();
         }
         return $this->inertiaRender('Badges/BadgeList', [
-            'badges' => Inertia::defer($badges),
+            'badges' => Inertia::defer(fn () => $badges()->through(
+                fn (Badge $badge): array => AdminAccountBadgeData::fromModel($badge)->toArray(),
+            )),
         ]);
     }
 
@@ -66,7 +69,9 @@ class BadgeController extends WebController
     {
         $this->requires(WebManagePermission::BADGES_EDIT);
 
-        return $this->inertiaRender('Badges/BadgeEdit', compact('badge'));
+        return $this->inertiaRender('Badges/BadgeEdit', [
+            'badge' => AdminAccountBadgeData::fromModel($badge),
+        ]);
     }
 
     public function update(Request $request, Badge $badge)

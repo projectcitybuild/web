@@ -6,19 +6,13 @@ import SvgIcon from '../../Components/SvgIcon.vue'
 import SpinnerRow from '../../Components/SpinnerRow.vue'
 import usePermissions from '../../Composables/usePermissions'
 import { Icons } from '../../Icons'
-import type { Permission } from '../../Data/Permission'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 import ListPage from '../../Components/ListPage.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 
-interface Props {
-    success?: string,
-    permissions?: Permission[],
-}
-
 const { can } = usePermissions()
 
-defineProps<Props>()
+defineProps<AdminPageProps<'manage/Permissions/PermissionList'>>()
 </script>
 
 <template>

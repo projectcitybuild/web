@@ -5,7 +5,6 @@ import OutlinedButton from '../../../Components/OutlinedButton.vue'
 import { BanAppealStatus } from '../../../Data/BanAppealStatus'
 import Pill from '../../../Components/Pill.vue'
 import DataTable from '../../../Components/DataTable.vue'
-import type { BanAppeal } from '../../../Data/BanAppeal'
 
 interface Props {
     account_id: number,
@@ -20,7 +19,7 @@ const fields = [
 </script>
 
 <template>
-    <!-- @vue-generic {BanAppeal} -->
+    <!-- @vue-generic {App.Http.Data.AdminBanAppealData} -->
     <InfinitePagination
         :path="'/manage/accounts/' + account_id + '/ban-appeals'"
         v-slot="source"

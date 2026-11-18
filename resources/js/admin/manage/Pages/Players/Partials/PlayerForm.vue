@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { InertiaForm, useForm, usePage } from '@inertiajs/vue3'
 import { computed, ref } from 'vue'
-import type { Player } from '../../../Data/Player'
 import PlayerPicker from '../../../Components/PlayerPicker.vue'
 import ChoiceCard from '../../../Components/Forms/ChoiceCard.vue'
 import FormActions from '../../../Components/Forms/FormActions.vue'
@@ -13,7 +12,7 @@ import Input from '../../../../shared/Components/Input.vue'
 import { useUnsavedChangesWarning } from '../../../Components/Forms/useUnsavedChangesWarning'
 
 interface Props {
-    player?: Player,
+    player?: App.Http.Data.MinecraftPlayerData,
     submit: (form: InertiaForm<PlayerFormData>) => void,
 }
 

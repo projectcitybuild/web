@@ -24,8 +24,8 @@ class AdminBanAppealData extends Data
         public ?string $decided_at,
         public ?string $decision_note,
         public Optional|AdminAccountData|null $account,
-        public Optional|array|null $game_player_ban,
-        public Optional|array|null $decider_player,
+        public Optional|AdminGamePlayerBanData|null $game_player_ban,
+        public Optional|MinecraftPlayerData|null $decider_player,
         #[WithTransformer(DateTimeInterfaceTransformer::class, format: 'Y-m-d\\TH:i:s.u\\Z', setTimeZone: 'UTC')]
         public ?CarbonInterface $created_at,
     ) {}
@@ -52,18 +52,13 @@ class AdminBanAppealData extends Data
             decided_at: $banAppeal->decided_at?->toDateTimeString(),
             decision_note: $banAppeal->decision_note,
             account: $account,
-            game_player_ban: self::loadedRelation($banAppeal, 'gamePlayerBan'),
-            decider_player: self::loadedRelation($banAppeal, 'deciderPlayer'),
+            game_player_ban: $banAppeal->relationLoaded('gamePlayerBan')
+                ? ($banAppeal->gamePlayerBan === null ? null : AdminGamePlayerBanData::fromModel($banAppeal->gamePlayerBan))
+                : Optional::create(),
+            decider_player: $banAppeal->relationLoaded('deciderPlayer')
+                ? ($banAppeal->deciderPlayer === null ? null : MinecraftPlayerData::fromModel($banAppeal->deciderPlayer))
+                : Optional::create(),
             created_at: $banAppeal->created_at,
         );
-    }
-
-    private static function loadedRelation(BanAppeal $banAppeal, string $relation): Optional|array|null
-    {
-        if (! $banAppeal->relationLoaded($relation)) {
-            return Optional::create();
-        }
-
-        return $banAppeal->getRelation($relation)?->toArray();
     }
 }

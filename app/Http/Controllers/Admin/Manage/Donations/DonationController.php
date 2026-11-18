@@ -7,6 +7,7 @@ use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Controllers\WebController;
+use App\Http\Data\AdminDonationData;
 use App\Models\Donation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -31,7 +32,9 @@ class DonationController extends WebController
             return $donations();
         }
         return $this->inertiaRender('Donations/DonationList', [
-            'donations' => Inertia::defer($donations),
+            'donations' => Inertia::defer(fn () => $donations()->through(
+                fn (Donation $donation): array => AdminDonationData::fromModel($donation)->toArray(),
+            )),
         ]);
     }
 
@@ -78,7 +81,7 @@ class DonationController extends WebController
 
         return $this->inertiaRender(
             'Donations/DonationEdit',
-            compact('donation'),
+            ['donation' => AdminDonationData::fromModel($donation)],
         );
     }
 

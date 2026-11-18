@@ -15,22 +15,7 @@ import PageHeader from '../../../shared/Components/PageHeader.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 import EmptyState from '../../../shared/Components/EmptyState.vue'
 
-interface Props {
-    broadcasts: {
-        data: App.Http.Data.PlayerMailBroadcastSummaryData[],
-        current_page: number,
-        last_page: number,
-        from: number | null,
-        to: number | null,
-        total: number,
-    },
-    filters: {
-        search: string,
-        status: string,
-    },
-}
-
-const props = defineProps<Props>()
+const props = defineProps<AdminPageProps<'manage/PlayerMail/Index'>>()
 const search = ref(props.filters.search)
 const status = ref(props.filters.status)
 const { can } = usePermissions()

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3'
 import ServerListTable from './Partials/ServerListTable.vue'
-import type { Server } from '../../Data/Server'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
 import { Icons } from '../../Icons'
@@ -10,12 +9,7 @@ import PageHeader from '../../../shared/Components/PageHeader.vue'
 import ListPage from '../../Components/ListPage.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 
-interface Props {
-    servers: Server[],
-    success?: string,
-}
-
-const props = defineProps<Props>()
+const props = defineProps<AdminPageProps<'manage/Servers/ServerList'>>()
 
 const { can } = usePermissions()
 </script>

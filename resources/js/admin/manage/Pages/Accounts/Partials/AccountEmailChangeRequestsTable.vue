@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { format } from '../../../Utilities/DateFormatter'
-import { EmailChangeRequest } from '../../../Data/EmailChangeRequest'
 import OutlinedButton from '../../../Components/OutlinedButton.vue'
 import { ref } from 'vue'
 import ConfirmDialog from '../../../Components/ConfirmDialog.vue'
@@ -8,7 +7,7 @@ import { router } from '@inertiajs/vue3'
 import DataTable from '../../../Components/DataTable.vue'
 
 interface Props {
-    requests: EmailChangeRequest[],
+    requests: App.Http.Data.AdminEmailChangeData[],
     account_id: number,
 }
 const props = defineProps<Props>()

@@ -3,19 +3,11 @@ import { Head, Link } from '@inertiajs/vue3'
 import { Paginated } from '../../Data/Paginated'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
 import Card from '../../Components/Card.vue'
-import type { Account } from '../../Data/Account'
 import InfinitePagination from '../../Components/InfinitePagination.vue'
 import RoleMemberListTable from './Partials/RoleMemberListTable.vue'
-import { Role } from '../../Data/Role'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 
-interface Props {
-    success?: string,
-    role: Role,
-    accounts: Paginated<Account>,
-}
-
-defineProps<Props>()
+defineProps<AdminPageProps<'manage/Roles/RoleAccountList'>>()
 </script>
 
 <template>

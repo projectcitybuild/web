@@ -1,18 +1,12 @@
 <script setup lang="ts">
 import { Deferred, Head } from '@inertiajs/vue3'
-import { Paginated } from '../../../manage/Data/Paginated'
 import InfinitePagination from '../../../manage/Components/InfinitePagination.vue'
 import SuccessAlert from '../../../manage/Components/SuccessAlert.vue'
-import type { BuilderRankApplication } from '../../../manage/Data/BuilderRankApplication'
 import BuilderRankApplicationListItems from './Partials/BuilderRankApplicationListItems.vue'
 import SpinnerRow from '../../../manage/Components/SpinnerRow.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 
-interface Props {
-    success?: string,
-    applications?: Paginated<BuilderRankApplication>,
-}
-defineProps<Props>()
+defineProps<AdminPageProps<'review/BuilderRankApplications/BuilderRankApplicationList'>>()
 </script>
 
 <template>

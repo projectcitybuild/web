@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { Deferred, Head } from '@inertiajs/vue3'
-import { Paginated } from '../../Data/Paginated'
-import type { Badge } from '../../Data/Badge'
 import BadgeListTable from './Partials/BadgeListTable.vue'
 import InfinitePagination from '../../Components/InfinitePagination.vue'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
@@ -14,11 +12,7 @@ import PageHeader from '../../../shared/Components/PageHeader.vue'
 import ListPage from '../../Components/ListPage.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 
-interface Props {
-    success?: string,
-    badges?: Paginated<Badge>,
-}
-defineProps<Props>()
+defineProps<AdminPageProps<'manage/Badges/BadgeList'>>()
 
 const itemCount = ref(0)
 

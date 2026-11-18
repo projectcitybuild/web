@@ -4,6 +4,8 @@ use App\Core\Utilities\Redact;
 use App\Domains\Permissions\WebManagePermission;
 use App\Models\Account;
 use App\Models\MinecraftPlayer;
+use App\Models\Role;
+use Illuminate\Testing\Fluent\AssertableJson as Assert;
 use Tests\Support\StaffAccountFactory;
 
 uses(StaffAccountFactory::class);
@@ -39,5 +41,72 @@ it('redacts account email for managers without email permission', function () {
         ->assertInertia(fn ($page) => $page
             ->component('Accounts/AccountShow')
             ->where('account.email', Redact::email($account->email))
+            ->where('account.username', $account->username)
+            ->missing('account.name')
+            ->where('is_admin', false)
+            ->where('permissions', [WebManagePermission::ACCOUNTS_VIEW->value])
+            ->where('pending_appeals', 0)
+            ->where('pending_build_rank_apps', 0)
+            ->where('success', null)
+        );
+});
+
+it('shows account email to managers with email permission', function () {
+    config(['inertia.ssr.enabled' => false]);
+
+    $manager = $this->createStaffAccountWithPermissions([
+        WebManagePermission::ACCOUNTS_VIEW->value,
+        WebManagePermission::ACCOUNTS_VIEW_EMAIL->value,
+    ]);
+    $account = Account::factory()->create(['email' => 'private@example.com']);
+
+    $this->actingAs($manager)
+        ->get(route('manage.accounts.show', $account))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('Accounts/AccountShow')
+            ->where('account.email', 'private@example.com')
+            ->where('permissions', [
+                WebManagePermission::ACCOUNTS_VIEW->value,
+                WebManagePermission::ACCOUNTS_VIEW_EMAIL->value,
+            ])
+        );
+});
+
+it('serializes loaded account relations as typed objects', function () {
+    config(['inertia.ssr.enabled' => false]);
+
+    $manager = $this->createStaffAccountWithPermissions([WebManagePermission::ACCOUNTS_VIEW->value]);
+    $account = Account::factory()->create();
+    $role = Role::factory()->staff()->create();
+    $account->roles()->attach($role->id);
+    $player = MinecraftPlayer::factory()->create(['account_id' => $account->id]);
+
+    $this->actingAs($manager)
+        ->get(route('manage.accounts.show', $account))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('Accounts/AccountShow')
+            ->where('account.roles.0.id', $role->id)
+            ->where('account.roles.0.name', $role->name)
+            ->where('account.minecraft_account.0.id', $player->id)
+            ->where('account.minecraft_account.0.uuid', $player->uuid)
+        );
+});
+
+it('renders account edit data through the account DTO', function () {
+    config(['inertia.ssr.enabled' => false]);
+
+    $manager = $this->createStaffAccountWithPermissions([WebManagePermission::ACCOUNTS_EDIT->value]);
+    $account = Account::factory()->create(['email' => 'edit@example.com']);
+
+    $this->actingAs($manager)
+        ->get(route('manage.accounts.edit', $account))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('Accounts/AccountEdit')
+            ->where('account.id', $account->id)
+            ->where('account.email', 'edit@example.com')
+            ->where('account.username', $account->username)
         );
 });

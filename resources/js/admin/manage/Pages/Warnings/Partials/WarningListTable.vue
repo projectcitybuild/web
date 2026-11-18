@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import LinkButton from '../../../../shared/Components/LinkButton.vue'
 import { Link } from '@inertiajs/vue3'
-import { PlayerWarning } from '../../../Data/PlayerWarning'
 import { format } from '../../../Utilities/DateFormatter'
 import Pill from '../../../Components/Pill.vue'
 import OutlinedButton from '../../../Components/OutlinedButton.vue'
@@ -13,7 +12,7 @@ import MinecraftAvatar from '../../../Components/MinecraftAvatar.vue'
 import usePermissions from '../../../Composables/usePermissions'
 
 interface Props {
-    warnings: PlayerWarning[],
+    warnings: App.Http.Data.AdminPlayerWarningData[],
 }
 const props = defineProps<Props>()
 

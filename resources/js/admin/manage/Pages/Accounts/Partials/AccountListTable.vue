@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
 import { format } from '../../../Utilities/DateFormatter'
-import type { Account } from '../../../Data/Account'
 import BooleanCheck from '../../../Components/BooleanCheck.vue'
 import DataTable from '../../../Components/DataTable.vue'
 import { computed } from 'vue'
 
 interface Props {
-    accounts: Account[],
+    accounts: App.Http.Data.AdminAccountData[],
 }
 const props = defineProps<Props>()
 

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Deferred, Head } from '@inertiajs/vue3'
-import type { Role } from '../../Data/Role'
 import RoleListTable from './Partials/RoleListTable.vue'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
 import SvgIcon from '../../Components/SvgIcon.vue'
@@ -11,14 +10,9 @@ import PageHeader from '../../../shared/Components/PageHeader.vue'
 import ListPage from '../../Components/ListPage.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 
-interface Props {
-    success?: string,
-    roles?: Role[],
-}
-
 const { can } = usePermissions()
 
-defineProps<Props>()
+defineProps<AdminPageProps<'manage/Roles/RoleList'>>()
 </script>
 
 <template>

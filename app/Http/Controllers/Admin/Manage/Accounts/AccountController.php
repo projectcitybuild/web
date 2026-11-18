@@ -138,7 +138,9 @@ class AccountController extends WebController
     {
         $this->requires(WebManagePermission::ACCOUNTS_EDIT);
 
-        return $this->inertiaRender('Accounts/AccountEdit', compact('account'));
+        return $this->inertiaRender('Accounts/AccountEdit', [
+            'account' => AdminAccountData::fromModel($account, true),
+        ]);
     }
 
     public function update(Request $request, Account $account)

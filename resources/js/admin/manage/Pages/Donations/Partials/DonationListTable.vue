@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import LinkButton from '../../../../shared/Components/LinkButton.vue'
 import { Link } from '@inertiajs/vue3'
-import { Donation } from '../../../Data/Donation'
 import { format } from '../../../Utilities/DateFormatter'
 import OutlinedButton from '../../../Components/OutlinedButton.vue'
 import SvgIcon from '../../../Components/SvgIcon.vue'
@@ -10,7 +9,7 @@ import { computed } from 'vue'
 import DataTable from '../../../Components/DataTable.vue'
 
 interface Props {
-    donations: Donation[],
+    donations: App.Http.Data.AdminDonationData[],
 }
 const props = defineProps<Props>()
 

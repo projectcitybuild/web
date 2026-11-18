@@ -3,28 +3,8 @@ import { computed } from 'vue'
 import { Link } from '@inertiajs/vue3'
 import Badge from '../../../../shared/Components/Badge.vue'
 
-interface AuditValue {
-    text: string,
-    href: string | null,
-    kind: 'unset' | 'null' | 'boolean' | 'link' | 'value',
-}
-
-interface ArrayEntry {
-    state: string,
-    text: string,
-}
-
-interface AuditChangeRecord {
-    attribute: string,
-    description: string,
-    oldValue: AuditValue,
-    newValue: AuditValue,
-    oldEntries: ArrayEntry[] | null,
-    newEntries: ArrayEntry[] | null,
-}
-
 const props = defineProps<{
-    change: AuditChangeRecord,
+    change: App.Http.Data.AdminAuditChangeData,
 }>()
 
 const sides = computed(() => [

@@ -6,6 +6,7 @@ use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Controllers\WebController;
+use App\Http\Data\AdminAccountRoleData;
 use App\Models\Account;
 use App\Models\Role;
 use Illuminate\Http\RedirectResponse;
@@ -25,7 +26,7 @@ class AccountRoleController extends WebController
         $accountRoleIds = $account->roles->pluck(Role::primaryKey());
 
         return $this->inertiaRender('Accounts/AccountRoleSelect', [
-            'roles' => $roles,
+            'roles' => $roles->map(AdminAccountRoleData::fromModel(...))->all(),
             'account_role_ids' => $accountRoleIds ?? [],
             'account_id' => $account->id,
         ]);

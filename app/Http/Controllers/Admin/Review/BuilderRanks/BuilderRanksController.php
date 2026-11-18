@@ -9,6 +9,8 @@ use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebReviewPermission;
 use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Controllers\WebController;
+use App\Http\Data\AdminBuilderRankApplicationData;
+use App\Http\Data\AdminRoleData;
 use App\Models\BuilderRankApplication;
 use App\Models\Role;
 use Illuminate\Http\Request;
@@ -36,7 +38,9 @@ class BuilderRanksController extends WebController
         }
 
         return $this->inertiaRender('BuilderRankApplications/BuilderRankApplicationList', [
-            'applications' => Inertia::defer($applications),
+            'applications' => Inertia::defer(fn () => $applications()->through(
+                fn (BuilderRankApplication $application): array => AdminBuilderRankApplicationData::fromModel($application)->toArray(),
+            )),
         ]);
     }
 
@@ -51,9 +55,16 @@ class BuilderRanksController extends WebController
 
         $buildRoles = Role::whereBuildType()->get();
 
+        $buildRoles = $buildRoles->map(
+            fn (Role $role): array => AdminRoleData::fromModel($role)->toArray(),
+        );
+
         return $this->inertiaRender(
             'BuilderRankApplications/BuilderRankApplicationShow',
-            compact('application', 'buildRoles'),
+            [
+                'application' => AdminBuilderRankApplicationData::fromModel($application),
+                'buildRoles' => $buildRoles,
+            ],
         );
     }
 

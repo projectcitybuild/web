@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import type { Badge } from '../../../Data/Badge'
 import BooleanCheck from '../../../Components/BooleanCheck.vue'
 import DataTable from '../../../Components/DataTable.vue'
 
 interface Props {
-    badges: Badge[],
+    badges: App.Http.Data.AdminAccountBadgeData[],
 }
 defineProps<Props>()
 

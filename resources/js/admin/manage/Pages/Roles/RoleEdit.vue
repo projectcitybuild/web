@@ -1,13 +1,8 @@
 <script setup lang="ts">
 import ManageFormPage from '../../Components/ManageFormPage.vue'
 import RoleForm from './Partials/RoleForm.vue'
-import type { Role } from '../../Data/Role'
 
-interface Props {
-    role: Role,
-}
-
-const props = defineProps<Props>()
+const props = defineProps<AdminPageProps<'manage/Roles/RoleEdit'>>()
 
 function submit(form: Parameters<InstanceType<typeof RoleForm>['$props']['submit']>[0]) {
     form.put('/manage/roles/' + props.role.id)

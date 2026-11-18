@@ -6,13 +6,12 @@ import SvgIcon from '../../../Components/SvgIcon.vue'
 import { computed } from 'vue'
 import DataTable from '../../../Components/DataTable.vue'
 import usePermissions from '../../../Composables/usePermissions'
-import { Home } from '../../../Data/Home'
 import { Icons } from '../../../Icons'
 import LinkButton from '../../../../shared/Components/LinkButton.vue'
 import CopyLocationButton from '../../../Components/CopyLocationButton.vue'
 
 interface Props {
-    homes: Home[],
+    homes: App.Http.Data.MinecraftHomeData[],
 }
 const props = defineProps<Props>()
 

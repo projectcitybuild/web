@@ -6,6 +6,7 @@ use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Controllers\WebController;
+use App\Http\Data\AdminPermissionData;
 use App\Models\Permission;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -20,7 +21,9 @@ class PermissionsController extends WebController
     {
         $this->requires(WebManagePermission::PERMISSIONS_VIEW);
 
-        $permissions = Permission::orderBy('name', 'asc')->get();
+        $permissions = Permission::orderBy('name', 'asc')
+            ->get()
+            ->map(fn (Permission $permission): array => AdminPermissionData::fromModel($permission)->toArray());
 
         return $this->inertiaRender('Permissions/PermissionList', [
             'permissions' => $permissions,
@@ -52,7 +55,9 @@ class PermissionsController extends WebController
     {
         $this->requires(WebManagePermission::PERMISSIONS_EDIT);
 
-        return $this->inertiaRender('Permissions/PermissionEdit', compact('permission'));
+        return $this->inertiaRender('Permissions/PermissionEdit', [
+            'permission' => AdminPermissionData::fromModel($permission),
+        ]);
     }
 
     public function update(Request $request, Permission $permission): RedirectResponse

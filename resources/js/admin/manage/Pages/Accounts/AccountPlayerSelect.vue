@@ -1,16 +1,12 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
 import ManageFormPage from '../../Components/ManageFormPage.vue'
-import type { Account } from '../../Data/Account'
 import ErrorAlert from '../../Components/ErrorAlert.vue'
 import FilledButton from '../../Components/FilledButton.vue'
 import Spinner from '../../Components/Spinner.vue'
 import PlayerPicker from '../../Components/PlayerPicker.vue'
 
-interface Props {
-    account_id: number,
-}
-const props = defineProps<Props>()
+const props = defineProps<AdminPageProps<'manage/Accounts/AccountPlayerSelect'>>()
 
 const form = useForm({
     uuid: null,

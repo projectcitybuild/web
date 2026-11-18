@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { InertiaForm, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
-import type { PlayerWarning } from '../../../Data/PlayerWarning'
 import DateTimePicker from '../../../Components/DateTimePicker.vue'
 import PlayerPicker from '../../../Components/PlayerPicker.vue'
 import DangerZone from '../../../Components/Forms/DangerZone.vue'
@@ -13,7 +12,7 @@ import Textarea from '../../../../shared/Components/Textarea.vue'
 import { useUnsavedChangesWarning } from '../../../Components/Forms/useUnsavedChangesWarning'
 
 interface Props {
-    warning?: PlayerWarning,
+    warning?: App.Http.Data.AdminPlayerWarningData,
     submit: (form: InertiaForm<PlayerWarningFormData>) => void,
 }
 

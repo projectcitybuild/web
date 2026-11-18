@@ -42,8 +42,12 @@ class BanAppealController
             return $banAppeals();
         }
 
+        $canViewEmail = $this->can(WebManagePermission::ACCOUNTS_VIEW_EMAIL);
+
         return $this->inertiaRender('BanAppeals/BanAppealList', [
-            'banAppeals' => Inertia::defer($banAppeals),
+            'banAppeals' => Inertia::defer(fn () => $banAppeals()->through(
+                fn (BanAppeal $appeal): array => AdminBanAppealData::fromModel($appeal, $canViewEmail)->toArray(),
+            )),
         ]);
     }
 

@@ -6,10 +6,7 @@ import Button from '../../../shared/Components/Button.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 import MailPreview from './Components/MailPreview.vue'
 
-defineProps<{
-    recipientCount: number
-    sender: string
-}>()
+defineProps<AdminPageProps<'manage/PlayerMail/Create'>>()
 
 const form = useForm({
     subject: '',

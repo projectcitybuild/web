@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Head, Link, router } from '@inertiajs/vue3'
 import Card from '../../Components/Card.vue'
-import type { Player } from '../../Data/Player'
 import MinecraftAvatar from '../../Components/MinecraftAvatar.vue'
 import { format, timeAgo } from '../../Utilities/DateFormatter'
 import PlayerBanListTable from './Partials/PlayerBanListTable.vue'
@@ -28,14 +27,9 @@ import type { PlayerWarning } from '../../Data/PlayerWarning'
 import type { Home } from '../../Data/Home'
 import type { PlayerIP } from '../../Data/PlayerIP'
 
-interface Props {
-    player: Player,
-    success?: string,
-}
-
 const { can } = usePermissions()
 
-const props = defineProps<Props>()
+const props = defineProps<AdminPageProps<'manage/Players/PlayerShow'>>()
 const error = ref<string|null>(null)
 
 const isRefreshingAlias = ref(false)

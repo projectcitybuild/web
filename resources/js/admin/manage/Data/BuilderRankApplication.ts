@@ -1,9 +1,7 @@
-import { Account } from './Account'
-
 export interface BuilderRankApplication {
     id: number,
     account_id: number,
-    account?: Account,
+    account?: App.Http.Data.AdminAccountData,
     minecraft_alias: string,
     current_builder_rank: string,
     build_location: string,

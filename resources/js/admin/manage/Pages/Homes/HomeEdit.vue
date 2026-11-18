@@ -1,13 +1,8 @@
 <script setup lang="ts">
 import ManageFormPage from '../../Components/ManageFormPage.vue'
-import type { Home } from '../../Data/Home'
 import HomeForm from './Partials/HomeForm.vue'
 
-interface Props {
-    home: Home,
-}
-
-const props = defineProps<Props>()
+const props = defineProps<AdminPageProps<'manage/Homes/HomeEdit'>>()
 
 function submit(form: Parameters<InstanceType<typeof HomeForm>['$props']['submit']>[0]) {
     form.put('/manage/homes/' + props.home.id)

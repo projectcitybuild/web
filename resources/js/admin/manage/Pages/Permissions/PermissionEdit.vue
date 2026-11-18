@@ -1,13 +1,8 @@
 <script setup lang="ts">
 import ManageFormPage from '../../Components/ManageFormPage.vue'
-import type { Permission } from '../../Data/Permission'
 import PermissionForm from './Partials/PermissionForm.vue'
 
-interface Props {
-    permission: Permission,
-}
-
-const props = defineProps<Props>()
+const props = defineProps<AdminPageProps<'manage/Permissions/PermissionEdit'>>()
 
 function submit(form: Parameters<InstanceType<typeof PermissionForm>['$props']['submit']>[0]) {
     form.put('/manage/permissions/' + props.permission.id)

@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import Pill from '../../../Components/Pill.vue'
-import { PlayerBan } from '../../../Data/PlayerBan'
 import { compareAsc } from 'date-fns'
 import { computed } from 'vue'
 
 interface Props {
-    ban: PlayerBan,
+    ban: {
+        unbanned_at?: string | null,
+        expires_at: string | null,
+    },
 }
 const props = defineProps<Props>()
 

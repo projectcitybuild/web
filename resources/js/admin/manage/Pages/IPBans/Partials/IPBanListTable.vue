@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
-import { IPBan } from '../../../Data/IPBan'
 import { format } from '../../../Utilities/DateFormatter'
 import Pill from '../../../Components/Pill.vue'
 import { computed } from 'vue'
@@ -12,7 +11,7 @@ import usePermissions from '../../../Composables/usePermissions'
 import LinkButton from '../../../../shared/Components/LinkButton.vue'
 
 interface Props {
-    bans: IPBan[],
+    bans: App.Http.Data.AdminGameIPBanData[],
 }
 const props = defineProps<Props>()
 
@@ -31,7 +30,7 @@ const rows = computed(
         created_at: format(ban.created_at),
     }))
 )
-function isActive(ban: IPBan) {
+function isActive(ban: App.Http.Data.AdminGameIPBanData) {
     return ban.unbanned_at == null
 }
 </script>

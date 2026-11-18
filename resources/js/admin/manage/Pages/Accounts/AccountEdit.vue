@@ -1,12 +1,8 @@
 <script setup lang="ts">
 import ManageFormPage from '../../Components/ManageFormPage.vue'
-import type { Account } from '../../Data/Account'
 import AccountForm from './Partials/AccountForm.vue'
 
-interface Props {
-    account: Account,
-}
-const props = defineProps<Props>()
+const props = defineProps<AdminPageProps<'manage/Accounts/AccountEdit'>>()
 
 function submit(form: Parameters<InstanceType<typeof AccountForm>['$props']['submit']>[0]) {
     form.put('/manage/accounts/' + props.account.id)

@@ -6,6 +6,7 @@ use App\Domains\MinecraftEventBus\Events\MinecraftPlayerUpdated;
 use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Admin\RendersAdminApp;
+use App\Http\Data\AdminAccountBadgeData;
 use App\Models\Account;
 use App\Models\Badge;
 use Illuminate\Http\Request;
@@ -23,7 +24,7 @@ class AccountBadgeController
         $accountBadgeIds = $account->badges->pluck(Badge::primaryKey());
 
         return $this->inertiaRender('Accounts/AccountBadgeSelect', [
-            'badges' => $badges,
+            'badges' => $badges->map(AdminAccountBadgeData::fromModel(...))->all(),
             'account_badge_ids' => $accountBadgeIds ?? [],
             'account_id' => $account->id,
         ]);

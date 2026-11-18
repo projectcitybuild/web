@@ -88,6 +88,26 @@ declare namespace App {
     }
     namespace Http {
         namespace Data {
+            export type AdminAccountActivationData = {
+                id: number;
+                account_id: number;
+                created_at: string | null;
+                updated_at: string | null;
+                expires_at: string;
+            };
+            export type AdminAccountBadgeData = {
+                id: number;
+                display_name: string;
+                unicode_icon: string;
+                list_hidden: boolean;
+                created_at: string | null;
+                updated_at: string | null;
+                pivot?: App.Http.Data.AdminAccountBadgePivotData | null;
+            };
+            export type AdminAccountBadgePivotData = {
+                account_id: number;
+                badge_id: number;
+            };
             export type AdminAccountData = {
                 id: number;
                 username: string;
@@ -98,16 +118,73 @@ declare namespace App {
                 is_totp_enabled: boolean;
                 created_at: string | null;
                 updated_at: string | null;
-                roles?: Array<any> | null;
-                badges?: Array<any> | null;
-                minecraft_account?: Array<any> | null;
-                donations?: Array<any> | null;
-                email_change_requests?: Array<any> | null;
-                activations?: Array<any> | null;
+                roles: App.Http.Data.AdminAccountRoleData[] | null;
+                badges: App.Http.Data.AdminAccountBadgeData[] | null;
+                minecraft_account: App.Http.Data.MinecraftPlayerData[] | null;
+                donations: App.Http.Data.AdminDonationData[] | null;
+                email_change_requests:
+                    App.Http.Data.AdminEmailChangeData[] | null;
+                activations: App.Http.Data.AdminAccountActivationData[] | null;
+            };
+            export type AdminAccountRoleData = {
+                id: number;
+                name: string;
+                alias: string | null;
+                is_default: boolean;
+                is_admin: boolean;
+                minecraft_name: string | null;
+                minecraft_display_name: string;
+                minecraft_hover_text: string;
+                display_priority: number | null;
+                role_type: string | null;
+                additional_homes: number | null;
+                pivot?: App.Http.Data.AdminAccountRolePivotData | null;
+            };
+            export type AdminAccountRolePivotData = {
+                account_id: number;
+                role_id: number;
             };
             export type AdminAccountSummaryData = {
                 name: string;
                 avatarUuid: string | null;
+            };
+            export type AdminAuditArrayEntryData = {
+                state: string;
+                text: string;
+            };
+            export type AdminAuditChangeData = {
+                attribute: string;
+                description: string;
+                oldValue: App.Http.Data.AdminAuditValueData;
+                newValue: App.Http.Data.AdminAuditValueData;
+                oldEntries: App.Http.Data.AdminAuditArrayEntryData[] | null;
+                newEntries: App.Http.Data.AdminAuditArrayEntryData[] | null;
+            };
+            export type AdminAuditDetailData = {
+                id: number;
+                actor: string;
+                subject: App.Http.Data.AdminAuditValueData;
+                event: string;
+                createdAt: string;
+                changes: App.Http.Data.AdminAuditChangeData[];
+            };
+            export type AdminAuditListEntryData = {
+                id: number;
+                actor: string;
+                action: string;
+                event: string;
+                subject: string;
+                createdAt: string;
+                showUrl: string;
+            };
+            export type AdminAuditTypeData = {
+                value: string;
+                label: string;
+            };
+            export type AdminAuditValueData = {
+                text: string;
+                href: string | null;
+                kind: string;
             };
             export type AdminBanAppealData = {
                 id: number;
@@ -120,9 +197,146 @@ declare namespace App {
                 decided_at: string | null;
                 decision_note: string | null;
                 account?: App.Http.Data.AdminAccountData | null;
-                game_player_ban?: Array<any> | null;
-                decider_player?: Array<any> | null;
+                game_player_ban?: App.Http.Data.AdminGamePlayerBanData | null;
+                decider_player?: App.Http.Data.MinecraftPlayerData | null;
                 created_at: string | null;
+            };
+            export type AdminBuilderRankApplicationData = {
+                id: number;
+                account_id: number;
+                minecraft_alias: string;
+                current_builder_rank: string;
+                build_location: string;
+                build_description: string;
+                additional_notes: string | null;
+                status: App.Domains.BuilderRankApplications.Data.ApplicationStatus;
+                denied_reason: string | null;
+                closed_at: string | null;
+                created_at: string | null;
+                updated_at: string | null;
+                account?: App.Http.Data.AdminAccountData | null;
+            };
+            export type AdminDonationData = {
+                id: number;
+                account_id: number | null;
+                amount: number;
+                created_at: string | null;
+                updated_at: string | null;
+                account?: App.Http.Data.AdminAccountData | null;
+                payment?: App.Http.Data.AdminPaymentData | null;
+            };
+            export type AdminEmailChangeData = {
+                id: number;
+                account_id: number;
+                token: string;
+                email: string;
+                created_at: string | null;
+                updated_at: string | null;
+                expires_at: string;
+            };
+            export type AdminGameIPBanData = {
+                id: number;
+                banner_player_id: number | null;
+                unbanner_player_id: number | null;
+                ip_address: string;
+                reason: string | null;
+                created_at: string | null;
+                updated_at: string | null;
+                unbanned_at: string | null;
+                unban_type: App.Domains.Bans.Data.UnbanType | null;
+                banner_player?: App.Http.Data.MinecraftPlayerData | null;
+                unbanner_player?: App.Http.Data.MinecraftPlayerData | null;
+            };
+            export type AdminGamePlayerBanData = {
+                id: number;
+                banned_player_id: number;
+                banned_alias_at_time: string | null;
+                banner_player_id: number | null;
+                reason: string;
+                additional_info: string | null;
+                expires_at: string | null;
+                created_at: string | null;
+                updated_at: string | null;
+                unbanned_at: string | null;
+                unbanner_player_id: number | null;
+                unban_type: App.Domains.Bans.Data.UnbanType | null;
+                banned_player: App.Http.Data.MinecraftPlayerData;
+                banner_player?: App.Http.Data.MinecraftPlayerData | null;
+                unbanner_player?: App.Http.Data.MinecraftPlayerData | null;
+            };
+            export type AdminMinecraftPlayerReferenceData = {
+                id: number;
+                alias: string | null;
+            };
+            export type AdminPaymentData = {
+                payment_id: number;
+                paid_currency: string;
+                paid_unit_amount: number;
+                original_currency: string;
+                original_unit_amount: number;
+                unit_quantity: number;
+                created_at: string | null;
+                updated_at: string | null;
+            };
+            export type AdminPermissionData = {
+                id: number;
+                name: string;
+            };
+            export type AdminPlayerOpElevationData = {
+                id: number;
+                player: App.Http.Data.AdminMinecraftPlayerReferenceData;
+                reason: string;
+                startedAt: string;
+                endedAt: string;
+                isActive: boolean;
+            };
+            export type AdminPlayerWarningData = {
+                id: number;
+                warned_player_id: number;
+                warner_player_id: number;
+                reason: string;
+                additional_info: string | null;
+                weight: number;
+                is_acknowledged: boolean;
+                acknowledged_at: string | null;
+                created_at: string | null;
+                updated_at: string | null;
+                warned_player: App.Http.Data.MinecraftPlayerData;
+                warner_player: App.Http.Data.MinecraftPlayerData;
+            };
+            export type AdminRoleData = {
+                id: number;
+                name: string;
+                alias: string | null;
+                is_default: boolean;
+                is_admin: boolean;
+                minecraft_name: string | null;
+                minecraft_display_name: string | null;
+                minecraft_hover_text: string | null;
+                display_priority: number | null;
+                role_type: string | null;
+                additional_homes: number | null;
+                accounts_count?: number | null;
+                permissions_count?: number | null;
+            };
+            export type AdminServerData = {
+                id: number;
+                name: string;
+                ip: string;
+                ip_alias: string | null;
+                port: string | null;
+                web_port: string | null;
+                created_at: string | null;
+                updated_at: string | null;
+            };
+            export type AdminServerTokenData = {
+                id: number;
+                token: string;
+                description: string | null;
+                allowed_ips: string | null;
+                server_id: number;
+                created_at: string | null;
+                updated_at: string | null;
             };
             export type AdminSharedPagePropsData = {
                 account?: App.Http.Data.AdminAccountSummaryData | null;
@@ -169,7 +383,7 @@ declare namespace App {
             };
             export type MinecraftConfigPageData = {
                 version: number;
-                config: Record<string, any>;
+                config: JsonValue;
                 created_at: string;
                 updated_at: string;
             };
@@ -214,6 +428,7 @@ declare namespace App {
                 last_connected_at: string | null;
                 created_at: string | null;
                 updated_at: string | null;
+                account?: App.Http.Data.AdminAccountData | null;
             };
             export type MinecraftWarpData = {
                 id: number;

@@ -9,6 +9,12 @@ use App\Core\Domains\Auditing\Changes\Tokens\NotInAudit;
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Controllers\WebController;
+use App\Http\Data\AdminAuditArrayEntryData;
+use App\Http\Data\AdminAuditChangeData;
+use App\Http\Data\AdminAuditDetailData;
+use App\Http\Data\AdminAuditListEntryData;
+use App\Http\Data\AdminAuditTypeData;
+use App\Http\Data\AdminAuditValueData;
 use App\Models\Audit;
 use BackedEnum;
 use DateTimeInterface;
@@ -47,15 +53,15 @@ class ActivityController extends WebController
                     ? class_basename($audit->auditable)
                     : ucfirst(class_basename($audit->auditable_type ?? 'Unknown item'));
 
-                return [
-                    'id' => $audit->id,
-                    'actor' => $audit->user?->username ?? 'System',
-                    'action' => $audit->human_action,
-                    'event' => $audit->event,
-                    'subject' => $subjectType.($audit->auditable_id !== null ? ' #'.$audit->auditable_id : ''),
-                    'createdAt' => $audit->created_at->toIso8601String(),
-                    'showUrl' => route('auditing.activity.audit.show', $audit),
-                ];
+                return (new AdminAuditListEntryData(
+                    id: $audit->id,
+                    actor: $audit->user?->username ?? 'System',
+                    action: $audit->human_action,
+                    event: $audit->event,
+                    subject: $subjectType.($audit->auditable_id !== null ? ' #'.$audit->auditable_id : ''),
+                    createdAt: $audit->created_at->toIso8601String(),
+                    showUrl: route('auditing.activity.audit.show', $audit),
+                ))->toArray();
             });
 
         $allAuditableTypes = Audit::query()
@@ -63,10 +69,10 @@ class ActivityController extends WebController
             ->distinct()
             ->orderBy('auditable_type')
             ->pluck('auditable_type')
-            ->map(fn (string $type): array => [
-                'value' => $type,
-                'label' => class_basename($type),
-            ])
+            ->map(fn (string $type): array => (new AdminAuditTypeData(
+                value: $type,
+                label: class_basename($type),
+            ))->toArray())
             ->values();
 
         $allAuditEvents = Audit::query()
@@ -103,82 +109,80 @@ class ActivityController extends WebController
         };
 
         $changes = $audit->processed_changes
-            ->map(function (Change $change, string $attribute) use ($description): array {
-                return [
-                    'attribute' => $attribute,
-                    'description' => $description,
-                    'oldValue' => $this->formatAuditValue($change->getOldValue()),
-                    'newValue' => $this->formatAuditValue($change->getNewValue()),
-                    'oldEntries' => $change instanceof ArrayChange
+            ->map(function (Change $change, string $attribute) use ($description): AdminAuditChangeData {
+                return new AdminAuditChangeData(
+                    attribute: $attribute,
+                    description: $description,
+                    oldValue: $this->formatAuditValue($change->getOldValue()),
+                    newValue: $this->formatAuditValue($change->getNewValue()),
+                    oldEntries: $change instanceof ArrayChange
                         ? $this->formatArrayEntries($change->getOldValue())
                         : null,
-                    'newEntries' => $change instanceof ArrayChange
+                    newEntries: $change instanceof ArrayChange
                         ? $this->formatArrayEntries($change->getNewValue())
                         : null,
-                ];
+                );
             })
             ->values();
 
         return $this->inertiaRender('Activity/AuditShow', [
-            'audit' => [
-                'id' => $audit->id,
-                'actor' => $audit->user?->username ?? 'System',
-                'subject' => $audit->auditable
+            'audit' => new AdminAuditDetailData(
+                id: $audit->id,
+                actor: $audit->user?->username ?? 'System',
+                subject: $audit->auditable
                     ? $this->formatAuditValue($audit->auditable)
-                    : [
-                        'text' => ucfirst(class_basename($audit->auditable_type ?? 'Unknown item')).($audit->auditable_id !== null ? ' #'.$audit->auditable_id : ''),
-                        'href' => null,
-                        'kind' => 'value',
-                    ],
-                'event' => $audit->event,
-                'createdAt' => $audit->created_at->toIso8601String(),
-                'changes' => $changes,
-            ],
+                    : new AdminAuditValueData(
+                        text: ucfirst(class_basename($audit->auditable_type ?? 'Unknown item')).($audit->auditable_id !== null ? ' #'.$audit->auditable_id : ''),
+                        href: null,
+                        kind: 'value',
+                    ),
+                event: $audit->event,
+                createdAt: $audit->created_at->toIso8601String(),
+                changes: $changes->all(),
+            ),
             'indexUrl' => route('auditing.index'),
         ]);
     }
 
     /**
-     * @return array{text: string, href: ?string, kind: 'unset'|'null'|'boolean'|'link'|'value'}
-     *
      * @throws JsonException
      */
-    private function formatAuditValue(mixed $value): array
+    private function formatAuditValue(mixed $value): AdminAuditValueData
     {
         if ($value instanceof NotInAudit) {
-            return ['text' => 'Unset', 'href' => null, 'kind' => 'unset'];
+            return new AdminAuditValueData(text: 'Unset', href: null, kind: 'unset');
         }
 
         if ($value === null) {
-            return ['text' => 'Null', 'href' => null, 'kind' => 'null'];
+            return new AdminAuditValueData(text: 'Null', href: null, kind: 'null');
         }
 
         if (is_bool($value)) {
-            return ['text' => $value ? 'True' : 'False', 'href' => null, 'kind' => 'boolean'];
+            return new AdminAuditValueData(text: $value ? 'True' : 'False', href: null, kind: 'boolean');
         }
 
         if ($value instanceof LinkableAuditModel) {
-            return [
-                'text' => $value->getActivitySubjectName() ?? ($value instanceof Model ? class_basename($value).' #'.$value->getKey() : 'Unknown'),
-                'href' => $value->getActivitySubjectLink(),
-                'kind' => 'link',
-            ];
+            return new AdminAuditValueData(
+                text: $value->getActivitySubjectName() ?? ($value instanceof Model ? class_basename($value).' #'.$value->getKey() : 'Unknown'),
+                href: $value->getActivitySubjectLink(),
+                kind: 'link',
+            );
         }
 
         if ($value instanceof Model) {
-            return [
-                'text' => class_basename($value).' #'.$value->getKey(),
-                'href' => null,
-                'kind' => 'value',
-            ];
+            return new AdminAuditValueData(
+                text: class_basename($value).' #'.$value->getKey(),
+                href: null,
+                kind: 'value',
+            );
         }
 
         if ($value instanceof DateTimeInterface) {
-            return ['text' => $value->format(DATE_ATOM), 'href' => null, 'kind' => 'value'];
+            return new AdminAuditValueData(text: $value->format(DATE_ATOM), href: null, kind: 'value');
         }
 
         if ($value instanceof BackedEnum) {
-            return ['text' => (string) $value->value, 'href' => null, 'kind' => 'value'];
+            return new AdminAuditValueData(text: (string) $value->value, href: null, kind: 'value');
         }
 
         if ($value instanceof Arrayable) {
@@ -186,29 +190,29 @@ class ActivityController extends WebController
         }
 
         if (is_scalar($value)) {
-            return ['text' => (string) $value, 'href' => null, 'kind' => 'value'];
+            return new AdminAuditValueData(text: (string) $value, href: null, kind: 'value');
         }
 
-        return [
-            'text' => json_encode($value, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR),
-            'href' => null,
-            'kind' => 'value',
-        ];
+        return new AdminAuditValueData(
+            text: json_encode($value, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR),
+            href: null,
+            kind: 'value',
+        );
     }
 
     /**
      * @param  Collection<int, WrappedArrayEntry>  $entries
-     * @return array<int, array{state: string, text: string}>
+     * @return list<AdminAuditArrayEntryData>
      *
      * @throws JsonException
      */
     private function formatArrayEntries(Collection $entries): array
     {
         return $entries
-            ->map(fn (WrappedArrayEntry $entry): array => [
-                'state' => $entry->getStatus()->value,
-                'text' => $this->formatAuditValue($entry->unwrap())['text'],
-            ])
+            ->map(fn (WrappedArrayEntry $entry): AdminAuditArrayEntryData => new AdminAuditArrayEntryData(
+                state: $entry->getStatus()->value,
+                text: $this->formatAuditValue($entry->unwrap())->text,
+            ))
             ->all();
     }
 }

@@ -7,6 +7,7 @@ use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Controllers\WebController;
+use App\Http\Data\MinecraftWarpData;
 use App\Models\MinecraftWarp;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -32,7 +33,9 @@ class MinecraftWarpController extends WebController
             return $warps();
         }
         return $this->inertiaRender('Warps/WarpList', [
-            'warps' => Inertia::defer($warps),
+            'warps' => Inertia::defer(fn () => $warps()->through(
+                fn (MinecraftWarp $warp): array => MinecraftWarpData::fromModel($warp)->toArray(),
+            )),
         ]);
     }
 
@@ -62,7 +65,9 @@ class MinecraftWarpController extends WebController
     {
         $this->requires(WebManagePermission::WARPS_EDIT);
 
-        return $this->inertiaRender('Warps/WarpEdit', compact('warp'));
+        return $this->inertiaRender('Warps/WarpEdit', [
+            'warp' => MinecraftWarpData::fromModel($warp),
+        ]);
     }
 
     public function update(Request $request, MinecraftWarp $warp)

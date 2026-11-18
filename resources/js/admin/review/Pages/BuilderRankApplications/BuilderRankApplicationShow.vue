@@ -10,9 +10,8 @@ import { computed } from 'vue'
 import ErrorAlert from '../../../manage/Components/ErrorAlert.vue'
 import SvgIcon from '../../../manage/Components/SvgIcon.vue'
 import OutlinedButton from '../../../manage/Components/OutlinedButton.vue'
-import { BuilderRankApplication, BuilderRankApplicationStatus } from '../../../manage/Data/BuilderRankApplication'
+import { BuilderRankApplicationStatus } from '../../../manage/Data/BuilderRankApplication'
 import Pill from '../../../manage/Components/Pill.vue'
-import type { Role } from '../../../manage/Data/Role'
 import AwaitingDecisionAlert from './Partials/AwaitingDecisionAlert.vue'
 import BuilderRankDecision from './Partials/BuilderRankDecision.vue'
 import BuilderRankDecisionForm from './Partials/BuilderRankDecisionForm.vue'
@@ -20,12 +19,7 @@ import { Icons } from '../../../manage/Icons'
 import Badge from '../../../shared/Components/Badge.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 
-interface Props {
-    application: BuilderRankApplication,
-    buildRoles: Role[],
-    success?: string,
-}
-const props = defineProps<Props>()
+const props = defineProps<AdminPageProps<'review/BuilderRankApplications/BuilderRankApplicationShow'>>()
 
 const hasDecision = computed(() => props.application.status !== BuilderRankApplicationStatus.pending)
 const status = computed(() => {

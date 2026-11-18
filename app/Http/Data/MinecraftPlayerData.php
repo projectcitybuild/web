@@ -8,6 +8,7 @@ use App\Models\MinecraftPlayer;
 use Carbon\CarbonInterface;
 use Spatie\LaravelData\Attributes\WithTransformer;
 use Spatie\LaravelData\Data;
+use Spatie\LaravelData\Optional;
 use Spatie\LaravelData\Transformers\DateTimeInterfaceTransformer;
 
 class MinecraftPlayerData extends Data
@@ -43,6 +44,7 @@ class MinecraftPlayerData extends Data
         public ?CarbonInterface $created_at,
         #[WithTransformer(DateTimeInterfaceTransformer::class, format: 'Y-m-d\\TH:i:s.u\\Z', setTimeZone: 'UTC')]
         public ?CarbonInterface $updated_at,
+        public Optional|AdminAccountData|null $account,
     ) {}
 
     public static function fromModel(MinecraftPlayer $player): self
@@ -74,6 +76,11 @@ class MinecraftPlayerData extends Data
             last_connected_at: $player->last_connected_at,
             created_at: $player->created_at,
             updated_at: $player->updated_at,
+            account: match (true) {
+                ! $player->relationLoaded('account') => Optional::create(),
+                $player->account === null => null,
+                default => AdminAccountData::fromModel($player->account, canViewEmail: true),
+            },
         );
     }
 }

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Badge } from '../../../Data/Badge'
 import { format } from '../../../Utilities/DateFormatter'
 import BooleanCheck from '../../../Components/BooleanCheck.vue'
 import SvgIcon from '../../../Components/SvgIcon.vue'
@@ -10,7 +9,7 @@ import usePermissions from '../../../Composables/usePermissions'
 import LinkButton from '../../../../shared/Components/LinkButton.vue'
 
 interface Props {
-    badges: Badge[],
+    badges: App.Http.Data.AdminAccountBadgeData[],
 }
 const props = defineProps<Props>()
 

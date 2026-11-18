@@ -9,6 +9,7 @@ use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Controllers\WebController;
+use App\Http\Data\AdminGameIPBanData;
 use App\Models\GameIPBan;
 use App\Models\MinecraftPlayer;
 use Illuminate\Http\Request;
@@ -33,7 +34,9 @@ class GameIPBanController extends WebController
             return $bans();
         }
         return $this->inertiaRender('IPBans/IPBanList', [
-            'bans' => Inertia::defer($bans),
+            'bans' => Inertia::defer(fn () => $bans()->through(
+                fn (GameIPBan $ban): array => AdminGameIPBanData::fromModel($ban)->toArray(),
+            )),
         ]);
     }
 
@@ -75,7 +78,7 @@ class GameIPBanController extends WebController
         $ipBan->load('bannerPlayer');
 
         return $this->inertiaRender('IPBans/IPBanEdit', [
-            'ban' => $ipBan,
+            'ban' => AdminGameIPBanData::fromModel($ipBan),
         ]);
     }
 

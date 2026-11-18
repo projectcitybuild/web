@@ -18,4 +18,12 @@ class AdminSharedPagePropsData extends Data
         public bool $is_admin,
         public Optional|array|null $permissions,
     ) {}
+
+    public static function serializeProp(string $name, mixed $value): mixed
+    {
+        return self::from([
+            'is_admin' => false,
+            $name => $value,
+        ])->toArray()[$name] ?? null;
+    }
 }

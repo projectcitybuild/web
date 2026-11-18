@@ -70,6 +70,15 @@ jobs:
       - name: Check TypeScript declarations are up to date
         run: git diff --exit-code -- resources/js/generated/generated.d.ts resources/js/generated/typescript-transformer-manifest.json
 
+      - name: Reject weak generated data types
+        uses: $/.github/actions/run-in-devcontainer
+        with:
+          command: |
+            if grep -Eq 'Array<any>|Record<string, any>' resources/js/generated/generated.d.ts; then
+              echo "Generated declarations contain weak any types."
+              exit 1
+            fi
+
       - name: Prepare database
         uses: $/.github/actions/run-in-devcontainer
         with:

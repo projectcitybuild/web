@@ -4,18 +4,8 @@ import DataTable from '../../../../manage/Components/DataTable.vue'
 import LinkButton from '../../../../shared/Components/LinkButton.vue'
 import { format, timeAgo } from '../../../../manage/Utilities/DateFormatter.js'
 
-interface AuditRecord {
-    id: number,
-    actor: string,
-    action: string,
-    event: string,
-    subject: string,
-    createdAt: string,
-    showUrl: string,
-}
-
 defineProps<{
-    audits: AuditRecord[],
+    audits: App.Http.Data.AdminAuditListEntryData[],
 }>()
 
 const fields = [

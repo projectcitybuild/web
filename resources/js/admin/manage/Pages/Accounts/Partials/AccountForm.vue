@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { InertiaForm, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
-import type { Account } from '../../../Data/Account'
 import DateTimeInput from '../../../Components/Forms/DateTimeInput.vue'
 import FormActions from '../../../Components/Forms/FormActions.vue'
 import FormErrorSummary from '../../../Components/Forms/FormErrorSummary.vue'
@@ -12,7 +11,7 @@ import { useUnsavedChangesWarning } from '../../../Components/Forms/useUnsavedCh
 import Input from '../../../../shared/Components/Input.vue'
 
 interface Props {
-    account?: Account,
+    account?: App.Http.Data.AdminAccountData,
     submit: (form: InertiaForm<AccountFormData>) => void,
 }
 

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { InertiaForm, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
-import type { Role } from '../../../Data/Role'
 import FormActions from '../../../Components/Forms/FormActions.vue'
 import FormErrorSummary from '../../../Components/Forms/FormErrorSummary.vue'
 import FormField from '../../../Components/Forms/FormField.vue'
@@ -13,7 +12,7 @@ import Input from '../../../../shared/Components/Input.vue'
 import Select from '../../../../shared/Components/Select.vue'
 
 interface Props {
-    role?: Role,
+    role?: App.Http.Data.AdminRoleData,
     submit: (form: InertiaForm<RoleFormData>) => void,
 }
 
@@ -44,9 +43,7 @@ const form = useForm<RoleFormData>({
     role_type: props.role?.role_type ?? 'build',
     display_priority: props.role?.display_priority ?? 0,
     additional_homes: props.role?.additional_homes ?? 0,
-    created_at: props.role?.created_at
-        ? new Date(props.role.created_at)
-        : new Date(),
+    created_at: new Date(),
 })
 
 const isEdit = computed(() => props.role != null)

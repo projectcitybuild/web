@@ -6,35 +6,8 @@ import DataTable from '../../../manage/Components/DataTable.vue'
 import ShowingCount from '../../../manage/Components/ShowingCount.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 import { distance, distanceFromNow, format, timeAgo } from '../../../manage/Utilities/DateFormatter.js'
-import { Player } from '../../../manage/Data/Player.js'
 
-interface OpElevation {
-    id: number,
-    player: Player,
-    reason: string,
-    startedAt: string,
-    endedAt: string,
-    isActive: boolean,
-}
-
-interface PaginationLink {
-    url: string | null,
-    label: string,
-    active: boolean,
-}
-
-interface PaginatedElevations {
-    data: OpElevation[],
-    from: number | null,
-    to: number | null,
-    total: number,
-    last_page: number,
-    links: PaginationLink[],
-}
-
-defineProps<{
-    elevations: PaginatedElevations,
-}>()
+defineProps<AdminPageProps<'audit/OpElevations/OpElevationList'>>()
 
 const fields = [
     { key: 'status', label: 'Status' },
@@ -45,7 +18,7 @@ const fields = [
     { key: 'duration', label: 'Duration' },
 ]
 
-function duration(elevation: OpElevation): string {
+function duration(elevation: App.Http.Data.AdminPlayerOpElevationData): string {
     return elevation.isActive
         ? distanceFromNow(elevation.startedAt) ?? 'Unavailable'
         : distance(elevation.startedAt, elevation.endedAt) ?? 'Unavailable'

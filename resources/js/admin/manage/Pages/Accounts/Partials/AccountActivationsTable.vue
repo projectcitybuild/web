@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { AccountActivation } from '../../../Data/AccountActivation'
 import { format } from '../../../Utilities/DateFormatter'
 import DataTable from '../../../Components/DataTable.vue'
 
 interface Props {
-    activations: AccountActivation[],
+    activations: App.Http.Data.AdminAccountActivationData[],
 }
 defineProps<Props>()
 

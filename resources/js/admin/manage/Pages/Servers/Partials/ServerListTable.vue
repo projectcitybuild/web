@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { Server } from '../../../Data/Server'
 import SvgIcon from '../../../Components/SvgIcon.vue'
 import { Icons } from '../../../Icons'
 import DataTable from '../../../Components/DataTable.vue'
@@ -7,7 +6,7 @@ import usePermissions from '../../../Composables/usePermissions';
 import LinkButton from '../../../../shared/Components/LinkButton.vue'
 
 interface Props {
-    servers: Server[],
+    servers: App.Http.Data.AdminServerData[],
 }
 defineProps<Props>()
 

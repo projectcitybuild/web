@@ -3,11 +3,10 @@ import SvgIcon from '../../../Components/SvgIcon.vue'
 import { Icons } from '../../../Icons'
 import DataTable from '../../../Components/DataTable.vue'
 import usePermissions from '../../../Composables/usePermissions'
-import { Permission } from '../../../Data/Permission'
 import LinkButton from '../../../../shared/Components/LinkButton.vue'
 
 interface Props {
-    permissions: Permission[],
+    permissions: App.Http.Data.AdminPermissionData[],
 }
 defineProps<Props>()
 

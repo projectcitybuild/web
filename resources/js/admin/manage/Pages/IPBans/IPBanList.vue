@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { Deferred, Head, Link } from '@inertiajs/vue3'
 import IPBanListTable from './Partials/IPBanListTable.vue'
-import { Paginated } from '../../Data/Paginated'
-import { IPBan } from '../../Data/IPBan'
 import InfinitePagination from '../../Components/InfinitePagination.vue'
 import Card from '../../Components/Card.vue'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
@@ -16,11 +14,7 @@ import ShowingCount from '../../Components/ShowingCount.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 
-interface Props {
-    bans?: Paginated<IPBan>,
-    success?: string,
-}
-defineProps<Props>()
+defineProps<AdminPageProps<'manage/IPBans/IPBanList'>>()
 
 const itemCount = ref(0)
 

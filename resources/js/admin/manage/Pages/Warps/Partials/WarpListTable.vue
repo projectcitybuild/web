@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import LinkButton from '../../../../shared/Components/LinkButton.vue'
-import { Link } from '@inertiajs/vue3'
-import { Warp } from '../../../Data/Warp'
 import { format } from '../../../Utilities/DateFormatter'
-import OutlinedButton from '../../../Components/OutlinedButton.vue'
 import SvgIcon from '../../../Components/SvgIcon.vue'
 import { Icons } from '../../../Icons'
 import { computed } from 'vue'
@@ -12,7 +9,7 @@ import usePermissions from '../../../Composables/usePermissions'
 import CopyLocationButton from '../../../Components/CopyLocationButton.vue'
 
 interface Props {
-    warps: Warp[],
+    warps: App.Http.Data.MinecraftWarpData[],
 }
 const props = defineProps<Props>()
 

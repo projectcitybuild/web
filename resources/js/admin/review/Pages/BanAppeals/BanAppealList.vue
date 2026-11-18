@@ -4,15 +4,10 @@ import { Paginated } from '../../../manage/Data/Paginated'
 import BanAppealListItems from './Partials/BanAppealListItems.vue'
 import InfinitePagination from '../../../manage/Components/InfinitePagination.vue'
 import SuccessAlert from '../../../manage/Components/SuccessAlert.vue'
-import { BanAppeal } from '../../../manage/Data/BanAppeal'
 import SpinnerRow from '../../../manage/Components/SpinnerRow.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 
-interface Props {
-    success?: string,
-    banAppeals?: Paginated<BanAppeal>,
-}
-defineProps<Props>()
+defineProps<AdminPageProps<'review/BanAppeals/BanAppealList'>>()
 </script>
 
 <template>

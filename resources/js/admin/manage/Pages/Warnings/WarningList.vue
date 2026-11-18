@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { Deferred, Head, Link } from '@inertiajs/vue3'
-import { Paginated } from '../../Data/Paginated'
-import type { PlayerWarning } from '../../Data/PlayerWarning'
 import WarningListTable from './Partials/WarningListTable.vue'
 import InfinitePagination from '../../Components/InfinitePagination.vue'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
@@ -16,11 +14,7 @@ import ShowingCount from '../../Components/ShowingCount.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 
-interface Props {
-    success?: string,
-    warnings?: Paginated<PlayerWarning>,
-}
-defineProps<Props>()
+defineProps<AdminPageProps<'manage/Warnings/WarningList'>>()
 
 const itemCount = ref(0)
 

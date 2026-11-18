@@ -12,6 +12,7 @@ use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Controllers\WebController;
+use App\Http\Data\AdminGamePlayerBanData;
 use App\Http\Filters\BannedByPlayerFilter;
 use App\Http\Filters\BannedPlayerFilter;
 use App\Http\Filters\DateFilter;
@@ -63,7 +64,9 @@ class GamePlayerBanController extends WebController
             return $bans();
         }
         return $this->inertiaRender('PlayerBans/PlayerBanList', [
-            'bans' => Inertia::defer($bans),
+            'bans' => Inertia::defer(fn () => $bans()->through(
+                fn (GamePlayerBan $ban): array => AdminGamePlayerBanData::fromModel($ban)->toArray(),
+            )),
         ]);
     }
 
@@ -121,7 +124,7 @@ class GamePlayerBanController extends WebController
         $playerBan->load('bannedPlayer', 'bannerPlayer', 'unbannerPlayer');
 
         return $this->inertiaRender('PlayerBans/PlayerBanEdit', [
-            'ban' => $playerBan,
+            'ban' => AdminGamePlayerBanData::fromModel($playerBan),
         ]);
     }
 

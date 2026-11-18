@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { InertiaForm, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
-import type { Home } from '../../../Data/Home'
 import PlayerPicker from '../../../Components/PlayerPicker.vue'
 import CoordinateFields from '../../../Components/Forms/CoordinateFields.vue'
 import DangerZone from '../../../Components/Forms/DangerZone.vue'
@@ -13,7 +12,7 @@ import { useUnsavedChangesWarning } from '../../../Components/Forms/useUnsavedCh
 import Input from '../../../../shared/Components/Input.vue'
 
 interface Props {
-    home?: Home,
+    home?: App.Http.Data.MinecraftHomeData,
     submit: (form: InertiaForm<HomeFormData>) => void,
 }
 

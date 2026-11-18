@@ -1,13 +1,8 @@
 <script setup lang="ts">
 import ManageFormPage from '../../Components/ManageFormPage.vue'
 import BanForm from './Partials/IPBanForm.vue'
-import type { IPBan } from '../../Data/IPBan'
 
-interface Props {
-    ban: IPBan,
-}
-
-const props = defineProps<Props>()
+const props = defineProps<AdminPageProps<'manage/IPBans/IPBanEdit'>>()
 
 function submit(form: Parameters<InstanceType<typeof BanForm>['$props']['submit']>[0]) {
     form.put('/manage/ip-bans/' + props.ban.id)

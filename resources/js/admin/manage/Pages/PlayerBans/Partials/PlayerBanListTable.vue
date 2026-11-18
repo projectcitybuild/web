@@ -2,7 +2,6 @@
 import LinkButton from '../../../../shared/Components/LinkButton.vue'
 import { Link } from '@inertiajs/vue3'
 import MinecraftAvatar from '../../../Components/MinecraftAvatar.vue'
-import { PlayerBan } from '../../../Data/PlayerBan'
 import { format } from '../../../Utilities/DateFormatter'
 import PlayerBanStatus from './PlayerBanStatus.vue'
 import SvgIcon from '../../../Components/SvgIcon.vue'
@@ -12,7 +11,7 @@ import DataTable from '../../../Components/DataTable.vue'
 import usePermissions from '../../../Composables/usePermissions'
 
 interface Props {
-    bans: PlayerBan[],
+    bans: App.Http.Data.AdminGamePlayerBanData[],
 }
 const props = defineProps<Props>()
 

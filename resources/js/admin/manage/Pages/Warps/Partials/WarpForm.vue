@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { InertiaForm, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
-import type { Warp } from '../../../Data/Warp'
 import CoordinateFields from '../../../Components/Forms/CoordinateFields.vue'
 import DangerZone from '../../../Components/Forms/DangerZone.vue'
 import FormActions from '../../../Components/Forms/FormActions.vue'
@@ -12,7 +11,7 @@ import Input from '../../../../shared/Components/Input.vue'
 import { useUnsavedChangesWarning } from '../../../Components/Forms/useUnsavedChangesWarning'
 
 interface Props {
-    warp?: Warp,
+    warp?: App.Http.Data.MinecraftWarpData,
     submit: (form: InertiaForm<WarpFormData>) => void,
 }
 

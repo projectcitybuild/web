@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
-import { Role } from '../../../Data/Role'
 import BooleanCheck from '../../../Components/BooleanCheck.vue'
 import SvgIcon from '../../../Components/SvgIcon.vue'
 import { Icons } from '../../../Icons'
@@ -9,7 +8,7 @@ import usePermissions from '../../../Composables/usePermissions'
 import LinkButton from '../../../../shared/Components/LinkButton.vue'
 
 interface Props {
-    roles: Role[],
+    roles: App.Http.Data.AdminRoleData[],
 }
 defineProps<Props>()
 

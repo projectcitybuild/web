@@ -12,6 +12,14 @@ use Spatie\LaravelData\Transformers\DateTimeInterfaceTransformer;
 
 class AdminAccountData extends Data
 {
+    /**
+     * @param  array<AdminAccountRoleData>|null  $roles
+     * @param  array<AdminAccountBadgeData>|null  $badges
+     * @param  array<MinecraftPlayerData>|null  $minecraft_account
+     * @param  array<AdminDonationData>|null  $donations
+     * @param  array<AdminEmailChangeData>|null  $email_change_requests
+     * @param  array<AdminAccountActivationData>|null  $activations
+     */
     public function __construct(
         public int $id,
         public string $username,
@@ -45,21 +53,21 @@ class AdminAccountData extends Data
             is_totp_enabled: $account->is_totp_enabled,
             created_at: $account->created_at,
             updated_at: $account->updated_at,
-            roles: self::loadedRelation($account, 'roles'),
-            badges: self::loadedRelation($account, 'badges'),
-            minecraft_account: self::loadedRelation($account, 'minecraftAccount'),
-            donations: self::loadedRelation($account, 'donations'),
-            email_change_requests: self::loadedRelation($account, 'emailChangeRequests'),
-            activations: self::loadedRelation($account, 'activations'),
+            roles: self::loadedRelation($account, 'roles', AdminAccountRoleData::fromModel(...)),
+            badges: self::loadedRelation($account, 'badges', AdminAccountBadgeData::fromModel(...)),
+            minecraft_account: self::loadedRelation($account, 'minecraftAccount', MinecraftPlayerData::fromModel(...)),
+            donations: self::loadedRelation($account, 'donations', AdminDonationData::fromModel(...)),
+            email_change_requests: self::loadedRelation($account, 'emailChangeRequests', AdminEmailChangeData::fromModel(...)),
+            activations: self::loadedRelation($account, 'activations', AdminAccountActivationData::fromModel(...)),
         );
     }
 
-    private static function loadedRelation(Account $account, string $relation): Optional|array|null
+    private static function loadedRelation(Account $account, string $relation, callable $map): Optional|array|null
     {
         if (! $account->relationLoaded($relation)) {
             return Optional::create();
         }
 
-        return $account->getRelation($relation)?->toArray();
+        return $account->getRelation($relation)?->map($map)->all();
     }
 }
