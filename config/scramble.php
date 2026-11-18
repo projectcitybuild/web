@@ -4,6 +4,14 @@ use Dedoc\Scramble\Http\Middleware\RestrictedDocsAccess;
 use Dedoc\Scramble\SecurityDocumentation\MiddlewareAuthSecurityStrategy;
 use Dedoc\Scramble\Support\Generator\SecurityScheme;
 
+$apiUrl = env('API_URL');
+$apiUrlParts = $apiUrl ? parse_url($apiUrl) : [];
+$apiDomain = $apiUrlParts['host'] ?? $apiUrl;
+
+if (isset($apiUrlParts['port'])) {
+    $apiDomain .= ':'.$apiUrlParts['port'];
+}
+
 return [
     /*
      * Your API path. By default, all routes starting with this path will be added to the docs.
@@ -15,7 +23,7 @@ return [
      * Your API domain. By default, app domain is used. This is also a part of the default API routes
      * matcher, so when implementing your own, make sure you use this config if needed.
      */
-    'api_domain' => env('API_URL'),
+    'api_domain' => $apiDomain,
 
     /*
      * The path where your OpenAPI specification will be exported.
