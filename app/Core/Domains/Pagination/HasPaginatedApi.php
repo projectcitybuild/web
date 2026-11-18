@@ -2,9 +2,8 @@
 
 namespace App\Core\Domains\Pagination;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Spatie\LaravelData\Data;
 
 /**
  * A set of validation rules for a Minecraft coordinate
@@ -21,16 +20,18 @@ trait HasPaginatedApi
     }
 
     /**
-     * @param  class-string<JsonResource>  $resourceClass
+     * @param  class-string<Data>  $dataClass
      * @return array<string, mixed>
      */
-    protected function paginatedResource(
+    protected function paginatedData(
         LengthAwarePaginator $paginator,
-        string $resourceClass,
-        Request $request,
+        string $dataClass,
     ): array {
         $response = $paginator->toArray();
-        $response['data'] = $resourceClass::collection($paginator->getCollection())->resolve($request);
+        $response['data'] = array_map(
+            fn ($item): array => $dataClass::from($item)->toArray(),
+            $paginator->items(),
+        );
 
         return $response;
     }

@@ -8,9 +8,9 @@ use App\Domains\Permissions\WebManagePermission;
 use App\Domains\Registration\UseCases\CreateUnactivatedAccount;
 use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Controllers\WebController;
+use App\Http\Data\AdminAccountData;
 use App\Http\Filters\EqualFilter;
 use App\Http\Filters\LikeFilter;
-use App\Http\Resources\AccountResource;
 use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -51,13 +51,14 @@ class AccountController extends WebController
                 ->paginate(50);
         };
 
-        // Using a Resource::collection transforms the shape of the paginated
-        // data. To preserve the frontend, we need to manually map it back to
-        // the non-resource shape
-        $transform = function () use ($accounts) {
+        $canViewEmail = $this->can(WebManagePermission::ACCOUNTS_VIEW_EMAIL);
+        $transform = function () use ($accounts, $canViewEmail) {
             $paginator = $accounts();
             return [
-                'data' => AccountResource::collection($paginator->items()),
+                'data' => array_map(
+                    fn (Account $account): array => AdminAccountData::fromModel($account, $canViewEmail)->toArray(),
+                    $paginator->items(),
+                ),
                 'current_page' => $paginator->currentPage(),
                 'total' => $paginator->total(),
                 'path' => $paginator->path(),
@@ -90,7 +91,10 @@ class AccountController extends WebController
         }
 
         return $this->inertiaRender('Accounts/AccountShow', [
-            'account' => new AccountResource($account),
+            'account' => AdminAccountData::fromModel(
+                $account,
+                $this->can(WebManagePermission::ACCOUNTS_VIEW_EMAIL),
+            ),
         ]);
     }
 

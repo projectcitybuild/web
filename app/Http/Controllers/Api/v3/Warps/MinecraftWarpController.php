@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Api\v3\Warps;
 use App\Core\Domains\MinecraftCoordinate\ValidatesCoordinates;
 use App\Core\Domains\Pagination\HasPaginatedApi;
 use App\Http\Controllers\ApiController;
-use App\Http\Resources\MinecraftWarpResource;
+use App\Http\Data\MinecraftWarpData;
 use App\Models\MinecraftWarp;
+use Dedoc\Scramble\Attributes\Response as OpenApiResponse;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -18,7 +20,7 @@ final class MinecraftWarpController extends ApiController
     /**
      * @response array{
      *     current_page: int,
-     *     data: list<MinecraftWarpResource>,
+     *     data: list<MinecraftWarpData>,
      *     first_page_url: string|null,
      *     from: int|null,
      *     last_page_url: string|null,
@@ -40,31 +42,37 @@ final class MinecraftWarpController extends ApiController
 
         $pageSize = $this->pageSize($validated);
 
-        return $this->paginatedResource(
+        return $this->paginatedData(
             MinecraftWarp::orderBy('name', 'asc')->paginate($pageSize),
-            MinecraftWarpResource::class,
-            $request,
+            MinecraftWarpData::class,
         );
     }
 
+    /**
+     * @response list<MinecraftWarpData>
+     */
     public function bulk(Request $request)
     {
-        return MinecraftWarpResource::collection(MinecraftWarp::orderBy('name', 'asc')->get());
+        return MinecraftWarpData::collect(MinecraftWarp::orderBy('name', 'asc')->get())->toArray();
     }
 
     public function show(Request $request, MinecraftWarp $warp)
     {
-        return new MinecraftWarpResource($warp);
+        return MinecraftWarpData::from($warp);
     }
 
-    public function store(Request $request)
+    #[OpenApiResponse(status: 201, type: MinecraftWarpData::class)]
+    public function store(Request $request): JsonResponse
     {
         $request->validate([
             'name' => ['required', 'string', 'alpha_dash', Rule::unique(MinecraftWarp::tableName())],
             ...$this->coordinateRules,
         ]);
 
-        return new MinecraftWarpResource(MinecraftWarp::create($request->all()));
+        return response()->json(
+            MinecraftWarpData::from(MinecraftWarp::create($request->all()))->toArray(),
+            201,
+        );
     }
 
     public function update(Request $request, MinecraftWarp $warp)
@@ -76,7 +84,7 @@ final class MinecraftWarpController extends ApiController
 
         $warp->update($request->all());
 
-        return new MinecraftWarpResource($warp);
+        return MinecraftWarpData::from($warp);
     }
 
     public function destroy(Request $request, MinecraftWarp $warp)

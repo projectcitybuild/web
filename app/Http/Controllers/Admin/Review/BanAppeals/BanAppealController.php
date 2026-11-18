@@ -10,10 +10,11 @@ use App\Domains\BanAppeals\Notifications\BanAppealUpdatedNotification;
 use App\Domains\BanAppeals\UseCases\UpdateBanAppeal;
 use App\Domains\Bans\Exceptions\BanNotFoundException;
 use App\Domains\Permissions\AuthorizesPermissions;
+use App\Domains\Permissions\WebManagePermission;
 use App\Domains\Permissions\WebReviewPermission;
 use App\Http\Controllers\Admin\RendersAdminApp;
+use App\Http\Data\AdminBanAppealData;
 use App\Http\Requests\BanAppealUpdateRequest;
-use App\Http\Resources\BanAppealResource;
 use App\Models\BanAppeal;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -58,7 +59,10 @@ class BanAppealController
         ]);
 
         return $this->inertiaRender('BanAppeals/BanAppealShow', [
-            'banAppeal' => new BanAppealResource($banAppeal),
+            'banAppeal' => AdminBanAppealData::fromModel(
+                $banAppeal,
+                $this->can(WebManagePermission::ACCOUNTS_VIEW_EMAIL),
+            ),
         ]);
     }
 

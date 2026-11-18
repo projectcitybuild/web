@@ -88,9 +88,41 @@ declare namespace App {
     }
     namespace Http {
         namespace Data {
+            export type AdminAccountData = {
+                id: number;
+                username: string;
+                email: string;
+                activated: boolean;
+                terms_accepted: number | boolean | null;
+                last_login_at: string | null;
+                is_totp_enabled: boolean;
+                created_at: string | null;
+                updated_at: string | null;
+                roles?: Array<any> | null;
+                badges?: Array<any> | null;
+                minecraft_account?: Array<any> | null;
+                donations?: Array<any> | null;
+                email_change_requests?: Array<any> | null;
+                activations?: Array<any> | null;
+            };
             export type AdminAccountSummaryData = {
                 name: string;
                 avatarUuid: string | null;
+            };
+            export type AdminBanAppealData = {
+                id: number;
+                status: App.Domains.BanAppeals.Data.BanAppealStatus | null;
+                email: string | null;
+                minecraft_uuid: string | null;
+                date_of_ban: string | null;
+                ban_reason: string | null;
+                unban_reason: string | null;
+                decided_at: string | null;
+                decision_note: string | null;
+                account?: App.Http.Data.AdminAccountData | null;
+                game_player_ban?: Array<any> | null;
+                decider_player?: Array<any> | null;
+                created_at: string | null;
             };
             export type AdminSharedPagePropsData = {
                 account?: App.Http.Data.AdminAccountSummaryData | null;
@@ -110,11 +142,99 @@ declare namespace App {
                 createdAt: string;
                 when: string;
             };
+            export type MinecraftBuildData = {
+                id: number;
+                player_id: number;
+                name: string;
+                description: string | null;
+                lore: string | null;
+                votes: number;
+                world: string;
+                x: number;
+                y: number;
+                z: number;
+                pitch: string;
+                yaw: string;
+                created_at: string | null;
+                updated_at: string | null;
+                player?: App.Http.Data.MinecraftPlayerData | null;
+            };
+            export type MinecraftConfigApiData = {
+                id: number | null;
+                config: object | null;
+                version: number | null;
+                created_at: string | null;
+                updated_at: string | null;
+                deleted_at: string | null;
+            };
             export type MinecraftConfigPageData = {
                 version: number;
                 config: Record<string, any>;
                 created_at: string;
                 updated_at: string;
+            };
+            export type MinecraftHomeData = {
+                id: number;
+                player_id: number;
+                name: string;
+                world: string;
+                x: number;
+                y: number;
+                z: number;
+                pitch: string;
+                yaw: string;
+                created_at: string | null;
+                updated_at: string | null;
+                player?: App.Http.Data.MinecraftPlayerData | null;
+            };
+            export type MinecraftPlayerData = {
+                id: number;
+                uuid: string;
+                alias: string | null;
+                nickname: string | null;
+                muted: number;
+                walk_speed: number;
+                fly_speed: number;
+                teleport_mode: App.Domains.Players.Data.TeleportMode | null;
+                move_mode: App.Domains.Players.Data.MoveMode | null;
+                last_location_world_uuid: string | null;
+                last_location_x: number | null;
+                last_location_y: number | null;
+                last_location_z: number | null;
+                last_location_pitch: number | null;
+                last_location_yaw: number | null;
+                sessions: number;
+                play_time: number;
+                afk_time: number;
+                blocks_placed: number;
+                blocks_destroyed: number;
+                blocks_travelled: number;
+                account_id: number | null;
+                last_seen_at: string | null;
+                last_connected_at: string | null;
+                created_at: string | null;
+                updated_at: string | null;
+            };
+            export type MinecraftWarpData = {
+                id: number;
+                name: string;
+                world: string;
+                x: number;
+                y: number;
+                z: number;
+                pitch: string;
+                yaw: string;
+                created_at: string | null;
+                updated_at: string | null;
+            };
+            export type PlayerMailApiData = {
+                id: number;
+                category: App.Domains.PlayerMail.Data.MailCategory;
+                sender: string;
+                subject: string;
+                body: string;
+                read_at: string | null;
+                received_at: string | null;
             };
             export type PlayerMailBroadcastPageData = {
                 id: number;
@@ -138,6 +258,14 @@ declare namespace App {
             export type PlayerMailComposePageData = {
                 recipientCount: number;
                 sender: string;
+            };
+            export type PlayerMailInboxData = {
+                id: number;
+                category: App.Domains.PlayerMail.Data.MailCategory;
+                sender: string;
+                subject: string;
+                read_at: string | null;
+                received_at: string | null;
             };
         }
     }

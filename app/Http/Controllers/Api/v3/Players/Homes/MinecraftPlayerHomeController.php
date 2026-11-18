@@ -9,7 +9,7 @@ use App\Core\Domains\Pagination\HasPaginatedApi;
 use App\Domains\Homes\Exceptions\HomeLimitReachedException;
 use App\Domains\Homes\Services\HomeService;
 use App\Http\Controllers\ApiController;
-use App\Http\Resources\MinecraftHomeResource;
+use App\Http\Data\MinecraftHomeData;
 use App\Models\MinecraftHome;
 use App\Models\MinecraftPlayer;
 use Illuminate\Http\Request;
@@ -27,7 +27,7 @@ final class MinecraftPlayerHomeController extends ApiController
     /**
      * @response array{
      *     current_page: int,
-     *     data: list<MinecraftHomeResource>,
+     *     data: list<MinecraftHomeData>,
      *     first_page_url: string|null,
      *     from: int|null,
      *     last_page_url: string|null,
@@ -50,12 +50,11 @@ final class MinecraftPlayerHomeController extends ApiController
         $player = MinecraftPlayer::whereUuid($minecraftUUID)->firstOrFail();
         $pageSize = $this->pageSize($validated);
 
-        return $this->paginatedResource(
+        return $this->paginatedData(
             MinecraftHome::orderBy('name', 'asc')
                 ->where('player_id', $player->id)
                 ->paginate($pageSize),
-            MinecraftHomeResource::class,
-            $request,
+            MinecraftHomeData::class,
         );
     }
 
@@ -66,7 +65,7 @@ final class MinecraftPlayerHomeController extends ApiController
     ) {
         $player = MinecraftPlayer::whereUuid($minecraftUUID)->firstOrFail();
 
-        return new MinecraftHomeResource($this->homeService->show($home, $player));
+        return MinecraftHomeData::fromModel($this->homeService->show($home, $player));
     }
 
     public function store(Request $request, MinecraftUUID $minecraftUUID)
@@ -79,7 +78,7 @@ final class MinecraftPlayerHomeController extends ApiController
         $player = MinecraftPlayer::whereUuid($minecraftUUID)->firstOrFail();
 
         try {
-            return new MinecraftHomeResource($this->homeService->create(
+            return MinecraftHomeData::fromModel($this->homeService->create(
                 player: $player,
                 coordinate: MinecraftCoordinate::fromValidatedRequest($validated),
                 name: $validated['name'],
@@ -103,7 +102,7 @@ final class MinecraftPlayerHomeController extends ApiController
 
         $player = MinecraftPlayer::whereUuid($minecraftUUID)->firstOrFail();
 
-        return new MinecraftHomeResource($this->homeService->update(
+        return MinecraftHomeData::fromModel($this->homeService->update(
             home: $home,
             player: $player,
             coordinate: MinecraftCoordinate::fromValidatedRequest($validated),

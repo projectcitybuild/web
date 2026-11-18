@@ -1,5 +1,6 @@
 <?php
 
+use App\Core\Utilities\Redact;
 use App\Domains\Permissions\WebManagePermission;
 use App\Models\Account;
 use App\Models\MinecraftPlayer;
@@ -37,4 +38,19 @@ it('filters accounts by whether they have a player', function () {
         ->assertOk()
         ->assertJsonCount(1, 'data')
         ->assertJsonPath('data.0.id', $accountWithoutPlayer->id);
+});
+
+it('redacts account email for managers without email permission', function () {
+    config(['inertia.ssr.enabled' => false]);
+
+    $manager = accountManagerForFilters();
+    $account = Account::factory()->create(['email' => 'private@example.com']);
+
+    $this->actingAs($manager)
+        ->get(route('manage.accounts.show', $account))
+        ->assertOk()
+        ->assertInertia(fn ($page) => $page
+            ->component('Accounts/AccountShow')
+            ->where('account.email', Redact::email($account->email))
+        );
 });

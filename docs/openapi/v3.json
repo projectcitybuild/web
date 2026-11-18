@@ -44,7 +44,7 @@
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/components/schemas/MinecraftBuildResource"
+                                                "$ref": "#/components/schemas/MinecraftBuildData"
                                             }
                                         },
                                         "first_page_url": {
@@ -206,11 +206,11 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "`MinecraftBuildResource`",
+                        "description": "`MinecraftBuildData`",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/MinecraftBuildResource"
+                                    "$ref": "#/components/schemas/MinecraftBuildData"
                                 }
                             }
                         }
@@ -241,21 +241,11 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "`MinecraftBuildResource`",
+                        "description": "`MinecraftBuildData`",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "allOf": [
-                                        {
-                                            "$ref": "#/components/schemas/MinecraftBuildResource"
-                                        },
-                                        {
-                                            "type": "object",
-                                            "required": [
-                                                "player"
-                                            ]
-                                        }
-                                    ]
+                                    "$ref": "#/components/schemas/MinecraftBuildData"
                                 }
                             }
                         }
@@ -330,11 +320,11 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "`MinecraftBuildResource`",
+                        "description": "`MinecraftBuildData`",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/MinecraftBuildResource"
+                                    "$ref": "#/components/schemas/MinecraftBuildData"
                                 }
                             }
                         }
@@ -437,11 +427,11 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "`MinecraftBuildResource`",
+                        "description": "`MinecraftBuildData`",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/MinecraftBuildResource"
+                                    "$ref": "#/components/schemas/MinecraftBuildData"
                                 }
                             }
                         }
@@ -532,11 +522,11 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "`MinecraftBuildResource`",
+                        "description": "`MinecraftBuildData`",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/MinecraftBuildResource"
+                                    "$ref": "#/components/schemas/MinecraftBuildData"
                                 }
                             }
                         }
@@ -576,11 +566,11 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "`MinecraftBuildResource`",
+                        "description": "`MinecraftBuildData`",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/MinecraftBuildResource"
+                                    "$ref": "#/components/schemas/MinecraftBuildData"
                                 }
                             }
                         }
@@ -603,48 +593,11 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "`MinecraftConfigApiData`",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "id": {
-                                            "type": "integer"
-                                        },
-                                        "config": {
-                                            "type": "object"
-                                        },
-                                        "version": {
-                                            "type": "integer"
-                                        },
-                                        "created_at": {
-                                            "type": [
-                                                "string",
-                                                "null"
-                                            ]
-                                        },
-                                        "updated_at": {
-                                            "type": [
-                                                "string",
-                                                "null"
-                                            ]
-                                        },
-                                        "deleted_at": {
-                                            "type": [
-                                                "string",
-                                                "null"
-                                            ]
-                                        }
-                                    },
-                                    "required": [
-                                        "id",
-                                        "config",
-                                        "version",
-                                        "created_at",
-                                        "updated_at",
-                                        "deleted_at"
-                                    ]
+                                    "$ref": "#/components/schemas/MinecraftConfigApiData"
                                 }
                             }
                         }
@@ -993,11 +946,11 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "`MinecraftPlayerResource`",
+                        "description": "`MinecraftPlayerData`",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/MinecraftPlayerResource"
+                                    "$ref": "#/components/schemas/MinecraftPlayerData"
                                 }
                             }
                         }
@@ -1099,11 +1052,11 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "`MinecraftPlayerResource`",
+                        "description": "`MinecraftPlayerData`",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/MinecraftPlayerResource"
+                                    "$ref": "#/components/schemas/MinecraftPlayerData"
                                 }
                             }
                         }
@@ -1206,7 +1159,7 @@
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/components/schemas/MinecraftHomeResource"
+                                                "$ref": "#/components/schemas/MinecraftHomeData"
                                             }
                                         },
                                         "first_page_url": {
@@ -1374,11 +1327,11 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "`MinecraftHomeResource`",
+                        "description": "`MinecraftHomeData`",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/MinecraftHomeResource"
+                                    "$ref": "#/components/schemas/MinecraftHomeData"
                                 }
                             }
                         }
@@ -1420,11 +1373,11 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "`MinecraftHomeResource`",
+                        "description": "`MinecraftHomeData`",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/MinecraftHomeResource"
+                                    "$ref": "#/components/schemas/MinecraftHomeData"
                                 }
                             }
                         }
@@ -1504,11 +1457,11 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "`MinecraftHomeResource`",
+                        "description": "`MinecraftHomeData`",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/MinecraftHomeResource"
+                                    "$ref": "#/components/schemas/MinecraftHomeData"
                                 }
                             }
                         }
@@ -1731,7 +1684,7 @@
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/components/schemas/PlayerMailInboxResource"
+                                                "$ref": "#/components/schemas/PlayerMailInboxData"
                                             }
                                         },
                                         "next_cursor": {
@@ -1803,11 +1756,11 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "`PlayerMailResource`",
+                        "description": "`PlayerMailApiData`",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PlayerMailResource"
+                                    "$ref": "#/components/schemas/PlayerMailApiData"
                                 }
                             }
                         }
@@ -1891,11 +1844,11 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "`PlayerMailResource`",
+                        "description": "`PlayerMailApiData`",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PlayerMailResource"
+                                    "$ref": "#/components/schemas/PlayerMailApiData"
                                 }
                             }
                         }
@@ -1978,11 +1931,11 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "`PlayerMailResource`",
+                        "description": "`PlayerMailApiData`",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PlayerMailResource"
+                                    "$ref": "#/components/schemas/PlayerMailApiData"
                                 }
                             }
                         }
@@ -2020,11 +1973,11 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "`PlayerMailResource`",
+                        "description": "`PlayerMailApiData`",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PlayerMailResource"
+                                    "$ref": "#/components/schemas/PlayerMailApiData"
                                 }
                             }
                         }
@@ -2241,7 +2194,7 @@
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/components/schemas/MinecraftWarpResource"
+                                                "$ref": "#/components/schemas/MinecraftWarpData"
                                             }
                                         },
                                         "first_page_url": {
@@ -2394,12 +2347,12 @@
                     }
                 },
                 "responses": {
-                    "200": {
-                        "description": "`MinecraftWarpResource`",
+                    "201": {
+                        "description": "`MinecraftWarpData`",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/MinecraftWarpResource"
+                                    "$ref": "#/components/schemas/MinecraftWarpData"
                                 }
                             }
                         }
@@ -2419,13 +2372,13 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Array of `MinecraftWarpResource`",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/components/schemas/MinecraftWarpResource"
+                                        "$ref": "#/components/schemas/MinecraftWarpData"
                                     }
                                 }
                             }
@@ -2454,11 +2407,11 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "`MinecraftWarpResource`",
+                        "description": "`MinecraftWarpData`",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/MinecraftWarpResource"
+                                    "$ref": "#/components/schemas/MinecraftWarpData"
                                 }
                             }
                         }
@@ -2529,11 +2482,11 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "`MinecraftWarpResource`",
+                        "description": "`MinecraftWarpData`",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/MinecraftWarpResource"
+                                    "$ref": "#/components/schemas/MinecraftWarpData"
                                 }
                             }
                         }
@@ -3054,7 +3007,16 @@
                 ],
                 "title": "GamePlayerBan"
             },
-            "MinecraftBuildResource": {
+            "MailCategory": {
+                "type": "string",
+                "enum": [
+                    "direct",
+                    "announcement",
+                    "system"
+                ],
+                "title": "MailCategory"
+            },
+            "MinecraftBuildData": {
                 "type": "object",
                 "properties": {
                     "id": {
@@ -3067,16 +3029,10 @@
                         "type": "string"
                     },
                     "description": {
-                        "type": [
-                            "string",
-                            "null"
-                        ]
+                        "type": "null"
                     },
                     "lore": {
-                        "type": [
-                            "string",
-                            "null"
-                        ]
+                        "type": "null"
                     },
                     "votes": {
                         "type": "integer"
@@ -3100,21 +3056,13 @@
                         "type": "string"
                     },
                     "created_at": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "format": "date-time"
+                        "type": "null"
                     },
                     "updated_at": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "format": "date-time"
+                        "type": "null"
                     },
                     "player": {
-                        "$ref": "#/components/schemas/MinecraftPlayerResource"
+                        "type": "null"
                     }
                 },
                 "required": [
@@ -3133,9 +3081,41 @@
                     "created_at",
                     "updated_at"
                 ],
-                "title": "MinecraftBuildResource"
+                "title": "MinecraftBuildData"
             },
-            "MinecraftHomeResource": {
+            "MinecraftConfigApiData": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "null"
+                    },
+                    "config": {
+                        "type": "null"
+                    },
+                    "version": {
+                        "type": "null"
+                    },
+                    "created_at": {
+                        "type": "null"
+                    },
+                    "updated_at": {
+                        "type": "null"
+                    },
+                    "deleted_at": {
+                        "type": "null"
+                    }
+                },
+                "required": [
+                    "id",
+                    "config",
+                    "version",
+                    "created_at",
+                    "updated_at",
+                    "deleted_at"
+                ],
+                "title": "MinecraftConfigApiData"
+            },
+            "MinecraftHomeData": {
                 "type": "object",
                 "properties": {
                     "id": {
@@ -3166,21 +3146,13 @@
                         "type": "string"
                     },
                     "created_at": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "format": "date-time"
+                        "type": "null"
                     },
                     "updated_at": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "format": "date-time"
+                        "type": "null"
                     },
                     "player": {
-                        "$ref": "#/components/schemas/MinecraftPlayerResource"
+                        "type": "null"
                     }
                 },
                 "required": [
@@ -3196,7 +3168,7 @@
                     "created_at",
                     "updated_at"
                 ],
-                "title": "MinecraftHomeResource"
+                "title": "MinecraftHomeData"
             },
             "MinecraftPlayer": {
                 "type": "object",
@@ -3353,7 +3325,7 @@
                 ],
                 "title": "MinecraftPlayer"
             },
-            "MinecraftPlayerResource": {
+            "MinecraftPlayerData": {
                 "type": "object",
                 "properties": {
                     "id": {
@@ -3363,16 +3335,10 @@
                         "type": "string"
                     },
                     "alias": {
-                        "type": [
-                            "string",
-                            "null"
-                        ]
+                        "type": "null"
                     },
                     "nickname": {
-                        "type": [
-                            "string",
-                            "null"
-                        ]
+                        "type": "null"
                     },
                     "muted": {
                         "type": "integer"
@@ -3384,55 +3350,28 @@
                         "type": "number"
                     },
                     "teleport_mode": {
-                        "type": "string",
-                        "enum": [
-                            "off",
-                            "request",
-                            "auto"
-                        ]
+                        "type": "null"
                     },
                     "move_mode": {
-                        "type": "string",
-                        "enum": [
-                            "walk",
-                            "fly"
-                        ]
+                        "type": "null"
                     },
                     "last_location_world_uuid": {
-                        "type": [
-                            "string",
-                            "null"
-                        ]
+                        "type": "null"
                     },
                     "last_location_x": {
-                        "type": [
-                            "number",
-                            "null"
-                        ]
+                        "type": "null"
                     },
                     "last_location_y": {
-                        "type": [
-                            "number",
-                            "null"
-                        ]
+                        "type": "null"
                     },
                     "last_location_z": {
-                        "type": [
-                            "number",
-                            "null"
-                        ]
+                        "type": "null"
                     },
                     "last_location_pitch": {
-                        "type": [
-                            "number",
-                            "null"
-                        ]
+                        "type": "null"
                     },
                     "last_location_yaw": {
-                        "type": [
-                            "number",
-                            "null"
-                        ]
+                        "type": "null"
                     },
                     "sessions": {
                         "type": "integer"
@@ -3453,38 +3392,19 @@
                         "type": "integer"
                     },
                     "account_id": {
-                        "type": [
-                            "integer",
-                            "null"
-                        ]
+                        "type": "null"
                     },
                     "last_seen_at": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "format": "date-time"
+                        "type": "null"
                     },
                     "last_connected_at": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "format": "date-time"
+                        "type": "null"
                     },
                     "created_at": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "format": "date-time"
+                        "type": "null"
                     },
                     "updated_at": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "format": "date-time"
+                        "type": "null"
                     }
                 },
                 "required": [
@@ -3515,9 +3435,9 @@
                     "created_at",
                     "updated_at"
                 ],
-                "title": "MinecraftPlayerResource"
+                "title": "MinecraftPlayerData"
             },
-            "MinecraftWarpResource": {
+            "MinecraftWarpData": {
                 "type": "object",
                 "properties": {
                     "id": {
@@ -3545,18 +3465,10 @@
                         "type": "string"
                     },
                     "created_at": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "format": "date-time"
+                        "type": "null"
                     },
                     "updated_at": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "format": "date-time"
+                        "type": "null"
                     }
                 },
                 "required": [
@@ -3571,7 +3483,7 @@
                     "created_at",
                     "updated_at"
                 ],
-                "title": "MinecraftWarpResource"
+                "title": "MinecraftWarpData"
             },
             "MoveMode": {
                 "type": "string",
@@ -3581,56 +3493,14 @@
                 ],
                 "title": "MoveMode"
             },
-            "PlayerMailInboxResource": {
+            "PlayerMailApiData": {
                 "type": "object",
                 "properties": {
                     "id": {
                         "type": "integer"
                     },
                     "category": {
-                        "type": "string",
-                        "enum": [
-                            "direct",
-                            "announcement",
-                            "system"
-                        ]
-                    },
-                    "sender": {
-                        "type": "string"
-                    },
-                    "subject": {
-                        "type": "string"
-                    },
-                    "read_at": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "format": "date-time"
-                    },
-                    "received_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    }
-                },
-                "required": [
-                    "id",
-                    "category",
-                    "sender",
-                    "subject",
-                    "read_at",
-                    "received_at"
-                ],
-                "title": "PlayerMailInboxResource"
-            },
-            "PlayerMailResource": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    },
-                    "category": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/MailCategory"
                     },
                     "sender": {
                         "type": "string"
@@ -3642,10 +3512,10 @@
                         "type": "string"
                     },
                     "read_at": {
-                        "type": "string"
+                        "type": "null"
                     },
                     "received_at": {
-                        "type": "string"
+                        "type": "null"
                     }
                 },
                 "required": [
@@ -3657,7 +3527,39 @@
                     "read_at",
                     "received_at"
                 ],
-                "title": "PlayerMailResource"
+                "title": "PlayerMailApiData"
+            },
+            "PlayerMailInboxData": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "category": {
+                        "$ref": "#/components/schemas/MailCategory"
+                    },
+                    "sender": {
+                        "type": "string"
+                    },
+                    "subject": {
+                        "type": "string"
+                    },
+                    "read_at": {
+                        "type": "null"
+                    },
+                    "received_at": {
+                        "type": "null"
+                    }
+                },
+                "required": [
+                    "id",
+                    "category",
+                    "sender",
+                    "subject",
+                    "read_at",
+                    "received_at"
+                ],
+                "title": "PlayerMailInboxData"
             },
             "PlayerOpElevation": {
                 "type": "object",

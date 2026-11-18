@@ -42,7 +42,9 @@ it('returns warp items with their existing fields and paginator envelope', funct
             'total',
         ])
         ->assertJsonPath('data.0.id', $warp->id)
-        ->assertJsonPath('data.0.name', $warp->name);
+        ->assertJsonPath('data.0.name', $warp->name)
+        ->assertJsonPath('data.0.pitch', (string) $warp->pitch)
+        ->assertJsonPath('data.0.created_at', $warp->created_at->toISOString());
 });
 
 it('returns a build with its loaded player fields', function () {
@@ -68,7 +70,23 @@ it('returns all warps as an unpaginated list', function () {
         ->assertOk()
         ->assertJsonCount(1)
         ->assertJsonPath('0.id', $warp->id)
-        ->assertJsonPath('0.name', $warp->name);
+        ->assertJsonPath('0.name', $warp->name)
+        ->assertJsonPath('0.created_at', $warp->created_at->toISOString());
+});
+
+it('creates a warp with the resource response status', function () {
+    $this->postJson('http://api.localhost/v3/warps', [
+        'name' => 'created-warp',
+        'world' => 'world',
+        'x' => 1,
+        'y' => 64,
+        'z' => 2,
+        'pitch' => 0,
+        'yaw' => 90,
+    ])
+        ->assertCreated()
+        ->assertJsonPath('name', 'created-warp')
+        ->assertJsonPath('world', 'world');
 });
 
 it('returns build, warp, and home names with only their identifiers', function () {

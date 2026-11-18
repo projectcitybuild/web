@@ -12,6 +12,7 @@ final class DocsServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Scramble::registerExtension(OpenApiErrorResponseExtension::class);
+        Scramble::registerExtension(LaravelDataToSchemaExtension::class);
 
         Scramble::registerApi('v2', ['info' => ['version' => '2.0']])
             ->routes(function (Route $route) {

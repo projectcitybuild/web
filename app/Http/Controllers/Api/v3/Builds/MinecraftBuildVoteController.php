@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\v3\Builds;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
 use App\Http\Controllers\ApiController;
-use App\Http\Resources\MinecraftBuildResource;
+use App\Http\Data\MinecraftBuildData;
 use App\Models\MinecraftBuild;
 use App\Models\MinecraftBuildVote;
 use App\Models\MinecraftPlayer;
@@ -53,7 +53,7 @@ final class MinecraftBuildVoteController extends ApiController
             ]);
         });
 
-        return new MinecraftBuildResource($build);
+        return MinecraftBuildData::fromModel($build);
     }
 
     public function destroy(Request $request, MinecraftBuild $build)
@@ -82,6 +82,6 @@ final class MinecraftBuildVoteController extends ApiController
             $vote->delete();
         });
 
-        return new MinecraftBuildResource($build);
+        return MinecraftBuildData::fromModel($build);
     }
 }

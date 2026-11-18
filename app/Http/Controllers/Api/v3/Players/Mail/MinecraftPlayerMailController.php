@@ -12,9 +12,11 @@ use App\Domains\PlayerMail\UseCases\MarkPlayerMailRead;
 use App\Domains\PlayerMail\UseCases\MarkPlayerMailUnread;
 use App\Domains\PlayerMail\UseCases\SendPlayerMail;
 use App\Http\Controllers\ApiController;
-use App\Http\Resources\PlayerMailInboxResource;
-use App\Http\Resources\PlayerMailResource;
+use App\Http\Data\PlayerMailApiData;
+use App\Http\Data\PlayerMailInboxData;
 use App\Models\MinecraftPlayer;
+use App\Models\PlayerMailRecipient;
+use Dedoc\Scramble\Attributes\Response as OpenApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -22,7 +24,7 @@ use Illuminate\Validation\Rule;
 class MinecraftPlayerMailController extends ApiController
 {
     /**
-     * @response array{data: list<PlayerMailInboxResource>, next_cursor: string|null}
+     * @response array{data: list<PlayerMailInboxData>, next_cursor: string|null}
      */
     public function index(
         Request $request,
@@ -46,7 +48,10 @@ class MinecraftPlayerMailController extends ApiController
         );
 
         return response()->json([
-            'data' => PlayerMailInboxResource::collection($inbox->items())->resolve($request),
+            'data' => array_map(
+                fn (PlayerMailRecipient $recipient): array => PlayerMailInboxData::fromRecipient($recipient)->toArray(),
+                $inbox->items(),
+            ),
             'next_cursor' => $inbox->nextCursor()?->encode(),
         ]);
     }
@@ -64,12 +69,13 @@ class MinecraftPlayerMailController extends ApiController
         MinecraftUUID $minecraftUUID,
         int $mailId,
         GetPlayerMail $getPlayerMail,
-    ): PlayerMailResource {
+    ): PlayerMailApiData {
         $player = MinecraftPlayer::whereUuid($minecraftUUID)->firstOrFail();
 
-        return new PlayerMailResource($getPlayerMail->execute($player, $mailId));
+        return PlayerMailApiData::fromRecipient($getPlayerMail->execute($player, $mailId));
     }
 
+    #[OpenApiResponse(status: 201, type: PlayerMailApiData::class)]
     public function store(
         Request $request,
         MinecraftUUID $minecraftUUID,
@@ -91,31 +97,29 @@ class MinecraftPlayerMailController extends ApiController
         );
         $mailRecipient->load('mail');
 
-        return (new PlayerMailResource($mailRecipient))
-            ->response()
-            ->setStatusCode(201);
+        return response()->json(PlayerMailApiData::fromRecipient($mailRecipient)->toArray(), 201);
     }
 
     public function markRead(
         MinecraftUUID $minecraftUUID,
         int $mailId,
         MarkPlayerMailRead $markRead,
-    ): PlayerMailResource {
+    ): PlayerMailApiData {
         $player = MinecraftPlayer::whereUuid($minecraftUUID)->firstOrFail();
         $recipient = $markRead->execute($player, $mailId);
 
-        return new PlayerMailResource($recipient);
+        return PlayerMailApiData::fromRecipient($recipient);
     }
 
     public function markUnread(
         MinecraftUUID $minecraftUUID,
         int $mailId,
         MarkPlayerMailUnread $markUnread,
-    ): PlayerMailResource {
+    ): PlayerMailApiData {
         $player = MinecraftPlayer::whereUuid($minecraftUUID)->firstOrFail();
         $recipient = $markUnread->execute($player, $mailId);
 
-        return new PlayerMailResource($recipient);
+        return PlayerMailApiData::fromRecipient($recipient);
     }
 
     public function destroy(

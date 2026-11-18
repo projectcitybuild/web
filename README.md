@@ -45,6 +45,12 @@ Access the site at http://localhost
 
 The post-create hook installs Composer and npm dependencies, generates the local application key, runs migrations and seeders, and builds frontend assets. In the Dev Container terminal, run `php artisan migrate` after adding migrations, `php artisan db:seed` to reseed, `npm run dev` for Vite's development server, or `npm run build` for a production asset build.
 
+### TypeScript Types
+
+The OpenAPI document at `docs/openapi/v3.json` is the source of truth for the REST API contract. Regenerate it with `php artisan scramble:export --api=v3 --path=docs/openapi/v3.json`.
+
+Generate TypeScript declarations from Laravel Data DTOs with `php artisan typescript:transform`. They are written to `resources/js/generated/generated.d.ts`.
+
 ### Accounts
 
 * Admin account (email: `admin@pcbmc.co`, password: `test`)
