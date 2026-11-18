@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Data\AdminAccountSummaryData;
 use App\Models\Account;
 use App\Models\BanAppeal;
 use App\Models\BuilderRankApplication;
@@ -59,10 +60,10 @@ class HandleInertiaRequests extends Middleware
 
             $account = $request->user();
             $sharedProps['account'] = fn () => $account instanceof Account
-                ? [
-                    'name' => $account->username,
-                    'avatarUuid' => $account->minecraftAccount()->value('uuid'),
-                ]
+                ? (new AdminAccountSummaryData(
+                    name: $account->username,
+                    avatarUuid: $account->minecraftAccount()->value('uuid'),
+                ))->toArray()
                 : null;
 
             return $sharedProps;

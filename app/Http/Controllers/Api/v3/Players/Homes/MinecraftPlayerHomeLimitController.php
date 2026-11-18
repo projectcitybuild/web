@@ -14,6 +14,9 @@ final class MinecraftPlayerHomeLimitController extends ApiController
         private readonly HomeService $homeService,
     ) {}
 
+    /**
+     * @response array{current: int, max: int, sources: array<string, int>}
+     */
     public function __invoke(Request $request, MinecraftUUID $minecraftUUID)
     {
         $player = MinecraftPlayer::whereUuid($minecraftUUID)->first();

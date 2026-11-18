@@ -1,0 +1,3763 @@
+{
+    "openapi": "3.1.2",
+    "info": {
+        "title": "Project City Build",
+        "version": "3.0"
+    },
+    "servers": [
+        {
+            "url": "http://api.localhost/"
+        }
+    ],
+    "security": [
+        {
+            "http": []
+        }
+    ],
+    "paths": {
+        "/v3/builds": {
+            "get": {
+                "operationId": "minecraftBuild.index",
+                "tags": [
+                    "MinecraftBuild"
+                ],
+                "parameters": [
+                    {
+                        "name": "page_size",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "current_page": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/MinecraftBuildResource"
+                                            }
+                                        },
+                                        "first_page_url": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        },
+                                        "from": {
+                                            "type": [
+                                                "integer",
+                                                "null"
+                                            ]
+                                        },
+                                        "last_page_url": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        },
+                                        "last_page": {
+                                            "type": "integer"
+                                        },
+                                        "links": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "url": {
+                                                        "type": [
+                                                            "string",
+                                                            "null"
+                                                        ]
+                                                    },
+                                                    "label": {
+                                                        "type": "string"
+                                                    },
+                                                    "active": {
+                                                        "type": "boolean"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "url",
+                                                    "label",
+                                                    "active"
+                                                ]
+                                            }
+                                        },
+                                        "next_page_url": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        },
+                                        "path": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        },
+                                        "per_page": {
+                                            "type": "integer"
+                                        },
+                                        "prev_page_url": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        },
+                                        "to": {
+                                            "type": [
+                                                "integer",
+                                                "null"
+                                            ]
+                                        },
+                                        "total": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "required": [
+                                        "current_page",
+                                        "data",
+                                        "first_page_url",
+                                        "from",
+                                        "last_page_url",
+                                        "last_page",
+                                        "links",
+                                        "next_page_url",
+                                        "path",
+                                        "per_page",
+                                        "prev_page_url",
+                                        "to",
+                                        "total"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                },
+                "security": []
+            },
+            "post": {
+                "operationId": "minecraftBuild.store",
+                "tags": [
+                    "MinecraftBuild"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "player_uuid": {
+                                        "type": "string"
+                                    },
+                                    "alias": {
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "world": {
+                                        "type": "string"
+                                    },
+                                    "x": {
+                                        "type": "number"
+                                    },
+                                    "y": {
+                                        "type": "number"
+                                    },
+                                    "z": {
+                                        "type": "number"
+                                    },
+                                    "pitch": {
+                                        "type": "number"
+                                    },
+                                    "yaw": {
+                                        "type": "number"
+                                    }
+                                },
+                                "required": [
+                                    "player_uuid",
+                                    "alias",
+                                    "name",
+                                    "world",
+                                    "x",
+                                    "y",
+                                    "z",
+                                    "pitch",
+                                    "yaw"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`MinecraftBuildResource`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MinecraftBuildResource"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                },
+                "security": []
+            }
+        },
+        "/v3/builds/{build}": {
+            "get": {
+                "operationId": "minecraftBuild.show",
+                "tags": [
+                    "MinecraftBuild"
+                ],
+                "parameters": [
+                    {
+                        "name": "build",
+                        "in": "path",
+                        "required": true,
+                        "description": "The build ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`MinecraftBuildResource`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/MinecraftBuildResource"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "required": [
+                                                "player"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                },
+                "security": []
+            },
+            "put": {
+                "operationId": "minecraftBuild.update",
+                "tags": [
+                    "MinecraftBuild"
+                ],
+                "parameters": [
+                    {
+                        "name": "build",
+                        "in": "path",
+                        "required": true,
+                        "description": "The build ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "player_uuid": {
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "world": {
+                                        "type": "string"
+                                    },
+                                    "x": {
+                                        "type": "number"
+                                    },
+                                    "y": {
+                                        "type": "number"
+                                    },
+                                    "z": {
+                                        "type": "number"
+                                    },
+                                    "pitch": {
+                                        "type": "number"
+                                    },
+                                    "yaw": {
+                                        "type": "number"
+                                    }
+                                },
+                                "required": [
+                                    "player_uuid",
+                                    "name",
+                                    "world",
+                                    "x",
+                                    "y",
+                                    "z",
+                                    "pitch",
+                                    "yaw"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`MinecraftBuildResource`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MinecraftBuildResource"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "minecraftBuild.destroy",
+                "tags": [
+                    "MinecraftBuild"
+                ],
+                "parameters": [
+                    {
+                        "name": "build",
+                        "in": "path",
+                        "required": true,
+                        "description": "The build ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "player_uuid",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "minItems": 0,
+                                    "maxItems": 0
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                },
+                "security": []
+            }
+        },
+        "/v3/builds/{build}/set": {
+            "patch": {
+                "operationId": "minecraftBuild.patch",
+                "tags": [
+                    "MinecraftBuild"
+                ],
+                "parameters": [
+                    {
+                        "name": "build",
+                        "in": "path",
+                        "required": true,
+                        "description": "The build ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "player_uuid": {
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "player_uuid"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`MinecraftBuildResource`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MinecraftBuildResource"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                },
+                "security": []
+            }
+        },
+        "/v3/builds/names": {
+            "get": {
+                "operationId": "minecraftBuildName.index",
+                "tags": [
+                    "MinecraftBuildName"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "id",
+                                            "name"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            }
+        },
+        "/v3/builds/{build}/vote": {
+            "post": {
+                "operationId": "minecraftBuildVote.store",
+                "tags": [
+                    "MinecraftBuildVote"
+                ],
+                "parameters": [
+                    {
+                        "name": "build",
+                        "in": "path",
+                        "required": true,
+                        "description": "The build ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "player_uuid": {
+                                        "type": "string"
+                                    },
+                                    "alias": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "player_uuid"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`MinecraftBuildResource`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MinecraftBuildResource"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                },
+                "security": []
+            },
+            "delete": {
+                "operationId": "minecraftBuildVote.destroy",
+                "tags": [
+                    "MinecraftBuildVote"
+                ],
+                "parameters": [
+                    {
+                        "name": "build",
+                        "in": "path",
+                        "required": true,
+                        "description": "The build ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "player_uuid",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`MinecraftBuildResource`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MinecraftBuildResource"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                },
+                "security": []
+            }
+        },
+        "/v3/server/config": {
+            "get": {
+                "operationId": "server.minecraftConfig",
+                "tags": [
+                    "MinecraftConfig"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "config": {
+                                            "type": "object"
+                                        },
+                                        "version": {
+                                            "type": "integer"
+                                        },
+                                        "created_at": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        },
+                                        "updated_at": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        },
+                                        "deleted_at": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "id",
+                                        "config",
+                                        "version",
+                                        "created_at",
+                                        "updated_at",
+                                        "deleted_at"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v3/server/connection/authorize": {
+            "post": {
+                "operationId": "server.minecraftConnectionAuth",
+                "tags": [
+                    "MinecraftConnectionAuth"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "uuid": {
+                                        "type": "string"
+                                    },
+                                    "alias": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
+                                    },
+                                    "ip": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "uuid"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "bans": {
+                                            "type": [
+                                                "object",
+                                                "null"
+                                            ],
+                                            "properties": {
+                                                "uuid": {
+                                                    "type": "string"
+                                                },
+                                                "ip": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "uuid",
+                                                "ip"
+                                            ]
+                                        },
+                                        "player": {
+                                            "type": "object",
+                                            "properties": {
+                                                "account": {
+                                                    "anyOf": [
+                                                        {
+                                                            "$ref": "#/components/schemas/Account"
+                                                        },
+                                                        {
+                                                            "type": "null"
+                                                        }
+                                                    ]
+                                                },
+                                                "player": {
+                                                    "$ref": "#/components/schemas/MinecraftPlayer"
+                                                },
+                                                "roles": {
+                                                    "anyOf": [
+                                                        {
+                                                            "type": "string"
+                                                        },
+                                                        {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    ]
+                                                },
+                                                "badges": {
+                                                    "anyOf": [
+                                                        {
+                                                            "type": "string"
+                                                        },
+                                                        {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    ]
+                                                },
+                                                "elevation": {
+                                                    "anyOf": [
+                                                        {
+                                                            "$ref": "#/components/schemas/PlayerOpElevation"
+                                                        },
+                                                        {
+                                                            "type": "null"
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            "required": [
+                                                "account",
+                                                "player",
+                                                "roles",
+                                                "badges",
+                                                "elevation"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "bans",
+                                        "player"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                }
+            }
+        },
+        "/v3/server/connection/end": {
+            "post": {
+                "operationId": "server.minecraftConnectionEnd",
+                "tags": [
+                    "MinecraftConnectionEnd"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "uuid": {
+                                        "type": "string"
+                                    },
+                                    "session_seconds": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "required": [
+                                    "uuid",
+                                    "session_seconds"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "minItems": 0,
+                                    "maxItems": 0
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                }
+            }
+        },
+        "/v3/server/audit/command/op": {
+            "post": {
+                "operationId": "minecraftOpAudit.store",
+                "tags": [
+                    "MinecraftOpAudit"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "command": {
+                                        "type": "string"
+                                    },
+                                    "actor": {
+                                        "type": "string",
+                                        "enum": [
+                                            "console",
+                                            "command_block",
+                                            "rcon",
+                                            "unknown"
+                                        ]
+                                    },
+                                    "ip": {
+                                        "type": "string"
+                                    },
+                                    "meta": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "command",
+                                    "actor",
+                                    "ip"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                }
+            }
+        },
+        "/v3/server/pim/op/grant": {
+            "post": {
+                "operationId": "minecraftOpElevation.grant",
+                "tags": [
+                    "MinecraftOpElevation"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "uuid": {
+                                        "type": "string"
+                                    },
+                                    "reason": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "uuid",
+                                    "reason"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`PlayerOpElevation`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PlayerOpElevation"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                }
+            }
+        },
+        "/v3/server/pim/op/revoke": {
+            "post": {
+                "operationId": "minecraftOpElevation.revoke",
+                "tags": [
+                    "MinecraftOpElevation"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "uuid": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "uuid"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`PlayerOpElevation`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PlayerOpElevation"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                }
+            }
+        },
+        "/v3/players/{uuid}": {
+            "get": {
+                "operationId": "minecraftPlayer.show",
+                "tags": [
+                    "MinecraftPlayer"
+                ],
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "description": "The uuid ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`MinecraftPlayerResource`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MinecraftPlayerResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                },
+                "security": []
+            },
+            "patch": {
+                "operationId": "minecraftPlayer.update",
+                "tags": [
+                    "MinecraftPlayer"
+                ],
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "description": "The uuid ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "alias": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
+                                    },
+                                    "nickname": {
+                                        "type": "string",
+                                        "maxLength": 100
+                                    },
+                                    "muted": {
+                                        "type": "boolean"
+                                    },
+                                    "walk_speed": {
+                                        "type": "number"
+                                    },
+                                    "fly_speed": {
+                                        "type": "number"
+                                    },
+                                    "teleport_mode": {
+                                        "$ref": "#/components/schemas/TeleportMode"
+                                    },
+                                    "move_mode": {
+                                        "$ref": "#/components/schemas/MoveMode"
+                                    },
+                                    "last_location_world_uuid": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ],
+                                        "format": "uuid"
+                                    },
+                                    "last_location_x": {
+                                        "type": [
+                                            "number",
+                                            "null"
+                                        ]
+                                    },
+                                    "last_location_y": {
+                                        "type": [
+                                            "number",
+                                            "null"
+                                        ]
+                                    },
+                                    "last_location_z": {
+                                        "type": [
+                                            "number",
+                                            "null"
+                                        ]
+                                    },
+                                    "last_location_pitch": {
+                                        "type": [
+                                            "number",
+                                            "null"
+                                        ]
+                                    },
+                                    "last_location_yaw": {
+                                        "type": [
+                                            "number",
+                                            "null"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`MinecraftPlayerResource`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MinecraftPlayerResource"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            }
+        },
+        "/v3/players/{uuid}/bans": {
+            "get": {
+                "operationId": "minecraftPlayerBan.index",
+                "tags": [
+                    "MinecraftPlayerBan"
+                ],
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "description": "The uuid ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "only_active",
+                        "in": "query",
+                        "schema": {
+                            "type": [
+                                "boolean",
+                                "null"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/GamePlayerBan"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                },
+                "security": []
+            }
+        },
+        "/v3/players/{minecraftUUID}/homes": {
+            "get": {
+                "operationId": "minecraftPlayerHome.index",
+                "tags": [
+                    "MinecraftPlayerHome"
+                ],
+                "parameters": [
+                    {
+                        "name": "minecraftUUID",
+                        "in": "path",
+                        "required": true,
+                        "description": "The minecraft u u i d ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "page_size",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "current_page": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/MinecraftHomeResource"
+                                            }
+                                        },
+                                        "first_page_url": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        },
+                                        "from": {
+                                            "type": [
+                                                "integer",
+                                                "null"
+                                            ]
+                                        },
+                                        "last_page_url": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        },
+                                        "last_page": {
+                                            "type": "integer"
+                                        },
+                                        "links": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "url": {
+                                                        "type": [
+                                                            "string",
+                                                            "null"
+                                                        ]
+                                                    },
+                                                    "label": {
+                                                        "type": "string"
+                                                    },
+                                                    "active": {
+                                                        "type": "boolean"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "url",
+                                                    "label",
+                                                    "active"
+                                                ]
+                                            }
+                                        },
+                                        "next_page_url": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        },
+                                        "path": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        },
+                                        "per_page": {
+                                            "type": "integer"
+                                        },
+                                        "prev_page_url": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        },
+                                        "to": {
+                                            "type": [
+                                                "integer",
+                                                "null"
+                                            ]
+                                        },
+                                        "total": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "required": [
+                                        "current_page",
+                                        "data",
+                                        "first_page_url",
+                                        "from",
+                                        "last_page_url",
+                                        "last_page",
+                                        "links",
+                                        "next_page_url",
+                                        "path",
+                                        "per_page",
+                                        "prev_page_url",
+                                        "to",
+                                        "total"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                },
+                "security": []
+            },
+            "post": {
+                "operationId": "minecraftPlayerHome.store",
+                "tags": [
+                    "MinecraftPlayerHome"
+                ],
+                "parameters": [
+                    {
+                        "name": "minecraftUUID",
+                        "in": "path",
+                        "required": true,
+                        "description": "The minecraft u u i d ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "world": {
+                                        "type": "string"
+                                    },
+                                    "x": {
+                                        "type": "number"
+                                    },
+                                    "y": {
+                                        "type": "number"
+                                    },
+                                    "z": {
+                                        "type": "number"
+                                    },
+                                    "pitch": {
+                                        "type": "number"
+                                    },
+                                    "yaw": {
+                                        "type": "number"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "world",
+                                    "x",
+                                    "y",
+                                    "z",
+                                    "pitch",
+                                    "yaw"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`MinecraftHomeResource`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MinecraftHomeResource"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            }
+        },
+        "/v3/players/{minecraftUUID}/homes/{home}": {
+            "get": {
+                "operationId": "minecraftPlayerHome.show",
+                "tags": [
+                    "MinecraftPlayerHome"
+                ],
+                "parameters": [
+                    {
+                        "name": "minecraftUUID",
+                        "in": "path",
+                        "required": true,
+                        "description": "The minecraft u u i d ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "home",
+                        "in": "path",
+                        "required": true,
+                        "description": "The home ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`MinecraftHomeResource`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MinecraftHomeResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                },
+                "security": []
+            },
+            "put": {
+                "operationId": "minecraftPlayerHome.update",
+                "tags": [
+                    "MinecraftPlayerHome"
+                ],
+                "parameters": [
+                    {
+                        "name": "minecraftUUID",
+                        "in": "path",
+                        "required": true,
+                        "description": "The minecraft u u i d ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "home",
+                        "in": "path",
+                        "required": true,
+                        "description": "The home ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "world": {
+                                        "type": "string"
+                                    },
+                                    "x": {
+                                        "type": "number"
+                                    },
+                                    "y": {
+                                        "type": "number"
+                                    },
+                                    "z": {
+                                        "type": "number"
+                                    },
+                                    "pitch": {
+                                        "type": "number"
+                                    },
+                                    "yaw": {
+                                        "type": "number"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "world",
+                                    "x",
+                                    "y",
+                                    "z",
+                                    "pitch",
+                                    "yaw"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`MinecraftHomeResource`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MinecraftHomeResource"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "minecraftPlayerHome.destroy",
+                "tags": [
+                    "MinecraftPlayerHome"
+                ],
+                "parameters": [
+                    {
+                        "name": "minecraftUUID",
+                        "in": "path",
+                        "required": true,
+                        "description": "The minecraft u u i d ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "home",
+                        "in": "path",
+                        "required": true,
+                        "description": "The home ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "minItems": 0,
+                                    "maxItems": 0
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            }
+        },
+        "/v3/players/{minecraftUUID}/homes/limit": {
+            "get": {
+                "operationId": "homes.minecraftPlayerHomeLimit",
+                "tags": [
+                    "MinecraftPlayerHomeLimit"
+                ],
+                "parameters": [
+                    {
+                        "name": "minecraftUUID",
+                        "in": "path",
+                        "required": true,
+                        "description": "The minecraft u u i d ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "current": {
+                                            "type": "integer"
+                                        },
+                                        "max": {
+                                            "type": "integer"
+                                        },
+                                        "sources": {
+                                            "type": "object",
+                                            "additionalProperties": {
+                                                "type": "integer"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "current",
+                                        "max",
+                                        "sources"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                },
+                "security": []
+            }
+        },
+        "/v3/players/{minecraftUUID}/homes/names": {
+            "get": {
+                "operationId": "minecraftPlayerHomeName.index",
+                "tags": [
+                    "MinecraftPlayerHomeName"
+                ],
+                "parameters": [
+                    {
+                        "name": "minecraftUUID",
+                        "in": "path",
+                        "required": true,
+                        "description": "The minecraft u u i d ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "id",
+                                            "name"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                },
+                "security": []
+            }
+        },
+        "/v3/players/{minecraftUUID}/mail": {
+            "get": {
+                "operationId": "v3.players.mail.index",
+                "tags": [
+                    "MinecraftPlayerMail"
+                ],
+                "parameters": [
+                    {
+                        "name": "minecraftUUID",
+                        "in": "path",
+                        "required": true,
+                        "description": "The minecraft u u i d ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 100
+                        }
+                    },
+                    {
+                        "name": "cursor",
+                        "in": "query",
+                        "schema": {
+                            "type": [
+                                "string",
+                                "null"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "direct",
+                                "announcement",
+                                "system"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/PlayerMailInboxResource"
+                                            }
+                                        },
+                                        "next_cursor": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "data",
+                                        "next_cursor"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            },
+            "post": {
+                "operationId": "v3.players.mail.store",
+                "tags": [
+                    "MinecraftPlayerMail"
+                ],
+                "parameters": [
+                    {
+                        "name": "minecraftUUID",
+                        "in": "path",
+                        "required": true,
+                        "description": "The minecraft u u i d ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "recipient_uuid": {
+                                        "type": "string"
+                                    },
+                                    "subject": {
+                                        "type": "string",
+                                        "maxLength": 191
+                                    },
+                                    "body": {
+                                        "type": "string",
+                                        "maxLength": 5000
+                                    }
+                                },
+                                "required": [
+                                    "recipient_uuid",
+                                    "subject",
+                                    "body"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "`PlayerMailResource`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PlayerMailResource"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            }
+        },
+        "/v3/players/{minecraftUUID}/mail/unread-count": {
+            "get": {
+                "operationId": "v3.players.mail.unread-count",
+                "tags": [
+                    "MinecraftPlayerMail"
+                ],
+                "parameters": [
+                    {
+                        "name": "minecraftUUID",
+                        "in": "path",
+                        "required": true,
+                        "description": "The minecraft u u i d ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "count": {
+                                            "type": "integer",
+                                            "minimum": 0
+                                        }
+                                    },
+                                    "required": [
+                                        "count"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            }
+        },
+        "/v3/players/{minecraftUUID}/mail/{mailId}": {
+            "get": {
+                "operationId": "v3.players.mail.show",
+                "tags": [
+                    "MinecraftPlayerMail"
+                ],
+                "parameters": [
+                    {
+                        "name": "minecraftUUID",
+                        "in": "path",
+                        "required": true,
+                        "description": "The minecraft u u i d ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "mailId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`PlayerMailResource`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PlayerMailResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "v3.players.mail.destroy",
+                "tags": [
+                    "MinecraftPlayerMail"
+                ],
+                "parameters": [
+                    {
+                        "name": "minecraftUUID",
+                        "in": "path",
+                        "required": true,
+                        "description": "The minecraft u u i d ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "mailId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "minItems": 0,
+                                    "maxItems": 0
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            }
+        },
+        "/v3/players/{minecraftUUID}/mail/{mailId}/read": {
+            "patch": {
+                "operationId": "v3.players.mail.read",
+                "tags": [
+                    "MinecraftPlayerMail"
+                ],
+                "parameters": [
+                    {
+                        "name": "minecraftUUID",
+                        "in": "path",
+                        "required": true,
+                        "description": "The minecraft u u i d ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "mailId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`PlayerMailResource`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PlayerMailResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            }
+        },
+        "/v3/players/{minecraftUUID}/mail/{mailId}/unread": {
+            "patch": {
+                "operationId": "v3.players.mail.unread",
+                "tags": [
+                    "MinecraftPlayerMail"
+                ],
+                "parameters": [
+                    {
+                        "name": "minecraftUUID",
+                        "in": "path",
+                        "required": true,
+                        "description": "The minecraft u u i d ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "mailId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`PlayerMailResource`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PlayerMailResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            }
+        },
+        "/v3/server/register": {
+            "post": {
+                "operationId": "minecraftRegister.store",
+                "tags": [
+                    "MinecraftRegister"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "alias": {
+                                        "type": "string"
+                                    },
+                                    "uuid": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "email",
+                                    "alias",
+                                    "uuid"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "minItems": 0,
+                                    "maxItems": 0
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "minecraftRegister.update",
+                "tags": [
+                    "MinecraftRegister"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "uuid": {
+                                        "type": "string"
+                                    },
+                                    "code": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "uuid",
+                                    "code"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "minItems": 0,
+                                    "maxItems": 0
+                                }
+                            }
+                        }
+                    },
+                    "410": {
+                        "description": "An error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Error overview.",
+                                            "examples": [
+                                                ""
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                }
+            }
+        },
+        "/v3/server/stats": {
+            "post": {
+                "operationId": "minecraftStats.store",
+                "tags": [
+                    "MinecraftStats"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "players": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "afk_time": {
+                                                    "type": "integer"
+                                                },
+                                                "blocks_placed": {
+                                                    "type": "integer"
+                                                },
+                                                "blocks_destroyed": {
+                                                    "type": "integer"
+                                                },
+                                                "blocks_travelled": {
+                                                    "type": "integer"
+                                                }
+                                            }
+                                        },
+                                        "minItems": 1
+                                    }
+                                },
+                                "required": [
+                                    "players"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                }
+            }
+        },
+        "/v3/warps": {
+            "get": {
+                "operationId": "minecraftWarp.index",
+                "tags": [
+                    "MinecraftWarp"
+                ],
+                "parameters": [
+                    {
+                        "name": "page_size",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "current_page": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/MinecraftWarpResource"
+                                            }
+                                        },
+                                        "first_page_url": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        },
+                                        "from": {
+                                            "type": [
+                                                "integer",
+                                                "null"
+                                            ]
+                                        },
+                                        "last_page_url": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        },
+                                        "last_page": {
+                                            "type": "integer"
+                                        },
+                                        "links": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "url": {
+                                                        "type": [
+                                                            "string",
+                                                            "null"
+                                                        ]
+                                                    },
+                                                    "label": {
+                                                        "type": "string"
+                                                    },
+                                                    "active": {
+                                                        "type": "boolean"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "url",
+                                                    "label",
+                                                    "active"
+                                                ]
+                                            }
+                                        },
+                                        "next_page_url": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        },
+                                        "path": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        },
+                                        "per_page": {
+                                            "type": "integer"
+                                        },
+                                        "prev_page_url": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        },
+                                        "to": {
+                                            "type": [
+                                                "integer",
+                                                "null"
+                                            ]
+                                        },
+                                        "total": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "required": [
+                                        "current_page",
+                                        "data",
+                                        "first_page_url",
+                                        "from",
+                                        "last_page_url",
+                                        "last_page",
+                                        "links",
+                                        "next_page_url",
+                                        "path",
+                                        "per_page",
+                                        "prev_page_url",
+                                        "to",
+                                        "total"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                },
+                "security": []
+            },
+            "post": {
+                "operationId": "minecraftWarp.store",
+                "tags": [
+                    "MinecraftWarp"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "world": {
+                                        "type": "string"
+                                    },
+                                    "x": {
+                                        "type": "number"
+                                    },
+                                    "y": {
+                                        "type": "number"
+                                    },
+                                    "z": {
+                                        "type": "number"
+                                    },
+                                    "pitch": {
+                                        "type": "number"
+                                    },
+                                    "yaw": {
+                                        "type": "number"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "world",
+                                    "x",
+                                    "y",
+                                    "z",
+                                    "pitch",
+                                    "yaw"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`MinecraftWarpResource`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MinecraftWarpResource"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                },
+                "security": []
+            }
+        },
+        "/v3/warps/all": {
+            "get": {
+                "operationId": "minecraftWarp.bulk",
+                "tags": [
+                    "MinecraftWarp"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Array of `MinecraftWarpResource`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/MinecraftWarpResource"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            }
+        },
+        "/v3/warps/{warp}": {
+            "get": {
+                "operationId": "minecraftWarp.show",
+                "tags": [
+                    "MinecraftWarp"
+                ],
+                "parameters": [
+                    {
+                        "name": "warp",
+                        "in": "path",
+                        "required": true,
+                        "description": "The warp ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`MinecraftWarpResource`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MinecraftWarpResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                },
+                "security": []
+            },
+            "put": {
+                "operationId": "minecraftWarp.update",
+                "tags": [
+                    "MinecraftWarp"
+                ],
+                "parameters": [
+                    {
+                        "name": "warp",
+                        "in": "path",
+                        "required": true,
+                        "description": "The warp ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "world": {
+                                        "type": "string"
+                                    },
+                                    "x": {
+                                        "type": "number"
+                                    },
+                                    "y": {
+                                        "type": "number"
+                                    },
+                                    "z": {
+                                        "type": "number"
+                                    },
+                                    "pitch": {
+                                        "type": "number"
+                                    },
+                                    "yaw": {
+                                        "type": "number"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "world",
+                                    "x",
+                                    "y",
+                                    "z",
+                                    "pitch",
+                                    "yaw"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`MinecraftWarpResource`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MinecraftWarpResource"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "minecraftWarp.destroy",
+                "tags": [
+                    "MinecraftWarp"
+                ],
+                "parameters": [
+                    {
+                        "name": "warp",
+                        "in": "path",
+                        "required": true,
+                        "description": "The warp ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "minItems": 0,
+                                    "maxItems": 0
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            }
+        },
+        "/v3/warps/names": {
+            "get": {
+                "operationId": "minecraftWarpName.index",
+                "tags": [
+                    "MinecraftWarpName"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "id",
+                                            "name"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            }
+        },
+        "/v3/bans/uuid": {
+            "post": {
+                "operationId": "playerBan.store",
+                "tags": [
+                    "PlayerBan"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "banned_uuid": {
+                                        "type": "string"
+                                    },
+                                    "banned_alias": {
+                                        "type": "string"
+                                    },
+                                    "banner_uuid": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
+                                    },
+                                    "banner_alias": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
+                                    },
+                                    "reason": {
+                                        "type": "string"
+                                    },
+                                    "additional_info": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
+                                    },
+                                    "expires_at": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ],
+                                        "format": "date-time"
+                                    },
+                                    "created_at": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ],
+                                        "format": "date-time"
+                                    },
+                                    "unbanned_at": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ],
+                                        "format": "date-time"
+                                    },
+                                    "unbanner_uuid": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
+                                    },
+                                    "unbanner_alias": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
+                                    },
+                                    "unban_type": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ],
+                                        "enum": [
+                                            "expired",
+                                            "manual",
+                                            "appealed",
+                                            null
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "banned_uuid",
+                                    "banned_alias",
+                                    "reason"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`GamePlayerBan`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GamePlayerBan"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                }
+            }
+        },
+        "/v3/bans/uuid/{banId}": {
+            "put": {
+                "operationId": "playerBan.update",
+                "tags": [
+                    "PlayerBan"
+                ],
+                "parameters": [
+                    {
+                        "name": "banId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "banned_uuid": {
+                                        "type": "string"
+                                    },
+                                    "banned_alias": {
+                                        "type": "string"
+                                    },
+                                    "banner_uuid": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
+                                    },
+                                    "banner_alias": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
+                                    },
+                                    "reason": {
+                                        "type": "string"
+                                    },
+                                    "additional_info": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
+                                    },
+                                    "expires_at": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ],
+                                        "format": "date-time"
+                                    },
+                                    "created_at": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "unbanned_at": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ],
+                                        "format": "date-time"
+                                    },
+                                    "unbanner_uuid": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
+                                    },
+                                    "unbanner_alias": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ]
+                                    },
+                                    "unban_type": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ],
+                                        "enum": [
+                                            "expired",
+                                            "manual",
+                                            "appealed",
+                                            null
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "banned_uuid",
+                                    "banned_alias",
+                                    "reason",
+                                    "created_at"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`GamePlayerBan`",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GamePlayerBan"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "playerBan.delete",
+                "tags": [
+                    "PlayerBan"
+                ],
+                "parameters": [
+                    {
+                        "name": "banId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "minItems": 0,
+                                    "maxItems": 0
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "http": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        },
+        "schemas": {
+            "Account": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "last_login_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "created_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "username": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "activated": {
+                        "type": "boolean"
+                    },
+                    "is_totp_enabled": {
+                        "type": "boolean"
+                    },
+                    "terms_accepted": {
+                        "type": "boolean"
+                    }
+                },
+                "required": [
+                    "id",
+                    "email",
+                    "last_login_at",
+                    "created_at",
+                    "updated_at",
+                    "username",
+                    "activated",
+                    "is_totp_enabled",
+                    "terms_accepted"
+                ],
+                "title": "Account"
+            },
+            "GamePlayerBan": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "banned_player_id": {
+                        "type": "integer"
+                    },
+                    "banned_alias_at_time": {
+                        "type": "string"
+                    },
+                    "banner_player_id": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ]
+                    },
+                    "reason": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "additional_info": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "expires_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "created_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "unbanned_at": {
+                        "anyOf": [
+                            {
+                                "type": "null"
+                            },
+                            {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
+                    },
+                    "unbanner_player_id": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ]
+                    },
+                    "unban_type": {
+                        "anyOf": [
+                            {
+                                "type": "null"
+                            },
+                            {
+                                "$ref": "#/components/schemas/UnbanType"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
+                    }
+                },
+                "required": [
+                    "id",
+                    "banned_player_id",
+                    "banned_alias_at_time",
+                    "banner_player_id",
+                    "reason",
+                    "additional_info",
+                    "expires_at",
+                    "created_at",
+                    "updated_at",
+                    "unbanned_at",
+                    "unbanner_player_id",
+                    "unban_type"
+                ],
+                "title": "GamePlayerBan"
+            },
+            "MinecraftBuildResource": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "player_id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "lore": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "votes": {
+                        "type": "integer"
+                    },
+                    "world": {
+                        "type": "string"
+                    },
+                    "x": {
+                        "type": "number"
+                    },
+                    "y": {
+                        "type": "number"
+                    },
+                    "z": {
+                        "type": "number"
+                    },
+                    "pitch": {
+                        "type": "string"
+                    },
+                    "yaw": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "player": {
+                        "$ref": "#/components/schemas/MinecraftPlayerResource"
+                    }
+                },
+                "required": [
+                    "id",
+                    "player_id",
+                    "name",
+                    "description",
+                    "lore",
+                    "votes",
+                    "world",
+                    "x",
+                    "y",
+                    "z",
+                    "pitch",
+                    "yaw",
+                    "created_at",
+                    "updated_at"
+                ],
+                "title": "MinecraftBuildResource"
+            },
+            "MinecraftHomeResource": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "player_id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "world": {
+                        "type": "string"
+                    },
+                    "x": {
+                        "type": "number"
+                    },
+                    "y": {
+                        "type": "number"
+                    },
+                    "z": {
+                        "type": "number"
+                    },
+                    "pitch": {
+                        "type": "string"
+                    },
+                    "yaw": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "player": {
+                        "$ref": "#/components/schemas/MinecraftPlayerResource"
+                    }
+                },
+                "required": [
+                    "id",
+                    "player_id",
+                    "name",
+                    "world",
+                    "x",
+                    "y",
+                    "z",
+                    "pitch",
+                    "yaw",
+                    "created_at",
+                    "updated_at"
+                ],
+                "title": "MinecraftHomeResource"
+            },
+            "MinecraftPlayer": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "uuid": {
+                        "type": "string"
+                    },
+                    "alias": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "nickname": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "muted": {
+                        "type": "integer"
+                    },
+                    "walk_speed": {
+                        "type": "number"
+                    },
+                    "fly_speed": {
+                        "type": "number"
+                    },
+                    "blocks_travelled": {
+                        "type": "integer"
+                    },
+                    "blocks_destroyed": {
+                        "type": "integer"
+                    },
+                    "blocks_placed": {
+                        "type": "integer"
+                    },
+                    "play_time": {
+                        "type": "integer"
+                    },
+                    "afk_time": {
+                        "type": "integer"
+                    },
+                    "sessions": {
+                        "type": "integer"
+                    },
+                    "account_id": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ]
+                    },
+                    "last_seen_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "last_connected_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "created_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "teleport_mode": {
+                        "$ref": "#/components/schemas/TeleportMode"
+                    },
+                    "move_mode": {
+                        "$ref": "#/components/schemas/MoveMode"
+                    },
+                    "last_location_world_uuid": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "last_location_x": {
+                        "type": [
+                            "number",
+                            "null"
+                        ]
+                    },
+                    "last_location_y": {
+                        "type": [
+                            "number",
+                            "null"
+                        ]
+                    },
+                    "last_location_z": {
+                        "type": [
+                            "number",
+                            "null"
+                        ]
+                    },
+                    "last_location_pitch": {
+                        "type": [
+                            "number",
+                            "null"
+                        ]
+                    },
+                    "last_location_yaw": {
+                        "type": [
+                            "number",
+                            "null"
+                        ]
+                    }
+                },
+                "required": [
+                    "id",
+                    "uuid",
+                    "alias",
+                    "nickname",
+                    "muted",
+                    "walk_speed",
+                    "fly_speed",
+                    "blocks_travelled",
+                    "blocks_destroyed",
+                    "blocks_placed",
+                    "play_time",
+                    "afk_time",
+                    "sessions",
+                    "account_id",
+                    "last_seen_at",
+                    "last_connected_at",
+                    "created_at",
+                    "updated_at",
+                    "teleport_mode",
+                    "move_mode",
+                    "last_location_world_uuid",
+                    "last_location_x",
+                    "last_location_y",
+                    "last_location_z",
+                    "last_location_pitch",
+                    "last_location_yaw"
+                ],
+                "title": "MinecraftPlayer"
+            },
+            "MinecraftPlayerResource": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "uuid": {
+                        "type": "string"
+                    },
+                    "alias": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "nickname": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "muted": {
+                        "type": "integer"
+                    },
+                    "walk_speed": {
+                        "type": "number"
+                    },
+                    "fly_speed": {
+                        "type": "number"
+                    },
+                    "teleport_mode": {
+                        "type": "string",
+                        "enum": [
+                            "off",
+                            "request",
+                            "auto"
+                        ]
+                    },
+                    "move_mode": {
+                        "type": "string",
+                        "enum": [
+                            "walk",
+                            "fly"
+                        ]
+                    },
+                    "last_location_world_uuid": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "last_location_x": {
+                        "type": [
+                            "number",
+                            "null"
+                        ]
+                    },
+                    "last_location_y": {
+                        "type": [
+                            "number",
+                            "null"
+                        ]
+                    },
+                    "last_location_z": {
+                        "type": [
+                            "number",
+                            "null"
+                        ]
+                    },
+                    "last_location_pitch": {
+                        "type": [
+                            "number",
+                            "null"
+                        ]
+                    },
+                    "last_location_yaw": {
+                        "type": [
+                            "number",
+                            "null"
+                        ]
+                    },
+                    "sessions": {
+                        "type": "integer"
+                    },
+                    "play_time": {
+                        "type": "integer"
+                    },
+                    "afk_time": {
+                        "type": "integer"
+                    },
+                    "blocks_placed": {
+                        "type": "integer"
+                    },
+                    "blocks_destroyed": {
+                        "type": "integer"
+                    },
+                    "blocks_travelled": {
+                        "type": "integer"
+                    },
+                    "account_id": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ]
+                    },
+                    "last_seen_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "last_connected_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "created_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "id",
+                    "uuid",
+                    "alias",
+                    "nickname",
+                    "muted",
+                    "walk_speed",
+                    "fly_speed",
+                    "teleport_mode",
+                    "move_mode",
+                    "last_location_world_uuid",
+                    "last_location_x",
+                    "last_location_y",
+                    "last_location_z",
+                    "last_location_pitch",
+                    "last_location_yaw",
+                    "sessions",
+                    "play_time",
+                    "afk_time",
+                    "blocks_placed",
+                    "blocks_destroyed",
+                    "blocks_travelled",
+                    "account_id",
+                    "last_seen_at",
+                    "last_connected_at",
+                    "created_at",
+                    "updated_at"
+                ],
+                "title": "MinecraftPlayerResource"
+            },
+            "MinecraftWarpResource": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "world": {
+                        "type": "string"
+                    },
+                    "x": {
+                        "type": "number"
+                    },
+                    "y": {
+                        "type": "number"
+                    },
+                    "z": {
+                        "type": "number"
+                    },
+                    "pitch": {
+                        "type": "string"
+                    },
+                    "yaw": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "id",
+                    "name",
+                    "world",
+                    "x",
+                    "y",
+                    "z",
+                    "pitch",
+                    "yaw",
+                    "created_at",
+                    "updated_at"
+                ],
+                "title": "MinecraftWarpResource"
+            },
+            "MoveMode": {
+                "type": "string",
+                "enum": [
+                    "walk",
+                    "fly"
+                ],
+                "title": "MoveMode"
+            },
+            "PlayerMailInboxResource": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "category": {
+                        "type": "string",
+                        "enum": [
+                            "direct",
+                            "announcement",
+                            "system"
+                        ]
+                    },
+                    "sender": {
+                        "type": "string"
+                    },
+                    "subject": {
+                        "type": "string"
+                    },
+                    "read_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "received_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "id",
+                    "category",
+                    "sender",
+                    "subject",
+                    "read_at",
+                    "received_at"
+                ],
+                "title": "PlayerMailInboxResource"
+            },
+            "PlayerMailResource": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "category": {
+                        "type": "string"
+                    },
+                    "sender": {
+                        "type": "string"
+                    },
+                    "subject": {
+                        "type": "string"
+                    },
+                    "body": {
+                        "type": "string"
+                    },
+                    "read_at": {
+                        "type": "string"
+                    },
+                    "received_at": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "id",
+                    "category",
+                    "sender",
+                    "subject",
+                    "body",
+                    "read_at",
+                    "received_at"
+                ],
+                "title": "PlayerMailResource"
+            },
+            "PlayerOpElevation": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "player_id": {
+                        "type": "integer"
+                    },
+                    "reason": {
+                        "type": "string"
+                    },
+                    "started_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "ended_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "id",
+                    "player_id",
+                    "reason",
+                    "started_at",
+                    "ended_at"
+                ],
+                "title": "PlayerOpElevation"
+            },
+            "TeleportMode": {
+                "type": "string",
+                "enum": [
+                    "off",
+                    "request",
+                    "auto"
+                ],
+                "title": "TeleportMode"
+            },
+            "UnbanType": {
+                "type": "string",
+                "enum": [
+                    "expired",
+                    "manual",
+                    "appealed"
+                ],
+                "title": "UnbanType"
+            }
+        },
+        "responses": {
+            "ValidationException": {
+                "description": "Validation error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "description": "Errors overview."
+                                },
+                                "errors": {
+                                    "type": "object",
+                                    "description": "A detailed description of each field that failed validation.",
+                                    "additionalProperties": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "required": [
+                                "message",
+                                "errors"
+                            ]
+                        }
+                    }
+                }
+            },
+            "ModelNotFoundException": {
+                "description": "Not found",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "description": "Error overview."
+                                }
+                            },
+                            "required": [
+                                "message"
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

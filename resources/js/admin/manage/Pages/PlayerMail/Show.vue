@@ -7,20 +7,8 @@ import BroadcastStatus from './Components/BroadcastStatus.vue'
 import MailPreview from './Components/MailPreview.vue'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 
-interface Broadcast {
-    id: number,
-    subject: string,
-    body: string,
-    sender: string,
-    status: string,
-    recipients_count: number,
-    created_at: string,
-    started_at: string | null,
-    completed_at: string | null,
-}
-
 interface Props {
-    broadcast: Broadcast,
+    broadcast: App.Http.Data.PlayerMailBroadcastPageData,
     audienceEstimate: number,
     backUrl: string,
 }
@@ -42,7 +30,6 @@ onMounted(() => {
         if (props.broadcast.status === 'queued' || props.broadcast.status === 'processing') {
             router.reload({
                 only: ['broadcast', 'audienceEstimate'],
-                preserveScroll: true,
             })
         }
     }, 5000)

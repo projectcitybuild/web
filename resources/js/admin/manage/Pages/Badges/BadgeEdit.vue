@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { InertiaForm } from '@inertiajs/vue3'
 import ManageFormPage from '../../Components/ManageFormPage.vue'
 import BadgeForm from './Partials/BadgeForm.vue'
 import type { Badge } from '../../Data/Badge'
@@ -10,7 +9,7 @@ interface Props {
 
 const props = defineProps<Props>()
 
-function submit(form: InertiaForm<Badge>) {
+function submit(form: Parameters<InstanceType<typeof BadgeForm>['$props']['submit']>[0]) {
     form.put('/manage/badges/' + props.badge.id)
 }
 </script>

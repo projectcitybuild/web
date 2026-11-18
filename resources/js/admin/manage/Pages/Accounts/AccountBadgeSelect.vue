@@ -60,7 +60,7 @@ function toggleBadge(badge: Badge): void {
                     <input
                         v-model="form.account_badge_ids"
                         :value="item.id"
-                        :id="item.id"
+                        :id="'badge-' + item.id"
                         type="checkbox"
                         class="w-4 h-4 text-primary bg-surface-muted border-border-strong rounded focus:ring-focus ring-offset-surface focus:ring-2"
                         @click.stop

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForm, usePage } from '@inertiajs/vue3'
+import { InertiaForm, useForm, usePage } from '@inertiajs/vue3'
 import { computed, ref } from 'vue'
 import type { Player } from '../../../Data/Player'
 import PlayerPicker from '../../../Components/PlayerPicker.vue'
@@ -14,16 +14,24 @@ import { useUnsavedChangesWarning } from '../../../Components/Forms/useUnsavedCh
 
 interface Props {
     player?: Player,
-    submit: (form: ReturnType<typeof useForm<Player>>) => void,
+    submit: (form: InertiaForm<PlayerFormData>) => void,
+}
+
+interface PlayerFormData {
+    uuid: string | null,
+    alias: string | null,
+    nickname: string | null,
+    account_id: number | string | null,
+    created_at: Date,
 }
 
 const props = defineProps<Props>()
 
-const form = useForm<Player>({
-    uuid: props.player?.uuid,
-    alias: props.player?.alias,
-    nickname: props.player?.nickname,
-    account_id: props.player?.account_id,
+const form = useForm<PlayerFormData>({
+    uuid: props.player?.uuid ?? null,
+    alias: props.player?.alias ?? null,
+    nickname: props.player?.nickname ?? null,
+    account_id: props.player?.account_id ?? null,
     created_at: props.player?.created_at
         ? new Date(props.player.created_at)
         : new Date(),

@@ -28,6 +28,10 @@ function playerMailBroadcaster(): Account
     return $account;
 }
 
+beforeEach(function () {
+    config(['inertia.ssr.enabled' => false]);
+});
+
 it('queues an authorized staff announcement for the captured player audience', function () {
     $account = playerMailBroadcaster();
     $players = MinecraftPlayer::factory()->count(2)->create();
@@ -106,8 +110,14 @@ it('renders authorized player mail pages with the expected data', function () {
         ->component('PlayerMail/Index')
         ->where('filters.search', 'notice')
         ->where('filters.status', 'queued')
-        ->where('broadcasts.data.0.subject', 'Server notice')
-        ->where('broadcasts.data.0.sender', $account->username)
+        ->where('broadcasts.data.0', [
+            'id' => $broadcast->id,
+            'subject' => 'Server notice',
+            'sender' => $account->username,
+            'recipients_count' => 1,
+            'status' => PlayerMailBroadcastStatus::QUEUED->value,
+            'created_at' => $broadcast->created_at->toISOString(),
+        ])
     );
 
     $this->get(route('manage.player-mail.create'))
@@ -125,9 +135,17 @@ it('renders authorized player mail pages with the expected data', function () {
     ]))
         ->assertInertia(fn (Assert $page) => $page
             ->component('PlayerMail/Show')
-            ->where('broadcast.subject', 'Server notice')
-            ->where('broadcast.body', 'Maintenance begins Saturday.')
-            ->where('broadcast.recipients_count', 1)
+            ->where('broadcast', [
+                'id' => $broadcast->id,
+                'subject' => 'Server notice',
+                'body' => 'Maintenance begins Saturday.',
+                'sender' => $account->username,
+                'status' => PlayerMailBroadcastStatus::QUEUED->value,
+                'recipients_count' => 1,
+                'created_at' => $broadcast->created_at->toISOString(),
+                'started_at' => null,
+                'completed_at' => null,
+            ])
             ->where('audienceEstimate', 2)
             ->where('backUrl', route('manage.player-mail.index', [
                 'search' => 'notice',

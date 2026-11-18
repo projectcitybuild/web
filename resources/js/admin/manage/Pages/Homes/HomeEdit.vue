@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { InertiaForm } from '@inertiajs/vue3'
 import ManageFormPage from '../../Components/ManageFormPage.vue'
-import { Home } from '../../Data/Home';
-import HomeForm from './Partials/HomeForm.vue';
+import type { Home } from '../../Data/Home'
+import HomeForm from './Partials/HomeForm.vue'
 
 interface Props {
     home: Home,
@@ -10,7 +9,7 @@ interface Props {
 
 const props = defineProps<Props>()
 
-function submit(form: InertiaForm<Home>) {
+function submit(form: Parameters<InstanceType<typeof HomeForm>['$props']['submit']>[0]) {
     form.put('/manage/homes/' + props.home.id)
 }
 </script>

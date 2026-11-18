@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3'
-import Badge from '../../../manage/Components/Badge.vue'
+import Badge from '../../../shared/Components/Badge.vue'
 import Card from '../../../manage/Components/Card.vue'
 import DataTable from '../../../manage/Components/DataTable.vue'
 import ShowingCount from '../../../manage/Components/ShowingCount.vue'
@@ -69,7 +69,7 @@ function paginationLabel(label: string): string {
             <DataTable :fields="fields" :rows="elevations.data" empty-message="No operator elevations have been recorded.">
                 <template #status="{ item }">
                     <Badge v-if="item.isActive" variant="danger" size="sm">Active</Badge>
-                    <Badge v-else variant="secondary" size="sm">Ended</Badge>
+                    <Badge v-else variant="default" size="sm">Ended</Badge>
                 </template>
                 <template #player="{ item }">
                     <Link :href="`/manage/players/${item.player.id}`" class="font-medium text-foreground">

@@ -126,9 +126,17 @@ it('returns only inbox metadata belonging to the requested player', function () 
 
     $response
         ->assertOk()
-        ->assertJsonCount(1, 'data')
-        ->assertJsonPath('data.0.id', $mail->id)
-        ->assertJsonPath('data.0.subject', 'For me')
+        ->assertExactJson([
+            'data' => [[
+                'id' => $mail->id,
+                'category' => MailCategory::DIRECT->value,
+                'sender' => $mail->sender_name,
+                'subject' => 'For me',
+                'read_at' => null,
+                'received_at' => $player->mailRecipients()->firstOrFail()->received_at->toISOString(),
+            ]],
+            'next_cursor' => null,
+        ])
         ->assertJsonMissingPath('data.0.body');
 });
 

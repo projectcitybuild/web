@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3'
+import { InertiaForm, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import type { IPBan } from '../../../Data/IPBan'
 import DateTimePicker from '../../../Components/DateTimePicker.vue'
@@ -16,20 +16,28 @@ import { useUnsavedChangesWarning } from '../../../Components/Forms/useUnsavedCh
 
 interface Props {
     ban?: IPBan,
-    submit: (form: ReturnType<typeof useForm<IPBan>>) => void,
+    submit: (form: InertiaForm<IPBanFormData>) => void,
+}
+
+interface IPBanFormData {
+    ip_address: string,
+    reason: string,
+    banner_uuid: string | null,
+    banner_alias: string | null,
+    created_at: Date,
 }
 
 const props = defineProps<Props>()
 
-const form = useForm<IPBan>({
-    ip_address: props.ban?.ip_address,
-    reason: props.ban?.reason,
-    banner_uuid: props.ban?.banner_player?.uuid,
-    banner_alias: props.ban?.banner_player?.alias,
+const form = useForm<IPBanFormData>('IPBanForm', {
+    ip_address: props.ban?.ip_address ?? '',
+    reason: props.ban?.reason ?? '',
+    banner_uuid: props.ban?.banner_player?.uuid ?? null,
+    banner_alias: props.ban?.banner_player?.alias ?? null,
     created_at: props.ban?.created_at
         ? new Date(props.ban.created_at)
         : new Date(),
-}, 'IPBanForm')
+})
 
 const isEdit = computed(() => props.ban != null)
 useUnsavedChangesWarning(form)
@@ -66,7 +74,7 @@ function destroy(): void {
                 <FormField
                     id="created_at"
                     label="Date of Ban"
-                    :error="form.errors.created_at"
+                    :error="form.errors.created_at ?? undefined"
                     required
                     v-slot="field"
                 >
@@ -74,7 +82,7 @@ function destroy(): void {
                         :id="field.id"
                         v-model="form.created_at"
                         aria-label="Date of Ban"
-                        :aria-invalid="field['aria-invalid']"
+                        :aria-invalid="field.ariaInvalid"
                         :aria-describedby="form.errors.created_at ? field.id + '-error' : undefined"
                         @change="form.created_at = $event"
                     />

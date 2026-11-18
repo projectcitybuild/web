@@ -6,6 +6,7 @@ import { Account } from './Account'
 export interface BanAppeal {
     id: number,
     minecraft_uuid: string,
+    date_of_ban: string,
     ban_reason?: string,
     unban_reason: string,
     email: string,

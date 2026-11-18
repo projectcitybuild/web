@@ -138,7 +138,7 @@ function confirmDecision() {
                             <dd class="text-sm text-foreground">
                                 <a
                                     v-if="banAppeal.account"
-                                    :href="'/manage/accounts/' + banAppeal.account.account_id"
+                                    :href="'/manage/accounts/' + banAppeal.account.id"
                                     class="font-medium text-primary-active underline-offset-2 hover:underline"
                                 >
                                     {{ banAppeal.account.username }}
@@ -368,7 +368,7 @@ function confirmDecision() {
                             </dl>
                             <dl class="flex items-center justify-between gap-2">
                                 <dt class="text-sm text-muted">Decided By</dt>
-                                <dd class="flex items-center gap-2 text-sm text-foreground">
+                                <dd v-if="banAppeal.decider_player" class="flex items-center gap-2 text-sm text-foreground">
                                     <MinecraftAvatar :uuid="banAppeal.decider_player.uuid" :size="24" />
                                     <a
                                         :href="'/manage/players/' + banAppeal.decider_player.id"
@@ -377,6 +377,7 @@ function confirmDecision() {
                                         {{ banAppeal.decider_player.alias }}
                                     </a>
                                 </dd>
+                                <dd v-else class="text-sm text-muted">Unavailable</dd>
                             </dl>
                         </div>
                     </div>

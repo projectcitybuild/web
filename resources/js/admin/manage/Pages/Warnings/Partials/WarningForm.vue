@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3'
+import { InertiaForm, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import type { PlayerWarning } from '../../../Data/PlayerWarning'
 import DateTimePicker from '../../../Components/DateTimePicker.vue'
@@ -14,20 +14,30 @@ import { useUnsavedChangesWarning } from '../../../Components/Forms/useUnsavedCh
 
 interface Props {
     warning?: PlayerWarning,
-    submit: (form: ReturnType<typeof useForm<PlayerWarning>>) => void,
+    submit: (form: InertiaForm<PlayerWarningFormData>) => void,
+}
+
+interface PlayerWarningFormData {
+    warned_uuid: string | null,
+    warned_alias: string | null,
+    warner_uuid: string | null,
+    warner_alias: string | null,
+    reason: string,
+    additional_info: string,
+    created_at: Date,
 }
 
 const props = defineProps<Props>()
 
-const uuidParam = new URLSearchParams(window.location.search).get('uuid')
+const uuidParam = new URLSearchParams(window.location.search).get('uuid') ?? undefined
 
-const form = useForm<PlayerWarning>({
-    warned_uuid: props.warning?.warned_player.uuid,
-    warned_alias: props.warning?.warned_player.alias,
-    warner_uuid: props.warning?.warner_player.uuid,
-    warner_alias: props.warning?.warner_player.alias,
-    reason: props.warning?.reason,
-    additional_info: props.warning?.additional_info,
+const form = useForm<PlayerWarningFormData>({
+    warned_uuid: props.warning?.warned_player.uuid ?? null,
+    warned_alias: props.warning?.warned_player.alias ?? null,
+    warner_uuid: props.warning?.warner_player.uuid ?? null,
+    warner_alias: props.warning?.warner_player.alias ?? null,
+    reason: props.warning?.reason ?? '',
+    additional_info: props.warning?.additional_info ?? '',
     created_at: props.warning?.created_at
         ? new Date(props.warning.created_at)
         : new Date(),
@@ -59,7 +69,7 @@ function destroy(): void {
                 <FormField
                     id="warned_uuid"
                     label="Player"
-                    :error="form.errors.warned_uuid"
+                    :error="form.errors.warned_uuid ?? undefined"
                     required
                     class="sm:col-span-2"
                 >
@@ -73,7 +83,7 @@ function destroy(): void {
                 <FormField
                     id="created_at"
                     label="Date of Warning"
-                    :error="form.errors.created_at"
+                    :error="form.errors.created_at ?? undefined"
                     required
                     v-slot="field"
                 >
@@ -81,7 +91,7 @@ function destroy(): void {
                         :id="field.id"
                         v-model="form.created_at"
                         aria-label="Date of Warning"
-                        :aria-invalid="field['aria-invalid']"
+                        :aria-invalid="field.ariaInvalid"
                         :aria-describedby="form.errors.created_at ? field.id + '-error' : undefined"
                         @change="form.created_at = $event"
                     />
@@ -89,7 +99,7 @@ function destroy(): void {
                 <FormField
                     id="warner_uuid"
                     label="Warned By"
-                    :error="form.errors.warner_uuid"
+                    :error="form.errors.warner_uuid ?? undefined"
                 >
                     <PlayerPicker
                         id="warner_uuid"
@@ -100,7 +110,7 @@ function destroy(): void {
                 <FormField
                     id="reason"
                     label="Reason"
-                    :error="form.errors.reason"
+                    :error="form.errors.reason ?? undefined"
                     required
                     class="sm:col-span-2"
                     v-slot="field"
@@ -110,7 +120,7 @@ function destroy(): void {
                 <FormField
                     id="additional_info"
                     label="Additional Information"
-                    :error="form.errors.additional_info"
+                    :error="form.errors.additional_info ?? undefined"
                     class="sm:col-span-2"
                     v-slot="field"
                 >

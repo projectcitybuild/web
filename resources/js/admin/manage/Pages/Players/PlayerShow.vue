@@ -3,7 +3,7 @@ import { Head, Link, router } from '@inertiajs/vue3'
 import Card from '../../Components/Card.vue'
 import type { Player } from '../../Data/Player'
 import MinecraftAvatar from '../../Components/MinecraftAvatar.vue'
-import { format } from '../../Utilities/DateFormatter'
+import { format, timeAgo } from '../../Utilities/DateFormatter'
 import PlayerBanListTable from './Partials/PlayerBanListTable.vue'
 import InfinitePagination from '../../Components/InfinitePagination.vue'
 import PlayerWarningListTable from './Partials/PlayerWarningListTable.vue'
@@ -23,6 +23,10 @@ import usePermissions from '../../Composables/usePermissions'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 import CopyLocationButton from '../../Components/CopyLocationButton.vue'
+import type { PlayerBan } from '../../Data/PlayerBan'
+import type { PlayerWarning } from '../../Data/PlayerWarning'
+import type { Home } from '../../Data/Home'
+import type { PlayerIP } from '../../Data/PlayerIP'
 
 interface Props {
     player: Player,
@@ -61,7 +65,9 @@ async function refreshAlias() {
             })
         })
     } catch (e) {
-        error.value = e.response?.data?.message ?? e.message
+        error.value = axios.isAxiosError<{ message?: string }>(e)
+            ? e.response?.data?.message ?? e.message
+            : e instanceof Error ? e.message : 'Unable to refresh the player alias.'
     } finally {
         isRefreshingAlias.value = false
     }
@@ -112,22 +118,26 @@ async function refreshAlias() {
                 <div>
                     <p class="text-xs text-muted">Created</p>
                     <p class="mt-1 text-sm font-medium text-foreground">{{ format(player.created_at) }}</p>
+                    <p class="mt-0.5 text-xs text-muted">{{ timeAgo(player.created_at) }}</p>
                 </div>
                 <div>
                     <p class="text-xs text-muted">Last updated</p>
                     <p class="mt-1 text-sm font-medium text-foreground">{{ format(player.updated_at) }}</p>
+                    <p class="mt-0.5 text-xs text-muted">{{ timeAgo(player.updated_at) }}</p>
                 </div>
                 <div>
                     <p class="text-xs text-muted">Last connected</p>
                     <p class="mt-1 text-sm font-medium text-foreground">
                         {{ player.last_connected_at ? format(player.last_connected_at) : 'Never' }}
                     </p>
+                    <p class="mt-0.5 text-xs text-muted">{{ timeAgo(player.last_connected_at) }}</p>
                 </div>
                 <div>
                     <p class="text-xs text-muted">Last seen</p>
                     <p class="mt-1 text-sm font-medium text-foreground">
                         {{ player.last_seen_at ? format(player.last_seen_at) : 'Never' }}
                     </p>
+                    <p class="mt-0.5 text-xs text-muted">{{ timeAgo(player.last_seen_at) }}</p>
                 </div>
             </div>
         </Card>
@@ -145,6 +155,7 @@ async function refreshAlias() {
                             Create
                         </LinkButton>
                     </div>
+                    <!-- @vue-generic {PlayerBan} -->
                     <InfinitePagination
                         :path="'/manage/players/' + player.id + '/bans'"
                         v-slot="source"
@@ -165,6 +176,7 @@ async function refreshAlias() {
                             Create
                         </LinkButton>
                     </div>
+                    <!-- @vue-generic {PlayerWarning} -->
                     <InfinitePagination
                         :path="'/manage/players/' + player.id + '/warnings'"
                         v-slot="source"
@@ -179,12 +191,13 @@ async function refreshAlias() {
                         <h2 class="text-base font-semibold text-foreground">Homes</h2>
                         <p class="mt-0.5 text-sm text-muted">Saved locations belonging to this player.</p>
                     </div>
+                    <!-- @vue-generic {Home} -->
                     <InfinitePagination
                         :path="'/manage/players/' + player.id + '/homes'"
                         v-slot="source"
                         class="overflow-x-auto"
                     >
-                        <PlayerHomeListTable :homes="source.data"/>
+                        <PlayerHomeListTable :homes="source.data" />
                     </InfinitePagination>
                 </Card>
 
@@ -193,6 +206,7 @@ async function refreshAlias() {
                         <h2 class="text-base font-semibold text-foreground">Known IP addresses</h2>
                         <p class="mt-0.5 text-sm text-muted">Network addresses seen for this player.</p>
                     </div>
+                    <!-- @vue-generic {PlayerIP} -->
                     <InfinitePagination
                         :path="'/manage/players/' + player.id + '/ips'"
                         v-slot="source"

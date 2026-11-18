@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3'
+import { InertiaForm, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import type { Role } from '../../../Data/Role'
 import FormActions from '../../../Components/Forms/FormActions.vue'
@@ -14,21 +14,35 @@ import Select from '../../../../shared/Components/Select.vue'
 
 interface Props {
     role?: Role,
-    submit: (form: ReturnType<typeof useForm<Role>>) => void,
+    submit: (form: InertiaForm<RoleFormData>) => void,
+}
+
+interface RoleFormData {
+    name: string,
+    alias: string,
+    minecraft_name: string,
+    minecraft_display_name: string,
+    minecraft_hover_text: string,
+    is_admin: boolean,
+    is_default: boolean,
+    role_type: string,
+    display_priority: number | string,
+    additional_homes: number | string,
+    created_at: Date,
 }
 
 const props = defineProps<Props>()
 
-const form = useForm<Role>({
-    name: props.role?.name,
-    alias: props.role?.alias,
-    minecraft_name: props.role?.minecraft_name,
-    minecraft_display_name: props.role?.minecraft_display_name,
-    minecraft_hover_text: props.role?.minecraft_hover_text,
-    is_admin: props.role?.is_admin,
-    is_default: props.role?.is_default,
+const form = useForm<RoleFormData>({
+    name: props.role?.name ?? '',
+    alias: props.role?.alias ?? '',
+    minecraft_name: props.role?.minecraft_name ?? '',
+    minecraft_display_name: props.role?.minecraft_display_name ?? '',
+    minecraft_hover_text: props.role?.minecraft_hover_text ?? '',
+    is_admin: props.role?.is_admin ?? false,
+    is_default: props.role?.is_default ?? false,
     role_type: props.role?.role_type ?? 'build',
-    display_priority: props.role?.display_priority,
+    display_priority: props.role?.display_priority ?? 0,
     additional_homes: props.role?.additional_homes ?? 0,
     created_at: props.role?.created_at
         ? new Date(props.role.created_at)

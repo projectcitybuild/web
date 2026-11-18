@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3'
+import { InertiaForm, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import type { Permission } from '../../../Data/Permission'
 import DangerZone from '../../../Components/Forms/DangerZone.vue'
@@ -12,13 +12,17 @@ import { useUnsavedChangesWarning } from '../../../Components/Forms/useUnsavedCh
 
 interface Props {
     permission?: Permission,
-    submit: (form: ReturnType<typeof useForm<Permission>>) => void,
+    submit: (form: InertiaForm<PermissionFormData>) => void,
+}
+
+interface PermissionFormData {
+    name: string,
 }
 
 const props = defineProps<Props>()
 
-const form = useForm<Permission>({
-    name: props.permission?.name,
+const form = useForm<PermissionFormData>({
+    name: props.permission?.name ?? '',
 })
 
 const isEdit = computed(() => props.permission != null)

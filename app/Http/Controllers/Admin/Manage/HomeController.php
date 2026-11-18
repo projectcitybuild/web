@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Manage;
 use App\Domains\Permissions\AuthorizesPermissions;
 use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Controllers\WebController;
+use App\Http\Data\ManageHomeRecentActivityData;
 use App\Models\Account;
 use App\Models\Audit;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -37,20 +38,20 @@ class HomeController extends WebController
                     ? class_basename($audit->auditable)
                     : ucfirst(class_basename($audit->auditable_type ?? 'Unknown item'));
 
-                return [
-                    'id' => 'audit-'.$audit->id,
-                    'actor' => $user?->getAttribute('username')
+                return (new ManageHomeRecentActivityData(
+                    id: 'audit-'.$audit->id,
+                    actor: $user?->getAttribute('username')
                         ?? $user?->getAttribute('name')
                         ?? 'System',
-                    'avatarUuid' => $user instanceof Account
+                    avatarUuid: $user instanceof Account
                         ? $user->minecraftAccount->first()?->uuid
                         : null,
-                    'action' => $audit->human_action,
-                    'event' => $audit->event,
-                    'subject' => $subjectType.($audit->auditable_id !== null ? ' #'.$audit->auditable_id : ''),
-                    'createdAt' => $audit->created_at?->toIso8601String() ?? '',
-                    'when' => $audit->created_at?->shortRelativeDiffForHumans() ?? '',
-                ];
+                    action: $audit->human_action,
+                    event: $audit->event,
+                    subject: $subjectType.($audit->auditable_id !== null ? ' #'.$audit->auditable_id : ''),
+                    createdAt: $audit->created_at?->toIso8601String() ?? '',
+                    when: $audit->created_at?->shortRelativeDiffForHumans() ?? '',
+                ))->toArray();
             })
             ->values()
             ->all();

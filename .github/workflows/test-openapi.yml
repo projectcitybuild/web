@@ -3,8 +3,24 @@ name: OpenAPI
 on:
   push:
     paths:
+      - app/**
+      - bootstrap/**
+      - config/scramble.php
+      - composer.json
+      - composer.lock
+      - docs/openapi/**
       - routes/**
-      - app/Http/Controllers/Api/**
+      - .github/workflows/test-openapi.yml
+  pull_request:
+    paths:
+      - app/**
+      - bootstrap/**
+      - config/scramble.php
+      - composer.json
+      - composer.lock
+      - docs/openapi/**
+      - routes/**
+      - .github/workflows/test-openapi.yml
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -37,7 +53,82 @@ jobs:
       - name: Generate OpenAPI specification
         uses: $/.github/actions/run-in-devcontainer
         with:
-          command: php artisan scramble:export --path=public/api.json
+          command: mkdir -p docs/openapi && php artisan scramble:export --api=v3 --path=docs/openapi/v3.json
+
+      - name: Validate error response schemas
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const spec = JSON.parse(fs.readFileSync('docs/openapi/v3.json', 'utf8'));
+          const missingErrors = [];
+          const unconstrainedSuccesses = [];
+          let checkedErrors = 0;
+
+          function checkSchema(schema, location, visited = new Set()) {
+            if (!schema || typeof schema !== 'object') return;
+
+            const reference = schema.$ref?.match(/^#\/components\/schemas\/(.+)$/)?.[1];
+            if (reference) {
+              if (visited.has(reference)) return;
+              visited.add(reference);
+              checkSchema(spec.components.schemas?.[reference], `${location} -> ${reference}`, visited);
+              return;
+            }
+
+            if (!Array.isArray(schema) && Object.keys(schema).length === 0) {
+              unconstrainedSuccesses.push(location);
+              return;
+            }
+
+            for (const [key, value] of Object.entries(schema)) {
+              if (Array.isArray(value)) {
+                value.forEach((item, index) => checkSchema(item, `${location}.${key}[${index}]`, visited));
+              } else {
+                checkSchema(value, `${location}.${key}`, visited);
+              }
+            }
+          }
+
+          for (const [path, methods] of Object.entries(spec.paths)) {
+            for (const [method, operation] of Object.entries(methods)) {
+              for (const [status, response] of Object.entries(operation.responses ?? {})) {
+                const responseReference = response.$ref?.match(/^#\/components\/responses\/(.+)$/)?.[1];
+                const resolved = responseReference ? spec.components.responses?.[responseReference] : response;
+                const location = `${method.toUpperCase()} ${path} ${status}`;
+
+                if (/^[45]\d\d$/.test(status)) {
+                  checkedErrors++;
+                  if (resolved?.content?.['application/json']?.schema === undefined) {
+                    missingErrors.push(location);
+                  }
+                }
+
+                if (/^2\d\d$/.test(status)) {
+                  const schema = resolved?.content?.['application/json']?.schema;
+                  if (schema !== undefined) checkSchema(schema, location);
+                }
+              }
+            }
+          }
+
+          if (missingErrors.length) {
+            console.error(`Missing JSON error schemas:\n${missingErrors.join('\n')}`);
+          }
+          if (unconstrainedSuccesses.length) {
+            console.error(`Unconstrained success schemas:\n${unconstrainedSuccesses.join('\n')}`);
+          }
+          if (missingErrors.length || unconstrainedSuccesses.length) {
+            process.exitCode = 1;
+          } else {
+            console.log(`Validated ${checkedErrors} error responses and all successful JSON schemas.`);
+          }
+          NODE
+
+      - name: Check OpenAPI specification is up to date
+        run: git diff --exit-code -- docs/openapi/v3.json
+
+      - name: Validate OpenAPI specification
+        run: npx --yes @redocly/cli@2.79.0 lint docs/openapi/v3.json --extends minimal --skip-rule=no-server-trailing-slash --format summary
 
       - name: Stop devcontainer
         if: always()

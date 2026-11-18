@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3'
+import { InertiaForm, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import { PlayerBan, UnbanType } from '../../../Data/PlayerBan'
 import DateTimePicker from '../../../Components/DateTimePicker.vue'
@@ -16,32 +16,47 @@ import { useUnsavedChangesWarning } from '../../../Components/Forms/useUnsavedCh
 
 interface Props {
     ban?: PlayerBan,
-    submit: (form: ReturnType<typeof useForm<PlayerBan>>) => void,
+    submit: (form: InertiaForm<PlayerBanFormData>) => void,
+}
+
+interface PlayerBanFormData {
+    banned_uuid: string | null,
+    banned_alias: string | null,
+    banner_uuid: string | null,
+    banner_alias: string | null,
+    created_at: Date,
+    expires_at: Date | null,
+    reason: string,
+    additional_info: string,
+    unbanned_at: Date | null,
+    unbanner_uuid: string | null,
+    unbanner_alias: string | null,
+    unban_type: UnbanType | null,
 }
 
 const props = defineProps<Props>()
 
-const uuidParam = new URLSearchParams(window.location.search).get('uuid')
+const uuidParam = new URLSearchParams(window.location.search).get('uuid') ?? undefined
 
-const form = useForm<PlayerBan>({
-    banned_uuid: props.ban?.banned_player.uuid,
-    banned_alias: props.ban?.banned_player.alias,
-    banner_uuid: props.ban?.banner_player?.uuid,
-    banner_alias: props.ban?.banner_player?.alias,
+const form = useForm<PlayerBanFormData>({
+    banned_uuid: props.ban?.banned_player.uuid ?? null,
+    banned_alias: props.ban?.banned_player.alias ?? null,
+    banner_uuid: props.ban?.banner_player?.uuid ?? null,
+    banner_alias: props.ban?.banner_player?.alias ?? null,
     created_at: props.ban?.created_at
         ? new Date(props.ban.created_at)
         : new Date(),
     expires_at: props.ban?.expires_at
         ? new Date(props.ban.expires_at)
         : null,
-    reason: props.ban?.reason,
-    additional_info: props.ban?.additional_info,
+    reason: props.ban?.reason ?? '',
+    additional_info: props.ban?.additional_info ?? '',
     unbanned_at: props.ban?.unbanned_at
         ? new Date(props.ban.unbanned_at)
         : null,
-    unbanner_uuid: props.ban?.unbanner_player?.uuid,
-    unbanner_alias: props.ban?.unbanner_player?.alias,
-    unban_type: props.ban?.unban_type,
+    unbanner_uuid: props.ban?.unbanner_player?.uuid ?? null,
+    unbanner_alias: props.ban?.unbanner_player?.alias ?? null,
+    unban_type: props.ban?.unban_type ?? null,
 })
 
 const isEdit = computed(() => props.ban != null)
@@ -84,7 +99,7 @@ function destroy(): void {
                 <FormField
                     id="created_at"
                     label="Date of Ban"
-                    :error="form.errors.created_at"
+                    :error="form.errors.created_at ?? undefined"
                     required
                     v-slot="field"
                 >
@@ -92,7 +107,7 @@ function destroy(): void {
                         :id="field.id"
                         v-model="form.created_at"
                         aria-label="Date of Ban"
-                        :aria-invalid="field['aria-invalid']"
+                        :aria-invalid="field.ariaInvalid"
                         :aria-describedby="form.errors.created_at ? field.id + '-error' : undefined"
                         @change="form.created_at = $event"
                     />
@@ -100,14 +115,14 @@ function destroy(): void {
                 <FormField
                     id="expires_at"
                     label="Expires At"
-                    :error="form.errors.expires_at"
+                    :error="form.errors.expires_at ?? undefined"
                     v-slot="field"
                 >
                     <DateTimePicker
                         :id="field.id"
                         v-model="form.expires_at"
                         aria-label="Expires At"
-                        :aria-invalid="field['aria-invalid']"
+                        :aria-invalid="field.ariaInvalid"
                         :aria-describedby="form.errors.expires_at ? field.id + '-error' : undefined"
                         @change="form.expires_at = $event"
                     />
@@ -116,7 +131,7 @@ function destroy(): void {
                     id="banner_uuid"
                     label="Banned By"
                     description="Leaving this empty will show it as banned by System."
-                    :error="form.errors.banner_uuid"
+                    :error="form.errors.banner_uuid ?? undefined"
                 >
                     <PlayerPicker
                         id="banner_uuid"
@@ -175,7 +190,7 @@ function destroy(): void {
                         :id="field.id"
                         v-model="form.unbanned_at"
                         aria-label="Date of Unban"
-                        :aria-invalid="field['aria-invalid']"
+                        :aria-invalid="field.ariaInvalid"
                         :aria-describedby="form.errors.unbanned_at ? field.id + '-error' : undefined"
                         @change="form.unbanned_at = $event"
                     />

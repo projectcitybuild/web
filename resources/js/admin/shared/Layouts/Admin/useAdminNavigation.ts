@@ -52,12 +52,23 @@ export function buildAdminBreadcrumbs(
 
     const currentPath = normalizePath(currentUrl.split(/[?#]/, 1)[0])
     const areaPath = normalizePath(area.href)
-    const entries = navigation.flatMap(entry => entry.route
-        ? [{ ...entry, section: undefined }]
-        : (entry.children ?? []).map(child => ({ ...child, section: entry.title })))
+    const entries: { title: string; route: string; section?: string }[] = []
+
+    for (const entry of navigation) {
+        if (entry.route) {
+            entries.push({ title: entry.title, route: entry.route })
+            continue
+        }
+
+        for (const child of entry.children ?? []) {
+            if (child.route) {
+                entries.push({ title: child.title, route: child.route, section: entry.title })
+            }
+        }
+    }
     const match = entries
-        .filter(entry => entry.route && entry.route !== areaPath && isAdminPathActive(currentPath, entry.route))
-        .sort((left, right) => (right.route?.length ?? 0) - (left.route?.length ?? 0))[0]
+        .filter(entry => entry.route !== areaPath && isAdminPathActive(currentPath, entry.route))
+        .sort((left, right) => right.route.length - left.route.length)[0]
 
     const isRoot = ['manage', 'review', 'audit'].includes(area.id)
 

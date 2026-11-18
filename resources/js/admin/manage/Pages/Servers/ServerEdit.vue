@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { InertiaForm } from '@inertiajs/vue3'
 import ManageFormPage from '../../Components/ManageFormPage.vue'
 import ServerForm from './Partials/ServerForm.vue'
 import type { Server } from '../../Data/Server'
@@ -10,7 +9,7 @@ interface Props {
 
 const props = defineProps<Props>()
 
-function submit(form: InertiaForm<Server>) {
+function submit(form: Parameters<InstanceType<typeof ServerForm>['$props']['submit']>[0]) {
     form.put('/manage/servers/' + props.server.id)
 }
 </script>

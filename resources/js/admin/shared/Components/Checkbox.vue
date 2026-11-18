@@ -25,6 +25,14 @@ const generatedId = useId()
 const checkboxId = computed(() => props.id || generatedId)
 const descriptionId = computed(() => `${checkboxId.value}-description`)
 const errorId = computed(() => `${checkboxId.value}-error`)
+const ariaInvalid = computed(() => {
+    const value = attrs['aria-invalid']
+
+    return typeof value === 'boolean' || value === 'true' || value === 'false'
+        || value === 'grammar' || value === 'spelling'
+        ? value
+        : undefined
+})
 
 const describedBy = computed(() => {
     const externalId = attrs['aria-describedby']
@@ -60,7 +68,7 @@ function updateValue(event: Event): void {
                 type="checkbox"
                 :checked="modelValue"
                 :aria-describedby="describedBy"
-                :aria-invalid="error ? 'true' : attrs['aria-invalid']"
+                :aria-invalid="error ? 'true' : ariaInvalid"
                 :class="controlClasses"
                 @change="updateValue"
             >

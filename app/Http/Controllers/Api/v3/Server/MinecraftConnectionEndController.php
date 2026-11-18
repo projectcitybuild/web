@@ -38,6 +38,6 @@ final class MinecraftConnectionEndController extends ApiController
         }
         $player->save();
 
-        return response()->json();
+        return response()->json([]);
     }
 }

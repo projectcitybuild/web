@@ -7,22 +7,29 @@ use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Controllers\WebController;
+use App\Http\Data\MinecraftConfigPageData;
 use App\Models\MinecraftConfig;
 use Illuminate\Http\Request;
+use Inertia\Response;
 
 class MinecraftConfigController extends WebController
 {
     use AuthorizesPermissions;
     use RendersAdminApp;
 
-    public function create()
+    public function create(): Response
     {
         $this->requires(WebManagePermission::REMOTE_CONFIG_EDIT);
 
-        $config = MinecraftConfig::byLatest()->first();
+        $config = MinecraftConfig::byLatest()->firstOrFail();
 
         return $this->inertiaRender('MinecraftConfig/MinecraftConfig', [
-            'config' => $config,
+            'config' => (new MinecraftConfigPageData(
+                version: $config->version,
+                config: $config->config,
+                created_at: $config->created_at->toISOString(),
+                updated_at: $config->updated_at->toISOString(),
+            ))->toArray(),
         ]);
     }
 

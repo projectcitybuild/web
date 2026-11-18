@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { InertiaForm } from '@inertiajs/vue3'
 import ManageFormPage from '../../Components/ManageFormPage.vue'
 import BanForm from './Partials/PlayerBanForm.vue'
-import { PlayerBan } from '../../Data/PlayerBan'
+import type { PlayerBan } from '../../Data/PlayerBan'
 
 interface Props {
     ban: PlayerBan,
@@ -10,7 +9,7 @@ interface Props {
 
 const props = defineProps<Props>()
 
-function submit(form: InertiaForm<PlayerBan>) {
+function submit(form: Parameters<InstanceType<typeof BanForm>['$props']['submit']>[0]) {
     form.put('/manage/player-bans/' + props.ban.id)
 }
 

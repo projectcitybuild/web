@@ -18,20 +18,18 @@ use App\Domains\Mfa\MfaServiceProvider;
 use App\Domains\MinecraftEventBus\MinecraftEventBusServiceProvider;
 use App\Domains\Permissions\PermissionsServiceProvider;
 use App\Domains\Players\PlayerServiceProvider;
+use App\Providers\TypeScriptTransformerServiceProvider;
 
 return [
     AppServiceProvider::class,
-
     AuditingServiceProvider::class,
     DiscordServiceProvider::class,
     MinecraftUUIDServiceProvider::class,
     PaymentServiceProvider::class,
-
     CashierServiceProvider::class,
     LaravelServiceProvider::class,
     PassportServiceProvider::class,
     TelescopeServiceProvider::class,
-
     ActivationServiceProvider::class,
     BuilderRankApplicationsServiceProvider::class,
     CaptchaServiceProvider::class,
@@ -41,4 +39,5 @@ return [
     MinecraftEventBusServiceProvider::class,
     PermissionsServiceProvider::class,
     PlayerServiceProvider::class,
+    TypeScriptTransformerServiceProvider::class,
 ];

@@ -12,8 +12,8 @@ interface Props {
 }
 const props = defineProps<Props>()
 
-const uuid = defineModel<string>('uuid')
-const alias = defineModel<string>('alias')
+const uuid = defineModel<string | null>('uuid')
+const alias = defineModel<string | null>('alias')
 const generatedId = useId()
 const inputId = computed(() => props.id || `player-picker-${generatedId}`)
 
@@ -28,10 +28,10 @@ async function search(): Promise<void> {
     loadError.value = null
     try {
         const data = await lookupPlayer(searchText.value)
-        uuid.value = data?.uuid
-        alias.value = data?.alias
+        uuid.value = data?.uuid ?? null
+        alias.value = data?.alias ?? null
     } catch (error) {
-        loadError.value = error.message
+        loadError.value = error instanceof Error ? error.message : 'Unable to find this player.'
         uuid.value = null
         alias.value = null
     } finally {

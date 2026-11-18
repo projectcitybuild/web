@@ -50,7 +50,12 @@ function onKeydown(event: KeyboardEvent): void {
         return
     }
 
-    const focusableElements = sidebar.value?.$el.querySelectorAll<HTMLElement>(
+    const sidebarElement = sidebar.value?.$el
+    if (!(sidebarElement instanceof HTMLElement)) {
+        return
+    }
+
+    const focusableElements = sidebarElement.querySelectorAll<HTMLElement>(
         'button:not([disabled]), a[href]:not([tabindex="-1"])'
     )
     if (!focusableElements?.length) {

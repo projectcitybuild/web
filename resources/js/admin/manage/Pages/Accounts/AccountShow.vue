@@ -127,7 +127,8 @@ const initials = computed(() => props.account.username
             v-model="activeTab"
             :tabs="tabs"
             id-prefix="account"
-            aria-label="Account sections" class="mt-5"
+            ariaLabel="Account sections"
+            class="mt-5"
         />
         <AccountLinkedDataTab :account="account" :active-tab="activeTab" />
         <AccountSecurityTab :account="account" :active-tab="activeTab" />

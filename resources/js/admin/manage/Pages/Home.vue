@@ -6,19 +6,8 @@ import PageHeader from '../../shared/Components/PageHeader.vue'
 import MinecraftAvatar from '../Components/MinecraftAvatar.vue'
 import { format, timeAgo } from '../Utilities/DateFormatter'
 
-interface ActivityRecord {
-    id: string,
-    actor: string,
-    avatarUuid: string | null,
-    action: string,
-    event: string,
-    subject: string,
-    createdAt: string,
-    when: string,
-}
-
 interface Props {
-    recentActivities?: ActivityRecord[] | null,
+    recentActivities?: App.Http.Data.ManageHomeRecentActivityData[] | null,
     activityUrl?: string | null,
 }
 

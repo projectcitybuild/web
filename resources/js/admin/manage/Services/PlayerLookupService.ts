@@ -15,9 +15,11 @@ export const lookupPlayer = async (search: string): Promise<PlayerLookup | null>
             alias: data.username,
         }
     } catch (error) {
-        const message = error.response?.data.message
-        if (message) {
-            throw new Error(message)
+        if (axios.isAxiosError<{ message?: string }>(error)) {
+            const message = error.response?.data?.message
+            if (message) {
+                throw new Error(message)
+            }
         }
         throw error
     }
@@ -25,5 +27,5 @@ export const lookupPlayer = async (search: string): Promise<PlayerLookup | null>
 
 export const lookupAlias = async (uuid: string): Promise<string | null> => {
     const lookup = await lookupPlayer(uuid)
-    return lookup?.alias
+    return lookup?.alias ?? null
 }

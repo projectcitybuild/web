@@ -22,7 +22,7 @@ const isActive = computed(() => {
 </script>
 
 <template>
-    <Pill :variant="isActive ? 'danger' : null">
+    <Pill :variant="isActive ? 'danger' : 'default'">
         {{ isActive ? 'Active' : 'Expired' }}
     </Pill>
 </template>

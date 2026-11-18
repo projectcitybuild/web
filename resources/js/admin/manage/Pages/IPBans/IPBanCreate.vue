@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { InertiaForm } from '@inertiajs/vue3'
 import ManageFormPage from '../../Components/ManageFormPage.vue'
 import BanForm from './Partials/IPBanForm.vue'
-import { IPBan } from '../../Data/IPBan'
 
-function submit(form: InertiaForm<IPBan>) {
+function submit(form: Parameters<InstanceType<typeof BanForm>['$props']['submit']>[0]) {
     form.post('/manage/ip-bans')
 }
 </script>

@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 
 final class MinecraftBuildNameController extends ApiController
 {
+    /**
+     * @response list<array{id: int, name: string}>
+     */
     public function index(Request $request)
     {
         return MinecraftBuild::get(['id', 'name']);

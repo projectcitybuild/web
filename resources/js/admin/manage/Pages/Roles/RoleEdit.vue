@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { InertiaForm } from '@inertiajs/vue3'
 import ManageFormPage from '../../Components/ManageFormPage.vue'
 import RoleForm from './Partials/RoleForm.vue'
 import type { Role } from '../../Data/Role'
@@ -10,7 +9,7 @@ interface Props {
 
 const props = defineProps<Props>()
 
-function submit(form: InertiaForm<Role>) {
+function submit(form: Parameters<InstanceType<typeof RoleForm>['$props']['submit']>[0]) {
     form.put('/manage/roles/' + props.role.id)
 }
 </script>

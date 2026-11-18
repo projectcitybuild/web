@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v3\Players;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Domains\Players\Data\MoveMode;
 use App\Domains\Players\Data\TeleportMode;
+use App\Http\Resources\MinecraftPlayerResource;
 use App\Models\MinecraftPlayer;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -13,7 +14,7 @@ class MinecraftPlayerController
 {
     public function show(Request $request, MinecraftUUID $uuid)
     {
-        return MinecraftPlayer::whereUuid($uuid)->firstOrFail();
+        return new MinecraftPlayerResource(MinecraftPlayer::whereUuid($uuid)->firstOrFail());
     }
 
     public function update(Request $request, MinecraftUUID $uuid)
@@ -60,6 +61,6 @@ class MinecraftPlayerController
         if (! empty($updated)) {
             $player->update($updated);
         }
-        return $player->refresh();
+        return new MinecraftPlayerResource($player->refresh());
     }
 }

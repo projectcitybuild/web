@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { InertiaForm } from '@inertiajs/vue3'
 import ManageFormPage from '../../Components/ManageFormPage.vue'
 import ServerTokenForm from './Partials/ServerTokenForm.vue'
-import { ServerToken } from '../../Data/ServerToken'
 
-function submit(form: InertiaForm<ServerToken>) {
+function submit(form: Parameters<InstanceType<typeof ServerTokenForm>['$props']['submit']>[0]) {
     form.post('/manage/server-tokens')
 }
 </script>

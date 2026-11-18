@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { InertiaForm } from '@inertiajs/vue3'
 import ManageFormPage from '../../Components/ManageFormPage.vue'
 import BadgeForm from './Partials/BadgeForm.vue'
-import { Badge } from '../../Data/Badge'
 
-function submit(form: InertiaForm<Badge>) {
+function submit(form: Parameters<InstanceType<typeof BadgeForm>['$props']['submit']>[0]) {
     form.post('/manage/badges')
 }
 </script>

@@ -14,7 +14,6 @@
         "doctrine/dbal": "^4.5.1",
         "guzzlehttp/guzzle": "^8.5.0",
         "inertiajs/inertia-laravel": "^3.0",
-        "jfcherng/php-diff": "^6.11",
         "laravel/cashier": "^16.0",
         "laravel/framework": "^13.0",
         "laravel/passport": "^13.0",
@@ -26,7 +25,9 @@
         "predis/predis": "^3.7.1",
         "sentry/sentry-laravel": "^4.30.0",
         "spatie/laravel-backup": "^10.0",
+        "spatie/laravel-data": "^4.23",
         "spatie/laravel-sitemap": "^8.2.0",
+        "spatie/laravel-typescript-transformer": "^3.3",
         "stripe/stripe-php": "^21.0",
         "symfony/http-client": "^8.1.11",
         "symfony/mailgun-mailer": "^8.1.6"

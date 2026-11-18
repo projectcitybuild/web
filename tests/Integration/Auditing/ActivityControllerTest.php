@@ -60,12 +60,14 @@ it('renders player operator elevations with duration details', function () {
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
             ->component('OpElevations/OpElevationList')
-            ->where('elevations.data.0.player', 'Active Player')
+            ->where('elevations.data.0.player.alias', 'Active Player')
+            ->where('elevations.data.0.player.id', $activePlayer->id)
             ->where('elevations.data.0.reason', 'Current maintenance')
             ->where('elevations.data.0.startedAt', '2026-07-14T11:00:00+00:00')
             ->where('elevations.data.0.endedAt', '2026-07-14T13:00:00+00:00')
             ->where('elevations.data.0.isActive', true)
-            ->where('elevations.data.1.player', 'Ended Player')
+            ->where('elevations.data.1.player.alias', 'Ended Player')
+            ->where('elevations.data.1.player.id', $endedPlayer->id)
             ->where('elevations.data.1.reason', 'Finished maintenance')
             ->where('elevations.data.1.isActive', false)
         );
@@ -111,18 +113,25 @@ it('forbids non-admins from accessing the auditing area', function () {
 });
 
 it('includes recent audit records in the management overview', function () {
-    $this->actingAs($this->adminAccount());
+    $account = $this->adminAccount();
+    $player = MinecraftPlayer::factory()->create(['account_id' => $account->id]);
+    $this->actingAs($account);
     $server = Server::factory()->create(['name' => 'Recent Audited Server']);
     $audit = $server->audits()->where('event', 'created')->firstOrFail();
 
     $this->get(route('manage.index'))
         ->assertInertia(fn (Assert $page) => $page
             ->component('Home')
-            ->where('recentActivities', fn ($activities) => $activities->contains(fn ($activity) => $activity['id'] === 'audit-'.$audit->id
-                && $activity['action'] === 'Server created'
-                && $activity['event'] === 'created'
-                && $activity['subject'] === 'Server #'.$server->id
-                && $activity['createdAt'] === $audit->created_at->toIso8601String()))
+            ->where('recentActivities.0', [
+                'id' => 'audit-'.$audit->id,
+                'actor' => $account->username,
+                'avatarUuid' => $player->uuid,
+                'action' => 'Server created',
+                'event' => 'created',
+                'subject' => 'Server #'.$server->id,
+                'createdAt' => $audit->created_at->toIso8601String(),
+                'when' => $audit->created_at->shortRelativeDiffForHumans(),
+            ])
             ->where('activityUrl', route('auditing.index'))
         );
 });

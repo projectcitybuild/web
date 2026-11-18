@@ -26,6 +26,14 @@ const generatedId = useId()
 const selectId = computed(() => props.id || generatedId)
 const descriptionId = computed(() => `${selectId.value}-description`)
 const errorId = computed(() => `${selectId.value}-error`)
+const ariaInvalid = computed(() => {
+    const value = attrs['aria-invalid']
+
+    return typeof value === 'boolean' || value === 'true' || value === 'false'
+        || value === 'grammar' || value === 'spelling'
+        ? value
+        : undefined
+})
 
 const describedBy = computed(() => {
     const externalId = attrs['aria-describedby']
@@ -72,7 +80,7 @@ function updateValue(event: Event): void {
             :id="selectId"
             :value="modelValue ?? ''"
             :aria-describedby="describedBy"
-            :aria-invalid="error ? 'true' : attrs['aria-invalid']"
+            :aria-invalid="error ? 'true' : ariaInvalid"
             :class="controlClasses"
             @change="updateValue"
         >

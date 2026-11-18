@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3'
+import { InertiaForm, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import type { Home } from '../../../Data/Home'
 import PlayerPicker from '../../../Components/PlayerPicker.vue'
@@ -14,21 +14,34 @@ import Input from '../../../../shared/Components/Input.vue'
 
 interface Props {
     home?: Home,
-    submit: (form: ReturnType<typeof useForm<Home>>) => void,
+    submit: (form: InertiaForm<HomeFormData>) => void,
+}
+
+interface HomeFormData {
+    player_uuid: string | null,
+    player_alias: string | null,
+    name: string,
+    world: string,
+    x: number | string,
+    y: number | string,
+    z: number | string,
+    pitch: number | string,
+    yaw: number | string,
+    created_at: Date,
 }
 
 const props = defineProps<Props>()
 
-const form = useForm<Home>({
-    player_uuid: props.home?.player?.uuid,
-    player_alias: props.home?.player?.alias,
-    name: props.home?.name,
-    world: props.home?.world,
-    x: props.home?.x,
-    y: props.home?.y,
-    z: props.home?.z,
-    pitch: props.home?.pitch,
-    yaw: props.home?.yaw,
+const form = useForm<HomeFormData>({
+    player_uuid: props.home?.player?.uuid ?? null,
+    player_alias: props.home?.player?.alias ?? null,
+    name: props.home?.name ?? '',
+    world: props.home?.world ?? '',
+    x: props.home?.x ?? 0,
+    y: props.home?.y ?? 0,
+    z: props.home?.z ?? 0,
+    pitch: props.home?.pitch ?? 0,
+    yaw: props.home?.yaw ?? 0,
     created_at: props.home?.created_at
         ? new Date(props.home.created_at)
         : new Date(),
@@ -47,11 +60,13 @@ function destroy(): void {
     }
 }
 
-function updateCoordinates(values: Partial<Pick<Home, 'x' | 'y' | 'z'>>): void {
+type Axis = 'x' | 'y' | 'z' | 'pitch' | 'yaw'
+
+function updateCoordinates(values: Partial<Record<Axis, number | string>>): void {
     Object.assign(form, values)
 }
 
-function updateOrientation(values: Partial<Pick<Home, 'pitch' | 'yaw'>>): void {
+function updateOrientation(values: Partial<Record<Axis, number | string>>): void {
     Object.assign(form, values)
 }
 </script>
@@ -67,7 +82,7 @@ function updateOrientation(values: Partial<Pick<Home, 'pitch' | 'yaw'>>): void {
             <FormField
                 id="player_id"
                 label="Player"
-                :error="form.errors.player_id"
+                :error="form.errors.player_uuid ?? undefined"
                 required
             >
                 <PlayerPicker
@@ -87,7 +102,7 @@ function updateOrientation(values: Partial<Pick<Home, 'pitch' | 'yaw'>>): void {
                     id="name"
                     label="Name"
                     description="Case-sensitive and cannot contain white space."
-                    :error="form.errors.name"
+                    :error="form.errors.name ?? undefined"
                     required
                     v-slot="field"
                 >
@@ -97,7 +112,7 @@ function updateOrientation(values: Partial<Pick<Home, 'pitch' | 'yaw'>>): void {
                     id="world"
                     label="World Name"
                     description="Warning: Case-sensitive."
-                    :error="form.errors.world"
+                    :error="form.errors.world ?? undefined"
                     required
                     v-slot="field"
                 >
@@ -113,7 +128,7 @@ function updateOrientation(values: Partial<Pick<Home, 'pitch' | 'yaw'>>): void {
             <CoordinateFields
                 group="coordinates"
                 :model-value="{ x: form.x, y: form.y, z: form.z }"
-                :errors="{ x: form.errors.x, y: form.errors.y, z: form.errors.z }"
+                :errors="{ x: form.errors.x ?? undefined, y: form.errors.y ?? undefined, z: form.errors.z ?? undefined }"
                 @update:model-value="updateCoordinates"
             />
         </FormSection>
@@ -125,7 +140,7 @@ function updateOrientation(values: Partial<Pick<Home, 'pitch' | 'yaw'>>): void {
             <CoordinateFields
                 group="orientation"
                 :model-value="{ pitch: form.pitch, yaw: form.yaw }"
-                :errors="{ pitch: form.errors.pitch, yaw: form.errors.yaw }"
+                :errors="{ pitch: form.errors.pitch ?? undefined, yaw: form.errors.yaw ?? undefined }"
                 @update:model-value="updateOrientation"
             />
         </FormSection>

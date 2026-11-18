@@ -7,6 +7,7 @@ use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
 use App\Core\Domains\Pagination\HasPaginatedApi;
 use App\Http\Controllers\ApiController;
+use App\Http\Resources\MinecraftBuildResource;
 use App\Models\MinecraftBuild;
 use App\Models\MinecraftBuildVote;
 use App\Models\MinecraftPlayer;
@@ -19,6 +20,23 @@ final class MinecraftBuildController extends ApiController
     use HasPaginatedApi;
     use ValidatesCoordinates;
 
+    /**
+     * @response array{
+     *     current_page: int,
+     *     data: list<MinecraftBuildResource>,
+     *     first_page_url: string|null,
+     *     from: int|null,
+     *     last_page_url: string|null,
+     *     last_page: int,
+     *     links: list<array{url: string|null, label: string, active: bool}>,
+     *     next_page_url: string|null,
+     *     path: string|null,
+     *     per_page: int,
+     *     prev_page_url: string|null,
+     *     to: int|null,
+     *     total: int
+     * }
+     */
     public function index(Request $request)
     {
         $validated = $request->validate([
@@ -27,14 +45,17 @@ final class MinecraftBuildController extends ApiController
 
         $pageSize = $this->pageSize($validated);
 
-        return MinecraftBuild::orderBy('votes', 'desc')
-            ->paginate($pageSize);
+        return $this->paginatedResource(
+            MinecraftBuild::orderBy('votes', 'desc')->paginate($pageSize),
+            MinecraftBuildResource::class,
+            $request,
+        );
     }
 
     public function show(Request $request, MinecraftBuild $build)
     {
         $build->load('player');
-        return $build;
+        return new MinecraftBuildResource($build);
     }
 
     public function store(Request $request)
@@ -52,7 +73,7 @@ final class MinecraftBuildController extends ApiController
         );
         $validated['player_id'] = $player->id;
 
-        return MinecraftBuild::create($validated);
+        return new MinecraftBuildResource(MinecraftBuild::create($validated));
     }
 
     public function update(Request $request, MinecraftBuild $build)
@@ -67,7 +88,7 @@ final class MinecraftBuildController extends ApiController
 
         $build->update($validated);
 
-        return $build;
+        return new MinecraftBuildResource($build);
     }
 
     public function patch(Request $request, MinecraftBuild $build)
@@ -93,7 +114,7 @@ final class MinecraftBuildController extends ApiController
         }
         $build->save();
 
-        return $build;
+        return new MinecraftBuildResource($build);
     }
 
     public function destroy(Request $request, MinecraftBuild $build)
@@ -109,7 +130,7 @@ final class MinecraftBuildController extends ApiController
             $build->delete();
         });
 
-        return response()->json();
+        return response()->json([]);
     }
 
     /**

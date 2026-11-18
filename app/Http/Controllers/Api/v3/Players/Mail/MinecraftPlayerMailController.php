@@ -21,6 +21,9 @@ use Illuminate\Validation\Rule;
 
 class MinecraftPlayerMailController extends ApiController
 {
+    /**
+     * @response array{data: list<PlayerMailInboxResource>, next_cursor: string|null}
+     */
     public function index(
         Request $request,
         MinecraftUUID $minecraftUUID,
@@ -123,6 +126,6 @@ class MinecraftPlayerMailController extends ApiController
         $player = MinecraftPlayer::whereUuid($minecraftUUID)->firstOrFail();
         $deletePlayerMail->execute($player, $mailId);
 
-        return response()->json();
+        return response()->json([]);
     }
 }

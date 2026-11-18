@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { InertiaForm } from '@inertiajs/vue3'
 import ManageFormPage from '../../Components/ManageFormPage.vue'
-import { Account } from '../../Data/Account'
+import type { Account } from '../../Data/Account'
 import AccountForm from './Partials/AccountForm.vue'
 
 interface Props {
@@ -9,7 +8,7 @@ interface Props {
 }
 const props = defineProps<Props>()
 
-function submit(form: InertiaForm<Account>) {
+function submit(form: Parameters<InstanceType<typeof AccountForm>['$props']['submit']>[0]) {
     form.put('/manage/accounts/' + props.account.id)
 }
 </script>

@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 
 final class MinecraftPlayerHomeNameController extends ApiController
 {
+    /**
+     * @response list<array{id: int, name: string}>
+     */
     public function index(Request $request, MinecraftUUID $minecraftUUID)
     {
         $player = MinecraftPlayer::whereUuid($minecraftUUID)->first();

@@ -2,9 +2,8 @@
 import { InertiaForm } from '@inertiajs/vue3'
 import ManageFormPage from '../../Components/ManageFormPage.vue'
 import BanForm from './Partials/PlayerBanForm.vue'
-import type { PlayerBan } from '../../Data/PlayerBan'
 
-function submit(form: InertiaForm<PlayerBan>) {
+function submit(form: Parameters<InstanceType<typeof BanForm>['$props']['submit']>[0]) {
     form.post('/manage/player-bans')
 }
 </script>

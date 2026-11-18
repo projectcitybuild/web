@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3'
+import { InertiaForm, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import type { ServerToken } from '../../../Data/ServerToken'
 import DangerZone from '../../../Components/Forms/DangerZone.vue'
@@ -16,15 +16,21 @@ import FilledButton from '../../../Components/FilledButton.vue'
 
 interface Props {
     token?: ServerToken,
-    submit: (form: ReturnType<typeof useForm<ServerToken>>) => void,
+    submit: (form: InertiaForm<ServerTokenFormData>) => void,
+}
+
+interface ServerTokenFormData {
+    description: string,
+    token: string,
+    allowed_ips: string,
 }
 
 const props = defineProps<Props>()
 
-const form = useForm<ServerToken>({
-    description: props.token?.description,
+const form = useForm<ServerTokenFormData>({
+    description: props.token?.description ?? '',
     token: props.token?.token ?? generate(),
-    allowed_ips: props.token?.allowed_ips?.split(',').join('\n'),
+    allowed_ips: props.token?.allowed_ips?.split(',').join('\n') ?? '',
 })
 
 const isEdit = computed(() => props.token != null)

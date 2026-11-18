@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3'
+import { InertiaForm, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import type { Account } from '../../../Data/Account'
 import DateTimeInput from '../../../Components/Forms/DateTimeInput.vue'
@@ -13,14 +13,21 @@ import Input from '../../../../shared/Components/Input.vue'
 
 interface Props {
     account?: Account,
-    submit: (form: ReturnType<typeof useForm<Account>>) => void,
+    submit: (form: InertiaForm<AccountFormData>) => void,
+}
+
+interface AccountFormData {
+    username: string,
+    email: string,
+    password: string | null,
+    created_at: Date,
 }
 
 const props = defineProps<Props>()
 
-const form = useForm<Account>({
-    username: props.account?.username,
-    email: props.account?.email,
+const form = useForm<AccountFormData>({
+    username: props.account?.username ?? '',
+    email: props.account?.email ?? '',
     password: null,
     created_at: props.account?.created_at
         ? new Date(props.account.created_at)

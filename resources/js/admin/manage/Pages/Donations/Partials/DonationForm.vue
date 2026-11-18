@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3'
+import { InertiaForm, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import type { Donation } from '../../../Data/Donation'
 import DateTimePicker from '../../../Components/DateTimePicker.vue'
@@ -13,12 +13,17 @@ import Input from '../../../../shared/Components/Input.vue'
 
 interface Props {
     donation?: Donation,
-    submit: (form: ReturnType<typeof useForm<Donation>>) => void,
+    submit: (form: InertiaForm<DonationFormData>) => void,
+}
+
+interface DonationFormData {
+    amount: number | string,
+    created_at: Date,
 }
 
 const props = defineProps<Props>()
 
-const form = useForm<Donation>({
+const form = useForm<DonationFormData>({
     amount: props.donation?.amount ?? 1,
     created_at: props.donation?.created_at
         ? new Date(props.donation.created_at)
@@ -68,7 +73,7 @@ function destroy(): void {
                         :id="field.id"
                         v-model="form.created_at"
                         aria-label="Date"
-                        :aria-invalid="field['aria-invalid']"
+                        :aria-invalid="field.ariaInvalid"
                         :aria-describedby="form.errors.created_at ? field.id + '-error' : undefined"
                         @change="form.created_at = $event"
                     />

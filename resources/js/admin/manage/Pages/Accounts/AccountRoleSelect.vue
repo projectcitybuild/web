@@ -71,7 +71,7 @@ function submit() {
                             <input
                                 v-model="form.account_role_ids"
                                 :value="item.id"
-                                :id="item.id"
+                                :id="'role-' + item.id"
                                 type="checkbox"
                                 class="w-4 h-4 text-primary bg-surface-muted border-border-strong rounded focus:ring-focus ring-offset-surface focus:ring-2"
                                 @click.stop

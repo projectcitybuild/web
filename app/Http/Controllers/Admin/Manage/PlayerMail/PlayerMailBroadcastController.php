@@ -8,6 +8,9 @@ use App\Domains\PlayerMail\Data\PlayerMailBroadcastStatus;
 use App\Domains\PlayerMail\UseCases\BroadcastPlayerMail;
 use App\Http\Controllers\Admin\RendersAdminApp;
 use App\Http\Controllers\WebController;
+use App\Http\Data\PlayerMailBroadcastPageData;
+use App\Http\Data\PlayerMailBroadcastSummaryData;
+use App\Http\Data\PlayerMailComposePageData;
 use App\Models\Account;
 use App\Models\MinecraftPlayer;
 use App\Models\PlayerMailBroadcast;
@@ -45,14 +48,14 @@ class PlayerMailBroadcastController extends WebController
             ->orderByDesc('id')
             ->paginate(20)
             ->withQueryString()
-            ->through(fn (PlayerMailBroadcast $broadcast): array => [
-                'id' => $broadcast->id,
-                'subject' => $broadcast->mail->subject,
-                'sender' => $broadcast->mail->createdByAccount?->username ?? 'Deleted staff account',
-                'recipients_count' => $broadcast->recipients_count,
-                'status' => $broadcast->status->value,
-                'created_at' => $broadcast->created_at->toISOString(),
-            ]);
+            ->through(fn (PlayerMailBroadcast $broadcast): array => (new PlayerMailBroadcastSummaryData(
+                id: $broadcast->id,
+                subject: $broadcast->mail->subject,
+                sender: $broadcast->mail->createdByAccount?->username ?? 'Deleted staff account',
+                recipients_count: $broadcast->recipients_count,
+                status: $broadcast->status,
+                created_at: $broadcast->created_at->toISOString(),
+            ))->toArray());
 
         return $this->inertiaRender('PlayerMail/Index', [
             'broadcasts' => $broadcasts,
@@ -70,10 +73,10 @@ class PlayerMailBroadcastController extends WebController
         $account = $request->user();
         abort_unless($account instanceof Account, 401);
 
-        return $this->inertiaRender('PlayerMail/Create', [
-            'recipientCount' => MinecraftPlayer::query()->count(),
-            'sender' => $account->username,
-        ]);
+        return $this->inertiaRender('PlayerMail/Create', (new PlayerMailComposePageData(
+            recipientCount: MinecraftPlayer::query()->count(),
+            sender: $account->username,
+        ))->toArray());
     }
 
     public function show(Request $request, PlayerMailBroadcast $broadcast): Response
@@ -88,17 +91,17 @@ class PlayerMailBroadcastController extends WebController
         );
 
         return $this->inertiaRender('PlayerMail/Show', [
-            'broadcast' => [
-                'id' => $broadcast->id,
-                'subject' => $broadcast->mail->subject,
-                'body' => $broadcast->mail->body,
-                'sender' => $broadcast->mail->createdByAccount?->username ?? 'Deleted staff account',
-                'status' => $broadcast->status->value,
-                'recipients_count' => $broadcast->recipients_count,
-                'created_at' => $broadcast->created_at->toISOString(),
-                'started_at' => $broadcast->started_at?->toISOString(),
-                'completed_at' => $broadcast->completed_at?->toISOString(),
-            ],
+            'broadcast' => (new PlayerMailBroadcastPageData(
+                id: $broadcast->id,
+                subject: $broadcast->mail->subject,
+                body: $broadcast->mail->body,
+                sender: $broadcast->mail->createdByAccount?->username ?? 'Deleted staff account',
+                status: $broadcast->status,
+                recipients_count: $broadcast->recipients_count,
+                created_at: $broadcast->created_at->toISOString(),
+                started_at: $broadcast->started_at?->toISOString(),
+                completed_at: $broadcast->completed_at?->toISOString(),
+            ))->toArray(),
             'audienceEstimate' => MinecraftPlayer::query()
                 ->where('id', '<=', $broadcast->max_player_id)
                 ->count(),

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3'
+import { InertiaForm, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import type { Warp } from '../../../Data/Warp'
 import CoordinateFields from '../../../Components/Forms/CoordinateFields.vue'
@@ -13,19 +13,30 @@ import { useUnsavedChangesWarning } from '../../../Components/Forms/useUnsavedCh
 
 interface Props {
     warp?: Warp,
-    submit: (form: ReturnType<typeof useForm<Warp>>) => void,
+    submit: (form: InertiaForm<WarpFormData>) => void,
+}
+
+interface WarpFormData {
+    name: string,
+    world: string,
+    x: number | string,
+    y: number | string,
+    z: number | string,
+    pitch: number | string,
+    yaw: number | string,
+    created_at: Date,
 }
 
 const props = defineProps<Props>()
 
-const form = useForm<Warp>({
-    name: props.warp?.name,
-    world: props.warp?.world,
-    x: props.warp?.x,
-    y: props.warp?.y,
-    z: props.warp?.z,
-    pitch: props.warp?.pitch,
-    yaw: props.warp?.yaw,
+const form = useForm<WarpFormData>({
+    name: props.warp?.name ?? '',
+    world: props.warp?.world ?? '',
+    x: props.warp?.x ?? 0,
+    y: props.warp?.y ?? 0,
+    z: props.warp?.z ?? 0,
+    pitch: props.warp?.pitch ?? 0,
+    yaw: props.warp?.yaw ?? 0,
     created_at: props.warp?.created_at
         ? new Date(props.warp.created_at)
         : new Date(),
@@ -46,11 +57,13 @@ function destroy(): void {
     }
 }
 
-function updateCoordinates(values: Partial<Record<'x' | 'y' | 'z', number | string>>): void {
+type Axis = 'x' | 'y' | 'z' | 'pitch' | 'yaw'
+
+function updateCoordinates(values: Partial<Record<Axis, number | string>>): void {
     Object.assign(form, values)
 }
 
-function updateOrientation(values: Partial<Record<'pitch' | 'yaw', number | string>>): void {
+function updateOrientation(values: Partial<Record<Axis, number | string>>): void {
     Object.assign(form, values)
 }
 </script>
@@ -68,7 +81,7 @@ function updateOrientation(values: Partial<Record<'pitch' | 'yaw', number | stri
                     id="name"
                     label="Warp name"
                     description="Case-sensitive. Do not include spaces."
-                    :error="form.errors.name"
+                    :error="form.errors.name ?? undefined"
                     required
                     v-slot="field"
                 >
@@ -78,7 +91,7 @@ function updateOrientation(values: Partial<Record<'pitch' | 'yaw', number | stri
                     id="world"
                     label="World name"
                     description="Minecraft world names are case-sensitive."
-                    :error="form.errors.world"
+                    :error="form.errors.world ?? undefined"
                     required
                     v-slot="field"
                 >
@@ -94,7 +107,7 @@ function updateOrientation(values: Partial<Record<'pitch' | 'yaw', number | stri
             <CoordinateFields
                 group="coordinates"
                 :model-value="{ x: form.x, y: form.y, z: form.z }"
-                :errors="{ x: form.errors.x, y: form.errors.y, z: form.errors.z }"
+                :errors="{ x: form.errors.x ?? undefined, y: form.errors.y ?? undefined, z: form.errors.z ?? undefined }"
                 @update:model-value="updateCoordinates"
             />
         </FormSection>
@@ -106,7 +119,7 @@ function updateOrientation(values: Partial<Record<'pitch' | 'yaw', number | stri
             <CoordinateFields
                 group="orientation"
                 :model-value="{ pitch: form.pitch, yaw: form.yaw }"
-                :errors="{ pitch: form.errors.pitch, yaw: form.errors.yaw }"
+                :errors="{ pitch: form.errors.pitch ?? undefined, yaw: form.errors.yaw ?? undefined }"
                 @update:model-value="updateOrientation"
             />
         </FormSection>

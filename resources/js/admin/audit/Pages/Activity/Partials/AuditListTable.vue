@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3'
-import Badge from '../../../../manage/Components/Badge.vue'
+import Badge from '../../../../shared/Components/Badge.vue'
 import DataTable from '../../../../manage/Components/DataTable.vue'
 import LinkButton from '../../../../shared/Components/LinkButton.vue'
 import { format, timeAgo } from '../../../../manage/Utilities/DateFormatter.js'

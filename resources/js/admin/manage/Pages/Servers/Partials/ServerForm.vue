@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3'
+import { InertiaForm, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import type { Server } from '../../../Data/Server'
 import DangerZone from '../../../Components/Forms/DangerZone.vue'
@@ -12,16 +12,23 @@ import { useUnsavedChangesWarning } from '../../../Components/Forms/useUnsavedCh
 
 interface Props {
     server?: Server,
-    submit: (form: ReturnType<typeof useForm<Server>>) => void,
+    submit: (form: InertiaForm<ServerFormData>) => void,
+}
+
+interface ServerFormData {
+    name: string,
+    ip: string,
+    port: number | string,
+    web_port: number | string | null,
 }
 
 const props = defineProps<Props>()
 
-const form = useForm<Server>({
-    name: props.server?.name,
-    ip: props.server?.ip,
-    port: props.server?.port,
-    web_port: props.server?.web_port,
+const form = useForm<ServerFormData>({
+    name: props.server?.name ?? '',
+    ip: props.server?.ip ?? '',
+    port: props.server?.port ?? '',
+    web_port: props.server?.web_port ?? null,
 })
 
 const isEdit = computed(() => props.server != null)

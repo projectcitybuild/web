@@ -34,7 +34,7 @@ const fields = [
             </Link>
         </template>
         <template #actions="{ item }">
-            <FilledButton variant=" danger" size="sm" @click="$emit('unlinkTap', item.id)">
+            <FilledButton variant="danger" size="sm" @click="$emit('unlinkTap', item.id)">
                 Unlink
             </FilledButton>
         </template>

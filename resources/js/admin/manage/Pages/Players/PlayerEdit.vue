@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { InertiaForm } from '@inertiajs/vue3'
 import ManageFormPage from '../../Components/ManageFormPage.vue'
 import PlayerForm from './Partials/PlayerForm.vue'
 import type { Player } from '../../Data/Player'
@@ -10,7 +9,7 @@ interface Props {
 
 const props = defineProps<Props>()
 
-function submit(form: InertiaForm<Player>) {
+function submit(form: Parameters<InstanceType<typeof PlayerForm>['$props']['submit']>[0]) {
     form.put('/manage/players/' + props.player.id)
 }
 </script>

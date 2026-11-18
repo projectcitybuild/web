@@ -4,22 +4,13 @@ import { usePage } from '@inertiajs/vue3'
 import SvgIcon from '../../../../manage/Components/SvgIcon.vue'
 import { Icons } from '../../../../manage/Icons'
 
-interface AccountInfo {
-    name: string
-    avatarUuid: string | null
-}
-
-interface PageProps {
-    account: AccountInfo | null
-}
-
 const props = withDefaults(defineProps<{
     collapsed?: boolean
 }>(), {
     collapsed: false,
 })
 
-const page = usePage<PageProps>()
+const page = usePage()
 const menuId = useId()
 const root = ref<HTMLDivElement | null>(null)
 const trigger = ref<HTMLButtonElement | null>(null)

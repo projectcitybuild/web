@@ -1,3 +1,4 @@
+                                {{ application.account?.username ?? 'Account' }}
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3'
 import Card from '../../../shared/Components/Card.vue'
@@ -99,7 +100,7 @@ const alts = computed(() => props.application.account?.minecraft_account?.slice(
                                 :href="'/manage/accounts/' + application.account_id"
                                 class="font-medium text-primary-active underline-offset-2 hover:underline"
                             >
-                                {{ application.account.username }}
+                                {{ application.account?.username ?? 'Account' }}
                             </a>
 
                             <div class="flex items-center gap-2 text-red-500">
@@ -135,12 +136,12 @@ const alts = computed(() => props.application.account?.minecraft_account?.slice(
                         <div class="flex flex-wrap gap-2">
                             <Pill
                                 variant="default"
-                                v-for="role in application.account.roles"
+                                v-for="role in application.account?.roles ?? []"
                             >
                                 {{ role.name }}
                             </Pill>
                         </div>
-                        <span v-if="application.account.roles.length === 0" class="text-sm text-muted">None</span>
+                        <span v-if="(application.account?.roles?.length ?? 0) === 0" class="text-sm text-muted">None</span>
                     </div>
 
                     <div class="p-4">

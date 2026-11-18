@@ -1,27 +1,27 @@
 <script setup lang="ts" generic="T">
 import { Paginated } from '../Data/Paginated'
-import { onBeforeMount, onMounted, ref, watch } from 'vue'
-import axios, { AxiosResponse } from 'axios'
+import { onBeforeMount, onMounted, ref, shallowRef, watch } from 'vue'
+import axios from 'axios'
 import { useIntersectionObserver, watchDebounced } from '@vueuse/core'
 import SpinnerRow from './SpinnerRow.vue'
 import SvgIcon from './SvgIcon.vue'
 import { Icons } from '../Icons'
 
-type PageResponse = AxiosResponse<Paginated<T>>
+type QueryValue = string | number | boolean | null | undefined
 
 interface Props {
     initial?: Paginated<T>,
-    query?: object,
+    query?: Record<string, QueryValue>,
     path?: string,
 }
 const props = defineProps<Props>()
 
-const itemCount = defineModel('count')
+const itemCount = defineModel<number>('count', { default: 0 })
 
-const items = ref<T[]>(props.initial?.data ?? [])
+const items = shallowRef<T[]>(props.initial?.data ?? [])
 const currentPage = ref(props.initial?.current_page ?? 1)
 const reachedEnd = ref(props.initial?.next_page_url == null)
-const lastElement = ref(null)
+const lastElement = ref<HTMLDivElement | null>(null)
 const loading = ref(false)
 
 watchDebounced(
@@ -35,19 +35,29 @@ watch(
     () => loading.value = true,
 )
 
-function query() {
+function query(): URLSearchParams {
+    const params = new URLSearchParams()
+
+    Object.entries(props.query ?? {}).forEach(([key, value]) => {
+        if (value !== null && value !== undefined) {
+            params.set(key, String(value))
+        }
+    })
+
     if (currentPage.value > 1) {
-        return new URLSearchParams({
-            ...props.query,
-            page: currentPage.value,
-        })
+        params.set('page', String(currentPage.value))
     }
-    return new URLSearchParams(props.query)
+
+    return params
 }
 
-function pagePath() {
+function pagePath(): string {
     const base = props.path ?? props.initial?.path
     const params = query()
+
+    if (!base) {
+        throw new Error('InfinitePagination requires a path when no initial page is provided.')
+    }
 
     if (params.size == 0) {
         return base
@@ -58,7 +68,7 @@ function pagePath() {
 const load = async () => {
     try {
         const path = pagePath()
-        const response: PageResponse = await axios.get(path)
+        const response = await axios.get<Paginated<T>>(path)
 
         reachedEnd.value = response.data.next_page_url == null
         if (reachedEnd.value) {

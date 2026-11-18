@@ -2,9 +2,13 @@
 
 namespace App\Http\Resources;
 
+use App\Models\PlayerMailRecipient;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin PlayerMailRecipient
+ */
 class PlayerMailInboxResource extends JsonResource
 {
     /**

@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { InertiaForm } from '@inertiajs/vue3'
 import ManageFormPage from '../../Components/ManageFormPage.vue'
 import ServerForm from './Partials/ServerForm.vue'
-import { Server } from '../../Data/Server'
 
-function submit(form: InertiaForm<Server>) {
+function submit(form: Parameters<InstanceType<typeof ServerForm>['$props']['submit']>[0]) {
     form.post('/manage/servers')
 }
 </script>

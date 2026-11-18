@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { InertiaForm } from '@inertiajs/vue3'
 import ManageFormPage from '../../Components/ManageFormPage.vue'
 import WarpForm from './Partials/WarpForm.vue'
-import { Warp } from '../../Data/Warp'
 
-function submit(form: InertiaForm<Warp>) {
+function submit(form: Parameters<InstanceType<typeof WarpForm>['$props']['submit']>[0]) {
     form.post('/manage/minecraft/warps')
 }
 </script>

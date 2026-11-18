@@ -88,7 +88,11 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
         $exceptions->render(function (BaseHttpException $e, Request $request) {
             // Convert all exceptions to a consistent JSON format
-            if ($request->is(patterns: 'api/*')) {
+            $apiUrl = (string) config('app.api_url');
+            $apiHost = parse_url($apiUrl, PHP_URL_HOST)
+                ?: parse_url("//{$apiUrl}", PHP_URL_HOST);
+
+            if ($apiHost !== null && $request->getHost() === $apiHost && $request->is('v3/*')) {
                 return response()->json(
                     data: [
                         'error' => [

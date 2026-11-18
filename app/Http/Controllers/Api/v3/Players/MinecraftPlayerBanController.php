@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v3\Players;
 
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
 use App\Domains\Bans\Services\PlayerBanService;
+use App\Models\GamePlayerBan;
 use Illuminate\Http\Request;
 
 class MinecraftPlayerBanController
@@ -12,6 +13,9 @@ class MinecraftPlayerBanController
         private readonly PlayerBanService $playerBanService,
     ) {}
 
+    /**
+     * @response list<GamePlayerBan>
+     */
     public function index(Request $request, MinecraftUUID $uuid)
     {
         $validated = collect($request->validate([

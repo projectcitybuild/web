@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { InertiaForm } from '@inertiajs/vue3'
 import ManageFormPage from '../../Components/ManageFormPage.vue'
-import { Warp } from '../../Data/Warp'
 import HomeForm from './Partials/HomeForm.vue'
 
-function submit(form: InertiaForm<Warp>) {
+function submit(form: Parameters<InstanceType<typeof HomeForm>['$props']['submit']>[0]) {
     form.post('/manage/homes')
 }
 </script>

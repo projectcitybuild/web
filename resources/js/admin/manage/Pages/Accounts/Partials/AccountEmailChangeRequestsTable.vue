@@ -14,7 +14,7 @@ interface Props {
 const props = defineProps<Props>()
 
 const approveModal = ref<InstanceType<typeof ConfirmDialog>>()
-const approveId = ref(null)
+const approveId = ref<number | null>(null)
 const fields = [
     { key: 'id', label: 'ID' },
     { key: 'email', label: 'New Email' },

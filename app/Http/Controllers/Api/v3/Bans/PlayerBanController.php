@@ -93,6 +93,6 @@ final class PlayerBanController extends ApiController
     {
         $this->playerBanService->delete(id: $banId);
 
-        return response()->json();
+        return response()->json([]);
     }
 }

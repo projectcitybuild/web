@@ -44,7 +44,7 @@ const rows = computed(
     <DataTable :fields="fields" :rows="rows" :show-index="true">
         <template #player="{ item }">
             <div class="flex flex-row items-center gap-3">
-                <MinecraftAvatar :uuid="item.player?.uuid" :size="32"/>
+                <MinecraftAvatar v-if="item.player?.uuid" :uuid="item.player.uuid" :size="32"/>
                 <Link
                     :href="'/manage/players/' + item.player?.id"
                     class="text-primary font-semibold underline"

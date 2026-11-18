@@ -3,8 +3,6 @@
 namespace App\Domains\Docs;
 
 use Dedoc\Scramble\Scramble;
-use Dedoc\Scramble\Support\Generator\OpenApi;
-use Dedoc\Scramble\Support\Generator\SecurityScheme;
 use Illuminate\Routing\Route;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
@@ -13,10 +11,7 @@ final class DocsServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        Scramble::configure()
-            ->withDocumentTransformers(function (OpenApi $openApi) {
-                $openApi->secure(SecurityScheme::http('bearer'));
-            });
+        Scramble::registerExtension(OpenApiErrorResponseExtension::class);
 
         Scramble::registerApi('v2', ['info' => ['version' => '2.0']])
             ->routes(function (Route $route) {

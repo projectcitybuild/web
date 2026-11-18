@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3'
+import { InertiaForm, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import type { Badge } from '../../../Data/Badge'
 import DangerZone from '../../../Components/Forms/DangerZone.vue'
@@ -13,15 +13,22 @@ import { useUnsavedChangesWarning } from '../../../Components/Forms/useUnsavedCh
 
 interface Props {
     badge?: Badge,
-    submit: (form: ReturnType<typeof useForm<Badge>>) => void,
+    submit: (form: InertiaForm<BadgeFormData>) => void,
+}
+
+interface BadgeFormData {
+    display_name: string,
+    unicode_icon: string,
+    list_hidden: '1' | '0',
+    created_at: Date,
 }
 
 const props = defineProps<Props>()
 
-const form = useForm<Badge>({
-    display_name: props.badge?.display_name,
-    unicode_icon: props.badge?.unicode_icon,
-    list_hidden: props.badge?.list_hidden ? 1 : 0,
+const form = useForm<BadgeFormData>({
+    display_name: props.badge?.display_name ?? '',
+    unicode_icon: props.badge?.unicode_icon ?? '',
+    list_hidden: props.badge?.list_hidden ? '1' : '0',
     created_at: props.badge?.created_at
         ? new Date(props.badge.created_at)
         : new Date(),
@@ -87,7 +94,7 @@ function destroy(): void {
                     <input
                         :id="field.id"
                         v-model="form.list_hidden"
-                        :aria-invalid="field['aria-invalid']"
+                        :aria-invalid="form.errors.list_hidden ? 'true' : 'false'"
                         :aria-describedby="form.errors.list_hidden
                             ? `${field.id}-description ${field.id}-error`
                             : `${field.id}-description`"

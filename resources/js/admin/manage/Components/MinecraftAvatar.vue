@@ -14,7 +14,7 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const loaded = ref<Result<void | null, Error>>(null)
+const loaded = ref<Result<void, Error> | null>(null)
 
 const size = computed(() => props.size ?? 128)
 const url = computed(() => `https://minotar.net/helm/${props.uuid}/${size.value}.png`)
@@ -23,8 +23,8 @@ function didLoad() {
     loaded.value = Result.ok()
 }
 
-function didFail(error: Error) {
-    loaded.value = Result.error(error)
+function didFail(): void {
+    loaded.value = Result.error(new Error('Unable to load player avatar.'))
 }
 
 </script>

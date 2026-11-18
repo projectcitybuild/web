@@ -36,7 +36,7 @@ const rows = computed(
         </template>
 
         <template #has_player="{ item }">
-            <BooleanCheck :value="item.minecraft_account.length > 0" />
+            <BooleanCheck :value="(item.minecraft_account?.length ?? 0) > 0" />
         </template>
 
         <template #username="{ item }">

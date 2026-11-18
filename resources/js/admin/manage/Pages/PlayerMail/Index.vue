@@ -15,18 +15,9 @@ import PageHeader from '../../../shared/Components/PageHeader.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 import EmptyState from '../../../shared/Components/EmptyState.vue'
 
-interface Broadcast {
-    id: number,
-    subject: string,
-    sender: string,
-    recipients_count: number,
-    status: string,
-    created_at: string,
-}
-
 interface Props {
     broadcasts: {
-        data: Broadcast[],
+        data: App.Http.Data.PlayerMailBroadcastSummaryData[],
         current_page: number,
         last_page: number,
         from: number | null,

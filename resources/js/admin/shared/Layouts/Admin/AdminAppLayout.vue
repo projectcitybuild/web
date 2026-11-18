@@ -2,11 +2,8 @@
 import { computed } from 'vue'
 import AdminLayout from './AdminLayout.vue'
 import useAdminNavigation, { type AdminNavigationEntry } from './useAdminNavigation'
-import ManageSideBar from '../../../manage/Layouts/Root/Partials/SideBar.vue'
 import { sidebarMenu as manageNavigation } from '../../../manage/Navigation/Sidebar'
-import ReviewSideBar from '../../../review/Layouts/Root/Partials/SideBar.vue'
 import { sidebarMenu as reviewNavigation } from '../../../review/Navigation/Sidebar'
-import AuditingSideBar from '../../../audit/Layouts/Root/Partials/SideBar.vue'
 import { sidebarMenu as auditingNavigation } from '../../../audit/Navigation/Sidebar.js'
 import { usePage } from '@inertiajs/vue3'
 

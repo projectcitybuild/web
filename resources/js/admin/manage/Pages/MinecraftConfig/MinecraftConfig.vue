@@ -3,7 +3,6 @@ import { useForm } from '@inertiajs/vue3'
 import { computed, onMounted, ref, watch } from 'vue'
 import { watchDebounced } from '@vueuse/core'
 import { format } from '../../Utilities/DateFormatter'
-import type { RemoteConfig } from '../../Data/RemoteConfig'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
 import JsonValidity from './Partials/JsonValidity.vue'
 import JsonEditor from './Partials/JsonEditor.vue'
@@ -26,7 +25,7 @@ interface MessageEntry {
 
 interface Props {
     success?: string,
-    config: RemoteConfig,
+    config: App.Http.Data.MinecraftConfigPageData,
 }
 
 const props = defineProps<Props>()
@@ -146,7 +145,7 @@ function formatConfig() {
     <ManageFormPage
         title="Remote Config"
         wide
-        :description="'Review and deploy the Minecraft server configuration. Version ' + config.version + ' - Last edited: ' + format(config.updated_at, 'yyyy/MM/dd h:ma')"
+        :description="'Review and deploy the Minecraft server configuration. Version ' + config.version + ' - Last edited: ' + format(config.updated_at)"
     >
         <template #actions>
             <FilledButton
@@ -195,7 +194,9 @@ function formatConfig() {
                 <div class="flex items-center gap-4">
                     <span class="text-xs tabular-nums text-muted dark:text-subtle">{{ lineCount }} lines</span>
                     <OutlinedButton
+                    <OutlinedButton
                         type="button"
+                        variant="secondary"
                         class="text-sm font-medium text-primary hover:text-primary-hover disabled:cursor-not-allowed disabled:opacity-50 dark:hover:text-primary-200"
                         :disabled="!isValidJson"
                         @click="formatConfig"
@@ -208,7 +209,7 @@ function formatConfig() {
                 <form @submit.prevent="submit">
                     <JsonEditor
                         v-model="form.config"
-                        aria-label="Minecraft configuration JSON"
+                        ariaLabel="Minecraft configuration JSON"
                         :aria-invalid="form.errors.config ? 'true' : undefined"
                         class="rounded-lg border border-border-strong bg-surface-muted shadow-inner focus-within:ring-2 focus-within:ring-focus/30"
                         @select-keys="selectPreviewKeys"

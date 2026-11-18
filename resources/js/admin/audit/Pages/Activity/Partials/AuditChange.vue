@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { Link } from '@inertiajs/vue3'
-import Badge from '../../../../manage/Components/Badge.vue'
+import Badge from '../../../../shared/Components/Badge.vue'
 
 interface AuditValue {
     text: string,

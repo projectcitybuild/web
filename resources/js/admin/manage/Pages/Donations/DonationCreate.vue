@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { InertiaForm } from '@inertiajs/vue3'
 import ManageFormPage from '../../Components/ManageFormPage.vue'
 import DonationForm from './Partials/DonationForm.vue'
-import { Donation } from '../../Data/Donation'
 
-function submit(form: InertiaForm<Donation>) {
+function submit(form: Parameters<InstanceType<typeof DonationForm>['$props']['submit']>[0]) {
     form.post('/manage/donations')
 }
 </script>
