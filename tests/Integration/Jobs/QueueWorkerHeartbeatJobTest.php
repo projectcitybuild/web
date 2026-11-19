@@ -25,8 +25,8 @@ it('does not ping when the queue monitor is not configured', function () {
     Http::assertNothingSent();
 });
 
-it('uses the dedicated queue-health queue', function () {
-    expect((new QueueWorkerHeartbeatJob)->queue)->toBe('queue-health');
+it('uses the default queue', function () {
+    expect((new QueueWorkerHeartbeatJob)->queue)->toBe('default');
 });
 
 it('fails on unsuccessful monitor responses without exposing the ping URL', function () {
