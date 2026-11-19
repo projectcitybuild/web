@@ -84,6 +84,40 @@ test('discovers inline request and response enums', () => {
     assert.match(source, /export const MinecraftBuildStoreResponseStatus =/)
 })
 
+test('disambiguates response enums by status code and media type', () => {
+    const source = generate({
+        ...emptySpec(),
+        paths: {
+            '/v3/builds': {
+                get: {
+                    operationId: 'build.show',
+                    responses: {
+                        '200': {
+                            content: {
+                                'application/json': { schema: { type: 'string', enum: ['ready'] } },
+                                'application/foo-bar': { schema: { type: 'string', enum: ['foo-bar'] } },
+                                'application/foo.bar': { schema: { type: 'string', enum: ['foo_bar'] } },
+                                'text/plain': { schema: { type: 'string', enum: ['queued'] } },
+                            },
+                        },
+                        '404': {
+                            content: {
+                                'application/json': { schema: { type: 'string', enum: ['missing'] } },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    })
+
+    assert.match(source, /export const BuildShowResponse200ApplicationJson =/)
+    assert.match(source, /export const BuildShowResponse200ApplicationFooBarMediaType1 =/)
+    assert.match(source, /export const BuildShowResponse200ApplicationFooBarMediaType2 =/)
+    assert.match(source, /export const BuildShowResponse200TextPlain =/)
+    assert.match(source, /export const BuildShowResponse404 =/)
+})
+
 test('discovers path and operation parameter enums and response headers', () => {
     const source = generate({
         ...emptySpec(),
@@ -135,6 +169,49 @@ test('generates Laravel Data string unions', () => {
 
     assert.match(source, /export const ApplicationStatus =/)
     assert.match(source, /"approved": "approved"/)
+})
+
+test('normalizes enum member casing without losing word boundaries', () => {
+    const source = generate({
+        ...emptySpec(),
+        components: {
+            schemas: {
+                NamingStyle: {
+                    type: 'string',
+                    enum: ['in_progress', 'UPPER_SNAKE_CASE', 'PascalCase', 'camelCase', 'kebab-case', 'XMLHttpRequest'],
+                },
+            },
+        },
+    })
+
+    for (const memberName of ['inProgress', 'upperSnakeCase', 'pascalCase', 'camelCase', 'kebabCase', 'xmlHttpRequest']) {
+        assert.match(source, new RegExp(`    "${memberName}":`))
+    }
+})
+
+test('reports invalid and colliding normalized enum members', () => {
+    assert.throws(() => generate({
+        ...emptySpec(),
+        components: {
+            schemas: {
+                InvalidMember: { type: 'string', enum: ['not.valid'] },
+            },
+        },
+    }), /contains a case name that is not a valid TypeScript identifier/)
+
+    assert.throws(() => generate({
+        ...emptySpec(),
+        components: {
+            schemas: {
+                CollidingMembers: { type: 'string', enum: ['in_progress', 'inProgress'] },
+            },
+        },
+    }), /contains duplicate case names/)
+
+    const source = generate(emptySpec(), 'type ValidMember = "valid_value" | "valid"; type WebManagePermission = "web.manage.roles.view" | "web.manage.roles.edit";')
+
+    assert.match(source, /export const ValidMember =/)
+    assert.doesNotMatch(source, /export const WebManagePermission =/)
 })
 
 test('deduplicates equivalent definitions after normalizing names', () => {

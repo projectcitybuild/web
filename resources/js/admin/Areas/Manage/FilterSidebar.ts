@@ -1,5 +1,5 @@
 import { Permission } from '../../Data/Permissions'
-import type { SidebarSection } from '../../Navigation/Manage/Sidebar'
+import type { SidebarSection } from './Sidebar'
 
 export function filterSidebar(
   menu: SidebarSection[],

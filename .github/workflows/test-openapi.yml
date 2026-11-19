@@ -11,9 +11,8 @@ on:
       - package.json
       - package-lock.json
       - docs/openapi/**
-      - resources/js/generated/generated.d.ts
-      - resources/js/generated/openapi.d.ts
-      - resources/js/generated/openapi-enums.ts
+      - resources/js/**
+      - resources/views/admin/app.blade.php
       - scripts/generate-openapi-enums.mjs
       - scripts/openapi-enum-generator.mjs
       - scripts/generate-openapi-enums.test.mjs
@@ -29,9 +28,8 @@ on:
       - package.json
       - package-lock.json
       - docs/openapi/**
-      - resources/js/generated/generated.d.ts
-      - resources/js/generated/openapi.d.ts
-      - resources/js/generated/openapi-enums.ts
+      - resources/js/**
+      - resources/views/admin/app.blade.php
       - scripts/generate-openapi-enums.mjs
       - scripts/openapi-enum-generator.mjs
       - scripts/generate-openapi-enums.test.mjs

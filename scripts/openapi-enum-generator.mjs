@@ -15,6 +15,18 @@ function normalizeEnumName(suggestedName) {
     return name
 }
 
+function normalizeMemberName(value) {
+    const words = String(value)
+        .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
+        .replace(/([A-Z])([A-Z][a-z])/g, '$1 $2')
+        .split(/[_\-\s]+/)
+
+    return words.map((word, index) => index === 0
+        ? word.toLowerCase()
+        : `${word[0]?.toUpperCase() ?? ''}${word.slice(1).toLowerCase()}`)
+        .join('')
+}
+
 function getMemberNames(schema, name, source) {
     const enumNames = schema['x-enumNames']
 
@@ -24,9 +36,7 @@ function getMemberNames(schema, name, source) {
 
     const memberNames = schema.enum.map((value, index) => {
         const caseName = enumNames?.[index]
-        return caseName
-            ? caseName.toLowerCase().replace(/_([a-z0-9])/g, (_, character) => character.toUpperCase())
-            : value.replace(/_([a-z0-9])/g, (_, character) => character.toUpperCase())
+        return normalizeMemberName(caseName ?? value)
     })
 
     if (!memberNames.every((memberName) => /^[A-Za-z_$][\w$]*$/.test(memberName))) {
@@ -105,9 +115,27 @@ export function generateEnumSource(spec, declarations = '') {
         }
     }
 
-    function collectContent(content, suggestedName, source) {
-        for (const [mediaType, media] of Object.entries(content ?? {})) {
-            collectSchema(media?.schema, suggestedName, `${source}.content.${mediaType}.schema`)
+    function collectContent(content, suggestedName, source, distinguishMediaTypes = false) {
+        const entries = Object.entries(content ?? {})
+        const mediaTypeSuffixes = entries.map(([mediaType]) => normalizeEnumName(mediaType))
+        const suffixCounts = new Map()
+
+        for (const suffix of mediaTypeSuffixes) {
+            suffixCounts.set(suffix, (suffixCounts.get(suffix) ?? 0) + 1)
+        }
+
+        const sortedMediaTypes = entries.map(([mediaType]) => mediaType).sort()
+
+        for (const [mediaType, media] of entries) {
+            const mediaTypeSuffix = normalizeEnumName(mediaType)
+            const disambiguator = suffixCounts.get(mediaTypeSuffix) > 1
+                ? `MediaType${sortedMediaTypes.indexOf(mediaType) + 1}`
+                : ''
+            const name = distinguishMediaTypes && entries.length > 1
+                ? `${suggestedName}${mediaTypeSuffix}${disambiguator}`
+                : suggestedName
+
+            collectSchema(media?.schema, name, `${source}.content.${mediaType}.schema`)
         }
     }
 
@@ -135,7 +163,7 @@ export function generateEnumSource(spec, declarations = '') {
             return
         }
 
-        collectContent(resolvedResponse.content, suggestedName, source)
+        collectContent(resolvedResponse.content, suggestedName, source, true)
 
         for (const [headerName, header] of Object.entries(resolvedResponse.headers ?? {})) {
             const resolvedHeader = resolveComponentReference(spec, header, 'headers')
@@ -185,8 +213,11 @@ export function generateEnumSource(spec, declarations = '') {
 
             collectRequestBody(operation.requestBody, `${operationName}Request`, `paths.${apiPath}.${method}.requestBody`)
 
-            for (const [statusCode, response] of Object.entries(operation.responses ?? {})) {
-                collectResponse(response, `${operationName}Response`, `paths.${apiPath}.${method}.responses.${statusCode}`)
+            const responses = Object.entries(operation.responses ?? {})
+
+            for (const [statusCode, response] of responses) {
+                const statusSuffix = responses.length > 1 ? normalizeEnumName(statusCode).replace(/^_/, '') : ''
+                collectResponse(response, `${operationName}Response${statusSuffix}`, `paths.${apiPath}.${method}.responses.${statusCode}`)
             }
         }
     }
@@ -204,10 +235,10 @@ export function generateEnumSource(spec, declarations = '') {
             })
 
             if (values.every((value) => value !== null) && new Set(values).size === values.length) {
-                const memberNames = values.map((value) => value.replace(/_([a-z0-9])/g, (_, character) => character.toUpperCase()))
+                const memberNames = values.map(normalizeMemberName)
                 const areValidMemberNames = memberNames.every((memberName) => /^[A-Za-z_$][\w$]*$/.test(memberName))
 
-                if (areValidMemberNames && new Set(memberNames).size === memberNames.length) {
+                if (areValidMemberNames) {
                     registerEnum(node.name.text, { type: 'string', enum: values }, `generated.d.ts type ${node.name.text}`)
                 }
             }
