@@ -28,7 +28,7 @@ const errorId = computed(() => `${props.id}-error`)
             :hide-label="true"
             :hide-feedback="true"
             :required="required"
-            :aria-invalid="error ? 'true' : undefined"
+            :aria-invalid="error ? true : undefined"
         />
         <p v-if="description" :id="descriptionId" class="text-sm text-muted">
             {{ description }}
