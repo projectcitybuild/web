@@ -9,7 +9,7 @@
         "ext-json": "*",
         "admin9/laravel-oidc-server": "2.0.0",
         "altek/eventually": "^3.0",
-        "bacon/bacon-qr-code": "^2.0",
+        "bacon/bacon-qr-code": "^3.1",
         "dedoc/scramble": "^0.13.53",
         "doctrine/dbal": "^4.5.1",
         "guzzlehttp/guzzle": "^8.5.0",
