@@ -22,9 +22,6 @@ import usePermissions from '../../Composables/usePermissions'
 import PageHeader from '../../../shared/Components/PageHeader.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
 import CopyLocationButton from '../../Components/CopyLocationButton.vue'
-import type { PlayerBan } from '../../Data/PlayerBan'
-import type { PlayerWarning } from '../../Data/PlayerWarning'
-import type { PlayerIP } from '../../Data/PlayerIP'
 
 const { can } = usePermissions()
 
@@ -150,7 +147,7 @@ async function refreshAlias() {
                             Create
                         </LinkButton>
                     </div>
-                    <!-- @vue-generic {PlayerBan} -->
+                    <!-- @vue-generic {App.Http.Data.AdminGamePlayerBanData} -->
                     <InfinitePagination
                         :path="'/manage/players/' + player.id + '/bans'"
                         v-slot="source"
@@ -171,7 +168,7 @@ async function refreshAlias() {
                             Create
                         </LinkButton>
                     </div>
-                    <!-- @vue-generic {PlayerWarning} -->
+                    <!-- @vue-generic {App.Http.Data.AdminPlayerWarningData} -->
                     <InfinitePagination
                         :path="'/manage/players/' + player.id + '/warnings'"
                         v-slot="source"
@@ -201,7 +198,7 @@ async function refreshAlias() {
                         <h2 class="text-base font-semibold text-foreground">Known IP addresses</h2>
                         <p class="mt-0.5 text-sm text-muted">Network addresses seen for this player.</p>
                     </div>
-                    <!-- @vue-generic {PlayerIP} -->
+                    <!-- @vue-generic {App.Http.Data.MinecraftPlayerIpData} -->
                     <InfinitePagination
                         :path="'/manage/players/' + player.id + '/ips'"
                         v-slot="source"

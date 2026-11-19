@@ -218,8 +218,7 @@
                     "422": {
                         "$ref": "#/components/responses/ValidationException"
                     }
-                },
-                "security": []
+                }
             }
         },
         "/v3/builds/{build}": {
@@ -383,8 +382,7 @@
                     "404": {
                         "$ref": "#/components/responses/ModelNotFoundException"
                     }
-                },
-                "security": []
+                }
             }
         },
         "/v3/builds/{build}/set": {
@@ -442,8 +440,7 @@
                     "404": {
                         "$ref": "#/components/responses/ModelNotFoundException"
                     }
-                },
-                "security": []
+                }
             }
         },
         "/v3/builds/names": {
@@ -537,8 +534,7 @@
                     "404": {
                         "$ref": "#/components/responses/ModelNotFoundException"
                     }
-                },
-                "security": []
+                }
             },
             "delete": {
                 "operationId": "minecraftBuildVote.destroy",
@@ -581,8 +577,7 @@
                     "404": {
                         "$ref": "#/components/responses/ModelNotFoundException"
                     }
-                },
-                "security": []
+                }
             }
         },
         "/v3/server/config": {

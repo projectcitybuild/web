@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BanAppealStatus } from '../../../../manage/Data/BanAppealStatus'
+import { BanAppealStatus } from '../../../../../generated/openapi-enums'
 import { Link } from '@inertiajs/vue3'
 import MinecraftAvatar from '../../../../manage/Components/MinecraftAvatar.vue'
 import Badge from '../../../../shared/Components/Badge.vue'
@@ -7,15 +7,15 @@ import { distance, distanceFromNow, format } from '../../../../manage/Utilities/
 
 const statusLabels: Record<App.Domains.BanAppeals.Data.BanAppealStatus, string> = {
     [BanAppealStatus.pending]: 'Awaiting review',
-    [BanAppealStatus.unbanned]: 'Unbanned',
-    [BanAppealStatus.tempBanned]: 'Temp banned',
+    [BanAppealStatus.acceptedUnban]: 'Unbanned',
+    [BanAppealStatus.acceptedTempban]: 'Temp banned',
     [BanAppealStatus.denied]: 'Denied',
 }
 
 const statusVariants: Record<App.Domains.BanAppeals.Data.BanAppealStatus, 'warning' | 'success' | 'info' | 'danger'> = {
     [BanAppealStatus.pending]: 'warning',
-    [BanAppealStatus.unbanned]: 'success',
-    [BanAppealStatus.tempBanned]: 'info',
+    [BanAppealStatus.acceptedUnban]: 'success',
+    [BanAppealStatus.acceptedTempban]: 'info',
     [BanAppealStatus.denied]: 'danger',
 }
 

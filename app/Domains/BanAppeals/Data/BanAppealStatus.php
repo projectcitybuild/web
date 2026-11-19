@@ -4,12 +4,12 @@ namespace App\Domains\BanAppeals\Data;
 
 use Illuminate\Support\Str;
 
-enum BanAppealStatus: int
+enum BanAppealStatus: string
 {
-    case PENDING = 0;
-    case ACCEPTED_UNBAN = 1;
-    case ACCEPTED_TEMPBAN = 2;
-    case DENIED = 3;
+    case PENDING = 'pending';
+    case ACCEPTED_UNBAN = 'accepted_unban';
+    case ACCEPTED_TEMPBAN = 'accepted_tempban';
+    case DENIED = 'denied';
 
     public function isDecided(): bool
     {

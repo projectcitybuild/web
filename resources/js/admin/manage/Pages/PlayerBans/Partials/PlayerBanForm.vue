@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { InertiaForm, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
-import { UnbanType } from '../../../Data/PlayerBan'
+import { UnbanType } from '../../../../../generated/openapi-enums'
 import DateTimePicker from '../../../Components/DateTimePicker.vue'
 import PlayerPicker from '../../../Components/PlayerPicker.vue'
 import DangerZone from '../../../Components/Forms/DangerZone.vue'

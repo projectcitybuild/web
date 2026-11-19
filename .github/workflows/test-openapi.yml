@@ -8,7 +8,13 @@ on:
       - config/scramble.php
       - composer.json
       - composer.lock
+      - package.json
+      - package-lock.json
       - docs/openapi/**
+      - resources/js/generated/generated.d.ts
+      - resources/js/generated/openapi.d.ts
+      - resources/js/generated/openapi-enums.ts
+      - scripts/generate-openapi-enums.mjs
       - routes/**
       - .github/workflows/test-openapi.yml
   pull_request:
@@ -18,7 +24,13 @@ on:
       - config/scramble.php
       - composer.json
       - composer.lock
+      - package.json
+      - package-lock.json
       - docs/openapi/**
+      - resources/js/generated/generated.d.ts
+      - resources/js/generated/openapi.d.ts
+      - resources/js/generated/openapi-enums.ts
+      - scripts/generate-openapi-enums.mjs
       - routes/**
       - .github/workflows/test-openapi.yml
 
@@ -39,6 +51,9 @@ jobs:
 
       - name: Install Composer dependencies
         uses: $/.github/actions/install-composer-deps
+
+      - name: Install npm dependencies
+        uses: $/.github/actions/install-npm-deps
 
       - name: Prepare Laravel
         uses: $/.github/actions/run-in-devcontainer
@@ -126,6 +141,14 @@ jobs:
 
       - name: Check OpenAPI specification is up to date
         run: git diff --exit-code -- docs/openapi/v3.json
+
+      - name: Generate TypeScript declarations and enum values
+        uses: $/.github/actions/run-in-devcontainer
+        with:
+          command: php artisan typescript:transform && npm run generate:openapi-types
+
+      - name: Check generated TypeScript outputs are up to date
+        run: git diff --exit-code -- resources/js/generated/generated.d.ts resources/js/generated/openapi.d.ts resources/js/generated/openapi-enums.ts
 
       - name: Validate OpenAPI specification
         run: npx --yes @redocly/cli@2.79.0 lint docs/openapi/v3.json --extends minimal --skip-rule=no-server-trailing-slash --format summary

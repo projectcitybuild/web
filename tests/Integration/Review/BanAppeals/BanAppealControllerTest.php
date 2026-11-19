@@ -67,7 +67,7 @@ it('renders a typed nested player ban and its loaded players', function () {
             ->where('banAppeal.game_player_ban.reason', 'Griefing')
             ->where('banAppeal.game_player_ban.banned_player.id', $bannedPlayer->id)
             ->where('banAppeal.game_player_ban.banner_player.id', $bannerPlayer->id)
-            ->where('banAppeal.status', 0)
+            ->where('banAppeal.status', 'pending')
         );
 });
 

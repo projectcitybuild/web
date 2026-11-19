@@ -22,7 +22,7 @@ class CreateBuildRankApplication
         string $buildDescription,
         ?string $additionalNotes,
     ): BuilderRankApplication {
-        $existingApplication = BuilderRankApplication::where('status', ApplicationStatus::PENDING->value)
+        $existingApplication = BuilderRankApplication::where('status', ApplicationStatus::PENDING)
             ->where('account_id', $account->id)
             ->count();
 
@@ -37,7 +37,7 @@ class CreateBuildRankApplication
             'build_location' => $buildLocation,
             'build_description' => $buildDescription,
             'additional_notes' => $additionalNotes,
-            'status' => ApplicationStatus::PENDING->value,
+            'status' => ApplicationStatus::PENDING,
             'next_reminder_at' => now()->addWeek(),
             'closed_at' => null,
         ]);

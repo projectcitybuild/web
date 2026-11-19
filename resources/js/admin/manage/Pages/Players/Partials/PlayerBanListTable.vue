@@ -2,7 +2,6 @@
 import LinkButton from '../../../../shared/Components/LinkButton.vue'
 import { format } from '../../../Utilities/DateFormatter'
 import { Link } from '@inertiajs/vue3'
-import { PlayerBan } from '../../../Data/PlayerBan'
 import PlayerBanStatus from '../../PlayerBans/Partials/PlayerBanStatus.vue'
 import OutlinedButton from '../../../Components/OutlinedButton.vue'
 import SvgIcon from '../../../Components/SvgIcon.vue'
@@ -10,7 +9,7 @@ import { Icons } from '../../../Icons'
 import DataTable from '../../../Components/DataTable.vue'
 
 interface Props {
-    bans: PlayerBan[],
+    bans: App.Http.Data.AdminGamePlayerBanData[],
 }
 defineProps<Props>()
 

@@ -22,7 +22,7 @@ class DenyBuildRankApplication
         abort_if($application->isReviewed(), 409);
 
         $oldStatus = $application->getOriginal('status');
-        $application->status = ApplicationStatus::DENIED->value;
+        $application->status = ApplicationStatus::DENIED;
         $application->denied_reason = $denyReason;
         $application->closed_at = now();
         $application->save();

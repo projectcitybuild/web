@@ -3,13 +3,15 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "typecheck": "vue-tsc --noEmit"
+        "typecheck": "vue-tsc --noEmit",
+        "generate:openapi-types": "openapi-typescript docs/openapi/v3.json -o resources/js/generated/openapi.d.ts && node scripts/generate-openapi-enums.mjs"
     },
     "devDependencies": {
         "@tailwindcss/vite": "^4.3.5",
         "@types/node": "^26.6.6",
         "axios": "^1.13.5",
         "laravel-vite-plugin": "^1.1.1",
+        "openapi-typescript": "7.13.0",
         "tailwindcss": "^4.3.5",
         "typescript": "^5.7.2",
         "vite": "^6.4.1",

@@ -2,7 +2,7 @@
 import InfinitePagination from '../../../Components/InfinitePagination.vue'
 import { format } from '../../../Utilities/DateFormatter'
 import OutlinedButton from '../../../Components/OutlinedButton.vue'
-import { BanAppealStatus } from '../../../Data/BanAppealStatus'
+import { BanAppealStatus } from '../../../../../generated/openapi-enums'
 import Pill from '../../../Components/Pill.vue'
 import DataTable from '../../../Components/DataTable.vue'
 
@@ -29,7 +29,7 @@ const fields = [
             <template #status="{ item }">
                 <Pill v-if="item.status === BanAppealStatus.pending">Pending</Pill>
                 <Pill v-if="item.status === BanAppealStatus.denied" variant="danger">Denied</Pill>
-                <Pill v-if="item.status === BanAppealStatus.unbanned" variant="success">Unbanned</Pill>
+                <Pill v-if="item.status === BanAppealStatus.acceptedUnban" variant="success">Unbanned</Pill>
             </template>
             <template #created_at="{ item }">
                 {{ format(item.created_at) }}

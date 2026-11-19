@@ -54,17 +54,22 @@ Route::domain(config('app.api_url'))->group(function () {
 
         Route::prefix('builds')->group(function () {
             Route::get('/', [MinecraftBuildController::class, 'index']);
-            Route::post('/', [MinecraftBuildController::class, 'store']);
+            Route::post('/', [MinecraftBuildController::class, 'store'])
+                ->middleware('require-server-token');
             Route::get('names', [MinecraftBuildNameController::class, 'index']);
 
             Route::get('{build}', [MinecraftBuildController::class, 'show']);
             Route::put('{build}', [MinecraftBuildController::class, 'update'])
                 ->middleware('require-server-token');
-            Route::delete('{build}', [MinecraftBuildController::class, 'destroy']);
-            Route::patch('{build}/set', [MinecraftBuildController::class, 'patch']);
+            Route::delete('{build}', [MinecraftBuildController::class, 'destroy'])
+                ->middleware('require-server-token');
+            Route::patch('{build}/set', [MinecraftBuildController::class, 'patch'])
+                ->middleware('require-server-token');
 
-            Route::post('{build}/vote', [MinecraftBuildVoteController::class, 'store']);
-            Route::delete('{build}/vote', [MinecraftBuildVoteController::class, 'destroy']);
+            Route::post('{build}/vote', [MinecraftBuildVoteController::class, 'store'])
+                ->middleware('require-server-token');
+            Route::delete('{build}/vote', [MinecraftBuildVoteController::class, 'destroy'])
+                ->middleware('require-server-token');
         });
 
         Route::prefix('warps')->group(function () {

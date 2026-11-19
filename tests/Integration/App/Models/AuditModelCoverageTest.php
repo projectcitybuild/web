@@ -1,6 +1,8 @@
 <?php
 
+use App\Domains\BanAppeals\Data\BanAppealStatus;
 use App\Domains\BanAppeals\UseCases\CreateBanAppeal;
+use App\Domains\BuilderRankApplications\Data\ApplicationStatus;
 use App\Models\Account;
 use App\Models\BuilderRankApplication;
 use App\Models\MinecraftBuild;
@@ -132,7 +134,7 @@ it('audits ban appeal creation but leaves decisions to explicit domain events', 
     $createdAudit = $appeal->audits()->where('event', 'created')->firstOrFail();
     expect($createdAudit->new_values)->toMatchArray(['email' => 'player@example.test']);
 
-    $appeal->update(['status' => 2]);
+    $appeal->update(['status' => BanAppealStatus::ACCEPTED_TEMPBAN]);
 
     expect($appeal->audits()->count())->toBe(1);
 });
@@ -150,7 +152,7 @@ it('audits builder application creation but leaves decisions to explicit domain 
         'minecraft_alias' => 'Builder',
     ]);
 
-    $application->update(['status' => 2]);
+    $application->update(['status' => ApplicationStatus::APPROVED]);
 
     expect($application->audits()->count())->toBe(1);
 });

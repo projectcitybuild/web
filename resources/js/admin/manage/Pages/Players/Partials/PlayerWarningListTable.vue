@@ -5,11 +5,10 @@ import { Link } from '@inertiajs/vue3'
 import OutlinedButton from '../../../Components/OutlinedButton.vue'
 import SvgIcon from '../../../Components/SvgIcon.vue'
 import { Icons } from '../../../Icons'
-import { PlayerWarning } from '../../../Data/PlayerWarning';
 import DataTable from '../../../Components/DataTable.vue'
 
 interface Props {
-    warnings: PlayerWarning[],
+    warnings: App.Http.Data.AdminPlayerWarningData[],
 }
 defineProps<Props>()
 

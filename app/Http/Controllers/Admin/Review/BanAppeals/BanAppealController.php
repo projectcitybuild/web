@@ -32,7 +32,7 @@ class BanAppealController
         // Get ban appeals paginated in the order:
         // Pending appeal (newest first), then all other appeals (newest first)
         $banAppeals = function () {
-            return BanAppeal::orderByRaw('FIELD(status, '.BanAppealStatus::PENDING->value.') DESC')
+            return BanAppeal::orderByRaw('FIELD(status, ?) DESC', [BanAppealStatus::PENDING->value])
                 ->with('gamePlayerBan.bannedPlayer')
                 ->orderBy('created_at', 'desc')
                 ->paginate(50);

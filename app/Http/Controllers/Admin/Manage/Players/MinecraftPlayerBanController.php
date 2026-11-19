@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin\Manage\Players;
 use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\WebController;
+use App\Http\Data\AdminGamePlayerBanData;
+use App\Models\GamePlayerBan;
 use App\Models\MinecraftPlayer;
 
 class MinecraftPlayerBanController extends WebController
@@ -15,6 +17,9 @@ class MinecraftPlayerBanController extends WebController
     {
         $this->requires(WebManagePermission::UUID_BANS_VIEW);
 
-        return $player->gamePlayerBans()->paginate(50);
+        return $player->gamePlayerBans()
+            ->with(['bannedPlayer', 'bannerPlayer', 'unbannerPlayer'])
+            ->paginate(50)
+            ->through(fn (GamePlayerBan $ban): array => AdminGamePlayerBanData::fromModel($ban)->toArray());
     }
 }

@@ -27,7 +27,7 @@ class ApproveBuildRankApplication
         $oldStatus = $application->getRawOriginal('status');
 
         DB::transaction(function () use ($application, $promoteRole) {
-            $application->status = ApplicationStatus::APPROVED->value;
+            $application->status = ApplicationStatus::APPROVED;
             $application->closed_at = now();
             $application->save();
 

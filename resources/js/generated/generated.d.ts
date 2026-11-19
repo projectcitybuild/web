@@ -18,7 +18,11 @@ declare namespace App {
     export namespace Domains {
         export namespace BanAppeals {
             export namespace Data {
-                export type BanAppealStatus = 0 | 1 | 2 | 3;
+                export type BanAppealStatus =
+                    | "pending"
+                    | "accepted_unban"
+                    | "accepted_tempban"
+                    | "denied";
             }
         }
         export namespace Bans {
@@ -28,7 +32,8 @@ declare namespace App {
         }
         export namespace BuilderRankApplications {
             export namespace Data {
-                export type ApplicationStatus = 1 | 2 | 3;
+                export type ApplicationStatus =
+                    "pending" | "approved" | "denied";
                 export type BuilderRank = 0 | 1 | 2 | 3;
             }
         }
@@ -429,6 +434,14 @@ declare namespace App {
                 created_at: string | null;
                 updated_at: string | null;
                 account?: App.Http.Data.AdminAccountData | null;
+            };
+            export type MinecraftPlayerIpData = {
+                id: number;
+                player_id: number;
+                ip: string;
+                times_connected: number;
+                created_at: string | null;
+                updated_at: string | null;
             };
             export type MinecraftWarpData = {
                 id: number;

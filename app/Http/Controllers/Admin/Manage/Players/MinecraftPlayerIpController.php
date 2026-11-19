@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin\Manage\Players;
 use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\WebController;
+use App\Http\Data\MinecraftPlayerIpData;
 use App\Models\MinecraftPlayer;
+use App\Models\MinecraftPlayerIp;
 
 class MinecraftPlayerIpController extends WebController
 {
@@ -18,6 +20,7 @@ class MinecraftPlayerIpController extends WebController
         return $player
             ->ips()
             ->orderBy('times_connected', 'desc')
-            ->paginate(50);
+            ->paginate(50)
+            ->through(fn (MinecraftPlayerIp $ip): array => MinecraftPlayerIpData::fromModel($ip)->toArray());
     }
 }

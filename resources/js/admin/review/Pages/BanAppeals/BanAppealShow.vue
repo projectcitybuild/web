@@ -6,7 +6,7 @@ import MinecraftAvatar from '../../../manage/Components/MinecraftAvatar.vue'
 import { distance, distanceFromNow, format } from '../../../manage/Utilities/DateFormatter'
 import SuccessAlert from '../../../manage/Components/SuccessAlert.vue'
 import { computed, ref } from 'vue'
-import { BanAppealStatus } from '../../../manage/Data/BanAppealStatus'
+import { BanAppealStatus } from '../../../../generated/openapi-enums'
 import ErrorAlert from '../../../manage/Components/ErrorAlert.vue'
 import SvgIcon from '../../../manage/Components/SvgIcon.vue'
 import OutlinedButton from '../../../manage/Components/OutlinedButton.vue'
@@ -40,12 +40,12 @@ const status = computed(() => {
                 variant: 'danger' as const,
                 label: 'Denied',
             }
-        case BanAppealStatus.unbanned:
+        case BanAppealStatus.acceptedUnban:
             return {
                 variant: 'success' as const,
                 label: 'Unbanned',
             }
-        case BanAppealStatus.tempBanned:
+        case BanAppealStatus.acceptedTempban:
             return {
                 variant: 'info' as const,
                 label: 'Downgraded to Temp Ban',
@@ -63,7 +63,7 @@ const status = computed(() => {
     }
 })
 const confirmationMessage = computed(() => {
-    const decision = form.status === BanAppealStatus.unbanned
+    const decision = form.status === BanAppealStatus.acceptedUnban
         ? 'unban the player'
         : form.status === BanAppealStatus.denied
             ? 'keep the ban in place'
@@ -308,7 +308,7 @@ function confirmDecision() {
                                 <div class="flex items-center mb-4">
                                     <input
                                         v-model="form.status"
-                                        :value="BanAppealStatus.unbanned"
+                                        :value="BanAppealStatus.acceptedUnban"
                                         id="decision_unban"
                                         type="radio"
                                         class="size-4 accent-primary focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus"
@@ -331,7 +331,7 @@ function confirmDecision() {
                         </div>
 
                         <Button
-                            :variant="form.status === BanAppealStatus.unbanned ? 'primary' : 'danger'"
+                            :variant="form.status === BanAppealStatus.acceptedUnban ? 'primary' : 'danger'"
                             :loading="form.processing"
                             type="button"
                             @click="requestConfirmation"
@@ -390,7 +390,7 @@ function confirmDecision() {
             title="Finish Ban Appeal?"
             :message="confirmationMessage"
             confirm-title="Finish and Close"
-            :confirm-variant="form.status === BanAppealStatus.unbanned ? 'primary' : 'danger'"
+            :confirm-variant="form.status === BanAppealStatus.acceptedUnban ? 'primary' : 'danger'"
             :on-confirm="confirmDecision"
         />
     </div>

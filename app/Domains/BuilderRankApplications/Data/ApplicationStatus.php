@@ -2,11 +2,11 @@
 
 namespace App\Domains\BuilderRankApplications\Data;
 
-enum ApplicationStatus: int
+enum ApplicationStatus: string
 {
-    case PENDING = 1;
-    case APPROVED = 2;
-    case DENIED = 3;
+    case PENDING = 'pending';
+    case APPROVED = 'approved';
+    case DENIED = 'denied';
 
     public function humanReadable(): string
     {

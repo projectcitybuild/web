@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { format } from '../../../Utilities/DateFormatter'
-import { PlayerIP } from '../../../Data/PlayerIP'
 import DataTable from '../../../Components/DataTable.vue'
 
 interface Props {
-    ips: PlayerIP[],
+    ips: App.Http.Data.MinecraftPlayerIpData[],
 }
 defineProps<Props>()
 

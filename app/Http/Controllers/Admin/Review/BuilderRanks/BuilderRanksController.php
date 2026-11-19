@@ -27,7 +27,7 @@ class BuilderRanksController extends WebController
         $this->requires(WebReviewPermission::BUILD_RANK_APPS_VIEW);
 
         $applications = function () {
-            return BuilderRankApplication::orderbyRaw('FIELD(status, '.ApplicationStatus::PENDING->value.') DESC')
+            return BuilderRankApplication::orderbyRaw('FIELD(status, ?) DESC', [ApplicationStatus::PENDING->value])
                 ->with('account.minecraftAccount')
                 ->orderBy('created_at', 'desc')
                 ->paginate(50);

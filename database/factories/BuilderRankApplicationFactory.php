@@ -27,7 +27,7 @@ class BuilderRankApplicationFactory extends Factory
             'build_location' => $this->faker->sentence,
             'build_description' => $this->faker->paragraph,
             'additional_notes' => $this->faker->paragraph,
-            'status' => 1,
+            'status' => ApplicationStatus::PENDING,
         ];
     }
 
