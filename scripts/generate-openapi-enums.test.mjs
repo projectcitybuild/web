@@ -108,6 +108,28 @@ test('discovers path and operation parameter enums and response headers', () => 
     assert.match(source, /export const BuildShowResponseHeaderXVisibility =/)
 })
 
+test('resolves component parameter references with escaped pointer names', () => {
+    const source = generate({
+        ...emptySpec(),
+        components: {
+            schemas: {},
+            parameters: {
+                'Build/Status': { name: 'state', in: 'query', schema: { type: 'string', enum: ['ready', 'failed'] } },
+            },
+        },
+        paths: {
+            '/builds': {
+                get: {
+                    operationId: 'build.index',
+                    parameters: [{ $ref: '#/components/parameters/Build~1Status' }],
+                },
+            },
+        },
+    })
+
+    assert.match(source, /export const BuildIndexParameterState =/)
+})
+
 test('generates Laravel Data string unions', () => {
     const source = generate(emptySpec(), 'type ApplicationStatus = "pending" | "approved";')
 

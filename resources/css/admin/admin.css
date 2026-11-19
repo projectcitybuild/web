@@ -6,9 +6,7 @@
 @source "../../views/admin/review";
 @source "../../views/shared";
 @source "../../views/vendor/pagination";
-@source "../../js/admin/manage";
-@source "../../js/admin/review";
-@source "../../js/admin/shared";
+@source "../../js/admin";
 @source "../../../node_modules/flowbite";
 
 @theme inline {

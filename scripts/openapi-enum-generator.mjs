@@ -45,13 +45,14 @@ function decodePointerPart(value) {
 }
 
 function resolveComponentReference(spec, value, collection) {
-    const match = value?.$ref?.match(new RegExp(`^#/components/${collection}/(.+)$`))
+    const reference = value?.$ref
+    const prefix = `#/components/${collection}/`
 
-    if (!match) {
+    if (typeof reference !== 'string' || !reference.startsWith(prefix) || reference.length === prefix.length) {
         return value
     }
 
-    return spec.components?.[collection]?.[decodePointerPart(match[1])] ?? value
+    return spec.components?.[collection]?.[decodePointerPart(reference.slice(prefix.length))] ?? value
 }
 
 export function generateEnumSource(spec, declarations = '') {
