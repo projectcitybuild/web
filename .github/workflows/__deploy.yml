@@ -46,6 +46,7 @@ jobs:
       - uses: actions/checkout@v4.2.2
         with:
           ref: ${{ inputs.image-tag || inputs.branch }}
+          persist-credentials: false
 
       - name: Determine source revision
         id: source
@@ -63,6 +64,7 @@ jobs:
       - uses: actions/checkout@v4.2.2
         with:
           ref: ${{ needs.facts.outputs.image-tag }}
+          persist-credentials: false
 
       - name: Set image repository
         id: repository
@@ -111,6 +113,7 @@ jobs:
       - uses: actions/checkout@v4.2.2
         with:
           ref: ${{ needs.facts.outputs.image-tag }}
+          persist-credentials: false
 
       - name: Prepare SSH
         env:
