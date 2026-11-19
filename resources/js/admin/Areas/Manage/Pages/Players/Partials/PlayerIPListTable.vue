@@ -8,7 +8,6 @@ interface Props {
 defineProps<Props>()
 
 const fields = [
-    { key: 'id', label: 'ID' },
     { key: 'ip', label: 'IP Address' },
     { key: 'times_connected', label: 'Times Connected' },
     { key: 'updated_at', label: 'Last Used' },
