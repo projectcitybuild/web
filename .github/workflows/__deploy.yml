@@ -36,7 +36,7 @@ on:
         value: ${{ jobs.deploy.outputs.image-tag }}
 
 jobs:
-  verify:
+  facts:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -51,44 +51,9 @@ jobs:
         id: source
         run: echo "image-tag=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
-      - name: Start devcontainer
-        uses: $/.github/actions/start-devcontainer
-        with:
-          services: cli mariadb redis
-
-      - name: Install Composer dependencies
-        uses: $/.github/actions/install-composer-deps
-
-      - name: Install npm dependencies
-        uses: $/.github/actions/install-npm-deps
-
-      - name: Prepare Laravel
-        uses: $/.github/actions/run-in-devcontainer
-        with:
-          command: php artisan key:generate && chmod -R 755 storage bootstrap/cache
-
-      - name: Run database migrations
-        uses: $/.github/actions/run-in-devcontainer
-        with:
-          command: php artisan migrate
-
-      - name: Build frontend assets
-        uses: $/.github/actions/run-in-devcontainer
-        with:
-          command: npm run build
-
-      - name: Run test suite
-        uses: $/.github/actions/run-in-devcontainer
-        with:
-          command: XDEBUG_MODE=coverage php artisan test
-
-      - name: Stop devcontainer
-        if: always()
-        run: docker compose -f .devcontainer/compose.yaml down --volumes
-
   build:
     runs-on: ubuntu-latest
-    needs: verify
+    needs: facts
     permissions:
       contents: read
       packages: write
@@ -97,7 +62,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4.2.2
         with:
-          ref: ${{ needs.verify.outputs.image-tag }}
+          ref: ${{ needs.facts.outputs.image-tag }}
 
       - name: Set image repository
         id: repository
@@ -115,7 +80,7 @@ jobs:
       - name: Build and push PHP-FPM image
         if: inputs.build-images
         env:
-          IMAGE_TAG: ${{ needs.verify.outputs.image-tag }}
+          IMAGE_TAG: ${{ needs.facts.outputs.image-tag }}
         run: >-
           docker buildx build --push --file .docker/images/fpm/Dockerfile --target fpm
           --tag "$IMAGE_REPO:$IMAGE_TAG-fpm"
@@ -124,7 +89,7 @@ jobs:
       - name: Build and push nginx image
         if: inputs.build-images
         env:
-          IMAGE_TAG: ${{ needs.verify.outputs.image-tag }}
+          IMAGE_TAG: ${{ needs.facts.outputs.image-tag }}
         run: >-
           docker buildx build --push --file .docker/images/fpm/Dockerfile --target nginx
           --tag "$IMAGE_REPO:$IMAGE_TAG-nginx"
@@ -136,16 +101,16 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: [verify, build]
+    needs: [facts, build]
     environment: ${{ inputs.environment }}
     permissions:
       contents: read
     outputs:
-      image-tag: ${{ needs.verify.outputs.image-tag }}
+      image-tag: ${{ needs.facts.outputs.image-tag }}
     steps:
       - uses: actions/checkout@v4.2.2
         with:
-          ref: ${{ needs.verify.outputs.image-tag }}
+          ref: ${{ needs.facts.outputs.image-tag }}
 
       - name: Prepare SSH
         env:
@@ -166,7 +131,7 @@ jobs:
           GHCR_PULL_TOKEN: ${{ secrets.GHCR_PULL_TOKEN }}
           APP_DOMAIN: ${{ vars.APP_DOMAIN }}
           ENVIRONMENT: ${{ inputs.environment }}
-          IMAGE_TAG: ${{ needs.verify.outputs.image-tag }}
+          IMAGE_TAG: ${{ needs.facts.outputs.image-tag }}
           IMAGE_REPO: ${{ needs.build.outputs.image-repo }}
         run: |
           [[ "$APP_DOMAIN" =~ ^[A-Za-z0-9.-]+$ ]]
@@ -199,14 +164,14 @@ jobs:
       - name: Verify deployed application SHA
         env:
           APP_DOMAIN: ${{ vars.APP_DOMAIN }}
-          IMAGE_TAG: ${{ needs.verify.outputs.image-tag }}
-        run: node scripts/verify-deployment.mjs "https://${APP_DOMAIN}/version" "$IMAGE_TAG"
+          IMAGE_TAG: ${{ needs.facts.outputs.image-tag }}
+        run: node scripts/verify-deployment.mjs "https://api.${APP_DOMAIN}/version" "$IMAGE_TAG"
 
       - name: Publish deployed image revision
         env:
           APP_DOMAIN: ${{ vars.APP_DOMAIN }}
-          IMAGE_TAG: ${{ needs.verify.outputs.image-tag }}
+          IMAGE_TAG: ${{ needs.facts.outputs.image-tag }}
         run: |
           echo "Deployed and verified image revision: \`$IMAGE_TAG\`" >> "$GITHUB_STEP_SUMMARY"
-          echo "Version endpoint: https://$APP_DOMAIN/version" >> "$GITHUB_STEP_SUMMARY"
+          echo "Version endpoint: https://api.${APP_DOMAIN}/version" >> "$GITHUB_STEP_SUMMARY"
 
