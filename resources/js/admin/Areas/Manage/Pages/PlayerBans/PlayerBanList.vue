@@ -1,21 +1,19 @@
 <script setup lang="ts">
 import { Routes } from '../../../../Navigation/Routes'
-import { Deferred, Head, Link } from '@inertiajs/vue3'
+import { Deferred, Head } from '@inertiajs/vue3'
 import BanListTable from './Partials/PlayerBanListTable.vue'
 import InfinitePagination from '../../../../Components/InfinitePagination.vue'
-import Card from '../../../../Components/ManageCard.vue'
 import SuccessAlert from '../../../../Components/SuccessAlert.vue'
-import FilledButton from '../../../../Components/FilledButton.vue'
 import SvgIcon from '../../../../Components/SvgIcon.vue'
-import FilterPanel from '../../../../Components/FilterPanel.vue'
 import PlayerPicker from '../../../../Components/PlayerPicker.vue'
 import SpinnerRow from '../../../../Components/SpinnerRow.vue'
 import { computed, ref, watch } from 'vue'
 import { Icons } from '../../../../Navigation/Icons'
 import usePermissions from '../../../../Composables/usePermissions'
-import ShowingCount from '../../../../Components/ShowingCount.vue'
 import PageHeader from '../../../../Components/PageHeader.vue'
 import LinkButton from '../../../../Components/LinkButton.vue'
+import ListPage from '../../../../Components/ListPage.vue'
+import OutlinedButton from '../../../../Components/OutlinedButton.vue'
 
 defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/PlayerBans/PlayerBanList']>()
 
@@ -81,99 +79,94 @@ function clearFilters() {
 
     <section>
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
-        <Card padding="none">
-            <div class="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                    <ShowingCount
-                        v-if="bans"
-                        :from="itemCount > 0 ? 1 : 0"
-                        :to="itemCount"
-                        :total="bans.total"
-                        class="text-sm text-muted"
-                    />
+        <ListPage
+            :count="bans ? itemCount : undefined"
+            :total="bans?.total"
+            count-label="bans"
+            :filter-count="activeFilterCount"
+        >
+            <template #filters>
+                <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    <div class="flex flex-col gap-1.5">
+                        <label for="name" class="text-sm font-medium text-foreground">Banned by</label>
+                        <PlayerPicker
+                            v-model:uuid="bannerUuid"
+                            v-model:alias="bannerAlias"
+                        />
+                    </div>
+                    <label for="ban-player" class="flex flex-col gap-1.5 text-sm font-medium text-foreground">
+                        Player
+                        <input
+                            id="ban-player"
+                            v-model="player"
+                            type="search"
+                            class="min-h-10 w-full rounded-md border border-border-strong bg-surface px-3 text-sm text-foreground placeholder:text-subtle focus:border-primary focus:ring-focus"
+                            placeholder="Player name or UUID"
+                        >
+                    </label>
+                    <label for="ban-reason" class="flex flex-col gap-1.5 text-sm font-medium text-foreground">
+                        Reason
+                        <input
+                            id="ban-reason"
+                            v-model="reason"
+                            type="search"
+                            class="min-h-10 w-full rounded-md border border-border-strong bg-surface px-3 text-sm text-foreground placeholder:text-subtle focus:border-primary focus:ring-focus"
+                            placeholder="Search ban reasons"
+                        >
+                    </label>
+                    <label for="ban-status" class="flex flex-col gap-1.5 text-sm font-medium text-foreground">
+                        Status
+                        <select
+                            id="ban-status"
+                            v-model="status"
+                            class="min-h-10 w-full rounded-md border border-border-strong bg-surface px-3 text-sm text-foreground focus:border-primary focus:ring-focus"
+                        >
+                            <option value="">Any status</option>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </label>
+                    <label for="ban-has-expiry" class="flex flex-col gap-1.5 text-sm font-medium text-foreground">
+                        Has expiry
+                        <select
+                            id="ban-has-expiry"
+                            v-model="hasExpiry"
+                            class="min-h-10 w-full rounded-md border border-border-strong bg-surface px-3 text-sm text-foreground focus:border-primary focus:ring-focus"
+                        >
+                            <option value="">Any</option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
+                    </label>
+                    <label for="ban-expires-at" class="flex flex-col gap-1.5 text-sm font-medium text-foreground">
+                        Expiry date
+                        <input
+                            id="ban-expires-at"
+                            v-model="expiresAt"
+                            type="date"
+                            class="min-h-10 w-full rounded-md border border-border-strong bg-surface px-3 text-sm text-foreground focus:border-primary focus:ring-focus"
+                        >
+                    </label>
+                    <label for="ban-created-at" class="flex flex-col gap-1.5 text-sm font-medium text-foreground">
+                        Created date
+                        <input
+                            id="ban-created-at"
+                            v-model="createdAt"
+                            type="date"
+                            class="min-h-10 w-full rounded-md border border-border-strong bg-surface px-3 text-sm text-foreground focus:border-primary focus:ring-focus"
+                        >
+                    </label>
                 </div>
-                <div class="flex flex-wrap gap-2 sm:justify-end">
-                    <FilterPanel
-                        id="player-ban-filters"
-                        :active-count="activeFilterCount"
-                        apply-label="Done"
-                        @clear="clearFilters"
+                <div class="mt-4 flex justify-end">
+                    <OutlinedButton
+                        variant="secondary"
+                        :disabled="activeFilterCount === 0"
+                        @click="clearFilters"
                     >
-                        <div class="grid gap-4">
-                            <div class="flex flex-col gap-1.5">
-                                <label for="name" class="text-sm font-medium text-foreground">Banned by</label>
-                                <PlayerPicker
-                                    v-model:uuid="bannerUuid"
-                                    v-model:alias="bannerAlias"
-                                />
-                            </div>
-                            <label for="ban-player" class="flex flex-col gap-1.5 text-sm font-medium text-foreground">
-                                Player
-                                <input
-                                    id="ban-player"
-                                    v-model="player"
-                                    type="search"
-                                    class="min-h-11 w-full rounded-lg border border-border bg-surface px-3 text-sm text-foreground placeholder:text-muted focus:border-primary focus:ring-primary"
-                                    placeholder="Player name or UUID"
-                                >
-                            </label>
-                            <label for="ban-reason" class="flex flex-col gap-1.5 text-sm font-medium text-foreground">
-                                Reason
-                                <input
-                                    id="ban-reason"
-                                    v-model="reason"
-                                    type="search"
-                                    class="min-h-11 w-full rounded-lg border border-border bg-surface px-3 text-sm text-foreground placeholder:text-muted focus:border-primary focus:ring-primary"
-                                    placeholder="Search ban reasons"
-                                >
-                            </label>
-                            <label for="ban-status" class="flex flex-col gap-1.5 text-sm font-medium text-foreground">
-                                Status
-                                <select
-                                    id="ban-status"
-                                    v-model="status"
-                                    class="min-h-11 w-full rounded-lg border border-border bg-surface px-3 text-sm text-foreground focus:border-primary focus:ring-primary"
-                                >
-                                    <option value="">Any status</option>
-                                    <option value="active">Active</option>
-                                    <option value="inactive">Inactive</option>
-                                </select>
-                            </label>
-                            <label for="ban-has-expiry" class="flex flex-col gap-1.5 text-sm font-medium text-foreground">
-                                Has expiry
-                                <select
-                                    id="ban-has-expiry"
-                                    v-model="hasExpiry"
-                                    class="min-h-11 w-full rounded-lg border border-border bg-surface px-3 text-sm text-foreground focus:border-primary focus:ring-primary"
-                                >
-                                    <option value="">Any</option>
-                                    <option value="1">Yes</option>
-                                    <option value="0">No</option>
-                                </select>
-                            </label>
-                            <label for="ban-expires-at" class="flex flex-col gap-1.5 text-sm font-medium text-foreground">
-                                Expiry date
-                                <input
-                                    id="ban-expires-at"
-                                    v-model="expiresAt"
-                                    type="date"
-                                    class="min-h-11 w-full rounded-lg border border-border bg-surface px-3 text-sm text-foreground focus:border-primary focus:ring-primary"
-                                >
-                            </label>
-                            <label for="ban-created-at" class="flex flex-col gap-1.5 text-sm font-medium text-foreground">
-                                Created date
-                                <input
-                                    id="ban-created-at"
-                                    v-model="createdAt"
-                                    type="date"
-                                    class="min-h-11 w-full rounded-lg border border-border bg-surface px-3 text-sm text-foreground focus:border-primary focus:ring-primary"
-                                >
-                            </label>
-                        </div>
-                    </FilterPanel>
-
+                        Clear filters
+                    </OutlinedButton>
                 </div>
-            </div>
+            </template>
 
             <Deferred data="bans">
                 <template #fallback>
@@ -196,7 +189,7 @@ function clearFilters() {
                     />
                 </InfinitePagination>
             </Deferred>
-        </Card>
+        </ListPage>
     </section>
     </div>
 </template>

@@ -7,6 +7,8 @@ import { Icons } from '../Navigation/Icons'
 
 interface Props {
     count?: number | null,
+    from?: number | null,
+    to?: number | null,
     total?: number | null,
     countLabel?: string,
     filterCount?: number,
@@ -27,17 +29,20 @@ const filtersExpanded = ref(false)
 const filterRegionId = `manage-list-filters-${useId()}`
 
 const countText = computed(() => {
-    if (props.count == null) {
+    if (props.count == null && props.from == null && props.to == null) {
         return null
     }
 
     const label = props.countLabel ?? ''
+    const from = props.from ?? (props.count && props.count > 0 ? 1 : 0)
+    const to = props.to ?? props.count ?? 0
+    const total = props.total ?? props.count
 
-    if (props.total != null) {
-        return `Showing ${props.count} of ${props.total} ${label}`.trim()
+    if (total != null) {
+        return `Showing ${from}-${to} of ${total} ${label}`.trim()
     }
 
-    return `${props.count} ${label}`.trim()
+    return `Showing ${from}-${to} ${label}`.trim()
 })
 </script>
 

@@ -2,9 +2,8 @@
 import { Routes } from '../../../../Navigation/Routes'
 import { Head, Link } from '@inertiajs/vue3'
 import Badge from '../../../../Components/Badge.vue'
-import Card from '../../../../Components/ManageCard.vue'
 import DataTable from '../../../../Components/DataTable.vue'
-import ShowingCount from '../../../../Components/ShowingCount.vue'
+import ListPage from '../../../../Components/ListPage.vue'
 import PageHeader from '../../../../Components/PageHeader.vue'
 import { distance, distanceFromNow, format, timeAgo } from '../../../../Utilities/DateFormatter.js'
 import { useServerListSorting } from '../../../../Composables/useTableSorting'
@@ -41,7 +40,12 @@ function paginationLabel(label: string): string {
             description="Review who temporarily received server operator privileges."
         />
 
-        <Card padding="none" class="overflow-hidden rounded-[var(--radius-md)] border border-border bg-surface">
+        <ListPage
+            :from="props.elevations.from"
+            :to="props.elevations.to"
+            :total="props.elevations.total"
+            count-label="operator elevations"
+        >
             <DataTable
                 :fields="fields"
                 :rows="props.elevations.data"
@@ -81,9 +85,7 @@ function paginationLabel(label: string): string {
                 </template>
             </DataTable>
 
-            <div class="flex flex-wrap items-center justify-between gap-4 border-t border-border p-4">
-                <ShowingCount :from="props.elevations.from" :to="props.elevations.to" :total="props.elevations.total" />
-
+            <div class="flex flex-wrap items-center justify-end gap-4 border-t border-border p-4">
                 <nav
                     v-if="props.elevations.last_page > 1"
                     aria-label="OP elevation pages"
@@ -111,6 +113,6 @@ function paginationLabel(label: string): string {
                     </template>
                 </nav>
             </div>
-        </Card>
+        </ListPage>
     </div>
 </template>

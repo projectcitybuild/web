@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { Routes } from '../../../../Navigation/Routes'
-import { Deferred, Head, Link, useForm } from '@inertiajs/vue3'
+import { Deferred, Head, useForm } from '@inertiajs/vue3'
 import PlayerListTable from './Partials/PlayerListTable.vue'
 import InfinitePagination from '../../../../Components/InfinitePagination.vue'
 import SuccessAlert from '../../../../Components/SuccessAlert.vue'
-import Card from '../../../../Components/ManageCard.vue'
-import FilledButton from '../../../../Components/FilledButton.vue'
 import SvgIcon from '../../../../Components/SvgIcon.vue'
 import SpinnerRow from '../../../../Components/SpinnerRow.vue'
 import { computed, ref, watch } from 'vue'
@@ -14,8 +12,8 @@ import usePermissions from '../../../../Composables/usePermissions'
 import PageHeader from '../../../../Components/PageHeader.vue'
 import LinkButton from '../../../../Components/LinkButton.vue'
 import Input from '../../../../Components/Input.vue'
-import FilterPanel from '../../../../Components/FilterPanel.vue'
-import ShowingCount from '../../../../Components/ShowingCount.vue'
+import ListPage from '../../../../Components/ListPage.vue'
+import OutlinedButton from '../../../../Components/OutlinedButton.vue'
 
 defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Players/PlayerList']>()
 
@@ -59,33 +57,27 @@ watch(
     <section>
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
-        <Card padding="none">
-            <div class="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                    <ShowingCount
-                        v-if="players"
-                        :from="itemCount > 0 ? 1 : 0"
-                        :to="itemCount"
-                        :total="players.total"
-                        class="text-sm text-muted"
-                    />
+        <ListPage
+            :count="players ? itemCount : undefined"
+            :total="players?.total"
+            count-label="players"
+            :filter-count="activeFilterCount"
+        >
+            <template #filters>
+                <div class="grid gap-4 sm:grid-cols-2">
+                    <Input v-model="form.alias" id="alias" label="Alias" placeholder="Search aliases" />
+                    <Input v-model="form.uuid" id="uuid" label="UUID" placeholder="Search UUIDs" />
                 </div>
-
-                <div class="flex flex-wrap gap-2 sm:justify-end">
-                    <FilterPanel
-                        id="player-filters"
-                        :active-count="activeFilterCount"
-                        apply-label="Done"
-                        @clear="form.reset()"
+                <div class="mt-4 flex justify-end">
+                    <OutlinedButton
+                        variant="secondary"
+                        :disabled="activeFilterCount === 0"
+                        @click="form.reset()"
                     >
-                        <div class="grid gap-4">
-                            <Input v-model="form.alias" id="alias" label="Alias" placeholder="Search aliases" />
-                            <Input v-model="form.uuid" id="uuid" label="UUID" placeholder="Search UUIDs" />
-                        </div>
-                    </FilterPanel>
-
+                        Clear filters
+                    </OutlinedButton>
                 </div>
-            </div>
+            </template>
 
             <Deferred data="players">
                 <template #fallback>
@@ -109,7 +101,7 @@ watch(
                     />
                 </InfinitePagination>
             </Deferred>
-        </Card>
+        </ListPage>
     </section>
     </div>
 </template>

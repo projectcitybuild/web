@@ -2,12 +2,8 @@
 import { Routes } from '../../../../Navigation/Routes'
 import { Head, Link, router } from '@inertiajs/vue3'
 import { computed, ref } from 'vue'
-import Card from '../../../../Components/ManageCard.vue'
-import FilledButton from '../../../../Components/FilledButton.vue'
 import usePermissions from '../../../../Composables/usePermissions'
 import BroadcastStatus from '../../../../Components/PlayerMail/BroadcastStatus.vue'
-import FilterPanel from '../../../../Components/FilterPanel.vue'
-import ShowingCount from '../../../../Components/ShowingCount.vue'
 import Table from '../../../../Components/Table.vue'
 import TableCell from '../../../../Components/TableCell.vue'
 import TableHead from '../../../../Components/TableHead.vue'
@@ -16,6 +12,8 @@ import PageHeader from '../../../../Components/PageHeader.vue'
 import LinkButton from '../../../../Components/LinkButton.vue'
 import EmptyState from '../../../../Components/EmptyState.vue'
 import { useServerListSorting } from '../../../../Composables/useTableSorting'
+import ListPage from '../../../../Components/ListPage.vue'
+import OutlinedButton from '../../../../Components/OutlinedButton.vue'
 
 const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/PlayerMail/Index']>()
 const search = ref(props.filters.search)
@@ -86,34 +84,31 @@ function formatDate(value: string): string {
             </template>
         </PageHeader>
 
-        <Card padding="none">
-            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-border p-4">
-                <p class="text-sm text-muted">
-                    {{ broadcasts.total }} {{ broadcasts.total === 1 ? 'announcement' : 'announcements' }}
-                    <span v-if="hasFilters">matching filters</span>
-                </p>
-                <FilterPanel
-                    id="broadcast-filters"
-                    :active-count="activeFilterCount"
-                    @apply="filterBroadcasts"
-                    @clear="clearFilters"
-                >
-                    <form class="grid gap-4" @submit.prevent="filterBroadcasts">
-                        <label class="flex flex-col gap-1.5 text-sm font-medium text-muted dark:text-muted">
+        <ListPage
+            :from="broadcasts.from"
+            :to="broadcasts.to"
+            :total="broadcasts.total"
+            count-label="announcements"
+            :filter-count="activeFilterCount"
+        >
+            <template #filters>
+                <form class="space-y-4" @submit.prevent="filterBroadcasts">
+                    <div class="grid gap-4 sm:grid-cols-2">
+                        <label class="flex flex-col gap-1.5 text-sm font-medium text-foreground">
                             Search subject
                             <input
                                 v-model="search"
                                 type="search"
                                 maxlength="191"
                                 placeholder="Search announcement subjects"
-                                class="min-h-11 w-full rounded-lg border border-border-strong bg-white px-3 text-sm text-foreground focus:border-primary focus:ring-focus"
+                                class="min-h-10 w-full rounded-md border border-border-strong bg-surface px-3 text-sm text-foreground focus:border-primary focus:ring-focus"
                             >
                         </label>
-                        <label class="flex flex-col gap-1.5 text-sm font-medium text-muted dark:text-muted">
+                        <label class="flex flex-col gap-1.5 text-sm font-medium text-foreground">
                             Delivery status
                             <select
                                 v-model="status"
-                                class="min-h-11 w-full rounded-lg border border-border-strong bg-white px-3 text-sm text-foreground focus:border-primary focus:ring-focus"
+                                class="min-h-10 w-full rounded-md border border-border-strong bg-surface px-3 text-sm text-foreground focus:border-primary focus:ring-focus"
                             >
                                 <option value="">All statuses</option>
                                 <option value="queued">Pending</option>
@@ -122,9 +117,17 @@ function formatDate(value: string): string {
                                 <option value="failed">Failed</option>
                             </select>
                         </label>
-                    </form>
-                </FilterPanel>
-            </div>
+                    </div>
+                    <div class="flex flex-wrap justify-end gap-2">
+                        <OutlinedButton variant="secondary" :disabled="activeFilterCount === 0" @click="clearFilters">
+                            Clear filters
+                        </OutlinedButton>
+                        <OutlinedButton variant="secondary" type="submit">
+                            Apply filters
+                        </OutlinedButton>
+                    </div>
+                </form>
+            </template>
 
             <EmptyState
                 v-if="broadcasts.data.length === 0"
@@ -185,8 +188,7 @@ function formatDate(value: string): string {
                     </Table>
                 </div>
 
-                <div class="flex flex-wrap items-center justify-between gap-3 p-4 text-sm text-muted">
-                    <ShowingCount :from="broadcasts.from" :to="broadcasts.to" :total="broadcasts.total" />
+                <div class="flex flex-wrap items-center justify-end gap-3 p-4 text-sm text-muted">
                     <div class="flex items-center gap-2">
                         <LinkButton v-if="broadcasts.current_page > 1" :href="pageUrl(broadcasts.current_page - 1)" variant="ghost" size="sm" class="text-sm">Previous</LinkButton>
                         <span>Page {{ broadcasts.current_page }} of {{ broadcasts.last_page }}</span>
@@ -194,6 +196,6 @@ function formatDate(value: string): string {
                     </div>
                 </div>
             </template>
-        </Card>
+        </ListPage>
     </div>
 </template>

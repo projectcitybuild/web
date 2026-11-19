@@ -2,7 +2,6 @@
 import { Head, Link, router } from '@inertiajs/vue3'
 import { computed, reactive, watch } from 'vue'
 import PageHeader from '../../../../Components/PageHeader.vue'
-import ShowingCount from '../../../../Components/ShowingCount.vue'
 import ListPage from '../../../../Components/ListPage.vue'
 import OutlinedButton from '../../../../Components/OutlinedButton.vue'
 import AuditListTable from './Partials/AuditListTable.vue'
@@ -59,7 +58,13 @@ function paginationLabel(label: string): string {
             description="Review user and system changes across the platform."
         />
 
-        <ListPage :filter-count="activeFilterCount">
+        <ListPage
+            :from="audits.from"
+            :to="audits.to"
+            :total="audits.total"
+            count-label="audit logs"
+            :filter-count="activeFilterCount"
+        >
             <template #filters>
                 <form class="space-y-4" @submit.prevent="visitFilteredResults">
                     <div class="grid gap-4 sm:grid-cols-2">
@@ -115,9 +120,7 @@ function paginationLabel(label: string): string {
             />
 
             <template #footer>
-                <div class="flex flex-wrap items-center justify-between gap-4">
-                    <ShowingCount :from="audits.from" :to="audits.to" :total="audits.total" />
-
+                <div class="flex flex-wrap items-center justify-end gap-4">
                     <nav
                         v-if="audits.last_page > 1"
                         aria-label="Audit log pages"
