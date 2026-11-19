@@ -1,4 +1,4 @@
-FROM php:8.4-cli-alpine
+FROM php:8.5-cli-alpine
 
 RUN addgroup -g 1000 -S user && adduser -u 1000 -D user -G user
 RUN apk add --no-cache bash curl git nano
