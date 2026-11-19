@@ -43,7 +43,7 @@ jobs:
     outputs:
       image-tag: ${{ steps.source.outputs.image-tag }}
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v7.0.1
         with:
           ref: ${{ inputs.image-tag || inputs.branch }}
           persist-credentials: false
@@ -61,7 +61,7 @@ jobs:
     outputs:
       image-repo: ${{ steps.repository.outputs.image-repo }}
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v7.0.1
         with:
           ref: ${{ needs.facts.outputs.image-tag }}
           persist-credentials: false
@@ -110,7 +110,7 @@ jobs:
     outputs:
       image-tag: ${{ needs.facts.outputs.image-tag }}
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v7.0.1
         with:
           ref: ${{ needs.facts.outputs.image-tag }}
           persist-credentials: false

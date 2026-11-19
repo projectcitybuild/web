@@ -29,7 +29,7 @@ concurrency:
 
 jobs:
   deploy:
-    uses: ./.github/workflows/__deploy.yml
+    uses: $/.github/workflows/__deploy.yml
     permissions:
       contents: read
       packages: write
@@ -54,7 +54,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v7.0.1
         with:
           ref: ${{ needs.deploy.outputs.image-tag }}
 
@@ -79,10 +79,7 @@ jobs:
           git push origin "$VERSION_TAG"
 
       - name: Create a GitHub Release
-        uses: softprops/action-gh-release@1fd6f3f2b1b859145679a1892abda586ef982a84
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ steps.git_tag.outputs.VERSION_TAG }}
-          name: ${{ steps.git_tag.outputs.VERSION_TAG }}
-          generate_release_notes: true
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION_TAG: ${{ steps.git_tag.outputs.VERSION_TAG }}
+        run: gh release create "$VERSION_TAG" --title "$VERSION_TAG" --generate-notes

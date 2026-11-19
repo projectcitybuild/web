@@ -9,7 +9,7 @@ concurrency:
 
 jobs:
   deploy:
-    uses: ./.github/workflows/__deploy.yml
+    uses: $/.github/workflows/__deploy.yml
     permissions:
       contents: read
       packages: write

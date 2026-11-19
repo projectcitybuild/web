@@ -4,38 +4,35 @@
 version: 'v0.0.3'
 workflows:
     '.github/workflows/__deploy.yml':
-        - 'actions/cache@v6.1.0'
-        - 'actions/checkout@v4.2.2'
+        - 'actions/checkout@v7.0.1'
     '.github/workflows/deploy-production.yml':
-        - 'actions/checkout@v4.2.2'
-        - 'softprops/action-gh-release@1fd6f3f2b1b859145679a1892abda586ef982a84'
+        - 'actions/checkout@v7.0.1'
     '.github/workflows/deploy-staging.yml': []
     '.github/workflows/docker-validation.yml':
-        - 'actions/checkout@v4.2.2'
-        - 'docker/build-push-action@v6.19.2'
-        - 'docker/setup-buildx-action@v3.12.0'
+        - 'actions/checkout@v7.0.1'
+        - 'docker/build-push-action@v7.4.0'
+        - 'docker/setup-buildx-action@v4.4.1'
     '.github/workflows/security-containers.yml':
-        - 'actions/checkout@v4.2.2'
+        - 'actions/checkout@v7.0.1'
         - 'aquasecurity/trivy-action@v0.36.0'
-        - 'docker/build-push-action@v6.19.2'
-        - 'docker/setup-buildx-action@v3.12.0'
+        - 'docker/build-push-action@v7.4.0'
+        - 'docker/setup-buildx-action@v4.4.1'
     '.github/workflows/security-dependencies.yml':
         - 'actions/checkout@v6.1.0'
     '.github/workflows/security-secrets.yml':
         - 'actions/checkout@v6.1.0'
         - 'gitleaks/gitleaks-action@v3.0.0'
     '.github/workflows/security-static.yml':
-        - 'actions/checkout@v4.2.2'
+        - 'actions/checkout@v7.0.1'
         - 'raven-actions/actionlint@v2.2.0'
         - 'zizmorcore/zizmor-action@v0.8.1'
     '.github/workflows/test-openapi.yml':
         - 'actions/cache@v6.1.0'
-        - 'actions/checkout@v4.2.2'
+        - 'actions/checkout@v7.0.1'
     '.github/workflows/test.yml':
         - 'actions/cache@v6.1.0'
         - 'actions/checkout@v7.0.1'
-        - 'codecov/codecov-action@v7.0.0'
-        - 'stefanzweifel/git-auto-commit-action@v7.1.0'
+        - 'codecov/codecov-action@v7.1.1'
         - 'theowenyoung/folder-hash@v3'
 dependencies:
     'actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae':
@@ -56,11 +53,6 @@ dependencies:
     'actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8':
         ref: 'v6.0.1'
         commit: 'sha1-8e8c483db84b4bee98b60c0593521ed34d9990e8'
-        owner_id: 44036562
-        repo_id: 197814629
-    'actions/checkout@v4.2.2':
-        ref: 'v4.2.2'
-        commit: 'sha1-11bd71901bbe5b1630ceea73d27597364c9af683'
         owner_id: 44036562
         repo_id: 197814629
     'actions/checkout@v6.1.0':
@@ -99,21 +91,21 @@ dependencies:
         uses:
             - 'actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae'
             - 'aquasecurity/setup-trivy@3fb12ec12f41e471780db15c232d5dd185dcb514'
-    'codecov/codecov-action@v7.0.0':
-        ref: 'v7.0.0'
-        commit: 'sha1-fb8b3582c8e4def4969c97caa2f19720cb33a72f'
+    'codecov/codecov-action@v7.1.1':
+        ref: 'v7.1.1'
+        commit: 'sha1-303a32d7a59b442fa8d48b6a1cc6825c09c847a5'
         owner_id: 8226205
         repo_id: 200299178
         uses:
             - 'actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd'
-    'docker/build-push-action@v6.19.2':
-        ref: 'v6.19.2'
-        commit: 'sha1-10e90e3645eae34f1e60eeb005ba3a3d33f178e8'
+    'docker/build-push-action@v7.4.0':
+        ref: 'v7.4.0'
+        commit: 'sha1-c3c9e263c25d99ce0380d002d59b67737d91b0dc'
         owner_id: 5429470
         repo_id: 241092383
-    'docker/setup-buildx-action@v3.12.0':
-        ref: 'v3.12.0'
-        commit: 'sha1-8d2750c68a42422c14e847fe6c8ac0403b4cbd6f'
+    'docker/setup-buildx-action@v4.4.1':
+        ref: 'v4.4.1'
+        commit: 'sha1-f87e5991a6d7451dcb8d9637bfbc97413f497069'
         owner_id: 5429470
         repo_id: 288485773
     'github/codeql-action@9b3254085494b55a0f7c4c2b3d2d52cc712ce370':
@@ -134,16 +126,6 @@ dependencies:
         uses:
             - 'actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae'
             - 'actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3'
-    'softprops/action-gh-release@1fd6f3f2b1b859145679a1892abda586ef982a84':
-        ref: 'master'
-        commit: 'sha1-1fd6f3f2b1b859145679a1892abda586ef982a84'
-        owner_id: 2242
-        repo_id: 204253808
-    'stefanzweifel/git-auto-commit-action@v7.1.0':
-        ref: 'v7.1.0'
-        commit: 'sha1-04702edda442b2e678b25b537cec683a1493fcb9'
-        owner_id: 1080923
-        repo_id: 191163758
     'theowenyoung/folder-hash@v3':
         ref: 'v3'
         commit: 'sha1-aa67b99197f85ada57370fc803e6a39e5fe529d0'
