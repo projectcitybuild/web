@@ -73,11 +73,11 @@ it('increments next_reminder_at for open apps', function () {
 
     $openApps->each(function ($app) {
         $app->refresh();
-        expect($app->next_reminder_at)->toEqual(now()->addDays(3));
+        expect($app->next_reminder_at)->toEqual(now()->addDays(3)->startOfSecond());
     });
 
     $closedApp->refresh();
-    expect($closedApp->next_reminder_at)->toEqual(now()->addDay());
+    expect($closedApp->next_reminder_at)->toEqual(now()->addDay()->startOfSecond());
 });
 
 it('does nothing when no applications are due', function () {

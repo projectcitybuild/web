@@ -15,7 +15,7 @@ const fields = [
     { key: 'player', label: 'Player' },
     { key: 'reason', label: 'Reason' },
     { key: 'startedAt', label: 'Started' },
-    { key: 'endedAt', label: 'Ended / expires' },
+    { key: 'endedAt', label: 'Ended / Expires' },
     { key: 'duration', label: 'Duration' },
 ]
 

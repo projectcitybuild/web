@@ -5,6 +5,7 @@ namespace Tests\Unit\App\Models;
 use App\Domains\Bans\Data\UnbanType;
 use App\Models\GamePlayerBan;
 use App\Models\MinecraftPlayer;
+use Carbon\CarbonInterface;
 
 it('uses the expiry date when a ban expires', function () {
     $expiryDate = now()->subDay();
@@ -17,6 +18,7 @@ it('uses the expiry date when a ban expires', function () {
             'unbanned_at' => null,
         ]);
 
+    expect($ban->unbanned_at)->toBeInstanceOf(CarbonInterface::class);
     $this->assertEquals($ban->unbanned_at, $ban->expires_at);
     $this->assertEquals($ban->unban_type, UnbanType::EXPIRED);
 });
@@ -34,6 +36,6 @@ it('prefers the manually assigned unban date', function () {
             'unban_type' => UnbanType::MANUAL->value,
         ]);
 
-    $this->assertEquals($ban->unbanned_at, $unbanDate);
+    expect($ban->unbanned_at->toDateTimeString())->toBe($unbanDate->toDateTimeString());
     $this->assertEquals($ban->unban_type, UnbanType::MANUAL);
 });

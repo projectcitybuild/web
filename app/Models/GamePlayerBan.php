@@ -78,7 +78,7 @@ final class GamePlayerBan extends Model implements AuditableContract, LinkableAu
         return Attribute::make(
             get: function ($unbannedAt) {
                 if ($unbannedAt !== null) {
-                    return $unbannedAt;
+                    return $this->asDateTime($unbannedAt);
                 }
                 if ($this->expires_at !== null && $this->expires_at->lte(now())) {
                     return $this->expires_at;
