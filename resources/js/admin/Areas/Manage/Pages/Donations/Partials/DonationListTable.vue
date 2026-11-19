@@ -2,7 +2,7 @@
 import { Routes } from '../../../../../Navigation/Routes'
 import LinkButton from '../../../../../Components/LinkButton.vue'
 import { Link } from '@inertiajs/vue3'
-import { format } from '../../../../../Utilities/DateFormatter'
+import { format as formatDate } from 'date-fns'
 import OutlinedButton from '../../../../../Components/OutlinedButton.vue'
 import SvgIcon from '../../../../../Components/SvgIcon.vue'
 import { Icons } from '../../../../../Navigation/Icons'
@@ -15,21 +15,47 @@ interface Props extends SortableTableProps {
 }
 const props = defineProps<Props>()
 
+const formatCurrency = (amount?: number, currency?: string): string => {
+    if (amount === undefined || !currency) {
+        return 'Not available'
+    }
+
+    const formatter = new Intl.NumberFormat(undefined, {
+        style: 'currency',
+        currency,
+        currencyDisplay: 'code',
+    })
+    const fractionDigits = formatter.resolvedOptions().maximumFractionDigits ?? 2
+
+    return formatter.format(amount / (10 ** fractionDigits))
+}
+
+const formatDonationDate = (value?: string | null): string | null => {
+    if (!value) {
+        return null
+    }
+
+    return formatDate(new Date(value), 'MMM d, yyyy, h:mm a')
+}
+
 const fields = [
     { key: 'id', label: 'ID' },
     { key: 'account', label: 'Account', sortable: false },
-    { key: 'original_amount', label: 'Original Currency', sortable: false },
-    { key: 'paid_amount', label: 'Paid Currency', sortable: false },
+    { key: 'original_amount', label: 'Original / Unit', sortable: false },
+    { key: 'paid_amount', label: 'Paid / Unit', sortable: false },
     { key: 'payment.unit_quantity', label: 'Unit Quantity', sortable: false },
+    { key: 'total_paid_amount', label: 'Total Paid', sortable: false },
     { key: 'amount', label: 'Legacy Amount' },
     { key: 'created_at', label: 'Date' },
 ]
 const rows = computed(
     () => props.donations.map((donation) => ({
         ...donation,
-        amount: donation.amount,
-        created_at: format(donation.created_at),
-        updated_at: format(donation.updated_at),
+        amount: new Intl.NumberFormat().format(donation.amount),
+        created_at_display: formatDonationDate(donation.created_at),
+        total_paid_amount: donation.payment
+            ? donation.payment.paid_unit_amount * donation.payment.unit_quantity
+            : undefined,
     }))
 )
 </script>
@@ -46,11 +72,21 @@ const rows = computed(
         </template>
 
         <template #original_amount="{ item }">
-            {{ item.payment?.original_unit_amount }} {{ item.payment?.original_currency }}
+            {{ formatCurrency(item.payment?.original_unit_amount, item.payment?.original_currency) }}
         </template>
 
         <template #paid_amount="{ item }">
-            {{ item.payment?.paid_unit_amount }} {{ item.payment?.paid_currency }}
+            {{ formatCurrency(item.payment?.paid_unit_amount, item.payment?.paid_currency) }}
+        </template>
+
+        <template #total_paid_amount="{ item }">
+            {{ formatCurrency(item.total_paid_amount, item.payment?.paid_currency) }}
+        </template>
+
+        <template #created_at="{ item }">
+            <time :datetime="item.created_at ?? undefined">
+                {{ item.created_at_display }}
+            </time>
         </template>
 
         <template #actions="{ item }">
