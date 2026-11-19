@@ -14,6 +14,6 @@ it('returns configured version metadata without authentication', function () {
             'name' => 'Project City Build',
             'version' => '1.8.0',
             'commit' => '0123456789abcdef0123456789abcdef01234567',
-            'environment' => 'production',
+            'environment' => 'testing',
         ]);
 });
