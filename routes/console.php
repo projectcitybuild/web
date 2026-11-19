@@ -5,6 +5,8 @@ use App\Domains\BuilderRankApplications\Services\BuilderRankReminderService;
 use App\Domains\Donations\UseCases\ExpireDonorPerks;
 use App\Domains\HealthCheck\Data\SchedulerHealthCheck;
 use App\Domains\HealthCheck\HealthCheckReporter;
+use App\Domains\HealthCheck\Jobs\MailCanaryJob;
+use App\Domains\HealthCheck\Jobs\QueueWorkerHeartbeatJob;
 use App\Domains\Permissions\WebManagePermission;
 use App\Domains\PlayerMail\Jobs\DistributePlayerMailJob;
 use App\Models\GamePlayerBan;
@@ -70,6 +72,14 @@ Artisan::command('healthcheck:scheduler', function () {
 })->runInBackground()
     ->evenInMaintenanceMode()
     ->everyFifteenMinutes();
+
+Schedule::job(new QueueWorkerHeartbeatJob)
+    ->everyFiveMinutes();
+
+Schedule::job(new MailCanaryJob)
+    ->dailyAt('09:00')
+    ->timezone('UTC')
+    ->onOneServer();
 
 Artisan::command('build-rank-apps:remind', function () {
     (new BuilderRankReminderService)->remind();
