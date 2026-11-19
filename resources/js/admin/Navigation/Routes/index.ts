@@ -7,6 +7,7 @@ export const Routes = {
     home: '/',
     accountSettings: '/account/settings',
     rankUp: (id: RouteParameter) => `/rank-up/${id}`,
+    logout: '/auth/logout',
     manage: {
         overview: manage(),
         accounts: {

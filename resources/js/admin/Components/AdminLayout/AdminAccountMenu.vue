@@ -252,6 +252,15 @@ onBeforeUnmount(() => {
                 >
                     Settings
                 </a>
+                <a
+                    :href="Routes.logout"
+                    role="menuitem"
+                    tabindex="-1"
+                    class="flex min-h-10 items-center px-3 border-t border-border text-sm text-muted transition-colors hover:bg-surface-hover hover:text-foreground focus-visible:bg-surface-hover focus-visible:outline-hidden"
+                    @click="closeMenu()"
+                >
+                    Sign Out
+                </a>
             </div>
         </Teleport>
     </div>
