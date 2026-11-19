@@ -45,6 +45,12 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $versionProps = [
+            'appVersion' => config('app.version'),
+            'commitSha' => config('app.commit'),
+            'environment' => config('sentry.environment') ?? config('app.env'),
+        ];
+
         $isAdminArea = $request->is(patterns: [
             'manage*',
             'review*',
@@ -53,6 +59,7 @@ class HandleInertiaRequests extends Middleware
         if ($isAdminArea) {
             $sharedProps = [
                 ...parent::share($request),
+                ...$versionProps,
             ];
 
             $sharedProps['success'] = fn () => AdminSharedPagePropsData::serializeProp(
@@ -82,6 +89,6 @@ class HandleInertiaRequests extends Middleware
             return $sharedProps;
         }
 
-        return [];
+        return $versionProps;
     }
 }

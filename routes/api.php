@@ -24,6 +24,13 @@ use Illuminate\Support\Facades\Route;
 Route::domain(config('app.api_url'))->group(function () {
     Route::get('/', fn () => ['status' => 'ok']);
 
+    Route::get('version', fn () => response()->json([
+        'name' => config('app.name'),
+        'version' => config('app.version'),
+        'commit' => config('app.commit'),
+        'environment' => config('app.env'),
+    ]))->name('version');
+
     Route::prefix('v3')->name('v3.')->group(function () {
         Route::prefix('server')
             ->middleware('require-server-token')

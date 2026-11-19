@@ -196,6 +196,17 @@ jobs:
           ssh "${ssh_options[@]}" "$target" docker logout ghcr.io || true
           exit "$deploy_status"
 
+      - name: Verify deployed application SHA
+        env:
+          APP_DOMAIN: ${{ vars.APP_DOMAIN }}
+          IMAGE_TAG: ${{ needs.verify.outputs.image-tag }}
+        run: node scripts/verify-deployment.mjs "https://${APP_DOMAIN}/version" "$IMAGE_TAG"
+
       - name: Publish deployed image revision
-        run: 'echo "Deployed image revision: ${{ needs.verify.outputs.image-tag }}" >> "$GITHUB_STEP_SUMMARY"'
+        env:
+          APP_DOMAIN: ${{ vars.APP_DOMAIN }}
+          IMAGE_TAG: ${{ needs.verify.outputs.image-tag }}
+        run: |
+          echo "Deployed and verified image revision: \`$IMAGE_TAG\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "Version endpoint: https://$APP_DOMAIN/version" >> "$GITHUB_STEP_SUMMARY"
 

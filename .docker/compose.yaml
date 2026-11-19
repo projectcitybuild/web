@@ -3,6 +3,11 @@ services:
     image: ${IMAGE_REPO:-pcb-web}:${IMAGE_TAG:-local}-fpm
     env_file:
       - ${APP_ENV_FILE:-../.env}
+    environment:
+      APP_COMMIT_SHA: ${IMAGE_TAG:-unknown}
+      APP_VERSION: ${APP_VERSION:-${IMAGE_TAG:-unknown}}
+      SENTRY_RELEASE: projectcitybuild@${IMAGE_TAG:-unknown}
+      SENTRY_ENVIRONMENT: ${ENVIRONMENT:-local}
     restart: unless-stopped
     depends_on:
       mariadb:
@@ -22,6 +27,11 @@ services:
     user: www-data
     env_file:
       - ${APP_ENV_FILE:-../.env}
+    environment:
+      APP_COMMIT_SHA: ${IMAGE_TAG:-unknown}
+      APP_VERSION: ${APP_VERSION:-${IMAGE_TAG:-unknown}}
+      SENTRY_RELEASE: projectcitybuild@${IMAGE_TAG:-unknown}
+      SENTRY_ENVIRONMENT: ${ENVIRONMENT:-local}
     command: php artisan queue:work redis --sleep=3 --tries=3 --timeout=90 --queue=mail,discord-message,player-mail,default
     restart: unless-stopped
     depends_on:
@@ -37,6 +47,11 @@ services:
     user: www-data
     env_file:
       - ${APP_ENV_FILE:-../.env}
+    environment:
+      APP_COMMIT_SHA: ${IMAGE_TAG:-unknown}
+      APP_VERSION: ${APP_VERSION:-${IMAGE_TAG:-unknown}}
+      SENTRY_RELEASE: projectcitybuild@${IMAGE_TAG:-unknown}
+      SENTRY_ENVIRONMENT: ${ENVIRONMENT:-local}
     command: php artisan schedule:work
     restart: unless-stopped
     depends_on:

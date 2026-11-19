@@ -7,6 +7,14 @@ use App\Models\MinecraftPlayer;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Testing\AssertableInertia as Assert;
 
+beforeEach(function () {
+    config([
+        'app.version' => '1.8.0',
+        'app.commit' => '0123456789abcdef0123456789abcdef01234567',
+        'sentry.environment' => 'staging',
+    ]);
+});
+
 it('shares the authenticated account name and avatar with admin areas', function (string $routeName) {
     $account = Account::factory()->create([
         'username' => 'ReviewUser',
@@ -28,6 +36,9 @@ it('shares the authenticated account name and avatar with admin areas', function
         ->assertViewIs('admin.app')
         ->assertInertia(fn (Assert $page) => $page
             ->component('Home')
+            ->where('appVersion', '1.8.0')
+            ->where('commitSha', '0123456789abcdef0123456789abcdef01234567')
+            ->where('environment', 'staging')
             ->where('account', [
                 'name' => 'ReviewUser',
                 'avatarUuid' => $player->uuid,
@@ -57,6 +68,9 @@ it('shares the authenticated account name and avatar with the auditing area', fu
         ->assertViewIs('admin.app')
         ->assertInertia(fn (Assert $page) => $page
             ->component('Activity/AuditList')
+            ->where('appVersion', '1.8.0')
+            ->where('commitSha', '0123456789abcdef0123456789abcdef01234567')
+            ->where('environment', 'staging')
             ->where('account', [
                 'name' => $account->username,
                 'avatarUuid' => $player->uuid,

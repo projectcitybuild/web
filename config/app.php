@@ -15,6 +15,10 @@ return [
 
     'name' => env('APP_NAME', 'Project City Build'),
 
+    'version' => env('APP_VERSION', 'unknown'),
+
+    'commit' => env('APP_COMMIT_SHA', 'unknown'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

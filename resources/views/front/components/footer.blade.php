@@ -170,6 +170,18 @@
             <p class="mt-3 text-gray-400">
                 Not affiliated with Mojang or Microsoft
             </p>
+
+            @if (config('app.commit') !== 'unknown')
+              <p class="mt-2 text-xs text-gray-400">
+                @if (config('app.version') !== config('app.commit') && config('app.version') !== 'unknown')
+                  @if (! str_starts_with(config('app.version'), 'v'))
+                    v
+                  @endif
+                        {{ substr((string) config('app.version'), 0, 7) }} ·
+                @endif
+                {{ substr((string) config('app.commit'), 0, 7) }}
+              </p>
+            @endif
         </div>
       </div>
     </div>

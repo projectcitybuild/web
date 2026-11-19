@@ -49,6 +49,32 @@ jobs:
           # shellcheck disable=SC2086
           docker compose --env-file .env $COMPOSE_FILES config --quiet
 
+      - name: Verify PHP service release metadata
+        if: matrix.name == 'deployment'
+        env:
+          IMAGE_TAG: 0123456789abcdef0123456789abcdef01234567
+          APP_VERSION: ''
+          DEPLOY_SLOT: blue
+          IMAGE_REPO: ghcr.io/projectcitybuild/web
+          APP_ENV_FILE: ${{ github.workspace }}/.env
+        run: |
+          for environment in staging production; do
+            export ENVIRONMENT="$environment"
+            config=$(docker compose --env-file .env \
+              -f .docker/compose.yaml \
+              -f .docker/deployment/compose.server.yaml \
+              config --format json)
+            jq --exit-status --arg sha "$IMAGE_TAG" --arg environment "$environment" '
+              [.services.fpm.environment, .services.queue.environment, .services.scheduler.environment]
+              | all(.[];
+                  .APP_COMMIT_SHA == $sha
+                  and .APP_VERSION == $sha
+                  and .SENTRY_RELEASE == ("projectcitybuild@" + $sha)
+                  and .SENTRY_ENVIRONMENT == $environment
+              )
+            ' <<< "$config" >/dev/null
+          done
+
   image-build:
     name: Image build (${{ matrix.name }})
     runs-on: ubuntu-latest
@@ -98,6 +124,9 @@ jobs:
           sh -n .docker/deployment/deploy.sh
           bash -n .docker/deployment/deploy.sh
           bash -n .docker/deployment/restart.sh
+
+      - name: Test deployed SHA verification
+        run: node --test scripts/verify-deployment.test.mjs
 
       - name: Check deployment argument validation
         run: |
