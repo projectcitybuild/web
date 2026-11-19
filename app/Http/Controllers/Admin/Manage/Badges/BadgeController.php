@@ -36,7 +36,7 @@ class BadgeController extends WebController
             $query = Badge::query();
             $this->applyAdminListSort($query, $sortableColumns, $sortState, 'created_at');
 
-            return $query->paginate(50);
+            return $query->paginate(50)->withQueryString();
         };
 
         if ($request->wantsJson()) {

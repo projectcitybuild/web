@@ -69,7 +69,7 @@ class GamePlayerBanController extends WebController
 
             $this->applyAdminListSort($query, $sortableColumns, $sortState, 'created_at');
 
-            return $query->paginate(50);
+            return $query->paginate(50)->withQueryString();
         };
 
         if ($request->wantsJson()) {

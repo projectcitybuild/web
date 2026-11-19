@@ -66,7 +66,7 @@ class AccountController extends WebController
 
             $this->applyAdminListSort($query, $sortableColumns, $sortState, 'created_at');
 
-            return $query->paginate(50);
+            return $query->paginate(50)->withQueryString();
         };
 
         $transform = function () use ($accounts, $canViewEmail) {

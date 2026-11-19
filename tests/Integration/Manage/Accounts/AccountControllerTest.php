@@ -46,6 +46,49 @@ it('sorts the account list by an allowed column and direction', function () {
         ->assertJsonPath('data.1.id', $alpha->id);
 });
 
+it('preserves filters and sorting in account pagination URLs', function () {
+    $manager = $this->createStaffAccountWithPermissions([WebManagePermission::ACCOUNTS_VIEW->value]);
+    foreach (range(0, 50) as $index) {
+        Account::factory()->create(['username' => sprintf('Paginate %03d', $index)]);
+    }
+
+    $query = ['username' => 'Paginate', 'sort' => 'username', 'direction' => 'asc'];
+    $this->actingAs($manager)
+        ->getJson(route('manage.accounts.index', $query))
+        ->assertOk()
+        ->assertJsonPath('total', 51)
+        ->assertJsonPath('next_page_url', route('manage.accounts.index', [...$query, 'page' => 2]));
+
+    $this->getJson(route('manage.accounts.index', [...$query, 'page' => 2]))
+        ->assertOk()
+        ->assertJsonPath('data.0.username', 'Paginate 050');
+});
+
+it('uses default sorting for missing or invalid sort directions', function () {
+    $manager = $this->createStaffAccountWithPermissions([WebManagePermission::ACCOUNTS_VIEW->value]);
+    Account::factory()->create([
+        'username' => 'Sort Alpha',
+        'created_at' => now()->subDay(),
+    ]);
+    $zulu = Account::factory()->create([
+        'username' => 'Sort Zulu',
+        'created_at' => now(),
+    ]);
+
+    $this->actingAs($manager)
+        ->getJson(route('manage.accounts.index', ['username' => 'Sort', 'sort' => 'username', 'direction' => 'sideways']))
+        ->assertOk()
+        ->assertJsonPath('data.0.id', $zulu->id);
+
+    $this->getJson(route('manage.accounts.index', ['username' => 'Sort', 'sort' => 'username']))
+        ->assertOk()
+        ->assertJsonPath('data.0.id', $zulu->id);
+
+    $this->getJson(route('manage.accounts.index', ['username' => 'Sort', 'sort' => 'unknown', 'direction' => 'asc']))
+        ->assertOk()
+        ->assertJsonPath('data.0.id', $zulu->id);
+});
+
 it('does not sort accounts by redacted email addresses', function () {
     $manager = $this->createStaffAccountWithPermissions([WebManagePermission::ACCOUNTS_VIEW->value]);
     $latest = Account::factory()->create([

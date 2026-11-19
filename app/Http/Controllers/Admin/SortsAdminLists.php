@@ -22,10 +22,13 @@ trait SortsAdminLists
         }
 
         $direction = $request->query('direction');
+        if (! in_array($direction, ['asc', 'desc'], true)) {
+            $direction = null;
+        }
 
         return [
             'sort' => $sort,
-            'direction' => $direction === 'desc' ? 'desc' : 'asc',
+            'direction' => $direction,
         ];
     }
 
