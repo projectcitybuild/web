@@ -53,6 +53,8 @@ final class BuilderRankApplication extends Model implements AuditableContract, L
     ];
     protected $casts = [
         'status' => ApplicationStatus::class,
+        'closed_at' => 'datetime',
+        'next_reminder_at' => 'datetime',
     ];
 
     public function routeNotificationForMail($notification)

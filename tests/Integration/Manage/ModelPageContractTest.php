@@ -3,6 +3,7 @@
 use App\Domains\BuilderRankApplications\Data\ApplicationStatus;
 use App\Domains\Permissions\WebManagePermission;
 use App\Domains\Permissions\WebReviewPermission;
+use App\Http\Data\AdminBuilderRankApplicationData;
 use App\Http\Data\AdminGameIPBanData;
 use App\Models\Account;
 use App\Models\Badge;
@@ -19,6 +20,7 @@ use App\Models\PlayerWarning;
 use App\Models\Role;
 use App\Models\Server;
 use App\Models\ServerToken;
+use Carbon\CarbonInterface;
 use Illuminate\Testing\Fluent\AssertableJson as Assert;
 use Tests\Support\StaffAccountFactory;
 
@@ -581,4 +583,16 @@ it('serializes builder rank review pages through application and role DTOs', fun
         ->assertJsonPath('props.applications.data.0.id', $application->id)
         ->assertJsonPath('props.applications.data.0.account.username', 'contract-builder')
         ->assertJsonPath('props.applications.data.0.account.minecraft_account.0.alias', 'ContractBuilder');
+});
+
+it('casts builder rank application closure dates before DTO construction', function () {
+    $application = BuilderRankApplication::factory()
+        ->for(Account::factory())
+        ->approved()
+        ->create()
+        ->refresh();
+
+    $data = AdminBuilderRankApplicationData::fromModel($application);
+
+    expect($data->closed_at)->toBeInstanceOf(CarbonInterface::class);
 });
