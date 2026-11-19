@@ -34,8 +34,7 @@ workflows:
     '.github/workflows/test.yml':
         - 'actions/cache@v6.1.0'
         - 'actions/checkout@v7.0.1'
-        - 'codecov/codecov-action@v7.0.0'
-        - 'stefanzweifel/git-auto-commit-action@v7.1.0'
+        - 'codecov/codecov-action@v7.1.1'
         - 'theowenyoung/folder-hash@v3'
 dependencies:
     'actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae':
@@ -99,9 +98,9 @@ dependencies:
         uses:
             - 'actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae'
             - 'aquasecurity/setup-trivy@3fb12ec12f41e471780db15c232d5dd185dcb514'
-    'codecov/codecov-action@v7.0.0':
-        ref: 'v7.0.0'
-        commit: 'sha1-fb8b3582c8e4def4969c97caa2f19720cb33a72f'
+    'codecov/codecov-action@v7.1.1':
+        ref: 'v7.1.1'
+        commit: 'sha1-303a32d7a59b442fa8d48b6a1cc6825c09c847a5'
         owner_id: 8226205
         repo_id: 200299178
         uses:
@@ -139,11 +138,6 @@ dependencies:
         commit: 'sha1-1fd6f3f2b1b859145679a1892abda586ef982a84'
         owner_id: 2242
         repo_id: 204253808
-    'stefanzweifel/git-auto-commit-action@v7.1.0':
-        ref: 'v7.1.0'
-        commit: 'sha1-04702edda442b2e678b25b537cec683a1493fcb9'
-        owner_id: 1080923
-        repo_id: 191163758
     'theowenyoung/folder-hash@v3':
         ref: 'v3'
         commit: 'sha1-aa67b99197f85ada57370fc803e6a39e5fe529d0'
