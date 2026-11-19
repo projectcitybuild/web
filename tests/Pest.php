@@ -1,12 +1,15 @@
 <?php
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\DatabaseTestCase;
 use Tests\TestCase;
 
 uses(
     TestCase::class,
     RefreshDatabase::class,
 )->in('Integration', 'Unit');
+
+uses(DatabaseTestCase::class)->in('Database');
 
 /*
 |--------------------------------------------------------------------------

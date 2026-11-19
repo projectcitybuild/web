@@ -4,7 +4,9 @@
         "dev": "vite",
         "build": "vite build",
         "typecheck": "vue-tsc --noEmit",
-        "generate:openapi-types": "openapi-typescript docs/openapi/v3.json -o resources/js/generated/openapi.d.ts && node scripts/generate-openapi-enums.mjs"
+        "generate:contracts": "php artisan scramble:export --api=v3 --path=docs/openapi/v3.json && php artisan typescript:transform && npm run generate:openapi-types",
+        "generate:openapi-types": "openapi-typescript docs/openapi/v3.json -o resources/js/generated/openapi.d.ts && node scripts/generate-openapi-enums.mjs",
+        "test:openapi-enums": "node --test scripts/generate-openapi-enums.test.mjs"
     },
     "devDependencies": {
         "@tailwindcss/vite": "^4.3.5",
@@ -32,6 +34,7 @@
         "date-fns": "^4.4.0",
         "flowbite": "^4.0.2",
         "minimessage-js": "^2.1.2",
+        "openapi-fetch": "^0.17.0",
         "typescript-result": "^3.5.2",
         "vue": "^3.5.45"
     }

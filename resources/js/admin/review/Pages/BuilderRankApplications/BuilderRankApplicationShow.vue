@@ -1,4 +1,3 @@
-                                {{ application.account?.username ?? 'Account' }}
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3'
 import Card from '../../../shared/Components/Card.vue'

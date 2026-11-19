@@ -15,6 +15,8 @@ on:
       - resources/js/generated/openapi.d.ts
       - resources/js/generated/openapi-enums.ts
       - scripts/generate-openapi-enums.mjs
+      - scripts/openapi-enum-generator.mjs
+      - scripts/generate-openapi-enums.test.mjs
       - routes/**
       - .github/workflows/test-openapi.yml
   pull_request:
@@ -31,6 +33,8 @@ on:
       - resources/js/generated/openapi.d.ts
       - resources/js/generated/openapi-enums.ts
       - scripts/generate-openapi-enums.mjs
+      - scripts/openapi-enum-generator.mjs
+      - scripts/generate-openapi-enums.test.mjs
       - routes/**
       - .github/workflows/test-openapi.yml
 
@@ -65,10 +69,10 @@ jobs:
         with:
           command: php artisan migrate
 
-      - name: Generate OpenAPI specification
+      - name: Generate API contracts
         uses: $/.github/actions/run-in-devcontainer
         with:
-          command: mkdir -p docs/openapi && php artisan scramble:export --api=v3 --path=docs/openapi/v3.json
+          command: npm run generate:contracts
 
       - name: Validate error response schemas
         run: |
@@ -139,19 +143,21 @@ jobs:
           }
           NODE
 
-      - name: Check OpenAPI specification is up to date
-        run: git diff --exit-code -- docs/openapi/v3.json
-
-      - name: Generate TypeScript declarations and enum values
-        uses: $/.github/actions/run-in-devcontainer
-        with:
-          command: php artisan typescript:transform && npm run generate:openapi-types
-
-      - name: Check generated TypeScript outputs are up to date
-        run: git diff --exit-code -- resources/js/generated/generated.d.ts resources/js/generated/openapi.d.ts resources/js/generated/openapi-enums.ts
+      - name: Check generated contracts are up to date
+        run: git diff --exit-code -- docs/openapi/v3.json resources/js/generated/generated.d.ts resources/js/generated/openapi.d.ts resources/js/generated/openapi-enums.ts
 
       - name: Validate OpenAPI specification
         run: npx --yes @redocly/cli@2.79.0 lint docs/openapi/v3.json --extends minimal --skip-rule=no-server-trailing-slash --format summary
+
+      - name: Test runtime enum generation
+        uses: $/.github/actions/run-in-devcontainer
+        with:
+          command: npm run test:openapi-enums
+
+      - name: Typecheck frontend
+        uses: $/.github/actions/run-in-devcontainer
+        with:
+          command: npm run typecheck
 
       - name: Stop devcontainer
         if: always()

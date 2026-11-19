@@ -1,7 +1,5 @@
 <?php
 
-use App\Domains\BanAppeals\Data\BanAppealStatus;
-use App\Domains\BuilderRankApplications\Data\ApplicationStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -14,6 +12,21 @@ return new class extends Migration
      */
     public function up(): void
     {
+        $banAppealStatuses = [
+            0 => 'pending',
+            1 => 'accepted_unban',
+            2 => 'accepted_tempban',
+            3 => 'denied',
+        ];
+        $applicationStatuses = [
+            1 => 'pending',
+            2 => 'approved',
+            3 => 'denied',
+        ];
+
+        $this->assertKnownStatuses('ban_appeals', array_keys($banAppealStatuses));
+        $this->assertKnownStatuses('builder_rank_applications', array_keys($applicationStatuses));
+
         Schema::table('ban_appeals', function (Blueprint $table) {
             $table->string('status')->change();
         });
@@ -22,29 +35,20 @@ return new class extends Migration
             $table->string('status')->change();
         });
 
-        foreach ([
-            0 => BanAppealStatus::PENDING->value,
-            1 => BanAppealStatus::ACCEPTED_UNBAN->value,
-            2 => BanAppealStatus::ACCEPTED_TEMPBAN->value,
-            3 => BanAppealStatus::DENIED->value,
-        ] as $oldValue => $newValue) {
-            DB::table('ban_appeals')->where('status', $oldValue)->update(['status' => $newValue]);
+        foreach ($banAppealStatuses as $oldValue => $newValue) {
+            DB::table('ban_appeals')->where('status', (string) $oldValue)->update(['status' => $newValue]);
         }
 
-        foreach ([
-            1 => ApplicationStatus::PENDING->value,
-            2 => ApplicationStatus::APPROVED->value,
-            3 => ApplicationStatus::DENIED->value,
-        ] as $oldValue => $newValue) {
-            DB::table('builder_rank_applications')->where('status', $oldValue)->update(['status' => $newValue]);
+        foreach ($applicationStatuses as $oldValue => $newValue) {
+            DB::table('builder_rank_applications')->where('status', (string) $oldValue)->update(['status' => $newValue]);
         }
 
         Schema::table('ban_appeals', function (Blueprint $table) {
-            $table->enum('status', array_map(fn (BanAppealStatus $status): string => $status->value, BanAppealStatus::cases()))->change();
+            $table->enum('status', ['pending', 'accepted_unban', 'accepted_tempban', 'denied'])->change();
         });
 
         Schema::table('builder_rank_applications', function (Blueprint $table) {
-            $table->enum('status', array_map(fn (ApplicationStatus $status): string => $status->value, ApplicationStatus::cases()))->change();
+            $table->enum('status', ['pending', 'approved', 'denied'])->change();
         });
     }
 
@@ -53,6 +57,21 @@ return new class extends Migration
      */
     public function down(): void
     {
+        $banAppealStatuses = [
+            'pending' => 0,
+            'accepted_unban' => 1,
+            'accepted_tempban' => 2,
+            'denied' => 3,
+        ];
+        $applicationStatuses = [
+            'pending' => 1,
+            'approved' => 2,
+            'denied' => 3,
+        ];
+
+        $this->assertKnownStatuses('ban_appeals', array_keys($banAppealStatuses));
+        $this->assertKnownStatuses('builder_rank_applications', array_keys($applicationStatuses));
+
         Schema::table('ban_appeals', function (Blueprint $table) {
             $table->string('status')->change();
         });
@@ -61,20 +80,11 @@ return new class extends Migration
             $table->string('status')->change();
         });
 
-        foreach ([
-            'pending' => 0,
-            'accepted_unban' => 1,
-            'accepted_tempban' => 2,
-            'denied' => 3,
-        ] as $oldValue => $newValue) {
+        foreach ($banAppealStatuses as $oldValue => $newValue) {
             DB::table('ban_appeals')->where('status', $oldValue)->update(['status' => $newValue]);
         }
 
-        foreach ([
-            'pending' => 1,
-            'approved' => 2,
-            'denied' => 3,
-        ] as $oldValue => $newValue) {
+        foreach ($applicationStatuses as $oldValue => $newValue) {
             DB::table('builder_rank_applications')->where('status', $oldValue)->update(['status' => $newValue]);
         }
 
@@ -85,5 +95,25 @@ return new class extends Migration
         Schema::table('builder_rank_applications', function (Blueprint $table) {
             $table->integer('status')->change();
         });
+    }
+
+    /**
+     * @param  array<int, int|string>  $allowedStatuses
+     */
+    private function assertKnownStatuses(string $table, array $allowedStatuses): void
+    {
+        $unexpectedStatuses = DB::table($table)
+            ->whereNotIn('status', $allowedStatuses)
+            ->distinct()
+            ->pluck('status')
+            ->all();
+
+        if ($unexpectedStatuses !== []) {
+            throw new RuntimeException(sprintf(
+                'Cannot convert %s.status; unexpected values: %s',
+                $table,
+                json_encode($unexpectedStatuses, JSON_THROW_ON_ERROR),
+            ));
+        }
     }
 };
