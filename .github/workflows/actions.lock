@@ -8,7 +8,7 @@ workflows:
         - 'actions/checkout@v4.2.2'
     '.github/workflows/deploy-production.yml':
         - 'actions/checkout@v4.2.2'
-        - 'softprops/action-gh-release@1fd6f3f2b1b859145679a1892abda586ef982a84'
+        - 'softprops/action-gh-release@8a0cd651e5b2365bd640854a3fa5dfc70e4875f3'
     '.github/workflows/deploy-staging.yml': []
     '.github/workflows/docker-validation.yml':
         - 'actions/checkout@v4.2.2'
@@ -134,9 +134,9 @@ dependencies:
         uses:
             - 'actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae'
             - 'actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3'
-    'softprops/action-gh-release@1fd6f3f2b1b859145679a1892abda586ef982a84':
-        ref: 'master'
-        commit: 'sha1-1fd6f3f2b1b859145679a1892abda586ef982a84'
+    'softprops/action-gh-release@8a0cd651e5b2365bd640854a3fa5dfc70e4875f3':
+        ref: 'v3.0.4'
+        commit: 'sha1-8a0cd651e5b2365bd640854a3fa5dfc70e4875f3'
         owner_id: 2242
         repo_id: 204253808
     'stefanzweifel/git-auto-commit-action@v7.1.0':

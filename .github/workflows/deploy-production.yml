@@ -79,7 +79,7 @@ jobs:
           git push origin "$VERSION_TAG"
 
       - name: Create a GitHub Release
-        uses: softprops/action-gh-release@1fd6f3f2b1b859145679a1892abda586ef982a84
+        uses: softprops/action-gh-release@8a0cd651e5b2365bd640854a3fa5dfc70e4875f3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
