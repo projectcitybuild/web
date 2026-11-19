@@ -30,6 +30,8 @@
                     <x-validation-error>{!! $message !!}</x-validation-error>
                 @enderror
 
+                <input type="text" name="details" style="display:none" autocomplete="off" />
+
                 <label for="name" class="text-md font-bold">
                     Name
                 </label>

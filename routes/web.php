@@ -43,7 +43,7 @@ Route::prefix('contact')->group(function () {
 
     Route::post('/', [ContactController::class, 'store'])
         ->name('front.contact.submit')
-        ->middleware('throttle:10,1');
+        ->middleware('throttle:3,1');
 });
 
 Route::prefix('donate')->group(function () {
