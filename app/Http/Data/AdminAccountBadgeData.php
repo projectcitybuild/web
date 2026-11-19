@@ -20,6 +20,7 @@ class AdminAccountBadgeData extends Data
         public ?CarbonInterface $created_at,
         #[WithTransformer(DateTimeInterfaceTransformer::class, format: 'Y-m-d\\TH:i:s.u\\Z', setTimeZone: 'UTC')]
         public ?CarbonInterface $updated_at,
+        public Optional|int|null $accounts_count,
         public Optional|AdminAccountBadgePivotData|null $pivot,
     ) {}
 
@@ -32,7 +33,12 @@ class AdminAccountBadgeData extends Data
             list_hidden: $badge->list_hidden,
             created_at: $badge->created_at,
             updated_at: $badge->updated_at,
-            pivot: $badge->pivot === null ? Optional::create() : AdminAccountBadgePivotData::fromModel($badge->pivot),
+            accounts_count: isset($badge->accounts_count)
+                ? (int) $badge->accounts_count
+                : Optional::create(),
+            pivot: $badge->pivot === null
+                ? Optional::create() :
+                AdminAccountBadgePivotData::fromModel($badge->pivot),
         );
     }
 }

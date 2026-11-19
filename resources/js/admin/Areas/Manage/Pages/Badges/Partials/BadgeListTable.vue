@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Routes } from '../../../../../Navigation/Routes'
+import { Link } from '@inertiajs/vue3'
 import { format } from '../../../../../Utilities/DateFormatter'
 import BooleanCheck from '../../../../../Components/BooleanCheck.vue'
 import SvgIcon from '../../../../../Components/SvgIcon.vue'
@@ -21,6 +22,7 @@ const fields = [
     { key: 'id', label: 'ID' },
     { key: 'display_name', label: 'Display Name' },
     { key: 'unicode_icon', label: 'Unicode Icon' },
+    { key: 'accounts_count', label: 'Accounts', sortable: false },
     { key: 'list_hidden', label: 'Hidden in List' },
     { key: 'created_at', label: 'Created At' },
     { key: 'updated_at', label: 'Updated At' },
@@ -36,6 +38,15 @@ const rows = computed(
 
 <template>
     <DataTable :fields="fields" :rows="rows" :show-index="true" :sort="props.sort" :direction="props.direction" :on-sort="props.onSort">
+        <template #accounts_count="{ item }">
+            <Link
+                :href="Routes.manage.badges.accounts(item.id)"
+                class="text-primary-active underline-offset-2 underline"
+            >
+                {{ item.accounts_count }}
+            </Link>
+        </template>
+
         <template #list_hidden="{ item }">
             <BooleanCheck :value="item.list_hidden" />
         </template>

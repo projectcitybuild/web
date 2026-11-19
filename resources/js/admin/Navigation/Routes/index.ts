@@ -22,6 +22,7 @@ export const Routes = {
             list: manage('badges'),
             create: manage('badges/create'),
             edit: (id: RouteParameter) => manage(`badges/${id}/edit`),
+            accounts: (id: RouteParameter) => manage(`badges/${id}/accounts`),
         },
         donations: {
             list: manage('donations'),

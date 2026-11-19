@@ -7,6 +7,7 @@ use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Core\Utilities\Traits\HasStaticTable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
@@ -33,6 +34,16 @@ final class Badge extends Model implements AuditableContract, LinkableAuditModel
     protected $casts = [
         'list_hidden' => 'boolean',
     ];
+
+    public function accounts(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            related: Account::class,
+            table: 'badges_pivot',
+            foreignPivotKey: 'badge_id',
+            relatedPivotKey: 'account_id',
+        );
+    }
 
     public function getActivitySubjectLink(): ?string
     {

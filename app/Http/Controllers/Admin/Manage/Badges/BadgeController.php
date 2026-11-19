@@ -33,7 +33,7 @@ class BadgeController extends WebController
         $sortState = $this->adminListSortState($request, $sortableColumns);
 
         $badges = function () use ($sortableColumns, $sortState) {
-            $query = Badge::query();
+            $query = Badge::withCount('accounts');
             $this->applyAdminListSort($query, $sortableColumns, $sortState, 'created_at');
 
             return $query->paginate(50)->withQueryString();

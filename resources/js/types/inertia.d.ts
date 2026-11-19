@@ -59,6 +59,18 @@ declare global {
         'manage/Badges/BadgeEdit': {
             badge: App.Http.Data.AdminAccountBadgeData
         }
+        'manage/Badges/BadgeAccountList': {
+            badge: App.Http.Data.AdminAccountBadgeData
+            sort: string | null
+            direction: 'asc' | 'desc' | null
+            accounts: {
+                data: App.Http.Data.AdminAccountData[]
+                current_page: number
+                total: number
+                path: string
+                next_page_url: string | null
+            }
+        }
         'manage/Homes/HomeList': {
             sort: string | null
             direction: 'asc' | 'desc' | null

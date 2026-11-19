@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\Manage\Accounts\AccountMfaController;
 use App\Http\Controllers\Admin\Manage\Accounts\AccountPlayerController;
 use App\Http\Controllers\Admin\Manage\Accounts\AccountResendActivationController;
 use App\Http\Controllers\Admin\Manage\Accounts\AccountRoleController;
+use App\Http\Controllers\Admin\Manage\Badges\BadgeAccountsController;
 use App\Http\Controllers\Admin\Manage\Badges\BadgeController;
 use App\Http\Controllers\Admin\Manage\Bans\GameIPBanController;
 use App\Http\Controllers\Admin\Manage\Bans\GamePlayerBanController;
@@ -138,6 +139,8 @@ Route::name('manage.')
         Route::put('homes/{home}', [HomeController::class, 'update']);
         Route::delete('homes/{home}', [HomeController::class, 'destroy']);
 
+        Route::get('badges/{badge}/accounts', [BadgeAccountsController::class, 'index'])
+            ->name('badges.accounts');
         Route::resource('badges', BadgeController::class);
 
         Route::resource('donations', ManageDonationController::class);

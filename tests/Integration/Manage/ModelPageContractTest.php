@@ -34,6 +34,8 @@ it('serializes badge list and edit pages through the badge DTO', function () {
         WebManagePermission::BADGES_EDIT->value,
     ]);
     $badge = Badge::factory()->create(['display_name' => 'Contract Badge']);
+    $account = Account::factory()->create();
+    $account->badges()->attach($badge);
 
     $this->actingAs($manager)
         ->get(route('manage.badges.edit', $badge))
@@ -59,7 +61,31 @@ it('serializes badge list and edit pages through the badge DTO', function () {
         ->get(route('manage.badges.index'))
         ->assertOk()
         ->assertJsonPath('props.badges.data.0.id', $badge->id)
-        ->assertJsonPath('props.badges.data.0.display_name', 'Contract Badge');
+        ->assertJsonPath('props.badges.data.0.display_name', 'Contract Badge')
+        ->assertJsonPath('props.badges.data.0.accounts_count', 1);
+});
+
+it('lists only accounts assigned a badge', function () {
+    config(['inertia.ssr.enabled' => false]);
+
+    $manager = $this->createStaffAccountWithPermissions([
+        WebManagePermission::BADGES_VIEW->value,
+    ]);
+    $badge = Badge::factory()->create(['display_name' => 'Members Badge']);
+    $account = Account::factory()->create(['username' => 'BadgeHolder']);
+    $account->badges()->attach($badge);
+    Account::factory()->create(['username' => 'OtherAccount']);
+
+    $this->actingAs($manager)
+        ->get(route('manage.badges.accounts', $badge))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('Badges/BadgeAccountList')
+            ->where('badge.id', $badge->id)
+            ->where('accounts.data.0.id', $account->id)
+            ->where('accounts.data.0.username', 'BadgeHolder')
+            ->where('accounts.total', 1)
+        );
 });
 
 it('serializes home list and edit pages through the home DTO', function () {

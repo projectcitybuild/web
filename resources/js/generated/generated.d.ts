@@ -107,6 +107,7 @@ declare namespace App {
                 list_hidden: boolean;
                 created_at: string | null;
                 updated_at: string | null;
+                accounts_count?: number | null;
                 pivot?: App.Http.Data.AdminAccountBadgePivotData | null;
             };
             export type AdminAccountBadgePivotData = {
