@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../../Routes'
 import { InertiaForm, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import DangerZone from '../../../Components/Forms/DangerZone.vue'
@@ -59,7 +60,7 @@ function destroy(): void {
 
         <FormActions
             :submit-label="isEdit ? 'Update permission' : 'Create permission'"
-            cancel-href="/manage/permissions"
+            :cancel-href="Routes.manage.permissions.list"
             :processing="form.processing"
             sticky
         />

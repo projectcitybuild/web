@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../Routes'
 import { Head, Link } from '@inertiajs/vue3'
 import Badge from '../../../shared/Components/Badge.vue'
 import Card from '../../../manage/Components/Card.vue'
@@ -45,7 +46,7 @@ function paginationLabel(label: string): string {
                     <Badge v-else variant="default" size="sm">Ended</Badge>
                 </template>
                 <template #player="{ item }">
-                    <Link :href="`/manage/players/${item.player.id}`" class="font-medium text-foreground">
+                    <Link :href="Routes.manage.players.show(item.player.id)" class="font-medium text-foreground">
                         {{ item.player.alias ?? "No alias" }}
                     </Link>
                 </template>

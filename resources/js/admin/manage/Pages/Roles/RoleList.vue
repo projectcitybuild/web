@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../Routes'
 import { Deferred, Head } from '@inertiajs/vue3'
 import RoleListTable from './Partials/RoleListTable.vue'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
@@ -23,7 +24,7 @@ defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Roles/RoleList'
         <template #actions>
             <LinkButton
                 v-if="can('web.manage.roles.edit')"
-                href="/manage/roles/create"
+                :href="Routes.manage.roles.create"
                 variant="primary"
             >
                 <SvgIcon :svg="Icons.plus" aria-hidden="true" />

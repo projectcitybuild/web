@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../../Routes'
 import LinkButton from '../../../../shared/Components/LinkButton.vue'
 import { format } from '../../../Utilities/DateFormatter'
 import { Link } from '@inertiajs/vue3'
@@ -24,7 +25,7 @@ const fields = [
             {{ format(item.created_at) }}
         </template>
         <template #actions="{ item }">
-                <LinkButton :href="'/manage/donations/' + item.id + '/edit'" variant="outline" size="sm">
+                <LinkButton :href="Routes.manage.donations.edit(item.id)" variant="outline" size="sm">
                     Edit
                 </LinkButton>
         </template>

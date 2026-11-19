@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../Routes'
 import { Deferred, Head, Link, useForm } from '@inertiajs/vue3'
 import PlayerListTable from './Partials/PlayerListTable.vue'
 import InfinitePagination from '../../Components/InfinitePagination.vue'
@@ -48,7 +49,7 @@ watch(
     <div class="space-y-6">
         <PageHeader title="Players" description="Browse and manage Minecraft players.">
             <template #actions>
-                <LinkButton v-if="can('web.manage.players.edit')" href="/manage/players/create" variant="primary">
+                <LinkButton v-if="can('web.manage.players.edit')" :href="Routes.manage.players.create" variant="primary">
                     <SvgIcon :svg="Icons.plus" />
                     Create Player
                 </LinkButton>

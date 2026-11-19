@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../Routes'
 import { Deferred, Head, Link } from '@inertiajs/vue3'
 import IPBanListTable from './Partials/IPBanListTable.vue'
 import InfinitePagination from '../../Components/InfinitePagination.vue'
@@ -27,7 +28,7 @@ const { can } = usePermissions()
     <div class="space-y-6">
     <PageHeader title="IP Bans" description="Manage restrictions on Minecraft server IP addresses.">
         <template #actions>
-            <LinkButton v-if="can('web.manage.ip_bans.edit')" href="/manage/ip-bans/create" variant="primary">
+            <LinkButton v-if="can('web.manage.ip_bans.edit')" :href="Routes.manage.ipBans.create" variant="primary">
                 <SvgIcon :svg="Icons.plus" />
                 Create Ban
             </LinkButton>

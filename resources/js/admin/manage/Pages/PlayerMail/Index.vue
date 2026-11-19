@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../Routes'
 import { Head, Link, router } from '@inertiajs/vue3'
 import { computed, ref } from 'vue'
 import Card from '../../Components/Card.vue'
@@ -46,7 +47,7 @@ function pageUrl(page: number): string {
     if (props.filters.status) query.set('status', props.filters.status)
     query.set('page', String(page))
 
-    return `/manage/player-mail?${query.toString()}`
+    return `${Routes.manage.playerMail.list}?${query.toString()}`
 }
 
 function broadcastUrl(id: number): string {
@@ -56,7 +57,7 @@ function broadcastUrl(id: number): string {
     if (props.filters.status) query.set('status', props.filters.status)
     query.set('page', String(props.broadcasts.current_page))
 
-    return `/manage/player-mail/${id}?${query.toString()}`
+    return `${Routes.manage.playerMail.show(id)}?${query.toString()}`
 }
 
 function formatDate(value: string): string {
@@ -73,7 +74,7 @@ function formatDate(value: string): string {
     <div class="space-y-6">
         <PageHeader title="Player Mail" description="Review and manage announcements sent to Minecraft players.">
             <template #actions>
-            <LinkButton v-if="can('web.manage.player_mail.send')" href="/manage/player-mail/create" variant="primary">New announcement</LinkButton>
+            <LinkButton v-if="can('web.manage.player_mail.send')" :href="Routes.manage.playerMail.create" variant="primary">New announcement</LinkButton>
             </template>
         </PageHeader>
 
@@ -123,7 +124,7 @@ function formatDate(value: string): string {
                 :description="broadcasts.total === 0 && !hasFilters ? 'Your sent and processing announcements will appear here.' : 'Try a different subject or status.'"
             >
                 <template v-if="broadcasts.total === 0 && !hasFilters && can('web.manage.player_mail.send')" #actions>
-                    <LinkButton href="/manage/player-mail/create" variant="primary">
+                    <LinkButton :href="Routes.manage.playerMail.create" variant="primary">
                         Compose announcement
                     </LinkButton>
                 </template>

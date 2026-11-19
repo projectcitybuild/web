@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../../Routes'
 import { InertiaForm, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import DangerZone from '../../../Components/Forms/DangerZone.vue'
@@ -108,7 +109,7 @@ function destroy(): void {
 
         <FormActions
             :submit-label="isEdit ? 'Update badge' : 'Create badge'"
-            cancel-href="/manage/badges"
+            :cancel-href="Routes.manage.badges.list"
             :processing="form.processing"
             sticky
         />

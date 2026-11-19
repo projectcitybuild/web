@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../../Routes'
 import { InertiaForm, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import DateTimeInput from '../../../Components/Forms/DateTimeInput.vue'
@@ -115,7 +116,7 @@ function submit(): void {
 
         <FormActions
             :submit-label="isEdit ? 'Update account' : 'Create account'"
-            :cancel-href="'/manage/accounts'"
+            :cancel-href="Routes.manage.accounts.list"
             :processing="form.processing"
             sticky
         />

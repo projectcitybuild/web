@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../../Routes'
 import { InertiaForm, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import { UnbanType } from '../../../../../generated/openapi-enums'
@@ -229,7 +230,7 @@ function destroy(): void {
 
         <FormActions
             :submit-label="isEdit ? 'Update player ban' : 'Create player ban'"
-            cancel-href="/manage/player-bans"
+            :cancel-href="Routes.manage.playerBans.list"
             :processing="form.processing"
             sticky
         />

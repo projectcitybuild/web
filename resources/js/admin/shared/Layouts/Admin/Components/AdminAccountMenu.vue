@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../../Routes'
 import { computed, nextTick, onBeforeUnmount, ref, useId, watch } from 'vue'
 import { usePage } from '@inertiajs/vue3'
 import SvgIcon from '../../../../manage/Components/SvgIcon.vue'
@@ -234,7 +235,7 @@ onBeforeUnmount(() => {
                     <p class="truncate text-sm font-semibold">{{ accountName }}</p>
                 </div>
                 <a
-                    href="/"
+                    :href="Routes.home"
                     role="menuitem"
                     tabindex="-1"
                     class="flex min-h-10 items-center px-3 text-sm text-muted transition-colors hover:bg-surface-hover hover:text-foreground focus-visible:bg-surface-hover focus-visible:outline-hidden"
@@ -243,7 +244,7 @@ onBeforeUnmount(() => {
                     Back to main website
                 </a>
                 <a
-                    href="/account/settings"
+                    :href="Routes.accountSettings"
                     role="menuitem"
                     tabindex="-1"
                     class="flex min-h-10 items-center px-3 text-sm text-muted transition-colors hover:bg-surface-hover hover:text-foreground focus-visible:bg-surface-hover focus-visible:outline-hidden"

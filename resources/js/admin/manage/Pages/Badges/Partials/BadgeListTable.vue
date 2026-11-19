@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../../Routes'
 import { format } from '../../../Utilities/DateFormatter'
 import BooleanCheck from '../../../Components/BooleanCheck.vue'
 import SvgIcon from '../../../Components/SvgIcon.vue'
@@ -40,7 +41,7 @@ const rows = computed(
 
         <template #actions="{ item }" v-if="can('web.manage.badges.edit')">
             <LinkButton
-                :href="'/manage/badges/' + item.id + '/edit'"
+                :href="Routes.manage.badges.edit(item.id)"
                 variant="outline"
                 size="sm"
             >

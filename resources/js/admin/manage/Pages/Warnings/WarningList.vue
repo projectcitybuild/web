@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../Routes'
 import { Deferred, Head, Link } from '@inertiajs/vue3'
 import WarningListTable from './Partials/WarningListTable.vue'
 import InfinitePagination from '../../Components/InfinitePagination.vue'
@@ -27,7 +28,7 @@ const { can } = usePermissions()
     <div class="space-y-6">
     <PageHeader title="Warnings" description="Review player warnings and recorded infractions.">
         <template #actions>
-            <LinkButton v-if="can('web.manage.warnings.edit')" href="/manage/warnings/create" variant="primary">
+            <LinkButton v-if="can('web.manage.warnings.edit')" :href="Routes.manage.warnings.create" variant="primary">
                 <SvgIcon :svg="Icons.plus" />
                 Create Warning
             </LinkButton>

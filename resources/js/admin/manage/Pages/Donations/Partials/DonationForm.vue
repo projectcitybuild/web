@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../../Routes'
 import { InertiaForm, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import DateTimePicker from '../../../Components/DateTimePicker.vue'
@@ -82,7 +83,7 @@ function destroy(): void {
 
         <FormActions
             :submit-label="isEdit ? 'Update donation' : 'Create donation'"
-            cancel-href="/manage/donations"
+            :cancel-href="Routes.manage.donations.list"
             :processing="form.processing"
             sticky
         />

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../../Routes'
 import { Link } from '@inertiajs/vue3'
 import DataTable from '../../../Components/DataTable.vue'
 
@@ -18,7 +19,7 @@ const fields = [
     <DataTable :fields="fields" :rows="accounts" :show-index="true">
         <template #username="{ item }">
             <Link
-                :href="'/manage/accounts/' + item.id"
+                :href="Routes.manage.accounts.show(item.id)"
                 class="text-primary font-bold"
             >
                 {{ item.username }}

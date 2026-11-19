@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../../Routes'
 import { InertiaForm, useForm, usePage } from '@inertiajs/vue3'
 import { computed, ref } from 'vue'
 import PlayerPicker from '../../../Components/PlayerPicker.vue'
@@ -162,7 +163,7 @@ function submit(): void {
 
         <FormActions
             :submit-label="isEdit ? 'Update player' : 'Create player'"
-            :cancel-href="'/manage/players'"
+            :cancel-href="Routes.manage.players.list"
             :processing="form.processing"
             sticky
         />

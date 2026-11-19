@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../Routes'
 import { useForm } from '@inertiajs/vue3'
 import { ref } from 'vue'
 import ManageFormPage from '../../Components/ManageFormPage.vue'
@@ -84,7 +85,7 @@ function sendAnnouncement() {
                             <Button variant="primary" type="submit" :disabled="form.processing">
                                 Review announcement
                             </Button>
-                            <LinkButton href="/manage/player-mail" variant="ghost">Cancel</LinkButton>
+                            <LinkButton :href="Routes.manage.playerMail.list" variant="ghost">Cancel</LinkButton>
                         </div>
                     </form>
 

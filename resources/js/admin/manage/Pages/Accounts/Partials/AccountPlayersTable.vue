@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../../Routes'
 import { Link } from '@inertiajs/vue3'
 import MinecraftAvatar from '../../../Components/MinecraftAvatar.vue'
 import FilledButton from '../../../Components/FilledButton.vue'
@@ -26,7 +27,7 @@ const fields = [
         </template>
         <template #uuid="{ item }">
             <Link
-                :href="'/manage/players/' + item.id"
+                :href="Routes.manage.players.show(item.id)"
                 class="text-primary font-semibold underline"
             >
                 {{ item.uuid }}

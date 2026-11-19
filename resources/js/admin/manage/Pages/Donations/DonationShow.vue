@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../Routes'
 import { Head } from '@inertiajs/vue3'
 import Card from '../../Components/Card.vue'
 import { format } from '../../Utilities/DateFormatter'
@@ -16,10 +17,10 @@ defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Donations/Donat
 
         <PageHeader :title="`Donation #${donation.id}`" description="Donation record details.">
             <template #actions>
-                <LinkButton href="/manage/donations" variant="outline">
+                <LinkButton :href="Routes.manage.donations.list" variant="outline">
                     Donations
                 </LinkButton>
-                <LinkButton :href="`/manage/donations/${donation.id}/edit`" variant="primary">
+                <LinkButton :href="Routes.manage.donations.edit(donation.id)" variant="primary">
                     <SvgIcon :svg="Icons.pencil" aria-hidden="true" />
                     Edit Donation
                 </LinkButton>

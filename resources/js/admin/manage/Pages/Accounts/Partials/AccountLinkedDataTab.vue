@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../../Routes'
 import { router } from '@inertiajs/vue3'
 import { ref } from 'vue'
 import Card from '../../../Components/Card.vue'
@@ -41,7 +42,7 @@ function showUnlinkDialog(playerId: number) {
                     <h2 class="text-base font-semibold text-foreground">Linked players</h2>
                     <p class="mt-1 text-sm text-muted dark:text-subtle">Game profiles connected to this account</p>
                 </div>
-                <LinkButton v-if="can('web.manage.accounts.edit')" :href="'/manage/accounts/' + props.account.id + '/players'" variant="outline">
+                <LinkButton v-if="can('web.manage.accounts.edit')" :href="Routes.manage.accounts.players(props.account.id)" variant="outline">
                     <SvgIcon :svg="Icons.plus" />
                     Add player
                 </LinkButton>
@@ -54,7 +55,7 @@ function showUnlinkDialog(playerId: number) {
         <Card padding="none">
             <div class="flex items-center justify-between gap-4 border-b border-border p-4">
                 <h2 class="text-base font-semibold text-foreground">Roles</h2>
-                <LinkButton v-if="can('web.manage.accounts.edit')" :href="'/manage/accounts/' + props.account.id + '/roles'" variant="outline">
+                <LinkButton v-if="can('web.manage.accounts.edit')" :href="Routes.manage.accounts.roles(props.account.id)" variant="outline">
                     <SvgIcon :svg="Icons.pencil" />
                     Edit
                 </LinkButton>
@@ -67,7 +68,7 @@ function showUnlinkDialog(playerId: number) {
         <Card v-if="can('web.manage.badges.view')" padding="none">
             <div class="flex items-center justify-between gap-4 border-b border-border p-4">
                 <h2 class="text-base font-semibold text-foreground">Badges</h2>
-                <LinkButton v-if="can('web.manage.accounts.edit')" :href="'/manage/accounts/' + props.account.id + '/badges'" variant="outline">
+                <LinkButton v-if="can('web.manage.accounts.edit')" :href="Routes.manage.accounts.badges(props.account.id)" variant="outline">
                     <SvgIcon :svg="Icons.pencil" />
                     Edit
                 </LinkButton>

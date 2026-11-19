@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../Routes'
 import { Deferred, Head } from '@inertiajs/vue3'
 import InfinitePagination from '../../Components/InfinitePagination.vue'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
@@ -27,7 +28,7 @@ const { can } = usePermissions()
             <template #actions>
                 <LinkButton
                     v-if="can('web.manage.homes.edit')"
-                    href="/manage/homes/create"
+                    :href="Routes.manage.homes.create"
                     variant="primary"
                 >
                     <SvgIcon :svg="Icons.plus" aria-hidden="true" />

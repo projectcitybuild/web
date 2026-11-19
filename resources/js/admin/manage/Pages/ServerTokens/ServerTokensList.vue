@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../Routes'
 import { Head, Link } from '@inertiajs/vue3'
 import ServerTokenListTable from './Partials/ServerTokenListTable.vue'
 import Card from '../../Components/Card.vue'
@@ -21,7 +22,7 @@ const { can } = usePermissions()
     <div class="space-y-6">
     <PageHeader title="Server Tokens" description="Manage credentials used by trusted applications to access the PCB API.">
         <template #actions>
-            <LinkButton v-if="can('web.manage.server_tokens.edit')" href="/manage/server-tokens/create" variant="primary">
+            <LinkButton v-if="can('web.manage.server_tokens.edit')" :href="Routes.manage.serverTokens.create" variant="primary">
                 <SvgIcon :svg="Icons.plus" />
                 Create Token
             </LinkButton>

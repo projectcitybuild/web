@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../../Routes'
 import { InertiaForm, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import CoordinateFields from '../../../Components/Forms/CoordinateFields.vue'
@@ -125,7 +126,7 @@ function updateOrientation(values: Partial<Record<Axis, number | string>>): void
 
         <FormActions
             :submit-label="isEdit ? 'Update warp' : 'Create warp'"
-            :cancel-href="'/manage/minecraft/warps'"
+            :cancel-href="Routes.manage.warps.list"
             :processing="form.processing"
             sticky
         />

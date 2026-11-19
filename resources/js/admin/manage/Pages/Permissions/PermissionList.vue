@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../Routes'
 import { Deferred, Head } from '@inertiajs/vue3'
 import PermissionListTable from './Partials/PermissionListTable.vue'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
@@ -23,7 +24,7 @@ defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Permissions/Per
         <template #actions>
             <LinkButton
                 v-if="can('web.manage.permissions.edit')"
-                href="/manage/permissions/create"
+                :href="Routes.manage.permissions.create"
                 variant="primary"
             >
                 <SvgIcon :svg="Icons.plus" aria-hidden="true" />

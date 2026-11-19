@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../Routes'
 import { Deferred, Head, Link } from '@inertiajs/vue3'
 import WarpListTable from './Partials/WarpListTable.vue'
 import InfinitePagination from '../../Components/InfinitePagination.vue'
@@ -27,7 +28,7 @@ const { can } = usePermissions()
     <div class="space-y-6">
     <PageHeader title="Warps" description="Manage teleport locations available to Minecraft players.">
         <template #actions>
-            <LinkButton v-if="can('web.manage.warps.edit')" href="/manage/minecraft/warps/create" variant="primary">
+            <LinkButton v-if="can('web.manage.warps.edit')" :href="Routes.manage.warps.create" variant="primary">
                 <SvgIcon :svg="Icons.plus" />
                 Create Warp
             </LinkButton>

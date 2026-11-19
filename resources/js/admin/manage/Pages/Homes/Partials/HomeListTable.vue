@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../../Routes'
 import { Link } from '@inertiajs/vue3'
 import { format } from '../../../Utilities/DateFormatter'
 import MinecraftAvatar from '../../../Components/MinecraftAvatar.vue'
@@ -45,7 +46,7 @@ const rows = computed(
             <div class="flex flex-row items-center gap-3">
                 <MinecraftAvatar v-if="item.player?.uuid" :uuid="item.player.uuid" :size="32"/>
                 <Link
-                    :href="'/manage/players/' + item.player?.id"
+                    :href="Routes.manage.players.show(item.player?.id)"
                     class="text-primary font-semibold underline"
                 >
                     {{ item.player?.alias ?? "-" }}
@@ -64,7 +65,7 @@ const rows = computed(
                 />
                 <LinkButton
                     v-if="can('web.manage.homes.edit')"
-                    :href="'/manage/homes/' + item.id + '/edit'"
+                    :href="Routes.manage.homes.edit(item.id)"
                     variant="outline"
                     size="sm"
                 >

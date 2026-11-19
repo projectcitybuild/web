@@ -1,3 +1,4 @@
+import { Routes } from '../../Routes'
 import { Icons } from '../../manage/Icons'
 import type { Permission } from '../../manage/Permissions'
 
@@ -12,19 +13,19 @@ export interface ReviewNavigationItem {
 export const sidebarMenu: ReviewNavigationItem[] = [
     {
         title: 'Overview',
-        route: '/review',
+        route: Routes.review.overview,
         icon: 'cube',
     },
     {
         title: 'Ban Appeals',
-        route: '/review/ban-appeals',
+        route: Routes.review.banAppeals.list,
         icon: 'gavel',
         permission: 'web.review.ban_appeals.view',
         countKey: 'pending_appeals',
     },
     {
         title: 'Builder Applications',
-        route: '/review/builder-ranks',
+        route: Routes.review.builderRanks.list,
         icon: 'servers',
         permission: 'web.review.build_rank_apps.view',
         countKey: 'pending_build_rank_apps',

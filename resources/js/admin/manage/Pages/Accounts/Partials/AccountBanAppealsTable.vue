@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../../Routes'
 import InfinitePagination from '../../../Components/InfinitePagination.vue'
 import { format } from '../../../Utilities/DateFormatter'
 import OutlinedButton from '../../../Components/OutlinedButton.vue'
@@ -35,7 +36,7 @@ const fields = [
                 {{ format(item.created_at) }}
             </template>
             <template #actions="{ item }">
-                <a :href="'/review/ban-appeals/' + item.id">
+                <a :href="Routes.review.banAppeals.show(item.id)">
                     <OutlinedButton variant="secondary" size="sm">View</OutlinedButton>
                 </a>
             </template>

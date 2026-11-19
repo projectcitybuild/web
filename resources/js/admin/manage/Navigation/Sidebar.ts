@@ -1,3 +1,4 @@
+import { Routes } from '../../Routes'
 import type { IconComponent } from "../Components/SvgIcon.vue"
 import { Icons } from "../Icons"
 import { Permission } from "../Permissions"
@@ -21,25 +22,25 @@ export const sidebarMenu: SidebarSection[] = [
         {
             title: 'Accounts',
             icon: Icons.users,
-            route: '/manage/accounts',
+            route: Routes.manage.accounts.list,
             permission: 'web.manage.accounts.view',
         },
         {
             title: 'Badges',
             icon: Icons.badges,
-            route: '/manage/badges',
+            route: Routes.manage.badges.list,
             permission: 'web.manage.badges.view',
         },
         {
             title: 'Roles',
             icon: Icons.roles,
-            route: '/manage/roles',
+            route: Routes.manage.roles.list,
             permission: 'web.manage.roles.view',
         },
         {
             title: 'Permissions',
             icon: Icons.permissions,
-            route: '/manage/permissions',
+            route: Routes.manage.permissions.list,
             permission: 'web.manage.permissions.view',
         },
     ],
@@ -50,25 +51,25 @@ export const sidebarMenu: SidebarSection[] = [
         {
             title: 'Players',
             icon: Icons.users,
-            route: '/manage/players',
+            route: Routes.manage.players.list,
             permission: 'web.manage.players.view',
         },
         {
             title: 'Mail',
             icon: Icons.email,
-            route: '/manage/player-mail',
+            route: Routes.manage.playerMail.list,
             permission: 'web.manage.player_mail.send',
         },
         {
             title: 'Homes',
             icon: Icons.home,
-            route: '/manage/homes',
+            route: Routes.manage.homes.list,
             permission: 'web.manage.homes.view',
         },
         {
             title: 'Warps',
             icon: Icons.warp,
-            route: '/manage/minecraft/warps',
+            route: Routes.manage.warps.list,
             permission: 'web.manage.warps.view',
         },
     ],
@@ -79,19 +80,19 @@ export const sidebarMenu: SidebarSection[] = [
         {
             title: 'Player Bans',
             icon: Icons.playerBan,
-            route: '/manage/player-bans',
+            route: Routes.manage.playerBans.list,
             permission: 'web.manage.uuid_bans.view',
         },
         {
             title: 'IP Bans',
             icon: Icons.ban,
-            route: '/manage/ip-bans',
+            route: Routes.manage.ipBans.list,
             permission: 'web.manage.ip_bans.view',
         },
         {
             title: 'Warnings',
             icon: Icons.warning,
-            route: '/manage/warnings',
+            route: Routes.manage.warnings.list,
             permission: 'web.manage.warnings.view',
         },
     ],
@@ -102,19 +103,19 @@ export const sidebarMenu: SidebarSection[] = [
         {
             title: 'Game Servers',
             icon: Icons.servers,
-            route: '/manage/servers',
+            route: Routes.manage.servers.list,
             permission: 'web.manage.servers.view',
         },
         {
             title: 'Tokens',
             icon: Icons.tokens,
-            route: '/manage/server-tokens',
+            route: Routes.manage.serverTokens.list,
             permission: 'web.manage.server_tokens.view',
         },
         {
             title: 'Remote Config',
             icon: Icons.config,
-            route: '/manage/minecraft/config',
+            route: Routes.manage.minecraftConfig,
             permission: 'web.manage.remote_config.edit',
         },
     ],
@@ -125,7 +126,7 @@ export const sidebarMenu: SidebarSection[] = [
         {
             title: 'Donations',
             icon: Icons.cash,
-            route: '/manage/donations',
+            route: Routes.manage.donations.list,
             permission: 'web.manage.donations.view',
         },
     ],

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../../Routes'
 import { computed, inject, ref } from 'vue'
 import type { Ref } from 'vue'
 import { Link, usePage } from '@inertiajs/vue3'
@@ -53,7 +54,7 @@ const breadcrumbs = computed(
                 <SvgIcon :svg="Icons.menu" class="size-6" aria-hidden="true" />
             </button>
 
-            <a href="/" class="hidden shrink-0 items-center sm:flex md:hidden" aria-label="Project City Build home">
+            <a :href="Routes.home" class="hidden shrink-0 items-center sm:flex md:hidden" aria-label="Project City Build home">
                 PCB
             </a>
 

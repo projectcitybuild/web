@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../../Routes'
 import { Link } from '@inertiajs/vue3'
 import BooleanCheck from '../../../Components/BooleanCheck.vue'
 import SvgIcon from '../../../Components/SvgIcon.vue'
@@ -32,7 +33,7 @@ const fields = [
     <DataTable :fields="fields" :rows="roles">
         <template #accounts_count="{ item }">
             <Link
-                :href="'/manage/roles/' + item.id + '/accounts'"
+                :href="Routes.manage.roles.accounts(item.id)"
                 class="text-primary underline"
             >
                 {{ item.accounts_count }}
@@ -41,7 +42,7 @@ const fields = [
 
         <template #permissions_count="{ item }">
             <a
-                :href="'/manage/roles/' + item.id + '/permissions'"
+                :href="Routes.manage.roles.permissions(item.id)"
                 v-if="can('web.manage.permissions.assign')"
                 class="text-primary underline"
             >
@@ -62,7 +63,7 @@ const fields = [
             <LinkButton
                 variant="outline"
                 size="sm"
-                :href="'/manage/roles/' + item.id + '/edit'"
+                :href="Routes.manage.roles.edit(item.id)"
             >
                 <SvgIcon :svg="Icons.pencil" aria-hidden="true" />
                 Edit

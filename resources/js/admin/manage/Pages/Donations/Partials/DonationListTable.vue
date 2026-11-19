@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../../Routes'
 import LinkButton from '../../../../shared/Components/LinkButton.vue'
 import { Link } from '@inertiajs/vue3'
 import { format } from '../../../Utilities/DateFormatter'
@@ -36,7 +37,7 @@ const rows = computed(
     <DataTable :fields="fields" :rows="rows" :show-index="true">
         <template #account="{ item }">
             <Link
-                :href="'/manage/accounts/' + item.account?.id"
+                :href="Routes.manage.accounts.show(item.account?.id)"
                 class="text-primary"
             >
                 {{ item.account?.username }}
@@ -52,7 +53,7 @@ const rows = computed(
         </template>
 
         <template #actions="{ item }">
-            <LinkButton :href="'/manage/donations/' + item.id + '/edit'" variant="outline" size="sm">
+            <LinkButton :href="Routes.manage.donations.edit(item.id)" variant="outline" size="sm">
                 <SvgIcon :svg="Icons.pencil" />
                 Edit
             </LinkButton>

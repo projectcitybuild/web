@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../Routes'
 import { Head, useForm } from '@inertiajs/vue3'
 import Card from '../../../shared/Components/Card.vue'
 import ConfirmDialog from '../../../manage/Components/ConfirmDialog.vue'
@@ -138,7 +139,7 @@ function confirmDecision() {
                             <dd class="text-sm text-foreground">
                                 <a
                                     v-if="banAppeal.account"
-                                    :href="'/manage/accounts/' + banAppeal.account.id"
+                                    :href="Routes.manage.accounts.show(banAppeal.account.id)"
                                     class="font-medium text-primary-active underline-offset-2 hover:underline"
                                 >
                                     {{ banAppeal.account.username }}
@@ -157,7 +158,7 @@ function confirmDecision() {
                     <div class="flex items-center justify-between gap-2 border-b border-border p-4">
                         <h2 class="text-base font-semibold">Player Ban</h2>
 
-                        <a :href="'/manage/player-bans/' + banAppeal.game_player_ban.id + '/edit'">
+                                        <a :href="Routes.manage.playerBans.edit(banAppeal.game_player_ban.id)">
                             <OutlinedButton variant="secondary">Edit</OutlinedButton>
                         </a>
                     </div>
@@ -169,7 +170,7 @@ function confirmDecision() {
                                 <div class="flex gap-2 items-center">
                                     <MinecraftAvatar :uuid="banAppeal.game_player_ban.banned_player.uuid" :size="24" />
                                     <a
-                                        :href="'/manage/players/' + banAppeal.game_player_ban.banned_player.id"
+                                        :href="Routes.manage.players.show(banAppeal.game_player_ban.banned_player.id)"
                                         class="font-medium text-primary-active underline-offset-2 hover:underline"
                                     >
                                         {{ banAppeal.game_player_ban.banned_player.alias }}
@@ -183,7 +184,7 @@ function confirmDecision() {
                                 <div v-if="banAppeal.game_player_ban.banner_player" class="flex gap-2 items-center">
                                     <MinecraftAvatar :uuid="banAppeal.game_player_ban.banner_player.uuid" :size="24" />
                                     <a
-                                        :href="'/manage/players/' + banAppeal.game_player_ban.banner_player.id"
+                                        :href="Routes.manage.players.show(banAppeal.game_player_ban.banner_player.id)"
                                         class="font-medium text-primary-active underline-offset-2 hover:underline"
                                     >
                                         {{ banAppeal.game_player_ban.banner_player.alias }}
@@ -371,7 +372,7 @@ function confirmDecision() {
                                 <dd v-if="banAppeal.decider_player" class="flex items-center gap-2 text-sm text-foreground">
                                     <MinecraftAvatar :uuid="banAppeal.decider_player.uuid" :size="24" />
                                     <a
-                                        :href="'/manage/players/' + banAppeal.decider_player.id"
+                                        :href="Routes.manage.players.show(banAppeal.decider_player.id)"
                                         class="font-medium text-primary-active underline-offset-2 hover:underline"
                                     >
                                         {{ banAppeal.decider_player.alias }}

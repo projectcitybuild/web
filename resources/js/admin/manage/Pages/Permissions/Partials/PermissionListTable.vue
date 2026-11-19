@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../../Routes'
 import SvgIcon from '../../../Components/SvgIcon.vue'
 import { Icons } from '../../../Icons'
 import DataTable from '../../../Components/DataTable.vue'
@@ -24,7 +25,7 @@ const fields = [
             <LinkButton
                 variant="outline"
                 size="md"
-                :href="'/manage/permissions/' + item.id + '/edit'"
+                :href="Routes.manage.permissions.edit(item.id)"
             >
                 <SvgIcon :svg="Icons.pencil" aria-hidden="true" />
                 Edit

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../../Routes'
 import Card from '../../../Components/Card.vue'
 import usePermissions from '../../../Composables/usePermissions'
 import AccountDonationsTable from './AccountDonationsTable.vue'
@@ -19,7 +20,7 @@ const { can } = usePermissions()
         <Card v-if="can('web.manage.donations.view')" padding="none" class="xl:col-span-2">
             <div class="flex items-center justify-between gap-4 border-b border-border p-4">
                 <h2 class="text-base font-semibold text-foreground">Donations</h2>
-                <LinkButton :href="'/manage/accounts/' + props.account.id + '/badges'" variant="secondary">Create</LinkButton>
+                <LinkButton :href="Routes.manage.accounts.badges(props.account.id)" variant="secondary">Create</LinkButton>
             </div>
             <div class="overflow-x-auto">
                 <AccountDonationsTable :donations="props.account.donations ?? []" />

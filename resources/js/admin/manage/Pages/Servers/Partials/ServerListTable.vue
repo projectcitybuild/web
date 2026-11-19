@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../../Routes'
 import SvgIcon from '../../../Components/SvgIcon.vue'
 import { Icons } from '../../../Icons'
 import DataTable from '../../../Components/DataTable.vue'
@@ -25,7 +26,7 @@ const fields = [
     <DataTable :fields="fields" :rows="servers">
         <template #actions="{ item }" v-if="can('web.manage.servers.edit')">
             <LinkButton
-                :href="'/manage/servers/' + item.id + '/edit'"
+                :href="Routes.manage.servers.edit(item.id)"
                 variant="outline"
                 size="sm"
             >

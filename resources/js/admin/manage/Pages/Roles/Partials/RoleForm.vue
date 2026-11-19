@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../../Routes'
 import { InertiaForm, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import FormActions from '../../../Components/Forms/FormActions.vue'
@@ -171,7 +172,7 @@ function destroy(): void {
 
         <FormActions
             :submit-label="isEdit ? 'Update role' : 'Create role'"
-            :cancel-href="'/manage/roles'"
+            :cancel-href="Routes.manage.roles.list"
             :processing="form.processing"
             sticky
         />

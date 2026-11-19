@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../../Routes'
 import LinkButton from '../../../../shared/Components/LinkButton.vue'
 import { format } from '../../../Utilities/DateFormatter'
 import SvgIcon from '../../../Components/SvgIcon.vue'
@@ -49,7 +50,7 @@ const rows = computed(
                 />
                 <LinkButton
                     v-if="can('web.manage.warps.edit')"
-                    :href="'/manage/minecraft/warps/' + item.id + '/edit'"
+                    :href="Routes.manage.warps.edit(item.id)"
                     variant="outline"
                     size="sm"
                 >

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../Routes'
 import { Head, router, usePage } from '@inertiajs/vue3'
 import Card from '../../Components/Card.vue'
 import { format, timeAgo } from '../../Utilities/DateFormatter'
@@ -60,7 +61,7 @@ const initials = computed(() => props.account.username
 
         <PageHeader title="Account Details">
             <template #actions v-if="can('web.manage.accounts.edit')">
-                <LinkButton :href="'/manage/accounts/' + account.id + '/edit'" variant="outline">
+                <LinkButton :href="Routes.manage.accounts.edit(account.id)" variant="outline">
                     <SvgIcon :svg="Icons.pencil" class="size-4" aria-hidden="true" />
                     Edit Account
                 </LinkButton>

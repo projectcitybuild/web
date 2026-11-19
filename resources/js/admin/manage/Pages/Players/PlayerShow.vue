@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../Routes'
 import { Head, Link, router } from '@inertiajs/vue3'
 import Card from '../../Components/Card.vue'
 import MinecraftAvatar from '../../Components/MinecraftAvatar.vue'
@@ -84,7 +85,7 @@ async function refreshAlias() {
                     </span>
                 </OutlinedButton>
 
-                <LinkButton :href="'/manage/players/' + player.id + '/edit'" variant="outline">
+                <LinkButton :href="Routes.manage.players.edit(player.id)" variant="outline">
                     <SvgIcon :svg="Icons.pencil" />
                     Edit Player
                 </LinkButton>
@@ -142,7 +143,7 @@ async function refreshAlias() {
                             <h2 class="text-base font-semibold text-foreground">Player bans</h2>
                             <p class="mt-0.5 text-sm text-muted">Restrictions associated with this player.</p>
                         </div>
-                        <LinkButton :href="'/manage/player-bans/create?uuid=' + player.uuid" variant="outline">
+                        <LinkButton :href="Routes.manage.playerBans.createForPlayer(player.uuid)" variant="outline">
                             <SvgIcon :svg="Icons.plus" class="size-4" aria-hidden="true" />
                             Create
                         </LinkButton>
@@ -163,7 +164,7 @@ async function refreshAlias() {
                             <h2 class="text-base font-semibold text-foreground">Player warnings</h2>
                             <p class="mt-0.5 text-sm text-muted">Moderation notes recorded for this player.</p>
                         </div>
-                        <LinkButton :href="'/manage/warnings/create?uuid=' + player.uuid" variant="outline">
+                        <LinkButton :href="Routes.manage.warnings.createForPlayer(player.uuid)" variant="outline">
                             <SvgIcon :svg="Icons.plus" class="size-4" aria-hidden="true" />
                             Create
                         </LinkButton>
@@ -221,7 +222,7 @@ async function refreshAlias() {
 
                         <Link
                             v-if="player.account_id"
-                            :href="'/manage/accounts/' + player.account_id"
+                            :href="Routes.manage.accounts.show(player.account_id)"
                             class="group flex items-center justify-between gap-3 rounded-md border border-border p-3 transition-colors hover:border-primary"
                         >
                             <span class="flex min-w-0 items-center gap-3">

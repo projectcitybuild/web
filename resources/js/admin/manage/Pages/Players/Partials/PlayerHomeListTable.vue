@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../../Routes'
 import { format } from '../../../Utilities/DateFormatter'
 import usePermissions from '../../../Composables/usePermissions'
 import SvgIcon from '../../../Components/SvgIcon.vue'
@@ -58,7 +59,7 @@ const fields = [
                 />
                 <LinkButton
                     v-if="can('web.manage.homes.edit')"
-                    :href="'/manage/homes/' + item.id + '/edit'"
+                    :href="Routes.manage.homes.edit(item.id)"
                     variant="outline"
                     size="sm"
                 >

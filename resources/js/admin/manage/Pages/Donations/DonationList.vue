@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../Routes'
 import { Deferred, Head, Link } from '@inertiajs/vue3'
 import DonationListTable from './Partials/DonationListTable.vue'
 import InfinitePagination from '../../Components/InfinitePagination.vue'
@@ -24,7 +25,7 @@ const itemCount = ref(0)
     <div class="space-y-6">
         <PageHeader title="Donations" description="Review and manage donation records.">
             <template #actions>
-                <LinkButton href="/manage/donations/create" variant="primary">
+                <LinkButton :href="Routes.manage.donations.create" variant="primary">
                     <SvgIcon :svg="Icons.plus" />
                     Create Donation
                 </LinkButton>

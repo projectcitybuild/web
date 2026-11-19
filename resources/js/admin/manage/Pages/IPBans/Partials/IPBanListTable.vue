@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../../Routes'
 import { Link } from '@inertiajs/vue3'
 import { format } from '../../../Utilities/DateFormatter'
 import Pill from '../../../Components/Pill.vue'
@@ -44,7 +45,7 @@ function isActive(ban: App.Http.Data.AdminGameIPBanData) {
         </template>
 
         <template #actions="{ item }" v-if="can('web.manage.ip_bans.edit')">
-            <LinkButton :href="'/manage/ip-bans/' + item.id + '/edit'" variant="outline" size="sm">
+            <LinkButton :href="Routes.manage.ipBans.edit(item.id)" variant="outline" size="sm">
                 <SvgIcon :svg="Icons.pencil" />
                 Edit
             </LinkButton>

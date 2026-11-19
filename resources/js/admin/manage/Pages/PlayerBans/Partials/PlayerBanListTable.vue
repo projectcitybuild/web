@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../../Routes'
 import LinkButton from '../../../../shared/Components/LinkButton.vue'
 import { Link } from '@inertiajs/vue3'
 import MinecraftAvatar from '../../../Components/MinecraftAvatar.vue'
@@ -44,7 +45,7 @@ const { can } = usePermissions()
             <div class="px-4 py-3 flex flex-row items-center gap-2">
                 <MinecraftAvatar :uuid="item.banned_player.uuid" :size="16"/>
                 <Link
-                    :href="'/manage/players/' + item.banned_player.id"
+                    :href="Routes.manage.players.show(item.banned_player.id)"
                     class="text-primary"
                 >
                     {{ item.banned_player.alias ?? '-' }}
@@ -53,7 +54,7 @@ const { can } = usePermissions()
         </template>
 
         <template #actions="{ item }">
-            <LinkButton :href="'/manage/player-bans/' + item.id + '/edit'" v-if="can('web.manage.uuid_bans.edit')" variant="outline" size="sm">
+            <LinkButton :href="Routes.manage.playerBans.edit(item.id)" v-if="can('web.manage.uuid_bans.edit')" variant="outline" size="sm">
                 <SvgIcon :svg="Icons.pencil" />
                 Edit
             </LinkButton>

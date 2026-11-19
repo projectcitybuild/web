@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../../Routes'
 import { InertiaForm, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import DateTimePicker from '../../../Components/DateTimePicker.vue'
@@ -130,7 +131,7 @@ function destroy(): void {
 
         <FormActions
             :submit-label="isEdit ? 'Update warning' : 'Create warning'"
-            cancel-href="/manage/warnings"
+            :cancel-href="Routes.manage.warnings.list"
             :processing="form.processing"
             sticky
         />

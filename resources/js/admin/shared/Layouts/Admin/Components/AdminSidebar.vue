@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../../Routes'
 import { computed, ref } from 'vue'
 import { Link, usePage } from '@inertiajs/vue3'
 import AdminAccountMenu from './AdminAccountMenu.vue'
@@ -118,7 +119,7 @@ defineExpose({ focusFirst })
                 <nav aria-label="Main navigation">
                     <ul v-if="currentArea === 'manage'" class="mt-4 space-y-1">
                         <li>
-                            <AdminNavLink href="/manage" label="Overview" exact>
+                            <AdminNavLink :href="Routes.manage.overview" label="Overview" exact>
                                 <template #icon>
                                     <SvgIcon :svg="Icons.dashboard" class="size-5" aria-hidden="true" />
                                 </template>

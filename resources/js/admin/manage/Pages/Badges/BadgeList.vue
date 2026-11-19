@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../Routes'
 import { Deferred, Head } from '@inertiajs/vue3'
 import BadgeListTable from './Partials/BadgeListTable.vue'
 import InfinitePagination from '../../Components/InfinitePagination.vue'
@@ -27,7 +28,7 @@ const { can } = usePermissions()
             <template #actions>
                 <LinkButton
                     v-if="can('web.manage.badges.edit')"
-                    href="/manage/badges/create"
+                    :href="Routes.manage.badges.create"
                     variant="primary"
                 >
                     <SvgIcon :svg="Icons.plus" aria-hidden="true" />

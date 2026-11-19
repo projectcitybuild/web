@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../../Routes'
 import { InertiaForm, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import DateTimePicker from '../../../Components/DateTimePicker.vue'
@@ -123,7 +124,7 @@ function destroy(): void {
 
         <FormActions
             :submit-label="isEdit ? 'Update IP ban' : 'Create IP ban'"
-            cancel-href="/manage/ip-bans"
+            :cancel-href="Routes.manage.ipBans.list"
             :processing="form.processing"
             sticky
         />

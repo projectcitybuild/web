@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../../Routes'
 import { Link } from '@inertiajs/vue3'
 import { format } from '../../../Utilities/DateFormatter'
 import BooleanCheck from '../../../Components/BooleanCheck.vue'
@@ -40,7 +41,7 @@ const rows = computed(
 
         <template #username="{ item }">
             <Link
-                :href="'/manage/accounts/' + item.id"
+                :href="Routes.manage.accounts.show(item.id)"
                 class="font-medium text-primary-active underline-offset-2 font-semibold underline"
             >
                 {{ item.username }}

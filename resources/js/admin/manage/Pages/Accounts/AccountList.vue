@@ -13,6 +13,7 @@ import PageHeader from '../../../shared/Components/PageHeader.vue'
 import ListPage from '../../Components/ListPage.vue'
 import OutlinedButton from '../../Components/OutlinedButton.vue'
 import LinkButton from '../../../shared/Components/LinkButton.vue'
+import { Routes } from '../../../Routes'
 
 const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Accounts/AccountList']>()
 
@@ -57,7 +58,7 @@ watch(
             <template #actions>
                 <LinkButton
                     v-if="can('web.manage.accounts.edit')"
-                    href="/manage/accounts/create"
+                    :href="Routes.manage.accounts.create"
                     variant="primary"
                 >
                     <SvgIcon :svg="Icons.plus" aria-hidden="true" />

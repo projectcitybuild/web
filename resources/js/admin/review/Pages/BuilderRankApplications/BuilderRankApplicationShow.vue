@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../Routes'
 import { Head } from '@inertiajs/vue3'
 import Card from '../../../shared/Components/Card.vue'
 import MinecraftAvatar from '../../../manage/Components/MinecraftAvatar.vue'
@@ -73,7 +74,7 @@ const alts = computed(() => props.application.account?.minecraft_account?.slice(
                         <div class="p-4 flex items-center gap-2">
                             <MinecraftAvatar :uuid="player.uuid" :size="36" class="shadow-lg" />
                             <a
-                                :href="'/manage/players/' + player.id"
+                                :href="Routes.manage.players.show(player.id)"
                                 class="text-lg font-semibold text-primary-active underline-offset-2 hover:underline"
                             >
                                 {{ player.alias }}
@@ -88,7 +89,7 @@ const alts = computed(() => props.application.account?.minecraft_account?.slice(
 
                         <div class="p-4 space-y-4">
                             <a
-                                :href="'/manage/accounts/' + application.account_id"
+                                :href="Routes.manage.accounts.show(application.account_id)"
                                 class="font-medium text-primary-active underline-offset-2 hover:underline"
                             >
                                 {{ application.account?.username ?? 'Account' }}
@@ -112,7 +113,7 @@ const alts = computed(() => props.application.account?.minecraft_account?.slice(
                             >
                                 <MinecraftAvatar :uuid="player.uuid" :size="24" />
                                 <a
-                                    :href="'/manage/players/' + player.id"
+                                    :href="Routes.manage.players.show(player.id)"
                                     class="text-sm font-medium text-primary-active underline-offset-2 hover:underline"
                                 >
                                     {{ player.alias }}
@@ -136,7 +137,7 @@ const alts = computed(() => props.application.account?.minecraft_account?.slice(
                     </div>
 
                     <div class="p-4">
-                        <a :href="'/rank-up/' + application.id">
+                        <a :href="Routes.rankUp(application.id)">
                             <OutlinedButton variant="secondary" class="w-full">
                                 <SvgIcon :svg="Icons.eye" />
                                 View Application As Player

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../../Routes'
 import { InertiaForm, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import PlayerPicker from '../../../Components/PlayerPicker.vue'
@@ -146,7 +147,7 @@ function updateOrientation(values: Partial<Record<Axis, number | string>>): void
 
         <FormActions
             :submit-label="isEdit ? 'Update home' : 'Create home'"
-            cancel-href="/manage/homes"
+            :cancel-href="Routes.manage.homes.list"
             :processing="form.processing"
             sticky
         />

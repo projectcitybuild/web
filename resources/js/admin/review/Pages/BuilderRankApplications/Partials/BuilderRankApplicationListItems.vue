@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../../Routes'
 import { Link } from '@inertiajs/vue3'
 import { BuilderRankApplicationStatus } from '../../../../manage/Data/BuilderRankApplication'
 import MinecraftAvatar from '../../../../manage/Components/MinecraftAvatar.vue'
@@ -27,7 +28,7 @@ defineProps<Props>()
     <ul v-if="applications.length > 0" class="space-y-3">
         <li v-for="application in applications" :key="application.id">
             <Link
-                :href="`/review/builder-ranks/${application.id}`"
+                :href="Routes.review.builderRanks.show(application.id)"
                 class="group block rounded-xl border border-border bg-surface p-4 transition-colors hover:border-border-strong hover:bg-surface-hover focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-surface motion-reduce:transition-none"
             >
                 <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">

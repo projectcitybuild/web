@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../../Routes'
 import { Link } from '@inertiajs/vue3'
 import { format } from '../../../Utilities/DateFormatter'
 import MinecraftAvatar from '../../../Components/MinecraftAvatar.vue'
@@ -41,7 +42,7 @@ const rows = computed(
 
         <template #uuid="{ item }">
             <Link
-                :href="'/manage/players/' + item.id"
+                :href="Routes.manage.players.show(item.id)"
                 class="text-primary font-semibold underline-offset-2 underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus"
             >
                 {{ item.uuid }}
@@ -51,7 +52,7 @@ const rows = computed(
         <template #linked_account="{ item }">
             <Link
                 v-if="item.account"
-                :href="'/manage/accounts/' + item.account?.id"
+                :href="Routes.manage.accounts.show(item.account?.id)"
                 class="text-primary font-semibold underline-offset-2 underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus"
             >
                 {{ item.account?.username }}

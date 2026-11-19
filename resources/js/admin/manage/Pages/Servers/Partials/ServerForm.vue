@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../../Routes'
 import { InertiaForm, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import DangerZone from '../../../Components/Forms/DangerZone.vue'
@@ -95,7 +96,7 @@ function destroy(): void {
 
         <FormActions
             :submit-label="isEdit ? 'Update server' : 'Create server'"
-            cancel-href="/manage/servers"
+            :cancel-href="Routes.manage.servers.list"
             :processing="form.processing"
             sticky
         />

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../Routes'
 import { Deferred, Head, Link } from '@inertiajs/vue3'
 import BanListTable from './Partials/PlayerBanListTable.vue'
 import InfinitePagination from '../../Components/InfinitePagination.vue'
@@ -71,7 +72,7 @@ function clearFilters() {
     <div class="space-y-6">
     <PageHeader title="Player Bans" description="Review Minecraft player bans and their current status.">
         <template #actions>
-            <LinkButton v-if="can('web.manage.uuid_bans.edit')" href="/manage/player-bans/create" variant="primary">
+            <LinkButton v-if="can('web.manage.uuid_bans.edit')" :href="Routes.manage.playerBans.create" variant="primary">
                 <SvgIcon :svg="Icons.plus" />
                 Create Ban
             </LinkButton>

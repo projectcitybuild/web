@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Routes } from '../../../Routes'
 import { Head } from '@inertiajs/vue3'
 import ServerListTable from './Partials/ServerListTable.vue'
 import SuccessAlert from '../../Components/SuccessAlert.vue'
@@ -22,7 +23,7 @@ const { can } = usePermissions()
         <template #actions>
             <LinkButton
                 v-if="can('web.manage.servers.edit')"
-                href="/manage/servers/create"
+                :href="Routes.manage.servers.create"
                 variant="primary"
             >
                 <SvgIcon :svg="Icons.plus" aria-hidden="true" />
