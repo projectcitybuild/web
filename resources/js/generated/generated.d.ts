@@ -268,7 +268,7 @@ declare namespace App {
                 banned_player_id: number;
                 banned_alias_at_time: string | null;
                 banner_player_id: number | null;
-                reason: string;
+                reason: string | null;
                 additional_info: string | null;
                 expires_at: string | null;
                 created_at: string | null;

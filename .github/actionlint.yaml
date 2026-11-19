@@ -1,0 +1,6 @@
+# TODO: Delete this file once actionlint supports the $/ self-repository syntax
+# https://github.com/rhysd/actionlint/issues/760
+paths:
+  .github/workflows/publish.yml:
+    ignore:
+      - '^reusable workflow call "\$/\.github/workflows/[^"/]+\.yml" at "uses" is not following the format'
