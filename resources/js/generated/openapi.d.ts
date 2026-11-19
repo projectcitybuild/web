@@ -517,7 +517,8 @@ export interface components {
             created_at: string | null;
             /** Format: date-time */
             updated_at: string | null;
-            unbanned_at: null | string;
+            /** Format: date-time */
+            unbanned_at: string | null;
             unbanner_player_id: number | null;
             unban_type: null | components["schemas"]["UnbanType"] | string;
         };

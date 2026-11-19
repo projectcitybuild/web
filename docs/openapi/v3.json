@@ -2953,18 +2953,11 @@
                         "format": "date-time"
                     },
                     "unbanned_at": {
-                        "anyOf": [
-                            {
-                                "type": "null"
-                            },
-                            {
-                                "type": "string",
-                                "format": "date-time"
-                            },
-                            {
-                                "type": "string"
-                            }
-                        ]
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
                     },
                     "unbanner_player_id": {
                         "type": [
