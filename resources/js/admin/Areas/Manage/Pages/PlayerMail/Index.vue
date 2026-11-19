@@ -15,10 +15,12 @@ import TableRow from '../../../../Components/TableRow.vue'
 import PageHeader from '../../../../Components/PageHeader.vue'
 import LinkButton from '../../../../Components/LinkButton.vue'
 import EmptyState from '../../../../Components/EmptyState.vue'
+import { useServerListSorting } from '../../../../Composables/useTableSorting'
 
 const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/PlayerMail/Index']>()
 const search = ref(props.filters.search)
 const status = ref(props.filters.status)
+const onSort = useServerListSorting(() => ({ sort: props.sort, direction: props.direction }))
 const { can } = usePermissions()
 const hasFilters = computed(() => Boolean(props.filters.search || props.filters.status))
 const activeFilterCount = computed(() => [Boolean(search.value), Boolean(status.value)].filter(Boolean).length)
@@ -27,6 +29,8 @@ function filterBroadcasts() {
     router.get('/manage/player-mail', {
         search: search.value || undefined,
         status: status.value || undefined,
+        sort: props.sort || undefined,
+        direction: props.direction || undefined,
     }, {
         preserveState: true,
         preserveScroll: true,
@@ -45,6 +49,8 @@ function pageUrl(page: number): string {
 
     if (props.filters.search) query.set('search', props.filters.search)
     if (props.filters.status) query.set('status', props.filters.status)
+    if (props.sort) query.set('sort', props.sort)
+    if (props.direction) query.set('direction', props.direction)
     query.set('page', String(page))
 
     return `${Routes.manage.playerMail.list}?${query.toString()}`
@@ -55,6 +61,8 @@ function broadcastUrl(id: number): string {
 
     if (props.filters.search) query.set('search', props.filters.search)
     if (props.filters.status) query.set('status', props.filters.status)
+    if (props.sort) query.set('sort', props.sort)
+    if (props.direction) query.set('direction', props.direction)
     query.set('page', String(props.broadcasts.current_page))
 
     return `${Routes.manage.playerMail.show(id)}?${query.toString()}`
@@ -154,11 +162,11 @@ function formatDate(value: string): string {
                     <Table>
                         <template #header>
                             <TableRow :hoverable="false">
-                                <TableHead>Status</TableHead>
-                                <TableHead>Subject</TableHead>
-                                <TableHead>Sender</TableHead>
-                                <TableHead>Recipients</TableHead>
-                                <TableHead>Created</TableHead>
+                                <TableHead sortable :sort-direction="props.sort === 'status' ? props.direction : null" @sort="onSort('status')">Status</TableHead>
+                                <TableHead sortable :sort-direction="props.sort === 'subject' ? props.direction : null" @sort="onSort('subject')">Subject</TableHead>
+                                <TableHead sortable :sort-direction="props.sort === 'sender' ? props.direction : null" @sort="onSort('sender')">Sender</TableHead>
+                                <TableHead sortable :sort-direction="props.sort === 'recipients_count' ? props.direction : null" @sort="onSort('recipients_count')">Recipients</TableHead>
+                                <TableHead sortable :sort-direction="props.sort === 'created_at' ? props.direction : null" @sort="onSort('created_at')">Created</TableHead>
                                 <TableHead align="end">Action</TableHead>
                             </TableRow>
                         </template>

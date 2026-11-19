@@ -6,10 +6,12 @@ import ShowingCount from '../../../../Components/ShowingCount.vue'
 import ListPage from '../../../../Components/ListPage.vue'
 import OutlinedButton from '../../../../Components/OutlinedButton.vue'
 import AuditListTable from './Partials/AuditListTable.vue'
+import { useServerListSorting } from '../../../../Composables/useTableSorting'
 
 const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['audit/Activity/AuditList']>()
 
 const filters = reactive({ ...props.filters })
+const onSort = useServerListSorting(() => ({ sort: props.sort, direction: props.direction }))
 
 const activeFilterCount = computed(() => [
     filters.auditable_type,
@@ -25,6 +27,10 @@ function visitFilteredResults() {
     const query = Object.fromEntries(
         Object.entries(filters).filter(([, value]) => value !== '')
     )
+
+    if (props.sort && props.direction) {
+        Object.assign(query, { sort: props.sort, direction: props.direction })
+    }
 
     router.get(props.indexUrl, query, {
         preserveScroll: true,
@@ -101,7 +107,12 @@ function paginationLabel(label: string): string {
                 </form>
             </template>
 
-            <AuditListTable :audits="audits.data" />
+            <AuditListTable
+                :audits="audits.data"
+                :sort="props.sort"
+                :direction="props.direction"
+                :on-sort="onSort"
+            />
 
             <template #footer>
                 <div class="flex flex-wrap items-center justify-between gap-4">

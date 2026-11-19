@@ -7,6 +7,7 @@ use App\Domains\Permissions\WebManagePermission;
 use App\Domains\PlayerMail\Data\PlayerMailBroadcastStatus;
 use App\Domains\PlayerMail\UseCases\BroadcastPlayerMail;
 use App\Http\Controllers\Admin\RendersAdminApp;
+use App\Http\Controllers\Admin\SortsAdminLists;
 use App\Http\Controllers\WebController;
 use App\Http\Data\PlayerMailBroadcastPageData;
 use App\Http\Data\PlayerMailBroadcastSummaryData;
@@ -25,6 +26,7 @@ class PlayerMailBroadcastController extends WebController
 {
     use AuthorizesPermissions;
     use RendersAdminApp;
+    use SortsAdminLists;
 
     public function index(Request $request): Response
     {
@@ -38,15 +40,29 @@ class PlayerMailBroadcastController extends WebController
             ))],
         ]);
 
-        $broadcasts = PlayerMailBroadcast::query()
+        $sortableColumns = [
+            'id' => 'player_mail_broadcasts.id',
+            'status' => 'player_mail_broadcasts.status',
+            'subject' => 'player_mails.subject',
+            'sender' => 'accounts.username',
+            'recipients_count' => 'player_mail_broadcasts.recipients_count',
+            'created_at' => 'player_mail_broadcasts.created_at',
+        ];
+        $sortState = $this->adminListSortState($request, $sortableColumns);
+
+        $query = PlayerMailBroadcast::query()
+            ->leftJoin('player_mails', 'player_mails.id', '=', 'player_mail_broadcasts.mail_id')
+            ->leftJoin('accounts', 'accounts.id', '=', 'player_mails.created_by_account_id')
+            ->select('player_mail_broadcasts.*')
             ->with(['mail.createdByAccount'])
             ->when($filters['search'] ?? null, function (Builder $query, string $search): void {
                 $query->whereHas('mail', fn (Builder $mailQuery) => $mailQuery->where('subject', 'like', '%'.$search.'%'));
             })
-            ->when($filters['status'] ?? null, fn (Builder $query, string $status): Builder => $query->where('status', $status))
-            ->orderByDesc('created_at')
-            ->orderByDesc('id')
-            ->paginate(20)
+            ->when($filters['status'] ?? null, fn (Builder $query, string $status): Builder => $query->where('status', $status));
+
+        $this->applyAdminListSort($query, $sortableColumns, $sortState, 'player_mail_broadcasts.created_at');
+
+        $broadcasts = $query->paginate(20)
             ->withQueryString()
             ->through(fn (PlayerMailBroadcast $broadcast): array => (new PlayerMailBroadcastSummaryData(
                 id: $broadcast->id,
@@ -63,6 +79,7 @@ class PlayerMailBroadcastController extends WebController
                 'search' => $filters['search'] ?? '',
                 'status' => $filters['status'] ?? '',
             ],
+            ...$sortState,
         ]);
     }
 

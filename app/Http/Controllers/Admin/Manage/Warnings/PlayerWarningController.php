@@ -7,6 +7,7 @@ use App\Core\Domains\MinecraftUUID\Rules\MinecraftUUIDRule;
 use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Admin\RendersAdminApp;
+use App\Http\Controllers\Admin\SortsAdminLists;
 use App\Http\Controllers\WebController;
 use App\Http\Data\AdminPlayerWarningData;
 use App\Models\MinecraftPlayer;
@@ -18,15 +19,24 @@ class PlayerWarningController extends WebController
 {
     use AuthorizesPermissions;
     use RendersAdminApp;
+    use SortsAdminLists;
 
     public function index(Request $request)
     {
         $this->requires(WebManagePermission::WARNINGS_VIEW);
 
-        $warnings = function () {
-            return PlayerWarning::with('warnedPlayer', 'warnerPlayer')
-                ->orderBy('created_at', 'desc')
-                ->paginate(50);
+        $sortableColumns = [
+            'id' => 'id',
+            'reason' => 'reason',
+            'created_at' => 'created_at',
+        ];
+        $sortState = $this->adminListSortState($request, $sortableColumns);
+
+        $warnings = function () use ($sortableColumns, $sortState) {
+            $query = PlayerWarning::with('warnedPlayer', 'warnerPlayer');
+            $this->applyAdminListSort($query, $sortableColumns, $sortState, 'created_at');
+
+            return $query->paginate(50);
         };
 
         if (request()->wantsJson()) {
@@ -36,6 +46,7 @@ class PlayerWarningController extends WebController
             'warnings' => Inertia::defer(fn () => $warnings()->through(
                 fn (PlayerWarning $warning): array => AdminPlayerWarningData::fromModel($warning)->toArray(),
             )),
+            ...$sortState,
         ]);
     }
 

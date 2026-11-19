@@ -11,6 +11,7 @@ use App\Domains\Bans\Services\PlayerBanService;
 use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Admin\RendersAdminApp;
+use App\Http\Controllers\Admin\SortsAdminLists;
 use App\Http\Controllers\WebController;
 use App\Http\Data\AdminGamePlayerBanData;
 use App\Http\Filters\BannedByPlayerFilter;
@@ -30,6 +31,7 @@ class GamePlayerBanController extends WebController
 {
     use AuthorizesPermissions;
     use RendersAdminApp;
+    use SortsAdminLists;
 
     public function __construct(
         private readonly PlayerBanService $playerBanService,
@@ -39,12 +41,20 @@ class GamePlayerBanController extends WebController
     {
         $this->requires(WebManagePermission::UUID_BANS_VIEW);
 
-        $bans = function () use ($request) {
+        $sortableColumns = [
+            'id' => 'id',
+            'reason' => 'reason',
+            'created_at' => 'created_at',
+            'expires_at' => 'expires_at',
+        ];
+        $sortState = $this->adminListSortState($request, $sortableColumns);
+
+        $bans = function () use ($request, $sortableColumns, $sortState) {
             $reason = $request->query('reason');
 
             $reason = is_string($reason) ? $reason : null;
 
-            return Pipeline::send(GamePlayerBan::query())
+            $query = Pipeline::send(GamePlayerBan::query())
                 ->through([
                     new BannedPlayerFilter($request->query('player')),
                     new BannedByPlayerFilter($request->query('banner_uuid')),
@@ -55,9 +65,11 @@ class GamePlayerBanController extends WebController
                     new DateFilter('expires_at', $request->query('expires_at')),
                 ])
                 ->thenReturn()
-                ->with('bannedPlayer', 'bannerPlayer', 'unbannerPlayer')
-                ->orderBy('created_at', 'desc')
-                ->paginate(50);
+                ->with('bannedPlayer', 'bannerPlayer', 'unbannerPlayer');
+
+            $this->applyAdminListSort($query, $sortableColumns, $sortState, 'created_at');
+
+            return $query->paginate(50);
         };
 
         if ($request->wantsJson()) {
@@ -67,6 +79,7 @@ class GamePlayerBanController extends WebController
             'bans' => Inertia::defer(fn () => $bans()->through(
                 fn (GamePlayerBan $ban): array => AdminGamePlayerBanData::fromModel($ban)->toArray(),
             )),
+            ...$sortState,
         ]);
     }
 

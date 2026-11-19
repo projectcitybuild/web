@@ -29,6 +29,42 @@ it('filters accounts by whether they have a player', function () {
         ->assertJsonPath('data.0.id', $accountWithoutPlayer->id);
 });
 
+it('sorts the account list by an allowed column and direction', function () {
+    $manager = $this->createStaffAccountWithPermissions([WebManagePermission::ACCOUNTS_VIEW->value]);
+    $alpha = Account::factory()->create(['username' => 'Sort Alpha']);
+    $zulu = Account::factory()->create(['username' => 'Sort Zulu']);
+
+    $this->actingAs($manager)
+        ->getJson(route('manage.accounts.index', ['username' => 'Sort', 'sort' => 'username', 'direction' => 'asc']))
+        ->assertOk()
+        ->assertJsonPath('data.0.id', $alpha->id)
+        ->assertJsonPath('data.1.id', $zulu->id);
+
+    $this->getJson(route('manage.accounts.index', ['username' => 'Sort', 'sort' => 'username', 'direction' => 'desc']))
+        ->assertOk()
+        ->assertJsonPath('data.0.id', $zulu->id)
+        ->assertJsonPath('data.1.id', $alpha->id);
+});
+
+it('does not sort accounts by redacted email addresses', function () {
+    $manager = $this->createStaffAccountWithPermissions([WebManagePermission::ACCOUNTS_VIEW->value]);
+    $latest = Account::factory()->create([
+        'username' => 'Sort Latest',
+        'email' => 'zulu@example.test',
+        'created_at' => now(),
+    ]);
+    Account::factory()->create([
+        'username' => 'Sort Earlier',
+        'email' => 'alpha@example.test',
+        'created_at' => now()->subDay(),
+    ]);
+
+    $this->actingAs($manager)
+        ->getJson(route('manage.accounts.index', ['username' => 'Sort', 'sort' => 'email', 'direction' => 'asc']))
+        ->assertOk()
+        ->assertJsonPath('data.0.id', $latest->id);
+});
+
 it('redacts account email for managers without email permission', function () {
     config(['inertia.ssr.enabled' => false]);
 

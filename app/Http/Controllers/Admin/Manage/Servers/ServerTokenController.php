@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Manage\Servers;
 use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Admin\RendersAdminApp;
+use App\Http\Controllers\Admin\SortsAdminLists;
 use App\Http\Controllers\WebController;
 use App\Http\Data\AdminServerTokenData;
 use App\Models\Server;
@@ -15,16 +16,27 @@ class ServerTokenController extends WebController
 {
     use AuthorizesPermissions;
     use RendersAdminApp;
+    use SortsAdminLists;
 
     public function index(Request $request)
     {
         $this->requires(WebManagePermission::SERVER_TOKENS_VIEW);
 
-        $tokens = ServerToken::orderBy('created_at', 'desc')
-            ->get()
+        $sortableColumns = [
+            'id' => 'id',
+            'token' => 'token',
+            'description' => 'description',
+            'created_at' => 'created_at',
+            'updated_at' => 'updated_at',
+        ];
+        $sortState = $this->adminListSortState($request, $sortableColumns);
+
+        $query = ServerToken::query();
+        $this->applyAdminListSort($query, $sortableColumns, $sortState, 'created_at');
+        $tokens = $query->get()
             ->map(fn (ServerToken $serverToken): array => AdminServerTokenData::fromModel($serverToken)->toArray());
 
-        return $this->inertiaRender('ServerTokens/ServerTokensList', compact('tokens'));
+        return $this->inertiaRender('ServerTokens/ServerTokensList', compact('tokens') + $sortState);
     }
 
     public function create(Request $request)

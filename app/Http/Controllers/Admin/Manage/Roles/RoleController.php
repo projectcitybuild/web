@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Manage\Roles;
 use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Admin\RendersAdminApp;
+use App\Http\Controllers\Admin\SortsAdminLists;
 use App\Http\Controllers\WebController;
 use App\Http\Data\AdminRoleData;
 use App\Models\Account;
@@ -18,17 +19,36 @@ class RoleController extends WebController
 {
     use AuthorizesPermissions;
     use RendersAdminApp;
+    use SortsAdminLists;
 
-    public function index()
+    public function index(Request $request)
     {
         $this->requires(WebManagePermission::ROLES_VIEW);
 
-        $roles = function () {
-            $roles = Role::withCount('accounts')
-                ->withCount('permissions')
-                ->orderBy('role_type', 'desc')
-                ->orderBy('display_priority', 'asc')
-                ->get();
+        $sortableColumns = [
+            'id' => 'id',
+            'name' => 'name',
+            'minecraft_name' => 'minecraft_name',
+            'role_type' => 'role_type',
+            'display_priority' => 'display_priority',
+            'is_default' => 'is_default',
+            'is_admin' => 'is_admin',
+            'additional_homes' => 'additional_homes',
+        ];
+        $sortState = $this->adminListSortState($request, $sortableColumns);
+
+        $roles = function () use ($sortableColumns, $sortState) {
+            $query = Role::withCount('accounts')->withCount('permissions');
+
+            if ($sortState['sort'] === null) {
+                $query->orderBy('role_type', 'desc')
+                    ->orderBy('display_priority', 'asc')
+                    ->orderBy('id', 'desc');
+            } else {
+                $this->applyAdminListSort($query, $sortableColumns, $sortState, 'role_type');
+            }
+
+            $roles = $query->get();
 
             // Default role doesn't have assigned members
             $roles
@@ -42,6 +62,7 @@ class RoleController extends WebController
             'roles' => Inertia::defer(fn () => $roles()->map(
                 fn (Role $role): array => AdminRoleData::fromModel($role)->toArray(),
             )),
+            ...$sortState,
         ]);
     }
 

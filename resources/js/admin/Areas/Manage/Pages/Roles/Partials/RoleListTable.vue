@@ -7,11 +7,12 @@ import { Icons } from '../../../../../Navigation/Icons'
 import DataTable from '../../../../../Components/DataTable.vue'
 import usePermissions from '../../../../../Composables/usePermissions'
 import LinkButton from '../../../../../Components/LinkButton.vue'
+import type { SortableTableProps } from '../../../../../Composables/useTableSorting'
 
-interface Props {
+interface Props extends SortableTableProps {
     roles: App.Http.Data.AdminRoleData[],
 }
-defineProps<Props>()
+const props = defineProps<Props>()
 
 const { can } = usePermissions()
 
@@ -24,13 +25,13 @@ const fields = [
     { key: 'is_default', label: 'Is Default?' },
     { key: 'is_admin', label: 'Is Admin?' },
     { key: 'additional_homes', label: 'Additional Homes' },
-    { key: 'accounts_count', label: 'Accounts' },
-    { key: 'permissions_count', label: 'Permissions' },
+    { key: 'accounts_count', label: 'Accounts', sortable: false },
+    { key: 'permissions_count', label: 'Permissions', sortable: false },
 ]
 </script>
 
 <template>
-    <DataTable :fields="fields" :rows="roles">
+    <DataTable :fields="fields" :rows="props.roles" :sort="props.sort" :direction="props.direction" :on-sort="props.onSort">
         <template #accounts_count="{ item }">
             <Link
                 :href="Routes.manage.roles.accounts(item.id)"

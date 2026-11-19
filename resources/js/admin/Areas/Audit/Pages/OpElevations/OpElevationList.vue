@@ -7,16 +7,18 @@ import DataTable from '../../../../Components/DataTable.vue'
 import ShowingCount from '../../../../Components/ShowingCount.vue'
 import PageHeader from '../../../../Components/PageHeader.vue'
 import { distance, distanceFromNow, format, timeAgo } from '../../../../Utilities/DateFormatter.js'
+import { useServerListSorting } from '../../../../Composables/useTableSorting'
 
-defineProps<AdminSharedPageProps & AdminInertiaPageProps['audit/OpElevations/OpElevationList']>()
+const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['audit/OpElevations/OpElevationList']>()
+const onSort = useServerListSorting(() => ({ sort: props.sort, direction: props.direction }))
 
 const fields = [
-    { key: 'status', label: 'Status' },
-    { key: 'player', label: 'Player' },
+    { key: 'status', label: 'Status', sortable: false },
+    { key: 'player', label: 'Player', sortable: false },
     { key: 'reason', label: 'Reason' },
     { key: 'startedAt', label: 'Started' },
     { key: 'endedAt', label: 'Ended / Expires' },
-    { key: 'duration', label: 'Duration' },
+    { key: 'duration', label: 'Duration', sortable: false },
 ]
 
 function duration(elevation: App.Http.Data.AdminPlayerOpElevationData): string {
@@ -40,7 +42,14 @@ function paginationLabel(label: string): string {
         />
 
         <Card padding="none" class="overflow-hidden rounded-[var(--radius-md)] border border-border bg-surface">
-            <DataTable :fields="fields" :rows="elevations.data" empty-message="No operator elevations have been recorded.">
+            <DataTable
+                :fields="fields"
+                :rows="props.elevations.data"
+                :sort="props.sort"
+                :direction="props.direction"
+                :on-sort="onSort"
+                empty-message="No operator elevations have been recorded."
+            >
                 <template #status="{ item }">
                     <Badge v-if="item.isActive" variant="danger" size="sm">Active</Badge>
                     <Badge v-else variant="default" size="sm">Ended</Badge>
@@ -73,14 +82,14 @@ function paginationLabel(label: string): string {
             </DataTable>
 
             <div class="flex flex-wrap items-center justify-between gap-4 border-t border-border p-4">
-                <ShowingCount :from="elevations.from" :to="elevations.to" :total="elevations.total" />
+                <ShowingCount :from="props.elevations.from" :to="props.elevations.to" :total="props.elevations.total" />
 
                 <nav
-                    v-if="elevations.last_page > 1"
+                    v-if="props.elevations.last_page > 1"
                     aria-label="OP elevation pages"
                     class="flex flex-wrap items-center justify-end gap-1"
                 >
-                    <template v-for="(link, index) in elevations.links" :key="`${index}-${link.label}`">
+                    <template v-for="(link, index) in props.elevations.links" :key="`${index}-${link.label}`">
                         <Link
                             v-if="link.url"
                             :href="link.url"

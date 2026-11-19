@@ -9,8 +9,10 @@ import usePermissions from '../../../../Composables/usePermissions'
 import PageHeader from '../../../../Components/PageHeader.vue'
 import ListPage from '../../../../Components/ListPage.vue'
 import LinkButton from '../../../../Components/LinkButton.vue'
+import { useServerListSorting } from '../../../../Composables/useTableSorting'
 
 const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Servers/ServerList']>()
+const onSort = useServerListSorting(() => ({ sort: props.sort, direction: props.direction }))
 
 const { can } = usePermissions()
 </script>
@@ -35,7 +37,12 @@ const { can } = usePermissions()
     <section>
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
         <ListPage :count="props.servers.length" count-label="servers">
-            <ServerListTable :servers="props.servers"/>
+            <ServerListTable
+                :servers="props.servers"
+                :sort="props.sort"
+                :direction="props.direction"
+                :on-sort="onSort"
+            />
         </ListPage>
     </section>
     </div>

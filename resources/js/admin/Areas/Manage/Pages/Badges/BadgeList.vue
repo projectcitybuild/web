@@ -52,10 +52,17 @@ const { can } = usePermissions()
 
                 <InfinitePagination
                     :initial="badges"
+                    :sort="sort"
+                    :direction="direction"
                     v-model:count="itemCount"
                     v-slot="source"
                 >
-                    <BadgeListTable :badges="source.data"/>
+                    <BadgeListTable
+                        :badges="source.data"
+                        :sort="source.sort"
+                        :direction="source.direction"
+                        :on-sort="source.onSort"
+                    />
                 </InfinitePagination>
             </Deferred>
             </ListPage>

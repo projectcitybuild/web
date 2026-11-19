@@ -10,8 +10,10 @@ import { Icons } from '../../../../Navigation/Icons'
 import usePermissions from '../../../../Composables/usePermissions'
 import PageHeader from '../../../../Components/PageHeader.vue'
 import LinkButton from '../../../../Components/LinkButton.vue'
+import { useServerListSorting } from '../../../../Composables/useTableSorting'
 
 const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/ServerTokens/ServerTokensList']>()
+const onSort = useServerListSorting(() => ({ sort: props.sort, direction: props.direction }))
 
 const { can } = usePermissions()
 </script>
@@ -32,7 +34,12 @@ const { can } = usePermissions()
     <section>
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
         <Card padding="none">
-            <ServerTokenListTable :tokens="props.tokens"/>
+            <ServerTokenListTable
+                :tokens="props.tokens"
+                :sort="props.sort"
+                :direction="props.direction"
+                :on-sort="onSort"
+            />
         </Card>
     </section>
     </div>

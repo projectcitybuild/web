@@ -10,10 +10,12 @@ import { Icons } from '../../../../Navigation/Icons'
 import PageHeader from '../../../../Components/PageHeader.vue'
 import ListPage from '../../../../Components/ListPage.vue'
 import LinkButton from '../../../../Components/LinkButton.vue'
+import { useServerListSorting } from '../../../../Composables/useTableSorting'
 
 const { can } = usePermissions()
 
-defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Roles/RoleList']>()
+const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Roles/RoleList']>()
+const onSort = useServerListSorting(() => ({ sort: props.sort, direction: props.direction }))
 </script>
 
 <template>
@@ -36,13 +38,18 @@ defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Roles/RoleList'
     <section>
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
-        <ListPage :count="roles?.length" count-label="roles">
+        <ListPage :count="props.roles?.length" count-label="roles">
             <Deferred data="roles">
                 <template #fallback>
                     <SpinnerRow />
                 </template>
 
-                <RoleListTable :roles="roles ?? []" />
+                <RoleListTable
+                    :roles="props.roles ?? []"
+                    :sort="props.sort"
+                    :direction="props.direction"
+                    :on-sort="onSort"
+                />
             </Deferred>
         </ListPage>
     </section>

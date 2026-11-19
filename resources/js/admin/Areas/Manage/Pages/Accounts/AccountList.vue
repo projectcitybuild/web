@@ -142,11 +142,16 @@ watch(
                     <InfinitePagination
                         :initial="accounts"
                         :query="query"
+                        :sort="sort"
+                        :direction="direction"
                         v-model:count="itemCount"
                         v-slot="source"
                     >
                         <AccountListTable
                             :accounts="source.data"
+                            :sort="source.sort"
+                            :direction="source.direction"
+                            :on-sort="source.onSort"
                             :class="source.loading ? 'opacity-50' : ''"
                         />
                     </InfinitePagination>

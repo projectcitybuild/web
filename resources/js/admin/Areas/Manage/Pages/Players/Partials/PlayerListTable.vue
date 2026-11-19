@@ -6,8 +6,9 @@ import MinecraftAvatar from '../../../../../Components/MinecraftAvatar.vue'
 import { computed } from 'vue'
 import DataTable from '../../../../../Components/DataTable.vue'
 import usePermissions from '../../../../../Composables/usePermissions'
+import type { SortableTableProps } from '../../../../../Composables/useTableSorting'
 
-interface Props {
+interface Props extends SortableTableProps {
     players: App.Http.Data.MinecraftPlayerData[],
 }
 const props = defineProps<Props>()
@@ -16,10 +17,10 @@ const { can } = usePermissions()
 
 const fields = [
     { key: 'id', label: 'ID' },
-    { key: 'skin', label: 'Skin' },
+    { key: 'skin', label: 'Skin', sortable: false },
     { key: 'uuid', label: 'UUID' },
     { key: 'alias', label: 'Last Known Alias' },
-    { key: 'linked_account', label: 'Linked Account' },
+    { key: 'linked_account', label: 'Linked Account', sortable: false },
     { key: 'created_at', label: 'Created At' },
     { key: 'updated_at', label: 'Updated At' },
     { key: 'last_seen_at', label: 'Last Seen At' }
@@ -35,7 +36,7 @@ const rows = computed(
 </script>
 
 <template>
-    <DataTable :fields="fields" :rows="rows" :show-index="true">
+    <DataTable :fields="fields" :rows="rows" :show-index="true" :sort="props.sort" :direction="props.direction" :on-sort="props.onSort">
         <template #skin="{ item }">
             <MinecraftAvatar :uuid="item.uuid" :size="32"/>
         </template>

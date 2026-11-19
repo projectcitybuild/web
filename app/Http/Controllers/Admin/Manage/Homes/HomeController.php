@@ -11,6 +11,7 @@ use App\Domains\Homes\Services\HomeService;
 use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Admin\RendersAdminApp;
+use App\Http\Controllers\Admin\SortsAdminLists;
 use App\Http\Controllers\WebController;
 use App\Http\Data\MinecraftHomeData;
 use App\Models\MinecraftHome;
@@ -25,6 +26,7 @@ class HomeController extends WebController
 {
     use AuthorizesPermissions;
     use RendersAdminApp;
+    use SortsAdminLists;
     use ValidatesCoordinates;
 
     public function __construct(
@@ -35,10 +37,25 @@ class HomeController extends WebController
     {
         $this->requires(WebManagePermission::HOMES_VIEW);
 
-        $homes = function () {
-            return MinecraftHome::with('player')
-                ->orderBy('created_at', 'desc')
-                ->paginate(50);
+        $sortableColumns = [
+            'id' => 'id',
+            'name' => 'name',
+            'world' => 'world',
+            'x' => 'x',
+            'y' => 'y',
+            'z' => 'z',
+            'pitch' => 'pitch',
+            'yaw' => 'yaw',
+            'created_at' => 'created_at',
+            'updated_at' => 'updated_at',
+        ];
+        $sortState = $this->adminListSortState($request, $sortableColumns);
+
+        $homes = function () use ($sortableColumns, $sortState) {
+            $query = MinecraftHome::with('player');
+            $this->applyAdminListSort($query, $sortableColumns, $sortState, 'created_at');
+
+            return $query->paginate(50);
         };
 
         if (request()->wantsJson()) {
@@ -48,6 +65,7 @@ class HomeController extends WebController
             'homes' => Inertia::defer(fn () => $homes()->through(
                 fn (MinecraftHome $home): array => MinecraftHomeData::fromModel($home)->toArray(),
             )),
+            ...$sortState,
         ]);
     }
 

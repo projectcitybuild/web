@@ -8,6 +8,7 @@ use App\Domains\MinecraftEventBus\Events\IpAddressBanned;
 use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Admin\RendersAdminApp;
+use App\Http\Controllers\Admin\SortsAdminLists;
 use App\Http\Controllers\WebController;
 use App\Http\Data\AdminGameIPBanData;
 use App\Models\GameIPBan;
@@ -19,15 +20,25 @@ class GameIPBanController extends WebController
 {
     use AuthorizesPermissions;
     use RendersAdminApp;
+    use SortsAdminLists;
 
     public function index(Request $request)
     {
         $this->requires(WebManagePermission::IP_BANS_VIEW);
 
-        $bans = function () {
-            return GameIPBan::with('bannerPlayer')
-                ->orderBy('created_at', 'desc')
-                ->paginate(50);
+        $sortableColumns = [
+            'id' => 'id',
+            'ip_address' => 'ip_address',
+            'reason' => 'reason',
+            'created_at' => 'created_at',
+        ];
+        $sortState = $this->adminListSortState($request, $sortableColumns);
+
+        $bans = function () use ($sortableColumns, $sortState) {
+            $query = GameIPBan::with('bannerPlayer');
+            $this->applyAdminListSort($query, $sortableColumns, $sortState, 'created_at');
+
+            return $query->paginate(50);
         };
 
         if (request()->wantsJson()) {
@@ -37,6 +48,7 @@ class GameIPBanController extends WebController
             'bans' => Inertia::defer(fn () => $bans()->through(
                 fn (GameIPBan $ban): array => AdminGameIPBanData::fromModel($ban)->toArray(),
             )),
+            ...$sortState,
         ]);
     }
 

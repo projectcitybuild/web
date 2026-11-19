@@ -8,6 +8,7 @@ use App\Core\Domains\MinecraftUUID\UseCases\LookupMinecraftUUID;
 use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Admin\RendersAdminApp;
+use App\Http\Controllers\Admin\SortsAdminLists;
 use App\Http\Controllers\WebController;
 use App\Http\Data\MinecraftPlayerData;
 use App\Http\Filters\LikeFilter;
@@ -21,22 +22,35 @@ class MinecraftPlayerController extends WebController
 {
     use AuthorizesPermissions;
     use RendersAdminApp;
+    use SortsAdminLists;
 
     public function index(Request $request)
     {
         $this->requires(WebManagePermission::PLAYERS_VIEW);
 
-        $players = function () use ($request) {
+        $sortableColumns = [
+            'id' => 'id',
+            'uuid' => 'uuid',
+            'alias' => 'alias',
+            'created_at' => 'created_at',
+            'updated_at' => 'updated_at',
+            'last_seen_at' => 'last_seen_at',
+        ];
+        $sortState = $this->adminListSortState($request, $sortableColumns);
+
+        $players = function () use ($request, $sortableColumns, $sortState) {
             $pipes = [
                 new LikeFilter('alias', $request->query->get('alias')),
                 new LikeFilter('uuid', $request->query->get('uuid')),
             ];
-            return Pipeline::send(MinecraftPlayer::query())
+            $query = Pipeline::send(MinecraftPlayer::query())
                 ->through($pipes)
                 ->thenReturn()
-                ->with(['account'])
-                ->orderBy('created_at', 'desc')
-                ->paginate(50);
+                ->with(['account']);
+
+            $this->applyAdminListSort($query, $sortableColumns, $sortState, 'created_at');
+
+            return $query->paginate(50);
         };
 
         if (request()->wantsJson()) {
@@ -46,6 +60,7 @@ class MinecraftPlayerController extends WebController
             'players' => Inertia::defer(fn () => $players()->through(
                 fn (MinecraftPlayer $player): array => MinecraftPlayerData::fromModel($player)->toArray(),
             )),
+            ...$sortState,
         ]);
     }
 

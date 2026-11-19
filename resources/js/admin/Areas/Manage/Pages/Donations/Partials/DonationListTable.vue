@@ -8,18 +8,19 @@ import SvgIcon from '../../../../../Components/SvgIcon.vue'
 import { Icons } from '../../../../../Navigation/Icons'
 import { computed } from 'vue'
 import DataTable from '../../../../../Components/DataTable.vue'
+import type { SortableTableProps } from '../../../../../Composables/useTableSorting'
 
-interface Props {
+interface Props extends SortableTableProps {
     donations: App.Http.Data.AdminDonationData[],
 }
 const props = defineProps<Props>()
 
 const fields = [
     { key: 'id', label: 'ID' },
-    { key: 'account', label: 'Account' },
-    { key: 'original_amount', label: 'Original Currency' },
-    { key: 'paid_amount', label: 'Paid Currency' },
-    { key: 'payment.unit_quantity', label: 'Unit Quantity' },
+    { key: 'account', label: 'Account', sortable: false },
+    { key: 'original_amount', label: 'Original Currency', sortable: false },
+    { key: 'paid_amount', label: 'Paid Currency', sortable: false },
+    { key: 'payment.unit_quantity', label: 'Unit Quantity', sortable: false },
     { key: 'amount', label: 'Legacy Amount' },
     { key: 'created_at', label: 'Date' },
 ]
@@ -34,7 +35,7 @@ const rows = computed(
 </script>
 
 <template>
-    <DataTable :fields="fields" :rows="rows" :show-index="true">
+    <DataTable :fields="fields" :rows="rows" :show-index="true" :sort="props.sort" :direction="props.direction" :on-sort="props.onSort">
         <template #account="{ item }">
             <Link
                 :href="Routes.manage.accounts.show(item.account?.id)"

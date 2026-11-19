@@ -8,8 +8,9 @@ import { computed } from 'vue'
 import DataTable from '../../../../../Components/DataTable.vue'
 import usePermissions from '../../../../../Composables/usePermissions'
 import CopyLocationButton from '../../../../../Components/CopyLocationButton.vue'
+import type { SortableTableProps } from '../../../../../Composables/useTableSorting'
 
-interface Props {
+interface Props extends SortableTableProps {
     warps: App.Http.Data.MinecraftWarpData[],
 }
 const props = defineProps<Props>()
@@ -38,7 +39,7 @@ const rows = computed(
 </script>
 
 <template>
-    <DataTable :fields="fields" :rows="rows" :show-index="true">
+    <DataTable :fields="fields" :rows="rows" :show-index="true" :sort="props.sort" :direction="props.direction" :on-sort="props.onSort">
         <template #actions="{ item }">
             <div class="flex items-center justify-end gap-2">
                 <CopyLocationButton

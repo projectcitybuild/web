@@ -59,10 +59,17 @@ const { can } = usePermissions()
 
                 <InfinitePagination
                     :initial="bans"
+                    :sort="sort"
+                    :direction="direction"
                     v-model:count="itemCount"
                     v-slot="source"
                 >
-                    <IPBanListTable :bans="source.data"/>
+                    <IPBanListTable
+                        :bans="source.data"
+                        :sort="source.sort"
+                        :direction="source.direction"
+                        :on-sort="source.onSort"
+                    />
                 </InfinitePagination>
             </Deferred>
         </Card>

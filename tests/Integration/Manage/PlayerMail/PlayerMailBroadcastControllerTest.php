@@ -149,6 +149,46 @@ it('renders authorized player mail pages with the expected data', function () {
         );
 });
 
+it('sorts player mail broadcasts by related subject before pagination', function () {
+    $account = $this->createStaffAccountWithPermissions([
+        'web.manage.*',
+        WebManagePermission::PLAYER_MAIL_SEND->value,
+    ]);
+    $player = MinecraftPlayer::factory()->create();
+    $zuluMail = PlayerMail::factory()->create([
+        'sender_player_id' => null,
+        'sender_name' => 'Project City Build',
+        'created_by_account_id' => $account->id,
+        'category' => MailCategory::ANNOUNCEMENT,
+        'subject' => 'Zulu subject',
+    ]);
+    $alphaMail = PlayerMail::factory()->create([
+        'sender_player_id' => null,
+        'sender_name' => 'Project City Build',
+        'created_by_account_id' => $account->id,
+        'category' => MailCategory::ANNOUNCEMENT,
+        'subject' => 'Alpha subject',
+    ]);
+    $zulu = PlayerMailBroadcast::factory()->create([
+        'mail_id' => $zuluMail->id,
+        'max_player_id' => $player->id,
+    ]);
+    $alpha = PlayerMailBroadcast::factory()->create([
+        'mail_id' => $alphaMail->id,
+        'max_player_id' => $player->id,
+    ]);
+
+    $this->actingAs($account)
+        ->get(route('manage.player-mail.index', ['sort' => 'subject', 'direction' => 'asc']))
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('PlayerMail/Index')
+            ->where('sort', 'subject')
+            ->where('direction', 'asc')
+            ->where('broadcasts.data.0.id', $alpha->id)
+            ->where('broadcasts.data.1.id', $zulu->id)
+        );
+});
+
 it('submits a confirmed manage form through the existing broadcast use case', function () {
     $account = $this->createStaffAccountWithPermissions([
         'web.manage.*',

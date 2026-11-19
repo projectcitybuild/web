@@ -11,8 +11,9 @@ import { computed } from 'vue'
 import DataTable from '../../../../../Components/DataTable.vue'
 import MinecraftAvatar from '../../../../../Components/MinecraftAvatar.vue'
 import usePermissions from '../../../../../Composables/usePermissions'
+import type { SortableTableProps } from '../../../../../Composables/useTableSorting'
 
-interface Props {
+interface Props extends SortableTableProps {
     warnings: App.Http.Data.AdminPlayerWarningData[],
 }
 const props = defineProps<Props>()
@@ -21,7 +22,7 @@ const { can } = usePermissions()
 
 const fields = [
     { key: 'id', label: 'ID' },
-    { key: 'player', label: 'Player' },
+    { key: 'player', label: 'Player', sortable: false },
     { key: 'reason', label: 'Reason' },
     { key: 'created_at', label: 'Created At' },
 ]
@@ -34,7 +35,7 @@ const rows = computed(
 </script>
 
 <template>
-    <DataTable :fields="fields" :rows="rows" :show-index="true">
+    <DataTable :fields="fields" :rows="rows" :show-index="true" :sort="props.sort" :direction="props.direction" :on-sort="props.onSort">
         <template #player="{ item }">
             <div class="px-4 py-3 flex flex-row items-center gap-2">
                 <MinecraftAvatar :uuid="item.warned_player.uuid" :size="16"/>

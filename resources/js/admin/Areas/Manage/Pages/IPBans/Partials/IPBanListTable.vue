@@ -10,8 +10,9 @@ import SvgIcon from '../../../../../Components/SvgIcon.vue'
 import { Icons } from '../../../../../Navigation/Icons'
 import usePermissions from '../../../../../Composables/usePermissions'
 import LinkButton from '../../../../../Components/LinkButton.vue'
+import type { SortableTableProps } from '../../../../../Composables/useTableSorting'
 
-interface Props {
+interface Props extends SortableTableProps {
     bans: App.Http.Data.AdminGameIPBanData[],
 }
 const props = defineProps<Props>()
@@ -20,7 +21,7 @@ const { can } = usePermissions()
 
 const fields = [
     { key: 'id', label: 'ID' },
-    { key: 'status', label: 'Status' },
+    { key: 'status', label: 'Status', sortable: false },
     { key: 'ip_address', label: 'IP Address' },
     { key: 'reason', label: 'Reason' },
     { key: 'created_at', label: 'Created At' },
@@ -37,7 +38,7 @@ function isActive(ban: App.Http.Data.AdminGameIPBanData) {
 </script>
 
 <template>
-    <DataTable :fields="fields" :rows="rows" :show-index="true">
+    <DataTable :fields="fields" :rows="rows" :show-index="true" :sort="props.sort" :direction="props.direction" :on-sort="props.onSort">
         <template #status="{ item }">
             <Pill :variant="isActive(item) ? 'danger' : 'default'">
                 {{ isActive(item) ? 'Active' : 'Expired' }}

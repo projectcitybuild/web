@@ -9,8 +9,9 @@ import { Icons } from '../../../../../Navigation/Icons'
 import { computed } from 'vue'
 import DataTable from '../../../../../Components/DataTable.vue'
 import usePermissions from '../../../../../Composables/usePermissions'
+import type { SortableTableProps } from '../../../../../Composables/useTableSorting'
 
-interface Props {
+interface Props extends SortableTableProps {
     tokens: App.Http.Data.AdminServerTokenData[],
 }
 const props = defineProps<Props>()
@@ -21,7 +22,7 @@ const fields = [
     { key: 'id', label: 'ID' },
     { key: 'token', label: 'Token' },
     { key: 'description', label: 'Description' },
-    { key: 'allowed_ips', label: 'Allowed IPs' },
+    { key: 'allowed_ips', label: 'Allowed IPs', sortable: false },
     { key: 'created_at', label: 'Created At' },
     { key: 'updated_at', label: 'Updated At' },
 ]
@@ -35,7 +36,7 @@ const rows = computed(
 </script>
 
 <template>
-    <DataTable :fields="fields" :rows="rows">
+    <DataTable :fields="fields" :rows="rows" :sort="props.sort" :direction="props.direction" :on-sort="props.onSort">
         <template #allowed_ips="{ item }">
             <span v-if="!item.allowed_ips">*</span>
             <ul v-else>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Manage\Roles;
 use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Admin\RendersAdminApp;
+use App\Http\Controllers\Admin\SortsAdminLists;
 use App\Http\Controllers\WebController;
 use App\Http\Data\AdminAccountData;
 use App\Http\Data\AdminRoleData;
@@ -16,10 +17,17 @@ class RoleAccountController extends WebController
 {
     use AuthorizesPermissions;
     use RendersAdminApp;
+    use SortsAdminLists;
 
     public function index(Request $request, Role $role)
     {
         $this->requires(WebManagePermission::ROLES_VIEW);
+
+        $sortableColumns = [
+            'id' => 'accounts.id',
+            'username' => 'username',
+        ];
+        $sortState = $this->adminListSortState($request, $sortableColumns);
 
         // Default role doesn't have assigned members
         if ($role->is_default) {
@@ -27,6 +35,7 @@ class RoleAccountController extends WebController
         } else {
             $accounts = $role->accounts();
         }
+        $this->applyAdminListSort($accounts, $sortableColumns, $sortState, 'accounts.id', 'asc');
         $accounts = $accounts->paginate(50);
 
         if ($request->wantsJson()) {
@@ -39,6 +48,7 @@ class RoleAccountController extends WebController
             [
                 'accounts' => $accounts,
                 'role' => AdminRoleData::fromModel($role),
+                ...$sortState,
             ],
         );
     }

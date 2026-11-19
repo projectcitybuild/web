@@ -10,10 +10,12 @@ import { Icons } from '../../../../Navigation/Icons'
 import PageHeader from '../../../../Components/PageHeader.vue'
 import ListPage from '../../../../Components/ListPage.vue'
 import LinkButton from '../../../../Components/LinkButton.vue'
+import { useServerListSorting } from '../../../../Composables/useTableSorting'
 
 const { can } = usePermissions()
 
-defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Permissions/PermissionList']>()
+const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Permissions/PermissionList']>()
+const onSort = useServerListSorting(() => ({ sort: props.sort, direction: props.direction }))
 </script>
 
 <template>
@@ -36,13 +38,18 @@ defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Permissions/Per
     <section>
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>
 
-        <ListPage :count="permissions?.length" count-label="permissions">
+        <ListPage :count="props.permissions?.length" count-label="permissions">
             <Deferred data="permissions">
                 <template #fallback>
                     <SpinnerRow />
                 </template>
 
-                <PermissionListTable :permissions="permissions ?? []" />
+                <PermissionListTable
+                    :permissions="props.permissions ?? []"
+                    :sort="props.sort"
+                    :direction="props.direction"
+                    :on-sort="onSort"
+                />
             </Deferred>
         </ListPage>
     </section>

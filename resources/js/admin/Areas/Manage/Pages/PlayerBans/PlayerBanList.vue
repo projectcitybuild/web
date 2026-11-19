@@ -183,10 +183,17 @@ function clearFilters() {
                 <InfinitePagination
                     :initial="bans"
                     :query="query"
+                    :sort="sort"
+                    :direction="direction"
                     v-model:count="itemCount"
                     v-slot="source"
                 >
-                    <BanListTable :bans="source.data"/>
+                    <BanListTable
+                        :bans="source.data"
+                        :sort="source.sort"
+                        :direction="source.direction"
+                        :on-sort="source.onSort"
+                    />
                 </InfinitePagination>
             </Deferred>
         </Card>

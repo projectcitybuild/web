@@ -17,6 +17,8 @@ declare global {
             account: App.Http.Data.AdminAccountData
         }
         'manage/Accounts/AccountList': {
+            sort: string | null
+            direction: 'asc' | 'desc' | null
             accounts?: {
                 data: App.Http.Data.AdminAccountData[]
                 current_page: number
@@ -43,6 +45,8 @@ declare global {
             account_id: number
         }
         'manage/Badges/BadgeList': {
+            sort: string | null
+            direction: 'asc' | 'desc' | null
             badges?: {
                 data: App.Http.Data.AdminAccountBadgeData[]
                 current_page: number
@@ -56,6 +60,8 @@ declare global {
             badge: App.Http.Data.AdminAccountBadgeData
         }
         'manage/Homes/HomeList': {
+            sort: string | null
+            direction: 'asc' | 'desc' | null
             homes?: {
                 data: App.Http.Data.MinecraftHomeData[]
                 current_page: number
@@ -69,6 +75,8 @@ declare global {
             home: App.Http.Data.MinecraftHomeData
         }
         'manage/Warps/WarpList': {
+            sort: string | null
+            direction: 'asc' | 'desc' | null
             warps?: {
                 data: App.Http.Data.MinecraftWarpData[]
                 current_page: number
@@ -83,6 +91,8 @@ declare global {
         }
         'manage/Servers/ServerList': {
             servers: App.Http.Data.AdminServerData[]
+            sort: string | null
+            direction: 'asc' | 'desc' | null
         }
         'manage/Servers/ServerCreate': {}
         'manage/Servers/ServerEdit': {
@@ -90,12 +100,16 @@ declare global {
         }
         'manage/ServerTokens/ServerTokensList': {
             tokens: App.Http.Data.AdminServerTokenData[]
+            sort: string | null
+            direction: 'asc' | 'desc' | null
         }
         'manage/ServerTokens/ServerTokenCreate': {}
         'manage/ServerTokens/ServerTokenEdit': {
             token: App.Http.Data.AdminServerTokenData
         }
         'manage/PlayerBans/PlayerBanList': {
+            sort: string | null
+            direction: 'asc' | 'desc' | null
             bans?: {
                 data: App.Http.Data.AdminGamePlayerBanData[]
                 current_page: number
@@ -109,6 +123,8 @@ declare global {
             ban: App.Http.Data.AdminGamePlayerBanData
         }
         'manage/IPBans/IPBanList': {
+            sort: string | null
+            direction: 'asc' | 'desc' | null
             bans?: {
                 data: App.Http.Data.AdminGameIPBanData[]
                 current_page: number
@@ -122,6 +138,8 @@ declare global {
             ban: App.Http.Data.AdminGameIPBanData
         }
         'manage/Warnings/WarningList': {
+            sort: string | null
+            direction: 'asc' | 'desc' | null
             warnings?: {
                 data: App.Http.Data.AdminPlayerWarningData[]
                 current_page: number
@@ -136,6 +154,8 @@ declare global {
         }
         'manage/Roles/RoleList': {
             roles?: App.Http.Data.AdminRoleData[]
+            sort: string | null
+            direction: 'asc' | 'desc' | null
         }
         'manage/Roles/RoleCreate': {}
         'manage/Roles/RoleEdit': {
@@ -148,6 +168,8 @@ declare global {
         }
         'manage/Roles/RoleAccountList': {
             role: App.Http.Data.AdminRoleData
+            sort: string | null
+            direction: 'asc' | 'desc' | null
             accounts: {
                 data: App.Http.Data.AdminAccountData[]
                 current_page: number
@@ -157,6 +179,8 @@ declare global {
             }
         }
         'manage/Donations/DonationList': {
+            sort: string | null
+            direction: 'asc' | 'desc' | null
             donations?: {
                 data: App.Http.Data.AdminDonationData[]
                 current_page: number
@@ -174,12 +198,16 @@ declare global {
         }
         'manage/Permissions/PermissionList': {
             permissions: App.Http.Data.AdminPermissionData[]
+            sort: string | null
+            direction: 'asc' | 'desc' | null
         }
         'manage/Permissions/PermissionCreate': {}
         'manage/Permissions/PermissionEdit': {
             permission: App.Http.Data.AdminPermissionData
         }
         'manage/Players/PlayerList': {
+            sort: string | null
+            direction: 'asc' | 'desc' | null
             players?: {
                 data: App.Http.Data.MinecraftPlayerData[]
                 current_page: number
@@ -209,6 +237,8 @@ declare global {
             buildRoles: App.Http.Data.AdminRoleData[]
         }
         'audit/OpElevations/OpElevationList': {
+            sort: string | null
+            direction: 'asc' | 'desc' | null
             elevations: {
                 data: App.Http.Data.AdminPlayerOpElevationData[]
                 current_page: number
@@ -220,6 +250,8 @@ declare global {
             }
         }
         'audit/Activity/AuditList': {
+            sort: string | null
+            direction: 'asc' | 'desc' | null
             audits: {
                 data: App.Http.Data.AdminAuditListEntryData[]
                 current_page: number
@@ -262,6 +294,8 @@ declare global {
             config: App.Http.Data.MinecraftConfigPageData
         }
         'manage/PlayerMail/Index': {
+            sort: string | null
+            direction: 'asc' | 'desc' | null
             broadcasts: {
                 data: App.Http.Data.PlayerMailBroadcastSummaryData[]
                 current_page: number

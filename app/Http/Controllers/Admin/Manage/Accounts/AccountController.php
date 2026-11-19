@@ -7,6 +7,7 @@ use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Domains\Registration\UseCases\CreateUnactivatedAccount;
 use App\Http\Controllers\Admin\RendersAdminApp;
+use App\Http\Controllers\Admin\SortsAdminLists;
 use App\Http\Controllers\WebController;
 use App\Http\Data\AdminAccountData;
 use App\Http\Filters\EqualFilter;
@@ -23,12 +24,27 @@ class AccountController extends WebController
 {
     use AuthorizesPermissions;
     use RendersAdminApp;
+    use SortsAdminLists;
 
     public function index(Request $request)
     {
         $this->requires(WebManagePermission::ACCOUNTS_VIEW);
 
-        $accounts = function () use ($request) {
+        $canViewEmail = $this->can(WebManagePermission::ACCOUNTS_VIEW_EMAIL);
+
+        $sortableColumns = [
+            'id' => 'id',
+            'username' => 'username',
+            'activated' => 'activated',
+            'created_at' => 'created_at',
+            'updated_at' => 'updated_at',
+        ];
+        if ($canViewEmail) {
+            $sortableColumns['email'] = 'email';
+        }
+        $sortState = $this->adminListSortState($request, $sortableColumns);
+
+        $accounts = function () use ($request, $sortableColumns, $sortState) {
             $hasPlayer = $request->query->get('has_player');
             $query = Account::query();
 
@@ -43,15 +59,16 @@ class AccountController extends WebController
                 new LikeFilter('email', $request->query->get('email')),
                 new EqualFilter('activated', $request->query->get('activated')),
             ];
-            return Pipeline::send($query)
+            $query = Pipeline::send($query)
                 ->through($pipes)
                 ->thenReturn()
-                ->with('minecraftAccount')
-                ->orderBy('created_at', 'desc')
-                ->paginate(50);
+                ->with('minecraftAccount');
+
+            $this->applyAdminListSort($query, $sortableColumns, $sortState, 'created_at');
+
+            return $query->paginate(50);
         };
 
-        $canViewEmail = $this->can(WebManagePermission::ACCOUNTS_VIEW_EMAIL);
         $transform = function () use ($accounts, $canViewEmail) {
             $paginator = $accounts();
             return [
@@ -71,6 +88,7 @@ class AccountController extends WebController
         }
         return $this->inertiaRender('Accounts/AccountList', [
             'accounts' => Inertia::defer($transform),
+            ...$sortState,
         ]);
     }
 

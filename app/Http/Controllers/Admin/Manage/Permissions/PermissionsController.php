@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Manage\Permissions;
 use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Admin\RendersAdminApp;
+use App\Http\Controllers\Admin\SortsAdminLists;
 use App\Http\Controllers\WebController;
 use App\Http\Data\AdminPermissionData;
 use App\Models\Permission;
@@ -16,17 +17,26 @@ class PermissionsController extends WebController
 {
     use AuthorizesPermissions;
     use RendersAdminApp;
+    use SortsAdminLists;
 
-    public function index()
+    public function index(Request $request)
     {
         $this->requires(WebManagePermission::PERMISSIONS_VIEW);
 
-        $permissions = Permission::orderBy('name', 'asc')
-            ->get()
+        $sortableColumns = [
+            'id' => 'id',
+            'name' => 'name',
+        ];
+        $sortState = $this->adminListSortState($request, $sortableColumns);
+
+        $query = Permission::query();
+        $this->applyAdminListSort($query, $sortableColumns, $sortState, 'name', 'asc');
+        $permissions = $query->get()
             ->map(fn (Permission $permission): array => AdminPermissionData::fromModel($permission)->toArray());
 
         return $this->inertiaRender('Permissions/PermissionList', [
             'permissions' => $permissions,
+            ...$sortState,
         ]);
     }
 

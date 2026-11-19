@@ -6,6 +6,7 @@ use App\Domains\Donations\UseCases\GetAnnualDonationStats;
 use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Admin\RendersAdminApp;
+use App\Http\Controllers\Admin\SortsAdminLists;
 use App\Http\Controllers\WebController;
 use App\Http\Data\AdminDonationData;
 use App\Models\Donation;
@@ -17,15 +18,24 @@ class DonationController extends WebController
 {
     use AuthorizesPermissions;
     use RendersAdminApp;
+    use SortsAdminLists;
 
     public function index(Request $request)
     {
         $this->requires(WebManagePermission::DONATIONS_VIEW);
 
-        $donations = function () {
-            return Donation::with('account', 'perks', 'payment')
-                ->orderBy('created_at', 'desc')
-                ->paginate(50);
+        $sortableColumns = [
+            'id' => 'id',
+            'amount' => 'amount',
+            'created_at' => 'created_at',
+        ];
+        $sortState = $this->adminListSortState($request, $sortableColumns);
+
+        $donations = function () use ($sortableColumns, $sortState) {
+            $query = Donation::with('account', 'perks', 'payment');
+            $this->applyAdminListSort($query, $sortableColumns, $sortState, 'created_at');
+
+            return $query->paginate(50);
         };
 
         if (request()->wantsJson()) {
@@ -35,6 +45,7 @@ class DonationController extends WebController
             'donations' => Inertia::defer(fn () => $donations()->through(
                 fn (Donation $donation): array => AdminDonationData::fromModel($donation)->toArray(),
             )),
+            ...$sortState,
         ]);
     }
 

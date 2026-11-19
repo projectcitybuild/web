@@ -6,6 +6,7 @@ import { useIntersectionObserver, watchDebounced } from '@vueuse/core'
 import SpinnerRow from './SpinnerRow.vue'
 import SvgIcon from './SvgIcon.vue'
 import { Icons } from '../Navigation/Icons'
+import { nextTableSort, type TableSortDirection } from '../Composables/useTableSorting'
 
 type QueryValue = string | number | boolean | null | undefined
 
@@ -13,6 +14,8 @@ interface Props {
     initial?: Paginated<T>,
     query?: Record<string, QueryValue>,
     path?: string,
+    sort?: string | null,
+    direction?: TableSortDirection | null,
 }
 const props = defineProps<Props>()
 
@@ -23,6 +26,8 @@ const currentPage = ref(props.initial?.current_page ?? 1)
 const reachedEnd = ref(props.initial?.next_page_url == null)
 const lastElement = ref<HTMLDivElement | null>(null)
 const loading = ref(false)
+const sort = ref(props.sort ?? null)
+const direction = ref(props.direction ?? null)
 
 watchDebounced(
     () => props.query,
@@ -43,6 +48,11 @@ function query(): URLSearchParams {
             params.set(key, String(value))
         }
     })
+
+    if (sort.value !== null && direction.value !== null) {
+        params.set('sort', sort.value)
+        params.set('direction', direction.value)
+    }
 
     if (currentPage.value > 1) {
         params.set('page', String(currentPage.value))
@@ -98,6 +108,14 @@ const loadNextPage = async () => {
     itemCount.value = items.value.length
 }
 
+function onSort(key: string): void {
+    const next = nextTableSort({ sort: sort.value, direction: direction.value }, key)
+    sort.value = next.sort
+    direction.value = next.direction
+    loading.value = true
+    void loadFirstPage()
+}
+
 const { stop } = useIntersectionObserver(
     lastElement,
     ([{isIntersecting}]) => {
@@ -116,7 +134,7 @@ onBeforeMount(() => itemCount.value = items.value.length)
 
 <template>
     <div class="infinite-pagination">
-        <slot :data="items" :loading="loading" />
+        <slot :data="items" :loading="loading" :sort="sort" :direction="direction" :on-sort="onSort" />
 
         <!-- Invisible element to trigger loading next page -->
         <div ref="lastElement" class="-translate-y-32"></div>

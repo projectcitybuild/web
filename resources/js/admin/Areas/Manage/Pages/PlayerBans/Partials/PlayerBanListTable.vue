@@ -10,16 +10,17 @@ import { Icons } from '../../../../../Navigation/Icons'
 import { computed } from 'vue'
 import DataTable from '../../../../../Components/DataTable.vue'
 import usePermissions from '../../../../../Composables/usePermissions'
+import type { SortableTableProps } from '../../../../../Composables/useTableSorting'
 
-interface Props {
+interface Props extends SortableTableProps {
     bans: App.Http.Data.AdminGamePlayerBanData[],
 }
 const props = defineProps<Props>()
 
 const fields = [
     { key: 'id', label: 'ID' },
-    { key: 'status', label: 'Status' },
-    { key: 'player', label: 'Player' },
+    { key: 'status', label: 'Status', sortable: false },
+    { key: 'player', label: 'Player', sortable: false },
     { key: 'reason', label: 'Reason' },
     { key: 'created_at', label: 'Created At' },
     { key: 'expires_at', label: 'Expires At' },
@@ -36,7 +37,7 @@ const { can } = usePermissions()
 </script>
 
 <template>
-    <DataTable :fields="fields" :rows="rows" :show-index="true">
+    <DataTable :fields="fields" :rows="rows" :show-index="true" :sort="props.sort" :direction="props.direction" :on-sort="props.onSort">
         <template #status="{ item }">
             <PlayerBanStatus :ban="item" />
         </template>

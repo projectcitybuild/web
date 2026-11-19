@@ -61,10 +61,17 @@ const { can } = usePermissions()
 
                 <InfinitePagination
                     :initial="warps"
+                    :sort="sort"
+                    :direction="direction"
                     v-model:count="itemCount"
                     v-slot="source"
                 >
-                    <WarpListTable :warps="source.data"/>
+                    <WarpListTable
+                        :warps="source.data"
+                        :sort="source.sort"
+                        :direction="source.direction"
+                        :on-sort="source.onSort"
+                    />
                 </InfinitePagination>
             </Deferred>
         </Card>

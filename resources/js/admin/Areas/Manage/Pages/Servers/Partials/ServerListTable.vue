@@ -5,11 +5,12 @@ import { Icons } from '../../../../../Navigation/Icons'
 import DataTable from '../../../../../Components/DataTable.vue'
 import usePermissions from '../../../../../Composables/usePermissions';
 import LinkButton from '../../../../../Components/LinkButton.vue'
+import type { SortableTableProps } from '../../../../../Composables/useTableSorting'
 
-interface Props {
+interface Props extends SortableTableProps {
     servers: App.Http.Data.AdminServerData[],
 }
-defineProps<Props>()
+const props = defineProps<Props>()
 
 const { can } = usePermissions()
 
@@ -23,7 +24,7 @@ const fields = [
 </script>
 
 <template>
-    <DataTable :fields="fields" :rows="servers">
+    <DataTable :fields="fields" :rows="props.servers" :sort="props.sort" :direction="props.direction" :on-sort="props.onSort">
         <template #actions="{ item }" v-if="can('web.manage.servers.edit')">
             <LinkButton
                 :href="Routes.manage.servers.edit(item.id)"

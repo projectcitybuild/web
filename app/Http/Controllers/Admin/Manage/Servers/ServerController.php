@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Manage\Servers;
 use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Admin\RendersAdminApp;
+use App\Http\Controllers\Admin\SortsAdminLists;
 use App\Http\Controllers\WebController;
 use App\Http\Data\AdminServerData;
 use App\Models\Server;
@@ -15,16 +16,27 @@ class ServerController extends WebController
 {
     use AuthorizesPermissions;
     use RendersAdminApp;
+    use SortsAdminLists;
 
     public function index(Request $request)
     {
         $this->requires(WebManagePermission::SERVERS_VIEW);
 
-        $servers = Server::orderBy('created_at', 'desc')
-            ->get()
+        $sortableColumns = [
+            'id' => 'id',
+            'name' => 'name',
+            'ip' => 'ip',
+            'port' => 'port',
+            'web_port' => 'web_port',
+        ];
+        $sortState = $this->adminListSortState($request, $sortableColumns);
+
+        $query = Server::query();
+        $this->applyAdminListSort($query, $sortableColumns, $sortState, 'created_at');
+        $servers = $query->get()
             ->map(fn (Server $server): array => AdminServerData::fromModel($server)->toArray());
 
-        return $this->inertiaRender('Servers/ServerList', compact('servers'));
+        return $this->inertiaRender('Servers/ServerList', compact('servers') + $sortState);
     }
 
     public function create(Request $request)

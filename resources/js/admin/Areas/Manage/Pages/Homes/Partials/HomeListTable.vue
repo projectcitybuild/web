@@ -10,8 +10,9 @@ import usePermissions from '../../../../../Composables/usePermissions'
 import { Icons } from '../../../../../Navigation/Icons'
 import LinkButton from '../../../../../Components/LinkButton.vue'
 import CopyLocationButton from '../../../../../Components/CopyLocationButton.vue'
+import type { SortableTableProps } from '../../../../../Composables/useTableSorting'
 
-interface Props {
+interface Props extends SortableTableProps {
     homes: App.Http.Data.MinecraftHomeData[],
 }
 const props = defineProps<Props>()
@@ -21,7 +22,7 @@ const { can } = usePermissions()
 const fields = [
     { key: 'id', label: 'ID' },
     { key: 'name', label: 'Name' },
-    { key: 'player', label: 'Player' },
+    { key: 'player', label: 'Player', sortable: false },
     { key: 'world', label: 'World' },
     { key: 'x', label: 'x' },
     { key: 'y', label: 'y' },
@@ -41,7 +42,7 @@ const rows = computed(
 </script>
 
 <template>
-    <DataTable :fields="fields" :rows="rows" :show-index="true">
+    <DataTable :fields="fields" :rows="rows" :show-index="true" :sort="props.sort" :direction="props.direction" :on-sort="props.onSort">
         <template #player="{ item }">
             <div class="flex flex-row items-center gap-3">
                 <MinecraftAvatar v-if="item.player?.uuid" :uuid="item.player.uuid" :size="32"/>

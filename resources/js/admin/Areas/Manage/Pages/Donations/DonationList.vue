@@ -56,10 +56,17 @@ const itemCount = ref(0)
 
                 <InfinitePagination
                     :initial="donations"
+                    :sort="sort"
+                    :direction="direction"
                     v-model:count="itemCount"
                     v-slot="source"
                 >
-                    <DonationListTable :donations="source.data"/>
+                    <DonationListTable
+                        :donations="source.data"
+                        :sort="source.sort"
+                        :direction="source.direction"
+                        :on-sort="source.onSort"
+                    />
                 </InfinitePagination>
             </Deferred>
         </Card>

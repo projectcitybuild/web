@@ -52,10 +52,17 @@ const { can } = usePermissions()
 
                     <InfinitePagination
                         :initial="homes"
+                        :sort="sort"
+                        :direction="direction"
                         v-model:count="itemCount"
                         v-slot="source"
                     >
-                        <HomeListTable :homes="source.data"/>
+                        <HomeListTable
+                            :homes="source.data"
+                            :sort="source.sort"
+                            :direction="source.direction"
+                            :on-sort="source.onSort"
+                        />
                     </InfinitePagination>
                 </Deferred>
             </ListPage>

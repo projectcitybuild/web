@@ -23,9 +23,16 @@ defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Roles/RoleAccou
         <Card padding="none" class="mt-4">
             <InfinitePagination
                 :initial="accounts"
+                :sort="sort"
+                :direction="direction"
                 v-slot="source"
             >
-                <RoleMemberListTable :accounts="source.data"/>
+                <RoleMemberListTable
+                    :accounts="source.data"
+                    :sort="source.sort"
+                    :direction="source.direction"
+                    :on-sort="source.onSort"
+                />
             </InfinitePagination>
         </Card>
     </section>

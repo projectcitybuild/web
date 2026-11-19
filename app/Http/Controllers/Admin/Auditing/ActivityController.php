@@ -8,6 +8,7 @@ use App\Core\Domains\Auditing\Changes\Change;
 use App\Core\Domains\Auditing\Changes\Tokens\NotInAudit;
 use App\Core\Domains\Auditing\Contracts\LinkableAuditModel;
 use App\Http\Controllers\Admin\RendersAdminApp;
+use App\Http\Controllers\Admin\SortsAdminLists;
 use App\Http\Controllers\WebController;
 use App\Http\Data\AdminAuditArrayEntryData;
 use App\Http\Data\AdminAuditChangeData;
@@ -28,6 +29,7 @@ use JsonException;
 class ActivityController extends WebController
 {
     use RendersAdminApp;
+    use SortsAdminLists;
 
     public function index(Request $request): Response
     {
@@ -40,13 +42,17 @@ class ActivityController extends WebController
             'audit_event' => ['nullable', 'string'],
         ]);
 
-        $audits = Audit::query()
+        $sortableColumns = ['createdAt' => 'created_at'];
+        $sortState = $this->adminListSortState($request, $sortableColumns);
+
+        $query = Audit::query()
             ->with(['auditable', 'user'])
             ->when($activeAuditFilters['auditable_type'] ?? null, fn ($query, $type) => $query->where('auditable_type', $type))
-            ->when($activeAuditFilters['audit_event'] ?? null, fn ($query, $event) => $query->where('event', $event))
-            ->latest()
-            ->orderByDesc('id')
-            ->paginate(100, pageName: 'audit_page')
+            ->when($activeAuditFilters['audit_event'] ?? null, fn ($query, $event) => $query->where('event', $event));
+
+        $this->applyAdminListSort($query, $sortableColumns, $sortState, 'created_at');
+
+        $audits = $query->paginate(100, pageName: 'audit_page')
             ->withQueryString()
             ->through(function (Audit $audit): array {
                 $subjectType = $audit->auditable
@@ -90,6 +96,7 @@ class ActivityController extends WebController
                 'audit_event' => $activeAuditFilters['audit_event'] ?? '',
             ],
             'indexUrl' => route('auditing.index'),
+            ...$sortState,
         ]);
     }
 

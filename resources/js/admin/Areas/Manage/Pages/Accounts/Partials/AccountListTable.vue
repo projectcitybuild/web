@@ -5,18 +5,21 @@ import { format } from '../../../../../Utilities/DateFormatter'
 import BooleanCheck from '../../../../../Components/BooleanCheck.vue'
 import DataTable from '../../../../../Components/DataTable.vue'
 import { computed } from 'vue'
+import type { SortableTableProps } from '../../../../../Composables/useTableSorting'
+import usePermissions from '../../../../../Composables/usePermissions'
 
-interface Props {
+interface Props extends SortableTableProps {
     accounts: App.Http.Data.AdminAccountData[],
 }
 const props = defineProps<Props>()
+const { can } = usePermissions()
 
 const fields = [
     { key: 'id', label: 'ID' },
     { key: 'username', label: 'Username' },
-    { key: 'email', label: 'Email' },
+    { key: 'email', label: 'Email', sortable: can('web.manage.accounts.view_email') },
     { key: 'activated', label: 'Activated' },
-    { key: 'has_player', label: 'Has Player' },
+    { key: 'has_player', label: 'Has Player', sortable: false },
     { key: 'created_at', label: 'Created At' },
     { key: 'updated_at', label: 'Updated At' },
 ]
@@ -30,7 +33,7 @@ const rows = computed(
 </script>
 
 <template>
-    <DataTable :fields="fields" :rows="rows" :show-index="true">
+    <DataTable :fields="fields" :rows="rows" :show-index="true" :sort="props.sort" :direction="props.direction" :on-sort="props.onSort">
         <template #activated="{ item }">
             <BooleanCheck :value="item.activated" />
         </template>

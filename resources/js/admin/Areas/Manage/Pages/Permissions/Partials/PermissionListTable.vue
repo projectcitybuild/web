@@ -5,11 +5,12 @@ import { Icons } from '../../../../../Navigation/Icons'
 import DataTable from '../../../../../Components/DataTable.vue'
 import usePermissions from '../../../../../Composables/usePermissions'
 import LinkButton from '../../../../../Components/LinkButton.vue'
+import type { SortableTableProps } from '../../../../../Composables/useTableSorting'
 
-interface Props {
+interface Props extends SortableTableProps {
     permissions: App.Http.Data.AdminPermissionData[],
 }
-defineProps<Props>()
+const props = defineProps<Props>()
 
 const { can } = usePermissions()
 
@@ -20,7 +21,7 @@ const fields = [
 </script>
 
 <template>
-    <DataTable :fields="fields" :rows="permissions">
+    <DataTable :fields="fields" :rows="props.permissions" :sort="props.sort" :direction="props.direction" :on-sort="props.onSort">
         <template #actions="{ item }" v-if="can('web.manage.permissions.edit')">
             <LinkButton
                 variant="outline"

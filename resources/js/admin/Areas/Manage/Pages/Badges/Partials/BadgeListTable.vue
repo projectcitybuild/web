@@ -8,8 +8,9 @@ import { computed } from 'vue'
 import DataTable from '../../../../../Components/DataTable.vue'
 import usePermissions from '../../../../../Composables/usePermissions'
 import LinkButton from '../../../../../Components/LinkButton.vue'
+import type { SortableTableProps } from '../../../../../Composables/useTableSorting'
 
-interface Props {
+interface Props extends SortableTableProps {
     badges: App.Http.Data.AdminAccountBadgeData[],
 }
 const props = defineProps<Props>()
@@ -34,7 +35,7 @@ const rows = computed(
 </script>
 
 <template>
-    <DataTable :fields="fields" :rows="rows" :show-index="true">
+    <DataTable :fields="fields" :rows="rows" :show-index="true" :sort="props.sort" :direction="props.direction" :on-sort="props.onSort">
         <template #list_hidden="{ item }">
             <BooleanCheck :value="item.list_hidden" />
         </template>

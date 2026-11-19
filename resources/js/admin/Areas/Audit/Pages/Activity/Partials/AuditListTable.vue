@@ -3,16 +3,18 @@ import Badge from '../../../../../Components/Badge.vue'
 import DataTable from '../../../../../Components/DataTable.vue'
 import LinkButton from '../../../../../Components/LinkButton.vue'
 import { format, timeAgo } from '../../../../../Utilities/DateFormatter.js'
+import type { SortableTableProps } from '../../../../../Composables/useTableSorting'
 
-defineProps<{
+interface Props extends SortableTableProps {
     audits: App.Http.Data.AdminAuditListEntryData[],
-}>()
+}
+const props = defineProps<Props>()
 
 const fields = [
-    { key: 'actor', label: 'Actor' },
-    { key: 'action', label: 'Action' },
-    { key: 'createdAt', label: 'When' },
-    { key: 'subject', label: 'Subject' },
+    { key: 'actor', label: 'Actor', sortable: false },
+    { key: 'action', label: 'Action', sortable: false },
+    { key: 'createdAt', label: 'When', sortKey: 'createdAt' },
+    { key: 'subject', label: 'Subject', sortable: false },
 ]
 
 function eventVariant(event: string): 'default' | 'success' | 'info' | 'warning' | 'danger' {
@@ -32,7 +34,7 @@ function eventVariant(event: string): 'default' | 'success' | 'info' | 'warning'
 </script>
 
 <template>
-    <DataTable :fields="fields" :rows="audits" empty-message="No audit logs match these filters.">
+    <DataTable :fields="fields" :rows="props.audits" :sort="props.sort" :direction="props.direction" :on-sort="props.onSort" empty-message="No audit logs match these filters.">
         <template #actor="{ item }">
             <span class="font-medium text-foreground">{{ item.actor }}</span>
         </template>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Manage\Badges;
 use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Admin\RendersAdminApp;
+use App\Http\Controllers\Admin\SortsAdminLists;
 use App\Http\Controllers\WebController;
 use App\Http\Data\AdminAccountBadgeData;
 use App\Models\Badge;
@@ -15,14 +16,27 @@ class BadgeController extends WebController
 {
     use AuthorizesPermissions;
     use RendersAdminApp;
+    use SortsAdminLists;
 
     public function index(Request $request)
     {
         $this->requires(WebManagePermission::BADGES_VIEW);
 
-        $badges = function () {
-            return Badge::orderBy('created_at', 'desc')
-                ->paginate(50);
+        $sortableColumns = [
+            'id' => 'id',
+            'display_name' => 'display_name',
+            'unicode_icon' => 'unicode_icon',
+            'list_hidden' => 'list_hidden',
+            'created_at' => 'created_at',
+            'updated_at' => 'updated_at',
+        ];
+        $sortState = $this->adminListSortState($request, $sortableColumns);
+
+        $badges = function () use ($sortableColumns, $sortState) {
+            $query = Badge::query();
+            $this->applyAdminListSort($query, $sortableColumns, $sortState, 'created_at');
+
+            return $query->paginate(50);
         };
 
         if ($request->wantsJson()) {
@@ -32,6 +46,7 @@ class BadgeController extends WebController
             'badges' => Inertia::defer(fn () => $badges()->through(
                 fn (Badge $badge): array => AdminAccountBadgeData::fromModel($badge)->toArray(),
             )),
+            ...$sortState,
         ]);
     }
 
