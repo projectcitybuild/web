@@ -1,12 +1,11 @@
 import { Routes } from '../../Navigation/Routes'
 import { Icons } from '../../Navigation/Icons'
-import type { Permission } from '../../Data/Permissions'
 
 export interface ReviewNavigationItem {
     title: string
     route: string
     icon: keyof typeof Icons
-    permission?: Permission
+    permission?: App.Domains.Permissions.WebManagePermission | App.Domains.Permissions.WebReviewPermission
     countKey?: 'pending_appeals' | 'pending_build_rank_apps'
 }
 

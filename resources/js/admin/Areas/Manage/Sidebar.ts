@@ -1,13 +1,12 @@
 import { Routes } from '../../Navigation/Routes'
 import type { IconComponent } from "../../Components/SvgIcon.vue"
 import { Icons } from "../../Navigation/Icons"
-import { Permission } from "../../Data/Permissions"
 
 export interface SidebarChild {
   title: string
   route: string
   icon: IconComponent
-  permission?: Permission
+    permission?: App.Domains.Permissions.WebManagePermission | App.Domains.Permissions.WebReviewPermission
 }
 
 export interface SidebarSection {

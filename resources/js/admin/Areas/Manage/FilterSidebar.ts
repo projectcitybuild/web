@@ -1,9 +1,8 @@
-import { Permission } from '../../Data/Permissions'
 import type { SidebarSection } from './Sidebar'
 
 export function filterSidebar(
   menu: SidebarSection[],
-  can: (permission: Permission) => boolean
+  can: (permission: App.Domains.Permissions.WebManagePermission | App.Domains.Permissions.WebReviewPermission) => boolean
 ): SidebarSection[] {
 
   return menu
