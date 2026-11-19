@@ -1,0 +1,68 @@
+<script setup lang="ts">
+import { Routes } from '../../../../Navigation/Routes'
+import { Deferred, Head, Link } from '@inertiajs/vue3'
+import DonationListTable from './Partials/DonationListTable.vue'
+import InfinitePagination from '../../../../Components/InfinitePagination.vue'
+import SuccessAlert from '../../../../Components/SuccessAlert.vue'
+import Card from '../../../../Components/ManageCard.vue'
+import FilledButton from '../../../../Components/FilledButton.vue'
+import SvgIcon from '../../../../Components/SvgIcon.vue'
+import SpinnerRow from '../../../../Components/SpinnerRow.vue'
+import { ref } from 'vue'
+import { Icons } from '../../../../Navigation/Icons'
+import ShowingCount from '../../../../Components/ShowingCount.vue'
+import PageHeader from '../../../../Components/PageHeader.vue'
+import LinkButton from '../../../../Components/LinkButton.vue'
+
+defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Donations/DonationList']>()
+
+const itemCount = ref(0)
+</script>
+
+<template>
+    <Head title="Manage Donations"/>
+
+    <div class="space-y-6">
+        <PageHeader title="Donations" description="Review and manage donation records.">
+            <template #actions>
+                <LinkButton :href="Routes.manage.donations.create" variant="primary">
+                    <SvgIcon :svg="Icons.plus" />
+                    Create Donation
+                </LinkButton>
+            </template>
+        </PageHeader>
+
+    <section>
+        <SuccessAlert v-if="success" :message="success" class="mb-4"/>
+
+        <Card padding="none">
+            <div class="flex flex-row items-center justify-between py-4">
+                <div>
+                    <ShowingCount
+                        v-if="donations"
+                        :from="itemCount > 0 ? 1 : 0"
+                        :to="itemCount"
+                        :total="donations.total"
+                        class="text-sm text-muted"
+                    />
+                </div>
+
+            </div>
+
+            <Deferred data="donations">
+                <template #fallback>
+                    <SpinnerRow />
+                </template>
+
+                <InfinitePagination
+                    :initial="donations"
+                    v-model:count="itemCount"
+                    v-slot="source"
+                >
+                    <DonationListTable :donations="source.data"/>
+                </InfinitePagination>
+            </Deferred>
+        </Card>
+    </section>
+    </div>
+</template>

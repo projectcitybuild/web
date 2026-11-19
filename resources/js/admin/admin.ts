@@ -1,15 +1,15 @@
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
 import type { DefineComponent } from 'vue'
-import AdminAppLayout from './shared/Layouts/Admin/AdminAppLayout.vue'
-import { adminAreas, isAdminPathActive } from './shared/Layouts/Admin/useAdminNavigation'
+import AdminAppLayout from './Layouts/Admin/AdminAppLayout.vue'
+import { adminAreas, isAdminPathActive } from './Navigation/useAdminNavigation'
 
 type PageModule = {
     default: DefineComponent
 }
 
 const pages = import.meta.glob<PageModule>(
-    ['./manage/Pages/**/*.vue', './review/Pages/**/*.vue', './audit/Pages/**/*.vue']
+    ['./Areas/Manage/Pages/**/*.vue', './Areas/Review/Pages/**/*.vue', './Areas/Audit/Pages/**/*.vue']
 )
 
 createInertiaApp({
@@ -24,7 +24,8 @@ createInertiaApp({
             throw new Error(`Cannot determine administrative area for "${page.url}".`)
         }
 
-        const loadPage = pages[`./${area}/Pages/${name}.vue`]
+        const areaName = `${area[0].toUpperCase()}${area.slice(1)}`
+        const loadPage = pages[`./Areas/${areaName}/Pages/${name}.vue`]
 
         if (!loadPage) {
             throw new Error(`Unable to resolve administrative page "${name}" for "${area}".`)
