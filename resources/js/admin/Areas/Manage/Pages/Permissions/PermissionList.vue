@@ -22,7 +22,7 @@ const onSort = useServerListSorting(() => ({ sort: props.sort, direction: props.
     <Head title="Manage Permissions"/>
 
     <div class="space-y-6">
-    <PageHeader title="Permissions" description="Review the permissions available to application roles.">
+    <PageHeader title="Permissions" description="Review the permissions available to user roles.">
         <template #actions>
             <LinkButton
                 v-if="can('web.manage.permissions.edit')"

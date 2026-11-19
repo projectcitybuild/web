@@ -128,6 +128,12 @@ export const sidebarMenu: SidebarSection[] = [
             route: Routes.manage.donations.list,
             permission: 'web.manage.donations.view',
         },
+        {
+            title: 'Donation Perks',
+            icon: Icons.gift,
+            route: Routes.manage.donationPerks.list,
+            permission: 'web.manage.donations.view',
+        },
     ],
   },
 ]

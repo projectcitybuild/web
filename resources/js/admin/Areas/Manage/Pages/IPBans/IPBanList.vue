@@ -26,7 +26,7 @@ const { can } = usePermissions()
     <Head title="Manage IP Bans"/>
 
     <div class="space-y-6">
-    <PageHeader title="IP Bans" description="Manage restrictions on Minecraft server IP addresses.">
+    <PageHeader title="IP Bans" description="Manage restrictions on player IP addresses.">
         <template #actions>
             <LinkButton v-if="can('web.manage.ip_bans.edit')" :href="Routes.manage.ipBans.create" variant="primary">
                 <SvgIcon :svg="Icons.plus" />

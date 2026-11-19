@@ -29,6 +29,13 @@ export const Routes = {
             create: manage('donations/create'),
             edit: (id: RouteParameter) => manage(`donations/${id}/edit`),
         },
+        donationPerks: {
+            list: manage('donation-perks'),
+            create: manage('donation-perks/create'),
+            edit: (id: RouteParameter) => manage(`donation-perks/${id}/edit`),
+            update: (id: RouteParameter) => manage(`donation-perks/${id}`),
+            delete: (id: RouteParameter) => manage(`donation-perks/${id}`),
+        },
         homes: {
             list: manage('homes'),
             create: manage('homes/create'),

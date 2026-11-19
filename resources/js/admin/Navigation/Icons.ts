@@ -52,6 +52,7 @@ import {
     IconUserX,
     IconX,
     IconMedal,
+    IconGift,
 } from '@tabler/icons-vue'
 
 export const Icons = {
@@ -107,4 +108,5 @@ export const Icons = {
     link: IconLink,
     unlink: IconUnlink,
     hourglass: IconHourglass,
+    gift: IconGift,
 } satisfies Record<string, Component>

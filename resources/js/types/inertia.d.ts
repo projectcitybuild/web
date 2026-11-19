@@ -208,6 +208,24 @@ declare global {
         'manage/Donations/DonationEdit': {
             donation: App.Http.Data.AdminDonationData
         }
+        'manage/DonationPerks/DonationPerkList': {
+            sort: string | null
+            direction: 'asc' | 'desc' | null
+            perks?: {
+                data: App.Http.Data.AdminDonationPerkData[]
+                current_page: number
+                total: number
+                path: string
+                next_page_url: string | null
+            }
+        }
+        'manage/DonationPerks/DonationPerkCreate': {
+            tiers: { id: number, name: string }[]
+        }
+        'manage/DonationPerks/DonationPerkEdit': {
+            perk: App.Http.Data.AdminDonationPerkData
+            tiers: { id: number, name: string }[]
+        }
         'manage/Permissions/PermissionList': {
             permissions: App.Http.Data.AdminPermissionData[]
             sort: string | null

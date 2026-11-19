@@ -231,6 +231,16 @@ declare namespace App {
                 account?: App.Http.Data.AdminAccountData | null;
                 payment?: App.Http.Data.AdminPaymentData | null;
             };
+            export type AdminDonationPerkData = {
+                id: number;
+                account_id: number;
+                donation_id: number;
+                donation_tier_id: number | null;
+                is_active: boolean;
+                expires_at: string | null;
+                account_username: string | null;
+                donation_tier_name: string | null;
+            };
             export type AdminEmailChangeData = {
                 id: number;
                 account_id: number;
