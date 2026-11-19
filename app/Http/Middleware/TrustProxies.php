@@ -15,6 +15,10 @@ class TrustProxies extends Middleware
      * @var array
      */
     protected $proxies = [
+         // Internal Docker reverse proxy network
+        '172.19.0.0/16',
+
+        // Cloudflare IP ranges
         '173.245.48.0/20',
         '103.21.244.0/22',
         '103.22.200.0/22',
