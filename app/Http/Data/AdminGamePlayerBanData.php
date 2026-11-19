@@ -17,7 +17,7 @@ class AdminGamePlayerBanData extends Data
         public int $banned_player_id,
         public ?string $banned_alias_at_time,
         public ?int $banner_player_id,
-        public string $reason,
+        public ?string $reason,
         public ?string $additional_info,
         #[WithTransformer(DateTimeInterfaceTransformer::class, format: 'Y-m-d\\TH:i:s.u\\Z', setTimeZone: 'UTC')]
         public ?CarbonInterface $expires_at,

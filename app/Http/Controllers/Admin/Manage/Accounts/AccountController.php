@@ -14,7 +14,6 @@ use App\Http\Filters\LikeFilter;
 use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Pipeline;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
@@ -27,15 +26,6 @@ class AccountController extends WebController
 
     public function index(Request $request)
     {
-        Log::debug('HTTPS proxy diagnostic', [
-            'scheme' => request()->getScheme(),
-            'is_secure' => request()->isSecure(),
-            'x_forwarded_proto' => request()->header('x-forwarded-proto'),
-            'x_forwarded_host' => request()->header('x-forwarded-host'),
-            'remote_addr' => request()->server('REMOTE_ADDR'),
-            'host' => request()->getHost(),
-        ]);
-
         $this->requires(WebManagePermission::ACCOUNTS_VIEW);
 
         $accounts = function () use ($request) {
