@@ -3,7 +3,7 @@ import { Routes } from '../../../../Navigation/Routes'
 import { Head, Link, router } from '@inertiajs/vue3'
 import Card from '../../../../Components/ManageCard.vue'
 import MinecraftAvatar from '../../../../Components/MinecraftAvatar.vue'
-import { format, timeAgo } from '../../../../Utilities/DateFormatter'
+import { format, formatDuration, timeAgo } from '../../../../Utilities/DateFormatter'
 import PlayerBanListTable from './Partials/PlayerBanListTable.vue'
 import InfinitePagination from '../../../../Components/InfinitePagination.vue'
 import PlayerWarningListTable from './Partials/PlayerWarningListTable.vue'
@@ -40,6 +40,7 @@ const hasLastLocation = computed(() => {
 
     return coordinates.every((coordinate) => typeof coordinate === 'number' && Number.isFinite(coordinate))
 })
+const numberFormatter = new Intl.NumberFormat(undefined)
 
 async function refreshAlias() {
     isRefreshingAlias.value = true
@@ -271,11 +272,11 @@ async function refreshAlias() {
                             </dl>
                             <dl class="rounded-md border border-border p-3">
                                 <dt class="text-xs text-muted">Play time</dt>
-                                <dd class="mt-1 text-sm font-semibold tabular-nums text-foreground">{{ player.play_time }}</dd>
+                                <dd class="mt-1 text-sm font-semibold tabular-nums text-foreground">{{ formatDuration(player.play_time) }}</dd>
                             </dl>
                             <dl class="rounded-md border border-border p-3">
                                 <dt class="text-xs text-muted">AFK time</dt>
-                                <dd class="mt-1 text-sm font-semibold tabular-nums text-foreground">{{ player.afk_time }}</dd>
+                                <dd class="mt-1 text-sm font-semibold tabular-nums text-foreground">{{ formatDuration(player.afk_time) }}</dd>
                             </dl>
                         </div>
                     </section>
@@ -285,15 +286,15 @@ async function refreshAlias() {
                         <div class="grid grid-cols-3 gap-2">
                             <dl class="rounded-md border border-border p-2.5">
                                 <dt class="text-xs leading-tight text-muted">Placed</dt>
-                                <dd class="mt-1 text-sm font-semibold tabular-nums text-foreground">{{ player.blocks_placed }}</dd>
+                                <dd class="mt-1 text-sm font-semibold tabular-nums text-foreground">{{ numberFormatter.format(player.blocks_placed) }}</dd>
                             </dl>
                             <dl class="rounded-md border border-border p-2.5">
                                 <dt class="text-xs leading-tight text-muted">Destroyed</dt>
-                                <dd class="mt-1 text-sm font-semibold tabular-nums text-foreground">{{ player.blocks_destroyed }}</dd>
+                                <dd class="mt-1 text-sm font-semibold tabular-nums text-foreground">{{ numberFormatter.format(player.blocks_destroyed) }}</dd>
                             </dl>
                             <dl class="rounded-md border border-border p-2.5">
                                 <dt class="text-xs leading-tight text-muted">Travelled</dt>
-                                <dd class="mt-1 text-sm font-semibold tabular-nums text-foreground">{{ player.blocks_travelled }}</dd>
+                                <dd class="mt-1 text-sm font-semibold tabular-nums text-foreground">{{ numberFormatter.format(player.blocks_travelled) }}</dd>
                             </dl>
                         </div>
                     </section>

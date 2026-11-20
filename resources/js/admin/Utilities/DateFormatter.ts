@@ -21,3 +21,25 @@ export const timeAgo = (string?: string | null): string|null => {
     const date = new Date(string)
     return formatDistance(date, new Date(), { addSuffix: true })
 }
+
+export const formatDuration = (seconds: number): string => {
+    let remainingSeconds = Math.max(0, Math.floor(seconds))
+    const units = [
+        { label: 'day', seconds: 86400 },
+        { label: 'hour', seconds: 3600 },
+        { label: 'minute', seconds: 60 },
+        { label: 'second', seconds: 1 },
+    ]
+    const parts: string[] = []
+
+    for (const unit of units) {
+        const count = Math.floor(remainingSeconds / unit.seconds)
+        remainingSeconds %= unit.seconds
+
+        if (count > 0) {
+            parts.push(`${count} ${unit.label}${count === 1 ? '' : 's'}`)
+        }
+    }
+
+    return parts.join(', ') || '0 seconds'
+}
