@@ -2,6 +2,7 @@
 
 namespace App\Domains\Donations\UseCases;
 
+use App\Core\Domains\Discord\DiscordRoleSyncDispatcher;
 use App\Domains\Donations\Notifications\DonationPerkStartedNotification;
 use App\Models\Account;
 use App\Models\Donation;
@@ -15,6 +16,10 @@ use Illuminate\Support\Facades\Log;
 
 class ProcessDonation
 {
+    public function __construct(
+        private readonly DiscordRoleSyncDispatcher $discordRoleSyncDispatcher,
+    ) {}
+
     public function execute(
         ?Account $account,
         string $productId,
@@ -49,6 +54,10 @@ class ProcessDonation
                 numberOfMonths: $unitQuantity,
             );
         });
+
+        if ($account !== null) {
+            $this->discordRoleSyncDispatcher->dispatchForAccount($account);
+        }
 
         Cache::forget(GetAnnualDonationStats::CACHE_KEY);
     }

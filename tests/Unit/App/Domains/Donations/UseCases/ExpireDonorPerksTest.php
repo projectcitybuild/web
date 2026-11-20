@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Notification;
 beforeEach(function () {
     $this->donorRole = Role::factory()->donor()->create();
     $this->account = Account::factory()->create();
-    $this->useCase = new ExpireDonorPerks;
+    $this->useCase = app(ExpireDonorPerks::class);
 
     Notification::fake();
 });

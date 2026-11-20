@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\Manage\Badges\BadgeAccountsController;
 use App\Http\Controllers\Admin\Manage\Badges\BadgeController;
 use App\Http\Controllers\Admin\Manage\Bans\GameIPBanController;
 use App\Http\Controllers\Admin\Manage\Bans\GamePlayerBanController;
+use App\Http\Controllers\Admin\Manage\DiscordRoleMappingController;
 use App\Http\Controllers\Admin\Manage\Donations\DonationController as ManageDonationController;
 use App\Http\Controllers\Admin\Manage\Donations\DonationPerkController;
 use App\Http\Controllers\Admin\Manage\HomeController as HomeIndexController;
@@ -112,6 +113,13 @@ Route::name('manage.')
         Route::get('roles/{role}/accounts', [RoleAccountController::class, 'index']);
         Route::get('roles/{role}/permissions', [RolePermissionController::class, 'index']);
         Route::put('roles/{role}/permissions', [RolePermissionController::class, 'update']);
+
+        Route::get('discord/role-mappings', [DiscordRoleMappingController::class, 'index'])
+            ->name('discord-role-mappings.index');
+        Route::post('discord/role-mappings', [DiscordRoleMappingController::class, 'store'])
+            ->name('discord-role-mappings.store');
+        Route::put('discord/role-mappings/{discordRoleMapping}', [DiscordRoleMappingController::class, 'update'])
+            ->name('discord-role-mappings.update');
 
         Route::get('permissions', [PermissionsController::class, 'index'])->name('permissions.index');
         Route::get('permissions/create', [PermissionsController::class, 'create']);

@@ -12,6 +12,9 @@ final class PassportServiceProvider extends ServiceProvider
 {
     public function boot()
     {
+        // For legacy compatibility with non-UUID client IDs (BookStack)
+        Passport::$clientUuids = false;
+
         if (! $this->app->routesAreCached()) {
             Route::get('oauth/me', [OAuthController::class, 'show'])
                 ->middleware('auth:api');
@@ -26,9 +29,10 @@ final class PassportServiceProvider extends ServiceProvider
         Passport::refreshTokensExpireIn(now()->addDays(21));
         Passport::personalAccessTokensExpireIn(now()->addMonth());
         Passport::tokensCan([
-            'openid' => 'OpenID Connect authentication',
+            'openid' => 'Authenticate via OpenID Connect',
             'profile' => 'Access account profile information',
             'email' => 'Access the account email address',
+            'discord.roles.sync' => 'Synchronize Discord roles',
         ]);
         Passport::setDefaultScope(['openid']);
     }

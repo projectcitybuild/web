@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Manage\Accounts;
 
+use App\Core\Domains\Discord\DiscordRoleSyncDispatcher;
 use App\Domains\Permissions\AuthorizesPermissions;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Controllers\Admin\RendersAdminApp;
@@ -32,8 +33,11 @@ class AccountRoleController extends WebController
         ]);
     }
 
-    public function update(Request $request, Account $account): RedirectResponse
-    {
+    public function update(
+        Request $request,
+        Account $account,
+        DiscordRoleSyncDispatcher $dispatcher,
+    ): RedirectResponse {
         $this->requires(WebManagePermission::ACCOUNTS_EDIT);
 
         $validated = collect($request->validate([
@@ -46,6 +50,7 @@ class AccountRoleController extends WebController
             true,
             ['roles.id', 'roles.name'],
         );
+        $dispatcher->dispatchForAccount($account);
 
         return to_route('manage.accounts.show', $account)
             ->with(['success' => 'Roles updated successfully.']);

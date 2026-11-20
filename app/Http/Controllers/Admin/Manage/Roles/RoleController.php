@@ -136,6 +136,13 @@ class RoleController extends WebController
     {
         $this->requires(WebManagePermission::ROLES_EDIT);
 
+        if ($role->discordRoleMappings()->exists()) {
+            return to_route('manage.roles.index')
+                ->withErrors([
+                    'role' => 'This role has a Discord mapping. Disable the mapping instead of deleting it so the bot can remove the managed Discord role.',
+                ]);
+        }
+
         $role->delete();
 
         return to_route('manage.roles.index')

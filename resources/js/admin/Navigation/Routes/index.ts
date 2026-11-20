@@ -76,6 +76,10 @@ export const Routes = {
             accounts: (id: RouteParameter) => manage(`roles/${id}/accounts`),
             permissions: (id: RouteParameter) => manage(`roles/${id}/permissions`),
         },
+        discordRoleMappings: {
+            list: manage('discord/role-mappings'),
+            update: (id: RouteParameter) => manage(`discord/role-mappings/${id}`),
+        },
         servers: {
             list: manage('servers'),
             create: manage('servers/create'),

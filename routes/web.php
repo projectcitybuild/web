@@ -5,6 +5,7 @@ use App\Http\Controllers\Front\Account\AccountDonationController;
 use App\Http\Controllers\Front\Account\AccountGameAccountController;
 use App\Http\Controllers\Front\Account\AccountProfileController;
 use App\Http\Controllers\Front\Account\AccountRecordsController;
+use App\Http\Controllers\Front\Account\Settings\DiscordAccountController;
 use App\Http\Controllers\Front\Account\Settings\MfaDisableController;
 use App\Http\Controllers\Front\Account\Settings\MfaFinishController;
 use App\Http\Controllers\Front\Account\Settings\MfaResetBackupController;
@@ -235,6 +236,23 @@ Route::group([
     });
 
     Route::prefix('settings')->group(function () {
+        Route::prefix('discord')->group(function () {
+            Route::get('/', [DiscordAccountController::class, 'show'])
+                ->name('front.account.settings.discord');
+
+            Route::get('connect', [DiscordAccountController::class, 'connect'])
+                ->name('front.account.settings.discord.connect');
+
+            Route::get('callback', [DiscordAccountController::class, 'callback'])
+                ->name('front.account.settings.discord.callback');
+
+            Route::delete('/', [DiscordAccountController::class, 'unlink'])
+                ->name('front.account.settings.discord.unlink');
+
+            Route::post('sync', [DiscordAccountController::class, 'sync'])
+                ->name('front.account.settings.discord.sync');
+        });
+
         Route::prefix('username')->group(function () {
             Route::get('/', [UpdateUsernameController::class, 'show'])
                 ->name('front.account.settings.username');

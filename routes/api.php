@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\v3\Bans\PlayerBanController;
 use App\Http\Controllers\Api\v3\Builds\MinecraftBuildController;
 use App\Http\Controllers\Api\v3\Builds\MinecraftBuildNameController;
 use App\Http\Controllers\Api\v3\Builds\MinecraftBuildVoteController;
+use App\Http\Controllers\Api\v3\Discord\DiscordRoleSyncController;
 use App\Http\Controllers\Api\v3\Players\Homes\MinecraftPlayerHomeController;
 use App\Http\Controllers\Api\v3\Players\Homes\MinecraftPlayerHomeLimitController;
 use App\Http\Controllers\Api\v3\Players\Homes\MinecraftPlayerHomeNameController;
@@ -19,6 +20,7 @@ use App\Http\Controllers\Api\v3\Server\MinecraftRegisterController;
 use App\Http\Controllers\Api\v3\Server\MinecraftStatsController;
 use App\Http\Controllers\Api\v3\Warps\MinecraftWarpController;
 use App\Http\Controllers\Api\v3\Warps\MinecraftWarpNameController;
+use App\Http\Middleware\EnsureDiscordIntegrationClient;
 use Illuminate\Support\Facades\Route;
 
 Route::domain(config('app.api_url'))->group(function () {
@@ -32,6 +34,15 @@ Route::domain(config('app.api_url'))->group(function () {
     ]))->name('version');
 
     Route::prefix('v3')->name('v3.')->group(function () {
+        Route::prefix('discord')
+            ->middleware(EnsureDiscordIntegrationClient::using('discord.roles.sync'))
+            ->name('discord.')
+            ->group(function () {
+                Route::get('users/{discordUserId}/roles', [DiscordRoleSyncController::class, 'show'])
+                    ->where('discordUserId', '[0-9]{17,20}')
+                    ->name('users.roles');
+            });
+
         Route::prefix('server')
             ->middleware('require-server-token')
             ->group(function () {

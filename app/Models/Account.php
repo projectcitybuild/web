@@ -106,6 +106,11 @@ final class Account extends Authenticatable implements AuditableContract, Linkab
         );
     }
 
+    public function externalAccounts(): HasMany
+    {
+        return $this->hasMany(ExternalAccount::class);
+    }
+
     public function getRoleNamesAttribute(): Collection
     {
         return $this->roles()->pluck('name');

@@ -86,6 +86,18 @@
                 </svg>
                 <span class="text-gray-800">Payment Methods</span>
             </a>
+
+            <h2 class="text-sm text-gray-500 mb-3 mt-6">Integrations</h2>
+
+            <a
+                href="{{ route('front.account.settings.discord') }}"
+                class="
+                    flex flex-row gap-2 items-center p-2 rounded-lg
+                    {{ request()->is('account/settings/discord') ? 'bg-gray-200 font-bold' : '' }}
+                "
+            >
+                <span class="text-gray-800">Discord</span>
+            </a>
         </div>
 
         <div class="rounded-lg bg-white grow p-6 m-2">

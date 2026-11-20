@@ -8,6 +8,7 @@ use App\Core\Utilities\Traits\HasStaticTable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
@@ -64,6 +65,11 @@ final class Role extends Model implements AuditableContract, LinkableAuditModel
             foreignPivotKey: 'role_id',
             relatedPivotKey: 'account_id',
         );
+    }
+
+    public function discordRoleMappings(): HasMany
+    {
+        return $this->hasMany(DiscordRoleMapping::class);
     }
 
     public function scopeWhereDefault(Builder $query)

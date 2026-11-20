@@ -4,6 +4,7 @@ namespace App\Domains\Donations\UseCases;
 
 use App\Core\Domains\Auditing\Causers\SystemCauser;
 use App\Core\Domains\Auditing\Causers\SystemCauseResolver;
+use App\Core\Domains\Discord\DiscordRoleSyncDispatcher;
 use App\Domains\Donations\Notifications\DonationEndedNotification;
 use App\Models\DonationPerk;
 use App\Models\Role;
@@ -12,6 +13,10 @@ use Illuminate\Support\Facades\Log;
 
 final class ExpireDonorPerks
 {
+    public function __construct(
+        private readonly DiscordRoleSyncDispatcher $discordRoleSyncDispatcher,
+    ) {}
+
     public function execute(): void
     {
         SystemCauseResolver::runAs(SystemCauser::PERK_EXPIRY, function () { // nosemgrep: php.lang.security.exec-use.exec-use -- invokes an in-process callback, not a shell command.
@@ -61,6 +66,7 @@ final class ExpireDonorPerks
                     }
 
                     $account->auditDetach('roles', $donorRole->id, true, ['roles.id', 'roles.name']);
+                    $this->discordRoleSyncDispatcher->dispatchForAccount($account);
                     $account->notify(new DonationEndedNotification);
 
                     Log::info('Removed '.$account->id.' from donators');

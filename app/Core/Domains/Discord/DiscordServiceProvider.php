@@ -2,11 +2,12 @@
 
 namespace App\Core\Domains\Discord;
 
+use App\Models\DonationPerk;
 use Illuminate\Notifications\ChannelManager;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\ServiceProvider;
 
-class DiscordServiceProvider extends ServiceProvider
+final class DiscordServiceProvider extends ServiceProvider
 {
     public function register()
     {
@@ -16,5 +17,10 @@ class DiscordServiceProvider extends ServiceProvider
                 fn ($app) => new DiscordNotificationChannel(new DiscordWebhook),
             );
         });
+    }
+
+    public function boot(): void
+    {
+        DonationPerk::observe($this->app->make(DiscordDonationPerkObserver::class));
     }
 }

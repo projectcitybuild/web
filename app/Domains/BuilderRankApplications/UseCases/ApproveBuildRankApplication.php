@@ -3,6 +3,7 @@
 namespace App\Domains\BuilderRankApplications\UseCases;
 
 use App\Core\Domains\Auditing\AuditEventRecorder;
+use App\Core\Domains\Discord\DiscordRoleSyncDispatcher;
 use App\Domains\BuilderRankApplications\Data\ApplicationStatus;
 use App\Domains\BuilderRankApplications\Notifications\BuilderRankAppApprovedNotification;
 use App\Models\BuilderRankApplication;
@@ -13,6 +14,7 @@ class ApproveBuildRankApplication
 {
     public function __construct(
         private AuditEventRecorder $auditEventRecorder,
+        private DiscordRoleSyncDispatcher $discordRoleSyncDispatcher,
     ) {}
 
     public function execute(
@@ -39,6 +41,7 @@ class ApproveBuildRankApplication
                 ->push($promoteRole);
 
             $application->account->auditSync('roles', $updatedRoleIds, true, ['roles.id', 'roles.name']);
+            $this->discordRoleSyncDispatcher->dispatchForAccount($application->account);
         });
 
         $application->account->notify(

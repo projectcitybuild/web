@@ -11,6 +11,7 @@ use App\Models\Account;
 use App\Models\Badge;
 use App\Models\BanAppeal;
 use App\Models\BuilderRankApplication;
+use App\Models\DiscordRoleMapping;
 use App\Models\Donation;
 use App\Models\DonationPerk;
 use App\Models\DonationTier;
@@ -90,6 +91,7 @@ final class AppServiceProvider extends ServiceProvider
             'badge' => Badge::class,
             'ban_appeal' => BanAppeal::class,
             'builder_rank_application' => BuilderRankApplication::class,
+            'discord_role_mapping' => DiscordRoleMapping::class,
             'donation' => Donation::class,
             'donation_perk' => DonationPerk::class,
             'donation_tier' => DonationTier::class,

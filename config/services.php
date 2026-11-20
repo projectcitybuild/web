@@ -48,6 +48,13 @@ return [
 
     'discord' => [
         'webhook_url' => env('DISCORD_WEBHOOK_URL'),
+        'client_id' => env('DISCORD_CLIENT_ID'),
+        'client_secret' => env('DISCORD_CLIENT_SECRET'),
+        'redirect_uri' => env('DISCORD_REDIRECT_URI'),
+        'guild_id' => env('DISCORD_GUILD_ID'),
+        'passport_client_id' => env('DISCORD_PASSPORT_CLIENT_ID'),
+        'bot_callback_url' => env('DISCORD_BOT_CALLBACK_URL'),
+        'callback_secret' => env('DISCORD_CALLBACK_SECRET'),
     ],
 
 ];
