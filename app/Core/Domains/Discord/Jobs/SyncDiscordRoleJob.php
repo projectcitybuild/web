@@ -2,7 +2,7 @@
 
 namespace App\Core\Domains\Discord\Jobs;
 
-use Illuminate\Contracts\Queue\ShouldBeUnique;
+use Illuminate\Contracts\Queue\ShouldBeUniqueUntilProcessing;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Http;
@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 use RuntimeException;
 use Throwable;
 
-final class SyncDiscordRoleJob implements ShouldBeUnique, ShouldQueue
+final class SyncDiscordRoleJob implements ShouldBeUniqueUntilProcessing, ShouldQueue
 {
     use Queueable;
 

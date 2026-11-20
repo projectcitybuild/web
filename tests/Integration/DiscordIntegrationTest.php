@@ -306,6 +306,30 @@ it('notifies the bot with a signed idempotent callback', function () {
     });
 });
 
+it('reconciles Discord roles again when a change occurs during an active sync', function () {
+    config([
+        'queue.default' => 'sync',
+        'services.discord.bot_callback_url' => 'https://bot.example.test/discord/role-sync',
+        'services.discord.callback_secret' => 'callback-secret',
+    ]);
+    $callbackCount = 0;
+    Http::fake([
+        'https://bot.example.test/discord/role-sync' => function (Request $request) use (&$callbackCount) {
+            $callbackCount++;
+
+            if ($callbackCount === 1) {
+                SyncDiscordRoleJob::dispatch($request['discord_user_id']);
+            }
+
+            return Http::response([], 202);
+        },
+    ]);
+
+    SyncDiscordRoleJob::dispatch('123456789012345678');
+
+    Http::assertSentCount(2);
+});
+
 it('issues a client credentials token with the Discord role scope and returns managed roles', function () {
     $guildId = '987654321098765432';
     config(['services.discord.guild_id' => $guildId]);
