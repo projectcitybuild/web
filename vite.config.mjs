@@ -18,6 +18,7 @@ export default defineConfig({
                 'resources/js/front/front.ts',
                 'resources/js/admin/admin.ts',
                 'resources/css/admin/admin.css',
+                'resources/images/logo-alt.png',
             ],
 
             // Refreshes when a change is made to resource/view files or routes
