@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\Manage\HomeController as HomeIndexController;
 use App\Http\Controllers\Admin\Manage\Homes\HomeController;
 use App\Http\Controllers\Admin\Manage\Minecraft\MinecraftConfigController;
 use App\Http\Controllers\Admin\Manage\Minecraft\MinecraftWarpController;
+use App\Http\Controllers\Admin\Manage\PassportClients\PassportClientController;
 use App\Http\Controllers\Admin\Manage\Permissions\PermissionsController;
 use App\Http\Controllers\Admin\Manage\PlayerMail\PlayerMailBroadcastController;
 use App\Http\Controllers\Admin\Manage\Players\MinecraftPlayerAliasRefreshController;
@@ -120,6 +121,8 @@ Route::name('manage.')
             ->name('discord-role-mappings.store');
         Route::put('discord/role-mappings/{discordRoleMapping}', [DiscordRoleMappingController::class, 'update'])
             ->name('discord-role-mappings.update');
+        Route::delete('discord/role-mappings/{discordRoleMapping}', [DiscordRoleMappingController::class, 'destroy'])
+            ->name('discord-role-mappings.destroy');
 
         Route::get('permissions', [PermissionsController::class, 'index'])->name('permissions.index');
         Route::get('permissions/create', [PermissionsController::class, 'create']);
@@ -162,6 +165,12 @@ Route::name('manage.')
 
         Route::resource('server-tokens', ServerTokenController::class)
             ->except(['show']);
+
+        Route::resource('passport-clients', PassportClientController::class)
+            ->except(['show']);
+
+        Route::post('passport-clients/{passport_client}/regenerate-secret', [PassportClientController::class, 'regenerateSecret'])
+            ->name('passport-clients.regenerate-secret');
 
         Route::resource('warnings', PlayerWarningController::class);
 

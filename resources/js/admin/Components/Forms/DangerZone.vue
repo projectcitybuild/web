@@ -9,12 +9,14 @@ interface Props {
     confirmMessage: string,
     confirmTitle?: string,
     disabled?: boolean,
+    buttonLabel?: string,
 }
 
 withDefaults(defineProps<Props>(), {
     title: 'Danger zone',
     confirmTitle: 'Delete',
     disabled: false,
+    buttonLabel: 'Delete',
 })
 
 const emit = defineEmits<{
@@ -45,7 +47,7 @@ function confirm(): void {
                 :disabled="disabled"
                 @click="confirmDialog?.open()"
             >
-                <slot name="button">Delete</slot>
+                <slot name="button">{{ buttonLabel }}</slot>
             </Button>
         </div>
         <ConfirmDialog

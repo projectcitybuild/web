@@ -7,7 +7,8 @@ import { Icons } from '../../../../../Navigation/Icons'
 import { computed } from 'vue'
 import DataTable from '../../../../../Components/DataTable.vue'
 import usePermissions from '../../../../../Composables/usePermissions'
-import CopyLocationButton from '../../../../../Components/CopyLocationButton.vue'
+import CopyIconButton from '../../../../../Components/CopyIconButton.vue'
+import { formatLocationCoordinates } from '../../../../../Utilities/LocationCoordinates'
 import type { SortableTableProps } from '../../../../../Composables/useTableSorting'
 
 interface Props extends SortableTableProps {
@@ -42,12 +43,9 @@ const rows = computed(
     <DataTable :fields="fields" :rows="rows" :show-index="true" :sort="props.sort" :direction="props.direction" :on-sort="props.onSort">
         <template #actions="{ item }">
             <div class="flex items-center justify-end gap-2">
-                <CopyLocationButton
-                    :x="item.x"
-                    :y="item.y"
-                    :z="item.z"
-                    :yaw="item.yaw"
-                    :pitch="item.pitch"
+                <CopyIconButton
+                    :text="formatLocationCoordinates([item.x, item.y, item.z, item.yaw, item.pitch])"
+                    label="location coordinates"
                 />
                 <LinkButton
                     v-if="can('web.manage.warps.edit')"

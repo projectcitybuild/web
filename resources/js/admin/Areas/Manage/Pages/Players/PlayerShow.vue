@@ -21,7 +21,8 @@ import { Icons } from '../../../../Navigation/Icons'
 import usePermissions from '../../../../Composables/usePermissions'
 import PageHeader from '../../../../Components/PageHeader.vue'
 import LinkButton from '../../../../Components/LinkButton.vue'
-import CopyLocationButton from '../../../../Components/CopyLocationButton.vue'
+import CopyIconButton from '../../../../Components/CopyIconButton.vue'
+import { formatLocationCoordinates } from '../../../../Utilities/LocationCoordinates'
 
 const { can } = usePermissions()
 
@@ -316,12 +317,15 @@ async function refreshAlias() {
                     <section class="space-y-3 border-t border-border p-4">
                         <div class="flex items-center justify-between gap-3">
                             <h3 class="text-xs font-semibold uppercase tracking-wide text-muted">Last location</h3>
-                            <CopyLocationButton
-                                :x="player.last_location_x"
-                                :y="player.last_location_y"
-                                :z="player.last_location_z"
-                                :yaw="player.last_location_yaw"
-                                :pitch="player.last_location_pitch"
+                            <CopyIconButton
+                                :text="formatLocationCoordinates([
+                                    player.last_location_x,
+                                    player.last_location_y,
+                                    player.last_location_z,
+                                    player.last_location_yaw,
+                                    player.last_location_pitch,
+                                ])"
+                                label="location coordinates"
                             />
                         </div>
                         <template v-if="hasLastLocation">

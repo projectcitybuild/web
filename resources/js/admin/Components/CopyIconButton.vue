@@ -5,11 +5,8 @@ import SvgIcon from './SvgIcon.vue'
 import { Icons } from '../Navigation/Icons'
 
 interface Props {
-    x: number|string|null,
-    y: number|string|null,
-    z: number|string|null,
-    yaw: number|string|null,
-    pitch: number|string|null,
+    text: string | null,
+    label: string,
 }
 
 const props = defineProps<Props>()
@@ -17,21 +14,7 @@ const copied = ref(false)
 const error = ref<string|null>(null)
 let copiedTimeout: ReturnType<typeof setTimeout> | undefined
 
-const coordinates = computed(() => {
-    const values = [props.x, props.y, props.z, props.yaw, props.pitch].map((value) => {
-        if (value === null) {
-            return null
-        }
-
-        const coordinate = String(value).trim()
-
-        return coordinate !== '' && Number.isFinite(Number(coordinate))
-            ? coordinate
-            : null
-    })
-
-    return values.every((value) => value !== null) ? values.join(', ') : null
-})
+const canCopy = computed(() => props.text !== null && props.text.trim() !== '')
 
 onBeforeUnmount(() => {
     if (copiedTimeout) {
@@ -39,7 +22,7 @@ onBeforeUnmount(() => {
     }
 })
 
-async function copyLocation(): Promise<void> {
+async function copyText(): Promise<void> {
     if (copiedTimeout) {
         clearTimeout(copiedTimeout)
         copiedTimeout = undefined
@@ -48,26 +31,28 @@ async function copyLocation(): Promise<void> {
     copied.value = false
     error.value = null
 
-    if (coordinates.value === null) {
+    const text = props.text
+
+    if (text === null || text.trim() === '') {
         return
     }
 
     try {
-        await navigator.clipboard.writeText(coordinates.value)
+        await navigator.clipboard.writeText(text)
         copied.value = true
         copiedTimeout = setTimeout(() => {
             copied.value = false
             copiedTimeout = undefined
         }, 1500)
     } catch {
-        error.value = 'Unable to copy coordinates. Check clipboard permissions and try again.'
+        error.value = `Unable to copy ${props.label}. Check clipboard permissions and try again.`
     }
 }
 </script>
 
 <template>
     <span class="inline-flex items-center justify-end gap-1.5">
-        <span v-if="error" class="text-xs text-danger" role="alert">Copy failed</span>
+        <span v-if="error" class="text-xs text-danger" role="alert" :title="error">Copy failed</span>
         <span class="relative inline-flex">
             <span
                 v-if="copied"
@@ -80,10 +65,10 @@ async function copyLocation(): Promise<void> {
                 variant="outline"
                 size="sm"
                 :icon-only="true"
-                aria-label="Copy location coordinates"
-                title="Copy location coordinates"
-                :disabled="coordinates === null"
-                @click="copyLocation"
+                :aria-label="`Copy ${props.label}`"
+                :title="`Copy ${props.label}`"
+                :disabled="!canCopy"
+                @click="copyText"
             >
                 <SvgIcon :svg="copied ? Icons.check : Icons.copy" class="size-4" aria-hidden="true" />
             </Button>

@@ -11,6 +11,7 @@ import PageHeader from '../../../../Components/PageHeader.vue'
 import ListPage from '../../../../Components/ListPage.vue'
 import LinkButton from '../../../../Components/LinkButton.vue'
 import { useServerListSorting } from '../../../../Composables/useTableSorting'
+import RoleManagementTabs from './Partials/RoleManagementTabs.vue'
 
 const { can } = usePermissions()
 
@@ -34,6 +35,8 @@ const onSort = useServerListSorting(() => ({ sort: props.sort, direction: props.
             </LinkButton>
         </template>
     </PageHeader>
+
+    <RoleManagementTabs active-tab="roles" />
 
     <section>
         <SuccessAlert v-if="success" :message="success" class="mb-4"/>

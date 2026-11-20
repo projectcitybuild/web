@@ -79,6 +79,7 @@ export const Routes = {
         discordRoleMappings: {
             list: manage('discord/role-mappings'),
             update: (id: RouteParameter) => manage(`discord/role-mappings/${id}`),
+            delete: (id: RouteParameter) => manage(`discord/role-mappings/${id}`),
         },
         servers: {
             list: manage('servers'),
@@ -89,6 +90,14 @@ export const Routes = {
             list: manage('server-tokens'),
             create: manage('server-tokens/create'),
             edit: (id: RouteParameter) => manage(`server-tokens/${id}/edit`),
+        },
+        passportClients: {
+            list: manage('passport-clients'),
+            create: manage('passport-clients/create'),
+            edit: (id: RouteParameter) => manage(`passport-clients/${id}/edit`),
+            update: (id: RouteParameter) => manage(`passport-clients/${id}`),
+            destroy: (id: RouteParameter) => manage(`passport-clients/${id}`),
+            regenerateSecret: (id: RouteParameter) => manage(`passport-clients/${id}/regenerate-secret`),
         },
         warnings: {
             list: manage('warnings'),
