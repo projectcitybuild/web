@@ -151,7 +151,7 @@ final class DiscordAccountController extends WebController
         }
 
         $account = $this->account($request);
-        $linked = DB::transaction(function () use ($account, $discordUserId, $username, $auditEventRecorder): bool {
+        $linkCreated = DB::transaction(function () use ($account, $discordUserId, $username, $auditEventRecorder): ?bool {
             Account::query()
                 ->whereKey($account->getKey())
                 ->lockForUpdate()
@@ -164,7 +164,7 @@ final class DiscordAccountController extends WebController
                 ->first();
 
             if ($identityLink !== null && (int) $identityLink->account_id !== (int) $account->getKey()) {
-                return false;
+                return null;
             }
 
             $accountLink = $account->externalAccounts()
@@ -173,7 +173,7 @@ final class DiscordAccountController extends WebController
                 ->first();
 
             if ($accountLink !== null && $accountLink->provider_user_id !== $discordUserId) {
-                return false;
+                return null;
             }
 
             if ($accountLink === null) {
@@ -208,15 +208,18 @@ final class DiscordAccountController extends WebController
                 );
             }
 
-            return true;
+            return $accountLink === null;
         });
 
-        if (! $linked) {
+        if ($linkCreated === null) {
             return to_route('front.account.settings.discord')
                 ->with('error', 'This Discord account is already linked, or your account already has a different Discord account linked.');
         }
 
-        $dispatcher->dispatchForDiscordUserId($discordUserId);
+        $dispatcher->dispatchForDiscordUserId(
+            $discordUserId,
+            $linkCreated ? 'linked' : null,
+        );
 
         return to_route('front.account.settings.discord')
             ->with('success', 'Your Discord account has been linked.');

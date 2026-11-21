@@ -23,6 +23,7 @@ final class SyncDiscordRoleJob implements ShouldBeUniqueUntilProcessing, ShouldQ
 
     public function __construct(
         public readonly string $discordUserId,
+        public readonly ?string $accountEvent = null,
     ) {
         $this->syncId = (string) Str::uuid();
     }
@@ -49,10 +50,16 @@ final class SyncDiscordRoleJob implements ShouldBeUniqueUntilProcessing, ShouldQ
             throw new RuntimeException('Discord bot callback URL must be a valid HTTPS URL.');
         }
 
-        $body = json_encode([
+        $payload = [
             'discord_user_id' => $this->discordUserId,
             'sync_id' => $this->syncId,
-        ], JSON_THROW_ON_ERROR);
+        ];
+
+        if ($this->accountEvent !== null) {
+            $payload['account_event'] = $this->accountEvent;
+        }
+
+        $body = json_encode($payload, JSON_THROW_ON_ERROR);
 
         $timestamp = (string) now()->timestamp;
         $signature = hash_hmac('sha256', $timestamp.'.'.$body, $secret);
@@ -82,7 +89,11 @@ final class SyncDiscordRoleJob implements ShouldBeUniqueUntilProcessing, ShouldQ
 
     public function uniqueId(): string
     {
-        return 'discord-role-sync:'.$this->discordUserId;
+        $key = 'discord-role-sync:'.$this->discordUserId;
+
+        return $this->accountEvent === null
+            ? $key
+            : $key.':account-event:'.$this->accountEvent;
     }
 
     public function failed(?Throwable $exception): void

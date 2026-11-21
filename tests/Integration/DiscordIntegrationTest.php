@@ -134,7 +134,9 @@ it('links a Discord account only after validating the OAuth state and remote ide
         'discord_user_id' => $discordUserId,
         'discord_username' => 'builder',
     ]);
-    Bus::assertDispatched(SyncDiscordRoleJob::class, fn (SyncDiscordRoleJob $job): bool => $job->discordUserId === $discordUserId);
+    Bus::assertDispatched(SyncDiscordRoleJob::class, fn (SyncDiscordRoleJob $job): bool => $job->discordUserId === $discordUserId
+        && $job->accountEvent === 'linked'
+    );
 });
 
 it('rejects an OAuth state mismatch without contacting Discord', function () {
@@ -203,6 +205,10 @@ it('does not allow an account to link a second Discord identity and refreshes ch
     $this->get(discordLinkCallbackUrl($this, $account, $firstDiscordUserId, 'new-name'))
         ->assertSessionHas('success');
 
+    Bus::assertDispatched(SyncDiscordRoleJob::class, fn (SyncDiscordRoleJob $job): bool => $job->discordUserId === $firstDiscordUserId
+        && $job->accountEvent === null
+    );
+
     $this->assertDatabaseHas('external_accounts', [
         'id' => $existing->id,
         'provider_user_id' => $firstDiscordUserId,
@@ -259,7 +265,9 @@ it('unlinks a Discord identity and queues cleanup for that Discord user', functi
         'discord_user_id' => $externalAccount->provider_user_id,
         'discord_username' => $externalAccount->username,
     ]);
-    Bus::assertDispatched(SyncDiscordRoleJob::class, fn (SyncDiscordRoleJob $job): bool => $job->discordUserId === $externalAccount->provider_user_id);
+    Bus::assertDispatched(SyncDiscordRoleJob::class, fn (SyncDiscordRoleJob $job): bool => $job->discordUserId === $externalAccount->provider_user_id
+        && $job->accountEvent === 'disconnected'
+    );
 
     $client = createDiscordIntegrationClient('CityBuild Discord Integration');
     config(['services.discord.passport_client_id' => (string) $client->getKey()]);
@@ -287,7 +295,7 @@ it('notifies the bot with a signed idempotent callback', function () {
     Http::fake([
         'https://bot.example.test/discord/role-sync' => Http::response([], 202),
     ]);
-    $job = new SyncDiscordRoleJob('123456789012345678');
+    $job = new SyncDiscordRoleJob('123456789012345678', 'linked');
 
     $job->handle();
 
@@ -302,7 +310,8 @@ it('notifies the bot with a signed idempotent callback', function () {
         return $request->url() === 'https://bot.example.test/discord/role-sync'
             && $request->hasHeader('Idempotency-Key', $job->syncId)
             && $request->hasHeader('X-Discord-Signature', 'sha256='.$signature)
-            && $request['discord_user_id'] === $job->discordUserId;
+            && $request['discord_user_id'] === $job->discordUserId
+            && $request['account_event'] === 'linked';
     });
 });
 

@@ -26,9 +26,11 @@ final class DiscordRoleSyncDispatcher
         }
     }
 
-    public function dispatchForDiscordUserId(string $discordUserId): void
-    {
-        SyncDiscordRoleJob::dispatch($discordUserId)->afterCommit();
+    public function dispatchForDiscordUserId(
+        string $discordUserId,
+        ?string $accountEvent = null,
+    ): void {
+        SyncDiscordRoleJob::dispatch($discordUserId, $accountEvent)->afterCommit();
     }
 
     public function dispatchForAllLinkedAccounts(): void

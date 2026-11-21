@@ -39,7 +39,7 @@ final class DisconnectDiscordAccount
                     'discord_username' => $username,
                 ],
             );
-            $this->dispatcher->dispatchForDiscordUserId($discordUserId);
+            $this->dispatcher->dispatchForDiscordUserId($discordUserId, 'disconnected');
 
             return $discordUserId;
         });
