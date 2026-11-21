@@ -16,6 +16,7 @@ class AdminAccountData extends Data
      * @param  array<AdminAccountRoleData>|null  $roles
      * @param  array<AdminAccountBadgeData>|null  $badges
      * @param  array<MinecraftPlayerData>|null  $minecraft_account
+     * @param  AdminDiscordAccountData|null  $discord_account
      * @param  array<AdminDonationData>|null  $donations
      * @param  array<AdminEmailChangeData>|null  $email_change_requests
      * @param  array<AdminAccountActivationData>|null  $activations
@@ -36,6 +37,7 @@ class AdminAccountData extends Data
         public Optional|array|null $roles,
         public Optional|array|null $badges,
         public Optional|array|null $minecraft_account,
+        public Optional|AdminDiscordAccountData|null $discord_account,
         public Optional|array|null $donations,
         public Optional|array|null $email_change_requests,
         public Optional|array|null $activations,
@@ -56,6 +58,11 @@ class AdminAccountData extends Data
             roles: self::loadedRelation($account, 'roles', AdminAccountRoleData::fromModel(...)),
             badges: self::loadedRelation($account, 'badges', AdminAccountBadgeData::fromModel(...)),
             minecraft_account: self::loadedRelation($account, 'minecraftAccount', MinecraftPlayerData::fromModel(...)),
+            discord_account: match (true) {
+                ! $account->relationLoaded('discordAccount') => Optional::create(),
+                $account->discordAccount === null => null,
+                default => AdminDiscordAccountData::fromModel($account->discordAccount),
+            },
             donations: self::loadedRelation($account, 'donations', AdminDonationData::fromModel(...)),
             email_change_requests: self::loadedRelation($account, 'emailChangeRequests', AdminEmailChangeData::fromModel(...)),
             activations: self::loadedRelation($account, 'activations', AdminAccountActivationData::fromModel(...)),

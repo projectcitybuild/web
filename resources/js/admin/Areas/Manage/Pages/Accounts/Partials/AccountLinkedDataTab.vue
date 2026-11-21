@@ -12,6 +12,7 @@ import AccountRolesTable from './AccountRolesTable.vue'
 import AccountBadgesTable from './AccountBadgesTable.vue'
 import TabPanel from '../../../../../Components/TabPanel.vue'
 import LinkButton from '../../../../../Components/LinkButton.vue'
+import FilledButton from '../../../../../Components/FilledButton.vue'
 
 interface Props {
     account: App.Http.Data.AdminAccountData,
@@ -20,6 +21,7 @@ interface Props {
 const props = defineProps<Props>()
 
 const unlinkPlayerModal = ref<InstanceType<typeof ConfirmDialog>>()
+const disconnectDiscordModal = ref<InstanceType<typeof ConfirmDialog>>()
 const unlinkPlayerId = ref<number | null>(null)
 const { can } = usePermissions()
 
@@ -32,10 +34,62 @@ function showUnlinkDialog(playerId: number) {
     unlinkPlayerId.value = playerId
     unlinkPlayerModal.value?.open()
 }
+
+function disconnectDiscordAccount(): void {
+    disconnectDiscordModal.value?.close()
+    router.delete(Routes.manage.accounts.discord(props.account.id))
+}
+
+function forceSyncDiscordAccount(): void {
+    router.post(Routes.manage.accounts.discordSync(props.account.id), {})
+}
 </script>
 
 <template>
     <TabPanel tab-id="linked" id-prefix="account" :active-tab="props.activeTab" class="mt-4 grid grid-cols-1 gap-4 xl:grid-cols-2">
+        <Card padding="none">
+            <div class="flex flex-wrap items-center justify-between gap-4 border-b border-border p-4">
+                <div>
+                    <h2 class="text-base font-semibold text-foreground">Discord account</h2>
+                    <p class="mt-1 text-sm text-muted dark:text-subtle">Discord identity connected to this account</p>
+                </div>
+                <div
+                    v-if="can('web.manage.accounts.edit') && props.account.discord_account"
+                    class="flex flex-wrap justify-end gap-2"
+                >
+                    <FilledButton
+                        variant="secondary"
+                        size="sm"
+                        @click="forceSyncDiscordAccount"
+                    >
+                        Force sync
+                    </FilledButton>
+                    <FilledButton
+                        variant="danger"
+                        size="sm"
+                        @click="disconnectDiscordModal?.open()"
+                    >
+                        Force disconnect
+                    </FilledButton>
+                </div>
+            </div>
+            <dl v-if="props.account.discord_account" class="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2">
+                <div>
+                    <dt class="text-xs text-muted">Username</dt>
+                    <dd class="mt-1 text-sm font-medium text-foreground">
+                        {{ props.account.discord_account.username ?? 'Unknown' }}
+                    </dd>
+                </div>
+                <div>
+                    <dt class="text-xs text-muted">Discord user ID</dt>
+                    <dd class="mt-1 break-all font-mono text-sm text-foreground">
+                        {{ props.account.discord_account.provider_user_id }}
+                    </dd>
+                </div>
+            </dl>
+            <p v-else class="p-4 text-sm text-muted dark:text-subtle">No Discord account linked.</p>
+        </Card>
+
         <Card padding="none" class="xl:col-span-2">
             <div class="flex items-center justify-between gap-4 border-b border-border p-4">
                 <div>
@@ -83,6 +137,13 @@ function showUnlinkDialog(playerId: number) {
             message="This will disassociate the player from this account."
             confirm-title="Yes, Proceed"
             :on-confirm="unlinkPlayer"
+        />
+        <ConfirmDialog
+            ref="disconnectDiscordModal"
+            title="Force disconnect Discord account?"
+            message="This will disconnect the user's Discord account and remove its synced roles."
+            confirm-title="Yes, disconnect"
+            :on-confirm="disconnectDiscordAccount"
         />
     </TabPanel>
 </template>

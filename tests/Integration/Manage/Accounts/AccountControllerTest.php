@@ -3,6 +3,7 @@
 use App\Core\Utilities\Redact;
 use App\Domains\Permissions\WebManagePermission;
 use App\Models\Account;
+use App\Models\ExternalAccount;
 use App\Models\MinecraftPlayer;
 use App\Models\Role;
 use Illuminate\Testing\Fluent\AssertableJson as Assert;
@@ -149,6 +150,27 @@ it('shows account email to managers with email permission', function () {
                 WebManagePermission::ACCOUNTS_VIEW->value,
                 WebManagePermission::ACCOUNTS_VIEW_EMAIL->value,
             ])
+        );
+});
+
+it('shows a linked Discord account in account details', function () {
+    config(['inertia.ssr.enabled' => false]);
+
+    $manager = $this->createStaffAccountWithPermissions([WebManagePermission::ACCOUNTS_VIEW->value]);
+    $account = Account::factory()->create();
+    $discordAccount = ExternalAccount::factory()->create([
+        'account_id' => $account->id,
+        'provider_user_id' => '123456789012345678',
+        'username' => 'builder',
+    ]);
+
+    $this->actingAs($manager)
+        ->get(route('manage.accounts.show', $account))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('Accounts/AccountShow')
+            ->where('account.discord_account.provider_user_id', $discordAccount->provider_user_id)
+            ->where('account.discord_account.username', $discordAccount->username)
         );
 });
 

@@ -100,6 +100,7 @@ class AccountController extends WebController
             'roles',
             'badges',
             'minecraftAccount',
+            'discordAccount',
             'activations',
             'donations',
         ]);

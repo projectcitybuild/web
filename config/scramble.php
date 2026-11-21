@@ -2,7 +2,6 @@
 
 use Dedoc\Scramble\Http\Middleware\RestrictedDocsAccess;
 use Dedoc\Scramble\SecurityDocumentation\MiddlewareAuthSecurityStrategy;
-use Dedoc\Scramble\Support\Generator\SecurityScheme;
 
 $apiUrl = env('API_URL');
 $apiUrlParts = $apiUrl ? parse_url($apiUrl) : [];
@@ -147,7 +146,6 @@ return [
         MiddlewareAuthSecurityStrategy::class,
         [
             'middleware' => ['require-server-token'],
-            'scheme' => SecurityScheme::http('bearer'),
         ],
     ],
 ];

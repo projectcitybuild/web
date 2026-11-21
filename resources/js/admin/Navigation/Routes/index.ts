@@ -16,6 +16,8 @@ export const Routes = {
             show: (id: RouteParameter) => manage(`accounts/${id}`),
             edit: (id: RouteParameter) => manage(`accounts/${id}/edit`),
             badges: (id: RouteParameter) => manage(`accounts/${id}/badges`),
+            discord: (id: RouteParameter) => manage(`accounts/${id}/discord`),
+            discordSync: (id: RouteParameter) => manage(`accounts/${id}/discord/sync`),
             players: (id: RouteParameter) => manage(`accounts/${id}/players`),
             roles: (id: RouteParameter) => manage(`accounts/${id}/roles`),
         },

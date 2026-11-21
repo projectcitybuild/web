@@ -2,11 +2,8 @@ FROM php:8.4-cli-alpine
 
 RUN addgroup -g 1000 -S user && adduser -u 1000 -D user -G user
 RUN apk add --no-cache bash curl git nano
-RUN apk add --no-cache composer
 
-# Composer uses its versioned PHP binary, but we want it to use the container's one
-RUN rm -f /usr/bin/php85
-RUN ln -s /usr/local/bin/php /usr/bin/php85
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Install zip extension
 RUN apk add --no-cache libzip-dev unzip && \

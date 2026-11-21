@@ -127,6 +127,7 @@ declare namespace App {
                 roles: App.Http.Data.AdminAccountRoleData[] | null;
                 badges: App.Http.Data.AdminAccountBadgeData[] | null;
                 minecraft_account: App.Http.Data.MinecraftPlayerData[] | null;
+                discord_account: App.Http.Data.AdminDiscordAccountData | null;
                 donations: App.Http.Data.AdminDonationData[] | null;
                 email_change_requests:
                     App.Http.Data.AdminEmailChangeData[] | null;
@@ -221,6 +222,10 @@ declare namespace App {
                 created_at: string | null;
                 updated_at: string | null;
                 account?: App.Http.Data.AdminAccountData | null;
+            };
+            export type AdminDiscordAccountData = {
+                provider_user_id: string;
+                username: string | null;
             };
             export type AdminDonationData = {
                 id: number;

@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\Manage\Accounts\AccountBadgeController;
 use App\Http\Controllers\Admin\Manage\Accounts\AccountBanAppealController;
 use App\Http\Controllers\Admin\Manage\Accounts\AccountBuilderRankApplicationsController;
 use App\Http\Controllers\Admin\Manage\Accounts\AccountController;
+use App\Http\Controllers\Admin\Manage\Accounts\AccountDiscordController;
 use App\Http\Controllers\Admin\Manage\Accounts\AccountGameAccountController as ManageAccountGameAccountController;
 use App\Http\Controllers\Admin\Manage\Accounts\AccountMfaController;
 use App\Http\Controllers\Admin\Manage\Accounts\AccountPlayerController;
@@ -60,6 +61,11 @@ Route::name('manage.')
             ->except(['destroy']);
 
         Route::prefix('accounts/{account}')->group(function () {
+            Route::post('discord/sync', [AccountDiscordController::class, 'sync'])
+                ->name('accounts.discord.sync');
+            Route::delete('discord', [AccountDiscordController::class, 'destroy'])
+                ->name('accounts.discord.destroy');
+
             Route::post('activate', [AccountActivateController::class, 'update']);
             Route::delete('activate', [AccountActivateController::class, 'destroy']);
             Route::post('activate/send', AccountResendActivationController::class);

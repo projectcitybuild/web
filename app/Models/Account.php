@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
@@ -109,6 +110,12 @@ final class Account extends Authenticatable implements AuditableContract, Linkab
     public function externalAccounts(): HasMany
     {
         return $this->hasMany(ExternalAccount::class);
+    }
+
+    public function discordAccount(): HasOne
+    {
+        return $this->hasOne(ExternalAccount::class)
+            ->where('provider', ExternalAccount::PROVIDER_DISCORD);
     }
 
     public function getRoleNamesAttribute(): Collection

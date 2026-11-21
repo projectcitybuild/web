@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front\Account\Settings;
 use App\Core\Domains\Auditing\AuditEventRecorder;
 use App\Core\Domains\Discord\DiscordRoleSyncDispatcher;
 use App\Core\Domains\Discord\DiscordSnowflake;
+use App\Domains\Discord\UseCases\DisconnectDiscordAccount;
 use App\Http\Controllers\WebController;
 use App\Models\Account;
 use App\Models\ExternalAccount;
@@ -223,35 +224,10 @@ final class DiscordAccountController extends WebController
 
     public function unlink(
         Request $request,
-        DiscordRoleSyncDispatcher $dispatcher,
-        AuditEventRecorder $auditEventRecorder,
+        DisconnectDiscordAccount $disconnectDiscordAccount,
     ): RedirectResponse {
         $account = $this->account($request);
-        $discordUserId = DB::transaction(function () use ($account, $dispatcher, $auditEventRecorder): ?string {
-            $externalAccount = $account->externalAccounts()
-                ->where('provider', ExternalAccount::PROVIDER_DISCORD)
-                ->lockForUpdate()
-                ->first();
-
-            if ($externalAccount === null) {
-                return null;
-            }
-
-            $discordUserId = $externalAccount->provider_user_id;
-            $username = $externalAccount->username;
-            $externalAccount->delete();
-            $auditEventRecorder->record(
-                subject: $account,
-                event: 'disconnected Discord account',
-                oldValues: [
-                    'discord_user_id' => $discordUserId,
-                    'discord_username' => $username,
-                ],
-            );
-            $dispatcher->dispatchForDiscordUserId($discordUserId);
-
-            return $discordUserId;
-        });
+        $discordUserId = $disconnectDiscordAccount->execute($account);
 
         return to_route('front.account.settings.discord')
             ->with('success', $discordUserId === null
