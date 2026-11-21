@@ -206,7 +206,7 @@ it('does not allow an account to link a second Discord identity and refreshes ch
         ->assertSessionHas('success');
 
     Bus::assertDispatched(SyncDiscordRoleJob::class, fn (SyncDiscordRoleJob $job): bool => $job->discordUserId === $firstDiscordUserId
-        && $job->accountEvent === null
+        && $job->accountEvent === 'linked'
     );
 
     $this->assertDatabaseHas('external_accounts', [

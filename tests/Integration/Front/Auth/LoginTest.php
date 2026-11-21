@@ -79,6 +79,32 @@ describe('successful login', function () {
             ->assertRedirect(route('front.account.settings.billing'));
     });
 
+    it('continues Discord linking after login', function () {
+        config()->set('services.discord.client_id', 'discord-client');
+        config()->set('services.discord.client_secret', 'discord-secret');
+        config()->set('services.discord.redirect_uri', route('front.account.settings.discord.callback'));
+        $connectUrl = route('front.account.settings.discord.connect');
+
+        $this->get($connectUrl)
+            ->assertRedirect($this->formEndpoint);
+
+        $this->withHeader('Sec-Fetch-Site', 'same-origin')
+            ->post($this->submitEndpoint, $this->validCredentials)
+            ->assertRedirect($connectUrl);
+
+        $response = $this->get($connectUrl)
+            ->assertRedirectContains('https://discord.com/oauth2/authorize?')
+            ->assertSessionHas('discord.oauth_state');
+
+        parse_str(parse_url($response->headers->get('Location'), PHP_URL_QUERY), $query);
+
+        expect($query)
+            ->toHaveKey('client_id', 'discord-client')
+            ->toHaveKey('redirect_uri', route('front.account.settings.discord.callback'))
+            ->toHaveKey('scope', 'identify')
+            ->toHaveKey('state');
+    });
+
     it('redirects to account profile if no original destination', function () {
         $this->post(route('front.login.submit'), $this->validCredentials)
             ->assertRedirect(route('front.account.profile'));

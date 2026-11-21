@@ -216,10 +216,7 @@ final class DiscordAccountController extends WebController
                 ->with('error', 'This Discord account is already linked, or your account already has a different Discord account linked.');
         }
 
-        $dispatcher->dispatchForDiscordUserId(
-            $discordUserId,
-            $linkCreated ? 'linked' : null,
-        );
+        $dispatcher->dispatchForDiscordUserId($discordUserId, 'linked');
 
         return to_route('front.account.settings.discord')
             ->with('success', 'Your Discord account has been linked.');
