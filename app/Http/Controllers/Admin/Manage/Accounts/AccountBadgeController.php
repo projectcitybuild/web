@@ -39,7 +39,7 @@ class AccountBadgeController
         ]);
 
         $account->badges()->sync(
-            $request->request->get('account_badge_ids', []),
+            $request->input('account_badge_ids', []),
         );
         $account->minecraftAccount()->each(function ($player) {
             MinecraftPlayerUpdated::dispatch($player);
