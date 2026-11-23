@@ -1,4 +1,4 @@
-FROM node:22-alpine AS assets
+FROM node:26-alpine AS assets
 
 WORKDIR /app
 COPY package.json package-lock.json ./
@@ -41,14 +41,14 @@ RUN composer dump-autoload --no-dev --optimize --no-interaction \
     && chown -R www-data:www-data storage bootstrap/cache \
     && ln -s ../storage/app/public public/storage
 
-FROM nginx:1.29-alpine3.23 AS nginx
+FROM nginx:1.31-alpine3.23 AS nginx
 
 RUN apk upgrade --no-cache
 
 COPY .docker/images/nginx/nginx.conf /etc/nginx/templates/default.conf.template
 COPY --from=fpm /var/www/html/public /var/www/html/public
 
-FROM nginx:1.29-alpine3.23 AS dev-nginx
+FROM nginx:1.31-alpine3.23 AS dev-nginx
 
 RUN apk upgrade --no-cache
 
