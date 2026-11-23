@@ -10,18 +10,16 @@ use App\Models\GamePlayerBan;
 use App\Models\Permission;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
-use Psr\Http\Message\UriInterface;
 use Spatie\Sitemap\SitemapGenerator;
 
 Artisan::command('sitemap:generate', function () {
     try {
         SitemapGenerator::create(config('app.url'))
             ->setMaximumCrawlCount(50_000)
-            ->shouldCrawl(function (UriInterface $uri) {
-                if (str_contains($uri->getQuery(), 'page=')) {
-                    return false;
-                }
-                return true;
+            ->shouldCrawl(function (string $url): bool {
+                $query = parse_url($url, PHP_URL_QUERY);
+
+                return ! is_string($query) || ! str_contains($query, 'page=');
             })
             ->writeToFile(public_path('sitemap.xml'));
 
