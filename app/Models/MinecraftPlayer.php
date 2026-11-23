@@ -113,6 +113,14 @@ final class MinecraftPlayer extends Model implements AuditableContract, Linkable
         );
     }
 
+    public function sessions(): HasMany
+    {
+        return $this->hasMany(
+            related: MinecraftPlayerSession::class,
+            foreignKey: 'player_id',
+        );
+    }
+
     public function sentMail(): HasMany
     {
         return $this->hasMany(

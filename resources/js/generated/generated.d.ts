@@ -459,6 +459,13 @@ declare namespace App {
                 created_at: string | null;
                 updated_at: string | null;
             };
+            export type MinecraftPlayerSessionData = {
+                id: number;
+                player_id: number;
+                seconds: number;
+                starts_at: string;
+                ends_at: string;
+            };
             export type MinecraftWarpData = {
                 id: number;
                 name: string;

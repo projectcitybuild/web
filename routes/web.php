@@ -31,12 +31,15 @@ use App\Http\Controllers\Front\BanlistController;
 use App\Http\Controllers\Front\BuilderRankApplicationController;
 use App\Http\Controllers\Front\ContactController;
 use App\Http\Controllers\Front\DonationController;
+use App\Http\Controllers\Front\PublicProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'front.pages.home.index')
     ->name('front.home');
 Route::get('maps', fn () => view('front.pages.maps'))
     ->name('front.maps');
+Route::get('profile/{minecraft_uuid}', [PublicProfileController::class, 'show'])
+    ->name('front.profile.show');
 
 Route::prefix('contact')->group(function () {
     Route::get('/', [ContactController::class, 'index'])
