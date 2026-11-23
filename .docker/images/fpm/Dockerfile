@@ -8,7 +8,7 @@ COPY public ./public
 COPY vite.config.mjs tsconfig.json ./
 RUN npm run build
 
-FROM php:8.4-fpm-alpine AS php-base
+FROM php:8.6-fpm-alpine AS php-base
 
 RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS curl-dev icu-dev libzip-dev libxml2-dev mariadb-connector-c-dev \
     && docker-php-ext-install bcmath curl dom intl pcntl pdo pdo_mysql zip \
