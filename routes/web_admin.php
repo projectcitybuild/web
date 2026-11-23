@@ -29,10 +29,12 @@ use App\Http\Controllers\Admin\Manage\PassportClients\PassportClientController;
 use App\Http\Controllers\Admin\Manage\Permissions\PermissionsController;
 use App\Http\Controllers\Admin\Manage\PlayerMail\PlayerMailBroadcastController;
 use App\Http\Controllers\Admin\Manage\Players\MinecraftPlayerAliasRefreshController;
+use App\Http\Controllers\Admin\Manage\Players\MinecraftPlayerAuditController;
 use App\Http\Controllers\Admin\Manage\Players\MinecraftPlayerBanController;
 use App\Http\Controllers\Admin\Manage\Players\MinecraftPlayerController;
 use App\Http\Controllers\Admin\Manage\Players\MinecraftPlayerHomeController;
 use App\Http\Controllers\Admin\Manage\Players\MinecraftPlayerIpController;
+use App\Http\Controllers\Admin\Manage\Players\MinecraftPlayerSessionController;
 use App\Http\Controllers\Admin\Manage\Players\MinecraftPlayerWarningController;
 use App\Http\Controllers\Admin\Manage\Roles\RoleAccountController;
 use App\Http\Controllers\Admin\Manage\Roles\RoleController;
@@ -98,6 +100,8 @@ Route::name('manage.')
             Route::get('warnings', [MinecraftPlayerWarningController::class, 'index']);
             Route::get('ips', [MinecraftPlayerIpController::class, 'index']);
             Route::get('homes', [MinecraftPlayerHomeController::class, 'index']);
+            Route::get('sessions', [MinecraftPlayerSessionController::class, 'index']);
+            Route::get('audits', [MinecraftPlayerAuditController::class, 'index']);
             Route::post('alias/refresh', MinecraftPlayerAliasRefreshController::class);
         });
 

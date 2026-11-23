@@ -4,9 +4,6 @@ import { Head, Link, router } from '@inertiajs/vue3'
 import Card from '../../../../Components/ManageCard.vue'
 import MinecraftAvatar from '../../../../Components/MinecraftAvatar.vue'
 import { format, formatDuration, timeAgo } from '../../../../Utilities/DateFormatter'
-import PlayerBanListTable from './Partials/PlayerBanListTable.vue'
-import InfinitePagination from '../../../../Components/InfinitePagination.vue'
-import PlayerWarningListTable from './Partials/PlayerWarningListTable.vue'
 import SuccessAlert from '../../../../Components/SuccessAlert.vue'
 import { computed, ref } from 'vue'
 import Spinner from '../../../../Components/Spinner.vue'
@@ -15,19 +12,34 @@ import Pill from '../../../../Components/Pill.vue'
 import SvgIcon from '../../../../Components/SvgIcon.vue'
 import ErrorAlert from '../../../../Components/ErrorAlert.vue'
 import axios from 'axios'
-import PlayerIPListTable from './Partials/PlayerIPListTable.vue'
-import PlayerHomeListTable from './Partials/PlayerHomeListTable.vue'
 import { Icons } from '../../../../Navigation/Icons'
 import usePermissions from '../../../../Composables/usePermissions'
 import PageHeader from '../../../../Components/PageHeader.vue'
 import LinkButton from '../../../../Components/LinkButton.vue'
 import CopyIconButton from '../../../../Components/CopyIconButton.vue'
 import { formatLocationCoordinates } from '../../../../Utilities/LocationCoordinates'
+import Tabs from '../../../../Components/Tabs.vue'
+import PlayerInfractionsTab from './Partials/PlayerInfractionsTab.vue'
+import PlayerCreatedTab from './Partials/PlayerCreatedTab.vue'
+import PlayerSessionsTab from './Partials/PlayerSessionsTab.vue'
+import PlayerIPAddressesTab from './Partials/PlayerIPAddressesTab.vue'
+import PlayerAuditingTab from './Partials/PlayerAuditingTab.vue'
 
 const { can } = usePermissions()
 
 const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['manage/Players/PlayerShow']>()
 const error = ref<string|null>(null)
+
+const tabs = [
+    ...(can('web.manage.uuid_bans.view') || can('web.manage.warnings.view')
+        ? [{ id: 'infractions', label: 'Infractions' }]
+        : []),
+    ...(can('web.manage.homes.view') ? [{ id: 'player-created', label: 'Homes' }] : []),
+    { id: 'sessions', label: 'Sessions' },
+    ...(can('web.manage.players.view_ips') ? [{ id: 'ip-addresses', label: 'IP Addresses' }] : []),
+    ...(props.is_admin ? [{ id: 'auditing', label: 'Auditing' }] : []),
+]
+const activeTab = ref(tabs[0]?.id ?? 'sessions')
 
 const isRefreshingAlias = ref(false)
 const hasLastLocation = computed(() => {
@@ -66,6 +78,7 @@ async function refreshAlias() {
         isRefreshingAlias.value = false
     }
 }
+
 </script>
 
 <template>
@@ -138,77 +151,17 @@ async function refreshAlias() {
 
         <div class="grid gap-6 xl:grid-cols-[minmax(0,1.7fr)_minmax(18rem,0.8fr)] xl:items-start">
             <section class="order-2 space-y-4 xl:order-1">
-                <Card v-if="can('web.manage.uuid_bans.view')" padding="none">
-                    <div class="flex items-center justify-between gap-4 p-4 sm:px-5">
-                        <div>
-                            <h2 class="text-base font-semibold text-foreground">Player bans</h2>
-                            <p class="mt-0.5 text-sm text-muted">Restrictions associated with this player.</p>
-                        </div>
-                        <LinkButton :href="Routes.manage.playerBans.createForPlayer(player.uuid)" variant="outline">
-                            <SvgIcon :svg="Icons.plus" class="size-4" aria-hidden="true" />
-                            Create
-                        </LinkButton>
-                    </div>
-                    <!-- @vue-generic {App.Http.Data.AdminGamePlayerBanData} -->
-                    <InfinitePagination
-                        :path="'/manage/players/' + player.id + '/bans'"
-                        v-slot="source"
-                        class="overflow-x-auto"
-                    >
-                        <PlayerBanListTable :bans="source.data"/>
-                    </InfinitePagination>
-                </Card>
-
-                <Card v-if="can('web.manage.warnings.view')" padding="none">
-                    <div class="flex items-center justify-between gap-4 p-4 sm:px-5">
-                        <div>
-                            <h2 class="text-base font-semibold text-foreground">Player warnings</h2>
-                            <p class="mt-0.5 text-sm text-muted">Moderation notes recorded for this player.</p>
-                        </div>
-                        <LinkButton :href="Routes.manage.warnings.createForPlayer(player.uuid)" variant="outline">
-                            <SvgIcon :svg="Icons.plus" class="size-4" aria-hidden="true" />
-                            Create
-                        </LinkButton>
-                    </div>
-                    <!-- @vue-generic {App.Http.Data.AdminPlayerWarningData} -->
-                    <InfinitePagination
-                        :path="'/manage/players/' + player.id + '/warnings'"
-                        v-slot="source"
-                        class="overflow-x-auto"
-                    >
-                        <PlayerWarningListTable :warnings="source.data"/>
-                    </InfinitePagination>
-                </Card>
-
-                <Card v-if="can('web.manage.homes.view')" padding="none">
-                    <div class="p-4 sm:px-5">
-                        <h2 class="text-base font-semibold text-foreground">Homes</h2>
-                        <p class="mt-0.5 text-sm text-muted">Saved locations belonging to this player.</p>
-                    </div>
-                    <!-- @vue-generic {App.Http.Data.MinecraftHomeData} -->
-                    <InfinitePagination
-                        :path="'/manage/players/' + player.id + '/homes'"
-                        v-slot="source"
-                        class="overflow-x-auto"
-                    >
-                        <PlayerHomeListTable :homes="source.data" />
-                    </InfinitePagination>
-                </Card>
-
-                <Card v-if="can('web.manage.players.view_ips')" padding="none">
-                    <div class="p-4 sm:px-5">
-                        <h2 class="text-base font-semibold text-foreground">Known IP addresses</h2>
-                        <p class="mt-0.5 text-sm text-muted">Network addresses seen for this player.</p>
-                    </div>
-                    <!-- @vue-generic {App.Http.Data.MinecraftPlayerIpData} -->
-                    <InfinitePagination
-                        :path="'/manage/players/' + player.id + '/ips'"
-                        v-slot="source"
-                        class="overflow-x-auto"
-                    >
-                        <PlayerIPListTable :ips="source.data"/>
-                    </InfinitePagination>
-                </Card>
+                <Tabs
+                    v-model="activeTab"
+                    :tabs="tabs"
+                    id-prefix="player"
+                    ariaLabel="Player sections"
+                />
+                <PlayerInfractionsTab :player="player" :active-tab="activeTab" />
+                <PlayerCreatedTab :player="player" :active-tab="activeTab" />
+                <PlayerSessionsTab :player="player" :active-tab="activeTab" />
+                <PlayerIPAddressesTab :player="player" :active-tab="activeTab" />
+                <PlayerAuditingTab v-if="props.is_admin" :player="player" :active-tab="activeTab" />
             </section>
 
             <aside class="order-1 space-y-4 xl:order-2">

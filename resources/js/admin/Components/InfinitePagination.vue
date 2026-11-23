@@ -26,6 +26,7 @@ const currentPage = ref(props.initial?.current_page ?? 1)
 const reachedEnd = ref(props.initial?.next_page_url == null)
 const lastElement = ref<HTMLDivElement | null>(null)
 const loading = ref(false)
+const forbidden = ref(false)
 const sort = ref(props.sort ?? null)
 const direction = ref(props.direction ?? null)
 
@@ -85,6 +86,16 @@ const load = async () => {
             stop()
         }
         return response.data?.data ?? []
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response?.status === 403) {
+            forbidden.value = true
+            reachedEnd.value = true
+            stop()
+
+            return []
+        }
+
+        throw error
     } finally {
         loading.value = false
     }
@@ -93,6 +104,7 @@ const load = async () => {
 const loadFirstPage = async () => {
     currentPage.value = 1
     reachedEnd.value = false
+    forbidden.value = false
 
     items.value = await load()
     itemCount.value = items.value.length
@@ -134,17 +146,17 @@ onBeforeMount(() => itemCount.value = items.value.length)
 
 <template>
     <div class="infinite-pagination">
-        <slot :data="items" :loading="loading" :sort="sort" :direction="direction" :on-sort="onSort" />
+        <slot :data="items" :loading="loading" :sort="sort" :direction="direction" :on-sort="onSort" :forbidden="forbidden" />
 
         <!-- Invisible element to trigger loading next page -->
         <div ref="lastElement" class="-translate-y-32"></div>
 
-        <div v-if="reachedEnd" class="pagination-end flex items-center justify-center gap-2 rounded-none border-x border-b border-border-table bg-surface-muted p-3 text-xs text-muted">
+        <div v-if="reachedEnd && !forbidden" class="pagination-end flex items-center justify-center gap-2 rounded-none border-x border-b border-border-table bg-surface-muted p-3 text-xs text-muted">
             <SvgIcon :svg="Icons.hand" class="size-4" aria-hidden="true" />
             Reached the End
         </div>
 
-        <SpinnerRow v-else class="pagination-spinner rounded-none border-x border-b border-border-table" />
+        <SpinnerRow v-else-if="!forbidden" class="pagination-spinner rounded-none border-x border-b border-border-table" />
     </div>
 </template>
 
