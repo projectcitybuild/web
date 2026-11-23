@@ -2,6 +2,7 @@
 
 namespace App\Domains\Pim\Notifications;
 
+use App\Core\Data\JobQueue;
 use App\Core\Domains\Discord\Data\DiscordAuthor;
 use App\Core\Domains\Discord\Data\DiscordEmbed;
 use App\Core\Domains\Discord\Data\DiscordEmbedField;
@@ -41,7 +42,7 @@ class OpRevokedNotification extends Notification implements ShouldQueue
     public function viaQueues(): array
     {
         return [
-            'discord' => 'discord-message',
+            'discord' => JobQueue::DISCORD->value,
         ];
     }
 

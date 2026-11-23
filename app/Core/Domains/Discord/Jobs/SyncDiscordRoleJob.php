@@ -2,6 +2,7 @@
 
 namespace App\Core\Domains\Discord\Jobs;
 
+use App\Domains\BackgroundJobs\DescribesBackgroundJob;
 use Illuminate\Contracts\Queue\ShouldBeUniqueUntilProcessing;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
@@ -11,7 +12,7 @@ use Illuminate\Support\Str;
 use RuntimeException;
 use Throwable;
 
-final class SyncDiscordRoleJob implements ShouldBeUniqueUntilProcessing, ShouldQueue
+final class SyncDiscordRoleJob implements DescribesBackgroundJob, ShouldBeUniqueUntilProcessing, ShouldQueue
 {
     use Queueable;
 
@@ -74,6 +75,12 @@ final class SyncDiscordRoleJob implements ShouldBeUniqueUntilProcessing, ShouldQ
             ->withBody($body, 'application/json')
             ->post($callbackUrl);
 
+        if ($response->successful()) {
+            return;
+        }
+
+        $exception = new RuntimeException('Discord role sync callback returned HTTP '.$response->status().'.');
+
         if ($response->clientError() && $response->status() !== 429) {
             Log::error('Discord role sync callback was rejected.', [
                 'discord_user_id' => $this->discordUserId,
@@ -81,10 +88,20 @@ final class SyncDiscordRoleJob implements ShouldBeUniqueUntilProcessing, ShouldQ
                 'status' => $response->status(),
             ]);
 
+            $this->fail($exception);
+
             return;
         }
 
-        $response->throw();
+        throw $exception;
+    }
+
+    public function backgroundJobMetadata(): array
+    {
+        return [
+            'discord_user_id' => $this->discordUserId,
+            'sync_id' => $this->syncId,
+        ];
     }
 
     public function uniqueId(): string

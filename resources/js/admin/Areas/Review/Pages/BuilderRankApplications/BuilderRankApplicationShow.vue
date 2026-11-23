@@ -13,7 +13,7 @@ import Pill from '../../../../Components/Pill.vue'
 import AwaitingDecisionAlert from './Partials/AwaitingDecisionAlert.vue'
 import BuilderRankDecision from './Partials/BuilderRankDecision.vue'
 import BuilderRankDecisionForm from './Partials/BuilderRankDecisionForm.vue'
-import { Icons } from '../../../../Navigation/Icons'
+import { Icons } from '../../../../Components/SvgIcon.vue'
 import Badge from '../../../../Components/Badge.vue'
 import PageHeader from '../../../../Components/PageHeader.vue'
 

@@ -4,6 +4,22 @@
  */
 
 export interface paths {
+    "/v3/discord/users/{discordUserId}/roles": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["v3.discord.users.roles"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v3/builds": {
         parameters: {
             query?: never;
@@ -691,6 +707,18 @@ export interface components {
         UnbanType: "expired" | "manual" | "appealed";
     };
     responses: {
+        /** @description Not found */
+        ModelNotFoundException: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": {
+                    /** @description Error overview. */
+                    message: string;
+                };
+            };
+        };
         /** @description Validation error */
         ValidationException: {
             headers: {
@@ -707,18 +735,6 @@ export interface components {
                 };
             };
         };
-        /** @description Not found */
-        ModelNotFoundException: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": {
-                    /** @description Error overview. */
-                    message: string;
-                };
-            };
-        };
     };
     parameters: never;
     requestBodies: never;
@@ -727,6 +743,49 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    "v3.discord.users.roles": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                discordUserId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        discord_user_id: string;
+                        guild_id: string;
+                        linked: boolean;
+                        managed_role_ids: unknown[];
+                        desired_role_ids: unknown[];
+                    };
+                };
+            };
+            404: components["responses"]["ModelNotFoundException"];
+            /** @description An error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /**
+                         * @description Error overview.
+                         * @example Discord guild is not configured.
+                         */
+                        message: string;
+                    };
+                };
+            };
+        };
+    };
     "minecraftBuild.index": {
         parameters: {
             query?: {

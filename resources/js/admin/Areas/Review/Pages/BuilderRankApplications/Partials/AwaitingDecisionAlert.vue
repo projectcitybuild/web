@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Card from '../../../../../Components/Card.vue'
 import SvgIcon from '../../../../../Components/SvgIcon.vue'
-import { Icons } from '../../../../../Navigation/Icons'
+import { Icons } from '../../../../../Components/SvgIcon.vue'
 </script>
 
 <template>

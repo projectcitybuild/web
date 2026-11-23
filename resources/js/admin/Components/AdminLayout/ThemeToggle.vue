@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import useTheme from '../../Composables/useTheme'
 import SvgIcon from '../SvgIcon.vue'
-import { Icons } from '../../Navigation/Icons'
+import { Icons } from '../../Components/SvgIcon.vue'
 
 const { preference, cycleTheme } = useTheme()
 const nextTheme = computed(() => {

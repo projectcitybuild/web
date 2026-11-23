@@ -8,11 +8,10 @@ const props = defineProps<{
     href: string
     label: string
     badge?: number | string
-    exact?: boolean
 }>()
 
 const page = usePage()
-const active = computed(() => isAdminPathActive(page.url, props.href, props.exact))
+const active = computed(() => isAdminPathActive(page.url, props.href))
 </script>
 
 <template>

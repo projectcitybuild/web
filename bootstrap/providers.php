@@ -10,6 +10,7 @@ use App\Core\Support\Laravel\LaravelServiceProvider;
 use App\Core\Support\Passport\PassportServiceProvider;
 use App\Core\Support\Telescope\TelescopeServiceProvider;
 use App\Domains\Activation\ActivationServiceProvider;
+use App\Domains\BackgroundJobs\BackgroundJobsServiceProvider;
 use App\Domains\BuilderRankApplications\BuilderRankApplicationsServiceProvider;
 use App\Domains\Captcha\CaptchaServiceProvider;
 use App\Domains\Docs\DocsServiceProvider;
@@ -31,6 +32,7 @@ return [
     PassportServiceProvider::class,
     TelescopeServiceProvider::class,
     ActivationServiceProvider::class,
+    BackgroundJobsServiceProvider::class,
     BuilderRankApplicationsServiceProvider::class,
     CaptchaServiceProvider::class,
     DocsServiceProvider::class,

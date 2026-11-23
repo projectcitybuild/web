@@ -6,13 +6,14 @@ import AdminAccountMenu from './AdminAccountMenu.vue'
 import AdminNavGroup from './AdminNavGroup.vue'
 import AdminNavLink from './AdminNavLink.vue'
 import SvgIcon from '../SvgIcon.vue'
-import { Icons } from '../../Navigation/Icons'
+import { Icons } from '../../Components/SvgIcon.vue'
 import usePermissions from '../../Composables/usePermissions'
 import { filterSidebar } from '../../Areas/Manage/FilterSidebar'
 import { sidebarMenu as manageMenu } from '../../Areas/Manage/Sidebar'
 import { sidebarMenu as reviewMenu } from '../../Areas/Review/Sidebar'
 import { sidebarMenu as auditingMenu } from '../../Areas/Audit/Sidebar.js'
 import useAdminNavigation, { adminAreas } from '../../Navigation/useAdminNavigation'
+import type { SidebarChild } from '../../Navigation/Sidebar'
 
 const props = defineProps<{
     open: boolean
@@ -26,29 +27,29 @@ const { can } = usePermissions()
 
 const sidebar = ref<HTMLElement | null>(null)
 const visibleManageMenu = computed(() => filterSidebar(manageMenu, can))
-const visibleReviewMenu = computed(() => reviewMenu.filter(item =>
-    !item.permission || can(item.permission)
-))
+const visibleReviewMenu = computed(() => filterSidebar(reviewMenu, can).map(section => ({
+    ...section,
+    children: section.children.map(item => ({
+        ...item,
+        badge: countFor(item),
+    })),
+})))
 
-function countFor(item: typeof reviewMenu[number]): number {
+function countFor(item: SidebarChild): number {
     return item.countKey ? Number(page.props[item.countKey] ?? 0) : 0
 }
 
 const activeAreaMenu = computed(() => {
+    if (currentArea.value === 'manage') {
+        return visibleManageMenu.value
+    }
+
     if (currentArea.value === 'review') {
-        return visibleReviewMenu.value.map(item => ({
-            ...item,
-            badge: countFor(item),
-            exact: item.route === '/review',
-        }))
+        return visibleReviewMenu.value
     }
 
     if (currentArea.value === 'audit') {
-        return auditingMenu.map(item => ({
-            ...item,
-            badge: undefined,
-            exact: item.route === '/audit',
-        }))
+        return auditingMenu
     }
 
     return []
@@ -117,38 +118,24 @@ defineExpose({ focusFirst })
                     </ul>
                 </nav>
                 <nav aria-label="Main navigation">
-                    <ul v-if="currentArea === 'manage'" class="mt-4 space-y-1">
-                        <li>
-                            <AdminNavLink :href="Routes.manage.overview" label="Overview" exact>
+                    <ul class="mt-4 space-y-1">
+                        <li v-if="currentArea === 'manage'">
+                            <AdminNavLink :href="Routes.manage.overview" label="Overview">
                                 <template #icon>
                                     <SvgIcon :svg="Icons.dashboard" class="size-5" aria-hidden="true" />
                                 </template>
                             </AdminNavLink>
                         </li>
                         <AdminNavGroup
-                            v-for="section in visibleManageMenu"
+                            v-for="section in activeAreaMenu"
                             :key="section.title"
                             :title="section.title"
                             :children="section.children"
                         >
                             <template #child-icon="{ child }">
-                                <SvgIcon :svg="child.icon" class="size-4" />
+                                <SvgIcon :svg="Icons[child.icon]" class="size-4" />
                             </template>
                         </AdminNavGroup>
-                    </ul>
-                    <ul v-else-if="currentArea === 'review' || currentArea === 'audit'" class="mt-4 space-y-1">
-                        <li v-for="item in activeAreaMenu" :key="item.route">
-                            <AdminNavLink
-                                :href="item.route"
-                                :label="item.title"
-                                :badge="item.badge"
-                                :exact="item.exact"
-                            >
-                                <template #icon>
-                                    <SvgIcon :svg="Icons[item.icon]" class="size-[18px]" aria-hidden="true" />
-                                </template>
-                            </AdminNavLink>
-                        </li>
                     </ul>
                 </nav>
             </div>

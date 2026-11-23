@@ -3,7 +3,7 @@ import { Routes } from '../../Navigation/Routes'
 import { computed, nextTick, onBeforeUnmount, ref, useId, watch } from 'vue'
 import { usePage } from '@inertiajs/vue3'
 import SvgIcon from '../SvgIcon.vue'
-import { Icons } from '../../Navigation/Icons'
+import { Icons } from '../../Components/SvgIcon.vue'
 
 const props = withDefaults(defineProps<{
     collapsed?: boolean

@@ -12,7 +12,101 @@ declare global {
     type AdminSharedPageProps = Pick<App.Http.Data.AdminSharedPagePropsData, 'is_admin' | 'permissions'>
         & Partial<Omit<App.Http.Data.AdminSharedPagePropsData, 'is_admin' | 'permissions'>>
 
+    type BackgroundJobRunSummary = {
+        id: string
+        job_name: string
+        status: 'queued' | 'running' | 'succeeded' | 'failed'
+        queue: string | null
+        queue_label: string
+        attempts: number
+        max_attempts: number | null
+        duration_ms: number | null
+        queued_at: string | null
+        completed_at: string | null
+        created_at: string
+    }
+
+    type BackgroundJobRunListEntry = BackgroundJobRunSummary & {
+        show_url: string
+    }
+
     interface AdminInertiaPageProps {
+        'audit/BackgroundJobs/Throughput': {
+            range: '1h' | '24h' | '7d' | '30d'
+            scheduledTasks: Array<{
+                id: string
+                name: string
+                subtitle: string
+                expression: string
+                frequency: string
+                timezone: string
+                nextRunAt: string
+                secondsUntilNextRun: number
+            }>
+            dashboard: {
+                generatedAt: string
+                summary: {
+                    succeeded: number
+                    failed: number
+                    successRate: number | null
+                    averageDurationMs: number | null
+                }
+                buckets: Array<{
+                    timestamp: string
+                    succeeded: number
+                    failed: number
+                }>
+                queueBuckets: Array<{
+                    queue: string
+                    buckets: Array<{
+                        succeeded: number
+                        failed: number
+                    }>
+                }>
+                queueBreakdown: Array<{
+                    queue: string
+                    label: string
+                    count: number
+                }>
+                queueHealth: {
+                    pending: number
+                    running: number
+                    oldestPendingAt: string | null
+                    failed: number
+                    driver: string
+                }
+                recentRuns: BackgroundJobRunSummary[]
+            }
+        }
+        'audit/BackgroundJobs/RunList': {
+            sort: string | null
+            direction: 'asc' | 'desc' | null
+            indexUrl: string
+            queueOptions: Array<{ value: string; label: string }>
+            filters: {
+                search: string
+                status: BackgroundJobRunSummary['status'] | ''
+                queue: string
+            }
+            runs: {
+                data: BackgroundJobRunListEntry[]
+                current_page: number
+                total: number
+                from: number | null
+                to: number | null
+                last_page: number
+                links: Array<{ url: string | null; label: string; active: boolean }>
+            }
+        }
+        'audit/BackgroundJobs/Show': {
+            run: BackgroundJobRunSummary & {
+                max_attempts: number | null
+                started_at: string | null
+                metadata: Record<string, JsonValue>
+                exception_class: string | null
+                error_message: string | null
+            }
+        }
         'manage/Accounts/AccountShow': {
             account: App.Http.Data.AdminAccountData
         }

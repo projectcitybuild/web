@@ -2,6 +2,7 @@
 
 namespace App\Domains\Donations\Notifications;
 
+use App\Core\Data\JobQueue;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -43,7 +44,7 @@ class DonationPerkStartedNotification extends Notification implements ShouldQueu
     public function viaQueues(): array
     {
         return [
-            'mail' => 'mail',
+            'mail' => JobQueue::MAIL->value,
         ];
     }
 

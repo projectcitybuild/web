@@ -5,14 +5,15 @@ import Card from '../../../Components/Card.vue'
 import PageHeader from '../../../Components/PageHeader.vue'
 import SvgIcon from '../../../Components/SvgIcon.vue'
 import usePermissions from '../../../Composables/usePermissions'
-import { Icons } from '../../../Navigation/Icons'
+import { Icons } from '../../../Components/SvgIcon.vue'
 import { sidebarMenu } from '../Sidebar.js'
 
 const page = usePage()
 const { can } = usePermissions()
-const queues = computed(() => sidebarMenu.filter(item =>
-    item.route !== '/review' && (!item.permission || can(item.permission))
-))
+const queues = computed(() => sidebarMenu
+    .flatMap(section => section.children)
+    .filter(item => item.route !== '/review' && (!item.permission || can(item.permission)))
+)
 
 const metricLabels = {
     pending_appeals: 'Ban Appeals',

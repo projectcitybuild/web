@@ -11,7 +11,7 @@ import Input from '../../../../../Components/Input.vue'
 import Textarea from '../../../../../Components/Textarea.vue'
 import { useUnsavedChangesWarning } from '../../../../../Components/Forms/useUnsavedChangesWarning'
 import SvgIcon from '../../../../../Components/SvgIcon.vue'
-import { Icons } from '../../../../../Navigation/Icons'
+import { Icons } from '../../../../../Components/SvgIcon.vue'
 import FilledButton from '../../../../../Components/FilledButton.vue'
 
 interface Props {

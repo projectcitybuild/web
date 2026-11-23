@@ -24,6 +24,8 @@ services:
       context: ..
       dockerfile: .docker/images/fpm/Dockerfile
       target: dev-fpm
+    command: php artisan queue:work redis --sleep=3 --tries=3 --timeout=90 --queue=mail,discord-message,player-mail,default
+    restart: unless-stopped
     volumes:
       - ..:/var/www/html
     user: "1000:1000"
@@ -33,6 +35,8 @@ services:
       context: ..
       dockerfile: .docker/images/fpm/Dockerfile
       target: dev-fpm
+    command: php artisan schedule:work
+    restart: unless-stopped
     volumes:
       - ..:/var/www/html
     user: "1000:1000"

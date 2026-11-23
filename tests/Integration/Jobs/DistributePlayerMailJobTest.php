@@ -49,3 +49,7 @@ it('distributes announcements in resumable batches without duplicating recipient
 
     Queue::assertPushed(DistributePlayerMailJob::class);
 });
+
+it('uses the player mail queue', function () {
+    expect((new DistributePlayerMailJob(1, 0))->queue)->toBe('player-mail');
+});

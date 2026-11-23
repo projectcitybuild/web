@@ -2,7 +2,7 @@ import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
 import type { DefineComponent } from 'vue'
 import AdminAppLayout from './Layouts/Admin/AdminAppLayout.vue'
-import { adminAreas, isAdminPathActive } from './Navigation/useAdminNavigation'
+import { adminAreas, isAdminPathWithin } from './Navigation/useAdminNavigation'
 
 type PageModule = {
     default: DefineComponent
@@ -18,7 +18,7 @@ createInertiaApp({
             throw new Error(`Cannot resolve administrative page "${name}" without page URL.`)
         }
 
-        const area = adminAreas.find(area => isAdminPathActive(page.url, area.href))?.id
+        const area = adminAreas.find(area => isAdminPathWithin(page.url, area.href))?.id
 
         if (!area) {
             throw new Error(`Cannot determine administrative area for "${page.url}".`)

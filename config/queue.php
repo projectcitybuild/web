@@ -1,5 +1,7 @@
 <?php
 
+use App\Core\Data\JobQueue;
+
 return [
 
     /*
@@ -37,14 +39,14 @@ return [
         'database' => [
             'driver' => 'database',
             'table' => 'jobs',
-            'queue' => 'default',
+            'queue' => JobQueue::DEFAULT->value,
             'retry_after' => 90,
         ],
 
         'redis' => [
             'driver' => 'redis',
             'connection' => 'default',
-            'queue' => env('REDIS_QUEUE', 'default'),
+            'queue' => env('REDIS_QUEUE', JobQueue::DEFAULT->value),
             'retry_after' => 90,
             'block_for' => null,
         ],

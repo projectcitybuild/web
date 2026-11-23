@@ -2,6 +2,7 @@
 
 namespace App\Domains\PasswordReset\Notifications;
 
+use App\Core\Data\JobQueue;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -27,7 +28,7 @@ final class AccountPasswordResetCompleteNotification extends Notification implem
     public function viaQueues(): array
     {
         return [
-            'mail' => 'mail',
+            'mail' => JobQueue::MAIL->value,
         ];
     }
 

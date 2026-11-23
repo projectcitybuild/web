@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, useId } from 'vue'
 import SvgIcon from './SvgIcon.vue'
-import { Icons } from '../Navigation/Icons'
+import { Icons } from '../Components/SvgIcon.vue'
 import FilledButton from './FilledButton.vue'
 import OutlinedButton from './OutlinedButton.vue'
 

@@ -5,33 +5,13 @@ use App\Domains\BuilderRankApplications\Services\BuilderRankReminderService;
 use App\Domains\Donations\UseCases\ExpireDonorPerks;
 use App\Domains\HealthCheck\Data\SchedulerHealthCheck;
 use App\Domains\HealthCheck\HealthCheckReporter;
-use App\Domains\HealthCheck\Jobs\MailCanaryJob;
-use App\Domains\HealthCheck\Jobs\QueueWorkerHeartbeatJob;
 use App\Domains\Permissions\WebManagePermission;
-use App\Domains\PlayerMail\Jobs\DistributePlayerMailJob;
 use App\Models\GamePlayerBan;
 use App\Models\Permission;
-use App\Models\PlayerMailBroadcast;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Schedule;
 use Psr\Http\Message\UriInterface;
 use Spatie\Sitemap\SitemapGenerator;
-
-Schedule::command('model:prune')
-    ->everyFifteenMinutes();
-
-Schedule::command('backup:clean')
-    ->withoutOverlapping()
-    ->daily();
-
-Schedule::command('backup:run')
-    ->withoutOverlapping()
-    ->daily();
-
-Schedule::command('backup:monitor')
-    ->withoutOverlapping()
-    ->daily();
 
 Artisan::command('sitemap:generate', function () {
     try {
@@ -49,11 +29,11 @@ Artisan::command('sitemap:generate', function () {
     } catch (Exception $e) {
         Log::error('Failed to generate sitemap.xml', ['exception' => $e]);
     }
-})->daily();
+});
 
 Artisan::command('donor-perks:expire', function () {
     app()->make(ExpireDonorPerks::class)->execute();
-})->everyFiveMinutes();
+});
 
 Artisan::command('bans:expire', function () {
     GamePlayerBan::whereNull('unbanned_at')
@@ -62,44 +42,18 @@ Artisan::command('bans:expire', function () {
             'unbanned_at' => now(),
             'unban_type' => UnbanType::EXPIRED->value,
         ]);
-})->everyFifteenMinutes();
+});
 
 Artisan::command('healthcheck:scheduler', function () {
     $reporter = new HealthCheckReporter(
         healthCheck: new SchedulerHealthCheck,
     );
     $reporter->success();
-})->runInBackground()
-    ->evenInMaintenanceMode()
-    ->everyFifteenMinutes();
-
-Schedule::job(new QueueWorkerHeartbeatJob)
-    ->everyFiveMinutes();
-
-Schedule::job(new MailCanaryJob)
-    ->dailyAt('09:00')
-    ->timezone('UTC')
-    ->onOneServer();
+});
 
 Artisan::command('build-rank-apps:remind', function () {
     (new BuilderRankReminderService)->remind();
-})->runInBackground()
-    ->evenInMaintenanceMode()
-    ->hourly();
-
-Schedule::call(static function (): void {
-    PlayerMailBroadcast::query()
-        ->whereIn('status', ['queued', 'processing'])
-        ->where('updated_at', '<=', now()->subMinutes(5))
-        ->orderBy('id')
-        ->chunkById(100, function ($broadcasts): void {
-            foreach ($broadcasts as $broadcast) {
-                DistributePlayerMailJob::dispatch($broadcast->id, $broadcast->last_player_id);
-            }
-        });
-})->name('player-mail.broadcast-recovery')
-    ->everyMinute()
-    ->withoutOverlapping(10);
+});
 
 Artisan::command('permissions:seed', function () {
     foreach (WebManagePermission::cases() as $permission) {

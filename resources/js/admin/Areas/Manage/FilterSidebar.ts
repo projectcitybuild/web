@@ -1,4 +1,4 @@
-import type { SidebarSection } from './Sidebar'
+import type { SidebarSection } from '../../Navigation/Sidebar'
 
 export function filterSidebar(
   menu: SidebarSection[],

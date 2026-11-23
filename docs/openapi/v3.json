@@ -15,6 +15,88 @@
         }
     ],
     "paths": {
+        "/v3/discord/users/{discordUserId}/roles": {
+            "get": {
+                "operationId": "v3.discord.users.roles",
+                "tags": [
+                    "DiscordRoleSync"
+                ],
+                "parameters": [
+                    {
+                        "name": "discordUserId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "discord_user_id": {
+                                            "type": "string"
+                                        },
+                                        "guild_id": {
+                                            "type": "string"
+                                        },
+                                        "linked": {
+                                            "type": "boolean"
+                                        },
+                                        "managed_role_ids": {
+                                            "type": "array",
+                                            "items": {}
+                                        },
+                                        "desired_role_ids": {
+                                            "type": "array",
+                                            "items": {}
+                                        }
+                                    },
+                                    "required": [
+                                        "discord_user_id",
+                                        "guild_id",
+                                        "linked",
+                                        "managed_role_ids",
+                                        "desired_role_ids"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "An error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Error overview.",
+                                            "examples": [
+                                                "Discord guild is not configured."
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                },
+                "security": []
+            }
+        },
         "/v3/builds": {
             "get": {
                 "operationId": "minecraftBuild.index",
@@ -3602,6 +3684,25 @@
             }
         },
         "responses": {
+            "ModelNotFoundException": {
+                "description": "Not found",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "description": "Error overview."
+                                }
+                            },
+                            "required": [
+                                "message"
+                            ]
+                        }
+                    }
+                }
+            },
             "ValidationException": {
                 "description": "Validation error",
                 "content": {
@@ -3627,25 +3728,6 @@
                             "required": [
                                 "message",
                                 "errors"
-                            ]
-                        }
-                    }
-                }
-            },
-            "ModelNotFoundException": {
-                "description": "Not found",
-                "content": {
-                    "application/json": {
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "message": {
-                                    "type": "string",
-                                    "description": "Error overview."
-                                }
-                            },
-                            "required": [
-                                "message"
                             ]
                         }
                     }

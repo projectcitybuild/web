@@ -6,7 +6,7 @@ import { Link } from '@inertiajs/vue3'
 import PlayerBanStatus from '../../PlayerBans/Partials/PlayerBanStatus.vue'
 import OutlinedButton from '../../../../../Components/OutlinedButton.vue'
 import SvgIcon from '../../../../../Components/SvgIcon.vue'
-import { Icons } from '../../../../../Navigation/Icons'
+import { Icons } from '../../../../../Components/SvgIcon.vue'
 import DataTable from '../../../../../Components/DataTable.vue'
 
 interface Props {

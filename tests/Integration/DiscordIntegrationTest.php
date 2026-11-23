@@ -1,9 +1,12 @@
 <?php
 
+use App\Core\Data\JobQueue;
 use App\Core\Domains\Discord\Jobs\SyncDiscordRoleJob;
+use App\Domains\BackgroundJobs\Data\BackgroundJobRunStatus;
 use App\Domains\Permissions\WebManagePermission;
 use App\Http\Middleware\OidcSharedState;
 use App\Models\Account;
+use App\Models\BackgroundJobRun;
 use App\Models\DiscordRoleMapping;
 use App\Models\ExternalAccount;
 use App\Models\Role;
@@ -337,6 +340,28 @@ it('reconciles Discord roles again when a change occurs during an active sync', 
     SyncDiscordRoleJob::dispatch('123456789012345678');
 
     Http::assertSentCount(2);
+});
+
+it('records rejected role sync callback responses as failed jobs', function () {
+    config([
+        'queue.default' => 'sync',
+        'services.discord.bot_callback_url' => 'https://bot.example.test/discord/role-sync',
+        'services.discord.callback_secret' => 'callback-secret',
+    ]);
+    Http::fake([
+        'https://bot.example.test/discord/role-sync' => Http::response([], 403),
+    ]);
+
+    SyncDiscordRoleJob::dispatch('123456789012345678');
+
+    $run = BackgroundJobRun::query()->sole();
+
+    expect($run->status)->toBe(BackgroundJobRunStatus::FAILED)
+        ->and($run->queue)->toBe(JobQueue::DEFAULT->value)
+        ->and($run->metadata)->toMatchArray([
+            'discord_user_id' => '123456789012345678',
+        ])
+        ->and($run->error_message)->toBe('The job failed. See application logs for details.');
 });
 
 it('issues a client credentials token with the Discord role scope and returns managed roles', function () {

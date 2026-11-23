@@ -6,7 +6,7 @@ import PlayerWarningListTable from './PlayerWarningListTable.vue'
 import InfinitePagination from '../../../../../Components/InfinitePagination.vue'
 import LinkButton from '../../../../../Components/LinkButton.vue'
 import SvgIcon from '../../../../../Components/SvgIcon.vue'
-import { Icons } from '../../../../../Navigation/Icons'
+import { Icons } from '../../../../../Components/SvgIcon.vue'
 import { Routes } from '../../../../../Navigation/Routes'
 import usePermissions from '../../../../../Composables/usePermissions'
 

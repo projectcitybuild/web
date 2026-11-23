@@ -14,7 +14,7 @@ import Input from '../../../../../Components/Input.vue'
 import Select from '../../../../../Components/Select.vue'
 import Textarea from '../../../../../Components/Textarea.vue'
 import SvgIcon from '../../../../../Components/SvgIcon.vue'
-import { Icons } from '../../../../../Navigation/Icons'
+import { Icons } from '../../../../../Components/SvgIcon.vue'
 import { useUnsavedChangesWarning } from '../../../../../Components/Forms/useUnsavedChangesWarning'
 
 interface PassportClient {

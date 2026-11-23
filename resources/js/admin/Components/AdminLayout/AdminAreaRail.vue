@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import logo from '../../../../../../images/logo-alt.png'
 import SvgIcon from '../SvgIcon.vue'
-import { Icons } from '../../Navigation/Icons'
+import { Icons } from '../../Components/SvgIcon.vue'
 import { Link } from '@inertiajs/vue3'
 import AdminAccountMenu from './AdminAccountMenu.vue'
 import useAdminNavigation, { adminAreas } from '../../Navigation/useAdminNavigation'

@@ -2,6 +2,7 @@
 
 namespace App\Domains\HealthCheck\Jobs;
 
+use App\Core\Data\JobQueue;
 use App\Domains\HealthCheck\Data\MailHealthCheck;
 use App\Domains\HealthCheck\HealthCheckReporter;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -18,7 +19,7 @@ class MailCanaryJob implements ShouldQueue
 
     public function __construct()
     {
-        $this->onQueue('mail');
+        $this->onQueue(JobQueue::MAIL->value);
     }
 
     public function handle(): void

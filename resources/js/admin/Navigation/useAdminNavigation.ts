@@ -19,13 +19,19 @@ export interface AdminBreadcrumb {
     current?: boolean
 }
 
-export function isAdminPathActive(currentUrl: string, href: string, exact = false): boolean {
+export function isAdminPathWithin(currentUrl: string, href: string): boolean {
     const currentPath = currentUrl.split(/[?#]/, 1)[0].replace(/\/$/, '') || '/'
     const targetPath = href.replace(/\/$/, '') || '/'
 
-    return exact
-        ? currentPath === targetPath
-        : currentPath === targetPath || currentPath.startsWith(`${targetPath}/`)
+    return currentPath === targetPath || currentPath.startsWith(`${targetPath}/`)
+}
+
+export function isAdminPathActive(currentUrl: string, href: string): boolean {
+    const currentPath = currentUrl.split(/[?#]/, 1)[0].replace(/\/$/, '') || '/'
+    const targetPath = href.replace(/\/$/, '') || '/'
+    const isAreaRoot = adminAreas.some(area => area.href === targetPath)
+
+    return currentPath === targetPath || (!isAreaRoot && currentPath.startsWith(`${targetPath}/`))
 }
 
 function normalizePath(path: string): string {
@@ -110,7 +116,7 @@ export function buildAdminBreadcrumbs(
 export default function useAdminNavigation() {
     const page = usePage()
     const currentArea = computed(() =>
-        adminAreas.find(area => isAdminPathActive(page.url, area.href))?.id ?? null
+        adminAreas.find(area => isAdminPathWithin(page.url, area.href))?.id ?? null
     )
     return { currentArea }
 }

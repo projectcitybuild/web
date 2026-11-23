@@ -5,7 +5,7 @@ import axios from 'axios'
 import { useIntersectionObserver, watchDebounced } from '@vueuse/core'
 import SpinnerRow from './SpinnerRow.vue'
 import SvgIcon from './SvgIcon.vue'
-import { Icons } from '../Navigation/Icons'
+import { Icons } from '../Components/SvgIcon.vue'
 import { nextTableSort, type TableSortDirection } from '../Composables/useTableSorting'
 
 type QueryValue = string | number | boolean | null | undefined

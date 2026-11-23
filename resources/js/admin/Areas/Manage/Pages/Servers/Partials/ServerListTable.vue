@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Routes } from '../../../../../Navigation/Routes'
 import SvgIcon from '../../../../../Components/SvgIcon.vue'
-import { Icons } from '../../../../../Navigation/Icons'
+import { Icons } from '../../../../../Components/SvgIcon.vue'
 import DataTable from '../../../../../Components/DataTable.vue'
 import usePermissions from '../../../../../Composables/usePermissions';
 import LinkButton from '../../../../../Components/LinkButton.vue'

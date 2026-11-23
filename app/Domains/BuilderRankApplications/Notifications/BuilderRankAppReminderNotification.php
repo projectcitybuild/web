@@ -2,6 +2,7 @@
 
 namespace App\Domains\BuilderRankApplications\Notifications;
 
+use App\Core\Data\JobQueue;
 use App\Core\Domains\Discord\Data\DiscordAuthor;
 use App\Core\Domains\Discord\Data\DiscordEmbed;
 use App\Core\Domains\Discord\Data\DiscordEmbedField;
@@ -42,7 +43,7 @@ class BuilderRankAppReminderNotification extends Notification implements ShouldQ
     public function viaQueues(): array
     {
         return [
-            'discord' => 'discord-message',
+            'discord' => JobQueue::DISCORD->value,
         ];
     }
 

@@ -1,20 +1,30 @@
-import { Icons } from '../../Navigation/Icons'
+import { Routes } from '../../Navigation/Routes'
+import type { SidebarSection } from '../../Navigation/Sidebar'
 
-export interface AuditingNavigationItem {
-    title: string,
-    route: string,
-    icon: keyof typeof Icons,
-}
-
-export const sidebarMenu: AuditingNavigationItem[] = [
+export const sidebarMenu: SidebarSection[] = [
     {
-        title: 'Audit Logs',
-        route: '/audit',
-        icon: 'auditLogs',
+        'title': 'Logs',
+        children: [
+            {
+                title: 'Audit Logs',
+                route: '/audit',
+                icon: 'auditLogs',
+            },
+            {
+                title: 'OP Elevations',
+                route: '/audit/op-elevations',
+                icon: 'hourglass',
+            },
+        ]
     },
     {
-        title: 'OP Elevations',
-        route: '/audit/op-elevations',
-        icon: 'hourglass',
+        'title': 'Queues',
+        children: [
+            {
+                title: 'Background Jobs',
+                route: Routes.audit.backgroundJobs.throughput,
+                icon: 'clockSearch',
+            },
+        ]
     },
 ]

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\Auditing\ActivityController;
+use App\Http\Controllers\Admin\Auditing\BackgroundJobController;
 use App\Http\Controllers\Admin\Auditing\PlayerOpElevationController;
 use App\Http\Controllers\Admin\Manage\Accounts\AccountActivateController;
 use App\Http\Controllers\Admin\Manage\Accounts\AccountApproveEmailChangeController;
@@ -213,6 +214,21 @@ Route::name('auditing.')
 
         Route::get('op-elevations', [PlayerOpElevationController::class, 'index'])
             ->name('op-elevations.index');
+
+        Route::get('background-jobs', [BackgroundJobController::class, 'index'])
+            ->name('background-jobs.index');
+
+        Route::get('background-jobs/runs', [BackgroundJobController::class, 'runs'])
+            ->name('background-jobs.runs');
+
+        Route::post('background-jobs/scheduled-tasks/{taskId}/queue', [BackgroundJobController::class, 'queueTask'])
+            ->name('background-jobs.scheduled-tasks.queue');
+
+        Route::post('background-jobs/scheduled-tasks/{taskId}/run', [BackgroundJobController::class, 'runTask'])
+            ->name('background-jobs.scheduled-tasks.run');
+
+        Route::get('background-jobs/{run}', [BackgroundJobController::class, 'show'])
+            ->name('background-jobs.show');
     });
 
 Route::permanentRedirect('terms', 'https://portal.projectcitybuild.com/books/legal-and-compliance/page/terms-of-service')

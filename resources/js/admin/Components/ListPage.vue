@@ -3,7 +3,7 @@ import { computed, ref, useId } from 'vue'
 import Card from './ManageCard.vue'
 import Button from './Button.vue'
 import SvgIcon from './SvgIcon.vue'
-import { Icons } from '../Navigation/Icons'
+import { Icons } from '../Components/SvgIcon.vue'
 
 interface Props {
     count?: number | null,

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AdminNavLink from './AdminNavLink.vue'
-import type { SidebarChild } from '../../Areas/Manage/Sidebar.js'
+import type { SidebarChild } from '../../Navigation/Sidebar'
 
 defineProps<{
     title: string
@@ -15,7 +15,7 @@ defineProps<{
         </div>
         <ul class="mb-2">
             <li v-for="child in children" :key="child.route">
-                <AdminNavLink :href="child.route" :label="child.title">
+                <AdminNavLink :href="child.route" :label="child.title" :badge="child.badge">
                     <template #icon>
                         <slot name="child-icon" :child="child" />
                     </template>

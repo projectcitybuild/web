@@ -4,7 +4,7 @@ import { Head } from '@inertiajs/vue3'
 import Card from '../../../../Components/ManageCard.vue'
 import { format } from '../../../../Utilities/DateFormatter'
 import SvgIcon from '../../../../Components/SvgIcon.vue'
-import { Icons } from '../../../../Navigation/Icons'
+import { Icons } from '../../../../Components/SvgIcon.vue'
 import PageHeader from '../../../../Components/PageHeader.vue'
 import LinkButton from '../../../../Components/LinkButton.vue'
 

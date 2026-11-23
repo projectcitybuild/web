@@ -2,6 +2,7 @@
 
 namespace App\Domains\BuilderRankApplications\Notifications;
 
+use App\Core\Data\JobQueue;
 use App\Models\BuilderRankApplication;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -38,7 +39,7 @@ class BuilderRankAppDeclinedNotification extends Notification implements ShouldQ
     public function viaQueues(): array
     {
         return [
-            'mail' => 'mail',
+            'mail' => JobQueue::MAIL->value,
         ];
     }
 

@@ -1,5 +1,9 @@
 declare namespace App {
     export namespace Core {
+        export namespace Data {
+            export type JobQueue =
+                "default" | "mail" | "player-mail" | "discord-message";
+        }
         export namespace Domains {
             export namespace Auditing {
                 export namespace Changes {
@@ -16,6 +20,13 @@ declare namespace App {
         }
     }
     export namespace Domains {
+        export namespace BackgroundJobs {
+            export namespace Data {
+                export type BackgroundJobRange = "1h" | "24h" | "7d" | "30d";
+                export type BackgroundJobRunStatus =
+                    "queued" | "running" | "succeeded" | "failed";
+            }
+        }
         export namespace BanAppeals {
             export namespace Data {
                 export type BanAppealStatus =

@@ -3,7 +3,7 @@ import { computed, ref } from 'vue'
 import { Result } from 'typescript-result'
 import Spinner from './Spinner.vue'
 import SvgIcon from './SvgIcon.vue'
-import { Icons } from '../Navigation/Icons'
+import { Icons } from '../Components/SvgIcon.vue'
 
 interface Props {
     // Usernames are accepted as well, but are apparently more

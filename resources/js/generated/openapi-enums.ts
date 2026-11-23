@@ -12,6 +12,13 @@ export const ArrayWrapState = {
     "removed": "removed",
 } as const
 
+export const BackgroundJobRunStatus = {
+    "queued": "queued",
+    "running": "running",
+    "succeeded": "succeeded",
+    "failed": "failed",
+} as const
+
 export const BanAppealStatus = {
     "pending": "pending",
     "acceptedUnban": "accepted_unban",
@@ -24,6 +31,13 @@ export const EnvironmentLevel = {
     "staging": "staging",
     "testing": "testing",
     "local": "local",
+} as const
+
+export const JobQueue = {
+    "default": "default",
+    "mail": "mail",
+    "playerMail": "player-mail",
+    "discordMessage": "discord-message",
 } as const
 
 export const MailCategory = {

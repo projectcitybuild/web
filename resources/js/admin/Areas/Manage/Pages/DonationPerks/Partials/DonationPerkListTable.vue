@@ -2,7 +2,7 @@
 import { Routes } from '../../../../../Navigation/Routes'
 import LinkButton from '../../../../../Components/LinkButton.vue'
 import SvgIcon from '../../../../../Components/SvgIcon.vue'
-import { Icons } from '../../../../../Navigation/Icons'
+import { Icons } from '../../../../../Components/SvgIcon.vue'
 import { computed } from 'vue'
 import DataTable from '../../../../../Components/DataTable.vue'
 import type { SortableTableProps } from '../../../../../Composables/useTableSorting'

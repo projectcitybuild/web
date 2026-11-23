@@ -3,7 +3,7 @@ import DataTable from '../../../../../Components/DataTable.vue'
 import { format, timeAgo } from '../../../../../Utilities/DateFormatter'
 import LinkButton from '../../../../../Components/LinkButton.vue'
 import SvgIcon from '../../../../../Components/SvgIcon.vue'
-import { Icons } from '../../../../../Navigation/Icons'
+import { Icons } from '../../../../../Components/SvgIcon.vue'
 
 interface Props {
     audits: App.Http.Data.AdminAuditListEntryData[]

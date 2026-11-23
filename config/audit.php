@@ -1,5 +1,6 @@
 <?php
 
+use App\Core\Data\JobQueue;
 use App\Models\Audit;
 use OwenIt\Auditing\Resolvers\IpAddressResolver;
 use OwenIt\Auditing\Resolvers\UrlResolver;
@@ -187,7 +188,7 @@ return [
     'queue' => [
         'enable' => false,
         'connection' => 'sync',
-        'queue' => 'default',
+        'queue' => JobQueue::DEFAULT->value,
         'delay' => 0,
     ],
 

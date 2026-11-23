@@ -2,6 +2,7 @@
 
 namespace App\Domains\Contact\Notifications;
 
+use App\Core\Data\JobQueue;
 use App\Core\Domains\Discord\Data\DiscordAuthor;
 use App\Core\Domains\Discord\Data\DiscordEmbed;
 use App\Core\Domains\Discord\Data\DiscordEmbedField;
@@ -47,8 +48,8 @@ class ContactNotification extends Notification implements ShouldQueue
     public function viaQueues(): array
     {
         return [
-            'mail' => 'mail',
-            'discord' => 'discord-message',
+            'mail' => JobQueue::MAIL->value,
+            'discord' => JobQueue::DISCORD->value,
         ];
     }
 

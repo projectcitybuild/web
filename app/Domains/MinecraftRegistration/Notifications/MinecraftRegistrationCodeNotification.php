@@ -2,6 +2,7 @@
 
 namespace App\Domains\MinecraftRegistration\Notifications;
 
+use App\Core\Data\JobQueue;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -29,7 +30,7 @@ final class MinecraftRegistrationCodeNotification extends Notification implement
     public function viaQueues(): array
     {
         return [
-            'mail' => 'mail',
+            'mail' => JobQueue::MAIL->value,
         ];
     }
 

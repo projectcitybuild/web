@@ -1,5 +1,5 @@
 <script setup>
-import { Icons } from '../Navigation/Icons';
+import { Icons } from '../Components/SvgIcon.vue';
 import SvgIcon from './SvgIcon.vue'
 
 defineProps({

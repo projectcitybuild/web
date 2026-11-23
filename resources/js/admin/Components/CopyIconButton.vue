@@ -2,7 +2,7 @@
 import { computed, onBeforeUnmount, ref } from 'vue'
 import Button from './Button.vue'
 import SvgIcon from './SvgIcon.vue'
-import { Icons } from '../Navigation/Icons'
+import { Icons } from '../Components/SvgIcon.vue'
 
 interface Props {
     text: string | null,

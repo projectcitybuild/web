@@ -5,6 +5,7 @@ namespace App;
 use Admin9\OidcServer\Contracts\ReauthenticationHandler;
 use Admin9\OidcServer\Services\IdTokenService;
 use App\Core\Domains\MinecraftUUID\Data\MinecraftUUID;
+use App\Core\Domains\Scheduling\ScheduleRegistry;
 use App\Core\Support\Passport\OidcIdTokenService;
 use App\Core\Support\Passport\OidcReauthenticationHandler;
 use App\Models\Account;
@@ -27,6 +28,7 @@ use App\Models\Role;
 use App\Models\Server;
 use App\Models\ServerToken;
 use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -50,6 +52,10 @@ final class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->app->afterResolving(Schedule::class, function (Schedule $schedule): void {
+            $this->app->make(ScheduleRegistry::class)->register($schedule);
+        });
+
         $this->enforceMorphMap();
 
         $this->bindBladeComponents();

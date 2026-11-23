@@ -5,7 +5,7 @@ import { format } from '../../../../../Utilities/DateFormatter'
 import { Link } from '@inertiajs/vue3'
 import OutlinedButton from '../../../../../Components/OutlinedButton.vue'
 import SvgIcon from '../../../../../Components/SvgIcon.vue'
-import { Icons } from '../../../../../Navigation/Icons'
+import { Icons } from '../../../../../Components/SvgIcon.vue'
 import DataTable from '../../../../../Components/DataTable.vue'
 
 interface Props {

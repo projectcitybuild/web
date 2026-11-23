@@ -2,6 +2,7 @@ type RouteParameter = string | number | null | undefined
 
 const manage = (path = ''): string => path ? `/manage/${path}` : '/manage'
 const review = (path = ''): string => path ? `/review/${path}` : '/review'
+const audit = (path = ''): string => path ? `/audit/${path}` : '/audit'
 
 export const Routes = {
     home: '/',
@@ -123,6 +124,16 @@ export const Routes = {
         builderRanks: {
             list: review('builder-ranks'),
             show: (id: RouteParameter) => review(`builder-ranks/${id}`),
+        },
+    },
+    audit: {
+        overview: audit(),
+        backgroundJobs: {
+            throughput: audit('background-jobs'),
+            runs: audit('background-jobs/runs'),
+            show: (id: RouteParameter) => audit(`background-jobs/${id}`),
+            queueTask: (id: string) => audit(`background-jobs/scheduled-tasks/${id}/queue`),
+            runTask: (id: string) => audit(`background-jobs/scheduled-tasks/${id}/run`),
         },
     },
 } as const

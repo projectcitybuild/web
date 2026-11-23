@@ -2,6 +2,7 @@
 
 namespace App\Domains\PlayerMail\Jobs;
 
+use App\Core\Data\JobQueue;
 use App\Domains\PlayerMail\Data\PlayerMailBroadcastStatus;
 use App\Models\MinecraftPlayer;
 use App\Models\PlayerMailBroadcast;
@@ -26,7 +27,7 @@ class DistributePlayerMailJob implements ShouldBeUnique, ShouldQueue
         public readonly int $broadcastId,
         public readonly int $expectedLastPlayerId,
     ) {
-        $this->onQueue('player-mail');
+        $this->onQueue(JobQueue::PLAYER_MAIL->value);
     }
 
     public function handle(): void
