@@ -11,6 +11,15 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 final class DiscordRoleSyncController extends ApiController
 {
+    /**
+     * @response array{
+     *     discord_user_id: string,
+     *     guild_id: string,
+     *     linked: bool,
+     *     managed_role_ids: list<string>,
+     *     desired_role_ids: list<string>
+     * }
+     */
     public function show(string $discordUserId, PlayerRolesAggregator $playerRolesAggregator): JsonResponse
     {
         abort_unless(DiscordSnowflake::isValid($discordUserId), 404);

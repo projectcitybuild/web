@@ -50,11 +50,15 @@
                                         },
                                         "managed_role_ids": {
                                             "type": "array",
-                                            "items": {}
+                                            "items": {
+                                                "type": "string"
+                                            }
                                         },
                                         "desired_role_ids": {
                                             "type": "array",
-                                            "items": {}
+                                            "items": {
+                                                "type": "string"
+                                            }
                                         }
                                     },
                                     "required": [
@@ -1842,6 +1846,25 @@
                             }
                         }
                     },
+                    "429": {
+                        "description": "Too many requests",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Error overview."
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
                     "422": {
                         "$ref": "#/components/responses/ValidationException"
                     },
@@ -2114,6 +2137,25 @@
                             }
                         }
                     },
+                    "429": {
+                        "description": "Too many requests",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Error overview."
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
                     "422": {
                         "$ref": "#/components/responses/ValidationException"
                     }
@@ -2175,6 +2217,25 @@
                                             "examples": [
                                                 ""
                                             ]
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too many requests",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Error overview."
                                         }
                                     },
                                     "required": [
@@ -3157,22 +3218,25 @@
                 "type": "object",
                 "properties": {
                     "id": {
-                        "type": "null"
+                        "type": "integer"
                     },
                     "config": {
                         "type": "null"
                     },
                     "version": {
-                        "type": "null"
+                        "type": "integer"
                     },
                     "created_at": {
-                        "type": "null"
+                        "type": "string",
+                        "format": "date-time"
                     },
                     "updated_at": {
-                        "type": "null"
+                        "type": "string",
+                        "format": "date-time"
                     },
                     "deleted_at": {
-                        "type": "null"
+                        "type": "string",
+                        "format": "date-time"
                     }
                 },
                 "required": [
@@ -3405,10 +3469,10 @@
                         "type": "string"
                     },
                     "alias": {
-                        "type": "null"
+                        "type": "string"
                     },
                     "nickname": {
-                        "type": "null"
+                        "type": "string"
                     },
                     "muted": {
                         "type": "integer"
@@ -3420,28 +3484,28 @@
                         "type": "number"
                     },
                     "teleport_mode": {
-                        "type": "null"
+                        "$ref": "#/components/schemas/TeleportMode"
                     },
                     "move_mode": {
-                        "type": "null"
+                        "$ref": "#/components/schemas/MoveMode"
                     },
                     "last_location_world_uuid": {
-                        "type": "null"
+                        "type": "string"
                     },
                     "last_location_x": {
-                        "type": "null"
+                        "type": "number"
                     },
                     "last_location_y": {
-                        "type": "null"
+                        "type": "number"
                     },
                     "last_location_z": {
-                        "type": "null"
+                        "type": "number"
                     },
                     "last_location_pitch": {
-                        "type": "null"
+                        "type": "number"
                     },
                     "last_location_yaw": {
-                        "type": "null"
+                        "type": "number"
                     },
                     "sessions": {
                         "type": "integer"
@@ -3462,19 +3526,23 @@
                         "type": "integer"
                     },
                     "account_id": {
-                        "type": "null"
+                        "type": "integer"
                     },
                     "last_seen_at": {
-                        "type": "null"
+                        "type": "string",
+                        "format": "date-time"
                     },
                     "last_connected_at": {
-                        "type": "null"
+                        "type": "string",
+                        "format": "date-time"
                     },
                     "created_at": {
-                        "type": "null"
+                        "type": "string",
+                        "format": "date-time"
                     },
                     "updated_at": {
-                        "type": "null"
+                        "type": "string",
+                        "format": "date-time"
                     },
                     "account": {
                         "type": "null"

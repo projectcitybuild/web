@@ -563,12 +563,15 @@ export interface components {
         };
         /** MinecraftConfigApiData */
         MinecraftConfigApiData: {
-            id: null;
+            id: number;
             config: null;
-            version: null;
-            created_at: null;
-            updated_at: null;
-            deleted_at: null;
+            version: number;
+            /** Format: date-time */
+            created_at: string;
+            /** Format: date-time */
+            updated_at: string;
+            /** Format: date-time */
+            deleted_at: string;
         };
         /** MinecraftHomeData */
         MinecraftHomeData: {
@@ -622,30 +625,34 @@ export interface components {
         MinecraftPlayerData: {
             id: number;
             uuid: string;
-            alias: null;
-            nickname: null;
+            alias: string;
+            nickname: string;
             muted: number;
             walk_speed: number;
             fly_speed: number;
-            teleport_mode: null;
-            move_mode: null;
-            last_location_world_uuid: null;
-            last_location_x: null;
-            last_location_y: null;
-            last_location_z: null;
-            last_location_pitch: null;
-            last_location_yaw: null;
+            teleport_mode: components["schemas"]["TeleportMode"];
+            move_mode: components["schemas"]["MoveMode"];
+            last_location_world_uuid: string;
+            last_location_x: number;
+            last_location_y: number;
+            last_location_z: number;
+            last_location_pitch: number;
+            last_location_yaw: number;
             sessions: number;
             play_time: number;
             afk_time: number;
             blocks_placed: number;
             blocks_destroyed: number;
             blocks_travelled: number;
-            account_id: null;
-            last_seen_at: null;
-            last_connected_at: null;
-            created_at: null;
-            updated_at: null;
+            account_id: number;
+            /** Format: date-time */
+            last_seen_at: string;
+            /** Format: date-time */
+            last_connected_at: string;
+            /** Format: date-time */
+            created_at: string;
+            /** Format: date-time */
+            updated_at: string;
             account?: null;
         };
         /** MinecraftWarpData */
@@ -763,8 +770,8 @@ export interface operations {
                         discord_user_id: string;
                         guild_id: string;
                         linked: boolean;
-                        managed_role_ids: unknown[];
-                        desired_role_ids: unknown[];
+                        managed_role_ids: string[];
+                        desired_role_ids: string[];
                     };
                 };
             };
@@ -1614,6 +1621,18 @@ export interface operations {
             };
             404: components["responses"]["ModelNotFoundException"];
             422: components["responses"]["ValidationException"];
+            /** @description Too many requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @description Error overview. */
+                        message: string;
+                    };
+                };
+            };
         };
     };
     "v3.players.mail.unread-count": {
@@ -1780,6 +1799,18 @@ export interface operations {
                 };
             };
             422: components["responses"]["ValidationException"];
+            /** @description Too many requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @description Error overview. */
+                        message: string;
+                    };
+                };
+            };
         };
     };
     "minecraftRegister.store": {
@@ -1809,6 +1840,18 @@ export interface operations {
                 };
             };
             422: components["responses"]["ValidationException"];
+            /** @description Too many requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @description Error overview. */
+                        message: string;
+                    };
+                };
+            };
         };
     };
     "minecraftStats.store": {
