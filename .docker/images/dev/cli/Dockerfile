@@ -23,7 +23,7 @@ RUN apk add --no-cache mariadb-connector-c-dev mariadb-client && \
 # Install xdebug and sqlite for CI pipelines
 # PHP 8.6's DOM HTML5 parser uses Lexbor headers from the PHP source tree.
 RUN apk add --no-cache --virtual .ci-build-deps $PHPIZE_DEPS curl-dev libxml2-dev oniguruma-dev sqlite-dev linux-headers && \
-    CPPFLAGS="$PHP_CPPFLAGS -I/usr/src/php/ext/lexbor" docker-php-ext-install curl dom mbstring pcntl pdo_sqlite && \
+    CPPFLAGS="$PHP_CPPFLAGS -I/usr/src/php -I/usr/src/php/ext/lexbor" docker-php-ext-install curl dom mbstring pcntl pdo_sqlite && \
     pecl install xdebug && \
     docker-php-ext-enable xdebug && \
     apk add --no-cache libxml2 oniguruma sqlite-libs && \

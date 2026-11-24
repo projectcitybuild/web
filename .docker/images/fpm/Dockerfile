@@ -12,7 +12,7 @@ FROM php:8.6-fpm-alpine AS php-base
 
 # PHP 8.6's DOM HTML5 parser uses Lexbor headers from the PHP source tree.
 RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS curl-dev icu-dev libzip-dev libxml2-dev mariadb-connector-c-dev \
-    && CPPFLAGS="$PHP_CPPFLAGS -I/usr/src/php/ext/lexbor" docker-php-ext-install bcmath curl dom intl pcntl pdo pdo_mysql zip \
+    && CPPFLAGS="$PHP_CPPFLAGS -I/usr/src/php -I/usr/src/php/ext/lexbor" docker-php-ext-install bcmath curl dom intl pcntl pdo pdo_mysql zip \
     && mkdir -p /usr/src/php/ext/redis \
     && curl -fsSL https://github.com/phpredis/phpredis/archive/6.3.0.tar.gz | tar xz -C /usr/src/php/ext/redis --strip 1 \
     && docker-php-ext-install redis \
