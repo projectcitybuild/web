@@ -165,6 +165,8 @@ class RoleSeeder extends Seeder
                 WebReviewPermission::BAN_APPEALS_DECIDE,
                 WebReviewPermission::BUILD_RANK_APPS_VIEW,
                 WebReviewPermission::BUILD_RANK_APPS_DECIDE,
+                WebReviewPermission::PLAYER_REPORTS_VIEW,
+                WebReviewPermission::PLAYER_REPORTS_UPDATE,
             ])
                 ->map(fn ($it) => $permissions[$it->value]),
         );

@@ -409,6 +409,24 @@ declare global {
                 next_page_url: string | null
             }
         }
+        'review/PlayerReports/PlayerReportList': {
+            reports: {
+                data: App.Http.Data.AdminPlayerReportData[]
+                current_page: number
+                total: number
+                last_page: number
+                links: Array<{ url: string | null; label: string; active: boolean }>
+            }
+            filters: {
+                status: string
+            }
+        }
+        'review/PlayerReports/PlayerReportShow': {
+            report: App.Http.Data.AdminPlayerReportData
+            currentAccountId: number
+            canAssignCurrentAccount: boolean
+            canUpdate: boolean
+        }
         'manage/Home': {
             recentActivities: App.Http.Data.ManageHomeRecentActivityData[]
             activityUrl?: string

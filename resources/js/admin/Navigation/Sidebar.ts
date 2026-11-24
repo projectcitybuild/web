@@ -5,7 +5,7 @@ export interface SidebarChild {
     route: string
     icon: keyof typeof Icons
     permission?: App.Domains.Permissions.WebManagePermission | App.Domains.Permissions.WebReviewPermission
-    countKey?: 'pending_appeals' | 'pending_build_rank_apps'
+    countKey?: 'pending_appeals' | 'pending_build_rank_apps' | 'pending_player_reports'
     badge?: number | string
 }
 

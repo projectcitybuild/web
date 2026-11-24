@@ -18,6 +18,7 @@ const queues = computed(() => sidebarMenu
 const metricLabels = {
     pending_appeals: 'Ban Appeals',
     pending_build_rank_apps: 'Applications',
+    pending_player_reports: 'Player Reports',
 }
 
 const metrics = computed(() => queues.value.filter(item => item.countKey))

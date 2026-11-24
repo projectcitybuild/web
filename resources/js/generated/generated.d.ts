@@ -86,7 +86,9 @@ declare namespace App {
                 | "web.review.ban_appeals.view"
                 | "web.review.ban_appeals.decide"
                 | "web.review.build_rank_apps.view"
-                | "web.review.build_rank_apps.decide";
+                | "web.review.build_rank_apps.decide"
+                | "web.review.player_reports.view"
+                | "web.review.player_reports.update";
         }
         export namespace PlayerMail {
             export namespace Data {
@@ -322,6 +324,34 @@ declare namespace App {
                 endedAt: string;
                 isActive: boolean;
             };
+            export type AdminPlayerReportData = {
+                id: number;
+                reporter_name: string;
+                reporter_contact: string;
+                reporter_email: string | null;
+                reporter_account: string | null;
+                reported_player_name: string;
+                subject: string;
+                details: string;
+                visibility: string;
+                status: string;
+                completion_message: string | null;
+                resolved_at: string | null;
+                assignees: {
+                    id: number;
+                    name: string;
+                    alias: string | null;
+                    uuid: string | null;
+                }[];
+                attachments: {
+                    id: number;
+                    name: string;
+                    url: string;
+                    mime_type: string;
+                    preview_url: string | null;
+                }[];
+                created_at: string;
+            };
             export type AdminPlayerWarningData = {
                 id: number;
                 warned_player_id: number;
@@ -375,6 +405,7 @@ declare namespace App {
                 success?: string | null;
                 pending_appeals?: number | null;
                 pending_build_rank_apps?: number | null;
+                pending_player_reports?: number | null;
                 is_admin: boolean;
                 permissions: string[] | null;
             };

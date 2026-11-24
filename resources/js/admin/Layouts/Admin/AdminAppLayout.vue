@@ -11,7 +11,9 @@ const page = usePage()
 const { currentArea } = useAdminNavigation()
 
 const areaBadges = computed(() => {
-    const pendingCount = Number(page.props.pending_appeals ?? 0) + Number(page.props.pending_build_rank_apps ?? 0)
+    const pendingCount = Number(page.props.pending_appeals ?? 0)
+        + Number(page.props.pending_build_rank_apps ?? 0)
+        + Number(page.props.pending_player_reports ?? 0)
 
     return { review: pendingCount > 99 ? '99+' : pendingCount }
 })

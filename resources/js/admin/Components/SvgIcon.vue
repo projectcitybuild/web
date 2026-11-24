@@ -21,6 +21,7 @@ import {
     IconEye,
     IconEyeSearch,
     IconFilter,
+    IconFlag,
     IconGavel,
     IconGridDots,
     IconHandStop,
@@ -113,6 +114,7 @@ export const Icons = {
     hourglass: IconHourglass,
     gift: IconGift,
     clockSearch: IconClockSearch,
+    flag: IconFlag,
 } satisfies Record<string, Component>
 </script>
 

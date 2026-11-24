@@ -43,6 +43,7 @@ use App\Http\Controllers\Admin\Manage\Roles\RolePermissionController;
 use App\Http\Controllers\Admin\Manage\Servers\ServerController;
 use App\Http\Controllers\Admin\Manage\Servers\ServerTokenController;
 use App\Http\Controllers\Admin\Manage\Warnings\PlayerWarningController;
+use App\Http\Controllers\Front\PlayerReportController as FrontPlayerReportController;
 use Illuminate\Support\Facades\Route;
 use Inertia\EncryptHistoryMiddleware;
 
@@ -243,8 +244,13 @@ Route::permanentRedirect('wiki', 'https://wiki.projectcitybuild.com')
 Route::permanentRedirect('portal', 'https://portal.projectcitybuild.com/')
     ->name('portal');
 
-Route::permanentRedirect('report', 'https://tally.so/r/lbbVQV')
+Route::get('player-report', [FrontPlayerReportController::class, 'create'])
     ->name('report');
+Route::post('player-report', [FrontPlayerReportController::class, 'store'])
+    ->name('report.submit')
+    ->middleware('throttle:5,1');
+Route::get('report', [FrontPlayerReportController::class, 'create'])
+    ->name('report.legacy');
 
 Route::permanentRedirect('staff-apply', 'https://tally.so/r/yPMkZd')
     ->name('staff-apply');

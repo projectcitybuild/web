@@ -10,6 +10,23 @@ export const sidebarMenu: SidebarSection[] = [
                 route: Routes.review.overview,
                 icon: 'cube',
             },
+        ],
+    },
+    {
+        title: 'Building',
+        children: [
+            {
+                title: 'Builder Applications',
+                route: Routes.review.builderRanks.list,
+                icon: 'servers',
+                permission: 'web.review.build_rank_apps.view',
+                countKey: 'pending_build_rank_apps',
+            },
+        ],
+    },
+    {
+        title: 'Moderation',
+        children: [
             {
                 title: 'Ban Appeals',
                 route: Routes.review.banAppeals.list,
@@ -18,11 +35,11 @@ export const sidebarMenu: SidebarSection[] = [
                 countKey: 'pending_appeals',
             },
             {
-                title: 'Builder Applications',
-                route: Routes.review.builderRanks.list,
-                icon: 'servers',
-                permission: 'web.review.build_rank_apps.view',
-                countKey: 'pending_build_rank_apps',
+                title: 'Player Reports',
+                route: Routes.review.playerReports.list,
+                icon: 'flag',
+                permission: 'web.review.player_reports.view',
+                countKey: 'pending_player_reports',
             },
         ],
     },

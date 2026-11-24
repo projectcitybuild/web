@@ -2,11 +2,13 @@
 
 namespace App\Http\Middleware;
 
+use App\Domains\PlayerReports\Data\PlayerReportVisibility;
 use App\Http\Data\AdminAccountSummaryData;
 use App\Http\Data\AdminSharedPagePropsData;
 use App\Models\Account;
 use App\Models\BanAppeal;
 use App\Models\BuilderRankApplication;
+use App\Models\PlayerReport;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -74,8 +76,17 @@ class HandleInertiaRequests extends Middleware
                 'pending_build_rank_apps',
                 BuilderRankApplication::pending()->count(),
             );
-
             $account = $request->user();
+            $sharedProps['pending_player_reports'] = fn () => AdminSharedPagePropsData::serializeProp(
+                'pending_player_reports',
+                PlayerReport::open()
+                    ->when(
+                        ! $account?->isAdmin(),
+                        fn ($query) => $query->where('visibility', PlayerReportVisibility::STANDARD->value),
+                    )
+                    ->count(),
+            );
+
             $sharedProps['account'] = fn () => AdminSharedPagePropsData::serializeProp(
                 'account',
                 $account instanceof Account

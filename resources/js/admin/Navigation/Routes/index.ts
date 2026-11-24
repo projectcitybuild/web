@@ -125,6 +125,16 @@ export const Routes = {
             list: review('builder-ranks'),
             show: (id: RouteParameter) => review(`builder-ranks/${id}`),
         },
+        playerReports: {
+            list: review('player-reports'),
+            show: (id: RouteParameter) => review(`player-reports/${id}`),
+            destroy: (id: RouteParameter) => review(`player-reports/${id}`),
+            assignees: (id: RouteParameter) => review(`player-reports/${id}/assignees`),
+            searchAssignees: (id: RouteParameter) => review(`player-reports/${id}/assignable-accounts`),
+            assignToSelf: (id: RouteParameter) => review(`player-reports/${id}/assignees/self`),
+            visibility: (id: RouteParameter) => review(`player-reports/${id}/visibility`),
+            complete: (id: RouteParameter) => review(`player-reports/${id}/complete`),
+        },
     },
     audit: {
         overview: audit(),

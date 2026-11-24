@@ -4,3 +4,4 @@ import.meta.glob([
 ]);
 
 import 'flowbite';
+import './player-report-form'

@@ -15,6 +15,7 @@ class AdminSharedPagePropsData extends Data
         public Optional|string|null $success,
         public Optional|int|null $pending_appeals,
         public Optional|int|null $pending_build_rank_apps,
+        public Optional|int|null $pending_player_reports,
         public bool $is_admin,
         public Optional|array|null $permissions,
     ) {}
