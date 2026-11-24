@@ -34,6 +34,18 @@ function initializeTheme(): void {
         }
     })
 
+    window.addEventListener('storage', event => {
+        if (event.key !== 'admin-theme' && event.key !== null) {
+            return
+        }
+
+        const storedTheme = window.localStorage.getItem('admin-theme')
+        preference.value = storedTheme === 'light' || storedTheme === 'dark' || storedTheme === 'system'
+            ? storedTheme
+            : 'system'
+        applyTheme()
+    })
+
     initialized = true
 }
 

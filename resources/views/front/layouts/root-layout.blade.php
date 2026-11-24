@@ -28,6 +28,17 @@
     <meta name="twitter:card" content="@yield('meta_description')">
     <meta name="twitter:site" content="@PCB_Minecraft">
 
+    <script>
+        (() => {
+            const preference = window.localStorage.getItem('admin-theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            document.documentElement.classList.toggle(
+                'dark',
+                preference === 'dark' || (preference !== 'light' && prefersDark),
+            );
+        })();
+    </script>
 
     <title>@yield('title', 'Project City Build')</title>
 
@@ -38,7 +49,7 @@
 
     @stack('head')
 </head>
-<body>
+<body class="bg-gray-100 dark:bg-gray-950">
 
 <div id="app">
     @yield('body')

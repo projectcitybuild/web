@@ -2,184 +2,208 @@
 
 @section('title', 'Project City Build - Creative Minecraft Community')
 @section('meta_title', 'Project City Build - Creative Minecraft Community')
-@section('meta_description')
-One of the world's longest-running Minecraft servers; we're a community of creative players and city builders @endsection
+@section('meta_description', 'One of the world\'s longest-running Minecraft servers; we\'re a community of creative players and city builders')
 
 @section('body')
     <x-front::hero />
 
-    <main>
-        <section class="bg-white">
-            <div class="max-w-screen-2xl mx-auto p-12">
-                <div class="flex flex-col gap-4 md:flex-row md:gap-12 md:py-8">
-                    <div class="mb-4 text-4xl font-light leading-relaxed">
-                        We're a Minecraft server and community that's been around <strong class="font-bold">since October 2010</strong>.
+    <main class="bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100">
+        <section aria-labelledby="community-heading" class="py-16 sm:py-20 lg:py-24">
+            <div class="mx-auto max-w-screen-2xl px-4 sm:px-8">
+                <div class="grid gap-8 md:grid-cols-[0.9fr_1.1fr] md:items-end md:gap-16">
+                    <div class="space-y-4">
+                        <p class="text-sm font-bold uppercase tracking-[0.18em] text-amber-700 dark:text-amber-400">Since October 2010</p>
+                        <h2 id="community-heading" class="max-w-xl font-display text-5xl leading-[0.95] sm:text-6xl">
+                            Crafting worlds and connections
+                        </h2>
                     </div>
 
-                    <div class="text-gray-600 text-lg leading-loose pt-3">
-                        With our free-build Creative and Survival multiplayer worlds, we offer a fun platform & building
-                        experience like no other. You can visit and build in established towns & cities or start your own.
-                    </div>
+                    <p class="max-w-2xl text-base leading-8 text-gray-600 dark:text-gray-300 sm:text-lg">
+                        For more than <strong>16 years</strong>, our Minecraft community has been a place to dream big, build together, and share creations.
+                        From sprawling cities to unique personal builds, we welcome all — come join the fun and make lasting friendships.
+                    </p>
                 </div>
 
-                <ul class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <li class="rounded-lg bg-gray-50 p-6 text-lg">
-                        <svg class="size-12 text-gray-600 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3M3.22302 14C4.13247 18.008 7.71683 21 12 21c4.9706 0 9-4.0294 9-9 0-4.97056-4.0294-9-9-9-3.72916 0-6.92858 2.26806-8.29409 5.5M7 9H3V5"/>
-                        </svg>
-
-                        <h2 class="mt-4 text-4xl font-display">Minecraft 24/7</h2>
-                        <span class="text-sm text-gray-600">Online all day, every day since the beginning</span>
+                <ul class="mt-10 grid gap-4 sm:grid-cols-2 lg:mt-14 lg:grid-cols-3">
+                    <li class="rounded-2xl border border-gray-200 bg-gray-50 p-6 transition-colors hover:border-amber-300 dark:border-gray-800 dark:bg-gray-900 dark:hover:border-amber-700">
+                        <span class="flex size-12 items-center justify-center rounded-xl bg-amber-100 text-amber-700 dark:bg-amber-400/10 dark:text-amber-300">
+                            <svg class="size-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3M3.22302 14C4.13247 18.008 7.71683 21 12 21c4.9706 0 9-4.0294 9-9-0-4.97056-4.0294-9-9-9-3.72916 0-6.92858 2.26806-8.29409 5.5M7 9H3V5"/>
+                            </svg>
+                        </span>
+                        <h3 class="mt-5 text-lg font-semibold">Minecraft 24/7</h3>
+                        <p class="mt-2 text-sm leading-6 text-gray-600 dark:text-gray-300">Online all day, every day since the beginning.</p>
                     </li>
-                    <li class="rounded-lg bg-gray-50 p-6 text-lg">
-                        <svg class="size-12 text-gray-600 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 4H4m0 0v4m0-4 5 5m7-5h4m0 0v4m0-4-5 5M8 20H4m0 0v-4m0 4 5-5m7 5h4m0 0v-4m0 4-5-5"/>
-                        </svg>
-                        <h2 class="mt-4 text-4xl font-display">Free-Build Worlds</h2>
-                        <span class="text-sm text-gray-600">No plots, multiple build worlds, improved world generation</span>
+                    <li class="rounded-2xl border border-gray-200 bg-gray-50 p-6 transition-colors hover:border-amber-300 dark:border-gray-800 dark:bg-gray-900 dark:hover:border-amber-700">
+                        <span class="flex size-12 items-center justify-center rounded-xl bg-amber-100 text-amber-700 dark:bg-amber-400/10 dark:text-amber-300">
+                            <svg class="size-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 4H4m0 0v4m0-4 5 5m7-5h4m0 0v4m0-4-5 5M8 20H4m0 0v-4m0 4 5-5m7 5h4m0 0v-4m0 4-5-5"/>
+                            </svg>
+                        </span>
+                        <h3 class="mt-5 text-lg font-semibold">Free-Build Worlds</h3>
+                        <p class="mt-2 text-sm leading-6 text-gray-600 dark:text-gray-300">No plots, multiple build worlds, and improved world generation.</p>
                     </li>
-                    <li class="rounded-lg bg-gray-50 p-6 text-lg">
-                        <svg class="size-12 text-gray-600 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.5 11.5 11 13l4-3.5M12 20a16.405 16.405 0 0 1-5.092-5.804A16.694 16.694 0 0 1 5 6.666L12 4l7 2.667a16.695 16.695 0 0 1-1.908 7.529A16.406 16.406 0 0 1 12 20Z"/>
-                        </svg>
-                        <h2 class="mt-4 text-4xl font-display">Grief Protection</h2>
-                        <span class="text-sm text-gray-600">Block logging and various grief-detection methods in place</span>
+                    <li class="rounded-2xl border border-gray-200 bg-gray-50 p-6 transition-colors hover:border-amber-300 dark:border-gray-800 dark:bg-gray-900 dark:hover:border-amber-700">
+                        <span class="flex size-12 items-center justify-center rounded-xl bg-amber-100 text-amber-700 dark:bg-amber-400/10 dark:text-amber-300">
+                            <svg class="size-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.5 11.5 11 13l4-3.5M12 20a16.405 16.405 0 0 1-5.092-5.804A16.694 16.694 0 0 1 5 6.666L12 4l7 2.667a16.695 16.695 0 0 1-1.908 7.529A16.406 16.406 0 0 1 12 20Z"/>
+                            </svg>
+                        </span>
+                        <h3 class="mt-5 text-lg font-semibold">Grief Protection</h3>
+                        <p class="mt-2 text-sm leading-6 text-gray-600 dark:text-gray-300">Block logging and multiple grief-detection methods help protect your builds.</p>
                     </li>
-                    <li class="rounded-lg bg-gray-50 p-6 text-lg">
-                        <svg class="size-12 text-gray-600 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
-                        </svg>
-                        <h2 class="mt-4 text-4xl font-display">Community Focussed</h2>
-                        <span class="text-sm text-gray-600">Build together, optional role-play options, community events, build showcases and more. Join our <a href="{{ config('discord.invite_url') }}" class="text-blue-500">Discord</a>!</span>
+                    <li class="rounded-2xl border border-gray-200 bg-gray-50 p-6 transition-colors hover:border-amber-300 dark:border-gray-800 dark:bg-gray-900 dark:hover:border-amber-700">
+                        <span class="flex size-12 items-center justify-center rounded-xl bg-amber-100 text-amber-700 dark:bg-amber-400/10 dark:text-amber-300">
+                            <svg class="size-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
+                            </svg>
+                        </span>
+                        <h3 class="mt-5 text-lg font-semibold">Community Focused</h3>
+                        <p class="mt-2 text-sm leading-6 text-gray-600 dark:text-gray-300">
+                            Build together, join events, and share your work. Come meet us on
+                            <a href="{{ config('discord.invite_url') }}" class="font-semibold text-blue-700 underline decoration-blue-300 underline-offset-4 hover:text-blue-800 dark:text-blue-300 dark:decoration-blue-700 dark:hover:text-blue-200">Discord</a>.
+                        </p>
                     </li>
-                    <li class="rounded-lg bg-gray-50 p-6 text-lg">
-                        <svg class="size-12 text-gray-600 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 9h.01M8.99 9H9m12 3a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM6.6 13a5.5 5.5 0 0 0 10.81 0H6.6Z"/>
-                        </svg>
-                        <h2 class="mt-4 text-4xl font-display">Trust & Build Ranks</h2>
-                        <span class="text-sm text-gray-600">Two ladders of ranks. Access to powerful build tools with build ranks; more QOL and cosmetics with trust ranks</span>
+                    <li class="rounded-2xl border border-gray-200 bg-gray-50 p-6 transition-colors hover:border-amber-300 dark:border-gray-800 dark:bg-gray-900 dark:hover:border-amber-700">
+                        <span class="flex size-12 items-center justify-center rounded-xl bg-amber-100 text-amber-700 dark:bg-amber-400/10 dark:text-amber-300">
+                            <svg class="size-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 9h.01M8.99 9H9m12 3a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM6.6 13a5.5 5.5 0 0 0 10.81 0H6.6Z"/>
+                            </svg>
+                        </span>
+                        <h3 class="mt-5 text-lg font-semibold">Trust &amp; Build Ranks</h3>
+                        <p class="mt-2 text-sm leading-6 text-gray-600 dark:text-gray-300">Build ranks unlock powerful tools; trust ranks bring quality-of-life perks and cosmetics.</p>
                     </li>
-                    <li class="rounded-lg bg-gray-50 p-6 text-lg">
-                        <svg class="size-12 text-gray-600 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m7.171 12.906-2.153 6.411 2.672-.89 1.568 2.34 1.825-5.183m5.73-2.678 2.154 6.411-2.673-.89-1.568 2.34-1.825-5.183M9.165 4.3c.58.068 1.153-.17 1.515-.628a1.681 1.681 0 0 1 2.64 0 1.68 1.68 0 0 0 1.515.628 1.681 1.681 0 0 1 1.866 1.866c-.068.58.17 1.154.628 1.516a1.681 1.681 0 0 1 0 2.639 1.682 1.682 0 0 0-.628 1.515 1.681 1.681 0 0 1-1.866 1.866 1.681 1.681 0 0 0-1.516.628 1.681 1.681 0 0 1-2.639 0 1.681 1.681 0 0 0-1.515-.628 1.681 1.681 0 0 1-1.867-1.866 1.681 1.681 0 0 0-.627-1.515 1.681 1.681 0 0 1 0-2.64c.458-.361.696-.935.627-1.515A1.681 1.681 0 0 1 9.165 4.3ZM14 9a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"/>
-                        </svg>
-                        <h2 class="mt-4 text-4xl font-display">Events and Competitions</h2>
-                        <span class="text-sm text-gray-600">Build competitions, server events and more. Rewards for both winners and participants</span>
+                    <li class="rounded-2xl border border-gray-200 bg-gray-50 p-6 transition-colors hover:border-amber-300 dark:border-gray-800 dark:bg-gray-900 dark:hover:border-amber-700">
+                        <span class="flex size-12 items-center justify-center rounded-xl bg-amber-100 text-amber-700 dark:bg-amber-400/10 dark:text-amber-300">
+                            <svg class="size-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m7.171 12.906-2.153 6.411 2.672-.89 1.568 2.34 1.825-5.183m5.73-2.678 2.154 6.411-2.673-.89-1.568 2.34-1.825-5.183M9.165 4.3c.58.068 1.153-.17 1.515-.628a1.681 1.681 0 0 1 2.64 0 1.68 1.68 0 0 0 1.515.628 1.681 1.681 0 0 1 1.866 1.866c-.068.58.17 1.154.628 1.516a1.681 1.681 0 0 1 0 2.639 1.682 1.682 0 0 0-.628 1.515 1.681 1.681 0 0 1-1.866 1.866 1.681 1.681 0 0 0-1.516.628 1.681 1.681 0 0 1-2.639 0 1.681 1.681 0 0 0-1.515-.628 1.681 1.681 0 0 1-1.867-1.866 1.681 1.681 0 0 0-.627-1.515 1.681 1.681 0 0 1 0-2.64c.458-.361.696-.935.627-1.515A1.681 1.681 0 0 1 9.165 4.3ZM14 9a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"/>
+                            </svg>
+                        </span>
+                        <h3 class="mt-5 text-lg font-semibold">Events &amp; Competitions</h3>
+                        <p class="mt-2 text-sm leading-6 text-gray-600 dark:text-gray-300">Take part in server events and build competitions, with rewards for winners and participants.</p>
                     </li>
                 </ul>
             </div>
         </section>
 
-        <section class="bg-[#F3F3F3]">
-            <div class="flex flex-col md:flex-row">
-                <div
-                    class="
-                        w-full md:w-1/2 h-[350px] md:h-[500px]
-                        bg-gray-100
-                        bg-cover bg-no-repeat bg-center
-                        bg-[url('/resources/images/home_creative.png')]
-                    "
-                ></div>
-
-                <div class="md:w-1/2 px-12 py-24 md:p-20 flex flex-col justify-center">
-                    <h1 class="font-display text-6xl">Creative</h1>
-
-                    <div class="mt-3 text-gray-700 leading-8 text-sm">
-                        We don't believe in plots—our Creative map is the definition of freebuild.
-                        Here you will find all sorts of interesting projects, from alien landscapes to cruise ships, from castles to entire cities.
-                        Let your imagination run wild!
-                    </div>
-
-                    <ul class="mt-8 flex gap-4 text-sm font-bold">
-                        <li>
-                            <a href="https://www.instagram.com/projectcitybuild" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
-                                    <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
-                                </svg>
-                                Gallery
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('front.maps') }}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
-                                    <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
-                                </svg>
-                                Real-Time Map
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="flex flex-col-reverse md:flex-row">
-                <div class="md:w-1/2 px-12 py-24 md:p-20 flex flex-col justify-center md:text-right">
-                    <h1 class="font-display text-6xl">Survival</h1>
-
-                    <div class="mt-3 text-gray-700 leading-8 text-sm">
-                        We've stripped back our Survival world to be as close to the vanilla experience as possible.
-                        There are no warps or teleports, and no dynamic map, so you'll have to figure out your own way.
-                        It's Minecraft in its purest form.
-                    </div>
-
-                    <ul class="mt-8 flex justify-end gap-4 text-sm font-bold">
-                        <li>
-                            <a href="https://www.instagram.com/projectcitybuild" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
-                                    <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
-                                </svg>
-                                Gallery
-                            </a>
-                        </li>
-                    </ul>
+        <section id="worlds" aria-labelledby="worlds-heading" class="bg-gray-50 py-16 dark:bg-gray-900/60 sm:py-20 lg:py-24">
+            <div class="mx-auto max-w-screen-2xl px-4 sm:px-8">
+                <div class="mx-auto max-w-2xl text-center">
+                    <p class="text-sm font-bold uppercase tracking-[0.18em] text-amber-700 dark:text-amber-400">Your next build starts here</p>
+                    <h2 id="worlds-heading" class="mt-3 font-display text-5xl leading-none sm:text-6xl">Find your world</h2>
+                    <p class="mt-4 leading-7 text-gray-600 dark:text-gray-300">From boundless creativity to a city built at a realistic scale, there's always somewhere new to explore.</p>
                 </div>
 
-                <div
-                    class="
-                        w-full md:w-1/2 h-[350px] md:h-[500px]
-                        bg-gray-100
-                        bg-cover bg-no-repeat bg-center
-                        bg-[url('/resources/images/home_survival.png')]
-                    "
-                ></div>
+                <div class="mt-10 grid gap-6 lg:mt-14 lg:grid-cols-3">
+                    <article class="flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-950">
+                        <div aria-hidden="true" class="aspect-[4/3] bg-gray-200 bg-[url('/resources/images/home_creative.png')] bg-cover bg-center dark:bg-gray-800"></div>
+                        <div class="flex grow flex-col p-6 sm:p-7">
+                            <p class="text-xs font-bold uppercase tracking-[0.18em] text-amber-700 dark:text-amber-400">Create without limits</p>
+                            <h3 class="mt-2 font-display text-4xl">Creative</h3>
+                            <p class="mt-3 leading-7 text-gray-600 dark:text-gray-300">
+                                No plots—just a free-build world full of everything from alien landscapes and cruise ships to castles and entire cities. Let your imagination run wild.
+                            </p>
+                            <ul class="mt-auto flex flex-wrap gap-x-6 gap-y-3 pt-6 text-sm font-semibold">
+                                <li>
+                                    <a href="https://www.instagram.com/projectcitybuild" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-blue-700 hover:text-blue-900 dark:text-blue-300 dark:hover:text-blue-200">
+                                        Gallery <span aria-hidden="true">→</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('front.maps') }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-blue-700 hover:text-blue-900 dark:text-blue-300 dark:hover:text-blue-200">
+                                        Real-time map <span aria-hidden="true">→</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-950">
+                        <div aria-hidden="true" class="aspect-[4/3] bg-gray-200 bg-[url('/resources/images/home_monarch.png')] bg-cover bg-center dark:bg-gray-800"></div>
+                        <div class="flex grow flex-col p-6 sm:p-7">
+                            <p class="text-xs font-bold uppercase tracking-[0.18em] text-amber-700 dark:text-amber-400">A city made together</p>
+                            <h3 class="mt-2 font-display text-4xl">Monarch</h3>
+                            <p class="mt-3 leading-7 text-gray-600 dark:text-gray-300">
+                                Our premier city project features realistic-scale builds. More than five years in the making, Monarch showcases our builders' talents—and there's room to make your mark.
+                            </p>
+                            <ul class="mt-auto flex flex-wrap gap-x-6 gap-y-3 pt-6 text-sm font-semibold">
+                                <li>
+                                    <a href="https://www.instagram.com/projectcitybuild" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-blue-700 hover:text-blue-900 dark:text-blue-300 dark:hover:text-blue-200">
+                                        Gallery <span aria-hidden="true">→</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('front.maps') }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-blue-700 hover:text-blue-900 dark:text-blue-300 dark:hover:text-blue-200">
+                                        Real-time map <span aria-hidden="true">→</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-950">
+                        <div aria-hidden="true" class="aspect-[4/3] bg-gray-200 bg-[url('/resources/images/home_survival.png')] bg-cover bg-center dark:bg-gray-800"></div>
+                        <div class="flex grow flex-col p-6 sm:p-7">
+                            <p class="text-xs font-bold uppercase tracking-[0.18em] text-amber-700 dark:text-amber-400">Need a break?</p>
+                            <h3 class="mt-2 font-display text-4xl">Survival</h3>
+                            <p class="mt-3 leading-7 text-gray-600 dark:text-gray-300">
+                                Our Survival world is as close to vanilla as possible. No warps, teleports, or dynamic map—just Minecraft in its purest form.
+                            </p>
+                            <ul class="mt-auto flex flex-wrap gap-x-6 gap-y-3 pt-6 text-sm font-semibold">
+                                <li>
+                                    <a href="https://www.instagram.com/projectcitybuild" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-blue-700 hover:text-blue-900 dark:text-blue-300 dark:hover:text-blue-200">
+                                        Gallery <span aria-hidden="true">→</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </article>
+                </div>
             </div>
+        </section>
 
-            <div class="flex flex-col md:flex-row">
-                <div
-                    class="
-                        w-full md:w-1/2 h-[350px] md:h-[500px]
-                        bg-gray-100
-                        bg-cover bg-no-repeat bg-center
-                        bg-[url('/resources/images/home_monarch.png')]
-                    "
-                ></div>
+        <section aria-labelledby="recent-players-heading" class="py-16 sm:py-20 lg:py-24">
+            <div class="mx-auto max-w-screen-2xl px-4 sm:px-8">
+                <div class="mx-auto max-w-2xl text-center">
+                    <p class="text-sm font-bold uppercase tracking-[0.18em] text-amber-700 dark:text-amber-400">Community in motion</p>
+                    <h2 id="recent-players-heading" class="mt-3 font-display text-5xl leading-none sm:text-6xl">Recently connected</h2>
+                    <p class="mt-4 leading-7 text-gray-600 dark:text-gray-300">See who's been visiting our worlds lately.</p>
+                </div>
 
-                <div class="md:w-1/2 px-12 py-24 md:p-20 flex flex-col justify-center">
-                    <h1 class="font-display text-6xl">Monarch</h1>
+                <ul class="mt-10 grid gap-4 grid-cols-2 md:mt-14 md:grid-cols-4">
+                    @foreach ($recentPlayers as $player)
+                        <li class="flex flex-col items-center gap-4 rounded-2xl border border-gray-200 bg-gray-50 p-5 dark:border-gray-800 dark:bg-gray-900">
+                            <h3 class="truncate font-semibold">{{ $player->alias ?? 'Unknown player' }}</h3>
+                            <img
+                                src="https://minotar.net/helm/{{ $player->uuid }}/48"
+                                alt=""
+                                width="48"
+                                height="48"
+                                class="size-12 rounded-sm object-cover"
+                            >
+                            <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">
+                                <time datetime="{{ $player->latestSession->starts_at->toIso8601String() }}">
+                                    {{ $player->latestSession->starts_at->diffForHumans() }}
+                                </time>
+                            </p>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        </section>
 
-                    <div class="mt-3 text-gray-700 leading-8 text-sm">
-                        Our premier city project, featuring builds at a realistic scale.
-                        Over 5 years in development, Monarch showcases the talents of our most skilled builders.
-                        Feel free to take a look around, and if you've got what it takes, you can make your own mark in the city.
+        <section aria-labelledby="connect-heading" class="bg-gray-100 py-14 dark:bg-gray-900 sm:py-16">
+            <div class="mx-auto max-w-screen-2xl px-4 sm:px-8">
+                <div data-home-reveal class="flex flex-col gap-6 rounded-3xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-950 sm:p-10 lg:flex-row lg:items-center lg:justify-between">
+                    <div class="max-w-2xl">
+                        <p class="text-xs font-bold uppercase tracking-[0.2em] text-amber-700 dark:text-amber-400">Minecraft: Java Edition</p>
+                        <h2 id="connect-heading" class="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Ready to connect?</h2>
+                        <p class="mt-3 leading-7 text-gray-600 dark:text-gray-300">Find the server address and step-by-step connection instructions.</p>
                     </div>
-
-                    <ul class="mt-8 flex gap-4 text-sm font-bold">
-                        <li>
-                            <a href="https://www.instagram.com/projectcitybuild" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
-                                    <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
-                                </svg>
-                                Gallery
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('front.maps') }}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
-                                    <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
-                                </svg>
-                                Real-Time Map
-                            </a>
-                        </li>
-                    </ul>
+                    <a href="{{ route('front.connect') }}" class="inline-flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-xl bg-amber-400 px-5 py-3 text-sm font-bold text-gray-950 transition duration-200 hover:-translate-y-0.5 hover:bg-amber-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500 active:translate-y-0 motion-reduce:hover:translate-y-0 motion-reduce:transition-none">
+                        How to connect
+                        <span aria-hidden="true">→</span>
+                    </a>
                 </div>
             </div>
         </section>

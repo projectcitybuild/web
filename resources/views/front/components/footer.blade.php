@@ -1,5 +1,5 @@
 <footer class="bg-white antialiased dark:bg-gray-800">
-  <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+  <div class="mx-auto max-w-screen-xl px-8 2xl:px-0">
     <div class="border-b border-gray-100 py-6 dark:border-gray-700 md:py-8 lg:py-16">
       <div class="items-start gap-6 md:gap-8 lg:flex 2xl:gap-24">
         <div class="grid min-w-0 flex-1 grid-cols-2 gap-6 md:gap-8 xl:grid-cols-3">

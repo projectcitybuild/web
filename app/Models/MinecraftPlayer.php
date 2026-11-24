@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -119,6 +120,11 @@ final class MinecraftPlayer extends Model implements AuditableContract, Linkable
             related: MinecraftPlayerSession::class,
             foreignKey: 'player_id',
         );
+    }
+
+    public function latestSession(): HasOne
+    {
+        return $this->sessions()->one()->latestOfMany('starts_at');
     }
 
     public function sentMail(): HasMany

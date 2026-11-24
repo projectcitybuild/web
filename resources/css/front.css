@@ -11,6 +11,8 @@
 @source "../js/front";
 @source "../../node_modules/flowbite";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
     --font-display: "Bebas Neue", sans-serif;
     --font-body: "Inter", sans-serif;
@@ -21,5 +23,4 @@
 
 body {
     font-family: "Inter", sans-serif;
-    background-color: hsl(0, 0%, 94%);
 }

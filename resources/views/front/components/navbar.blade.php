@@ -6,7 +6,26 @@
     <div class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4">
         <x-logo />
 
-        <div class="flex md:order-2 space-x-3 md:space-x-0 items-center">
+        <div class="flex md:order-2 items-center gap-2 md:gap-3">
+            <button
+                type="button"
+                class="inline-flex size-10 shrink-0 items-center justify-center rounded-md text-gray-100 hover:bg-white/10 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-white/70"
+                aria-label="Theme: automatic. Switch to light theme"
+                title="Theme: automatic. Switch to light theme"
+                data-theme-toggle
+            >
+                <svg data-theme-icon="light" class="hidden size-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                    <circle cx="12" cy="12" r="4" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 2.25v2.25m0 15v2.25m9.75-9.75H19.5m-15 0H2.25m16.64-6.89-1.59 1.59m-10.6 10.6-1.59 1.59m13.78 0-1.59-1.59m-10.6-10.6L5.1 5.1" />
+                </svg>
+                <svg data-theme-icon="dark" class="hidden size-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0 1 18 15.75 9.75 9.75 0 0 1 8.25 6c0-1.33.266-2.598.748-3.752A9.753 9.753 0 1 0 21.752 15.002Z" />
+                </svg>
+                <svg data-theme-icon="system" class="size-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v3m6-3v3m-9 0h12M3.75 3.75h16.5v11.25H3.75z" />
+                </svg>
+            </button>
+
             @auth
                 <button type="button" class="flex text-sm bg-gray-50 dark:bg-gray-800 rounded-full md:me-0" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
                     <span class="sr-only">Open user menu</span>
