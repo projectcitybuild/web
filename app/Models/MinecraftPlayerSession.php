@@ -13,7 +13,6 @@ final class MinecraftPlayerSession extends Model
 {
     use HasFactory;
     use HasStaticTable;
-    use Prunable;
 
     protected $table = 'minecraft_player_sessions';
     protected $fillable = [
@@ -27,11 +26,6 @@ final class MinecraftPlayerSession extends Model
         'ends_at' => 'datetime',
     ];
     public $timestamps = false;
-
-    public function prunable(): Builder
-    {
-        return self::where('ends_at', '<=', now()->subMonth());
-    }
 
     public function player(): BelongsTo
     {
