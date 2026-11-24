@@ -42,13 +42,23 @@ final class SyncDiscordRoleJob implements DescribesBackgroundJob, ShouldBeUnique
 
         if (
             ! is_array($callback)
-            || ! isset($callback['host'])
+            || ! isset($callback['scheme'], $callback['host'])
             || ! in_array($callback['scheme'] ?? null, ['http', 'https'], true)
             || isset($callback['user'])
             || isset($callback['pass'])
-            || (! app()->environment(['local', 'testing']) && ($callback['scheme'] ?? null) !== 'https')
         ) {
-            throw new RuntimeException('Discord bot callback URL must be a valid HTTPS URL.');
+            throw new RuntimeException('Discord bot callback URL must be a valid HTTP or HTTPS URL.');
+        }
+
+        $isInternalBotHttpCallback = $callback['scheme'] === 'http'
+            && strcasecmp($callback['host'], 'pcb-discord-bot') === 0;
+
+        if (
+            ! app()->environment(['local', 'testing'])
+            && $callback['scheme'] !== 'https'
+            && ! $isInternalBotHttpCallback
+        ) {
+            throw new RuntimeException('Discord bot callback URL must use HTTPS if not an internal network.');
         }
 
         $payload = [

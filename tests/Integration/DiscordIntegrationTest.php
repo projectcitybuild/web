@@ -318,6 +318,34 @@ it('notifies the bot with a signed idempotent callback', function () {
     });
 });
 
+it('notifies the internal bot over HTTP in production', function () {
+    app()->detectEnvironment(fn (): string => 'production');
+    config([
+        'services.discord.bot_callback_url' => 'http://pcb-discord-bot:3000/webhooks/discord/role-sync',
+        'services.discord.callback_secret' => 'callback-secret',
+    ]);
+    Http::preventStrayRequests();
+    Http::fake([
+        'http://pcb-discord-bot:3000/webhooks/discord/role-sync' => Http::response([], 202),
+    ]);
+
+    (new SyncDiscordRoleJob('123456789012345678'))->handle();
+
+    Http::assertSent(fn (Request $request): bool => $request->url() === 'http://pcb-discord-bot:3000/webhooks/discord/role-sync');
+});
+
+it('rejects external HTTP callbacks in production', function () {
+    app()->detectEnvironment(fn (): string => 'production');
+    config([
+        'services.discord.bot_callback_url' => 'http://bot.example.test/discord/role-sync',
+        'services.discord.callback_secret' => 'callback-secret',
+    ]);
+    Http::preventStrayRequests();
+
+    expect(fn () => (new SyncDiscordRoleJob('123456789012345678'))->handle())
+        ->toThrow(RuntimeException::class, 'Discord bot callback URL must use HTTPS outside the internal bot service');
+});
+
 it('reconciles Discord roles again when a change occurs during an active sync', function () {
     config([
         'queue.default' => 'sync',
