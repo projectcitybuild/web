@@ -57,6 +57,7 @@ jobs:
       - uses: actions/checkout@v7.0.1
         with:
           ref: ${{ needs.deploy.outputs.image-tag }}
+          fetch-depth: 0
 
       - name: Determine version tag
         id: git_tag
@@ -78,8 +79,24 @@ jobs:
           git tag "$VERSION_TAG"
           git push origin "$VERSION_TAG"
 
+      - name: Generate release notes from commits
+        env:
+          VERSION_TAG: ${{ steps.git_tag.outputs.VERSION_TAG }}
+          NOTES_FILE: ${{ runner.temp }}/release-notes.md
+        run: |
+          PREVIOUS_TAGS=$(git tag --merged "$VERSION_TAG^" --list 'v[0-9]*')
+          if [ -n "$PREVIOUS_TAGS" ]; then
+            PREVIOUS_TAG=$(git describe --tags --abbrev=0 --match 'v[0-9]*' "$VERSION_TAG^")
+            echo "## Changes since $PREVIOUS_TAG" > "$NOTES_FILE"
+            git log --no-merges --format="- %s ([%h](https://github.com/$GITHUB_REPOSITORY/commit/%H))" "$PREVIOUS_TAG..$VERSION_TAG" >> "$NOTES_FILE"
+          else
+            echo "## Changes" > "$NOTES_FILE"
+            git log --no-merges --format="- %s ([%h](https://github.com/$GITHUB_REPOSITORY/commit/%H))" "$VERSION_TAG" >> "$NOTES_FILE"
+          fi
+
       - name: Create a GitHub Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VERSION_TAG: ${{ steps.git_tag.outputs.VERSION_TAG }}
-        run: gh release create "$VERSION_TAG" --title "$VERSION_TAG" --generate-notes
+          NOTES_FILE: ${{ runner.temp }}/release-notes.md
+        run: gh release create "$VERSION_TAG" --title "$VERSION_TAG" --notes-file "$NOTES_FILE"
