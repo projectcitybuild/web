@@ -59,19 +59,22 @@ services:
     volumes:
       - ../.docker/images/dev/mariadb/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh:ro
 
-  minio:
-    image: minio/minio:RELEASE.2025-09-07T16-13-09Z
+  rustfs:
+    image: rustfs/rustfs:latest
     environment:
-      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minio}
-      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minio}
+      RUSTFS_ACCESS_KEY: ${AWS_ACCESS_KEY_ID:-pcb-web}
+      RUSTFS_SECRET_KEY: ${AWS_SECRET_ACCESS_KEY:-password}
+      RUSTFS_ADDRESS: ":9000"
+      RUSTFS_CONSOLE_ADDRESS: ":9001"
+      RUSTFS_CONSOLE_ENABLE: "true"
     volumes:
-      - minio-data:/data/minio
-    command: minio server /data/minio --console-address ":8900"
+      - rustfs-data:/data
+    command: /data
     ports:
-      - "${FORWARD_MINIO_PORT:-9000}:9000"
-      - "${FORWARD_MINIO_CONSOLE_PORT:-8900}:8900"
+      - "${FORWARD_RUSTFS_PORT:-9000}:9000"
+      - "${FORWARD_RUSTFS_CONSOLE_PORT:-8900}:9001"
     healthcheck:
-      test: ["CMD", "mc", "ready", "local"]
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:9000/health/ready"]
       retries: 3
       timeout: 5s
     networks:
@@ -102,4 +105,4 @@ services:
       app: {}
 
 volumes:
-  minio-data:
+  rustfs-data:
