@@ -205,21 +205,16 @@
                             @error('visibility') <span class="mt-2 block text-sm text-red-600">{{ $message }}</span> @enderror
                         </fieldset>
 
-                        <div>
-                            <label for="attachments" class="font-semibold">Attachments <span class="font-normal text-gray-500">(optional)</span></label>
-                            <input
-                                id="attachments"
-                                name="attachments[]"
-                                type="file"
-                                multiple
-                                accept=".jpg,.jpeg,.png,.webp,.pdf"
-                                class="mt-2 block w-full rounded-md border border-gray-300 bg-white p-3 text-sm dark:border-gray-700 dark:bg-gray-800"
-                                @error('attachments') aria-invalid="true" @enderror
-                            />
-                            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Up to 5 JPG, PNG, WebP, or PDF files, 5 MB each.</p>
-                            @error('attachments') <span class="mt-2 block text-sm text-red-600">{{ $message }}</span> @enderror
-                            @error('attachments.*') <span class="mt-2 block text-sm text-red-600">{{ $message }}</span> @enderror
-                        </div>
+                        <x-front::file-upload
+                            id="attachments"
+                            name="attachments[]"
+                            label="Attachments"
+                            :optional="true"
+                            :multiple="true"
+                            accept=".jpg,.jpeg,.png,.webp,.pdf"
+                            hint="Up to 5 JPG/PNG/WebP files. Max 5 MB each."
+                            error-key="attachments"
+                        />
                     </div>
                 </section>
 

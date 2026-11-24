@@ -1,3 +1,130 @@
+const fileDropzones = Array.from(document.querySelectorAll<HTMLElement>('[data-file-dropzone]'))
+
+if (fileDropzones.length > 0) {
+    const overlay = document.createElement('div')
+    overlay.className = 'pointer-events-none fixed inset-0 z-50 hidden place-items-center bg-white/70 p-6 text-center backdrop-blur-sm dark:bg-gray-950/70'
+    overlay.setAttribute('aria-hidden', 'true')
+
+    const overlayMessage = document.createElement('span')
+    overlayMessage.className = 'rounded-xl border border-blue-500 bg-white px-6 py-4 text-lg font-semibold text-gray-900 shadow-xl dark:bg-gray-900 dark:text-gray-100'
+    overlayMessage.textContent = 'Drop files to attach them'
+    overlay.append(overlayMessage)
+    document.body.append(overlay)
+
+    let dragDepth = 0
+
+    function isFileDrag(event: DragEvent): boolean {
+        return Array.from(event.dataTransfer?.types ?? []).includes('Files')
+    }
+
+    function setDraggingState(isDragging: boolean): void {
+        overlay?.classList.toggle('hidden', !isDragging)
+
+        if (!isDragging) {
+            fileDropzones.forEach(dropzone => {
+                delete dropzone.dataset.dragging
+            })
+        }
+    }
+
+    document.addEventListener('dragenter', event => {
+        if (!isFileDrag(event)) {
+            return
+        }
+        dragDepth += 1
+        setDraggingState(true)
+    })
+
+    document.addEventListener('dragover', event => {
+        if (!isFileDrag(event)) {
+            return
+        }
+
+        event.preventDefault()
+
+        if (event.dataTransfer) {
+            event.dataTransfer.dropEffect = 'copy'
+        }
+    })
+
+    document.addEventListener('dragleave', event => {
+        if (!isFileDrag(event)) {
+            return
+        }
+
+        dragDepth = Math.max(0, dragDepth - 1)
+
+        if (dragDepth === 0) {
+            setDraggingState(false)
+        }
+    })
+
+    document.addEventListener('drop', event => {
+        if (!isFileDrag(event)) {
+            return
+        }
+        event.preventDefault()
+        dragDepth = 0
+        setDraggingState(false)
+    })
+
+    fileDropzones.forEach(dropzone => {
+        const input = dropzone.querySelector<HTMLInputElement>('[data-file-dropzone-input]')
+        const fileNames = dropzone.querySelector<HTMLElement>('[data-file-dropzone-file-names]')
+
+        if (!input) {
+            return
+        }
+        dropzone.addEventListener('dragenter', event => {
+            if (!isFileDrag(event)) {
+                return
+            }
+            event.preventDefault()
+            dropzone.dataset.dragging = 'true'
+        })
+
+        dropzone.addEventListener('dragover', event => {
+            if (isFileDrag(event)) {
+                event.preventDefault()
+            }
+        })
+
+        dropzone.addEventListener('dragleave', event => {
+            if (!isFileDrag(event)) {
+                return
+            }
+            if (event.relatedTarget instanceof Node && dropzone.contains(event.relatedTarget)) {
+                return
+            }
+            delete dropzone.dataset.dragging
+        })
+
+        dropzone.addEventListener('drop', event => {
+            if (!isFileDrag(event) || !event.dataTransfer) {
+                return
+            }
+            event.preventDefault()
+            delete dropzone.dataset.dragging
+
+            const transfer = new DataTransfer()
+
+            Array.from(input.files ?? []).forEach(file => transfer.items.add(file))
+            Array.from(event.dataTransfer.files).forEach(file => transfer.items.add(file))
+            input.files = transfer.files
+            input.dispatchEvent(new Event('change', { bubbles: true }))
+        })
+
+        input.addEventListener('change', () => {
+            if (!fileNames) {
+                return
+            }
+            const names = Array.from(input.files ?? []).map(file => file.name)
+            fileNames.textContent = names.join(', ')
+            fileNames.classList.toggle('hidden', names.length === 0)
+        })
+    })
+}
+
 const form = document.querySelector<HTMLFormElement>('[data-player-report-form]')
 
 if (form) {

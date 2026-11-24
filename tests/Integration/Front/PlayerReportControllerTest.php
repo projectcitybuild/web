@@ -46,11 +46,15 @@ it('creates a guest report and stores its evidence privately', function () {
         ->assertRedirect(route('report'))
         ->assertSessionHas('success')
         ->assertSessionHas('report_id', $report->id);
+
     $this->assertModelExists($report);
+
     expect($report->reporter_account_id)->toBeNull()
         ->and($report->visibility)->toBe(PlayerReportVisibility::STANDARD)
         ->and($report->attachments)->toHaveCount(1);
-    Storage::disk('player-reports')->assertExists($report->attachments->first()->path);
+
+    Storage::disk('player-reports')
+        ->assertExists($report->attachments->first()->path);
 });
 
 it('associates a signed-in reporter with their account', function () {
@@ -101,6 +105,39 @@ it('rejects incomplete reports without creating a record', function () {
             'details' => '',
         ])
         ->assertSessionHasErrors(['reported_player_name', 'subject', 'report_details', 'visibility']);
+
+    $this->assertDatabaseCount('player_reports', 0);
+});
+
+it('redirects oversized attachments back with a validation error', function () {
+    $this->app->instance(CaptchaValidator::class, new class implements CaptchaValidator
+    {
+        public function passed(?string $token, string $ip): bool
+        {
+            return true;
+        }
+    });
+
+    $this->from(route('report'))
+        ->post(route('report.submit'), [
+            'reporter_name' => 'ReporterName',
+            'reporter_contact' => 'Discord: reporter',
+            'reported_player_name' => 'ReportedPlayer',
+            'subject' => 'Harassment',
+            'report_details' => 'The player repeatedly harassed me in chat.',
+            'visibility' => 'standard',
+            'captcha-response' => 'valid-token',
+            'details' => '',
+            'attachments' => [
+                UploadedFile::fake()->create('oversized.pdf', 5121, 'application/pdf'),
+            ],
+        ])
+        ->assertRedirectToRoute('report')
+        ->assertSessionHasErrors(['attachments.0']);
+
+    $this->get(route('report'))
+        ->assertOk()
+        ->assertSeeText('5120 kilobytes');
 
     $this->assertDatabaseCount('player_reports', 0);
 });

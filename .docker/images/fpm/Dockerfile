@@ -19,6 +19,8 @@ RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS curl-dev icu-dev libzi
     && apk add --no-cache icu-libs libzip mariadb-connector-c mariadb-client \
     && apk del .build-deps
 
+COPY .docker/images/fpm/uploads.ini /usr/local/etc/php/conf.d/uploads.ini
+
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
 WORKDIR /var/www/html

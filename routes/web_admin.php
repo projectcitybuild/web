@@ -43,7 +43,10 @@ use App\Http\Controllers\Admin\Manage\Roles\RolePermissionController;
 use App\Http\Controllers\Admin\Manage\Servers\ServerController;
 use App\Http\Controllers\Admin\Manage\Servers\ServerTokenController;
 use App\Http\Controllers\Admin\Manage\Warnings\PlayerWarningController;
-use App\Http\Controllers\Front\PlayerReportController as FrontPlayerReportController;
+use App\Http\Controllers\Admin\Review\BanAppeals\BanAppealController;
+use App\Http\Controllers\Admin\Review\BuilderRanks\BuilderRanksController;
+use App\Http\Controllers\Admin\Review\HomeController as ReviewHomeController;
+use App\Http\Controllers\Admin\Review\PlayerReports\PlayerReportController;
 use Illuminate\Support\Facades\Route;
 use Inertia\EncryptHistoryMiddleware;
 
@@ -193,6 +196,55 @@ Route::name('manage.')
             ->except(['show']);
     });
 
+Route::name('review.')
+    ->prefix('review')
+    ->middleware([
+        'auth',
+        'activated',
+        'mfa',
+        'can:access-review',
+        'require-mfa',
+        EncryptHistoryMiddleware::class,
+    ])
+    ->group(function () {
+        Route::get('/', ReviewHomeController::class)
+            ->name('index');
+
+        Route::prefix('builder-ranks')->name('builder-ranks.')->group(function () {
+            Route::get('/', [BuilderRanksController::class, 'index']);
+
+            Route::prefix('{application}')->group(function () {
+                Route::get('/', [BuilderRanksController::class, 'show'])->name('show');
+                Route::post('approve', [BuilderRanksController::class, 'approve']);
+                Route::post('deny', [BuilderRanksController::class, 'deny']);
+            });
+        });
+
+        Route::resource('ban-appeals', BanAppealController::class)
+            ->only('index', 'show', 'update');
+
+        Route::get('player-reports', [PlayerReportController::class, 'index'])
+            ->name('player-reports.index');
+        Route::get('player-reports/{playerReport}', [PlayerReportController::class, 'show'])
+            ->name('player-reports.show');
+        Route::delete('player-reports/{playerReport}', [PlayerReportController::class, 'destroy'])
+            ->name('player-reports.destroy');
+        Route::get('player-reports/{playerReport}/assignable-accounts', [PlayerReportController::class, 'searchAssignableAccounts'])
+            ->name('player-reports.assignable-accounts.search');
+        Route::put('player-reports/{playerReport}/assignees', [PlayerReportController::class, 'updateAssignees'])
+            ->name('player-reports.assignees.update');
+        Route::put('player-reports/{playerReport}/visibility', [PlayerReportController::class, 'updateVisibility'])
+            ->name('player-reports.visibility.update');
+        Route::post('player-reports/{playerReport}/assignees/self', [PlayerReportController::class, 'assignToSelf'])
+            ->name('player-reports.assignees.self');
+        Route::put('player-reports/{playerReport}/complete', [PlayerReportController::class, 'complete'])
+            ->name('player-reports.complete');
+        Route::get('player-reports/{playerReport}/attachments/{attachment}', [PlayerReportController::class, 'downloadAttachment'])
+            ->name('player-reports.attachments.download');
+        Route::get('player-reports/{playerReport}/attachments/{attachment}/preview', [PlayerReportController::class, 'previewAttachment'])
+            ->name('player-reports.attachments.preview');
+    });
+
 Route::name('auditing.')
     ->prefix('audit')
     ->middleware([
@@ -231,45 +283,3 @@ Route::name('auditing.')
         Route::get('background-jobs/{run}', [BackgroundJobController::class, 'show'])
             ->name('background-jobs.show');
     });
-
-Route::permanentRedirect('terms', 'https://portal.projectcitybuild.com/books/legal-and-compliance/page/terms-of-service')
-    ->name('terms');
-
-Route::permanentRedirect('privacy', 'https://portal.projectcitybuild.com/books/legal-and-compliance/page/privacy-policy')
-    ->name('privacy');
-
-Route::permanentRedirect('wiki', 'https://wiki.projectcitybuild.com')
-    ->name('wiki');
-
-Route::permanentRedirect('portal', 'https://portal.projectcitybuild.com/')
-    ->name('portal');
-
-Route::get('player-report', [FrontPlayerReportController::class, 'create'])
-    ->name('report');
-Route::post('player-report', [FrontPlayerReportController::class, 'store'])
-    ->name('report.submit')
-    ->middleware('throttle:5,1');
-Route::get('report', [FrontPlayerReportController::class, 'create'])
-    ->name('report.legacy');
-
-Route::permanentRedirect('staff-apply', 'https://tally.so/r/yPMkZd')
-    ->name('staff-apply');
-
-Route::permanentRedirect('rules', 'https://portal.projectcitybuild.com/books/rules/page/community-rules')
-    ->name('rules');
-
-Route::permanentRedirect('ranks', 'https://portal.projectcitybuild.com/books/player-ranks/page/list-of-ranks')
-    ->name('ranks');
-
-Route::permanentRedirect('staff', 'https://portal.projectcitybuild.com/books/list-of-staff/page/active')
-    ->name('staff');
-
-Route::permanentRedirect('vote', 'https://portal.projectcitybuild.com/books/server-voting/page/server-voting')
-    ->name('vote');
-
-Route::permanentRedirect('map-archive', 'https://portal.projectcitybuild.com/books/map-archive/page/map-archive')
-    ->name('map-archive');
-
-Route::permanentRedirect('login', 'https://projectcitybuild.com/auth/login');
-
-Route::permanentRedirect('register', 'https://projectcitybuild.com/auth/register');
