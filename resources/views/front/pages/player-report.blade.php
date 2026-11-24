@@ -69,9 +69,9 @@
                 <input type="text" name="details" class="hidden" tabindex="-1" autocomplete="off" />
 
                 <div class="flex items-center justify-between gap-4" aria-live="polite">
-                    <p class="font-semibold" data-step-counter>Step 1 of 4</p>
+                    <p class="font-semibold" data-step-counter>Step 1 of 3</p>
                     <div class="h-2 w-2/3 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
-                        <div class="h-full w-1/4 rounded-full bg-blue-700 transition-all" data-step-progress></div>
+                        <div class="h-full w-1/3 rounded-full bg-blue-700 transition-all" data-step-progress></div>
                     </div>
                 </div>
 
@@ -150,7 +150,7 @@
                 </section>
 
                 <section data-report-step aria-labelledby="report-step-details">
-                    <h2 id="report-step-details" class="text-2xl font-semibold">3. Report details</h2>
+                    <h2 id="report-step-details" class="text-2xl font-semibold">3. Report details and review</h2>
                     <p class="mt-2 text-gray-600 dark:text-gray-300">Please include as much accurate detail as you can. You can attach screenshots or other evidence.</p>
 
                     <div class="mt-5 space-y-5">
@@ -215,16 +215,15 @@
                             hint="Up to 5 JPG/PNG/WebP files. Max 5 MB each."
                             error-key="attachments"
                         />
-                    </div>
-                </section>
 
-                <section data-report-step aria-labelledby="report-step-review">
-                    <h2 id="report-step-review" class="text-2xl font-semibold">4. Review and submit</h2>
-                    <p class="mt-2 text-gray-600 dark:text-gray-300">
-                        Check your details before sending. Your report will be stored securely and reviewed by the staff allowed by your visibility choice.
-                    </p>
-                    <x-captcha class="mt-6"></x-captcha>
-                    @error('captcha-response') <span class="mt-2 block text-sm text-red-600">{{ $message }}</span> @enderror
+                        <div>
+                            <p class="text-gray-600 dark:text-gray-300">
+                                Check your details before sending. Your report will be stored securely and reviewed by the staff allowed by your visibility choice.
+                            </p>
+                            <x-captcha class="mt-6"></x-captcha>
+                            @error('captcha-response') <span class="mt-2 block text-sm text-red-600">{{ $message }}</span> @enderror
+                        </div>
+                    </div>
                 </section>
 
                 <div class="flex flex-wrap justify-between gap-3 border-t border-gray-200 pt-5 dark:border-gray-800">

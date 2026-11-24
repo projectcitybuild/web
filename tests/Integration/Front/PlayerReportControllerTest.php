@@ -11,6 +11,9 @@ it('renders the report guidance and single-page form', function () {
     $this->get(route('report'))
         ->assertOk()
         ->assertSeeText('Understanding the player report process')
+        ->assertSeeText('Step 1 of 3')
+        ->assertSeeText('3. Report details and review')
+        ->assertDontSeeText('4. Review and submit')
         ->assertSee('data-player-report-form', false)
         ->assertSee('name="attachments[]"', false);
 });
