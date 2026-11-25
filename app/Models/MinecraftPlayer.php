@@ -50,6 +50,9 @@ final class MinecraftPlayer extends Model implements AuditableContract, Linkable
         'sessions',
         'play_time',
         'afk_time',
+        'deaths',
+        'mob_kills',
+        'player_kills',
         'blocks_placed',
         'blocks_destroyed',
         'blocks_travelled',
@@ -62,6 +65,9 @@ final class MinecraftPlayer extends Model implements AuditableContract, Linkable
     protected $casts = [
         'last_seen_at' => 'datetime',
         'last_connected_at' => 'datetime',
+        'deaths' => 'integer',
+        'mob_kills' => 'integer',
+        'player_kills' => 'integer',
         'teleport_mode' => TeleportMode::class,
         'move_mode' => MoveMode::class,
         'last_location_x' => 'float',
@@ -118,6 +124,38 @@ final class MinecraftPlayer extends Model implements AuditableContract, Linkable
     {
         return $this->hasMany(
             related: MinecraftPlayerSession::class,
+            foreignKey: 'player_id',
+        );
+    }
+
+    public function killsAsAttacker(): HasMany
+    {
+        return $this->hasMany(
+            related: MinecraftPlayerKill::class,
+            foreignKey: 'player_id',
+        );
+    }
+
+    public function killsAsVictim(): HasMany
+    {
+        return $this->hasMany(
+            related: MinecraftPlayerKill::class,
+            foreignKey: 'victim_player_id',
+        );
+    }
+
+    public function nicknameChanges(): HasMany
+    {
+        return $this->hasMany(
+            related: MinecraftPlayerNicknameChange::class,
+            foreignKey: 'player_id',
+        );
+    }
+
+    public function worldTimes(): HasMany
+    {
+        return $this->hasMany(
+            related: MinecraftPlayerWorldTime::class,
             foreignKey: 'player_id',
         );
     }
