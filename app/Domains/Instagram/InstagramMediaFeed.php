@@ -2,11 +2,7 @@
 
 namespace App\Domains\Instagram;
 
-use Illuminate\Http\Client\ConnectionException;
-use Illuminate\Http\Client\Pool;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use UnexpectedValueException;
@@ -15,22 +11,19 @@ final class InstagramMediaFeed
 {
     private const POST_LIMIT = 16;
     private const MAX_CAROUSEL_IMAGES = 10;
-    private const MAX_IMAGE_BYTES = 10485760;
-    private const WATERMARK_TEXT = 'https://projectcitybuild.com';
-    private const WATERMARK_MARGIN = 8;
-    private const WATERMARK_PADDING = 8;
 
-    public function isConfigured(): bool
-    {
-        return $this->configuration() !== null;
-    }
+    public function __construct(
+        private InstagramAuth $instagramAuth,
+        private InstagramApiClient $instagramApiClient,
+        private InstagramImageWatermarker $instagramImageWatermarker,
+    ) {}
 
     /**
      * @return array<int, array{permalink: string, images: array<int, array{imageKey: string, altText: string}>}>|null
      */
     public function latestImages(): ?array
     {
-        $configuration = $this->configuration();
+        $configuration = $this->instagramAuth->credentials();
 
         if ($configuration === null) {
             return null;
@@ -53,7 +46,7 @@ final class InstagramMediaFeed
 
     public function refreshImages(): void
     {
-        $configuration = $this->configuration();
+        $configuration = $this->instagramAuth->credentials();
 
         if ($configuration === null) {
             throw new UnexpectedValueException('Instagram media feed is not configured.');
@@ -67,7 +60,7 @@ final class InstagramMediaFeed
         ));
 
         Cache::forever(
-            'instagram.cached-images.v3.'.$configuration['apiVersion'].'.'.$configuration['userId'],
+            $this->cachedImagesKey($configuration['apiVersion'], $configuration['userId']),
             $posts,
         );
 
@@ -76,38 +69,30 @@ final class InstagramMediaFeed
         ]);
     }
 
-    public function refreshAccessToken(): void
+    public function clearCache(): void
     {
-        $configuration = $this->configuration();
+        $identifiers = $this->instagramAuth->configurationIdentifiers();
 
-        if ($configuration === null) {
-            throw new UnexpectedValueException('Instagram access token refresh is not configured.');
+        if ($identifiers === null) {
+            throw new UnexpectedValueException('Instagram media feed cache cannot be cleared because the feed is not configured.');
         }
 
-        $response = Http::connectTimeout(3)
-            ->timeout(5)
-            ->get('https://graph.instagram.com/refresh_access_token', [
-                'grant_type' => 'ig_refresh_token',
-                'access_token' => $configuration['accessToken'],
-            ])
-            ->throw();
+        $disk = config('filesystems.default');
 
-        $accessToken = $response->json('access_token');
-        $expiresIn = $response->json('expires_in');
-
-        if (! is_string($accessToken) || $accessToken === '' || ! is_int($expiresIn) || $expiresIn <= 0) {
-            throw new UnexpectedValueException('Instagram returned an invalid access token refresh response.');
+        if (! is_string($disk) || $disk === '') {
+            throw new UnexpectedValueException('The default filesystem disk is not configured.');
         }
 
-        Cache::forever(
-            'instagram.access-token.'.$configuration['userId'],
-            Crypt::encryptString($accessToken),
-        );
+        if (! Storage::disk($disk)->deleteDirectory('instagram-images')) {
+            throw new UnexpectedValueException('Cached Instagram images could not be deleted.');
+        }
+
+        Cache::forget($this->cachedImagesKey($identifiers['apiVersion'], $identifiers['userId']));
     }
 
     public function cacheImage(string $imageKey): bool
     {
-        $configuration = $this->configuration();
+        $configuration = $this->instagramAuth->credentials();
 
         if ($configuration === null) {
             return false;
@@ -126,37 +111,9 @@ final class InstagramMediaFeed
         return false;
     }
 
-    /**
-     * @return array{userId: string, accessToken: string, apiVersion: string}|null
-     */
-    private function configuration(): ?array
+    private function cachedImagesKey(string $apiVersion, string $userId): string
     {
-        $userId = config('services.instagram.user_id');
-        $apiVersion = config('services.instagram.api_version');
-
-        if (
-            ! is_string($userId)
-            || ! ctype_digit($userId)
-            || ! is_string($apiVersion)
-            || preg_match('/^v\d+\.\d+$/D', $apiVersion) !== 1
-        ) {
-            return null;
-        }
-
-        $cachedAccessToken = Cache::get('instagram.access-token.'.$userId);
-        $accessToken = is_string($cachedAccessToken)
-            ? Crypt::decryptString($cachedAccessToken)
-            : config('services.instagram.access_token');
-
-        if (! is_string($accessToken) || $accessToken === '') {
-            return null;
-        }
-
-        return [
-            'userId' => $userId,
-            'accessToken' => $accessToken,
-            'apiVersion' => $apiVersion,
-        ];
+        return 'instagram.cached-images.v3.'.$apiVersion.'.'.$userId;
     }
 
     /**
@@ -165,10 +122,7 @@ final class InstagramMediaFeed
      */
     private function cachedImages(array $configuration): array
     {
-        $posts = Cache::get(
-            'instagram.cached-images.v3.'.$configuration['apiVersion'].'.'.$configuration['userId'],
-            [],
-        );
+        $posts = Cache::get($this->cachedImagesKey($configuration['apiVersion'], $configuration['userId']), []);
 
         if (! is_array($posts)) {
             throw new UnexpectedValueException('Cached Instagram media has an invalid format.');
@@ -183,23 +137,11 @@ final class InstagramMediaFeed
      */
     private function fetchImages(array $configuration): array
     {
-        $response = Http::connectTimeout(3)
-            ->timeout(5)
-            ->get(
-                'https://graph.instagram.com/'.$configuration['apiVersion'].'/'.$configuration['userId'].'/media',
-                [
-                    'fields' => 'alt_text,media_type,media_url,permalink,timestamp,children{media_type,media_url}',
-                    'limit' => 50,
-                    'access_token' => $configuration['accessToken'],
-                ],
-            )
-            ->throw();
-
-        $mediaItems = $response->json('data');
-
-        if (! is_array($mediaItems)) {
-            throw new UnexpectedValueException('Instagram Graph API returned an invalid media list.');
-        }
+        $mediaItems = $this->instagramApiClient->fetchMedia(
+            $configuration['apiVersion'],
+            $configuration['userId'],
+            $configuration['accessToken'],
+        );
 
         $mediaItems = array_values(array_filter($mediaItems, is_array(...)));
 
@@ -298,141 +240,13 @@ final class InstagramMediaFeed
             return;
         }
 
-        $responses = Http::pool(static function (Pool $pool) use ($imagesToDownload): array {
-            $requests = [];
-
-            foreach ($imagesToDownload as $imageKey => $image) {
-                $requests[$imageKey] = $pool->as($imageKey)
-                    ->connectTimeout(3)
-                    ->timeout(5)
-                    ->withOptions(['allow_redirects' => false])
-                    ->get($image['imageUrl']);
-            }
-
-            return $requests;
-        });
-
-        foreach ($responses as $imageKey => $response) {
-            if ($response instanceof ConnectionException) {
-                throw $response;
-            }
-
-            $response->throw();
-
-            $contentType = $response->header('Content-Type');
-            $mimeType = is_string($contentType)
-                ? strtolower(trim(explode(';', $contentType, 2)[0]))
-                : '';
-            $contents = $response->body();
-
-            if (
-                $mimeType !== 'image/jpeg'
-                || ! str_starts_with($contents, "\xFF\xD8\xFF")
-                || strlen($contents) > self::MAX_IMAGE_BYTES
-            ) {
-                throw new UnexpectedValueException('Instagram returned an invalid image.');
-            }
-
-            $contents = $this->watermarkImage($contents);
+        foreach ($this->instagramApiClient->downloadImages($imagesToDownload) as $imageKey => $contents) {
+            $contents = $this->instagramImageWatermarker->watermark($contents);
 
             if (! $storage->put($this->imagePath($imageKey), $contents)) {
                 throw new UnexpectedValueException('Instagram image could not be written to storage.');
             }
         }
-    }
-
-    private function watermarkImage(string $contents): string
-    {
-        $image = imagecreatefromstring($contents);
-
-        if ($image === false) {
-            throw new UnexpectedValueException('Instagram returned an invalid JPEG image.');
-        }
-
-        try {
-            $imageWidth = imagesx($image);
-            $imageHeight = imagesy($image);
-            $font = 1;
-            $fontFits = false;
-
-            for ($candidateFont = 5; $candidateFont >= 1; $candidateFont--) {
-                $textWidth = imagefontwidth($candidateFont) * strlen(self::WATERMARK_TEXT);
-                $textHeight = imagefontheight($candidateFont);
-
-                if (
-                    $textWidth + self::WATERMARK_PADDING * 2 + self::WATERMARK_MARGIN <= $imageWidth
-                    && $textHeight + self::WATERMARK_PADDING * 2 + self::WATERMARK_MARGIN <= $imageHeight
-                ) {
-                    $font = $candidateFont;
-                    $fontFits = true;
-
-                    break;
-                }
-            }
-
-            if (! $fontFits) {
-                throw new UnexpectedValueException('Instagram image is too small to watermark.');
-            }
-
-            $textWidth = imagefontwidth($font) * strlen(self::WATERMARK_TEXT);
-            $textHeight = imagefontheight($font);
-            $left = $imageWidth - $textWidth - self::WATERMARK_PADDING * 2 - self::WATERMARK_MARGIN;
-            $top = $imageHeight - $textHeight - self::WATERMARK_PADDING * 2 - self::WATERMARK_MARGIN;
-
-            if (! imagealphablending($image, true)) {
-                throw new UnexpectedValueException('Instagram image could not be watermarked.');
-            }
-
-            $backgroundColor = imagecolorallocatealpha($image, 0, 0, 0, 64);
-            $textColor = imagecolorallocate($image, 255, 255, 255);
-
-            if (
-                $backgroundColor === false
-                || $textColor === false
-                || ! imagefilledrectangle(
-                    $image,
-                    $left,
-                    $top,
-                    $imageWidth - self::WATERMARK_MARGIN,
-                    $imageHeight - self::WATERMARK_MARGIN,
-                    $backgroundColor,
-                )
-                || ! imagestring(
-                    $image,
-                    $font,
-                    $left + self::WATERMARK_PADDING,
-                    $top + self::WATERMARK_PADDING,
-                    self::WATERMARK_TEXT,
-                    $textColor,
-                )
-            ) {
-                throw new UnexpectedValueException('Instagram image could not be watermarked.');
-            }
-
-            $output = fopen('php://temp', 'w+b');
-
-            if ($output === false) {
-                throw new UnexpectedValueException('Watermarked Instagram image could not be encoded.');
-            }
-
-            try {
-                if (! imagejpeg($image, $output, 90) || ! rewind($output)) {
-                    throw new UnexpectedValueException('Watermarked Instagram image could not be encoded.');
-                }
-
-                $watermarkedContents = stream_get_contents($output);
-            } finally {
-                fclose($output);
-            }
-        } finally {
-            imagedestroy($image);
-        }
-
-        if (! is_string($watermarkedContents) || $watermarkedContents === '') {
-            throw new UnexpectedValueException('Watermarked Instagram image could not be encoded.');
-        }
-
-        return $watermarkedContents;
     }
 
     private function imagePath(string $imageKey): string

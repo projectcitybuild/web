@@ -1,5 +1,6 @@
 <?php
 
+use App\Domains\Instagram\InstagramAuth;
 use App\Domains\Instagram\InstagramMediaFeed;
 use App\Domains\Instagram\Jobs\RefreshInstagramAccessTokenJob;
 use App\Domains\Instagram\Jobs\RefreshInstagramMediaFeedJob;
@@ -52,7 +53,7 @@ test('homepage shows the latest Instagram photo posts', function () {
         }
     } finally {
         ob_end_clean();
-        imagedestroy($sourceImage);
+        unset($sourceImage);
     }
 
     Http::fake([
@@ -175,8 +176,7 @@ test('homepage shows the latest Instagram photo posts', function () {
 
     expect($hasWhiteWatermarkPixel)->toBeTrue();
 
-    imagedestroy($watermarkedImage);
-    imagedestroy($originalImage);
+    unset($watermarkedImage, $originalImage);
 
     $imageResponse = $this->get(route('front.instagram.image', ['imageKey' => $latestImageKey]));
 
@@ -226,7 +226,7 @@ test('Instagram access token job refreshes the token used by media fetches', fun
         'https://graph.instagram.com/v27.0/987654321/media*' => Http::response(['data' => []]),
     ]);
 
-    (new RefreshInstagramAccessTokenJob)->handle(app(InstagramMediaFeed::class));
+    (new RefreshInstagramAccessTokenJob)->handle(app(InstagramAuth::class));
     (new RefreshInstagramMediaFeedJob)->handle(app(InstagramMediaFeed::class));
 
     Http::assertSent(fn (Request $request): bool => parse_url($request->url(), PHP_URL_PATH) === '/refresh_access_token'

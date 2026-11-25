@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Domains\Instagram\InstagramAuth;
 use App\Domains\Instagram\InstagramMediaFeed;
 use App\Models\MinecraftPlayer;
 use App\Models\MinecraftPlayerSession;
@@ -9,7 +10,7 @@ use Illuminate\View\View;
 
 class HomeController
 {
-    public function __invoke(InstagramMediaFeed $instagramMediaFeed): View
+    public function __invoke(InstagramMediaFeed $instagramMediaFeed, InstagramAuth $instagramAuth): View
     {
         $recentPlayers = MinecraftPlayer::query()
             ->whereHas('sessions')
@@ -26,7 +27,7 @@ class HomeController
             ->limit(16)
             ->get();
 
-        $instagramFeedConfigured = $instagramMediaFeed->isConfigured();
+        $instagramFeedConfigured = $instagramAuth->isConfigured();
         $instagramImages = $instagramFeedConfigured
             ? $instagramMediaFeed->latestImages()
             : null;

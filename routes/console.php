@@ -5,6 +5,9 @@ use App\Domains\BuilderRankApplications\Services\BuilderRankReminderService;
 use App\Domains\Donations\UseCases\ExpireDonorPerks;
 use App\Domains\HealthCheck\Data\SchedulerHealthCheck;
 use App\Domains\HealthCheck\HealthCheckReporter;
+use App\Domains\Instagram\InstagramMediaFeed;
+use App\Domains\Instagram\Jobs\RefreshInstagramAccessTokenJob;
+use App\Domains\Instagram\Jobs\RefreshInstagramMediaFeedJob;
 use App\Domains\Permissions\WebManagePermission;
 use App\Models\GamePlayerBan;
 use App\Models\Permission;
@@ -64,3 +67,21 @@ Artisan::command('permissions:seed', function () {
         }
     }
 });
+
+Artisan::command('instagram:cache:clear', function () {
+    app(InstagramMediaFeed::class)->clearCache();
+
+    $this->info('Instagram media feed cache and images cleared.');
+})->purpose('Clear cached Instagram media and images');
+
+Artisan::command('instagram:feed:refresh', function () {
+    dispatch(new RefreshInstagramMediaFeedJob);
+
+    $this->info('Instagram media feed refresh job queued.');
+})->purpose('Queue an Instagram media feed refresh');
+
+Artisan::command('instagram:token:refresh', function () {
+    dispatch(new RefreshInstagramAccessTokenJob);
+
+    $this->info('Instagram access token refresh job queued.');
+})->purpose('Queue an Instagram access token refresh');

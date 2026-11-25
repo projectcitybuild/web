@@ -1,6 +1,6 @@
 <?php
 
-use App\Domains\Instagram\InstagramMediaFeed;
+use App\Domains\Instagram\InstagramAuth;
 use App\Domains\Instagram\Jobs\RefreshInstagramAccessTokenJob;
 use Illuminate\Console\Scheduling\Schedule;
 
@@ -11,7 +11,7 @@ it('fails when Instagram access token refresh is not configured', function () {
         'services.instagram.api_version' => 'v27.0',
     ]);
 
-    expect(fn () => (new RefreshInstagramAccessTokenJob)->handle(app(InstagramMediaFeed::class)))
+    expect(fn () => (new RefreshInstagramAccessTokenJob)->handle(app(InstagramAuth::class)))
         ->toThrow(UnexpectedValueException::class, 'Instagram access token refresh is not configured.');
 });
 
