@@ -1,6 +1,7 @@
 <?php
 
 use App\Domains\HealthCheck\Jobs\MailCanaryJob;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Http\Client\Request;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Http;
@@ -8,6 +9,18 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Mockery;
 use RuntimeException;
+
+it('schedules the mail canary once daily at 09:00 UTC on one scheduler', function () {
+    $event = collect(app(Schedule::class)->events())
+        ->first(fn ($event): bool => $event->description === MailCanaryJob::class);
+
+    expect($event)->not->toBeNull()
+        ->and($event->attributes['admin_title'])->toBe('Send mail canary')
+        ->and($event->attributes['admin_subtitle'])->toBe(MailCanaryJob::class)
+        ->and($event->expression)->toBe('0 9 * * *')
+        ->and($event->timezone)->toBe('UTC')
+        ->and($event->onOneServer)->toBeTrue();
+});
 
 it('sends a plain-text canary before pinging its monitor', function () {
     config([

@@ -1,9 +1,19 @@
 <?php
 
 use App\Domains\HealthCheck\Jobs\QueueWorkerHeartbeatJob;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
-use RuntimeException;
+
+it('schedules the queue heartbeat every five minutes', function () {
+    $event = collect(app(Schedule::class)->events())
+        ->first(fn ($event): bool => $event->description === QueueWorkerHeartbeatJob::class);
+
+    expect($event)->not->toBeNull()
+        ->and($event->attributes['admin_title'])->toBe('Check queue worker health')
+        ->and($event->attributes['admin_subtitle'])->toBe(QueueWorkerHeartbeatJob::class)
+        ->and($event->expression)->toBe('*/5 * * * *');
+});
 
 it('pings the queue monitor after the worker executes the job', function () {
     config(['healthcheck.checks.queue' => 'https://hc-ping.com/queue-token']);

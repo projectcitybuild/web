@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Core\Domains\Instagram\InstagramMediaFeed;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class InstagramImageController
 {
-    public function __invoke(string $imageKey): StreamedResponse
+    public function __invoke(string $imageKey, InstagramMediaFeed $instagramMediaFeed): StreamedResponse
     {
         $diskName = config('filesystems.default');
 
@@ -19,7 +20,7 @@ class InstagramImageController
         $path = 'instagram-images/'.$imageKey.'.jpg';
 
         if (! $disk->exists($path)) {
-            abort(404);
+            abort_unless($instagramMediaFeed->cacheImage($imageKey), 404);
         }
 
         $stream = $disk->readStream($path);

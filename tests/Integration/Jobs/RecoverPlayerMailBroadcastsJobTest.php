@@ -4,7 +4,18 @@ use App\Domains\PlayerMail\Data\PlayerMailBroadcastStatus;
 use App\Domains\PlayerMail\Jobs\DistributePlayerMailJob;
 use App\Domains\PlayerMail\Jobs\RecoverPlayerMailBroadcastsJob;
 use App\Models\PlayerMailBroadcast;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Queue;
+
+it('schedules recovery for stale player mail broadcasts every minute', function () {
+    $event = collect(app(Schedule::class)->events())
+        ->first(fn ($event): bool => $event->attributes['admin_title'] === 'Recover player mail broadcasts');
+
+    expect($event)->not->toBeNull()
+        ->and($event->attributes['admin_subtitle'])->toBe('player-mail.broadcast-recovery')
+        ->and($event->expression)->toBe('* * * * *')
+        ->and($event->withoutOverlapping)->toBeTrue();
+});
 
 it('dispatches distribution jobs for stale queued and processing broadcasts', function () {
     $this->travelTo('2026-11-23 12:00:00');

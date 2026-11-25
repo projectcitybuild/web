@@ -4,18 +4,17 @@ namespace App\Core\Domains\Instagram;
 
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\Pool;
-use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use League\Flysystem\UnableToWriteFile;
 use UnexpectedValueException;
 
 final class InstagramMediaFeed
 {
-    private const CACHE_TTL_SECONDS = 3600;
-    private const IMAGE_LIMIT = 8;
+    private const POST_LIMIT = 16;
+    private const MAX_CAROUSEL_IMAGES = 10;
     private const MAX_IMAGE_BYTES = 10485760;
 
     public function isConfigured(): bool
@@ -24,7 +23,7 @@ final class InstagramMediaFeed
     }
 
     /**
-     * @return array<int, array{imageKey: string, permalink: string, altText: string}>|null
+     * @return array<int, array{permalink: string, images: array<int, array{imageKey: string, altText: string}>}>|null
      */
     public function latestImages(): ?array
     {
@@ -34,22 +33,94 @@ final class InstagramMediaFeed
             return null;
         }
 
-        try {
-            return Cache::remember(
-                'instagram.cached-images.v2.'.$configuration['apiVersion'].'.'.$configuration['userId'],
-                now()->addSeconds(self::CACHE_TTL_SECONDS),
-                fn (): array => $this->fetchImages($configuration),
-            );
-        } catch (ConnectionException|RequestException|UnableToWriteFile|UnexpectedValueException $exception) {
-            Log::warning('Instagram media could not be loaded or cached.', [
-                'exception_class' => $exception::class,
-                'status' => $exception instanceof RequestException
-                    ? $exception->response->status()
-                    : null,
-            ]);
+        return array_map(
+            static fn (array $post): array => [
+                'permalink' => $post['permalink'],
+                'images' => array_map(
+                    static fn (array $image): array => [
+                        'imageKey' => $image['imageKey'],
+                        'altText' => $image['altText'],
+                    ],
+                    $post['images'],
+                ),
+            ],
+            $this->cachedImages($configuration),
+        );
+    }
 
-            return null;
+    public function refreshImages(): void
+    {
+        $configuration = $this->configuration();
+
+        if ($configuration === null) {
+            throw new UnexpectedValueException('Instagram media feed is not configured.');
         }
+
+        $posts = $this->fetchImages($configuration);
+
+        $this->cacheImages(array_map(
+            static fn (array $post): array => $post['images'][0],
+            $posts,
+        ));
+
+        Cache::forever(
+            'instagram.cached-images.v3.'.$configuration['apiVersion'].'.'.$configuration['userId'],
+            $posts,
+        );
+
+        Log::info('Instagram media feed cache refreshed.', [
+            'post_count' => count($posts),
+        ]);
+    }
+
+    public function refreshAccessToken(): void
+    {
+        $configuration = $this->configuration();
+
+        if ($configuration === null) {
+            throw new UnexpectedValueException('Instagram access token refresh is not configured.');
+        }
+
+        $response = Http::connectTimeout(3)
+            ->timeout(5)
+            ->get('https://graph.instagram.com/refresh_access_token', [
+                'grant_type' => 'ig_refresh_token',
+                'access_token' => $configuration['accessToken'],
+            ])
+            ->throw();
+
+        $accessToken = $response->json('access_token');
+        $expiresIn = $response->json('expires_in');
+
+        if (! is_string($accessToken) || $accessToken === '' || ! is_int($expiresIn) || $expiresIn <= 0) {
+            throw new UnexpectedValueException('Instagram returned an invalid access token refresh response.');
+        }
+
+        Cache::forever(
+            'instagram.access-token.'.$configuration['userId'],
+            Crypt::encryptString($accessToken),
+        );
+    }
+
+    public function cacheImage(string $imageKey): bool
+    {
+        $configuration = $this->configuration();
+
+        if ($configuration === null) {
+            return false;
+        }
+
+        foreach ($this->cachedImages($configuration) as $post) {
+            foreach ($post['images'] as $image) {
+                if ($image['imageKey'] === $imageKey) {
+                    $this->cacheImages([$image]);
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -58,17 +129,23 @@ final class InstagramMediaFeed
     private function configuration(): ?array
     {
         $userId = config('services.instagram.user_id');
-        $accessToken = config('services.instagram.access_token');
         $apiVersion = config('services.instagram.api_version');
 
         if (
             ! is_string($userId)
             || ! ctype_digit($userId)
-            || ! is_string($accessToken)
-            || $accessToken === ''
             || ! is_string($apiVersion)
             || preg_match('/^v\d+\.\d+$/D', $apiVersion) !== 1
         ) {
+            return null;
+        }
+
+        $cachedAccessToken = Cache::get('instagram.access-token.'.$userId);
+        $accessToken = is_string($cachedAccessToken)
+            ? Crypt::decryptString($cachedAccessToken)
+            : config('services.instagram.access_token');
+
+        if (! is_string($accessToken) || $accessToken === '') {
             return null;
         }
 
@@ -81,7 +158,25 @@ final class InstagramMediaFeed
 
     /**
      * @param  array{userId: string, accessToken: string, apiVersion: string}  $configuration
-     * @return array<int, array{imageKey: string, permalink: string, altText: string}>
+     * @return array<int, array{permalink: string, images: array<int, array{imageUrl: string, imageKey: string, altText: string}>}>
+     */
+    private function cachedImages(array $configuration): array
+    {
+        $posts = Cache::get(
+            'instagram.cached-images.v3.'.$configuration['apiVersion'].'.'.$configuration['userId'],
+            [],
+        );
+
+        if (! is_array($posts)) {
+            throw new UnexpectedValueException('Cached Instagram media has an invalid format.');
+        }
+
+        return $posts;
+    }
+
+    /**
+     * @param  array{userId: string, accessToken: string, apiVersion: string}  $configuration
+     * @return array<int, array{permalink: string, images: array<int, array{imageUrl: string, imageKey: string, altText: string}>}>
      */
     private function fetchImages(array $configuration): array
     {
@@ -116,47 +211,68 @@ final class InstagramMediaFeed
         $images = [];
 
         foreach ($mediaItems as $mediaItem) {
-            $imageUrl = match ($mediaItem['media_type'] ?? null) {
-                'IMAGE' => $mediaItem['media_url'] ?? null,
-                'CAROUSEL_ALBUM' => $this->firstCarouselImageUrl($mediaItem),
-                default => null,
-            };
             $permalink = $mediaItem['permalink'] ?? null;
 
-            if (! $this->isInstagramMediaUrl($imageUrl) || ! $this->isInstagramPermalink($permalink)) {
+            if (! is_string($permalink) || ! $this->isInstagramPermalink($permalink)) {
                 continue;
             }
 
+            $imageUrls = match ($mediaItem['media_type'] ?? null) {
+                'IMAGE' => is_string($mediaItem['media_url'] ?? null)
+                    ? [$mediaItem['media_url']]
+                    : [],
+                'CAROUSEL_ALBUM' => $this->carouselImageUrls($mediaItem),
+                default => null,
+            };
+
+            $validImageUrls = [];
+
+            foreach (is_array($imageUrls) ? $imageUrls : [] as $imageUrl) {
+                if (is_string($imageUrl) && $this->isInstagramMediaUrl($imageUrl)) {
+                    $validImageUrls[] = $imageUrl;
+                }
+            }
+
             $altText = $mediaItem['alt_text'] ?? null;
+            $hasAltText = is_string($altText) && trim($altText) !== '';
+            $slideCount = count($validImageUrls);
+            $slides = [];
+
+            foreach ($validImageUrls as $slideIndex => $imageUrl) {
+                $imageKey = $slideIndex === 0
+                    ? hash('sha256', $permalink)
+                    : hash('sha256', $permalink.'#'.$slideIndex);
+
+                $slides[] = [
+                    'imageUrl' => $imageUrl,
+                    'imageKey' => $imageKey,
+                    'altText' => $hasAltText
+                    ? $altText
+                        : ($slideCount > 1
+                            ? 'Photo '.($slideIndex + 1).' of '.$slideCount.' from a Project City Build Instagram post'
+                            : 'Project City Build Instagram post'),
+                ];
+            }
+
+            if ($slides === []) {
+                continue;
+            }
 
             $images[] = [
-                'imageUrl' => $imageUrl,
-                'imageKey' => hash('sha256', $permalink),
                 'permalink' => $permalink,
-                'altText' => is_string($altText) && trim($altText) !== ''
-                    ? $altText
-                    : 'Project City Build Instagram post',
+                'images' => $slides,
             ];
 
-            if (count($images) === self::IMAGE_LIMIT) {
+            if (count($images) === self::POST_LIMIT) {
                 break;
             }
         }
 
-        $this->cacheImages($images);
-
-        return array_map(
-            static fn (array $image): array => [
-                'imageKey' => $image['imageKey'],
-                'permalink' => $image['permalink'],
-                'altText' => $image['altText'],
-            ],
-            $images,
-        );
+        return $images;
     }
 
     /**
-     * @param  array<int, array{imageUrl: string, imageKey: string, permalink: string, altText: string}>  $images
+     * @param  array<int, array{imageUrl: string, imageKey: string, altText: string}>  $images
      */
     private function cacheImages(array $images): void
     {
@@ -227,10 +343,12 @@ final class InstagramMediaFeed
 
     /**
      * @param  array<string, mixed>  $mediaItem
+     * @return array<int, string>
      */
-    private function firstCarouselImageUrl(array $mediaItem): mixed
+    private function carouselImageUrls(array $mediaItem): array
     {
         $children = $mediaItem['children']['data'] ?? null;
+        $imageUrls = [];
 
         if (is_array($children)) {
             foreach ($children as $child) {
@@ -239,12 +357,12 @@ final class InstagramMediaFeed
                     && ($child['media_type'] ?? null) === 'IMAGE'
                     && is_string($child['media_url'] ?? null)
                 ) {
-                    return $child['media_url'];
+                    $imageUrls[] = $child['media_url'];
                 }
             }
         }
 
-        return $mediaItem['media_url'] ?? null;
+        return array_slice($imageUrls, 0, self::MAX_CAROUSEL_IMAGES);
     }
 
     private function isInstagramMediaUrl(mixed $url): bool

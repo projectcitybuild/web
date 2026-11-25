@@ -2,6 +2,8 @@
 
 namespace App\Core\Domains\Scheduling;
 
+use App\Core\Domains\Instagram\Jobs\RefreshInstagramAccessTokenJob;
+use App\Core\Domains\Instagram\Jobs\RefreshInstagramMediaFeedJob;
 use App\Domains\HealthCheck\Jobs\MailCanaryJob;
 use App\Domains\HealthCheck\Jobs\QueueWorkerHeartbeatJob;
 use App\Domains\PlayerMail\Jobs\RecoverPlayerMailBroadcastsJob;
@@ -58,7 +60,24 @@ final class ScheduleRegistry
             ->timezone('UTC')
             ->onOneServer();
 
-        $withAdminTitle($schedule->command('build-rank-apps:remind'), 'Remind builders of rank applications')
+        $withAdminTitle(
+            $schedule->job(new RefreshInstagramMediaFeedJob)->name('instagram.media-feed.refresh'),
+            'Refresh Instagram media feed',
+        )
+            ->everyThirtyMinutes()
+            ->withoutOverlapping(10)
+            ->onOneServer();
+
+        $withAdminTitle(
+            $schedule->job(new RefreshInstagramAccessTokenJob)->name('instagram.access-token.refresh'),
+            'Refresh Instagram access token',
+        )
+            ->weekly()
+            ->timezone('UTC')
+            ->withoutOverlapping(10)
+            ->onOneServer();
+
+        $withAdminTitle($schedule->command('build-rank-apps:remind'), 'Remind architects of open applications')
             ->runInBackground()
             ->evenInMaintenanceMode()
             ->hourly();

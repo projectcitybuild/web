@@ -13,7 +13,7 @@ class HomeController
     {
         $recentPlayers = MinecraftPlayer::query()
             ->whereHas('sessions')
-            ->with('latestSession')
+            ->with(['latestSession', 'account.roles'])
             ->orderByDesc(
                 MinecraftPlayerSession::query()
                     ->select('starts_at')

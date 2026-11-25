@@ -166,67 +166,55 @@
             <div class="mx-auto max-w-screen-2xl px-4 sm:px-8">
                 <div data-home-reveal class="mx-auto max-w-2xl text-center">
                     <p class="text-sm font-bold uppercase tracking-[0.18em] text-amber-700 dark:text-amber-400">Community in motion</p>
-                    <h2 id="recent-players-heading" class="mt-3 font-display text-5xl leading-none sm:text-6xl">Recently Players</h2>
+                    <h2 id="recent-players-heading" class="mt-3 font-display text-5xl leading-none sm:text-6xl">Recent Players</h2>
                     <p class="mt-4 leading-7 text-gray-600 dark:text-gray-300">See who's been visiting our worlds lately.</p>
                 </div>
 
                 <ul class="mt-10 grid gap-4 grid-cols-2 md:mt-14 md:grid-cols-4">
                     @foreach ($recentPlayers as $player)
-                        <li data-home-reveal data-home-reveal-delay="{{ $loop->index % 4 * 60 }}" class="flex flex-col items-center gap-4 rounded-2xl border border-gray-200 bg-gray-50 p-5 transition-[color,background-color,border-color,box-shadow,translate] duration-300 ease-out hover:-translate-y-1 hover:border-amber-300 hover:shadow-lg dark:border-gray-800 dark:bg-gray-900 dark:hover:border-amber-700 motion-reduce:transition-none motion-reduce:hover:translate-y-0">
-                            <h3 class="truncate font-semibold">{{ $player->alias ?? 'Unknown player' }}</h3>
-                            <img
-                                src="https://minotar.net/helm/{{ $player->uuid }}/48"
-                                alt=""
-                                width="48"
-                                height="48"
-                                class="size-12 rounded-sm object-cover"
-                            >
-                            <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">
-                                <time datetime="{{ $player->latestSession->starts_at->toIso8601String() }}">
-                                    {{ $player->latestSession->starts_at->diffForHumans() }}
-                                </time>
-                            </p>
+                        <li data-home-reveal data-home-reveal-delay="{{ $loop->index % 4 * 60 }}" class="group relative isolate flex min-h-56 flex-col items-center gap-4 overflow-hidden rounded-2xl border border-gray-200 bg-white p-5 text-center shadow-sm transition-[border-color,box-shadow,translate] duration-300 ease-out hover:-translate-y-1 hover:border-amber-300 hover:shadow-xl dark:border-gray-800 dark:bg-gray-950 dark:hover:border-amber-700 motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+                            <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-amber-100/80 to-transparent dark:from-amber-400/10"></div>
+                            <div aria-hidden="true" class="pointer-events-none absolute -right-8 -top-8 size-32 rounded-full bg-amber-300/30 blur-2xl dark:bg-amber-400/10"></div>
+
+                            <div class="relative mt-2 rounded-2xl bg-gradient-to-br from-amber-300 via-orange-200 to-yellow-100 p-1 shadow-lg shadow-amber-900/10 transition-transform duration-300 ease-out group-hover:rotate-3 group-hover:scale-105 dark:from-amber-500 dark:via-orange-600 dark:to-yellow-500 motion-reduce:transition-none motion-reduce:group-hover:rotate-0 motion-reduce:group-hover:scale-100">
+                                <div class="rounded-xl border border-white/80 bg-gray-950 p-2 dark:border-white/10">
+                                    <img
+                                        src="https://minotar.net/helm/{{ $player->uuid }}/64"
+                                        alt=""
+                                        width="64"
+                                        height="64"
+                                        class="size-16 rounded-lg object-cover [image-rendering:pixelated]"
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="relative min-w-0">
+                                <h3 class="truncate font-semibold">{{ $player->alias ?? 'Unknown player' }}</h3>
+                                <p class="mt-2 inline-flex whitespace-nowrap items-center gap-1.5 rounded-full bg-gray-100 px-2.5 py-1 text-xs text-gray-600 dark:bg-gray-800 dark:text-gray-300">
+                                    <span aria-hidden="true" class="size-1.5 rounded-full bg-amber-500"></span>
+                                    <span class="sr-only">Last seen </span>
+                                    <time datetime="{{ $player->latestSession->starts_at->toIso8601String() }}">
+                                        {{ $player->latestSession->starts_at->diffForHumans() }}
+                                    </time>
+                                </p>
+                            </div>
+
+                            @if ($player->account !== null && $player->account->roles->isNotEmpty())
+                                <ul aria-label="{{ $player->alias ?? 'Player' }} roles" class="relative flex flex-wrap justify-center gap-1.5">
+                                    @foreach ($player->account->roles as $role)
+                                        <li class="rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-[11px] font-medium text-amber-900 dark:border-amber-800 dark:bg-amber-950/60 dark:text-amber-200">
+                                            {{ $role->alias ?? Str::title($role->name) }}
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @endif
                         </li>
                     @endforeach
                 </ul>
             </div>
         </section>
 
-        <section id="instagram" aria-labelledby="instagram-heading" class="bg-gray-50 py-16 dark:bg-gray-900/60 sm:py-20 lg:py-24">
-            <div class="mx-auto max-w-screen-2xl px-4 sm:px-8">
-                <div data-home-reveal class="mx-auto max-w-2xl text-center">
-                    <p class="text-sm font-bold uppercase tracking-[0.18em] text-amber-700 dark:text-amber-400">From our community</p>
-                    <h2 id="instagram-heading" class="mt-3 font-display text-5xl leading-none sm:text-6xl">Latest on Instagram</h2>
-                    <a href="https://www.instagram.com/projectcitybuild" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex items-center gap-1 font-semibold text-blue-700 hover:text-blue-900 dark:text-blue-300 dark:hover:text-blue-200">
-                        Follow us on Instagram <span aria-hidden="true">→</span>
-                    </a>
-                </div>
-
-                @if (! $instagramFeedConfigured)
-                    <p class="mt-10 text-center text-gray-600 dark:text-gray-300">The Instagram feed is not configured yet.</p>
-                @elseif ($instagramImages === null)
-                    <p class="mt-10 text-center text-gray-600 dark:text-gray-300">Instagram images are currently unavailable.</p>
-                @elseif ($instagramImages === [])
-                    <p class="mt-10 text-center text-gray-600 dark:text-gray-300">No recent Instagram images are available.</p>
-                @else
-                    <ul class="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:mt-14 lg:grid-cols-4 lg:gap-4">
-                        @foreach ($instagramImages as $image)
-                            <li data-home-reveal data-home-reveal-delay="{{ $loop->index % 4 * 60 }}" class="overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-950">
-                                <a href="{{ $image['permalink'] }}" target="_blank" rel="noopener noreferrer" class="block overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500">
-                                    <img
-                                        src="{{ route('front.instagram.image', ['imageKey' => $image['imageKey']]) }}"
-                                        alt="{{ $image['altText'] }}"
-                                        loading="lazy"
-                                        decoding="async"
-                                        class="aspect-square w-full object-cover transition-transform duration-300 hover:scale-105 motion-reduce:transition-none"
-                                    >
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
-                @endif
-            </div>
-        </section>
+        <x-front::instagram-feed :feed-configured="$instagramFeedConfigured" :images="$instagramImages" />
 
         <section aria-labelledby="connect-heading" class="bg-gray-100 py-14 dark:bg-gray-900 sm:py-16">
             <div class="mx-auto max-w-screen-2xl px-4 sm:px-8">
