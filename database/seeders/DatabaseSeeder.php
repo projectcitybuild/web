@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call(RoleSeeder::class);
+        $this->call(OAuthClientSeeder::class);
         $this->call(AccountSeeder::class);
         $this->call(MinecraftPlayerSeeder::class);
         $this->call(PlayerSessionSeeder::class);
