@@ -30,6 +30,7 @@ class MinecraftPlayerData extends Data
         public ?float $last_location_pitch,
         public ?float $last_location_yaw,
         public int $sessions,
+        public Optional|int $votes_count,
         public int $play_time,
         public int $afk_time,
         public int $blocks_placed,
@@ -49,6 +50,8 @@ class MinecraftPlayerData extends Data
 
     public static function fromModel(MinecraftPlayer $player): self
     {
+        $votesCount = $player->getAttribute('votes_count');
+
         return new self(
             id: $player->id,
             uuid: $player->uuid,
@@ -66,6 +69,7 @@ class MinecraftPlayerData extends Data
             last_location_pitch: $player->last_location_pitch,
             last_location_yaw: $player->last_location_yaw,
             sessions: $player->sessions,
+            votes_count: $votesCount === null ? Optional::create() : (int) $votesCount,
             play_time: $player->play_time,
             afk_time: $player->afk_time,
             blocks_placed: $player->blocks_placed,

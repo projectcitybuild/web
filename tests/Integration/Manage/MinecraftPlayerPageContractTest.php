@@ -21,6 +21,23 @@ it('serializes player list, show, and edit pages through the player DTO', functi
     $player = MinecraftPlayer::factory()->create([
         'alias' => 'ContractPlayer',
         'account_id' => $account->id,
+        'created_at' => now()->addYear(),
+    ]);
+    $player->votes()->createMany([
+        [
+            'event_id' => 'ab60d4c2-0878-4d12-8d55-7a9af053c9dc',
+            'service_name' => 'ExampleVoteSite',
+            'address' => '203.0.113.10',
+            'source_timestamp' => 1764093600000,
+            'voted_at' => '2026-11-25 03:20:00',
+        ],
+        [
+            'event_id' => '8cd7ca75-6d3e-4e27-a8bf-6f7a6ce7b277',
+            'service_name' => 'ExampleVoteSite',
+            'address' => '203.0.113.10',
+            'source_timestamp' => 1764097200000,
+            'voted_at' => '2026-11-25 04:20:00',
+        ],
     ]);
 
     $this->actingAs($manager)
@@ -30,6 +47,7 @@ it('serializes player list, show, and edit pages through the player DTO', functi
             ->component('Players/PlayerShow')
             ->where('player.id', $player->id)
             ->where('player.alias', 'ContractPlayer')
+            ->where('player.votes_count', 2)
             ->where('player.account.username', 'contract-player-account')
         );
 
@@ -55,7 +73,22 @@ it('serializes player list, show, and edit pages through the player DTO', functi
         ->get(route('manage.players.index'))
         ->assertOk()
         ->assertJsonPath('props.players.data.0.id', $player->id)
+        ->assertJsonMissingPath('props.players.data.0.votes_count')
         ->assertJsonPath('props.players.data.0.account.username', 'contract-player-account');
+});
+
+it('shows zero votes for a player without vote history', function () {
+    config(['inertia.ssr.enabled' => false]);
+
+    $manager = $this->createStaffAccountWithPermissions([WebManagePermission::PLAYERS_VIEW->value]);
+    $player = MinecraftPlayer::factory()->create();
+
+    $this->actingAs($manager)
+        ->get(route('manage.players.show', $player))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('player.votes_count', 0)
+        );
 });
 
 it('lists sessions belonging to the requested player', function () {

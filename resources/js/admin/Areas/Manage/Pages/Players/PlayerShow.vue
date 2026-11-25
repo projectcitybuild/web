@@ -217,6 +217,14 @@ async function refreshAlias() {
                         <h3 class="text-xs font-semibold uppercase tracking-wide text-muted">Activity</h3>
                         <div class="grid grid-cols-2 gap-3">
                             <dl class="rounded-md border border-border p-3">
+                                <dt class="text-xs text-muted">Play time</dt>
+                                <dd class="mt-1 text-sm font-semibold tabular-nums text-foreground">{{ formatDuration(player.play_time) }}</dd>
+                            </dl>
+                            <dl class="rounded-md border border-border p-3">
+                                <dt class="text-xs text-muted">AFK time</dt>
+                                <dd class="mt-1 text-sm font-semibold tabular-nums text-foreground">{{ formatDuration(player.afk_time) }}</dd>
+                            </dl>
+                            <dl class="rounded-md border border-border p-3">
                                 <dt class="text-xs text-muted">Chat status</dt>
                                 <dd class="mt-2">
                                     <Pill :variant="player.muted ? 'warning' : 'success'" size="sm">
@@ -225,12 +233,10 @@ async function refreshAlias() {
                                 </dd>
                             </dl>
                             <dl class="rounded-md border border-border p-3">
-                                <dt class="text-xs text-muted">Play time</dt>
-                                <dd class="mt-1 text-sm font-semibold tabular-nums text-foreground">{{ formatDuration(player.play_time) }}</dd>
-                            </dl>
-                            <dl class="rounded-md border border-border p-3">
-                                <dt class="text-xs text-muted">AFK time</dt>
-                                <dd class="mt-1 text-sm font-semibold tabular-nums text-foreground">{{ formatDuration(player.afk_time) }}</dd>
+                                <dt class="text-xs text-muted">Total votes</dt>
+                                <dd class="mt-1 text-sm font-semibold tabular-nums text-foreground">
+                                    {{ numberFormatter.format(player.votes_count ?? 0) }}
+                                </dd>
                             </dl>
                         </div>
                     </section>

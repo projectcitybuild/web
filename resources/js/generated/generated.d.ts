@@ -97,6 +97,13 @@ declare namespace App {
                     "queued" | "processing" | "completed" | "failed";
             }
         }
+        export namespace PlayerReports {
+            export namespace Data {
+                export type PlayerReportStatus = "open" | "completed";
+                export type PlayerReportVisibility =
+                    "standard" | "administrators";
+            }
+        }
         export namespace Players {
             export namespace Data {
                 export type MoveMode = "walk" | "fly";
@@ -481,6 +488,7 @@ declare namespace App {
                 last_location_pitch: number | null;
                 last_location_yaw: number | null;
                 sessions: number;
+                votes_count?: number;
                 play_time: number;
                 afk_time: number;
                 blocks_placed: number;

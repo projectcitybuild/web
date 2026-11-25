@@ -68,7 +68,7 @@ class MinecraftPlayerController extends WebController
     {
         $this->requires(WebManagePermission::PLAYERS_VIEW);
 
-        $player->load(['account']);
+        $player->load(['account'])->loadCount('votes');
 
         return $this->inertiaRender('Players/PlayerShow', [
             'player' => MinecraftPlayerData::fromModel($player),

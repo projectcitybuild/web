@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
  */
 class RequireServerToken
 {
+    public const SERVER_ID_ATTRIBUTE = 'authenticated_server_id';
+
     public function handle(Request $request, Closure $next)
     {
         $authorization = $request->header('Authorization');
@@ -21,6 +23,7 @@ class RequireServerToken
         abort_if($serverToken === null, code: 401);
 
         $this->assertWhitelistedIp($request, $serverToken);
+        $request->attributes->set(self::SERVER_ID_ATTRIBUTE, $serverToken->server_id);
 
         return $next($request);
     }

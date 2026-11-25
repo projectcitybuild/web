@@ -122,6 +122,14 @@ final class MinecraftPlayer extends Model implements AuditableContract, Linkable
         );
     }
 
+    public function votes(): HasMany
+    {
+        return $this->hasMany(
+            related: MinecraftVote::class,
+            foreignKey: 'player_id',
+        );
+    }
+
     public function latestSession(): HasOne
     {
         return $this->sessions()->one()->latestOfMany('starts_at');

@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\v3\Server\MinecraftOpAuditController;
 use App\Http\Controllers\Api\v3\Server\MinecraftOpElevationController;
 use App\Http\Controllers\Api\v3\Server\MinecraftRegisterController;
 use App\Http\Controllers\Api\v3\Server\MinecraftStatsController;
+use App\Http\Controllers\Api\v3\Server\MinecraftVoteController;
 use App\Http\Controllers\Api\v3\Warps\MinecraftWarpController;
 use App\Http\Controllers\Api\v3\Warps\MinecraftWarpNameController;
 use App\Http\Middleware\EnsureDiscordIntegrationClient;
@@ -50,6 +51,7 @@ Route::domain(config('app.api_url'))->group(function () {
                 Route::post('connection/authorize', MinecraftConnectionAuthController::class);
                 Route::post('connection/end', MinecraftConnectionEndController::class);
                 Route::post('stats', [MinecraftStatsController::class, 'store']);
+                Route::post('votes', [MinecraftVoteController::class, 'store']);
                 Route::post('pim/op/grant', [MinecraftOpElevationController::class, 'grant']);
                 Route::post('pim/op/revoke', [MinecraftOpElevationController::class, 'revoke']);
 
