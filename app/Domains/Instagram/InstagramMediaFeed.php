@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Domains\Instagram;
+namespace App\Domains\Instagram;
 
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\Pool;

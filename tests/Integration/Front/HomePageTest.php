@@ -1,8 +1,8 @@
 <?php
 
-use App\Core\Domains\Instagram\InstagramMediaFeed;
-use App\Core\Domains\Instagram\Jobs\RefreshInstagramAccessTokenJob;
-use App\Core\Domains\Instagram\Jobs\RefreshInstagramMediaFeedJob;
+use App\Domains\Instagram\InstagramMediaFeed;
+use App\Domains\Instagram\Jobs\RefreshInstagramAccessTokenJob;
+use App\Domains\Instagram\Jobs\RefreshInstagramMediaFeedJob;
 use App\Models\Account;
 use App\Models\MinecraftPlayer;
 use App\Models\MinecraftPlayerSession;

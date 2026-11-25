@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Core\Domains\Instagram\Jobs;
+namespace App\Domains\Instagram\Jobs;
 
-use App\Core\Domains\Instagram\InstagramMediaFeed;
+use App\Domains\Instagram\InstagramMediaFeed;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 

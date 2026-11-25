@@ -6,7 +6,13 @@
             <p class="text-sm font-bold uppercase tracking-[0.18em] text-amber-700 dark:text-amber-400">Hot off the press</p>
             <h2 id="instagram-heading" class="mt-3 font-display text-5xl leading-none sm:text-6xl">By our community</h2>
             <a href="https://www.instagram.com/projectcitybuild" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex items-center gap-1 font-semibold text-blue-700 hover:text-blue-900 dark:text-blue-300 dark:hover:text-blue-200">
-                Follow us on Instagram <span aria-hidden="true">→</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-brand-instagram">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4l0 -10" />
+                    <path d="M8.5 12a3.5 3.5 0 1 0 7 0a3.5 3.5 0 0 0 -7 0" />
+                    <path d="M17 7v.01" />
+                </svg>
+                Follow us on Instagram
             </a>
         </div>
 

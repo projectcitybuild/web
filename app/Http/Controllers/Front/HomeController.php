@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
-use App\Core\Domains\Instagram\InstagramMediaFeed;
+use App\Domains\Instagram\InstagramMediaFeed;
 use App\Models\MinecraftPlayer;
 use App\Models\MinecraftPlayerSession;
 use Illuminate\View\View;

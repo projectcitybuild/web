@@ -1,7 +1,7 @@
 <?php
 
-use App\Core\Domains\Instagram\InstagramMediaFeed;
-use App\Core\Domains\Instagram\Jobs\RefreshInstagramAccessTokenJob;
+use App\Domains\Instagram\InstagramMediaFeed;
+use App\Domains\Instagram\Jobs\RefreshInstagramAccessTokenJob;
 use Illuminate\Console\Scheduling\Schedule;
 
 it('fails when Instagram access token refresh is not configured', function () {

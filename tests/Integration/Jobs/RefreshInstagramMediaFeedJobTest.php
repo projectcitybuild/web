@@ -1,7 +1,7 @@
 <?php
 
-use App\Core\Domains\Instagram\InstagramMediaFeed;
-use App\Core\Domains\Instagram\Jobs\RefreshInstagramMediaFeedJob;
+use App\Domains\Instagram\InstagramMediaFeed;
+use App\Domains\Instagram\Jobs\RefreshInstagramMediaFeedJob;
 use Illuminate\Console\Scheduling\Schedule;
 
 it('fails when Instagram media refresh is not configured', function () {

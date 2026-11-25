@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
-use App\Core\Domains\Instagram\InstagramMediaFeed;
+use App\Domains\Instagram\InstagramMediaFeed;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 

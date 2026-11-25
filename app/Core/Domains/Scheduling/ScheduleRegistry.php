@@ -2,8 +2,8 @@
 
 namespace App\Core\Domains\Scheduling;
 
-use App\Core\Domains\Instagram\Jobs\RefreshInstagramAccessTokenJob;
-use App\Core\Domains\Instagram\Jobs\RefreshInstagramMediaFeedJob;
+use App\Domains\Instagram\Jobs\RefreshInstagramAccessTokenJob;
+use App\Domains\Instagram\Jobs\RefreshInstagramMediaFeedJob;
 use App\Domains\HealthCheck\Jobs\MailCanaryJob;
 use App\Domains\HealthCheck\Jobs\QueueWorkerHeartbeatJob;
 use App\Domains\PlayerMail\Jobs\RecoverPlayerMailBroadcastsJob;
