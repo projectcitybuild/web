@@ -24,6 +24,37 @@ test('homepage shows the latest Instagram photo posts', function () {
     Cache::forget('instagram.cached-images.v3.v27.0.987654321');
     Storage::fake('local');
     Http::preventStrayRequests();
+
+    $sourceImage = imagecreatetruecolor(640, 480);
+
+    if (! $sourceImage instanceof GdImage) {
+        throw new RuntimeException('Test JPEG could not be created.');
+    }
+
+    $sourceColor = imagecolorallocate($sourceImage, 60, 90, 120);
+
+    if ($sourceColor === false) {
+        throw new RuntimeException('Test JPEG color could not be allocated.');
+    }
+
+    imagefill($sourceImage, 0, 0, $sourceColor);
+    ob_start();
+
+    try {
+        if (! imagejpeg($sourceImage, null, 100)) {
+            throw new RuntimeException('Test JPEG could not be encoded.');
+        }
+
+        $jpegContents = ob_get_contents();
+
+        if (! is_string($jpegContents)) {
+            throw new RuntimeException('Test JPEG contents could not be read.');
+        }
+    } finally {
+        ob_end_clean();
+        imagedestroy($sourceImage);
+    }
+
     Http::fake([
         'https://graph.instagram.com/v27.0/987654321/media*' => Http::response([
             'data' => [
@@ -73,12 +104,12 @@ test('homepage shows the latest Instagram photo posts', function () {
             ],
         ]),
         'https://instagram.ffuk2-1.fna.fbcdn.net/*' => Http::response(
-            "\xFF\xD8\xFF\xD9",
+            $jpegContents,
             200,
             ['Content-Type' => 'image/jpeg'],
         ),
         'https://instagram.ffuk3-1.fna.fbcdn.net/*' => Http::response(
-            "\xFF\xD8\xFF\xD9",
+            $jpegContents,
             200,
             ['Content-Type' => 'image/jpeg'],
         ),
@@ -107,8 +138,45 @@ test('homepage shows the latest Instagram photo posts', function () {
 
     $latestImageKey = hash('sha256', 'https://www.instagram.com/p/LATEST123/');
 
-    Storage::disk('local')->assertExists('instagram-images/'.$latestImageKey.'.jpg');
+    $latestImagePath = 'instagram-images/'.$latestImageKey.'.jpg';
+    Storage::disk('local')->assertExists($latestImagePath);
     Http::assertSentCount(4);
+
+    $storedImageContents = Storage::disk('local')->get($latestImagePath);
+    expect($storedImageContents)->not->toBe($jpegContents);
+
+    $watermarkedImage = imagecreatefromstring($storedImageContents);
+    $originalImage = imagecreatefromstring($jpegContents);
+
+    if (! $watermarkedImage instanceof GdImage || ! $originalImage instanceof GdImage) {
+        throw new RuntimeException('Test JPEG could not be decoded.');
+    }
+
+    expect(imagecolorat($watermarkedImage, imagesx($watermarkedImage) - 12, imagesy($watermarkedImage) - 12))
+        ->not->toBe(imagecolorat($originalImage, imagesx($originalImage) - 12, imagesy($originalImage) - 12));
+
+    $hasWhiteWatermarkPixel = false;
+
+    for ($y = imagesy($watermarkedImage) - 40; $y < imagesy($watermarkedImage) - 8; $y++) {
+        for ($x = imagesx($watermarkedImage) - 300; $x < imagesx($watermarkedImage) - 8; $x++) {
+            $pixel = imagecolorat($watermarkedImage, $x, $y);
+
+            if (
+                (($pixel >> 16) & 0xFF) > 200
+                && (($pixel >> 8) & 0xFF) > 200
+                && ($pixel & 0xFF) > 200
+            ) {
+                $hasWhiteWatermarkPixel = true;
+
+                break 2;
+            }
+        }
+    }
+
+    expect($hasWhiteWatermarkPixel)->toBeTrue();
+
+    imagedestroy($watermarkedImage);
+    imagedestroy($originalImage);
 
     $imageResponse = $this->get(route('front.instagram.image', ['imageKey' => $latestImageKey]));
 
@@ -116,18 +184,19 @@ test('homepage shows the latest Instagram photo posts', function () {
         ->assertOk()
         ->assertHeader('Content-Type', 'image/jpeg')
         ->assertStreamed()
-        ->assertStreamedContent("\xFF\xD8\xFF\xD9");
+        ->assertStreamedContent($storedImageContents);
 
     $secondCarouselImageKey = hash('sha256', 'https://www.instagram.com/p/CAROUSEL123/#1');
+    $secondCarouselImagePath = 'instagram-images/'.$secondCarouselImageKey.'.jpg';
 
-    Storage::disk('local')->assertMissing('instagram-images/'.$secondCarouselImageKey.'.jpg');
+    Storage::disk('local')->assertMissing($secondCarouselImagePath);
 
     $this->get(route('front.instagram.image', ['imageKey' => $secondCarouselImageKey]))
         ->assertOk()
         ->assertHeader('Content-Type', 'image/jpeg')
-        ->assertStreamedContent("\xFF\xD8\xFF\xD9");
+        ->assertStreamedContent(Storage::disk('local')->get($secondCarouselImagePath));
 
-    Storage::disk('local')->assertExists('instagram-images/'.$secondCarouselImageKey.'.jpg');
+    Storage::disk('local')->assertExists($secondCarouselImagePath);
 
     Http::assertSentCount(5);
     Http::assertSent(fn (Request $request): bool => $request->method() === 'GET'

@@ -12,6 +12,11 @@ RUN apk add --no-cache libzip-dev unzip && \
 # Install bcmath extension
 RUN docker-php-ext-install bcmath
 
+# Install GD with JPEG support for Instagram image watermarking
+RUN apk add --no-cache freetype-dev libjpeg-turbo-dev libpng-dev && \
+    docker-php-ext-configure gd --with-freetype --with-jpeg && \
+    docker-php-ext-install gd
+
 # Install intl extension
 RUN apk add --no-cache icu-dev && \
     docker-php-ext-install intl

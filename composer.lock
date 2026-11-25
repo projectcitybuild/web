@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b52978e4fb17683289d0be5e84998df7",
+    "content-hash": "1cb4f28d92ee9d2945c4f6980152b117",
     "packages": [
         {
             "name": "admin9/laravel-oidc-server",
@@ -14368,6 +14368,7 @@
     "prefer-lowest": false,
     "platform": {
         "php": "^8.6",
+        "ext-gd": "*",
         "ext-json": "*"
     },
     "platform-dev": {},

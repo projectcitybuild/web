@@ -16,6 +16,9 @@ final class InstagramMediaFeed
     private const POST_LIMIT = 16;
     private const MAX_CAROUSEL_IMAGES = 10;
     private const MAX_IMAGE_BYTES = 10485760;
+    private const WATERMARK_TEXT = 'https://projectcitybuild.com';
+    private const WATERMARK_MARGIN = 8;
+    private const WATERMARK_PADDING = 8;
 
     public function isConfigured(): bool
     {
@@ -330,10 +333,106 @@ final class InstagramMediaFeed
                 throw new UnexpectedValueException('Instagram returned an invalid image.');
             }
 
+            $contents = $this->watermarkImage($contents);
+
             if (! $storage->put($this->imagePath($imageKey), $contents)) {
                 throw new UnexpectedValueException('Instagram image could not be written to storage.');
             }
         }
+    }
+
+    private function watermarkImage(string $contents): string
+    {
+        $image = imagecreatefromstring($contents);
+
+        if ($image === false) {
+            throw new UnexpectedValueException('Instagram returned an invalid JPEG image.');
+        }
+
+        try {
+            $imageWidth = imagesx($image);
+            $imageHeight = imagesy($image);
+            $font = 1;
+            $fontFits = false;
+
+            for ($candidateFont = 5; $candidateFont >= 1; $candidateFont--) {
+                $textWidth = imagefontwidth($candidateFont) * strlen(self::WATERMARK_TEXT);
+                $textHeight = imagefontheight($candidateFont);
+
+                if (
+                    $textWidth + self::WATERMARK_PADDING * 2 + self::WATERMARK_MARGIN <= $imageWidth
+                    && $textHeight + self::WATERMARK_PADDING * 2 + self::WATERMARK_MARGIN <= $imageHeight
+                ) {
+                    $font = $candidateFont;
+                    $fontFits = true;
+
+                    break;
+                }
+            }
+
+            if (! $fontFits) {
+                throw new UnexpectedValueException('Instagram image is too small to watermark.');
+            }
+
+            $textWidth = imagefontwidth($font) * strlen(self::WATERMARK_TEXT);
+            $textHeight = imagefontheight($font);
+            $left = $imageWidth - $textWidth - self::WATERMARK_PADDING * 2 - self::WATERMARK_MARGIN;
+            $top = $imageHeight - $textHeight - self::WATERMARK_PADDING * 2 - self::WATERMARK_MARGIN;
+
+            if (! imagealphablending($image, true)) {
+                throw new UnexpectedValueException('Instagram image could not be watermarked.');
+            }
+
+            $backgroundColor = imagecolorallocatealpha($image, 0, 0, 0, 64);
+            $textColor = imagecolorallocate($image, 255, 255, 255);
+
+            if (
+                $backgroundColor === false
+                || $textColor === false
+                || ! imagefilledrectangle(
+                    $image,
+                    $left,
+                    $top,
+                    $imageWidth - self::WATERMARK_MARGIN,
+                    $imageHeight - self::WATERMARK_MARGIN,
+                    $backgroundColor,
+                )
+                || ! imagestring(
+                    $image,
+                    $font,
+                    $left + self::WATERMARK_PADDING,
+                    $top + self::WATERMARK_PADDING,
+                    self::WATERMARK_TEXT,
+                    $textColor,
+                )
+            ) {
+                throw new UnexpectedValueException('Instagram image could not be watermarked.');
+            }
+
+            $output = fopen('php://temp', 'w+b');
+
+            if ($output === false) {
+                throw new UnexpectedValueException('Watermarked Instagram image could not be encoded.');
+            }
+
+            try {
+                if (! imagejpeg($image, $output, 90) || ! rewind($output)) {
+                    throw new UnexpectedValueException('Watermarked Instagram image could not be encoded.');
+                }
+
+                $watermarkedContents = stream_get_contents($output);
+            } finally {
+                fclose($output);
+            }
+        } finally {
+            imagedestroy($image);
+        }
+
+        if (! is_string($watermarkedContents) || $watermarkedContents === '') {
+            throw new UnexpectedValueException('Watermarked Instagram image could not be encoded.');
+        }
+
+        return $watermarkedContents;
     }
 
     private function imagePath(string $imageKey): string

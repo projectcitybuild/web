@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.6",
+        "ext-gd": "*",
         "ext-json": "*",
         "admin9/laravel-oidc-server": "2.0.0",
         "altek/eventually": "^3.0",
