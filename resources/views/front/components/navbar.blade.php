@@ -2,7 +2,11 @@
     'variant' => 'opaque',
 ])
 
-<nav class="border-gray-200/65 dark:border-gray-700/65 relative w-full {{ $variant != 'opaque' ? 'border-b' : 'bg-[#362f2b] dark:bg-gray-900' }}">
+<nav
+    data-sticky-navbar
+    data-variant="{{ $variant }}"
+    class="front-navbar border-gray-200/65 relative w-full {{ $variant != 'opaque' ? 'border-b' : 'bg-[#362f2b] dark:bg-gray-900' }}"
+>
     <div class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4">
         <x-logo />
 
@@ -62,7 +66,7 @@
                     </ul>
                 </div>
             @else
-                <a href="{{ route('front.login') }}" class="text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md text-sm px-6 py-3 text-center">
+                <a href="{{ route('front.login') }}" class="rounded-md text-sm px-6 py-3 text-center {{ $variant != 'opaque' ? 'bg-white text-gray-900 hover:bg-gray-100' : 'text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700' }}">
                     Sign In
                 </a>
             @endauth

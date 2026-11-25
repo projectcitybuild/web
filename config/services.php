@@ -36,6 +36,12 @@ return [
         'secret' => env('SPARKPOST_SECRET'),
     ],
 
+    'instagram' => [
+        'user_id' => env('INSTAGRAM_USER_ID'),
+        'access_token' => env('INSTAGRAM_ACCESS_TOKEN'),
+        'api_version' => env('INSTAGRAM_GRAPH_API_VERSION', 'v27.0'),
+    ],
+
     'stripe' => [
         'model' => Account::class,
         'key' => env('STRIPE_KEY'),

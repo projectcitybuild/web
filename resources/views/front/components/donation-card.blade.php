@@ -3,11 +3,11 @@
         Help Keep Us Online
     </h3>
 
-    <p class="text-sm text-gray-500 leading-relaxed">
+    <p class="text-sm text-gray-400 leading-relaxed">
         Donations are essential to keeping our server up and running.
         As a token of appreciation, donors enjoy exclusive perks, such as additional commands, custom-colored names, and <a href="{{ route('front.donate') }}" class="underline">much more</a>.
     </p>
-    <p class="text-sm text-gray-500 leading-relaxed">
+    <p class="text-sm text-gray-400 leading-relaxed">
         Your support helps us maintain and improve the experience for everyone!
     </p>
 
