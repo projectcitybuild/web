@@ -32,12 +32,17 @@ use App\Http\Controllers\Front\BuilderRankApplicationController;
 use App\Http\Controllers\Front\ContactController;
 use App\Http\Controllers\Front\DonationController;
 use App\Http\Controllers\Front\HomeController;
+use App\Http\Controllers\Front\InstagramImageController;
 use App\Http\Controllers\Front\PlayerReportController;
 use App\Http\Controllers\Front\PublicProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)
     ->name('front.home');
+
+Route::get('instagram-images/{imageKey}', InstagramImageController::class)
+    ->where('imageKey', '[a-f0-9]{64}')
+    ->name('front.instagram.image');
 
 Route::view('connect', 'front.pages.connect')
     ->name('front.connect');

@@ -3,17 +3,20 @@
 namespace App\Core\Domains\Instagram;
 
 use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\Pool;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+use League\Flysystem\UnableToWriteFile;
 use UnexpectedValueException;
 
 final class InstagramMediaFeed
 {
     private const CACHE_TTL_SECONDS = 3600;
     private const IMAGE_LIMIT = 8;
+    private const MAX_IMAGE_BYTES = 10485760;
 
     public function isConfigured(): bool
     {
@@ -21,7 +24,7 @@ final class InstagramMediaFeed
     }
 
     /**
-     * @return array<int, array{imageUrl: string, permalink: string, altText: string}>|null
+     * @return array<int, array{imageKey: string, permalink: string, altText: string}>|null
      */
     public function latestImages(): ?array
     {
@@ -33,12 +36,12 @@ final class InstagramMediaFeed
 
         try {
             return Cache::remember(
-                'instagram.latest-images.'.$configuration['apiVersion'].'.'.$configuration['userId'],
+                'instagram.cached-images.v2.'.$configuration['apiVersion'].'.'.$configuration['userId'],
                 now()->addSeconds(self::CACHE_TTL_SECONDS),
                 fn (): array => $this->fetchImages($configuration),
             );
-        } catch (ConnectionException|RequestException|UnexpectedValueException $exception) {
-            Log::warning('Instagram media could not be loaded.', [
+        } catch (ConnectionException|RequestException|UnableToWriteFile|UnexpectedValueException $exception) {
+            Log::warning('Instagram media could not be loaded or cached.', [
                 'exception_class' => $exception::class,
                 'status' => $exception instanceof RequestException
                     ? $exception->response->status()
@@ -78,16 +81,16 @@ final class InstagramMediaFeed
 
     /**
      * @param  array{userId: string, accessToken: string, apiVersion: string}  $configuration
-     * @return array<int, array{imageUrl: string, permalink: string, altText: string}>
+     * @return array<int, array{imageKey: string, permalink: string, altText: string}>
      */
     private function fetchImages(array $configuration): array
     {
         $response = Http::connectTimeout(3)
             ->timeout(5)
             ->get(
-                'https://graph.facebook.com/'.$configuration['apiVersion'].'/'.$configuration['userId'].'/media',
+                'https://graph.instagram.com/'.$configuration['apiVersion'].'/'.$configuration['userId'].'/media',
                 [
-                    'fields' => 'alt_text,caption,media_type,media_url,permalink,timestamp,children{media_type,media_url}',
+                    'fields' => 'alt_text,media_type,media_url,permalink,timestamp,children{media_type,media_url}',
                     'limit' => 50,
                     'access_token' => $configuration['accessToken'],
                 ],
@@ -120,23 +123,19 @@ final class InstagramMediaFeed
             };
             $permalink = $mediaItem['permalink'] ?? null;
 
-            if (! $this->isSecureUrl($imageUrl) || ! $this->isInstagramPermalink($permalink)) {
+            if (! $this->isInstagramMediaUrl($imageUrl) || ! $this->isInstagramPermalink($permalink)) {
                 continue;
             }
 
             $altText = $mediaItem['alt_text'] ?? null;
-            $caption = $mediaItem['caption'] ?? null;
-
-            if (! is_string($altText) || trim($altText) === '') {
-                $altText = is_string($caption) && trim($caption) !== ''
-                    ? Str::limit(trim($caption), 160)
-                    : 'Project City Build Instagram post';
-            }
 
             $images[] = [
                 'imageUrl' => $imageUrl,
+                'imageKey' => hash('sha256', $permalink),
                 'permalink' => $permalink,
-                'altText' => $altText,
+                'altText' => is_string($altText) && trim($altText) !== ''
+                    ? $altText
+                    : 'Project City Build Instagram post',
             ];
 
             if (count($images) === self::IMAGE_LIMIT) {
@@ -144,7 +143,86 @@ final class InstagramMediaFeed
             }
         }
 
-        return $images;
+        $this->cacheImages($images);
+
+        return array_map(
+            static fn (array $image): array => [
+                'imageKey' => $image['imageKey'],
+                'permalink' => $image['permalink'],
+                'altText' => $image['altText'],
+            ],
+            $images,
+        );
+    }
+
+    /**
+     * @param  array<int, array{imageUrl: string, imageKey: string, permalink: string, altText: string}>  $images
+     */
+    private function cacheImages(array $images): void
+    {
+        $disk = config('filesystems.default');
+
+        if (! is_string($disk) || $disk === '') {
+            throw new UnexpectedValueException('The default filesystem disk is not configured.');
+        }
+
+        $storage = Storage::disk($disk);
+        $imagesToDownload = [];
+
+        foreach ($images as $image) {
+            if (! $storage->exists($this->imagePath($image['imageKey']))) {
+                $imagesToDownload[$image['imageKey']] = $image;
+            }
+        }
+
+        if ($imagesToDownload === []) {
+            return;
+        }
+
+        $responses = Http::pool(static function (Pool $pool) use ($imagesToDownload): array {
+            $requests = [];
+
+            foreach ($imagesToDownload as $imageKey => $image) {
+                $requests[$imageKey] = $pool->as($imageKey)
+                    ->connectTimeout(3)
+                    ->timeout(5)
+                    ->withOptions(['allow_redirects' => false])
+                    ->get($image['imageUrl']);
+            }
+
+            return $requests;
+        });
+
+        foreach ($responses as $imageKey => $response) {
+            if ($response instanceof ConnectionException) {
+                throw $response;
+            }
+
+            $response->throw();
+
+            $contentType = $response->header('Content-Type');
+            $mimeType = is_string($contentType)
+                ? strtolower(trim(explode(';', $contentType, 2)[0]))
+                : '';
+            $contents = $response->body();
+
+            if (
+                $mimeType !== 'image/jpeg'
+                || ! str_starts_with($contents, "\xFF\xD8\xFF")
+                || strlen($contents) > self::MAX_IMAGE_BYTES
+            ) {
+                throw new UnexpectedValueException('Instagram returned an invalid image.');
+            }
+
+            if (! $storage->put($this->imagePath($imageKey), $contents)) {
+                throw new UnexpectedValueException('Instagram image could not be written to storage.');
+            }
+        }
+    }
+
+    private function imagePath(string $imageKey): string
+    {
+        return 'instagram-images/'.$imageKey.'.jpg';
     }
 
     /**
@@ -169,16 +247,36 @@ final class InstagramMediaFeed
         return $mediaItem['media_url'] ?? null;
     }
 
-    private function isSecureUrl(mixed $url): bool
+    private function isInstagramMediaUrl(mixed $url): bool
     {
-        return is_string($url)
-            && filter_var($url, FILTER_VALIDATE_URL) !== false
-            && parse_url($url, PHP_URL_SCHEME) === 'https';
+        if (! is_string($url) || filter_var($url, FILTER_VALIDATE_URL) === false) {
+            return false;
+        }
+
+        $parts = parse_url($url);
+
+        if (! is_array($parts)) {
+            return false;
+        }
+
+        $host = is_string($parts['host'] ?? null) ? strtolower($parts['host']) : '';
+        $isInstagramCdn = $host === 'cdninstagram.com'
+            || str_ends_with($host, '.cdninstagram.com');
+        $isFacebookCdn = $host === 'fbcdn.net'
+            || str_ends_with($host, '.fbcdn.net');
+
+        return ($parts['scheme'] ?? null) === 'https'
+            && ! isset($parts['user'])
+            && ! isset($parts['pass'])
+            && ! isset($parts['port'])
+            && ($isInstagramCdn || $isFacebookCdn);
     }
 
     private function isInstagramPermalink(mixed $url): bool
     {
-        return $this->isSecureUrl($url)
+        return is_string($url)
+            && filter_var($url, FILTER_VALIDATE_URL) !== false
+            && parse_url($url, PHP_URL_SCHEME) === 'https'
             && parse_url($url, PHP_URL_HOST) === 'www.instagram.com';
     }
 }

@@ -23,8 +23,9 @@ class HomeController
                     ->limit(1),
             )
             ->orderByDesc('players.id')
-            ->limit(12)
+            ->limit(16)
             ->get();
+
         $instagramFeedConfigured = $instagramMediaFeed->isConfigured();
         $instagramImages = $instagramFeedConfigured
             ? $instagramMediaFeed->latestImages()

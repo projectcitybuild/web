@@ -214,7 +214,7 @@
                             <li data-home-reveal data-home-reveal-delay="{{ $loop->index % 4 * 60 }}" class="overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-950">
                                 <a href="{{ $image['permalink'] }}" target="_blank" rel="noopener noreferrer" class="block overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500">
                                     <img
-                                        src="{{ $image['imageUrl'] }}"
+                                        src="{{ route('front.instagram.image', ['imageKey' => $image['imageKey']]) }}"
                                         alt="{{ $image['altText'] }}"
                                         loading="lazy"
                                         decoding="async"
