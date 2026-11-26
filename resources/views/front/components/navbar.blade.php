@@ -104,6 +104,7 @@
                         type="button"
                         id="mega-menu-full-dropdown-button"
                         data-menu-toggle-target="mega-menu-full-dropdown"
+                        data-menu-dismiss="outside"
                         aria-controls="mega-menu-full-dropdown"
                         aria-expanded="false"
                         class="flex items-center justify-between w-full py-2 px-3 text-gray-100 rounded cursor-pointer md:text-gray-50 md:w-auto hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-gray-300 md:p-0"
