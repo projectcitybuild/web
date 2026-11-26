@@ -11,13 +11,13 @@ RUN npm run build
 FROM php:8.6-fpm-alpine AS php-base
 
 # PHP 8.6's DOM HTML5 parser uses Lexbor headers from the PHP source tree.
-RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS curl-dev freetype-dev icu-dev libjpeg-turbo-dev libpng-dev libzip-dev libxml2-dev mariadb-connector-c-dev \
+RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS curl-dev freetype-dev icu-dev libjpeg-turbo-dev libpng-dev libzip-dev libxml2-dev mariadb-connector-c-dev oniguruma-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && CPPFLAGS="$PHP_CPPFLAGS -I/usr/src/php -I/usr/src/php/ext/lexbor" docker-php-ext-install bcmath curl dom gd intl pcntl pdo pdo_mysql zip \
+    && CPPFLAGS="$PHP_CPPFLAGS -I/usr/src/php -I/usr/src/php/ext/lexbor" docker-php-ext-install bcmath curl dom gd intl mbstring pcntl pdo pdo_mysql zip \
     && mkdir -p /usr/src/php/ext/redis \
     && curl -fsSL https://github.com/phpredis/phpredis/archive/6.4.0RC1.tar.gz | tar xz -C /usr/src/php/ext/redis --strip 1 \
     && docker-php-ext-install redis \
-    && apk add --no-cache freetype icu-libs libjpeg-turbo libpng libzip mariadb-connector-c mariadb-client \
+    && apk add --no-cache freetype icu-libs libjpeg-turbo libpng libzip mariadb-connector-c mariadb-client oniguruma \
     && apk del .build-deps
 
 COPY .docker/images/fpm/uploads.ini /usr/local/etc/php/conf.d/uploads.ini
