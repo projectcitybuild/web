@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { Icons } from '../Components/SvgIcon.vue';
 import SvgIcon from './SvgIcon.vue'
 

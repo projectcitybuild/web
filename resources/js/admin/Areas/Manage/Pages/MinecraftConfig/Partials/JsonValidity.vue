@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import Spinner from '../../../../../Components/Spinner.vue'
 
 defineProps({
