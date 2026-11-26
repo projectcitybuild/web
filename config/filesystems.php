@@ -71,7 +71,7 @@ return [
             'key' => env('AWS_REPORTS_ACCESS_KEY_ID'),
             'secret' => env('AWS_REPORTS_SECRET_ACCESS_KEY'),
             'region' => env('AWS_REPORTS_DEFAULT_REGION'),
-            'bucket' => env('PLAYER_REPORTS_AWS_BUCKET'),
+            'bucket' => env('AWS_REPORTS_BUCKET'),
             'endpoint' => env('AWS_REPORTS_ENDPOINT'),
             'url' => env('AWS_REPORTS_URL'),
             'use_path_style_endpoint' => true,
