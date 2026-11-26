@@ -231,6 +231,14 @@
         @apply flex flex-wrap justify-end gap-2;
     }
 
+    .ban-list .data-table__cell {
+        @apply py-3;
+    }
+
+    .ban-list .data-table__actions {
+        @apply flex-nowrap;
+    }
+
     .form-detail-list {
         @apply divide-y divide-white/10;
     }

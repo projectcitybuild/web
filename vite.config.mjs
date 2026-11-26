@@ -16,6 +16,7 @@ export default defineConfig({
             input: [
                 'resources/css/front.css',
                 'resources/js/front/front.ts',
+                'resources/js/front/bans.ts',
                 'resources/js/admin/admin.ts',
                 'resources/css/admin/admin.css',
                 'resources/images/logo-alt.png',
