@@ -1,10 +1,11 @@
 <script setup lang="ts" generic="T">
 import { Paginated } from '../Data/Paginated'
-import { onBeforeMount, onMounted, ref, shallowRef, watch } from 'vue'
+import { onBeforeMount, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue'
 import axios from 'axios'
 import { useIntersectionObserver, watchDebounced } from '@vueuse/core'
 import SpinnerRow from './SpinnerRow.vue'
 import SvgIcon from './SvgIcon.vue'
+import Button from './Button.vue'
 import { Icons } from '../Components/SvgIcon.vue'
 import { nextTableSort, type TableSortDirection } from '../Composables/useTableSorting'
 
@@ -27,21 +28,31 @@ const reachedEnd = ref(props.initial?.next_page_url == null)
 const lastElement = ref<HTMLDivElement | null>(null)
 const loading = ref(false)
 const forbidden = ref(false)
+const error = ref<string | null>(null)
+const failedPage = ref<number | null>(null)
 const sort = ref(props.sort ?? null)
 const direction = ref(props.direction ?? null)
+let latestRequestId = 0
+let activeController: AbortController | null = null
 
 watchDebounced(
     () => props.query,
-    () => loadFirstPage(),
+    () => {
+        void loadFirstPage()
+    },
     { debounce: 500 },
 )
 
 watch(
     () => props.query,
-    () => loading.value = true,
+    () => {
+        invalidateRequest()
+        resetResults()
+        loading.value = true
+    },
 )
 
-function query(): URLSearchParams {
+function query(page: number): URLSearchParams {
     const params = new URLSearchParams()
 
     Object.entries(props.query ?? {}).forEach(([key, value]) => {
@@ -55,16 +66,16 @@ function query(): URLSearchParams {
         params.set('direction', direction.value)
     }
 
-    if (currentPage.value > 1) {
-        params.set('page', String(currentPage.value))
+    if (page > 1) {
+        params.set('page', String(page))
     }
 
     return params
 }
 
-function pagePath(): string {
+function pagePath(page: number): string {
     const base = props.path ?? props.initial?.path
-    const params = query()
+    const params = query(page)
 
     if (!base) {
         throw new Error('InfinitePagination requires a path when no initial page is provided.')
@@ -76,47 +87,92 @@ function pagePath(): string {
     return base + '?' + params.toString()
 }
 
-const load = async () => {
-    try {
-        const path = pagePath()
-        const response = await axios.get<Paginated<T>>(path)
-
-        reachedEnd.value = response.data.next_page_url == null
-        if (reachedEnd.value) {
-            stop()
-        }
-        return response.data?.data ?? []
-    } catch (error) {
-        if (axios.isAxiosError(error) && error.response?.status === 403) {
-            forbidden.value = true
-            reachedEnd.value = true
-            stop()
-
-            return []
-        }
-
-        throw error
-    } finally {
-        loading.value = false
-    }
+function invalidateRequest(): void {
+    latestRequestId += 1
+    activeController?.abort()
+    activeController = null
+    loading.value = false
 }
 
-const loadFirstPage = async () => {
+function resetResults(): void {
     currentPage.value = 1
     reachedEnd.value = false
     forbidden.value = false
+    error.value = null
+    failedPage.value = null
+    items.value = []
+    itemCount.value = 0
+}
 
-    items.value = await load()
+const load = async (page: number): Promise<{ requestId: number, data: Paginated<T> } | null> => {
+    const controller = new AbortController()
+    const requestId = ++latestRequestId
+    activeController = controller
+    loading.value = true
+    error.value = null
+    failedPage.value = null
+
+    try {
+        const response = await axios.get<Paginated<T>>(pagePath(page), { signal: controller.signal })
+
+        if (requestId !== latestRequestId) {
+            return null
+        }
+
+        return { requestId, data: response.data }
+    } catch (caughtError) {
+        if (requestId !== latestRequestId || controller.signal.aborted || axios.isCancel(caughtError)) {
+            return null
+        }
+
+        if (axios.isAxiosError(caughtError) && caughtError.response?.status === 403) {
+            forbidden.value = true
+            reachedEnd.value = true
+        } else {
+            failedPage.value = page
+            error.value = 'Unable to load results. Please try again.'
+        }
+    } finally {
+        if (requestId === latestRequestId) {
+            activeController = null
+            loading.value = false
+        }
+    }
+
+    return null
+}
+
+const loadFirstPage = async (): Promise<void> => {
+    invalidateRequest()
+    resetResults()
+
+    const result = await load(1)
+
+    if (result === null || result.requestId !== latestRequestId) {
+        return
+    }
+
+    currentPage.value = 1
+    reachedEnd.value = result.data.next_page_url == null
+    items.value = result.data.data ?? []
     itemCount.value = items.value.length
 }
 
-const loadNextPage = async () => {
-    currentPage.value += 1
+const loadNextPage = async (): Promise<void> => {
+    if (loading.value || reachedEnd.value || forbidden.value) {
+        return
+    }
 
-    items.value = [
-        ...items.value,
-        ...await load(),
-    ]
+    const page = currentPage.value + 1
+    const result = await load(page)
+
+    if (result === null || result.requestId !== latestRequestId) {
+        return
+    }
+
+    currentPage.value = page
+    reachedEnd.value = result.data.next_page_url == null
+    items.value = [...items.value, ...(result.data.data ?? [])]
     itemCount.value = items.value.length
 }
 
@@ -124,39 +180,54 @@ function onSort(key: string): void {
     const next = nextTableSort({ sort: sort.value, direction: direction.value }, key)
     sort.value = next.sort
     direction.value = next.direction
-    loading.value = true
     void loadFirstPage()
 }
 
-const { stop } = useIntersectionObserver(
+function retry(): void {
+    if (failedPage.value === 1) {
+        void loadFirstPage()
+    } else if (failedPage.value !== null) {
+        void loadNextPage()
+    }
+}
+
+useIntersectionObserver(
     lastElement,
     ([{isIntersecting}]) => {
-        if (isIntersecting) loadNextPage()
+        if (isIntersecting) {
+            void loadNextPage()
+        }
     }
 )
 
 onMounted(() => {
     if (props.initial == null) {
-        loadFirstPage()
+        void loadFirstPage()
     }
 })
 
 onBeforeMount(() => itemCount.value = items.value.length)
+onBeforeUnmount(() => invalidateRequest())
 </script>
 
 <template>
     <div class="infinite-pagination">
-        <slot :data="items" :loading="loading" :sort="sort" :direction="direction" :on-sort="onSort" :forbidden="forbidden" />
+        <slot :data="items" :loading="loading" :sort="sort" :direction="direction" :on-sort="onSort" :forbidden="forbidden" :error="error" :retry="retry" />
 
         <!-- Invisible element to trigger loading next page -->
         <div ref="lastElement" class="-translate-y-32"></div>
 
-        <div v-if="reachedEnd && !forbidden" class="pagination-end flex items-center justify-center gap-2 rounded-none border-x border-b border-border-table bg-surface-muted p-3 text-xs text-muted">
+        <div v-if="error && !forbidden" class="flex items-center justify-between gap-3 border-x border-b border-danger bg-danger-soft p-3 text-xs text-danger" role="alert">
+            <span>{{ error }}</span>
+            <Button variant="outline" size="sm" @click="retry">Retry</Button>
+        </div>
+
+        <div v-else-if="reachedEnd && !forbidden" class="pagination-end flex items-center justify-center gap-2 rounded-none border-x border-b border-border-table bg-surface-muted p-3 text-xs text-muted">
             <SvgIcon :svg="Icons.hand" class="size-4" aria-hidden="true" />
             Reached the End
         </div>
 
-        <SpinnerRow v-else-if="!forbidden" class="pagination-spinner rounded-none border-x border-b border-border-table" />
+        <SpinnerRow v-else-if="loading && !forbidden" class="pagination-spinner rounded-none border-x border-b border-border-table" />
     </div>
 </template>
 
