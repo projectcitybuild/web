@@ -12,39 +12,41 @@
 
         <div class="flex md:order-2 items-center gap-2 md:gap-3">
             @auth
-                <button type="button" class="flex text-sm bg-gray-800 rounded-full md:me-0" id="user-menu-button" aria-expanded="false" aria-controls="user-dropdown" data-menu-toggle-target="user-dropdown" data-menu-dismiss="outside">
-                    <span class="sr-only">Open user menu</span>
-                    <x-avatar />
-                </button>
-                <!-- Dropdown menu -->
-                <div class="z-50 hidden my-4 text-base list-none bg-gray-800 divide-y divide-gray-700 rounded-lg shadow" id="user-dropdown">
-                    <div class="px-4 py-3">
-                        <span class="block text-sm text-gray-100">{{ Auth::user()->username }}</span>
-                        <span class="block text-sm text-gray-400 truncate">{{ Auth::user()->email }}</span>
+                <div class="relative">
+                    <button type="button" class="flex text-sm bg-gray-800 rounded-full md:me-0" id="user-menu-button" aria-expanded="false" aria-controls="user-dropdown" data-menu-toggle-target="user-dropdown" data-menu-dismiss="outside">
+                        <span class="sr-only">Open user menu</span>
+                        <x-avatar />
+                    </button>
+                    <!-- Dropdown menu -->
+                    <div class="absolute right-0 top-full z-50 hidden my-4 text-base list-none bg-gray-800 divide-y divide-gray-700 rounded-lg shadow" id="user-dropdown">
+                        <div class="px-4 py-3">
+                            <span class="block text-sm text-gray-100">{{ Auth::user()->username }}</span>
+                            <span class="block text-sm text-gray-400 truncate">{{ Auth::user()->email }}</span>
+                        </div>
+                        <ul class="py-2" aria-labelledby="user-menu-button">
+                            <li>
+                                <a href="{{ route('front.account.profile') }}" class="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-700">Dashboard</a>
+                            </li>
+                            @can('access-manage')
+                                <li>
+                                    <a href="{{ route('manage.index') }}" class="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-700">Management</a>
+                                </li>
+                            @endcan
+                            @can('access-review')
+                                <li>
+                                    <a href="{{ route('review.index') }}" class="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-700">Review</a>
+                                </li>
+                            @endcan
+                            <li>
+                                <a href="{{ route('front.account.settings') }}" class="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-700">Settings</a>
+                            </li>
+                        </ul>
+                        <ul class="py-2" aria-labelledby="user-menu-button">
+                            <li>
+                                <a href="{{ route('front.logout') }}" class="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-700">Sign out</a>
+                            </li>
+                        </ul>
                     </div>
-                    <ul class="py-2" aria-labelledby="user-menu-button">
-                        <li>
-                            <a href="{{ route('front.account.profile') }}" class="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-700">Dashboard</a>
-                        </li>
-                        @can('access-manage')
-                            <li>
-                                <a href="{{ route('manage.index') }}" class="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-700">Management</a>
-                            </li>
-                        @endcan
-                        @can('access-review')
-                            <li>
-                                <a href="{{ route('review.index') }}" class="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-700">Review</a>
-                            </li>
-                        @endcan
-                        <li>
-                            <a href="{{ route('front.account.settings') }}" class="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-700">Settings</a>
-                        </li>
-                    </ul>
-                    <ul class="py-2" aria-labelledby="user-menu-button">
-                        <li>
-                            <a href="{{ route('front.logout') }}" class="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-700">Sign out</a>
-                        </li>
-                    </ul>
                 </div>
             @else
                 <a href="{{ route('front.login') }}" class="rounded-md text-sm px-6 py-3 text-center bg-white text-gray-900 hover:bg-gray-200">
