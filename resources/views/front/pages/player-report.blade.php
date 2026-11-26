@@ -202,7 +202,7 @@
                             label="Attachments"
                             :optional="true"
                             :multiple="true"
-                            accept=".jpg,.jpeg,.png,.webp,.pdf"
+                            accept=".jpg,.jpeg,.png,.webp"
                             hint="Up to 5 JPG/PNG/WebP files. Max 5 MB each."
                             error-key="attachments"
                         />

@@ -5,7 +5,7 @@
 
     .form-page__background {
         @apply absolute inset-0 -z-10 bg-cover bg-center bg-fixed opacity-50;
-        background-image: url("/resources/images/world_survival.png");
+        background-image: url("/resources/images/bg_survival.webp");
     }
 
     .form-page__overlay {
