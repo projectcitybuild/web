@@ -1,6 +1,6 @@
 @props(['feedConfigured', 'images'])
 
-<section id="instagram" aria-labelledby="instagram-heading" class="bg-gray-50 py-16 dark:bg-gray-900/60 sm:py-20 lg:py-24">
+<section id="instagram" aria-labelledby="instagram-heading" class="bg-white py-16 dark:bg-gray-950 sm:py-20 lg:py-24">
     <div class="mx-auto max-w-screen-2xl px-4 sm:px-8">
         <div data-home-reveal class="mx-auto max-w-2xl text-center">
             <p class="text-sm font-bold uppercase tracking-[0.18em] text-amber-700 dark:text-amber-400">Hot off the press</p>

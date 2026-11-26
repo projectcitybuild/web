@@ -172,7 +172,7 @@
                 </div>
 
                 <div class="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-[#2B2C34] pt-4 text-[11px] text-[#80808B]">
-                    <span>Older session records are pruned after 30 days, so historical activity may not be available.</span>
+                    <span>Historical activity is currently being updated. More data will be available soon.</span>
                     <span class="flex items-center gap-2" aria-label="Legend: no connection, connected">
                         <span>No session</span>
                         <span class="size-3 rounded-[2px] bg-[#2B2C34]" aria-hidden="true"></span>

@@ -96,12 +96,12 @@
 
                 <div class="mt-10 grid gap-6 lg:mt-14 lg:grid-cols-3">
                     <article data-home-reveal class="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-[box-shadow,translate] duration-300 ease-out hover:-translate-y-1 hover:shadow-xl dark:border-gray-800 dark:bg-gray-950 motion-reduce:transition-none motion-reduce:hover:translate-y-0">
-                        <div aria-hidden="true" class="aspect-[4/3] bg-gray-200 bg-[url('/resources/images/home_creative.png')] bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105 dark:bg-gray-800 motion-reduce:transition-none"></div>
+                        <div aria-hidden="true" class="aspect-[4/3] bg-gray-200 bg-[url('/resources/images/creative.jpg')] bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105 dark:bg-gray-800 motion-reduce:transition-none"></div>
                         <div class="flex grow flex-col p-6 sm:p-7">
                             <p class="text-xs font-bold uppercase tracking-[0.18em] text-amber-700 dark:text-amber-400">Create without limits</p>
                             <h3 class="mt-2 font-display text-4xl">Creative</h3>
                             <p class="mt-3 leading-7 text-gray-600 dark:text-gray-300">
-                                No plots—just a free-build world full of everything from alien landscapes and cruise ships to castles and entire cities. Let your imagination run wild.
+                                No plots — just a free-build world full of everything from alien landscapes and cruise ships to castles and entire cities. Let your imagination run wild.
                             </p>
                             <ul class="mt-auto flex flex-wrap gap-x-6 gap-y-3 pt-6 text-sm font-semibold">
                                 <li>
@@ -119,12 +119,12 @@
                     </article>
 
                     <article data-home-reveal data-home-reveal-delay="100" class="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-[box-shadow,translate] duration-300 ease-out hover:-translate-y-1 hover:shadow-xl dark:border-gray-800 dark:bg-gray-950 motion-reduce:transition-none motion-reduce:hover:translate-y-0">
-                        <div aria-hidden="true" class="aspect-[4/3] bg-gray-200 bg-[url('/resources/images/home_monarch.png')] bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105 dark:bg-gray-800 motion-reduce:transition-none"></div>
+                        <div aria-hidden="true" class="aspect-[4/3] bg-gray-200 bg-[url('/resources/images/monarch.jpg')] bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105 dark:bg-gray-800 motion-reduce:transition-none"></div>
                         <div class="flex grow flex-col p-6 sm:p-7">
                             <p class="text-xs font-bold uppercase tracking-[0.18em] text-amber-700 dark:text-amber-400">A city made together</p>
                             <h3 class="mt-2 font-display text-4xl">Monarch</h3>
                             <p class="mt-3 leading-7 text-gray-600 dark:text-gray-300">
-                                Our premier city project features realistic-scale builds. More than five years in the making, Monarch showcases our builders' talents—and there's room to make your mark.
+                                Our collaborative city project features realistic-scale builds. More than {{ (int) \Illuminate\Support\Carbon::create(2020, 10, 1)->diffInYears(now()) }} years in the making, Monarch showcases our builders' talents, and there's room to make your mark.
                             </p>
                             <ul class="mt-auto flex flex-wrap gap-x-6 gap-y-3 pt-6 text-sm font-semibold">
                                 <li>
@@ -142,7 +142,7 @@
                     </article>
 
                     <article data-home-reveal data-home-reveal-delay="200" class="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-[box-shadow,translate] duration-300 ease-out hover:-translate-y-1 hover:shadow-xl dark:border-gray-800 dark:bg-gray-950 motion-reduce:transition-none motion-reduce:hover:translate-y-0">
-                        <div aria-hidden="true" class="aspect-[4/3] bg-gray-200 bg-[url('/resources/images/home_survival.png')] bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105 dark:bg-gray-800 motion-reduce:transition-none"></div>
+                        <div aria-hidden="true" class="aspect-[4/3] bg-gray-200 bg-[url('/resources/images/survival.jpg')] bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105 dark:bg-gray-800 motion-reduce:transition-none"></div>
                         <div class="flex grow flex-col p-6 sm:p-7">
                             <p class="text-xs font-bold uppercase tracking-[0.18em] text-amber-700 dark:text-amber-400">Need a break?</p>
                             <h3 class="mt-2 font-display text-4xl">Survival</h3>
@@ -162,59 +162,63 @@
             </div>
         </section>
 
-        <section aria-labelledby="recent-players-heading" class="py-16 sm:py-20 lg:py-24">
+        <x-front::instagram-feed :feed-configured="$instagramFeedConfigured" :images="$instagramImages" />
+
+        <section aria-labelledby="recent-players-heading" class="bg-gray-50 py-16 dark:bg-gray-900/60 sm:py-20 lg:py-24">
             <div class="mx-auto max-w-screen-2xl px-4 sm:px-8">
                 <div data-home-reveal class="mx-auto max-w-2xl text-center">
                     <p class="text-sm font-bold uppercase tracking-[0.18em] text-amber-700 dark:text-amber-400">Community in motion</p>
                     <h2 id="recent-players-heading" class="mt-3 font-display text-5xl leading-none sm:text-6xl">Recent Players</h2>
-                    <p class="mt-4 leading-7 text-gray-600 dark:text-gray-300">See who's been visiting our worlds lately.</p>
+                    <p class="mt-4 leading-7 text-gray-600 dark:text-gray-300">See who's been online lately.</p>
                 </div>
 
                 <ul class="mt-10 grid gap-4 grid-cols-2 md:mt-14 md:grid-cols-4">
                     @foreach ($recentPlayers as $player)
-                        <li data-home-reveal data-home-reveal-delay="{{ $loop->index % 4 * 60 }}" class="group relative isolate flex min-h-56 flex-col items-center gap-4 overflow-hidden rounded-2xl border border-gray-200 bg-white p-5 text-center shadow-sm transition-[border-color,box-shadow,translate] duration-300 ease-out hover:-translate-y-1 hover:border-amber-300 hover:shadow-xl dark:border-gray-800 dark:bg-gray-950 dark:hover:border-amber-700 motion-reduce:transition-none motion-reduce:hover:translate-y-0">
-                            <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-amber-100/80 to-transparent dark:from-amber-400/10"></div>
-                            <div aria-hidden="true" class="pointer-events-none absolute -right-8 -top-8 size-32 rounded-full bg-amber-300/30 blur-2xl dark:bg-amber-400/10"></div>
+                        <li data-home-reveal data-home-reveal-delay="{{ $loop->index % 4 * 60 }}" class="min-w-0">
+                            <a href="{{ route('front.profile.show', ['minecraft_uuid' => $player->uuid]) }}" class="group relative isolate flex h-full min-h-56 w-full cursor-pointer flex-col items-center gap-4 overflow-hidden rounded-2xl border border-gray-200 bg-white p-5 text-center shadow-sm transition-[border-color,box-shadow,translate] duration-300 ease-out hover:-translate-y-1 hover:border-amber-300 hover:shadow-xl dark:border-gray-800 dark:bg-gray-950 dark:hover:border-amber-700 motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+                                <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-amber-100/80 to-transparent dark:from-amber-400/10"></div>
+                                <div aria-hidden="true" class="pointer-events-none absolute -right-8 -top-8 size-32 rounded-full bg-amber-300/30 blur-2xl dark:bg-amber-400/10"></div>
 
-                            <div class="relative mt-2 rounded-2xl bg-gradient-to-br from-amber-300 via-orange-200 to-yellow-100 p-1 shadow-lg shadow-amber-900/10 transition-transform duration-300 ease-out group-hover:rotate-3 group-hover:scale-105 dark:from-amber-500 dark:via-orange-600 dark:to-yellow-500 motion-reduce:transition-none motion-reduce:group-hover:rotate-0 motion-reduce:group-hover:scale-100">
-                                <div class="rounded-xl border border-white/80 bg-gray-950 p-2 dark:border-white/10">
-                                    <img
-                                        src="https://minotar.net/helm/{{ $player->uuid }}/64"
-                                        alt=""
-                                        width="64"
-                                        height="64"
-                                        class="size-16 rounded-lg object-cover [image-rendering:pixelated]"
-                                    >
+                                <div class="relative mt-2 rounded-2xl bg-gradient-to-br from-amber-300 via-orange-200 to-yellow-100 p-1 shadow-lg shadow-amber-900/10 transition-transform duration-300 ease-out group-hover:rotate-3 group-hover:scale-105 dark:from-amber-500 dark:via-orange-600 dark:to-yellow-500 motion-reduce:transition-none motion-reduce:group-hover:rotate-0 motion-reduce:group-hover:scale-100">
+                                    <div class="rounded-xl border border-white/80 bg-gray-950 p-2 dark:border-white/10">
+                                        <img
+                                            src="https://minotar.net/helm/{{ $player->uuid }}/64"
+                                            alt=""
+                                            width="64"
+                                            height="64"
+                                            class="size-16 rounded-md object-cover [image-rendering:pixelated]"
+                                        >
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="relative min-w-0">
-                                <h3 class="truncate font-semibold">{{ $player->alias ?? 'Unknown player' }}</h3>
-                                <p class="mt-2 inline-flex whitespace-nowrap items-center gap-1.5 rounded-full bg-gray-100 px-2.5 py-1 text-xs text-gray-600 dark:bg-gray-800 dark:text-gray-300">
-                                    <span aria-hidden="true" class="size-1.5 rounded-full bg-amber-500"></span>
-                                    <span class="sr-only">Last seen </span>
-                                    <time datetime="{{ $player->latestSession->starts_at->toIso8601String() }}">
-                                        {{ $player->latestSession->starts_at->diffForHumans() }}
-                                    </time>
-                                </p>
-                            </div>
+                                <div class="relative min-w-0">
+                                    <h3 class="truncate font-semibold">{{ $player->alias ?? 'Unknown player' }}</h3>
+                                    <p class="mt-2 inline-flex whitespace-nowrap items-center gap-1.5 rounded-full bg-gray-100 px-2.5 py-1 text-xs text-gray-600 dark:bg-gray-800 dark:text-gray-300">
+                                        <span aria-hidden="true" class="size-1.5 rounded-full bg-amber-500"></span>
+                                        <span class="sr-only">Last seen </span>
+                                        <time datetime="{{ $player->latestSession->starts_at->toIso8601String() }}">
+                                            {{ $player->latestSession->starts_at->diffForHumans() }}
+                                        </time>
+                                    </p>
+                                </div>
 
-                            @if ($player->account !== null && $player->account->roles->isNotEmpty())
                                 <ul aria-label="{{ $player->alias ?? 'Player' }} roles" class="relative flex flex-wrap justify-center gap-1.5">
-                                    @foreach ($player->account->roles as $role)
-                                        <li class="rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-[11px] font-medium text-amber-900 dark:border-amber-800 dark:bg-amber-950/60 dark:text-amber-200">
-                                            {{ $role->alias ?? Str::title($role->name) }}
-                                        </li>
-                                    @endforeach
+                                    @if ($player->account !== null && $player->account->roles->isNotEmpty())
+                                        @foreach ($player->account->roles as $role)
+                                            <li class="rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-[11px] font-medium text-amber-900 dark:border-amber-800 dark:bg-amber-950/60 dark:text-amber-200">
+                                                {{ $role->alias ?? Str::title($role->name) }}
+                                            </li>
+                                        @endforeach
+                                    @else
+                                        <li class="rounded-full border border-gray-200 px-2.5 py-1 text-[11px] font-medium text-gray-500 dark:border-gray-800 dark:text-gray-300">Guest</li>
+                                    @endif
                                 </ul>
-                            @endif
+                            </a>
                         </li>
                     @endforeach
                 </ul>
             </div>
         </section>
-
-        <x-front::instagram-feed :feed-configured="$instagramFeedConfigured" :images="$instagramImages" />
 
         <section aria-labelledby="connect-heading" class="bg-gray-100 py-14 dark:bg-gray-900 sm:py-16">
             <div class="mx-auto max-w-screen-2xl px-4 sm:px-8">
