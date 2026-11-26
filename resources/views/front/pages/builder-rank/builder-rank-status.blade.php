@@ -8,7 +8,6 @@
 
 @section('body')
     <x-front::form-page
-        eyebrow="COMMUNITY BUILDS"
         title="Build Rank Application"
         description="Track the review of your build rank application."
     >
