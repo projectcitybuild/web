@@ -37,7 +37,10 @@ stickyNavbars.forEach(navbar => {
         }
 
         if (navbar.dataset.variant === 'clear') {
-            navbar.style.setProperty('--navbar-background-opacity', Math.min(window.scrollY / 120, 0.95).toString())
+            const backgroundOpacity = Math.min(window.scrollY / 120, 0.95)
+
+            navbar.style.setProperty('--navbar-background-opacity', backgroundOpacity.toString())
+            navbar.style.setProperty('--navbar-border-opacity', (0.65 * (1 - backgroundOpacity / 0.95)).toString())
         }
     }
 

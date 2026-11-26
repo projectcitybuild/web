@@ -26,28 +26,28 @@
             <x-front::form-panel title="Understanding the player report process" title-class="form-panel__title--large">
                 <ol class="mt-5 text-gray-300 dark:text-gray-200">
                     <li class="grid grid-cols-[3.5rem_1fr] gap-4 border-b border-white/10 py-5 first:pt-0 last:border-b-0 last:pb-0 sm:grid-cols-[4.5rem_1fr] sm:gap-6">
-                        <span aria-hidden="true" class="text-4xl font-black leading-none tracking-tight text-emerald-300 sm:text-5xl">01</span>
+                        <span aria-hidden="true" class="text-4xl font-black leading-none tracking-tight text-form-accent sm:text-5xl">01</span>
                         <p class="leading-7">
                             <strong class="block text-lg text-white">Submission</strong>
                             Complete this form to the best of your ability. Include a way for us to contact you, such as a Discord handle or email address.
                         </p>
                     </li>
                     <li class="grid grid-cols-[3.5rem_1fr] gap-4 border-b border-white/10 py-5 first:pt-0 last:border-b-0 last:pb-0 sm:grid-cols-[4.5rem_1fr] sm:gap-6">
-                        <span aria-hidden="true" class="text-4xl font-black leading-none tracking-tight text-emerald-300 sm:text-5xl">02</span>
+                        <span aria-hidden="true" class="text-4xl font-black leading-none tracking-tight text-form-accent sm:text-5xl">02</span>
                         <p class="leading-7">
                             <strong class="block text-lg text-white">Assignment</strong>
                             Your report will be assigned to a case manager who will oversee the investigation. Standard reports can be seen by all staff. You can choose an administrators-only report if you do not want non-administrators to see it. If you have a preferred staff member, include that in your details and we will try our best to accommodate your request.
                         </p>
                     </li>
                     <li class="grid grid-cols-[3.5rem_1fr] gap-4 border-b border-white/10 py-5 first:pt-0 last:border-b-0 last:pb-0 sm:grid-cols-[4.5rem_1fr] sm:gap-6">
-                        <span aria-hidden="true" class="text-4xl font-black leading-none tracking-tight text-emerald-300 sm:text-5xl">03</span>
+                        <span aria-hidden="true" class="text-4xl font-black leading-none tracking-tight text-form-accent sm:text-5xl">03</span>
                         <p class="leading-7">
                             <strong class="block text-lg text-white">Assessment</strong>
                             Your case manager will aim to contact you within 48 hours to confirm receipt and ask for any additional information. This may involve back-and-forth and can take time depending on the circumstances. Please be patient; you can contact your case manager to check on the status.
                         </p>
                     </li>
                     <li class="grid grid-cols-[3.5rem_1fr] gap-4 border-b border-white/10 py-5 first:pt-0 last:border-b-0 last:pb-0 sm:grid-cols-[4.5rem_1fr] sm:gap-6">
-                        <span aria-hidden="true" class="text-4xl font-black leading-none tracking-tight text-emerald-300 sm:text-5xl">04</span>
+                        <span aria-hidden="true" class="text-4xl font-black leading-none tracking-tight text-form-accent sm:text-5xl">04</span>
                         <p class="leading-7">
                             <strong class="block text-lg text-white">Decision</strong>
                             When the report is resolved, your case manager will notify you of the outcome.
@@ -59,7 +59,7 @@
             <x-front::form-panel title="Need assistance?">
                 <p class="mt-2 text-gray-300 dark:text-gray-200">
                     If you require help or information, reach out to a staff member you feel comfortable discussing it with, or ask on Discord in the
-                    <a class="font-semibold text-emerald-200 underline decoration-emerald-300/50 underline-offset-4 hover:text-emerald-100" href="https://discord.com/invite/947PeWrAyH" target="_blank" rel="noopener noreferrer">#support</a>
+                    <a class="font-semibold text-form-accent-soft underline decoration-form-accent/50 underline-offset-4 hover:text-white" href="https://discord.com/invite/947PeWrAyH" target="_blank" rel="noopener noreferrer">#support</a>
                     channel.
                 </p>
             </x-front::form-panel>

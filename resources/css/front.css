@@ -17,9 +17,9 @@
 @theme {
     --font-display: "Bebas Neue", sans-serif;
     --font-body: "Inter", sans-serif;
-    --color-form-accent: #34d399;
-    --color-form-accent-hover: #6ee7b7;
-    --color-form-accent-soft: #d1fae5;
+    --color-form-accent: #fbbf24;
+    --color-form-accent-hover: #fcd34d;
+    --color-form-accent-soft: #fde68a;
     --color-form-canvas: #111827;
     --color-form-canvas-dark: #030712;
     --color-form-field: #111827;
@@ -70,6 +70,7 @@ body {
 
 .front-navbar[data-variant="clear"] {
     background-color: rgb(54 47 43 / var(--navbar-background-opacity, 0));
+    border-color: rgb(229 231 235 / var(--navbar-border-opacity, 0.65));
 }
 
 .dark .front-navbar[data-variant="clear"] {

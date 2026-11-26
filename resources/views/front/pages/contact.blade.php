@@ -4,119 +4,97 @@
 @section('description', 'General inquiries and questions')
 
 @section('body')
-    <x-navbar />
+    <x-front::form-page
+        eyebrow="GET IN TOUCH"
+        title="Contact Us"
+        description="For general inquiries to the administration team. Where appropriate, replies will be sent via email to the given email address."
+    >
+        @if (session()->has('success'))
+            <x-front::form-panel class="mx-auto max-w-3xl" title="Message sent" variant="success">
+                <p class="mt-2 text-gray-300">{{ session('success') }}</p>
+            </x-front::form-panel>
+        @endif
 
-    <div class="max-w-screen-xl m-auto px-3 md:px-9">
-        <div class="my-12">
-            <h1 class="text-4xl font-bold">Contact Us</h1>
-            <div class="text-gray-500 mt-3">
-                For general inquiries to the administration team. Where appropriate, replies will be sent via email to the given email address.
-            </div>
-        </div>
+        <x-front::form-shell
+            method="post"
+            action="{{ route('front.contact.submit') }}"
+            class="mx-auto max-w-3xl"
+        >
+            @csrf
 
-        <div class="rounded-lg max-w-screen-xl m-auto bg-gray-50 p-6 mb-6">
-            @if(session()->has('success'))
-                <x-success-alert class="mb-6">{{ session()->get('success') }}</x-success-alert>
-            @endif
+            @error('error')
+                <x-validation-error>{!! $message !!}</x-validation-error>
+            @enderror
 
-            <form
-                method="post"
-                action="{{ route('front.contact.submit') }}"
-                class="flex flex-col"
+            <input type="text" name="details" class="hidden" tabindex="-1" autocomplete="off" />
+
+            <x-front::form-section
+                heading-id="contact-inquiry"
+                title="Send an inquiry"
+                description="Include enough detail for our administration team to understand and respond to your question."
             >
-                @csrf
+                <div class="mt-5 grid gap-5 sm:grid-cols-2">
+                    <x-front::form-field
+                        for="name"
+                        label="Name"
+                        hint="This can be a Minecraft username, Discord name, or real name."
+                    >
+                        <x-front::form-input
+                            id="name"
+                            name="name"
+                            :value="old('name')"
+                        />
+                    </x-front::form-field>
 
-                @error('error')
-                    <x-validation-error>{!! $message !!}</x-validation-error>
-                @enderror
+                    <x-front::form-field
+                        for="email"
+                        label="Email address"
+                        :required-label="true"
+                        hint="Please ensure this is correct or we may not be able to contact you."
+                    >
+                        <x-front::form-input
+                            id="email"
+                            name="email"
+                            type="email"
+                            :value="old('email')"
+                        />
+                    </x-front::form-field>
 
-                <input type="text" name="details" style="display:none" autocomplete="off" />
+                    <x-front::form-field for="subject" label="Subject" :required-label="true" class="sm:col-span-2">
+                        <x-front::form-input
+                            id="subject"
+                            name="subject"
+                            :value="old('subject')"
+                        />
+                    </x-front::form-field>
 
-                <label for="name" class="text-md font-bold">
-                    Name
-                </label>
-                <input
-                    class="
-                        rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2 w-full
-                        @error('name') border-red-500 @enderror
-                    "
-                    name="name"
-                    id="name"
-                    type="text"
-                    value="{{ old('name') }}"
-                />
-                <div class="text-xs text-gray-500 mt-2">
-                    This can be a Minecraft username, Discord name or real name
+                    <x-front::form-field
+                        for="inquiry"
+                        label="Inquiry"
+                        :required-label="true"
+                        hint="Maximum 2,000 characters."
+                        class="sm:col-span-2"
+                    >
+                        <x-front::form-textarea
+                            id="inquiry"
+                            name="inquiry"
+                            rows="8"
+                            maxlength="2000"
+                        >{{ old('inquiry') }}</x-front::form-textarea>
+                    </x-front::form-field>
                 </div>
-                @error('name')
-                    <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
-                @enderror
+            </x-front::form-section>
 
-                <label for="current_builder_rank" class="text-md font-bold mt-6">
-                    Email address<span class="text-red-500">*</span>
-                </label>
-                <input
-                    class="
-                        rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2 w-full
-                        @error('email') border-red-500 @enderror
-                    "
-                    name="email"
-                    id="email"
-                    type="email"
-                    value="{{ old('email') }}"
-                />
-                <div class="text-xs text-gray-500 mt-2">
-                    Please ensure this is correct or we may not be able to contact you
-                </div>
-                @error('email')
-                    <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
-                @enderror
-
-                <label for="current_builder_rank" class="text-md font-bold mt-6">
-                    Subject<span class="text-red-500">*</span>
-                </label>
-                <input
-                    class="
-                        rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2 w-full
-                        @error('subject') border-red-500 @enderror
-                    "
-                    name="subject"
-                    id="subject"
-                    type="text"
-                    value="{{ old('subject') }}"
-                />
-                @error('subject')
-                    <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
-                @enderror
-
-                <label for="build_description" class="text-md font-bold mt-6">
-                    Inquiry<span class="text-red-500">*</span>
-                </label>
-                <div class="text-gray-500 text-sm text-light mt-2">
-                    (max 2000 characters)
-                </div>
-                <textarea
-                    class="
-                        rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2 w-full
-                        @error('inquiry') border-red-500 @enderror
-                    "
-                    name="inquiry"
-                    id="inquiry"
-                    rows="12"
-                >{{ old('inquiry') }}</textarea>
-                @error('inquiry')
-                    <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
-                @enderror
-
-                <x-captcha class="mt-6"></x-captcha>
+            <div>
+                <x-captcha class="mt-2"></x-captcha>
                 @error('captcha-response')
-                    <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
+                    <span class="form-field__error">{{ $message }}</span>
                 @enderror
+            </div>
 
-                <x-front::button type="submit" class="mt-12">
-                    Send
-                </x-front::button>
-            </form>
-        </div>
-    </div>
+            <x-front::form-actions class="justify-end">
+                <x-front::form-button type="submit">Send inquiry</x-front::form-button>
+            </x-front::form-actions>
+        </x-front::form-shell>
+    </x-front::form-page>
 @endsection

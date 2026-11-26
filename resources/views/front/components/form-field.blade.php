@@ -2,6 +2,7 @@
     'for',
     'label',
     'optional' => false,
+    'requiredLabel' => false,
     'hint' => null,
     'errorKey' => null,
 ])
@@ -15,6 +16,10 @@
         {{ $label }}
         @if ($optional)
             <span class="form-field__optional">(optional)</span>
+        @endif
+        @if ($requiredLabel)
+            <span class="form-field__required" aria-hidden="true">*</span>
+            <span class="sr-only">(required)</span>
         @endif
     </label>
 

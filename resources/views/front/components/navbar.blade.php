@@ -142,7 +142,7 @@
                         id="mega-menu-full-dropdown-button"
                         data-collapse-toggle="mega-menu-full-dropdown"
                         class="
-                            flex items-center justify-between w-full py-2 px-3 text-gray-900 dark:text-gray-100 rounded
+                            flex items-center justify-between w-full py-2 px-3 text-gray-900 dark:text-gray-100 rounded cursor-pointer
                             md:text-gray-50 md:w-auto hover:bg-gray-100 dark:hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-gray-300 md:p-0 md:dark:hover:bg-transparent md:dark:hover:text-gray-300
                         "
                     >

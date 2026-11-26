@@ -1,4 +1,4 @@
-<div class="space-y-5 rounded-lg bg-gray-50 p-6 dark:bg-gray-700">
+<div class="space-y-5 rounded-lg bg-gray-100 p-6 dark:bg-gray-800">
     <h3 class="text-md font-bold text-gray-700 hover:no-underline dark:text-gray-50">
         Help Keep Us Online
     </h3>

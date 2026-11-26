@@ -11,156 +11,127 @@
 @endpush
 
 @section('body')
-    <x-front::navbar />
+    <x-front::form-page
+        eyebrow="BAN APPEALS"
+        title="Submit Your Appeal"
+        description="Please fill in the details as accurately as you can. Appeals with false or insufficient detail may be denied."
+    >
+        <x-front::form-shell
+            method="post"
+            action="{{ route('front.appeal.form.submit') }}"
+            id="form"
+            class="mx-auto max-w-3xl"
+        >
+            @csrf
+            @include('front.components.form-error')
 
-    <main class="bg-white py-20">
-        <header class="max-w-screen-2xl mx-auto px-6">
-            <div class="-mx-4 flex flex-wrap">
-                <div class="w-full px-4">
-                    <div class="mx-auto mb-[60px] max-w-[650px] text-center">
-                        <h2 class="font-bold text-5xl">
-                            Submit Your Appeal
-                        </h2>
-                        <p class="text-base text-gray-500 mt-4 leading-relaxed">
-                            Please fill-in all fields with appropriate detail. Appeals with false or insufficient detail will likely be denied.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </header>
+            <input type="text" name="details" class="hidden" tabindex="-1" autocomplete="off" />
 
-        <section class="max-w-screen-lg mx-auto px-6">
-            <form method="post" action="{{ route('front.appeal.form.submit') }}" id="form" class="flex flex-col">
-                @csrf
-                @include('front.components.form-error')
-
-                <input type="text" name="details" style="display:none" autocomplete="off" />
-
-                @isset ($ban)
-                    <h2 class="text-xl">Selected Ban</h2>
-
-                    <div class="rounded-lg border border-gray-200 mt-3 bg-gray-50 py-3 px-4 flex flex-row items-center gap-6 overflow-x-auto mb-12">
-                        <img src="https://minotar.net/helm/{{ $ban->bannedPlayer->uuid }}/32" class="rounded-md w-12 h-12">
-
-                        <div class="mt-1 flex flex-col gap-1 grow">
-                            <strong class="text-2xl">{{ $ban->bannedPlayer->alias }}</strong>
-                            <span class="text-gray-500 text-xs">UUID: {{ $ban->bannedPlayer->uuid }}</span>
-                            <span class="text-sm">{{ $ban->created_at->format('jS \of M, Y - h:i A') }}</span>
+            @isset ($ban)
+                <x-front::form-panel title="Selected Ban">
+                    <div class="form-record mt-4">
+                        <img src="https://minotar.net/helm/{{ $ban->bannedPlayer->uuid }}/32" alt="" class="form-record__avatar">
+                        <div class="form-record__content">
+                            <strong class="form-record__title">{{ $ban->bannedPlayer->alias }}</strong>
+                            <span class="form-record__meta">UUID: {{ $ban->bannedPlayer->uuid }}</span>
+                            <span class="form-record__meta">{{ $ban->created_at->format('jS \of M, Y - h:i A') }}</span>
                         </div>
                     </div>
+                </x-front::form-panel>
 
-                    <input name="ban_id" type="hidden" value="{{ $ban->id }}" />
-                @endisset
+                <input name="ban_id" type="hidden" value="{{ $ban->id }}" />
+            @endisset
 
-                <h2 class="text-xl">Ban Details</h2>
-
-                <div class="flex flex-col md:flex-row gap-3 justify-between">
-                    <div class="flex flex-col grow md:w-0">
-                        <label for="minecraft_uuid" class="text-md font-bold mt-6">
-                            Minecraft UUID
-                        </label>
-                        <input
-                            class="
-                                rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2
-                                @error('minecraft_uuid') border-red-500 @enderror
-                            "
+            <x-front::form-section
+                heading-id="appeal-ban-details"
+                title="Ban Details"
+                description="Tell us which ban you are appealing. If you do not know a detail, provide your best estimate."
+            >
+                <div class="mt-5 grid gap-5 md:grid-cols-2">
+                    <x-front::form-field
+                        for="minecraft_uuid"
+                        label="Minecraft UUID"
+                    >
+                        <x-front::form-input
                             id="minecraft_uuid"
                             name="minecraft_uuid"
-                            type="text"
                             placeholder="e.g. 069a79f4-44e9-4726-a5be-fca90e38aaf5"
-                            value="{{ old('minecraft_uuid', $ban?->bannedPlayer->uuid) }}"
+                            :value="old('minecraft_uuid', $ban?->bannedPlayer->uuid)"
                         />
-                        @error('minecraft_uuid')
-                            <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
-                        @enderror
-                        <p class="text-sm mt-2 text-gray-500">
-                            Can be looked up <a class="text-blue-500" href="https://mcuuid.net/" target="_blank">here</a>
+                        <p class="form-field__hint">
+                            Can be looked up <a class="text-form-accent-soft underline underline-offset-4" href="https://mcuuid.net/" target="_blank" rel="noopener noreferrer">here</a>.
                         </p>
-                    </div>
+                    </x-front::form-field>
 
-                    <div class="flex flex-col grow md:w-0">
-                        <label for="date_of_ban" class="text-md font-bold mt-6">
-                            Date of Ban
-                        </label>
-                        <input
-                            class="
-                        rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2
-                        @error('date_of_ban') border-red-500 @enderror
-                    "
+                    <x-front::form-field
+                        for="date_of_ban"
+                        label="Date of Ban"
+                        hint="If unknown, a rough estimate is acceptable."
+                    >
+                        <x-front::form-input
                             id="date_of_ban"
                             name="date_of_ban"
-                            type="text"
                             placeholder="e.g. January 31st, 2016"
-                            value="{{ old('date_of_ban', $ban?->created_at->format('Y-m-d H:i:s')) }}"
+                            :value="old('date_of_ban', $ban?->created_at->format('Y-m-d H:i:s'))"
                         />
-                        @error('date_of_ban')
-                        <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
-                        @enderror
-                        <p class="text-sm mt-2 text-gray-500">
-                            If unknown, a rough estimate is also acceptable
-                        </p>
-                    </div>
+                    </x-front::form-field>
+
+                    <x-front::form-field
+                        for="ban_reason"
+                        label="Reason for Ban"
+                        class="md:col-span-2"
+                    >
+                        <x-front::form-textarea
+                            id="ban_reason"
+                            name="ban_reason"
+                            rows="4"
+                            placeholder="Enter the ban message, or the reason you were likely banned"
+                        >{{ old('ban_reason', $ban?->reason) }}</x-front::form-textarea>
+                    </x-front::form-field>
                 </div>
+            </x-front::form-section>
 
-                <label for="ban_reason" class="text-md font-bold mt-6">
-                    Reason for Ban
-                </label>
-                <textarea
-                    class="
-                        rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2
-                        @error('ban_reason') border-red-500 @enderror
-                    "
-                    name="ban_reason"
-                    id="ban_reason"
-                    rows="4"
-                    placeholder="Enter the ban message, or the reason you were likely banned"
-                >{{ old('ban_reason', $ban?->reason) }}</textarea>
+            <x-front::form-section
+                heading-id="appeal-details"
+                title="Your Appeal"
+                description="Explain what happened and why you believe your ban should be reviewed."
+            >
+                <div class="mt-5 space-y-5">
+                    <x-front::form-field
+                        for="email"
+                        label="Your Email"
+                        hint="Please check this carefully; updates to your appeal will be sent to this address."
+                    >
+                        <x-front::form-input
+                            id="email"
+                            name="email"
+                            type="email"
+                            placeholder="Enter your email address"
+                            :value="old('email', Auth::user()?->email)"
+                        />
+                    </x-front::form-field>
 
-                @error('ban_reason')
-                <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
+                    <x-front::form-field for="unban_reason" label="Why should you be unbanned?">
+                        <x-front::form-textarea
+                            id="unban_reason"
+                            name="unban_reason"
+                            rows="8"
+                            placeholder="Enter your appeal here"
+                        >{{ old('unban_reason') }}</x-front::form-textarea>
+                    </x-front::form-field>
+                </div>
+            </x-front::form-section>
+
+            <div>
+                <x-captcha></x-captcha>
+                @error('captcha-response')
+                    <span class="form-field__error">{{ $message }}</span>
                 @enderror
+            </div>
 
-                <h2 class="text-xl mt-12">Appeal</h2>
-
-                <label for="email" class="text-md font-bold mt-6">
-                    Your Email
-                </label>
-                <input
-                    class="
-                        rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2
-                        @error('email') border-red-500 @enderror
-                    "
-                    id="email"
-                    name="email"
-                    type="email"
-                    placeholder="Enter your email address"
-                    value="{{ old('email', Auth::user()?->email) }}"
-                />
-                @error('email')
-                <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
-                @enderror
-                <p class="text-sm mt-2 text-gray-500">
-                    Please check this carefully - updates to your appeal will be sent to this email address.
-                </p>
-
-                <label for="unban_reason" class="text-md font-bold mt-6">
-                    Why should you be unbanned?
-                </label>
-                <textarea
-                    class="
-                        rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2
-                        @error('unban_reason') border-red-500 @enderror
-                    "
-                    name="unban_reason"
-                    id="unban_reason"
-                    rows="10"
-                    placeholder="Enter your appeal here"
-                >{{ old('unban_reason') }}</textarea>
-
-                <x-captcha class="mt-6"></x-captcha>
-
-                <x-front::button class="mt-8" type="submit">Submit</x-button>
-            </form>
-        </section>
-    </main>
+            <x-front::form-actions class="justify-end">
+                <x-front::form-button type="submit">Submit Appeal</x-front::form-button>
+            </x-front::form-actions>
+        </x-front::form-shell>
+    </x-front::form-page>
 @endsection
