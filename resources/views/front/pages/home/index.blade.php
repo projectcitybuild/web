@@ -91,7 +91,7 @@
                 <div data-home-reveal class="mx-auto max-w-2xl text-center">
                     <p class="text-sm font-bold uppercase tracking-[0.18em] text-amber-700 dark:text-amber-400">Your next build starts here</p>
                     <h2 id="worlds-heading" class="mt-3 font-display text-5xl leading-none sm:text-6xl">Our worlds</h2>
-                    <p class="mt-4 leading-7 text-gray-600 dark:text-gray-300">From boundless creativity to a city built at a realistic scale, there's always somewhere new to explore.</p>
+                    <p class="mt-4 leading-7 text-gray-600 dark:text-gray-300">Pick from a variety of worlds to explore and build on. Jump between them at any time.</p>
                 </div>
 
                 <div class="mt-10 grid gap-6 lg:mt-14 lg:grid-cols-3">
@@ -147,7 +147,7 @@
                             <p class="text-xs font-bold uppercase tracking-[0.18em] text-amber-700 dark:text-amber-400">Need a break?</p>
                             <h3 class="mt-2 font-display text-4xl">Survival</h3>
                             <p class="mt-3 leading-7 text-gray-600 dark:text-gray-300">
-                                Our Survival world is as close to vanilla as possible. No warps, teleports, or dynamic map—just Minecraft in its purest form.
+                                Our Survival world is as close to vanilla as possible. No warps, teleporting or command-based flying. Just Minecraft in its purest form.
                             </p>
                             <ul class="mt-auto flex flex-wrap gap-x-6 gap-y-3 pt-6 text-sm font-semibold">
                                 <li>
