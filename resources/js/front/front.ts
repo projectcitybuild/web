@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+import DonationDialog from './DonationDialog.vue'
 import InstagramCarousel from './InstagramCarousel.vue'
 
 // Inform Vite where static assets are located
@@ -17,4 +18,21 @@ const instagramCarouselElement = document.querySelector<HTMLElement>('#instagram
 
 if (instagramCarouselElement) {
     createApp(InstagramCarousel).mount(instagramCarouselElement)
+}
+
+const donationDialogElement = document.querySelector<HTMLElement>('#donation-dialog-app')
+
+if (donationDialogElement) {
+    const { authenticated, checkoutUrl, csrfToken, loginUrl } = donationDialogElement.dataset
+
+    if (authenticated === undefined || !checkoutUrl || !csrfToken || !loginUrl) {
+        throw new Error('The donation dialog is missing required configuration.')
+    }
+
+    createApp(DonationDialog, {
+        authenticated: authenticated === 'true',
+        checkoutUrl,
+        csrfToken,
+        loginUrl,
+    }).mount(donationDialogElement)
 }

@@ -1,7 +1,6 @@
 @import "tailwindcss" source(none);
 @import "./front/command.css";
 @import "./front/forms.css";
-@import "./front/modal.css";
 
 @source "../views/front";
 @source "../views/errors";

@@ -2,10 +2,6 @@
 
 @section('title', 'Donate - Project City Build')
 
-@push('head')
-    <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
-@endpush
-
 @section('body')
     <header class="
             bg-[url('/resources/images/header-bg1.jpg')]
@@ -113,11 +109,10 @@
                             </div>
                             <x-button
                                 class="w-full"
-                                onclick="openPaymentModal(
-                                        'Copper Tier',
-                                        '{{ config('donations.price_ids.copper.one_off') }}',
-                                        '{{ config('donations.price_ids.copper.subscription') }}'
-                                    )"
+                                data-donation-dialog-open
+                                data-tier-name="Copper Tier"
+                                data-subscription-price-id="{{ config('donations.price_ids.copper.subscription') }}"
+                                data-one-time-price-id="{{ config('donations.price_ids.copper.one_off') }}"
                             >
                                 Choose
                             </x-button>
@@ -196,11 +191,10 @@
                             </div>
                             <x-button
                                 class="w-full"
-                                onclick="openPaymentModal(
-                                        'Iron Tier',
-                                        '{{ config('donations.price_ids.iron.one_off') }}',
-                                        '{{ config('donations.price_ids.iron.subscription') }}'
-                                    )"
+                                data-donation-dialog-open
+                                data-tier-name="Iron Tier"
+                                data-subscription-price-id="{{ config('donations.price_ids.iron.subscription') }}"
+                                data-one-time-price-id="{{ config('donations.price_ids.iron.one_off') }}"
                             >
                                 Choose
                             </x-button>
@@ -279,11 +273,10 @@
                             </div>
                             <x-button
                                 class="w-full"
-                                onclick="openPaymentModal(
-                                        'Diamond Tier',
-                                        '{{ config('donations.price_ids.diamond.one_off') }}',
-                                        '{{ config('donations.price_ids.diamond.subscription') }}'
-                                    )"
+                                data-donation-dialog-open
+                                data-tier-name="Diamond Tier"
+                                data-subscription-price-id="{{ config('donations.price_ids.diamond.subscription') }}"
+                                data-one-time-price-id="{{ config('donations.price_ids.diamond.one_off') }}"
                             >
                                 Choose
                             </x-button>
@@ -413,100 +406,11 @@
 @endsection
 
 @push('end')
-    @guest
-    <div class="modal micromodal-slide" id="modal-payment" aria-hidden="true">
-        <div class="modal__overlay" tabindex="-1" data-micromodal-close>
-            <div class="modal__container" role="dialog" aria-modal="true">
-                <header class="modal__header">
-                    <h2>Please Log-in</h2>
-                    <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
-                </header>
-                <main>
-                    <section class="modal__section">
-                        You must be <a href="{{ route('front.login') }}">logged in</a> to make a donation.
-                    </section>
-                </main>
-            </div>
-        </div>
-    </div>
-    @endguest
-    @auth
-    <div class="modal micromodal-slide" id="modal-payment" aria-hidden="true">
-        <div class="modal__overlay" tabindex="-1" data-micromodal-close>
-            <div class="modal__container" role="dialog" aria-modal="true">
-                <header class="modal__header">
-                    <h2>How do you wish to pay?</h2>
-                    <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
-                </header>
-                <main>
-                    <section class="modal__section">
-                        <h1 class="text-2xl font-bold">Subscription</h1>
-                        <div class="leading-loose text-gray-500 mt-3 mb-6">
-                            A subscription allows you to automatically pay once a month (cancellable at anytime).
-                            We recommend this method of payment if you wish to continuously support us without your perks expiring
-                        </div>
-                        <form action="{{ route('front.donations.checkout') }}" method="POST">
-                            @csrf
-                            <input type="hidden" id="subscription-price-id" name="price_id" />
-                            <x-button type="submit">
-                                Purchase
-                            </x-button>
-
-                            <div class="mt-3 text-xs text-gray-500">You will be redirected to Stripe to complete payment</div>
-                        </form>
-                    </section>
-
-                    <section class="modal__section">
-                        <h1 class="text-2xl font-bold">One-Time</h1>
-                        <div class="leading-loose text-gray-500 mt-3 mb-6">
-                            If you wish to pay just once, up-front, please enter the number of months of perks you would like.
-                            Your perks will expire after the given number of months have elapsed (can be extended after it expires)
-                        </div>
-                        <form action="{{ route('front.donations.checkout') }}" method="POST">
-                            @csrf
-
-                            <label for="quantity">I would like to purchase</label>
-                            <div class="modal__donate_form">
-                                <input
-                                    class="textfield"
-                                    id="quantity"
-                                    name="quantity"
-                                    type="text"
-                                    value="1"
-                                    placeholder="1"
-                                    maxlength="3"
-                                />
-                                <span>
-                                    months of <strong id="tier-name">???</strong>
-                                </span>
-                            </div>
-
-                            <input type="hidden" id="one-time-price-id" name="price_id" />
-
-                            <x-button type="submit">
-                                Purchase
-                            </x-button>
-
-                            <div class="mt-3 text-xs text-gray-500">You will be redirected to Stripe to complete payment</div>
-                        </form>
-                    </section>
-                </main>
-            </div>
-        </div>
-    </div>
-    @endauth
-
-    <script>
-        MicroModal.init();
-
-        function openPaymentModal(tierName, subscriptionPriceId, oneTimePriceId) {
-            @auth
-            document.getElementById('subscription-price-id').value = subscriptionPriceId
-            document.getElementById('one-time-price-id').value = oneTimePriceId
-            document.getElementById('tier-name').innerHTML = tierName
-            @endauth
-
-            MicroModal.show('modal-payment')
-        }
-    </script>
+    <div
+        id="donation-dialog-app"
+        data-authenticated="{{ auth()->check() ? 'true' : 'false' }}"
+        data-login-url="{{ route('front.login') }}"
+        data-checkout-url="{{ route('front.donations.checkout') }}"
+        data-csrf-token="{{ csrf_token() }}"
+    ></div>
 @endpush
