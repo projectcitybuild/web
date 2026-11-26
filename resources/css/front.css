@@ -2,6 +2,7 @@
 @import "flowbite/src/themes/default";
 @import "tailwindcss" source(none);
 @import "./front/command.css";
+@import "./front/forms.css";
 @import "./front/modal.css";
 
 @source "../views/front";
@@ -16,6 +17,15 @@
 @theme {
     --font-display: "Bebas Neue", sans-serif;
     --font-body: "Inter", sans-serif;
+    --color-form-accent: #34d399;
+    --color-form-accent-hover: #6ee7b7;
+    --color-form-accent-soft: #d1fae5;
+    --color-form-canvas: #111827;
+    --color-form-canvas-dark: #030712;
+    --color-form-field: #111827;
+    --color-form-muted: #d1d5db;
+    --color-form-surface: #1f2937;
+    --color-form-warning: #fef3c7;
 }
 
 @plugin "@tailwindcss/forms";

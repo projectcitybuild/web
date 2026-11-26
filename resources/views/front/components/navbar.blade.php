@@ -5,7 +5,7 @@
 <nav
     data-sticky-navbar
     data-variant="{{ $variant }}"
-    class="front-navbar border-gray-200/65 relative w-full {{ $variant != 'opaque' ? 'border-b' : 'bg-[#362f2b] dark:bg-gray-900' }}"
+    class="front-navbar border-gray-200/65 relative z-50 w-full {{ $variant != 'opaque' ? 'border-b' : 'bg-[#362f2b] dark:bg-gray-900' }}"
 >
     <div class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4">
         <x-logo />

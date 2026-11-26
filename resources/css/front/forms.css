@@ -1,0 +1,138 @@
+@layer components {
+    .form-page {
+        @apply relative isolate overflow-hidden bg-form-canvas py-12 text-gray-100 dark:bg-form-canvas-dark dark:text-white md:py-20;
+    }
+
+    .form-page__background {
+        @apply absolute inset-0 -z-10 bg-cover bg-center bg-fixed opacity-35 dark:opacity-50;
+        background-image: url("/resources/images/world_survival.png");
+    }
+
+    .form-page__overlay {
+        @apply absolute inset-0 -z-10 bg-gradient-to-b from-gray-900/70 via-gray-900/85 to-gray-900/95 dark:from-form-canvas-dark/65 dark:via-form-canvas-dark/85 dark:to-form-canvas-dark;
+    }
+
+    .form-page__glow {
+        @apply absolute inset-0 -z-10 bg-gradient-to-br from-form-accent/5 via-transparent to-cyan-500/5 dark:from-form-accent/10 dark:to-cyan-500/10;
+    }
+
+    .form-page__container {
+        @apply mx-auto max-w-5xl space-y-8 px-4 sm:px-6;
+    }
+
+    .form-page__header {
+        @apply max-w-3xl space-y-5 py-4 md:py-8;
+    }
+
+    .form-page__eyebrow {
+        @apply inline-flex items-center gap-2 rounded-full border border-form-accent/30 bg-form-accent/10 px-4 py-2 text-sm font-semibold tracking-wide text-form-accent-soft backdrop-blur;
+    }
+
+    .form-page__eyebrow-indicator {
+        @apply size-2 rounded-full bg-form-accent;
+    }
+
+    .form-page__title {
+        @apply text-5xl font-black tracking-tight sm:text-6xl;
+    }
+
+    .form-page__description {
+        @apply max-w-3xl text-lg leading-8 text-gray-300 dark:text-gray-200;
+    }
+
+    .form-panel {
+        @apply rounded-2xl border border-white/10 bg-form-canvas/70 p-6 shadow-sm shadow-black/10 backdrop-blur-md dark:bg-form-canvas-dark/55 dark:shadow-none sm:p-7;
+    }
+
+    .form-panel--warning {
+        @apply border-amber-300/30 bg-amber-950/40 shadow-xl shadow-black/10 dark:border-amber-300/30 dark:bg-amber-950/45;
+    }
+
+    .form-panel__title {
+        @apply font-semibold;
+    }
+
+    .form-panel--warning .form-panel__title {
+        @apply text-lg text-form-warning;
+    }
+
+    .form-panel__title--large {
+        @apply text-xl;
+    }
+
+    .form-shell {
+        @apply space-y-6 rounded-3xl border border-white/15 bg-form-canvas/80 p-5 shadow-2xl shadow-black/25 backdrop-blur-lg dark:bg-form-canvas-dark/75 sm:p-8;
+    }
+
+    .form-section {
+        @apply rounded-2xl border border-white/10 bg-form-surface/70 p-5 dark:bg-white/5 sm:p-7;
+    }
+
+    .form-section__title {
+        @apply text-2xl font-semibold;
+    }
+
+    .form-section__description {
+        @apply mt-2 text-gray-300;
+    }
+
+    .form-field__label {
+        @apply font-semibold;
+    }
+
+    .form-field__optional {
+        @apply font-normal text-gray-400;
+    }
+
+    .form-field__hint {
+        @apply mt-2 text-sm text-gray-400;
+    }
+
+    .form-field__error {
+        @apply mt-2 block text-sm text-red-600;
+    }
+
+    .form-control {
+        @apply mt-2 w-full rounded-lg border border-white/15 bg-form-field/80 px-4 py-3 text-white placeholder:text-gray-400 focus:border-form-accent focus:outline-none focus:ring-2 focus:ring-form-accent/30 dark:bg-form-canvas-dark/70 dark:placeholder:text-gray-500;
+    }
+
+    .form-choice {
+        @apply flex cursor-pointer gap-3 rounded-lg border border-white/15 bg-form-field/50 p-4 transition-colors hover:border-form-accent/50 hover:bg-form-accent/5 dark:bg-form-canvas-dark/40;
+    }
+
+    .form-choice__title {
+        @apply block font-medium;
+    }
+
+    .form-choice__description {
+        @apply text-sm text-gray-300;
+    }
+
+    .form-progress {
+        @apply flex items-center justify-between gap-4 border-b border-white/10 pb-5;
+    }
+
+    .form-progress__counter {
+        @apply rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font-semibold text-gray-100;
+    }
+
+    .form-progress__track {
+        @apply h-2 w-2/3 overflow-hidden rounded-full bg-white/15;
+    }
+
+    .form-progress__bar {
+        @apply h-full rounded-full bg-form-accent transition-all;
+    }
+
+    .form-actions {
+        @apply flex flex-wrap justify-between gap-3 border-t border-white/10 pt-5;
+    }
+
+    .form-button {
+        @apply rounded-lg bg-form-accent px-5 py-3 font-bold text-form-canvas-dark transition-colors hover:bg-form-accent-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-form-accent;
+    }
+
+    .form-button--secondary {
+        @apply border border-white/20 bg-transparent font-semibold text-gray-100 hover:bg-white/10;
+    }
+}

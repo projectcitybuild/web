@@ -6,16 +6,26 @@ stickyNavbars.forEach(navbar => {
     placeholder.style.height = '0px'
     navbar.before(placeholder)
 
+    const navbarTop = placeholder.getBoundingClientRect().top + window.scrollY
     let isPinned = false
     let placeholderHeight = 0
 
     const updateNavbar = () => {
-        const navbarTop = placeholder.getBoundingClientRect().top + window.scrollY
         const shouldPin = window.scrollY > navbarTop
 
         if (shouldPin !== isPinned) {
+            if (shouldPin) {
+                placeholderHeight = navbar.offsetHeight
+                placeholder.style.height = `${placeholderHeight}px`
+            }
+
             isPinned = shouldPin
             navbar.classList.toggle('is-pinned', isPinned)
+
+            if (!isPinned) {
+                placeholderHeight = 0
+                placeholder.style.height = '0px'
+            }
         }
 
         if (isPinned && navbar.offsetHeight !== placeholderHeight) {

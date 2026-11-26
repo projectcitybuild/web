@@ -1,0 +1,30 @@
+@props([
+    'for',
+    'label',
+    'optional' => false,
+    'hint' => null,
+    'errorKey' => null,
+])
+
+@php
+    $errorKey ??= $for;
+@endphp
+
+<div {{ $attributes->class(['form-field']) }}>
+    <label for="{{ $for }}" class="form-field__label">
+        {{ $label }}
+        @if ($optional)
+            <span class="form-field__optional">(optional)</span>
+        @endif
+    </label>
+
+    {{ $slot }}
+
+    @if ($hint)
+        <p class="form-field__hint">{{ $hint }}</p>
+    @endif
+
+    @if ($errors->has($errorKey))
+        <span class="form-field__error">{{ $errors->first($errorKey) }}</span>
+    @endif
+</div>
