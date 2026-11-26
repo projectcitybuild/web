@@ -8,12 +8,17 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 final class BanlistController extends WebController
 {
     public function index(Request $request): View|JsonResponse
     {
         $query = $request->string('query')->trim()->toString();
+        $sortOptions = $request->validate([
+            'sort' => ['nullable', 'string', Rule::in(['name', 'reason', 'created_at'])],
+            'direction' => ['nullable', 'string', Rule::in(['asc', 'desc'])],
+        ]);
 
         $bans = GamePlayerBan::query()
             ->when($query !== '', function (Builder $bans) use ($query): void {
@@ -28,9 +33,26 @@ final class BanlistController extends WebController
                 });
             })
             ->with('bannedPlayer:id,uuid,alias')
-            ->active()
-            ->latest()
-            ->paginate(50)
+            ->active();
+
+        $sort = $sortOptions['sort'] ?? null;
+        $direction = $sortOptions['direction'] ?? null;
+
+        if ($sort !== null && $direction !== null) {
+            if ($sort === 'name') {
+                $bans->leftJoin('players as banned_players', 'banned_players.id', '=', 'game_player_bans.banned_player_id')
+                    ->select('game_player_bans.*')
+                    ->orderByRaw("COALESCE(banned_players.alias, game_player_bans.banned_alias_at_time) {$direction}");
+            } else {
+                $bans->orderBy("game_player_bans.{$sort}", $direction);
+            }
+
+            $bans->orderBy('game_player_bans.id');
+        } else {
+            $bans->latest('game_player_bans.created_at');
+        }
+
+        $bans = $bans->paginate(50)
             ->withQueryString()
             ->through(fn (GamePlayerBan $ban): array => $this->presentBan($ban));
 

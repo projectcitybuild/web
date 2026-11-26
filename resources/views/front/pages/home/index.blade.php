@@ -19,7 +19,7 @@
                     </div>
 
                     <p data-home-reveal data-home-reveal-delay="120" class="max-w-2xl text-base leading-8 text-gray-300 sm:text-lg">
-                        For more than <strong>{{ (int) \Illuminate\Support\Carbon::create(2010, 10, 1)->diffInYears(now()) }} years</strong>, our Minecraft community has been a place to dream big, build together, and share creations.
+                        <strong>For more than {{ (int) \Illuminate\Support\Carbon::create(2010, 10, 1)->diffInYears(now()) }} years</strong>, our Minecraft community has been a place to dream big, build together, and share creations.
                         From sprawling cities to unique personal builds, we welcome all — come join the fun and make lasting friendships.
                     </p>
                 </div>
@@ -101,7 +101,7 @@
                             <p class="text-xs font-bold uppercase tracking-[0.18em] text-amber-400">Create without limits</p>
                             <h3 class="mt-2 font-display text-4xl">Creative</h3>
                             <p class="mt-3 leading-7 text-gray-300">
-                                No plots — just a free-build world full of everything from alien landscapes and cruise ships to castles and entire cities. Let your imagination run wild.
+                                No plots, just a free-build world full of everything from alien landscapes and cruise ships to castles and entire cities. Let your imagination run wild.
                             </p>
                             <ul class="mt-auto flex flex-wrap gap-x-6 gap-y-3 pt-6 text-sm font-semibold">
                                 <li>

@@ -64,3 +64,77 @@ it('returns paginated ban data for live searches', function () {
         ->assertJsonPath('data.0.uuid', '12345678-1234-1234-1234-123456789abc')
         ->assertJsonMissingPath('data.0.additional_info');
 });
+
+it('sorts active bans by player name in the requested direction', function () {
+    $zulu = MinecraftPlayer::factory()
+        ->for(Account::factory())
+        ->create(['alias' => 'Zulu']);
+    $alpha = MinecraftPlayer::factory()
+        ->for(Account::factory())
+        ->create(['alias' => 'Alpha']);
+    GamePlayerBan::factory()->bannedPlayer($zulu)->create();
+    GamePlayerBan::factory()->bannedPlayer($alpha)->create();
+
+    $this->getJson(route('front.banlist', ['sort' => 'name', 'direction' => 'asc']))
+        ->assertOk()
+        ->assertJsonPath('data.0.name', 'Alpha')
+        ->assertJsonPath('data.1.name', 'Zulu');
+
+    $this->getJson(route('front.banlist', ['sort' => 'name', 'direction' => 'desc']))
+        ->assertOk()
+        ->assertJsonPath('data.0.name', 'Zulu')
+        ->assertJsonPath('data.1.name', 'Alpha');
+});
+
+it('keeps the requested sort when filtering active bans', function () {
+    $zulu = MinecraftPlayer::factory()
+        ->for(Account::factory())
+        ->create(['alias' => 'Filtered Zulu']);
+    $alpha = MinecraftPlayer::factory()
+        ->for(Account::factory())
+        ->create(['alias' => 'Filtered Alpha']);
+    $unmatched = MinecraftPlayer::factory()
+        ->for(Account::factory())
+        ->create(['alias' => 'Unmatched']);
+    GamePlayerBan::factory()->bannedPlayer($zulu)->create();
+    GamePlayerBan::factory()->bannedPlayer($alpha)->create();
+    GamePlayerBan::factory()->bannedPlayer($unmatched)->create();
+
+    $this->getJson(route('front.banlist', [
+        'query' => 'Filtered',
+        'sort' => 'name',
+        'direction' => 'asc',
+    ]))
+        ->assertOk()
+        ->assertJsonPath('total', 2)
+        ->assertJsonPath('data.0.name', 'Filtered Alpha')
+        ->assertJsonPath('data.1.name', 'Filtered Zulu');
+});
+
+it('sorts active bans by reason and ban date on the server', function () {
+    $player = MinecraftPlayer::factory()
+        ->for(Account::factory())
+        ->create();
+    GamePlayerBan::factory()
+        ->bannedPlayer($player)
+        ->create(['reason' => 'Zebra', 'created_at' => now()]);
+    GamePlayerBan::factory()
+        ->bannedPlayer($player)
+        ->create(['reason' => 'Apple', 'created_at' => now()->subDay()]);
+
+    $this->getJson(route('front.banlist', ['sort' => 'reason', 'direction' => 'asc']))
+        ->assertOk()
+        ->assertJsonPath('data.0.reason', 'Apple')
+        ->assertJsonPath('data.1.reason', 'Zebra');
+
+    $this->getJson(route('front.banlist', ['sort' => 'created_at', 'direction' => 'asc']))
+        ->assertOk()
+        ->assertJsonPath('data.0.reason', 'Apple')
+        ->assertJsonPath('data.1.reason', 'Zebra');
+});
+
+it('rejects unsupported ban sort columns', function () {
+    $this->getJson(route('front.banlist', ['sort' => 'banned_player_id', 'direction' => 'asc']))
+        ->assertUnprocessable()
+        ->assertJsonValidationErrorFor('sort');
+});

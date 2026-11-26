@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { components } from '../generated/openapi'
-import { computed, onBeforeUnmount, ref, watch } from 'vue'
+import { onBeforeUnmount, ref, watch } from 'vue'
 
 type Ban = Pick<components['schemas']['GamePlayerBan'], 'id' | 'reason' | 'created_at'> & {
     name: string,
@@ -31,33 +31,22 @@ const props = defineProps<{
 
 const searchTerm = ref(props.initialQuery)
 const results = ref(props.initialResults)
-const sortKey = ref<SortKey | null>(null)
-const sortDirection = ref<SortDirection | null>(null)
+const initialParams = new URLSearchParams(window.location.search)
+const initialSort = initialParams.get('sort')
+const initialDirection = initialParams.get('direction')
+const sortKey = ref<SortKey | null>(
+    initialSort === 'name' || initialSort === 'reason' || initialSort === 'created_at'
+        ? initialSort
+        : null,
+)
+const sortDirection = ref<SortDirection | null>(
+    initialDirection === 'asc' || initialDirection === 'desc' ? initialDirection : null,
+)
 const isSearching = ref(false)
 const searchError = ref<string | null>(null)
 
 let searchTimer: number | undefined
 let activeRequest: AbortController | null = null
-
-const sortedBans = computed(() => {
-    const key = sortKey.value
-    const direction = sortDirection.value
-
-    if (!key || !direction) {
-        return results.value.data
-    }
-
-    return [...results.value.data].sort((left, right) => {
-        const comparison = key === 'created_at'
-            ? Date.parse(left.created_at ?? '') - Date.parse(right.created_at ?? '')
-            : (left[key] ?? '').localeCompare(right[key] ?? '', undefined, {
-                numeric: true,
-                sensitivity: 'base',
-            })
-
-        return direction === 'asc' ? comparison : -comparison
-    })
-})
 
 watch(searchTerm, (query) => {
     window.clearTimeout(searchTimer)
@@ -75,16 +64,14 @@ function toggleSort(key: SortKey): void {
     if (sortKey.value !== key) {
         sortKey.value = key
         sortDirection.value = 'asc'
-        return
-    }
-
-    if (sortDirection.value === 'asc') {
+    } else if (sortDirection.value === 'asc') {
         sortDirection.value = 'desc'
-        return
+    } else {
+        sortKey.value = null
+        sortDirection.value = null
     }
 
-    sortKey.value = null
-    sortDirection.value = null
+    void loadBans(searchTerm.value, 1)
 }
 
 function sortState(key: SortKey): 'ascending' | 'descending' | 'none' {
@@ -133,6 +120,11 @@ async function loadBans(query: string, page: number): Promise<void> {
 
     if (page > 1) {
         url.searchParams.set('page', String(page))
+    }
+
+    if (sortKey.value !== null && sortDirection.value !== null) {
+        url.searchParams.set('sort', sortKey.value)
+        url.searchParams.set('direction', sortDirection.value)
     }
 
     try {
@@ -259,7 +251,7 @@ async function loadBans(query: string, page: number): Promise<void> {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="ban in sortedBans" :key="ban.id" class="data-table__row">
+                        <tr v-for="ban in results.data" :key="ban.id" class="data-table__row">
                             <td class="data-table__cell">
                                 <span class="flex items-center gap-3 whitespace-nowrap font-semibold text-white">
                                     <img
