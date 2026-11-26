@@ -2,9 +2,11 @@
 
 use App\Domains\Captcha\Validator\CaptchaValidator;
 use App\Domains\PlayerReports\Data\PlayerReportVisibility;
+use App\Domains\PlayerReports\Notifications\PlayerReportCreatedNotification;
 use App\Models\Account;
 use App\Models\PlayerReport;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 
 it('renders the report guidance and single-page form', function () {
@@ -19,6 +21,8 @@ it('renders the report guidance and single-page form', function () {
 });
 
 it('creates a guest report and stores its evidence privately', function () {
+    Notification::fake();
+    config(['discord.webhook_player_report_staff_channel' => 'https://example.test/standard-webhook']);
     $this->app->instance(CaptchaValidator::class, new class implements CaptchaValidator
     {
         public function passed(?string $token, string $ip): bool
@@ -58,9 +62,27 @@ it('creates a guest report and stores its evidence privately', function () {
 
     Storage::disk('player-reports')
         ->assertExists($report->attachments->first()->path);
+
+    Notification::assertSentTo(
+        $report,
+        PlayerReportCreatedNotification::class,
+        function (PlayerReportCreatedNotification $notification, array $channels) use ($report): bool {
+            $message = $notification->toDiscord($report);
+
+            return $channels === ['discord']
+                && $message->content === 'A new player report has been submitted.'
+                && $message->embeds[0]->url === route('review.player-reports.show', $report);
+        },
+    );
+    expect($report->routeNotificationFor('discord'))->toBe('https://example.test/standard-webhook');
 });
 
 it('associates a signed-in reporter with their account', function () {
+    Notification::fake();
+    config([
+        'discord.webhook_player_report_staff_channel' => 'https://example.test/standard-webhook',
+        'discord.webhook_player_report_admin_channel' => 'https://example.test/admin-webhook',
+    ]);
     $this->app->instance(CaptchaValidator::class, new class implements CaptchaValidator
     {
         public function passed(?string $token, string $ip): bool
@@ -89,6 +111,8 @@ it('associates a signed-in reporter with their account', function () {
         'reporter_account_id' => $account->id,
         'visibility' => PlayerReportVisibility::ADMINISTRATORS->value,
     ]);
+    Notification::assertSentTo($report, PlayerReportCreatedNotification::class);
+    expect($report->routeNotificationFor('discord'))->toBe('https://example.test/admin-webhook');
 });
 
 it('rejects incomplete reports without creating a record', function () {

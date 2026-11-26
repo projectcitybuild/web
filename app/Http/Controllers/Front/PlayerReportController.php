@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Domains\PlayerReports\Data\PlayerReportVisibility;
+use App\Domains\PlayerReports\Notifications\PlayerReportCreatedNotification;
 use App\Http\Controllers\WebController;
 use App\Http\Requests\StorePlayerReportRequest;
 use App\Models\Account;
@@ -70,6 +71,8 @@ final class PlayerReportController extends WebController
                 Storage::disk('player-reports')->delete($storedPaths);
             }
         }
+
+        $report->notify(new PlayerReportCreatedNotification($report));
 
         return to_route('report')
             ->with([

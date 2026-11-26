@@ -17,6 +17,16 @@ return [
     'webhook_ban_appeal_channel' => env('DISCORD_WEBHOOK_BAN_APPEAL'),
 
     /**
+     * Channel for standard player report submissions
+     */
+    'webhook_player_report_staff_channel' => env('DISCORD_WEBHOOK_PLAYER_REPORT_STAFF'),
+
+    /**
+     * Channel for administrator-only player report submissions
+     */
+    'webhook_player_report_admin_channel' => env('DISCORD_WEBHOOK_PLAYER_REPORT_ADMIN'),
+
+    /**
      * Channel for contact form submissions
      */
     'webhook_contact_channel' => env('DISCORD_WEBHOOK_CONTACT'),
