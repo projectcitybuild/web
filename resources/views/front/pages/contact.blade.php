@@ -7,10 +7,10 @@
     <x-front::form-page
         eyebrow="GET IN TOUCH"
         title="Contact Us"
-        description="For general inquiries to the administration team. Where appropriate, replies will be sent via email to the given email address."
+        description="For general inquiries to the administration team. Where appropriate, replies will be sent via email to the provided email address."
     >
         @if (session()->has('success'))
-            <x-front::form-panel class="mx-auto max-w-3xl" title="Message sent" variant="success">
+            <x-front::form-panel title="Message sent" variant="success">
                 <p class="mt-2 text-gray-300">{{ session('success') }}</p>
             </x-front::form-panel>
         @endif
@@ -18,7 +18,6 @@
         <x-front::form-shell
             method="post"
             action="{{ route('front.contact.submit') }}"
-            class="mx-auto max-w-3xl"
         >
             @csrf
 
