@@ -13,7 +13,7 @@ runs:
       uses: actions/cache@v6.1.0
       with:
         path: .cache/composer
-        key: ${{ runner.os }}-composer-v4-${{ hashFiles('**/composer.lock') }}
+        key: ${{ runner.os }}-composer-v4-${{ hashFiles('composer.lock') }}
         restore-keys: |
           ${{ runner.os }}-composer-
 
