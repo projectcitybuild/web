@@ -50,7 +50,7 @@
             @csrf
 
             @error('error')
-                <x-validation-error>{!! $message !!}</x-validation-error>
+                <x-validation-error>{{ $message }}</x-validation-error>
             @enderror
 
             <x-front::form-section

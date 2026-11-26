@@ -23,7 +23,7 @@
             <span class="text-red-500 font-bold block mb-2">An error occurred</span>
 
             @foreach($bag->all() as $error)
-                <div class="text-red-500 text-sm">{!! $error !!}</div>
+                <div class="text-red-500 text-sm">{{ $error }}</div>
             @endforeach
         </div>
     </div>

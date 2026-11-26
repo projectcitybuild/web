@@ -15,7 +15,7 @@
         <h1 class="text-5xl font-bold text-gray-900 mt-2 mb-6">Sign In</h1>
 
         @error('error')
-            <x-validation-error class="mt-6">{!! $message !!}</x-validation-error>
+            <x-validation-error class="mt-6">{{ $message }}</x-validation-error>
         @enderror
 
         @if(session()->has('success'))

@@ -22,7 +22,7 @@
             @csrf
 
             @error('error')
-                <x-validation-error>{!! $message !!}</x-validation-error>
+                <x-validation-error>{{ $message }}</x-validation-error>
             @enderror
 
             <input type="text" name="details" class="hidden" tabindex="-1" autocomplete="off" />
