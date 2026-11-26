@@ -68,12 +68,12 @@ return [
 
         'player-reports' => [
             'driver' => 's3',
-            'key' => env('AWS_ACCESS_KEY_ID'),
-            'secret' => env('AWS_SECRET_ACCESS_KEY'),
-            'region' => env('AWS_DEFAULT_REGION'),
+            'key' => env('AWS_REPORTS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_REPORTS_SECRET_ACCESS_KEY'),
+            'region' => env('AWS_REPORTS_DEFAULT_REGION'),
             'bucket' => env('PLAYER_REPORTS_AWS_BUCKET'),
-            'endpoint' => env('AWS_ENDPOINT'),
-            'url' => env('AWS_URL'),
+            'endpoint' => env('AWS_REPORTS_ENDPOINT'),
+            'url' => env('AWS_REPORTS_URL'),
             'use_path_style_endpoint' => true,
             'visibility' => 'private',
         ],

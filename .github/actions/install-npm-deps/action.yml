@@ -13,7 +13,7 @@ runs:
       uses: actions/cache@v6.1.0
       with:
         path: .cache/npm
-        key: ${{ runner.os }}-node-v4-${{ hashFiles('**/package-lock.json') }}
+        key: ${{ runner.os }}-node-v4-${{ hashFiles('package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-
 
