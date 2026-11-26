@@ -5,6 +5,7 @@ type InstagramCarouselSlide = {
 
 const instagramCarouselDialog = document.querySelector<HTMLDialogElement>('#instagram-carousel-dialog')
 const instagramCarouselImage = document.querySelector<HTMLImageElement>('#instagram-carousel-image')
+const instagramCarouselLoading = document.querySelector<HTMLElement>('#instagram-carousel-image-loading')
 const instagramCarouselCount = document.querySelector<HTMLElement>('#instagram-carousel-count')
 const instagramCarouselError = document.querySelector<HTMLElement>('#instagram-carousel-image-error')
 const instagramCarouselPrevious = document.querySelector<HTMLButtonElement>('[data-instagram-carousel-previous]')
@@ -17,6 +18,7 @@ const instagramCarouselPermalink = document.querySelector<HTMLAnchorElement>('#i
 if (
     instagramCarouselDialog
     && instagramCarouselImage
+    && instagramCarouselLoading
     && instagramCarouselCount
     && instagramCarouselError
     && instagramCarouselPrevious
@@ -56,10 +58,12 @@ if (
         }
 
         currentSlide = nextSlideIndex
-        instagramCarouselImage.src = slide.src
         instagramCarouselImage.alt = slide.alt
+        instagramCarouselImage.hidden = true
+        instagramCarouselLoading.hidden = false
         instagramCarouselCount.textContent = `Photo ${currentSlide + 1} of ${slides.length}`
         instagramCarouselError.hidden = true
+        instagramCarouselImage.src = slide.src
     }
 
     const retryCurrentSlide = (): void => {
@@ -71,6 +75,8 @@ if (
 
         instagramCarouselImage.removeAttribute('src')
         instagramCarouselImage.alt = slide.alt
+        instagramCarouselImage.hidden = true
+        instagramCarouselLoading.hidden = false
         instagramCarouselError.hidden = true
 
         requestAnimationFrame(() => {
@@ -285,16 +291,23 @@ if (
         instagramCarouselOverlay.classList.add('opacity-0')
         isClosing = false
         instagramCarouselImage.removeAttribute('src')
+        instagramCarouselImage.hidden = true
+        instagramCarouselLoading.hidden = true
+        instagramCarouselError.hidden = true
         openButton?.focus()
         openButton = null
     })
 
     instagramCarouselImage.addEventListener('error', () => {
         openingThumbnailRect = null
+        instagramCarouselImage.hidden = true
+        instagramCarouselLoading.hidden = true
         instagramCarouselError.hidden = false
     })
 
     instagramCarouselImage.addEventListener('load', () => {
+        instagramCarouselImage.hidden = false
+        instagramCarouselLoading.hidden = true
         instagramCarouselError.hidden = true
         animatePhotoIntoPlace()
     })

@@ -108,13 +108,25 @@
                         >
                             <span aria-hidden="true">&lsaquo;</span>
                         </button>
-                        <div class="pointer-events-none flex h-full w-full min-h-0 min-w-0 items-center justify-center">
+                        <div class="pointer-events-none relative flex h-full w-full min-h-0 min-w-0 items-center justify-center">
                             <img
                                 id="instagram-carousel-image"
                                 alt=""
                                 draggable="false"
+                                hidden
                                 class="pointer-events-auto max-h-full max-w-full touch-pan-y"
                             >
+                            <div
+                                id="instagram-carousel-image-loading"
+                                role="status"
+                                hidden
+                                class="absolute inset-0 flex items-center justify-center bg-gray-900/70"
+                            >
+                                <span class="flex flex-col items-center gap-3 text-sm text-gray-200">
+                                    <span aria-hidden="true" class="size-10 animate-spin rounded-full border-4 border-white/30 border-t-amber-400 motion-reduce:animate-none"></span>
+                                    Loading photo...
+                                </span>
+                            </div>
                             <div
                                 id="instagram-carousel-image-error"
                                 role="alert"
