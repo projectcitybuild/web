@@ -1,12 +1,29 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3'
+import { Head, Link, router } from '@inertiajs/vue3'
+import { ref } from 'vue'
 import { Routes } from '../../../../Navigation/Routes'
 import Badge from '../../../../Components/Badge.vue'
 import Card from '../../../../Components/Card.vue'
+import OutlinedButton from '../../../../Components/OutlinedButton.vue'
 import PageHeader from '../../../../Components/PageHeader.vue'
 import { format } from '../../../../Utilities/DateFormatter'
 
 const props = defineProps<AdminSharedPageProps & AdminInertiaPageProps['audit/BackgroundJobs/Show']>()
+const isRetrying = ref(false)
+
+function retryFailedJob(): void {
+    if (isRetrying.value) {
+        return
+    }
+
+    isRetrying.value = true
+    router.post(Routes.audit.backgroundJobs.retry(props.run.id), {}, {
+        preserveScroll: true,
+        onFinish: () => {
+            isRetrying.value = false
+        },
+    })
+}
 
 function statusVariant(status: BackgroundJobRunSummary['status']): 'success' | 'danger' | 'warning' | 'info' {
     switch (status) {
@@ -42,12 +59,22 @@ function durationLabel(milliseconds: number | null): string {
 
         <PageHeader :title="run.job_name.split('\\').pop() ?? run.job_name" description="Safe lifecycle details for this background job run.">
             <template #actions>
-                <Link
-                    :href="Routes.audit.backgroundJobs.throughput"
-                    class="inline-flex min-h-10 items-center rounded-md border border-border-strong px-3 text-sm font-medium text-foreground hover:bg-surface-hover focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus"
-                >
-                    Back to throughput
-                </Link>
+                <div class="flex flex-wrap gap-2">
+                    <OutlinedButton
+                        v-if="can_retry"
+                        variant="primary"
+                        :disabled="isRetrying"
+                        @click="retryFailedJob"
+                    >
+                        {{ isRetrying ? 'Requeuing...' : 'Requeue job' }}
+                    </OutlinedButton>
+                    <Link
+                        :href="Routes.audit.backgroundJobs.throughput"
+                        class="inline-flex min-h-10 items-center rounded-md border border-border-strong px-3 text-sm font-medium text-foreground hover:bg-surface-hover focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus"
+                    >
+                        Back to throughput
+                    </Link>
+                </div>
             </template>
         </PageHeader>
 

@@ -7,8 +7,11 @@ use App\Domains\BackgroundJobs\ScheduledTaskRegistry;
 use App\Domains\HealthCheck\Jobs\QueueWorkerHeartbeatJob;
 use App\Models\BackgroundJobRun;
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Queue;
+use Illuminate\Support\Str;
 use Inertia\Testing\AssertableInertia as Assert;
 
 beforeEach(function () {
@@ -297,3 +300,103 @@ it('renders safe details for an authorized job run', function () {
             ->missing('run.payload')
         );
 });
+
+it('requeues an available failed job and resets its tracked run', function () {
+    $account = $this->adminAccount();
+    config(['queue.default' => 'database']);
+
+    $failedJobUuid = (string) Str::uuid();
+    $run = BackgroundJobRun::factory()->create([
+        'job_name' => BackgroundJobRetryTestJob::class,
+        'status' => BackgroundJobRunStatus::FAILED,
+        'failed_job_uuid' => $failedJobUuid,
+    ]);
+    $payload = json_encode([
+        'uuid' => $failedJobUuid,
+        'displayName' => BackgroundJobRetryTestJob::class,
+        'job' => 'Illuminate\\Queue\\CallQueuedHandler@call',
+        'data' => [
+            'commandName' => BackgroundJobRetryTestJob::class,
+            'command' => serialize(new BackgroundJobRetryTestJob),
+        ],
+        'background_job_run_id' => $run->id,
+        'attempts' => 3,
+    ], JSON_THROW_ON_ERROR);
+    app('queue.failer')->log('database', 'default', $payload, new RuntimeException('Job failure'));
+
+    $this->actingAs($account)
+        ->get(route('auditing.background-jobs.show', $run))
+        ->assertInertia(fn (Assert $page) => $page->where('can_retry', true));
+
+    $this->post(route('auditing.background-jobs.retry', $run))
+        ->assertRedirect()
+        ->assertSessionHas('success', 'Failed job queued for retry: '.BackgroundJobRetryTestJob::class);
+
+    $this->assertDatabaseCount('jobs', 1);
+    $this->assertDatabaseCount('failed_jobs', 0);
+    $this->assertDatabaseHas('background_job_runs', [
+        'id' => $run->id,
+        'status' => BackgroundJobRunStatus::QUEUED->value,
+        'attempts' => 0,
+    ]);
+});
+
+it('does not expose requeue for failed runs without an available failed queue record', function () {
+    $account = $this->adminAccount();
+    $run = BackgroundJobRun::factory()->create([
+        'status' => BackgroundJobRunStatus::FAILED,
+        'failed_job_uuid' => (string) Str::uuid(),
+    ]);
+
+    $this->actingAs($account)
+        ->get(route('auditing.background-jobs.show', $run))
+        ->assertInertia(fn (Assert $page) => $page->where('can_retry', false));
+
+    $this->post(route('auditing.background-jobs.retry', $run))
+        ->assertNotFound();
+
+    $this->assertDatabaseCount('jobs', 0);
+});
+
+it('rejects requeueing runs that are no longer failed', function () {
+    $account = $this->adminAccount();
+    $failedJobUuid = (string) Str::uuid();
+    $run = BackgroundJobRun::factory()->create([
+        'status' => BackgroundJobRunStatus::SUCCEEDED,
+        'failed_job_uuid' => $failedJobUuid,
+    ]);
+    app('queue.failer')->log(
+        'database',
+        'default',
+        json_encode(['uuid' => $failedJobUuid, 'background_job_run_id' => $run->id], JSON_THROW_ON_ERROR),
+        new RuntimeException('Job failure'),
+    );
+
+    $this->actingAs($account)
+        ->post(route('auditing.background-jobs.retry', $run))
+        ->assertConflict();
+
+    $this->assertDatabaseCount('jobs', 0);
+    $this->assertDatabaseCount('failed_jobs', 1);
+});
+
+it('forbids staff from requeueing failed jobs', function () {
+    $account = $this->staffAccount();
+    $run = BackgroundJobRun::factory()->create([
+        'status' => BackgroundJobRunStatus::FAILED,
+        'failed_job_uuid' => (string) Str::uuid(),
+    ]);
+
+    $this->actingAs($account)
+        ->post(route('auditing.background-jobs.retry', $run))
+        ->assertForbidden();
+
+    $this->assertDatabaseCount('jobs', 0);
+});
+
+final class BackgroundJobRetryTestJob implements ShouldQueue
+{
+    use Queueable;
+
+    public function handle(): void {}
+}

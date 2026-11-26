@@ -95,6 +95,7 @@ it('records terminal synchronous failures without persisting exception messages'
     expect($run->status)->toBe(BackgroundJobRunStatus::FAILED)
         ->and($run->exception_class)->toBe(RuntimeException::class)
         ->and($run->error_message)->toBe('The job failed. See application logs for details.')
+        ->and($run->failed_job_uuid)->not->toBeNull()
         ->and($run->error_message)->not->toContain('private-token');
 });
 

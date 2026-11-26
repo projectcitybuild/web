@@ -14,6 +14,7 @@ use App\Http\Controllers\WebController;
 use App\Models\BackgroundJobRun;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Validation\Rule;
 use Inertia\Response;
 
@@ -164,7 +165,12 @@ final class BackgroundJobController extends WebController
             abort(403);
         }
 
+        $canRetry = $run->status === BackgroundJobRunStatus::FAILED
+            && $run->failed_job_uuid !== null
+            && app('queue.failer')->find($run->failed_job_uuid) !== null;
+
         return $this->inertiaRender('BackgroundJobs/Show', [
+            'can_retry' => $canRetry,
             'run' => [
                 'id' => $run->getKey(),
                 'job_name' => $run->job_name,
@@ -182,5 +188,21 @@ final class BackgroundJobController extends WebController
                 'error_message' => $run->error_message,
             ],
         ]);
+    }
+
+    public function retry(Request $request, BackgroundJobRun $run): RedirectResponse
+    {
+        if (! $request->user()->isAdmin()) {
+            abort(403);
+        }
+
+        abort_unless($run->status === BackgroundJobRunStatus::FAILED, 409);
+
+        $failedJobUuid = $run->failed_job_uuid;
+        abort_if($failedJobUuid === null || app('queue.failer')->find($failedJobUuid) === null, 404);
+
+        Artisan::call('queue:retry', ['id' => $failedJobUuid]);
+
+        return back()->with('success', 'Failed job queued for retry: '.$run->job_name);
     }
 }

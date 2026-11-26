@@ -20,6 +20,7 @@ class BackgroundJobRun extends Model
     protected $fillable = [
         'id',
         'queue_job_id',
+        'failed_job_uuid',
         'job_name',
         'job_type',
         'status',

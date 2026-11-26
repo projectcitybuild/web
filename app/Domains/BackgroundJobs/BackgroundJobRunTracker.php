@@ -8,6 +8,7 @@ use App\Models\BackgroundJobRun;
 use Illuminate\Contracts\Queue\Job;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use stdClass;
 use Throwable;
 
 class BackgroundJobRunTracker
@@ -61,6 +62,7 @@ class BackgroundJobRunTracker
             $run->update([
                 'status' => BackgroundJobRunStatus::RUNNING,
                 'queue_job_id' => $this->queueJobId($job),
+                'failed_job_uuid' => null,
                 'attempts' => $job->attempts(),
                 'max_attempts' => method_exists($job, 'maxTries') ? $job->maxTries() : $run->max_attempts,
                 'started_at' => now()->utc(),
@@ -98,6 +100,7 @@ class BackgroundJobRunTracker
                 'attempts' => $job->attempts(),
                 'completed_at' => $completedAt,
                 'duration_ms' => $this->durationMilliseconds($run, $completedAt),
+                'failed_job_uuid' => null,
             ]);
         });
     }
@@ -124,6 +127,7 @@ class BackgroundJobRunTracker
             $run->update([
                 'status' => BackgroundJobRunStatus::FAILED,
                 'queue_job_id' => $this->queueJobId($job),
+                'failed_job_uuid' => $this->failedJobUuid($job),
                 'attempts' => $job->attempts(),
                 'completed_at' => $failedAt,
                 'failed_at' => $failedAt,
@@ -132,6 +136,31 @@ class BackgroundJobRunTracker
                 'error_message' => 'The job failed. See application logs for details.',
             ]);
         });
+    }
+
+    public function retryRequested(stdClass $failedJob): void
+    {
+        $payload = json_decode($failedJob->payload, true);
+        $id = is_array($payload) ? ($payload['background_job_run_id'] ?? null) : null;
+
+        if (! is_string($id) || ! Str::isUuid($id)) {
+            return;
+        }
+
+        BackgroundJobRun::query()
+            ->whereKey($id)
+            ->where('status', BackgroundJobRunStatus::FAILED)
+            ->update([
+                'status' => BackgroundJobRunStatus::QUEUED,
+                'attempts' => 0,
+                'queued_at' => now()->utc(),
+                'started_at' => null,
+                'completed_at' => null,
+                'failed_at' => null,
+                'duration_ms' => null,
+                'exception_class' => null,
+                'error_message' => null,
+            ]);
     }
 
     /**
@@ -182,6 +211,13 @@ class BackgroundJobRunTracker
         $id = $job->getJobId();
 
         return $id === null || (string) $id === '' ? null : (string) $id;
+    }
+
+    private function failedJobUuid(Job $job): ?string
+    {
+        $uuid = $job->payload()['uuid'] ?? null;
+
+        return is_string($uuid) && $uuid !== '' ? $uuid : null;
     }
 
     private function durationMilliseconds(BackgroundJobRun $run, \DateTimeInterface $completedAt): ?int

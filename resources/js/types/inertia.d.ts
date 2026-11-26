@@ -99,6 +99,7 @@ declare global {
             }
         }
         'audit/BackgroundJobs/Show': {
+            can_retry: boolean
             run: BackgroundJobRunSummary & {
                 max_attempts: number | null
                 started_at: string | null

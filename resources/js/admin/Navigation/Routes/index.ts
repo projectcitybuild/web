@@ -142,6 +142,7 @@ export const Routes = {
             throughput: audit('background-jobs'),
             runs: audit('background-jobs/runs'),
             show: (id: RouteParameter) => audit(`background-jobs/${id}`),
+            retry: (id: RouteParameter) => audit(`background-jobs/${id}/retry`),
             queueTask: (id: string) => audit(`background-jobs/scheduled-tasks/${id}/queue`),
             runTask: (id: string) => audit(`background-jobs/scheduled-tasks/${id}/run`),
         },

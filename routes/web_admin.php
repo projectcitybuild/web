@@ -280,6 +280,9 @@ Route::name('auditing.')
         Route::post('background-jobs/scheduled-tasks/{taskId}/run', [BackgroundJobController::class, 'runTask'])
             ->name('background-jobs.scheduled-tasks.run');
 
+        Route::post('background-jobs/{run}/retry', [BackgroundJobController::class, 'retry'])
+            ->name('background-jobs.retry');
+
         Route::get('background-jobs/{run}', [BackgroundJobController::class, 'show'])
             ->name('background-jobs.show');
     });
