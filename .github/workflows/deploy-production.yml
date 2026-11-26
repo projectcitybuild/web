@@ -88,11 +88,39 @@ jobs:
           if [ -n "$PREVIOUS_TAGS" ]; then
             PREVIOUS_TAG=$(git describe --tags --abbrev=0 --match 'v[0-9]*' "$VERSION_TAG^")
             echo "## Changes since $PREVIOUS_TAG" > "$NOTES_FILE"
-            git log --no-merges --format="- %s ([%h](https://github.com/$GITHUB_REPOSITORY/commit/%H))" "$PREVIOUS_TAG..$VERSION_TAG" >> "$NOTES_FILE"
+            COMMIT_RANGE="$PREVIOUS_TAG..$VERSION_TAG"
           else
             echo "## Changes" > "$NOTES_FILE"
-            git log --no-merges --format="- %s ([%h](https://github.com/$GITHUB_REPOSITORY/commit/%H))" "$VERSION_TAG" >> "$NOTES_FILE"
+            COMMIT_RANGE="$VERSION_TAG"
           fi
+          git log --no-merges --format='%s%x09%h%x09%H' "$COMMIT_RANGE" |
+            awk -F '\t' -v repository="$GITHUB_REPOSITORY" '
+              function commit_type(subject, type) {
+                if (match(subject, /^[[:alnum:]][[:alnum:]._-]*(\([^)]*\))?!?:/)) {
+                  type = substr(subject, 1, RLENGTH)
+                  sub(/:.*/, "", type)
+                  sub(/!$/, "", type)
+                  sub(/\([^)]*\)$/, "", type)
+                  return tolower(type)
+                }
+                return "other"
+              }
+              {
+                type = commit_type($1)
+                if (!(type in seen)) {
+                  seen[type] = 1
+                  types[++type_count] = type
+                }
+                commits[type] = commits[type] "- " $1 " ([" $2 "](https://github.com/" repository "/commit/" $3 "))\n"
+              }
+              END {
+                for (i = 1; i <= type_count; i++) {
+                  type = types[i]
+                  heading = type == "other" ? "Other" : type
+                  printf "### %s\n%s", heading, commits[type]
+                }
+              }
+            ' >> "$NOTES_FILE"
 
       - name: Create a GitHub Release
         env:
