@@ -5,7 +5,7 @@
 @section('body')
     <x-front::navbar />
 
-    <section class="bg-white py-20">
+    <section class="bg-white py-20 text-gray-900">
         <div class="max-w-screen-2xl mx-auto px-6">
             <h1 class="text-5xl tracking-tight font-bold">Thank You!</h1>
 
@@ -24,7 +24,7 @@
                     Go Home
                 </x-button>
 
-                <x-button variant="outlined" href="{{ route('front.account.donations') }}">
+                <x-button variant="outlined" href="{{ route('front.account.donations') }}" class="text-gray-900 border-gray-900">
                     See your donations
                 </x-button>
             </div>
