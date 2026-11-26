@@ -1,7 +1,7 @@
 @extends('front.layouts.auth-layout')
 
 @section('title', 'Confirm Your Identity')
-@section('description', '')
+@section('meta_description', 'Confirm your identity to continue with your Project City Build account.')
 
 @section('content')
     <form method="post" action="{{ route('front.oidc.reauth.submit') }}" class="flex flex-col">

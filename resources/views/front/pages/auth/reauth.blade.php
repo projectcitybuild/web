@@ -1,7 +1,7 @@
 @extends('front.layouts.auth-layout')
 
 @section('title', 'Re-enter Password')
-@section('description', '')
+@section('meta_description', 'Confirm your identity to continue managing your Project City Build account.')
 
 @section('content')
     <form action="{{ route('front.password.confirm.submit') }}" method="post" class="flex flex-col">

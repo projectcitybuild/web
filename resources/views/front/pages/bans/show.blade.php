@@ -1,7 +1,7 @@
 @extends('front.layouts.root-layout')
 
 @section('title', 'Player Ban Details')
-@section('description', 'Review the details of a player ban')
+@section('meta_description', 'Review the details of a player ban')
 
 @section('body')
     <x-front::form-page

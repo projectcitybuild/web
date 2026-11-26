@@ -1,7 +1,7 @@
 @extends('front.layouts.root-layout')
 
 @section('title', 'Donations')
-@section('description', '')
+@section('meta_description', 'Review your Project City Build donations and supporter status.')
 
 @section('body')
     <x-account-navbar />

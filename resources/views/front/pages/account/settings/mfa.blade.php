@@ -1,7 +1,7 @@
 @extends('front.layouts.account-settings-layout')
 
 @section('title', 'Account Settings')
-@section('description', '')
+@section('meta_description', 'Manage two-factor authentication for your Project City Build account.')
 
 @section('content')
     <h1 class="text-2xl font-bold">2-Factor Authentication</h1>

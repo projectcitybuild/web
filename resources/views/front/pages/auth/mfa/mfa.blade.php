@@ -1,7 +1,7 @@
 @extends('front.layouts.auth-layout')
 
 @section('title', '2FA Confirmation')
-@section('description', '')
+@section('meta_description', 'Confirm your two-factor authentication code to sign in to Project City Build.')
 
 @section('content')
     <form

@@ -6,7 +6,7 @@
 
 @section('title', 'Your Ban Appeal')
 @section('heading', 'Ban Appeal')
-@section('description', 'Check the status of your ban appeal')
+@section('meta_description', 'Check the status of your ban appeal')
 
 @section('body')
     <x-front::form-page

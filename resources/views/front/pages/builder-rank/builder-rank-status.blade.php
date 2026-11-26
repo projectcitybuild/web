@@ -5,6 +5,7 @@
 @endphp
 
 @section('title', 'Status - Apply for Build Rank')
+@section('meta_description', 'Check the review status of your Project City Build builder rank application.')
 
 @section('body')
     <x-front::form-page

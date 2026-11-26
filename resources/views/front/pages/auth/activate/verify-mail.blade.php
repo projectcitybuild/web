@@ -1,7 +1,7 @@
 @extends('front.layouts.auth-layout')
 
 @section('title', 'Registration Verification')
-@section('description', "")
+@section('meta_description', 'Verify your email address to activate your Project City Build account.')
 
 @section('content')
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-16">

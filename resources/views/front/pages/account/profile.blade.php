@@ -1,7 +1,7 @@
 @extends('front.layouts.root-layout')
 
 @section('title', 'Your Account')
-@section('description', '')
+@section('meta_description', 'Manage your Project City Build account profile.')
 
 @section('body')
     <x-account-navbar />

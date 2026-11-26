@@ -1,7 +1,7 @@
 @extends('front.layouts.root-layout')
 
 @section('title', 'Contact Us')
-@section('description', 'General inquiries and questions')
+@section('meta_description', 'General inquiries and questions')
 
 @section('body')
     <x-front::form-page

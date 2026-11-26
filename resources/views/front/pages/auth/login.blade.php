@@ -1,6 +1,7 @@
 @extends('front.layouts.auth-layout')
 
 @section('title', 'Sign In - Project City Build')
+@section('meta_description', 'Sign in to your Project City Build account.')
 @section('meta_title', 'Sign In - Project City Build')
 
 @section('heading', 'Sign In')

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="google-site-verification" content="Sp9E55tVkNph_ttvggLD52MY-ACeGfeivQbmWp7CWfo">
-    <meta name="description" content="@yield('meta_description')">
+    <meta name="description" content="{{ $__env->yieldContent('meta_description', 'Project City Build is a creative Minecraft community for city builders and players.') }}">
     <meta name="theme-color" content="#030712">
     <meta name="apple-mobile-web-app-title" content="PCB">
     @stack('meta')
@@ -20,19 +20,26 @@
     <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('static/favicon/favicon-96x96.png') }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('static/favicon/favicon-32x32.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('static/favicon/favicon-16x16.png') }}">
-    <link rel="icon" type="type/x-icon" href="{{ asset('static/favicon/favicon.ico') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('static/favicon/favicon.ico') }}">
+    <link rel="canonical" href="{{ request()->url() }}">
 
-    <meta property="og:url" content="https://projectcitybuild.com">
-    <meta property="og:title" content="@yield('meta_title', 'Project City Build')">
-    <meta property="og:description" content="@yield('meta_description')">
+    <meta property="og:url" content="{{ request()->url() }}">
+    <meta property="og:title" content="{{ $__env->yieldContent('title', 'Project City Build') }}">
+    <meta property="og:description" content="{{ $__env->yieldContent('meta_description', 'Project City Build is a creative Minecraft community for city builders and players.') }}">
+    <meta property="og:image" content="{{ Vite::asset('resources/images/hero.webp') }}">
+    <meta property="og:image:alt" content="Project City Build, a creative Minecraft community">
     <meta property="og:site_name" content="Project City Build">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="en_US">
 
-    <meta name="twitter:card" content="@yield('meta_description')">
+    <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@PCB_Minecraft">
+    <meta name="twitter:title" content="{{ $__env->yieldContent('title', 'Project City Build') }}">
+    <meta name="twitter:description" content="{{ $__env->yieldContent('meta_description', 'Project City Build is a creative Minecraft community for city builders and players.') }}">
+    <meta name="twitter:image" content="{{ Vite::asset('resources/images/hero.webp') }}">
+    <meta name="twitter:image:alt" content="Project City Build, a creative Minecraft community">
 
-    <title>@yield('title', 'Project City Build')</title>
+    <title>{{ $__env->yieldContent('title', 'Project City Build') }}</title>
 
     @vite([
         'resources/css/front.css',

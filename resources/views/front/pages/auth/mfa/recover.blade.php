@@ -1,7 +1,7 @@
 @extends('front.layouts.auth-layout')
 
 @section('title', '2FA Recovery')
-@section('description', '')
+@section('meta_description', 'Recover access to your Project City Build account with a backup code.')
 
 @section('content')
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-16">

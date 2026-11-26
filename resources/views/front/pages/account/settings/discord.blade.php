@@ -1,7 +1,7 @@
 @extends('front.layouts.account-settings-layout')
 
 @section('title', 'Discord Account')
-@section('description', '')
+@section('meta_description', 'Manage the Discord account connected to your Project City Build account.')
 
 @section('content')
     <h1 class="text-2xl font-bold">Discord account</h1>

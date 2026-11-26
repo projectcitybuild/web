@@ -1,7 +1,7 @@
 @extends('front.layouts.root-layout')
 
 @section('title', 'Apply for Build Rank')
-@section('description', 'Use the below form to apply for the next higher builder rank')
+@section('meta_description', 'Use the below form to apply for the next higher builder rank')
 
 @section('body')
     <x-front::form-page

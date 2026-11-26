@@ -1,7 +1,7 @@
 @extends('front.layouts.root-layout')
 
 @section('title', 'Records')
-@section('description', '')
+@section('meta_description', 'Review records associated with your Project City Build account.')
 
 @section('body')
     <x-account-navbar />

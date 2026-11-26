@@ -1,7 +1,7 @@
 @extends('front.layouts.auth-layout')
 
 @section('title', 'Create an Account')
-@section('description', 'Create a PCB account to create forum posts, access personal player statistics and more.')
+@section('meta_description', 'Create a PCB account to create forum posts, access personal player statistics and more.')
 
 @section('content')
     <form

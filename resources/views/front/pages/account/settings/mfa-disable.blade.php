@@ -1,7 +1,7 @@
 @extends('front.layouts.account-settings-layout')
 
 @section('title', 'Disable 2FA')
-@section('description', '')
+@section('meta_description', 'Disable two-factor authentication for your Project City Build account.')
 
 @section('content')
     <h1 class="text-2xl font-bold">Disable 2FA</h1>

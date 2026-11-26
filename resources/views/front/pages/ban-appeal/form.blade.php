@@ -2,7 +2,7 @@
 
 @section('title', 'Appeal Ban')
 @section('heading', 'Appeal Ban')
-@section('description', 'Use the below form to submit a ban appeal')
+@section('meta_description', 'Use the below form to submit a ban appeal')
 
 @push('meta')
     @isset ($ban)

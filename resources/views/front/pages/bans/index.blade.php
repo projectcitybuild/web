@@ -1,7 +1,7 @@
 @extends('front.layouts.root-layout')
 
 @section('title', 'Player Ban List')
-@section('description', 'Players listed on this page are currently banned on one or more servers on our game network')
+@section('meta_description', 'Players listed on this page are currently banned on one or more servers on our game network')
 
 @section('body')
     <x-front::form-page

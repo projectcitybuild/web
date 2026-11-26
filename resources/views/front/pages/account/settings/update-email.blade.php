@@ -1,7 +1,7 @@
 @extends('front.layouts.account-settings-layout')
 
 @section('title', 'Account Settings')
-@section('description', '')
+@section('meta_description', 'Update the email address associated with your Project City Build account.')
 
 @section('content')
     <h1 class="text-2xl font-bold">Email Address</h1>

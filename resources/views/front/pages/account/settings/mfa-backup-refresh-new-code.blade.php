@@ -1,7 +1,7 @@
 @extends('front.layouts.account-settings-layout')
 
 @section('title', 'Refresh 2FA Backup')
-@section('description', '')
+@section('meta_description', 'View the refreshed backup code for your Project City Build account.')
 
 @section('content')
     <h1 class="text-2xl font-bold">Refresh Backup Code</h1>

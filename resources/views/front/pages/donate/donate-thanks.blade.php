@@ -1,6 +1,7 @@
 @extends('front.layouts.root-layout')
 
 @section('title', 'Thank you!')
+@section('meta_description', 'Thank you for supporting Project City Build and helping keep our Minecraft community running.')
 
 @section('body')
     <x-front::navbar />

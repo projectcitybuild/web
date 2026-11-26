@@ -1,6 +1,7 @@
 @extends('front.layouts.root-layout')
 
 @section('title', 'Live Maps')
+@section('meta_description', 'Explore live maps of Project City Build’s Minecraft worlds.')
 
 @push('head')
     <style>

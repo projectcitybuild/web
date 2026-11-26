@@ -1,7 +1,7 @@
 @extends('front.layouts.auth-layout')
 
 @section('title', 'Forgot Your Password?')
-@section('description', "If you've forgotten your PCB password but remember your email address, use this form to reset your password.")
+@section('meta_description', "If you've forgotten your PCB password but remember your email address, use this form to reset your password.")
 
 @section('content')
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-16">
