@@ -1,9 +1,9 @@
 <?php
 
 use App\Core\Data\JobQueue;
+use App\Core\Domains\Scheduling\Jobs\RunScheduledTask;
 use App\Domains\BackgroundJobs\BackgroundJobRunTracker;
 use App\Domains\BackgroundJobs\Data\BackgroundJobRunStatus;
-use App\Core\Domains\Scheduling\Jobs\RunScheduledTask;
 use App\Models\BackgroundJobRun;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;

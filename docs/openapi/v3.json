@@ -2303,6 +2303,97 @@
                 }
             }
         },
+        "/v3/server/votes": {
+            "post": {
+                "operationId": "minecraftVote.store",
+                "tags": [
+                    "MinecraftVote"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "event_id": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "player_uuid": {
+                                        "type": "string"
+                                    },
+                                    "username": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ],
+                                        "maxLength": 191
+                                    },
+                                    "service_name": {
+                                        "type": "string",
+                                        "maxLength": 191
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "maxLength": 191
+                                    },
+                                    "timestamp": {
+                                        "type": "integer",
+                                        "minimum": 0,
+                                        "maximum": 253402300799999
+                                    },
+                                    "additional_data": {
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ],
+                                        "maxLength": 65535
+                                    }
+                                },
+                                "required": [
+                                    "event_id",
+                                    "player_uuid",
+                                    "service_name",
+                                    "address",
+                                    "timestamp"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "required": [
+                                                "id"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                }
+            }
+        },
         "/v3/warps": {
             "get": {
                 "operationId": "minecraftWarp.index",
@@ -3427,6 +3518,15 @@
                             "number",
                             "null"
                         ]
+                    },
+                    "deaths": {
+                        "type": "integer"
+                    },
+                    "mob_kills": {
+                        "type": "integer"
+                    },
+                    "player_kills": {
+                        "type": "integer"
                     }
                 },
                 "required": [
@@ -3455,7 +3555,10 @@
                     "last_location_y",
                     "last_location_z",
                     "last_location_pitch",
-                    "last_location_yaw"
+                    "last_location_yaw",
+                    "deaths",
+                    "mob_kills",
+                    "player_kills"
                 ],
                 "title": "MinecraftPlayer"
             },
@@ -3508,6 +3611,9 @@
                         "type": "number"
                     },
                     "sessions": {
+                        "type": "integer"
+                    },
+                    "votes_count": {
                         "type": "integer"
                     },
                     "play_time": {

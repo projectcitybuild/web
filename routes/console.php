@@ -71,16 +71,16 @@ Artisan::command('permissions:seed', function () {
 Artisan::command('instagram:cache:clear', function () {
     app(InstagramMediaFeed::class)->clearCache();
 
-    $this->info('Instagram media feed cache and images cleared.');
+    $this->info('Instagram media feed cache and images cleared. Cached access token was preserved.');
 })->purpose('Clear cached Instagram media and images');
 
-Artisan::command('instagram:feed:refresh', function () {
+Artisan::command('instagram:media-feed:refresh', function () {
     dispatch(new RefreshInstagramMediaFeedJob);
 
     $this->info('Instagram media feed refresh job queued.');
 })->purpose('Queue an Instagram media feed refresh');
 
-Artisan::command('instagram:token:refresh', function () {
+Artisan::command('instagram:access-token:refresh', function () {
     dispatch(new RefreshInstagramAccessTokenJob);
 
     $this->info('Instagram access token refresh job queued.');

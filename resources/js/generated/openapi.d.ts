@@ -404,6 +404,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v3/server/votes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["minecraftVote.store"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v3/warps": {
         parameters: {
             query?: never;
@@ -620,6 +636,9 @@ export interface components {
             last_location_z: number | null;
             last_location_pitch: number | null;
             last_location_yaw: number | null;
+            deaths: number;
+            mob_kills: number;
+            player_kills: number;
         };
         /** MinecraftPlayerData */
         MinecraftPlayerData: {
@@ -639,6 +658,7 @@ export interface components {
             last_location_pitch: number;
             last_location_yaw: number;
             sessions: number;
+            votes_count?: number;
             play_time: number;
             afk_time: number;
             blocks_placed: number;
@@ -1879,6 +1899,41 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            422: components["responses"]["ValidationException"];
+        };
+    };
+    "minecraftVote.store": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** Format: uuid */
+                    event_id: string;
+                    player_uuid: string;
+                    username?: string | null;
+                    service_name: string;
+                    address: string;
+                    timestamp: number;
+                    additional_data?: string | null;
+                };
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string | {
+                        id: number;
+                    };
+                };
             };
             422: components["responses"]["ValidationException"];
         };

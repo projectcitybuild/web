@@ -86,6 +86,7 @@
                 <div class="pointer-events-none relative z-10 flex h-full min-h-0 flex-col">
                     <div class="flex shrink-0 items-center justify-between gap-4 border-b border-white/10 px-4 py-4 sm:px-6">
                         <div>
+                            <h2 id="instagram-carousel-heading" class="sr-only">Instagram photo carousel</h2>
                             <p id="instagram-carousel-count" aria-live="polite" aria-atomic="true" class="mt-1 text-sm text-gray-300"></p>
                         </div>
                         <button
@@ -114,14 +115,21 @@
                                 draggable="false"
                                 class="pointer-events-auto max-h-full max-w-full touch-pan-y"
                             >
-                            <p
+                            <div
                                 id="instagram-carousel-image-error"
                                 role="alert"
                                 hidden
-                                class="py-8 text-center text-sm text-gray-200"
+                                class="flex flex-col items-center gap-3 py-8 text-center text-sm text-gray-200"
                             >
-                                This photo could not be loaded.
-                            </p>
+                                <p>This photo could not be loaded.</p>
+                                <button
+                                    type="button"
+                                    data-instagram-carousel-retry
+                                    class="pointer-events-auto rounded-md px-3 py-2 font-semibold text-blue-300 underline underline-offset-4 hover:text-blue-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-400"
+                                >
+                                    Try loading the photo again
+                                </button>
+                            </div>
                         </div>
                         <button
                             type="button"

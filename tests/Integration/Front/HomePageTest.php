@@ -79,20 +79,17 @@ test('homepage shows the latest Instagram photo posts', function () {
                     'caption' => 'A city build carousel',
                     'timestamp' => '2026-11-24T12:00:00+0000',
                     'children' => [
-                        'data' => [
-                            [
+                        'data' => array_merge(
+                            [[
                                 'media_type' => 'VIDEO',
                                 'media_url' => 'https://scontent.cdninstagram.com/carousel-video.mp4',
-                            ],
-                            [
+                            ]],
+                            array_map(static fn (int $index): array => [
                                 'media_type' => 'IMAGE',
-                                'media_url' => 'https://instagram.ffuk2-1.fna.fbcdn.net/carousel-image.jpg',
-                            ],
-                            [
-                                'media_type' => 'IMAGE',
-                                'media_url' => 'https://instagram.ffuk3-1.fna.fbcdn.net/carousel-image-2.jpg',
-                            ],
-                        ],
+                                'media_url' => 'https://instagram.ffuk'.($index % 2 + 2).'-1.fna.fbcdn.net/carousel-image-'.$index.'.jpg',
+                                'alt_text' => 'Carousel photo '.$index,
+                            ], range(1, 11)),
+                        ),
                     ],
                 ],
                 [
@@ -129,7 +126,11 @@ test('homepage shows the latest Instagram photo posts', function () {
             route('front.instagram.image', ['imageKey' => hash('sha256', 'https://www.instagram.com/p/OLDER123/')]),
         ], false)
         ->assertSee('The latest city skyline', false)
-        ->assertSee('View all 2 photos from this Instagram post', false)
+        ->assertSee('View all 10 photos from this Instagram post', false)
+        ->assertSee('data-image-alt="Carousel photo 2"', false)
+        ->assertSee('aria-labelledby="instagram-carousel-heading"', false)
+        ->assertSee('<h2 id="instagram-carousel-heading" class="sr-only">Instagram photo carousel</h2>', false)
+        ->assertSee('data-instagram-carousel-retry', false)
         ->assertSee(route('front.instagram.image', [
             'imageKey' => hash('sha256', 'https://www.instagram.com/p/CAROUSEL123/#1'),
         ]), false)
@@ -183,6 +184,9 @@ test('homepage shows the latest Instagram photo posts', function () {
     $imageResponse
         ->assertOk()
         ->assertHeader('Content-Type', 'image/jpeg')
+        ->assertHeader('Cache-Control', 'max-age=3600, public')
+        ->assertHeader('Content-Disposition', 'inline')
+        ->assertHeader('X-Content-Type-Options', 'nosniff')
         ->assertStreamed()
         ->assertStreamedContent($storedImageContents);
 
@@ -202,8 +206,9 @@ test('homepage shows the latest Instagram photo posts', function () {
     Http::assertSent(fn (Request $request): bool => $request->method() === 'GET'
         && parse_url($request->url(), PHP_URL_HOST) === 'graph.instagram.com'
         && parse_url($request->url(), PHP_URL_PATH) === '/v27.0/987654321/media'
-        && $request['access_token'] === 'instagram-test-token'
-        && str_contains($request['fields'], 'children{media_type,media_url}')
+        && $request->header('Authorization') === ['Bearer instagram-test-token']
+        && ! str_contains($request->url(), 'instagram-test-token')
+        && str_contains($request['fields'], 'children{alt_text,media_type,media_url}')
         && ! str_contains($request['fields'], 'caption'));
 });
 
@@ -231,9 +236,11 @@ test('Instagram access token job refreshes the token used by media fetches', fun
 
     Http::assertSent(fn (Request $request): bool => parse_url($request->url(), PHP_URL_PATH) === '/refresh_access_token'
         && $request['grant_type'] === 'ig_refresh_token'
-        && $request['access_token'] === 'instagram-test-token');
+        && $request->header('Authorization') === ['Bearer instagram-test-token']
+        && ! str_contains($request->url(), 'instagram-test-token'));
     Http::assertSent(fn (Request $request): bool => parse_url($request->url(), PHP_URL_PATH) === '/v27.0/987654321/media'
-        && $request['access_token'] === 'instagram-refreshed-token');
+        && $request->header('Authorization') === ['Bearer instagram-refreshed-token']
+        && ! str_contains($request->url(), 'instagram-refreshed-token'));
 });
 
 test('homepage does not fetch Instagram when no cached posts are available', function () {
@@ -301,6 +308,61 @@ test('homepage does not cache Instagram responses that are not JPEG images', fun
 test('Instagram image endpoint rejects keys outside its hash format', function () {
     $this->get('/instagram-images/not-a-hash')
         ->assertNotFound();
+});
+
+test('carousel image cache misses fail safely when cached credentials are invalid', function () {
+    config([
+        'filesystems.default' => 'local',
+        'services.instagram.user_id' => '987654321',
+        'services.instagram.access_token' => 'instagram-configured-token',
+        'services.instagram.api_version' => 'v27.0',
+    ]);
+    Storage::fake('local');
+    Cache::forever('instagram.access-token.987654321', 'not-encrypted');
+
+    $permalink = 'https://www.instagram.com/p/CACHEMISS1/';
+    $imageKey = hash('sha256', $permalink.'#1');
+    Cache::forever('instagram.cached-images.v3.v27.0.987654321', [
+        'refreshedAt' => '2026-11-25T12:00:00+00:00',
+        'posts' => [[
+            'permalink' => $permalink,
+            'images' => [
+                [
+                    'imageUrl' => 'https://scontent.cdninstagram.com/cover.jpg',
+                    'imageKey' => hash('sha256', $permalink),
+                    'altText' => 'Cover photo',
+                ],
+                [
+                    'imageUrl' => 'https://scontent.cdninstagram.com/carousel.jpg',
+                    'imageKey' => $imageKey,
+                    'altText' => 'Carousel photo',
+                ],
+            ],
+        ]],
+    ]);
+    Http::preventStrayRequests();
+
+    $this->get(route('front.instagram.image', ['imageKey' => $imageKey]))
+        ->assertNotFound();
+
+    Http::assertSentCount(0);
+});
+
+test('Instagram image delivery uses the configured filesystem disk', function () {
+    config(['filesystems.default' => 'backup']);
+    Storage::fake('backup');
+    Http::preventStrayRequests();
+
+    $imageKey = hash('sha256', 'configured-storage-image');
+    $imageContents = "\xFF\xD8\xFFcached-jpeg";
+    Storage::disk('backup')->put('instagram-images/'.$imageKey.'.jpg', $imageContents);
+
+    $this->get(route('front.instagram.image', ['imageKey' => $imageKey]))
+        ->assertOk()
+        ->assertHeader('Content-Type', 'image/jpeg')
+        ->assertStreamedContent($imageContents);
+
+    Http::assertSentCount(0);
 });
 
 test('homepage shows account roles for recent players', function () {

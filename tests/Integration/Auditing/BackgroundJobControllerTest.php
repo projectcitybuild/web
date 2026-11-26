@@ -1,10 +1,10 @@
 <?php
 
 use App\Core\Data\JobQueue;
+use App\Core\Domains\Scheduling\Jobs\RunScheduledTask;
 use App\Domains\BackgroundJobs\Data\BackgroundJobRunStatus;
 use App\Domains\BackgroundJobs\ScheduledTaskRegistry;
 use App\Domains\HealthCheck\Jobs\QueueWorkerHeartbeatJob;
-use App\Core\Domains\Scheduling\Jobs\RunScheduledTask;
 use App\Models\BackgroundJobRun;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Collection;

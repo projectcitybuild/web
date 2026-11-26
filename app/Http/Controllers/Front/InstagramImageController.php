@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Domains\Instagram\InstagramMediaFeed;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -20,6 +21,10 @@ class InstagramImageController
         $path = 'instagram-images/'.$imageKey.'.jpg';
 
         if (! $disk->exists($path)) {
+            Log::info('Instagram image cache miss.', [
+                'image_key' => $imageKey,
+            ]);
+
             abort_unless($instagramMediaFeed->cacheImage($imageKey), 404);
         }
 

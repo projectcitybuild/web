@@ -65,6 +65,16 @@ export const PlayerMailBroadcastStatus = {
     "failed": "failed",
 } as const
 
+export const PlayerReportStatus = {
+    "open": "open",
+    "completed": "completed",
+} as const
+
+export const PlayerReportVisibility = {
+    "standard": "standard",
+    "administrators": "administrators",
+} as const
+
 export const TeleportMode = {
     "off": "off",
     "request": "request",

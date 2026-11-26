@@ -58,7 +58,7 @@ final class SyncDiscordRoleJob implements DescribesBackgroundJob, ShouldBeUnique
             && $callback['scheme'] !== 'https'
             && ! $isInternalBotHttpCallback
         ) {
-            throw new RuntimeException('Discord bot callback URL must use HTTPS if not an internal network.');
+            throw new RuntimeException('Discord bot callback URL must use HTTPS outside the internal bot service.');
         }
 
         $payload = [

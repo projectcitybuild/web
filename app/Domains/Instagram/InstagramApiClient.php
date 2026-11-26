@@ -3,23 +3,19 @@
 namespace App\Domains\Instagram;
 
 use Illuminate\Http\Client\ConnectionException;
-use Illuminate\Http\Client\Pool;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use UnexpectedValueException;
 
 final class InstagramApiClient
 {
-    private const MAX_IMAGE_BYTES = 10485760;
-
-    public function refreshAccessToken(string $accessToken): string
+    public function refreshAccessToken(string $accessToken): InstagramAccessToken
     {
-        $response = Http::connectTimeout(3)
-            ->timeout(5)
-            ->get('https://graph.instagram.com/refresh_access_token', [
-                'grant_type' => 'ig_refresh_token',
-                'access_token' => $accessToken,
-            ])
-            ->throw();
+        $response = $this->get(
+            'https://graph.instagram.com/refresh_access_token',
+            ['grant_type' => 'ig_refresh_token'],
+            $accessToken,
+        );
 
         $refreshedAccessToken = $response->json('access_token');
         $expiresIn = $response->json('expires_in');
@@ -33,81 +29,61 @@ final class InstagramApiClient
             throw new UnexpectedValueException('Instagram returned an invalid access token refresh response.');
         }
 
-        return $refreshedAccessToken;
+        return new InstagramAccessToken($refreshedAccessToken, $expiresIn);
     }
 
     /**
-     * @return array<int|string, mixed>
+     * @return array<string, mixed>
      */
-    public function fetchMedia(string $apiVersion, string $userId, string $accessToken): array
-    {
-        $response = Http::connectTimeout(3)
-            ->timeout(5)
-            ->get(
-                'https://graph.instagram.com/'.$apiVersion.'/'.$userId.'/media',
-                [
-                    'fields' => 'alt_text,media_type,media_url,permalink,timestamp,children{media_type,media_url}',
-                    'limit' => 50,
-                    'access_token' => $accessToken,
-                ],
-            )
-            ->throw();
+    public function fetchMedia(
+        string $apiVersion,
+        string $userId,
+        string $accessToken,
+        ?string $after = null,
+    ): array {
+        $query = [
+            'fields' => 'alt_text,media_type,media_url,permalink,timestamp,children{alt_text,media_type,media_url}',
+            'limit' => 50,
+        ];
 
-        $mediaItems = $response->json('data');
-
-        if (! is_array($mediaItems)) {
-            throw new UnexpectedValueException('Instagram Graph API returned an invalid media list.');
+        if ($after !== null) {
+            $query['after'] = $after;
         }
 
-        return $mediaItems;
+        $response = $this->get(
+            'https://graph.instagram.com/'.$apiVersion.'/'.$userId.'/media',
+            $query,
+            $accessToken,
+        );
+        $mediaResponse = $response->json();
+
+        if (! is_array($mediaResponse)) {
+            throw new UnexpectedValueException('Instagram Graph API returned an invalid media response.');
+        }
+
+        return $mediaResponse;
     }
 
     /**
-     * @param  array<string, array{imageUrl: string, imageKey: string, altText: string}>  $images
-     * @return array<string, string>
+     * @param  array<string, int|string>  $query
      */
-    public function downloadImages(array $images): array
+    private function get(string $url, array $query, string $accessToken): Response
     {
-        $responses = Http::pool(static function (Pool $pool) use ($images): array {
-            $requests = [];
-
-            foreach ($images as $imageKey => $image) {
-                $requests[$imageKey] = $pool->as($imageKey)
-                    ->connectTimeout(3)
-                    ->timeout(5)
-                    ->withOptions(['allow_redirects' => false])
-                    ->get($image['imageUrl']);
-            }
-
-            return $requests;
-        });
-
-        $downloadedImages = [];
-
-        foreach ($responses as $imageKey => $response) {
-            if ($response instanceof ConnectionException) {
-                throw $response;
-            }
-
-            $response->throw();
-
-            $contentType = $response->header('Content-Type');
-            $mimeType = is_string($contentType)
-                ? strtolower(trim(explode(';', $contentType, 2)[0]))
-                : '';
-            $contents = $response->body();
-
-            if (
-                $mimeType !== 'image/jpeg'
-                || ! str_starts_with($contents, "\xFF\xD8\xFF")
-                || strlen($contents) > self::MAX_IMAGE_BYTES
-            ) {
-                throw new UnexpectedValueException('Instagram returned an invalid image.');
-            }
-
-            $downloadedImages[$imageKey] = $contents;
+        try {
+            $response = Http::withToken($accessToken)
+                ->connectTimeout(3)
+                ->timeout(5)
+                ->get($url, $query);
+        } catch (ConnectionException) {
+            throw new UnexpectedValueException('Instagram Graph API request could not be completed.');
         }
 
-        return $downloadedImages;
+        if (! $response->successful()) {
+            throw new UnexpectedValueException(
+                'Instagram Graph API request failed with status '.$response->status().'.',
+            );
+        }
+
+        return $response;
     }
 }

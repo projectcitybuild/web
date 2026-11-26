@@ -10,6 +10,7 @@ const instagramCarouselError = document.querySelector<HTMLElement>('#instagram-c
 const instagramCarouselPrevious = document.querySelector<HTMLButtonElement>('[data-instagram-carousel-previous]')
 const instagramCarouselNext = document.querySelector<HTMLButtonElement>('[data-instagram-carousel-next]')
 const instagramCarouselClose = document.querySelector<HTMLButtonElement>('[data-instagram-carousel-close]')
+const instagramCarouselRetry = document.querySelector<HTMLButtonElement>('[data-instagram-carousel-retry]')
 const instagramCarouselOverlay = document.querySelector<HTMLElement>('[data-instagram-carousel-overlay]')
 const instagramCarouselPermalink = document.querySelector<HTMLAnchorElement>('#instagram-carousel-permalink')
 
@@ -21,6 +22,7 @@ if (
     && instagramCarouselPrevious
     && instagramCarouselNext
     && instagramCarouselClose
+    && instagramCarouselRetry
     && instagramCarouselOverlay
     && instagramCarouselPermalink
 ) {
@@ -58,6 +60,24 @@ if (
         instagramCarouselImage.alt = slide.alt
         instagramCarouselCount.textContent = `Photo ${currentSlide + 1} of ${slides.length}`
         instagramCarouselError.hidden = true
+    }
+
+    const retryCurrentSlide = (): void => {
+        const slide = slides[currentSlide]
+
+        if (!slide || isClosing) {
+            return
+        }
+
+        instagramCarouselImage.removeAttribute('src')
+        instagramCarouselImage.alt = slide.alt
+        instagramCarouselError.hidden = true
+
+        requestAnimationFrame(() => {
+            if (!isClosing && slides[currentSlide] === slide) {
+                instagramCarouselImage.src = slide.src
+            }
+        })
     }
 
     const animatePhotoIntoPlace = (): void => {
@@ -229,6 +249,7 @@ if (
     instagramCarouselPrevious.addEventListener('click', () => showSlide(currentSlide - 1))
     instagramCarouselNext.addEventListener('click', () => showSlide(currentSlide + 1))
     instagramCarouselClose.addEventListener('click', closeCarousel)
+    instagramCarouselRetry.addEventListener('click', retryCurrentSlide)
 
     instagramCarouselDialog.addEventListener('click', event => {
         if (event.target === instagramCarouselDialog) {
