@@ -38,11 +38,11 @@
     } else if ($variant == 'outlined') {
         $class = [
             ...$class,
-            'text-gray-900',
-            'border-gray-900',
+            'text-gray-100',
+            'border-gray-100',
             'border-2',
-            'hover:border-gray-500',
-            'active:bg-gray-200',
+            'hover:border-gray-400',
+            'active:bg-gray-800',
         ];
     }
 

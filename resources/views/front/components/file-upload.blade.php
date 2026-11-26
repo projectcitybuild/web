@@ -24,7 +24,7 @@
 
     <div
         data-file-dropzone
-        class="flex flex-col gap-3 rounded-lg border border-dashed border-gray-400 bg-white p-4 transition-colors dark:border-gray-600 dark:bg-gray-900 data-[dragging=true]:border-blue-600 data-[dragging=true]:bg-blue-50 dark:data-[dragging=true]:border-blue-400 dark:data-[dragging=true]:bg-blue-950/40"
+        class="flex flex-col gap-3 rounded-lg border border-dashed border-gray-600 bg-gray-900 p-4 transition-colors data-[dragging=true]:border-blue-400 data-[dragging=true]:bg-blue-950/40"
     >
         <input
             id="{{ $id }}"
@@ -33,12 +33,12 @@
             @if ($multiple) multiple @endif
             @if ($accept) accept="{{ $accept }}" @endif
             data-file-dropzone-input
-            class="block w-full cursor-pointer text-sm text-gray-700 file:mr-4 file:cursor-pointer file:rounded-md file:border-0 file:bg-blue-700 file:px-4 file:py-2 file:font-semibold file:text-white hover:file:bg-blue-800 dark:text-gray-300"
+            class="block w-full cursor-pointer text-sm text-gray-300 file:mr-4 file:cursor-pointer file:rounded-md file:border-0 file:bg-blue-700 file:px-4 file:py-2 file:font-semibold file:text-white hover:file:bg-blue-800"
             @if ($hasError) aria-invalid="true" @endif
         />
-        <p data-file-dropzone-file-names aria-live="polite" class="hidden break-all text-sm text-gray-600 dark:text-gray-300"></p>
+        <p data-file-dropzone-file-names aria-live="polite" class="hidden break-all text-sm text-gray-300"></p>
         @if ($hint)
-            <p class="text-sm text-gray-500 dark:text-gray-400">{{ $hint }}</p>
+            <p class="text-sm text-gray-400">{{ $hint }}</p>
         @endif
 
         @error($errorKey)

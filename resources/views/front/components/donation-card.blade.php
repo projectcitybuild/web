@@ -1,5 +1,5 @@
-<div class="space-y-5 rounded-lg bg-gray-100 p-6 dark:bg-gray-800">
-    <h3 class="text-md font-bold text-gray-700 hover:no-underline dark:text-gray-50">
+<div class="space-y-5 rounded-lg bg-gray-800 p-6">
+    <h3 class="text-md font-bold text-gray-50 hover:no-underline">
         Help Keep Us Online
     </h3>
 
@@ -13,7 +13,7 @@
 
     <x-donation-bar />
 
-    <hr class="border-gray-200 dark:border-gray-600" />
+    <hr class="border-gray-600" />
 
     <div class="space-y-4 mt-8">
         <dl class="flex items-center justify-between gap-2 text-xs">
@@ -42,7 +42,7 @@
         </dl>
     </div>
 
-    <hr class="border-gray-200 dark:border-gray-600" />
+    <hr class="border-gray-600" />
 
     <div class="space-y-4 sm:flex sm:space-y-0">
         <x-front::button
@@ -52,7 +52,7 @@
             href="{{ route('front.donate') }}"
             class="w-full"
         >
-            <svg class="w-6 h-6 text-gray-50 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M6 14h2m3 0h5M3 7v10a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1Z"/>
             </svg>
             Donate

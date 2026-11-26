@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="google-site-verification" content="Sp9E55tVkNph_ttvggLD52MY-ACeGfeivQbmWp7CWfo">
     <meta name="description" content="@yield('meta_description')">
-    <meta name="theme-color" content="#524641">
+    <meta name="theme-color" content="#030712">
     <meta name="apple-mobile-web-app-title" content="PCB">
     @stack('meta')
 
@@ -28,18 +28,6 @@
     <meta name="twitter:card" content="@yield('meta_description')">
     <meta name="twitter:site" content="@PCB_Minecraft">
 
-    <script>
-        (() => {
-            const preference = window.localStorage.getItem('admin-theme');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-            document.documentElement.classList.toggle(
-                'dark',
-                preference === 'dark' || (preference !== 'light' && prefersDark),
-            );
-        })();
-    </script>
-
     <title>@yield('title', 'Project City Build')</title>
 
     @vite([
@@ -49,7 +37,7 @@
 
     @stack('head')
 </head>
-<body class="bg-gray-100 dark:bg-gray-950">
+<body class="bg-gray-950">
 
 <div id="app">
     @yield('body')

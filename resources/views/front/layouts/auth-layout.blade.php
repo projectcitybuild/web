@@ -2,7 +2,7 @@
 
 @section('body')
     <main class="grid grid-cols-1 md:grid-cols-2 h-screen">
-        <div class="bg-gray-50 flex flex-row justify-center">
+        <div class="bg-gray-50 flex flex-row justify-center text-gray-900">
             <div class="p-6 md:p-12 max-w-screen-sm grow flex flex-col">
                 <div class="grow min-h-24">
                     <x-logo class="absolute" />

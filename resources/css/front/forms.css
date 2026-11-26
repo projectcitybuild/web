@@ -1,19 +1,19 @@
 @layer components {
     .form-page {
-        @apply relative isolate overflow-hidden bg-form-canvas py-12 text-gray-100 dark:bg-form-canvas-dark dark:text-white md:py-20;
+        @apply relative isolate overflow-hidden bg-form-canvas py-12 text-white md:py-20;
     }
 
     .form-page__background {
-        @apply absolute inset-0 -z-10 bg-cover bg-center bg-fixed opacity-35 dark:opacity-50;
+        @apply absolute inset-0 -z-10 bg-cover bg-center bg-fixed opacity-50;
         background-image: url("/resources/images/world_survival.png");
     }
 
     .form-page__overlay {
-        @apply absolute inset-0 -z-10 bg-gradient-to-b from-gray-900/70 via-gray-900/85 to-gray-900/95 dark:from-form-canvas-dark/65 dark:via-form-canvas-dark/85 dark:to-form-canvas-dark;
+        @apply absolute inset-0 -z-10 bg-gradient-to-b from-form-canvas/65 via-form-canvas/85 to-form-canvas;
     }
 
     .form-page__glow {
-        @apply absolute inset-0 -z-10 bg-gradient-to-br from-form-accent/5 via-transparent to-cyan-500/5 dark:from-form-accent/10 dark:to-cyan-500/10;
+        @apply absolute inset-0 -z-10 bg-gradient-to-br from-form-accent/10 via-transparent to-cyan-500/10;
     }
 
     .form-page__container {
@@ -37,15 +37,15 @@
     }
 
     .form-page__description {
-        @apply max-w-3xl text-lg leading-8 text-gray-300 dark:text-gray-200;
+        @apply max-w-3xl text-lg leading-8 text-gray-200;
     }
 
     .form-panel {
-        @apply rounded-2xl border border-white/10 bg-form-canvas/70 p-6 shadow-sm shadow-black/10 backdrop-blur-md dark:bg-form-canvas-dark/55 dark:shadow-none sm:p-7;
+        @apply rounded-2xl border border-white/10 bg-form-canvas/55 p-6 shadow-none backdrop-blur-md sm:p-7;
     }
 
     .form-panel--warning {
-        @apply border-amber-300/30 bg-amber-950/40 shadow-xl shadow-black/10 dark:border-amber-300/30 dark:bg-amber-950/45;
+        @apply border-amber-300/30 bg-amber-950/45 shadow-none;
     }
 
     .form-panel--success {
@@ -88,11 +88,11 @@
     }
 
     .form-shell {
-        @apply space-y-6 rounded-3xl border border-white/15 bg-form-canvas/80 p-5 shadow-2xl shadow-black/25 backdrop-blur-lg dark:bg-form-canvas-dark/75 sm:p-8;
+        @apply space-y-6 rounded-3xl border border-white/15 bg-form-canvas/75 p-5 shadow-2xl shadow-black/25 backdrop-blur-lg sm:p-8;
     }
 
     .form-section {
-        @apply rounded-2xl border border-white/10 bg-form-surface/70 p-5 dark:bg-white/5 sm:p-7;
+        @apply rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-7;
     }
 
     .form-section__title {
@@ -124,7 +124,7 @@
     }
 
     .form-control {
-        @apply mt-2 w-full rounded-lg border border-white/15 bg-form-field/80 px-4 py-3 text-white placeholder:text-gray-400 focus:border-form-accent focus:outline-none focus:ring-2 focus:ring-form-accent/30 dark:bg-form-canvas-dark/70 dark:placeholder:text-gray-500;
+        @apply mt-2 w-full rounded-lg border border-white/15 bg-form-canvas/70 px-4 py-3 text-white placeholder:text-gray-500 focus:border-form-accent focus:outline-none focus:ring-2 focus:ring-form-accent/30;
     }
 
     .form-control[aria-invalid="true"] {
@@ -132,7 +132,7 @@
     }
 
     .form-choice {
-        @apply flex cursor-pointer gap-3 rounded-lg border border-white/15 bg-form-field/50 p-4 transition-colors hover:border-form-accent/50 hover:bg-form-accent/5 dark:bg-form-canvas-dark/40;
+        @apply flex cursor-pointer gap-3 rounded-lg border border-white/15 bg-form-canvas/40 p-4 transition-colors hover:border-form-accent/50 hover:bg-form-accent/5;
     }
 
     .form-choice__title {
@@ -164,7 +164,7 @@
     }
 
     .form-button {
-        @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-form-accent px-5 py-3 font-bold text-form-canvas-dark transition-colors hover:bg-form-accent-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-form-accent;
+        @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-form-accent px-5 py-3 font-bold text-form-canvas transition-colors hover:bg-form-accent-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-form-accent;
     }
 
     .form-button--secondary {

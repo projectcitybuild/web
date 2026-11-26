@@ -12,7 +12,7 @@
 
             @if (session()->has('success'))
                 <x-success-alert>{{ session('success') }}</x-success-alert>
-                <p class="text-sm text-gray-300 dark:text-gray-200">
+                <p class="text-sm text-gray-200">
                     Your reference number is <strong>#{{ session('report_id') }}</strong>.
                 </p>
             @endif
@@ -24,7 +24,7 @@
             </x-front::form-panel>
 
             <x-front::form-panel title="Understanding the player report process" title-class="form-panel__title--large">
-                <ol class="mt-5 text-gray-300 dark:text-gray-200">
+                <ol class="mt-5 text-gray-200">
                     <li class="grid grid-cols-[3.5rem_1fr] gap-4 border-b border-white/10 py-5 first:pt-0 last:border-b-0 last:pb-0 sm:grid-cols-[4.5rem_1fr] sm:gap-6">
                         <span aria-hidden="true" class="text-4xl font-black leading-none tracking-tight text-form-accent sm:text-5xl">01</span>
                         <p class="leading-7">
@@ -57,7 +57,7 @@
             </x-front::form-panel>
 
             <x-front::form-panel title="Need assistance?">
-                <p class="mt-2 text-gray-300 dark:text-gray-200">
+                <p class="mt-2 text-gray-200">
                     If you require help or information, reach out to a staff member you feel comfortable discussing it with, or ask on Discord in the
                     <a class="font-semibold text-form-accent-soft underline decoration-form-accent/50 underline-offset-4 hover:text-white" href="https://discord.com/invite/947PeWrAyH" target="_blank" rel="noopener noreferrer">#support</a>
                     channel.

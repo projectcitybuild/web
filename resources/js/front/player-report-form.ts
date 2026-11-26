@@ -2,11 +2,11 @@ const fileDropzones = Array.from(document.querySelectorAll<HTMLElement>('[data-f
 
 if (fileDropzones.length > 0) {
     const overlay = document.createElement('div')
-    overlay.className = 'pointer-events-none fixed inset-0 z-50 hidden place-items-center bg-white/70 p-6 text-center backdrop-blur-sm dark:bg-gray-950/70'
+    overlay.className = 'pointer-events-none fixed inset-0 z-50 hidden place-items-center bg-gray-950/70 p-6 text-center backdrop-blur-sm'
     overlay.setAttribute('aria-hidden', 'true')
 
     const overlayMessage = document.createElement('span')
-    overlayMessage.className = 'rounded-xl border border-blue-500 bg-white px-6 py-4 text-lg font-semibold text-gray-900 shadow-xl dark:bg-gray-900 dark:text-gray-100'
+    overlayMessage.className = 'rounded-xl border border-blue-500 bg-gray-900 px-6 py-4 text-lg font-semibold text-gray-100 shadow-xl'
     overlayMessage.textContent = 'Drop files to attach them'
     overlay.append(overlayMessage)
     document.body.append(overlay)

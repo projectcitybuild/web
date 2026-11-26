@@ -7,11 +7,11 @@
 @section('body')
     <x-navbar />
 
-    <main class="bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100">
-        <section class="bg-gradient-to-b from-amber-50 to-white py-16 dark:from-gray-900 dark:to-gray-950 sm:py-20 lg:py-24">
+    <main class="bg-gray-950 text-gray-100">
+        <section class="bg-gradient-to-b from-gray-900 to-gray-950 py-16 sm:py-20 lg:py-24">
             <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
                 <div class="mx-auto mt-12 max-w-3xl text-center sm:mt-16">
-                    <p class="inline-flex items-center gap-2 rounded-full border border-amber-300 bg-white/80 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-amber-800 shadow-sm dark:border-amber-800 dark:bg-gray-900/80 dark:text-amber-300">
+                    <p class="inline-flex items-center gap-2 rounded-full border border-amber-800 bg-gray-900/80 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-amber-300 shadow-sm">
                         <span class="relative flex size-2.5" aria-hidden="true">
                             <span class="absolute inline-flex size-full animate-ping rounded-full bg-amber-400 opacity-75 motion-reduce:animate-none"></span>
                             <span class="relative inline-flex size-2.5 rounded-full bg-amber-500"></span>
@@ -22,11 +22,11 @@
                     <h1 class="mt-6 font-display text-6xl leading-[0.92] sm:text-7xl md:text-8xl">
                         Your next build<br class="hidden sm:block" /> starts here.
                     </h1>
-                    <p class="mx-auto mt-6 max-w-2xl text-base leading-7 text-gray-600 dark:text-gray-300 sm:text-lg sm:leading-8">
+                    <p class="mx-auto mt-6 max-w-2xl text-base leading-7 text-gray-300 sm:text-lg sm:leading-8">
                         Project City Build is a <strong class="text-amber-300">Minecraft: Java Edition</strong> server. To join, launch Minecraft and enter our server address.
                     </p>
 
-                    <div class="relative mx-auto mt-10 max-w-2xl overflow-hidden rounded-3xl border border-amber-300 bg-gray-950 p-6 text-white shadow-2xl shadow-amber-950/15 dark:border-amber-800 dark:bg-gray-900 sm:p-10">
+                    <div class="relative mx-auto mt-10 max-w-2xl overflow-hidden rounded-3xl border border-amber-800 bg-gray-900 p-6 text-white shadow-2xl shadow-amber-950/15 sm:p-10">
                         <div aria-hidden="true" class="absolute inset-x-12 top-0 h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent"></div>
                         <p class="text-xs font-bold uppercase tracking-[0.22em] text-amber-300">Server address</p>
                         <code class="mt-4 block break-all font-mono text-4xl font-bold tracking-wider text-white sm:text-6xl sm:tracking-[0.16em]">pcbmc.co</code>
@@ -50,30 +50,30 @@
                 <section aria-labelledby="connection-steps-heading" class="mx-auto mt-20 max-w-5xl sm:mt-24">
                     <div class="mx-auto max-w-2xl text-center">
                         <h2 id="connection-steps-heading" class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">Where to enter the address</h2>
-                        <p class="mt-4 leading-7 text-gray-600 dark:text-gray-300">Use these steps in Minecraft: Java Edition. The same address works with either Add Server or Direct Connection.</p>
+                        <p class="mt-4 leading-7 text-gray-300">Use these steps in Minecraft: Java Edition. The same address works with either Add Server or Direct Connection.</p>
                     </div>
 
                     <ol class="mt-8 grid gap-4 md:grid-cols-3">
-                        <li class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition duration-200 hover:-translate-y-1 hover:shadow-md dark:border-gray-800 dark:bg-gray-900">
-                            <span class="flex size-10 items-center justify-center rounded-full bg-amber-100 font-display text-2xl text-amber-800 dark:bg-amber-400/10 dark:text-amber-300">01</span>
+                        <li class="rounded-2xl border border-gray-800 bg-gray-900 p-6 shadow-sm transition duration-200 hover:-translate-y-1 hover:shadow-md">
+                            <span class="flex size-10 items-center justify-center rounded-full bg-amber-400/10 font-display text-2xl text-amber-300">01</span>
                             <h3 class="mt-5 text-lg font-semibold">Open Multiplayer</h3>
-                            <p class="mt-2 leading-7 text-gray-600 dark:text-gray-300">Launch Minecraft: Java Edition and choose <strong class="font-semibold text-gray-900 dark:text-white">Multiplayer</strong> from the title screen.</p>
+                            <p class="mt-2 leading-7 text-gray-300">Launch Minecraft: Java Edition and choose <strong class="font-semibold text-white">Multiplayer</strong> from the title screen.</p>
                         </li>
-                        <li class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition duration-200 hover:-translate-y-1 hover:shadow-md dark:border-gray-800 dark:bg-gray-900">
-                            <span class="flex size-10 items-center justify-center rounded-full bg-amber-100 font-display text-2xl text-amber-800 dark:bg-amber-400/10 dark:text-amber-300">02</span>
+                        <li class="rounded-2xl border border-gray-800 bg-gray-900 p-6 shadow-sm transition duration-200 hover:-translate-y-1 hover:shadow-md">
+                            <span class="flex size-10 items-center justify-center rounded-full bg-amber-400/10 font-display text-2xl text-amber-300">02</span>
                             <h3 class="mt-5 text-lg font-semibold">Add a server</h3>
-                            <p class="mt-2 leading-7 text-gray-600 dark:text-gray-300">Select <strong class="font-semibold text-gray-900 dark:text-white">Add Server</strong> to save it for later, or choose <strong class="font-semibold text-gray-900 dark:text-white">Direct Connection</strong> to join right away.</p>
+                            <p class="mt-2 leading-7 text-gray-300">Select <strong class="font-semibold text-white">Add Server</strong> to save it for later, or choose <strong class="font-semibold text-white">Direct Connection</strong> to join right away.</p>
                         </li>
-                        <li class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition duration-200 hover:-translate-y-1 hover:shadow-md dark:border-gray-800 dark:bg-gray-900">
-                            <span class="flex size-10 items-center justify-center rounded-full bg-amber-100 font-display text-2xl text-amber-800 dark:bg-amber-400/10 dark:text-amber-300">03</span>
+                        <li class="rounded-2xl border border-gray-800 bg-gray-900 p-6 shadow-sm transition duration-200 hover:-translate-y-1 hover:shadow-md">
+                            <span class="flex size-10 items-center justify-center rounded-full bg-amber-400/10 font-display text-2xl text-amber-300">03</span>
                             <h3 class="mt-5 text-lg font-semibold">Enter the address</h3>
-                            <p class="mt-2 leading-7 text-gray-600 dark:text-gray-300">Put <strong class="font-mono font-semibold text-gray-900 dark:text-white">pcbmc.co</strong> in the <strong class="font-semibold text-gray-900 dark:text-white">Server Address</strong> field, then select Done or Join Server.</p>
+                            <p class="mt-2 leading-7 text-gray-300">Put <strong class="font-mono font-semibold text-white">pcbmc.co</strong> in the <strong class="font-semibold text-white">Server Address</strong> field, then select Done or Join Server.</p>
                         </li>
                     </ol>
 
-                    <p class="mt-8 text-center text-sm text-gray-600 dark:text-gray-400">
+                    <p class="mt-8 text-center text-sm text-gray-400">
                         Need a hand getting connected?
-                        <a href="{{ config('discord.invite_url') }}" class="font-semibold text-blue-700 underline decoration-blue-300 underline-offset-4 hover:text-blue-900 dark:text-blue-300 dark:decoration-blue-700 dark:hover:text-blue-200">Ask us on Discord</a>.
+                        <a href="{{ config('discord.invite_url') }}" class="font-semibold text-blue-300 underline decoration-blue-700 underline-offset-4 hover:text-blue-200">Ask us on Discord</a>.
                     </p>
                 </section>
             </div>

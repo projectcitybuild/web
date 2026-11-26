@@ -12,16 +12,13 @@
 @source "../js/front";
 @source "../../node_modules/flowbite";
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 @theme {
     --font-display: "Bebas Neue", sans-serif;
     --font-body: "Inter", sans-serif;
     --color-form-accent: #fbbf24;
     --color-form-accent-hover: #fcd34d;
     --color-form-accent-soft: #fde68a;
-    --color-form-canvas: #111827;
-    --color-form-canvas-dark: #030712;
+    --color-form-canvas: #030712;
     --color-form-field: #111827;
     --color-form-muted: #d1d5db;
     --color-form-surface: #1f2937;
@@ -32,6 +29,7 @@
 @plugin "flowbite/plugin";
 
 body {
+    color: #f3f4f6;
     font-family: "Inter", sans-serif;
 }
 
@@ -69,12 +67,8 @@ body {
 }
 
 .front-navbar[data-variant="clear"] {
-    background-color: rgb(54 47 43 / var(--navbar-background-opacity, 0));
-    border-color: rgb(229 231 235 / var(--navbar-border-opacity, 0.65));
-}
-
-.dark .front-navbar[data-variant="clear"] {
     background-color: rgb(17 24 39 / var(--navbar-background-opacity, 0));
+    border-color: rgb(255 255 255 / var(--navbar-border-opacity, 0.65));
 }
 
 @media (min-width: 640px) {

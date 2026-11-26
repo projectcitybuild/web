@@ -6,7 +6,6 @@ import.meta.glob([
 import 'flowbite';
 import './player-report-form'
 
-import './theme'
 import './sticky-navbar'
 import './home-reveal'
 import './server-address-copy'

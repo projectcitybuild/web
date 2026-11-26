@@ -9,8 +9,8 @@
         title="Banned Players"
     >
         <x-slot:intro>
-            Browse active bans across our services. Need to appeal?
-            <a href="{{ route('front.appeal') }}" class="font-semibold text-form-accent-soft underline underline-offset-4 hover:text-white">Submit an appeal</a>.
+            If you believe you have been banned unfairly, please <a href="{{ route('front.appeal') }}" class="font-semibold text-form-accent-soft underline underline-offset-4 hover:text-white">submit an appeal</a>.
+            Players looking for a second chance may also plead their case.
         </x-slot:intro>
 
         <x-front::form-panel title="Active bans">
