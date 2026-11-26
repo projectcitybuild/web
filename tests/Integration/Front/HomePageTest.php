@@ -435,7 +435,7 @@ test('homepage shows unique players ordered by their most recent connection', fu
         ->assertSee('https://minotar.net/helm/'.$middlePlayer->uuid.'/64', false)
         ->assertSee('https://minotar.net/helm/'.$oldestPlayer->uuid.'/64', false);
 
-    expect(substr_count($response->getContent(), 'NewestPlayer'))->toBe(1);
+    expect(substr_count($response->getContent(), 'https://minotar.net/helm/'.$newestPlayer->uuid.'/64'))->toBe(1);
 });
 
 test('signed-in homepage avatar uses compact dimensions', function () {

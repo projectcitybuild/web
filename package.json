@@ -33,7 +33,6 @@
         "@vueuse/core": "^15.0.0",
         "codemirror": "^6.0.2",
         "date-fns": "^4.4.0",
-        "flowbite": "^4.0.2",
         "minimessage-js": "^2.1.2",
         "openapi-fetch": "^0.17.0",
         "typescript-result": "^3.5.2",

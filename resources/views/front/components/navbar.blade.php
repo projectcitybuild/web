@@ -12,7 +12,7 @@
 
         <div class="flex md:order-2 items-center gap-2 md:gap-3">
             @auth
-                <button type="button" class="flex text-sm bg-gray-800 rounded-full md:me-0" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
+                <button type="button" class="flex text-sm bg-gray-800 rounded-full md:me-0" id="user-menu-button" aria-expanded="false" aria-controls="user-dropdown" data-menu-toggle-target="user-dropdown" data-menu-dismiss="outside">
                     <span class="sr-only">Open user menu</span>
                     <x-avatar />
                 </button>
@@ -52,7 +52,7 @@
                 </a>
             @endauth
 
-            <button data-collapse-toggle="mega-menu-full" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-300 rounded-lg md:hidden hover:bg-gray-700 focus:outline-hidden focus:ring-2 focus:ring-gray-600" aria-controls="navbar-cta" aria-expanded="false">
+            <button data-menu-toggle-target="mega-menu-full" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-300 rounded-lg md:hidden hover:bg-gray-700 focus:outline-hidden focus:ring-2 focus:ring-gray-600" aria-controls="mega-menu-full" aria-expanded="false">
                 <span class="sr-only">Open main menu</span>
                 <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
@@ -99,8 +99,11 @@
                 </li>
                 <li>
                     <button
+                        type="button"
                         id="mega-menu-full-dropdown-button"
-                        data-collapse-toggle="mega-menu-full-dropdown"
+                        data-menu-toggle-target="mega-menu-full-dropdown"
+                        aria-controls="mega-menu-full-dropdown"
+                        aria-expanded="false"
                         class="flex items-center justify-between w-full py-2 px-3 text-gray-100 rounded cursor-pointer md:text-gray-50 md:w-auto hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-gray-300 md:p-0"
                     >
                         More

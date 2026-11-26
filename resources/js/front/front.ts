@@ -3,9 +3,9 @@ import.meta.glob([
     '../../images/**',
 ]);
 
-import 'flowbite';
 import './player-report-form'
 
+import './menu-toggles'
 import './sticky-navbar'
 import './home-reveal'
 import './server-address-copy'

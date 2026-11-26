@@ -77,7 +77,7 @@ Artisan::command('instagram:cache:clear', function () {
 Artisan::command('instagram:feed:refresh', function () {
     dispatch(new RefreshInstagramMediaFeedJob);
 
-    $this->info('Instagram feed refresh job queued.');
+    $this->info('Instagram media feed refresh job queued.');
 })->purpose('Queue an Instagram media feed refresh');
 
 Artisan::command('instagram:token:refresh', function () {

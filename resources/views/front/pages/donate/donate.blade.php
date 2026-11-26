@@ -38,7 +38,7 @@
     </header>
 
     <main>
-        <section class="bg-white py-20">
+        <section class="bg-white py-20 text-gray-900">
             <div class="max-w-screen-2xl mx-auto px-6">
                 @if($errors->any())
                     <div class="alert alert--error">

@@ -4,7 +4,7 @@
     <div class="relative z-10 mx-auto flex w-full max-w-screen-2xl grow items-center px-4 py-16 sm:px-8 lg:px-12">
         <div class="w-full max-w-3xl sm:ml-auto sm:text-right">
             <h1 data-home-reveal class="mt-6 font-display text-6xl leading-[0.92] tracking-tight text-white sm:text-7xl md:text-8xl">
-                We Build Stuff.<br class="hidden sm:block" /> Come Join Us!
+                We Build Stuff.<br /> Come Join Us!
             </h1>
 
             <p data-home-reveal data-home-reveal-delay="120" class="mt-6 max-w-2xl text-base leading-7 text-gray-200 sm:ml-auto sm:text-lg sm:leading-8">

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Queue;
 it('queues an Instagram media feed refresh job', function () {
     Queue::fake([RefreshInstagramMediaFeedJob::class]);
 
-    $this->artisan('instagram:media-feed:refresh')
+    $this->artisan('instagram:feed:refresh')
         ->expectsOutput('Instagram media feed refresh job queued.')
         ->assertExitCode(0);
 
@@ -17,7 +17,7 @@ it('queues an Instagram media feed refresh job', function () {
 it('queues an Instagram access token refresh job', function () {
     Queue::fake([RefreshInstagramAccessTokenJob::class]);
 
-    $this->artisan('instagram:access-token:refresh')
+    $this->artisan('instagram:token:refresh')
         ->expectsOutput('Instagram access token refresh job queued.')
         ->assertExitCode(0);
 
