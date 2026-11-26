@@ -1,5 +1,5 @@
 @extends('errors.base')
 
 @section('code', '500')
-@section('title', 'Something went wrong.')
+@section('title', 'Server error.')
 @section('description', 'The server encountered an unexpected error. The dev team has been alerted and will fix this promptly.')
