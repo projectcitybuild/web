@@ -14,6 +14,10 @@ const statusLinks = [
     { label: 'Open', href: `${Routes.review.playerReports.list}?status=open` },
     { label: 'Completed', href: `${Routes.review.playerReports.list}?status=completed` },
 ]
+
+function paginationLabel(label: string): string {
+    return label.replace(/&laquo;|&raquo;/g, '').trim()
+}
 </script>
 
 <template>
@@ -120,8 +124,9 @@ const statusLinks = [
                     ? 'border-primary bg-primary text-primary-foreground'
                     : 'border-border bg-surface text-foreground'"
                 :aria-disabled="link.url === null"
-                v-html="link.label"
-            />
+            >
+                {{ paginationLabel(link.label) }}
+            </Link>
         </nav>
     </div>
 </template>
