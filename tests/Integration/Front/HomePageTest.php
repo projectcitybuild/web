@@ -128,9 +128,8 @@ test('homepage shows the latest Instagram photo posts', function () {
         ->assertSee('The latest city skyline', false)
         ->assertSee('View all 10 photos from this Instagram post', false)
         ->assertSee('data-image-alt="Carousel photo 2"', false)
-        ->assertSee('aria-labelledby="instagram-carousel-heading"', false)
-        ->assertSee('<h2 id="instagram-carousel-heading" class="sr-only">Instagram photo carousel</h2>', false)
-        ->assertSee('data-instagram-carousel-retry', false)
+        ->assertSee('id="instagram-carousel-app"', false)
+        ->assertSee('data-instagram-carousel-template="instagram-carousel-slides-1"', false)
         ->assertSee(route('front.instagram.image', [
             'imageKey' => hash('sha256', 'https://www.instagram.com/p/CAROUSEL123/#1'),
         ]), false)
