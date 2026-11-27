@@ -17,6 +17,8 @@ it('renders the report guidance and single-page form', function () {
         ->assertSeeText('3. Report details and review')
         ->assertDontSeeText('4. Review and submit')
         ->assertSee('data-player-report-form', false)
+        ->assertSee('id="reporter_email-hint"', false)
+        ->assertSee('aria-describedby="reporter_email-hint"', false)
         ->assertSee('name="attachments[]"', false);
 });
 
@@ -128,10 +130,21 @@ it('rejects incomplete reports without creating a record', function () {
         ->post(route('report.submit'), [
             'reporter_name' => 'ReporterName',
             'reporter_contact' => 'Discord: reporter',
+            'reporter_email' => 'invalid-email',
             'captcha-response' => 'valid-token',
             'details' => '',
         ])
-        ->assertSessionHasErrors(['reported_player_name', 'subject', 'report_details', 'visibility']);
+        ->assertRedirect(route('report'))
+        ->assertSessionHasErrors(['reporter_email', 'reported_player_name', 'subject', 'report_details', 'visibility']);
+
+    $this->get(route('report'))
+        ->assertOk()
+        ->assertSee('id="reporter_email-error"', false)
+        ->assertSee('aria-describedby="reporter_email-hint reporter_email-error"', false)
+        ->assertSee('id="reported_player_name-error"', false)
+        ->assertSee('aria-describedby="reported_player_name-error"', false)
+        ->assertSee('id="report_details-error"', false)
+        ->assertSee('aria-describedby="report_details-error"', false);
 
     $this->assertDatabaseCount('player_reports', 0);
 });

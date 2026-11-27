@@ -7,7 +7,7 @@ if (fileDropzones.length > 0) {
 
     const overlayMessage = document.createElement('span')
     overlayMessage.className = 'rounded-xl border border-blue-500 bg-gray-900 px-6 py-4 text-lg font-semibold text-gray-100 shadow-xl'
-    overlayMessage.textContent = 'Drop files to attach them'
+    overlayMessage.textContent = 'Drop files inside the attachment area'
     overlay.append(overlayMessage)
     document.body.append(overlay)
 

@@ -52,9 +52,22 @@ document.addEventListener('keydown', event => {
         return
     }
 
-    menuToggles.forEach(toggle => {
-        if (toggle.getAttribute('aria-expanded') === 'true') {
-            setMenuOpen(toggle, false)
-        }
+    const openToggles = Array.from(menuToggles).filter(toggle => toggle.getAttribute('aria-expanded') === 'true')
+
+    if (openToggles.length === 0) {
+        return
+    }
+
+    event.preventDefault()
+
+    const activeElement = document.activeElement
+    const focusedToggle = activeElement
+        ? openToggles.find(toggle => toggle === activeElement || getMenuTarget(toggle).contains(activeElement))
+        : undefined
+
+    openToggles.forEach(toggle => {
+        setMenuOpen(toggle, false)
     })
+
+    focusedToggle?.focus()
 })

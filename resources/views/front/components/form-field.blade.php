@@ -9,6 +9,8 @@
 
 @php
     $errorKey ??= $for;
+    $hintId = "{$for}-hint";
+    $errorId = "{$for}-error";
 @endphp
 
 <div {{ $attributes->class(['form-field']) }}>
@@ -26,10 +28,10 @@
     {{ $slot }}
 
     @if ($hint)
-        <p class="form-field__hint">{{ $hint }}</p>
+        <p id="{{ $hintId }}" class="form-field__hint">{{ $hint }}</p>
     @endif
 
     @if ($errors->has($errorKey))
-        <span class="form-field__error">{{ $errors->first($errorKey) }}</span>
+        <span id="{{ $errorId }}" class="form-field__error">{{ $errors->first($errorKey) }}</span>
     @endif
 </div>

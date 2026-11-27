@@ -79,31 +79,35 @@
                         <a
                             href="{{ route('front.account.profile') }}"
                             class="block py-2 px-3 text-gray-100 rounded md:bg-transparent md:p-0 {{ request()->is('account') ? 'bg-gray-700 md:bg-transparent md:text-blue-300' : '' }}"
-                            aria-current="page"
+                            @if(request()->is('account')) aria-current="page" @endif
                         >Dashboard</a>
                     </li>
                     <li>
                         <a
                             href="{{ route('front.account.games') }}"
                             class="block py-2 px-3 text-gray-100 rounded hover:bg-gray-700 md:hover:bg-transparent md:hover:text-blue-300 md:p-0 {{ request()->is('account/games') ? 'bg-gray-700 md:bg-transparent md:text-blue-300' : '' }}"
+                            @if(request()->is('account/games')) aria-current="page" @endif
                         >Player</a>
                     </li>
                     <li>
                         <a
                             href="{{ route('front.account.donations') }}"
                             class="block py-2 px-3 text-gray-100 rounded hover:bg-gray-700 md:hover:bg-transparent md:hover:text-blue-300 md:p-0 {{ request()->is('account/donations') ? 'bg-gray-700 md:bg-transparent md:text-blue-300' : '' }}"
+                            @if(request()->is('account/donations')) aria-current="page" @endif
                         >Donations</a>
                     </li>
                     <li>
                         <a
                             href="{{ route('front.account.records') }}"
                             class="block py-2 px-3 text-gray-100 rounded hover:bg-gray-700 md:hover:bg-transparent md:hover:text-blue-300 md:p-0 {{ request()->is('account/records') ? 'bg-gray-700 md:bg-transparent md:text-blue-300' : '' }}"
+                            @if(request()->is('account/records')) aria-current="page" @endif
                         >Records</a>
                     </li>
                     <li>
                         <a
                             href="{{ route('front.account.settings') }}"
                             class="block py-2 px-3 text-gray-100 rounded hover:bg-gray-700 md:hover:bg-transparent md:hover:text-blue-300 md:p-0 {{ request()->is('account/settings/*') ? 'bg-gray-700 md:bg-transparent md:text-blue-300' : '' }}"
+                            @if(request()->is('account/settings/*')) aria-current="page" @endif
                         >Settings</a>
                     </li>
                 @else

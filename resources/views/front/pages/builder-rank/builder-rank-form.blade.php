@@ -74,6 +74,7 @@
                             name="current_builder_rank"
                             class="form-control"
                             @if ($errors->has('current_builder_rank')) aria-invalid="true" @endif
+                            @if ($errors->has('current_builder_rank')) aria-describedby="current_builder_rank-error" @endif
                         >
                             @foreach (\App\Domains\BuilderRankApplications\Data\BuilderRank::cases() as $rank)
                                 <option value="{{ $rank->value }}" @selected(old('current_builder_rank') === $rank->value)>
@@ -81,9 +82,6 @@
                                 </option>
                             @endforeach
                         </select>
-                        @if ($errors->has('current_builder_rank'))
-                            <span class="form-field__error">{{ $errors->first('current_builder_rank') }}</span>
-                        @endif
                     </x-front::form-field>
 
                     <x-front::form-field

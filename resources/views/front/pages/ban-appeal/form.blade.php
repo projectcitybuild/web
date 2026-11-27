@@ -57,9 +57,10 @@
                             id="minecraft_uuid"
                             name="minecraft_uuid"
                             placeholder="e.g. 069a79f4-44e9-4726-a5be-fca90e38aaf5"
+                            aria-describedby="minecraft_uuid-hint"
                             :value="old('minecraft_uuid', $ban?->bannedPlayer->uuid)"
                         />
-                        <p class="form-field__hint">
+                        <p id="minecraft_uuid-hint" class="form-field__hint">
                             Can be looked up <a class="text-form-accent-soft underline underline-offset-4" href="https://mcuuid.net/" target="_blank" rel="noopener noreferrer">here</a>.
                         </p>
                     </x-front::form-field>
