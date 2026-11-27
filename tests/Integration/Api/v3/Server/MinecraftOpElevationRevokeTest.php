@@ -7,6 +7,7 @@ use App\Models\MinecraftPlayer;
 use App\Models\PlayerOpElevation;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Queue;
 
 beforeEach(function () {
     Notification::fake();
@@ -61,8 +62,11 @@ it('updates op elevation record', function () {
     });
 });
 
-it('sends discord message', function () {
-    $player = MinecraftPlayer::factory()->create();
+it('sends discord message when the player has no alias', function () {
+    Queue::fake();
+    $player = MinecraftPlayer::factory()->create([
+        'alias' => null,
+    ]);
     PlayerOpElevation::factory()->active()->create([
         'player_id' => $player->id,
     ]);
@@ -72,7 +76,15 @@ it('sends discord message', function () {
             'uuid' => $player->uuid,
         ]);
 
-    Notification::assertSentOnDemand(OpRevokedNotification::class);
+    Notification::assertSentOnDemand(
+        OpRevokedNotification::class,
+        function (OpRevokedNotification $notification, array $channels, object $notifiable) use ($player): bool {
+            $message = $notification->toDiscord($notifiable);
+
+            return $channels === ['discord']
+                && $message->embeds[0]->author?->name === $player->uuid;
+        },
+    );
 });
 
 it('throws if not currently elevated', function () {

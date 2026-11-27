@@ -54,7 +54,7 @@ class OpGrantedNotification extends Notification implements ShouldQueue
                     title: 'Player elevated to OP',
                     description: $this->elevation->reason,
                     author: DiscordAuthor::withMinecraftAvatar(
-                        name: $this->elevation->player->alias,
+                        name: $this->elevation->player->alias ?? $this->elevation->player->uuid,
                         uuid: $this->elevation->player->uuid,
                     ),
                     fields: [
