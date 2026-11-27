@@ -20,6 +20,8 @@ interface Props {
 }
 const props = defineProps<Props>()
 
+const MAX_AUTOMATIC_PAGES = 5
+
 const itemCount = defineModel<number>('count', { default: 0 })
 
 const items = shallowRef<T[]>(props.initial?.data ?? [])
@@ -30,10 +32,12 @@ const loading = ref(false)
 const forbidden = ref(false)
 const error = ref<string | null>(null)
 const failedPage = ref<number | null>(null)
+const sentinelVisible = ref(false)
 const sort = ref(props.sort ?? null)
 const direction = ref(props.direction ?? null)
 let latestRequestId = 0
 let activeController: AbortController | null = null
+let automaticPageLoads = 0
 
 watchDebounced(
     () => props.query,
@@ -145,6 +149,7 @@ const load = async (page: number): Promise<{ requestId: number, data: Paginated<
 const loadFirstPage = async (): Promise<void> => {
     invalidateRequest()
     resetResults()
+    automaticPageLoads = 0
 
     const result = await load(1)
 
@@ -156,10 +161,11 @@ const loadFirstPage = async (): Promise<void> => {
     reachedEnd.value = result.data.next_page_url == null
     items.value = result.data.data ?? []
     itemCount.value = items.value.length
+    void loadVisiblePages()
 }
 
 const loadNextPage = async (): Promise<void> => {
-    if (loading.value || reachedEnd.value || forbidden.value) {
+    if (loading.value || reachedEnd.value || forbidden.value || failedPage.value !== null) {
         return
     }
 
@@ -176,6 +182,26 @@ const loadNextPage = async (): Promise<void> => {
     itemCount.value = items.value.length
 }
 
+async function loadVisiblePages(): Promise<void> {
+    while (
+        sentinelVisible.value
+        && automaticPageLoads < MAX_AUTOMATIC_PAGES
+        && !loading.value
+        && !reachedEnd.value
+        && !forbidden.value
+        && failedPage.value === null
+    ) {
+        const pageBeforeLoad = currentPage.value
+        await loadNextPage()
+
+        if (currentPage.value === pageBeforeLoad) {
+            return
+        }
+
+        automaticPageLoads += 1
+    }
+}
+
 function onSort(key: string): void {
     const next = nextTableSort({ sort: sort.value, direction: direction.value }, key)
     sort.value = next.sort
@@ -183,21 +209,27 @@ function onSort(key: string): void {
     void loadFirstPage()
 }
 
-function retry(): void {
+async function retry(): Promise<void> {
     if (failedPage.value === 1) {
-        void loadFirstPage()
+        await loadFirstPage()
     } else if (failedPage.value !== null) {
-        void loadNextPage()
+        failedPage.value = null
+        await loadNextPage()
+        void loadVisiblePages()
     }
 }
 
 useIntersectionObserver(
     lastElement,
-    ([{isIntersecting}]) => {
+    ([{ isIntersecting }]) => {
+        sentinelVisible.value = isIntersecting
+
         if (isIntersecting) {
-            void loadNextPage()
+            void loadVisiblePages()
+        } else {
+            automaticPageLoads = 0
         }
-    }
+    },
 )
 
 onMounted(() => {
