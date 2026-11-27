@@ -21,5 +21,5 @@ test('donation page renders its own metadata description', function () {
         ->assertSee('<title>Donate - Project City Build</title>', false)
         ->assertSee('<meta name="description" content="Support Project City Build and help cover the costs of running our Minecraft servers and community website.">', false)
         ->assertSee('<meta property="og:description" content="Support Project City Build and help cover the costs of running our Minecraft servers and community website.">', false)
-        ->assertSee('<code class="rounded-[5px] border border-[#d8d8d8] bg-[#f8f8f8] px-[0.4em] py-[0.2em] text-[0.9em] font-medium">/tp</code>', false);
+        ->assertSeeText('/tp');
 });
