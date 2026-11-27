@@ -72,7 +72,7 @@ defineExpose({ focusFirst })
     <aside
         id="admin-sidebar"
         ref="sidebar"
-        class="fixed bottom-0 left-0 top-14 z-50 flex w-64 flex-col w-90 border-r border-border bg-linear-to-b from-surface-muted to-surface transition-[width,transform] duration-200 ease-out motion-reduce:transition-none md:left-14 md:top-0 md:z-30 md:translate-x-0"
+        class="fixed bottom-0 left-0 top-14 z-50 flex w-90 flex-col border-r border-border bg-linear-to-b from-surface-muted to-surface transition-[width,transform] duration-200 ease-out motion-reduce:transition-none md:left-14 md:top-0 md:z-30 md:translate-x-0"
         :class="[
             open ? 'visible translate-x-0' : 'invisible -translate-x-full',
             collapsed ? 'md:invisible md:w-0 md:overflow-hidden md:border-r-0' : 'md:visible md:w-60',
