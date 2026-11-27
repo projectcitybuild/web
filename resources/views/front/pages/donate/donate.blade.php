@@ -10,7 +10,7 @@
             data-donation-background
             class="pointer-events-none fixed inset-0 -z-10 opacity-100"
         >
-            <div data-donation-parallax class="absolute -inset-y-[8vh] inset-x-0 bg-[url('/resources/images/bg_donate.webp')] bg-cover bg-center"></div>
+            <div data-donation-parallax class="absolute -inset-y-[8vh] inset-x-0 bg-cover bg-center" style="background-image: url('{{ Vite::asset('resources/images/bg_donate.webp') }}')"></div>
             <div class="absolute inset-0 bg-gradient-to-r from-gray-950/90 via-gray-950/75 to-gray-950/50 lg:bg-gradient-to-l lg:from-gray-950/90 lg:via-gray-950/70 lg:to-gray-950/40"></div>
             <div class="absolute inset-0 bg-gradient-to-b from-gray-950/15 via-transparent to-gray-950/70"></div>
         </div>

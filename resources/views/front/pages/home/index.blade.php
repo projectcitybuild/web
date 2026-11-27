@@ -96,7 +96,7 @@
 
                 <div class="mt-10 grid gap-6 lg:mt-14 lg:grid-cols-3">
                     <article data-home-reveal class="group flex flex-col overflow-hidden rounded-2xl border shadow-amber-950/5 transition-[box-shadow,translate] duration-300 ease-out hover:-translate-y-1 hover:shadow-xl border-gray-800 bg-gray-950 shadow-sm motion-reduce:transition-none motion-reduce:hover:translate-y-0">
-                        <div aria-hidden="true" class="aspect-[4/3] bg-[url('/resources/images/world_creative.jpg')] bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105 bg-gray-800 motion-reduce:transition-none"></div>
+                        <div aria-hidden="true" class="aspect-[4/3] bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105 bg-gray-800 motion-reduce:transition-none" style="background-image: url('{{ Vite::asset('resources/images/world_creative.jpg') }}')"></div>
                         <div class="flex grow flex-col p-6 sm:p-7">
                             <p class="text-xs font-bold uppercase tracking-[0.18em] text-amber-400">Create without limits</p>
                             <h3 class="mt-2 font-display text-4xl">Creative</h3>
@@ -119,7 +119,7 @@
                     </article>
 
                     <article data-home-reveal data-home-reveal-delay="100" class="group flex flex-col overflow-hidden rounded-2xl border shadow-amber-950/5 transition-[box-shadow,translate] duration-300 ease-out hover:-translate-y-1 hover:shadow-xl border-gray-800 bg-gray-950 shadow-sm motion-reduce:transition-none motion-reduce:hover:translate-y-0">
-                        <div aria-hidden="true" class="aspect-[4/3] bg-[url('/resources/images/world_monarch.webp')] bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105 bg-gray-800 motion-reduce:transition-none"></div>
+                        <div aria-hidden="true" class="aspect-[4/3] bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105 bg-gray-800 motion-reduce:transition-none" style="background-image: url('{{ Vite::asset('resources/images/world_monarch.webp') }}')"></div>
                         <div class="flex grow flex-col p-6 sm:p-7">
                             <p class="text-xs font-bold uppercase tracking-[0.18em] text-amber-400">A city made together</p>
                             <h3 class="mt-2 font-display text-4xl">Monarch</h3>
@@ -142,7 +142,7 @@
                     </article>
 
                     <article data-home-reveal data-home-reveal-delay="200" class="group flex flex-col overflow-hidden rounded-2xl border shadow-amber-950/5 transition-[box-shadow,translate] duration-300 ease-out hover:-translate-y-1 hover:shadow-xl border-gray-800 bg-gray-950 shadow-sm motion-reduce:transition-none motion-reduce:hover:translate-y-0">
-                        <div aria-hidden="true" class="aspect-[4/3] bg-[url('/resources/images/world_survival.webp')] bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105 bg-gray-800 motion-reduce:transition-none"></div>
+                        <div aria-hidden="true" class="aspect-[4/3] bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105 bg-gray-800 motion-reduce:transition-none" style="background-image: url('{{ Vite::asset('resources/images/world_survival.webp') }}')"></div>
                         <div class="flex grow flex-col p-6 sm:p-7">
                             <p class="text-xs font-bold uppercase tracking-[0.18em] text-amber-400">Need a break?</p>
                             <h3 class="mt-2 font-display text-4xl">Survival</h3>
