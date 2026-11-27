@@ -18,9 +18,8 @@
             hidden md:flex
             bg-gray-100
             bg-cover bg-no-repeat bg-center
-            bg-[url('/resources/images/login_bg.png')]
             flex-row justify-end
-        ">
+        " style="background-image: url('{{ Vite::asset('resources/images/bg_login.webp') }}')">
             <span class="bg-white/10 text-gray-300 py-1 px-2 text-xs self-end">
                 Alderrdeen - Build by <strong>Wolfy</strong>
             </span>
