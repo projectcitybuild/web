@@ -664,6 +664,9 @@ export interface components {
             blocks_placed: number;
             blocks_destroyed: number;
             blocks_travelled: number;
+            deaths: number;
+            mob_kills: number;
+            player_kills: number;
             account_id: number;
             /** Format: date-time */
             last_seen_at: string;
@@ -1889,6 +1892,9 @@ export interface operations {
                         blocks_placed?: number;
                         blocks_destroyed?: number;
                         blocks_travelled?: number;
+                        deaths?: number;
+                        mob_kills?: number;
+                        player_kills?: number;
                     }[];
                 };
             };

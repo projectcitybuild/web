@@ -2280,6 +2280,15 @@
                                                 },
                                                 "blocks_travelled": {
                                                     "type": "integer"
+                                                },
+                                                "deaths": {
+                                                    "type": "integer"
+                                                },
+                                                "mob_kills": {
+                                                    "type": "integer"
+                                                },
+                                                "player_kills": {
+                                                    "type": "integer"
                                                 }
                                             }
                                         },
@@ -3631,6 +3640,15 @@
                     "blocks_travelled": {
                         "type": "integer"
                     },
+                    "deaths": {
+                        "type": "integer"
+                    },
+                    "mob_kills": {
+                        "type": "integer"
+                    },
+                    "player_kills": {
+                        "type": "integer"
+                    },
                     "account_id": {
                         "type": "integer"
                     },
@@ -3676,6 +3694,9 @@
                     "blocks_placed",
                     "blocks_destroyed",
                     "blocks_travelled",
+                    "deaths",
+                    "mob_kills",
+                    "player_kills",
                     "account_id",
                     "last_seen_at",
                     "last_connected_at",

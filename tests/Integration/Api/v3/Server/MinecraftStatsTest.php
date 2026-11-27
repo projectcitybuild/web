@@ -72,6 +72,47 @@ describe('endpoint', function () {
             return $job->uuid == $uuid2 && $job->increment == $stats2;
         });
     });
+
+    it('accepts and maps all newly collected statistics', function () {
+        $uuid = MinecraftUUID::random();
+        $increment = new PlayerStatIncrement(
+            afkTime: 1,
+            blocksPlaced: 2,
+            blocksDestroyed: 3,
+            blocksTravelled: 4,
+            deaths: 5,
+            mobKills: 6,
+            playerKills: 7,
+        );
+
+        $this->withServerToken()
+            ->postJson('http://api.localhost/v3/server/stats', [
+                'players' => [
+                    $uuid->trimmed() => $increment->toArray(),
+                ],
+            ])
+            ->assertOk();
+
+        Queue::assertPushed(function (IncrementPlayerStatsJob $job) use ($uuid, $increment) {
+            return $job->uuid == $uuid && $job->increment == $increment;
+        });
+    });
+
+    it('rejects negative and non-integer stat increments', function () {
+        foreach (['blocks_travelled', 'deaths', 'mob_kills', 'player_kills'] as $stat) {
+            foreach ([-1, 1.5] as $value) {
+                $this->withServerToken()
+                    ->postJson('http://api.localhost/v3/server/stats', [
+                        'players' => [
+                            MinecraftUUID::random()->trimmed() => [$stat => $value],
+                        ],
+                    ])
+                    ->assertUnprocessable();
+            }
+        }
+
+        Queue::assertNothingPushed();
+    });
 });
 
 it('bulk inserts stat jobs for multiple players', function () {
@@ -110,12 +151,18 @@ describe('job', function () {
                 blocksPlaced: 2,
                 blocksDestroyed: 3,
                 blocksTravelled: 4,
+                deaths: 5,
+                mobKills: 6,
+                playerKills: 7,
             );
             $player = MinecraftPlayer::factory()->create([
                 'afk_time' => 1,
                 'blocks_placed' => 2,
                 'blocks_destroyed' => 3,
                 'blocks_travelled' => 4,
+                'deaths' => 5,
+                'mob_kills' => 6,
+                'player_kills' => 7,
             ]);
             $job = new IncrementPlayerStatsJob(new MinecraftUUID($player->uuid), $increment);
             $job->handle();
@@ -125,12 +172,41 @@ describe('job', function () {
             expect($player->blocks_placed)->toEqual(4);
             expect($player->blocks_destroyed)->toEqual(6);
             expect($player->blocks_travelled)->toEqual(8);
+            expect($player->deaths)->toEqual(10);
+            expect($player->mob_kills)->toEqual(12);
+            expect($player->player_kills)->toEqual(14);
             expect($player->updated_at)->toEqual($now);
         });
     });
 
+    it('accumulates multiple updates', function () {
+        $player = MinecraftPlayer::factory()->create([
+            'deaths' => 2,
+            'mob_kills' => 3,
+            'player_kills' => 4,
+        ]);
+        $increment = new PlayerStatIncrement(deaths: 1, mobKills: 2, playerKills: 3);
+        $job = new IncrementPlayerStatsJob(new MinecraftUUID($player->uuid), $increment);
+
+        $job->handle();
+        $job->handle();
+
+        $player->refresh();
+        expect($player->deaths)->toEqual(4);
+        expect($player->mob_kills)->toEqual(7);
+        expect($player->player_kills)->toEqual(10);
+    });
+
     it('does not update missing fields', function () {
-        $player = MinecraftPlayer::factory()->create();
+        $player = MinecraftPlayer::factory()->create([
+            'afk_time' => 11,
+            'blocks_placed' => 12,
+            'blocks_destroyed' => 13,
+            'blocks_travelled' => 14,
+            'deaths' => 15,
+            'mob_kills' => 16,
+            'player_kills' => 17,
+        ]);
         $prev = $player->replicate();
 
         $increment = new PlayerStatIncrement;
@@ -142,5 +218,8 @@ describe('job', function () {
         expect($player->blocks_placed)->toEqual($prev->blocks_placed);
         expect($player->blocks_destroyed)->toEqual($prev->blocks_destroyed);
         expect($player->blocks_travelled)->toEqual($prev->blocks_travelled);
+        expect($player->deaths)->toEqual($prev->deaths);
+        expect($player->mob_kills)->toEqual($prev->mob_kills);
+        expect($player->player_kills)->toEqual($prev->player_kills);
     });
 });

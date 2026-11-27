@@ -20,6 +20,9 @@ it('returns existing player', function () {
     $player = MinecraftPlayer::factory()->create([
         'fly_speed' => 1.5,
         'walk_speed' => 2.5,
+        'deaths' => 10,
+        'mob_kills' => 20,
+        'player_kills' => 30,
     ]);
     $this->getJson("http://api.localhost/v3/players/$player->uuid")
         ->assertJson(fn (AssertableJson $json) => $json
@@ -35,6 +38,9 @@ it('returns existing player', function () {
             ->where('blocks_placed', $player->blocks_placed)
             ->where('blocks_destroyed', $player->blocks_destroyed)
             ->where('blocks_travelled', $player->blocks_travelled)
+            ->where('deaths', 10)
+            ->where('mob_kills', 20)
+            ->where('player_kills', 30)
             ->where('created_at', $player->created_at->toISOString())
             ->where('updated_at', $player->updated_at->toISOString())
             ->etc()

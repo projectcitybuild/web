@@ -20,6 +20,9 @@ class MinecraftStatsController
             'players.*.blocks_placed' => ['sometimes', 'integer', 'gte:0'],
             'players.*.blocks_destroyed' => ['sometimes', 'integer', 'gte:0'],
             'players.*.blocks_travelled' => ['sometimes', 'integer', 'gte:0'],
+            'players.*.deaths' => ['sometimes', 'integer', 'gte:0'],
+            'players.*.mob_kills' => ['sometimes', 'integer', 'gte:0'],
+            'players.*.player_kills' => ['sometimes', 'integer', 'gte:0'],
         ]));
 
         // Nested array key validation is too finicky to insert above
@@ -35,6 +38,9 @@ class MinecraftStatsController
                 blocksPlaced: $stats['blocks_placed'] ?? 0,
                 blocksDestroyed: $stats['blocks_destroyed'] ?? 0,
                 blocksTravelled: $stats['blocks_travelled'] ?? 0,
+                deaths: $stats['deaths'] ?? 0,
+                mobKills: $stats['mob_kills'] ?? 0,
+                playerKills: $stats['player_kills'] ?? 0,
             );
             if ($increment->isNonZero()) {
                 $jobs[] = new IncrementPlayerStatsJob(new MinecraftUUID($uuid), $increment);

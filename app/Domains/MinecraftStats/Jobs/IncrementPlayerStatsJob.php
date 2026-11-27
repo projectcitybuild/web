@@ -26,6 +26,9 @@ class IncrementPlayerStatsJob implements ShouldQueue
         $player->increment('blocks_placed', $this->increment->blocksPlaced);
         $player->increment('blocks_destroyed', $this->increment->blocksDestroyed);
         $player->increment('blocks_travelled', $this->increment->blocksTravelled);
+        $player->increment('deaths', $this->increment->deaths);
+        $player->increment('mob_kills', $this->increment->mobKills);
+        $player->increment('player_kills', $this->increment->playerKills);
         $player->save();
     }
 }
