@@ -1,9 +1,0 @@
-/* TODO: convert this to a blade component */
-span.command {
-    background-color: #f8f8f8;
-    border-radius: 5px;
-    border: 1px solid rgb(84.575293526%, 84.575293526%, 84.575293526%);
-    padding: 0.2em 0.4em;
-    font-weight: 500;
-    font-size: 0.9em;
-}

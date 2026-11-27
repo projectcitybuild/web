@@ -11,6 +11,7 @@ import './player-report-form'
 
 import './menu-toggles'
 import './sticky-navbar'
+import './donation-background'
 import './home-reveal'
 import './server-address-copy'
 

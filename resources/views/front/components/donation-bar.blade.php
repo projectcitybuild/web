@@ -1,7 +1,7 @@
 <div>
     <div class="rounded-[10px] bg-gray-800 border border-gray-600 p-1">
         <div
-            class="rounded-md bg-orange-400 p-3 text-xs text-center text-gray-50 font-bold"
+            class="rounded-md bg-gradient-to-r from-amber-500 to-orange-400 p-3 text-xs text-center text-gray-50 font-bold"
             style="width: {{ $percentage }}%; min-width: 75px"
         >
             ${{ number_format($current, 2) }}

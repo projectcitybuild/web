@@ -9,7 +9,6 @@
         title="Player Report"
         description="If you feel that a player has broken our rules, threatened you, or made you feel uncomfortable, please submit a report below."
     >
-
             @if (session()->has('success'))
                 <x-success-alert>{{ session('success') }}</x-success-alert>
                 <p class="text-sm text-gray-200">
