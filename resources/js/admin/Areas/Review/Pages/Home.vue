@@ -6,6 +6,7 @@ import PageHeader from '../../../Components/PageHeader.vue'
 import SvgIcon from '../../../Components/SvgIcon.vue'
 import usePermissions from '../../../Composables/usePermissions'
 import { Icons } from '../../../Components/SvgIcon.vue'
+import type { SidebarChild } from '../../../Navigation/Sidebar'
 import { sidebarMenu } from '../Sidebar.js'
 
 const page = usePage()
@@ -21,9 +22,13 @@ const metricLabels = {
     pending_player_reports: 'Player Reports',
 }
 
-const metrics = computed(() => queues.value.filter(item => item.countKey))
+type ReviewMetric = SidebarChild & { countKey: keyof typeof metricLabels }
 
-function countFor(item) {
+const metrics = computed(() => queues.value.filter(
+    (item): item is ReviewMetric => item.countKey !== undefined,
+))
+
+function countFor(item: SidebarChild): number {
     return item.countKey ? Number(page.props[item.countKey] ?? 0) : 0
 }
 </script>
