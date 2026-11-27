@@ -5,6 +5,7 @@
 
 @section('body')
     <x-front::form-page
+        background="resources/images/bg_survival.webp"
         title="Apply for Build Rank"
         description="Show the Architects Council your latest work and apply for your next-higher build rank."
     >

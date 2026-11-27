@@ -10,6 +10,7 @@
 
 @section('body')
     <x-front::form-page
+        background="resources/images/bg_survival.webp"
         eyebrow="BAN APPEALS"
         title="Your Ban Appeal"
         description="Track your appeal here. Updates will also be sent to you by email."

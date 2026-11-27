@@ -9,6 +9,7 @@
 
 @section('body')
     <x-front::form-page
+        background="resources/images/bg_survival.webp"
         title="Build Rank Application"
         description="Track the review of your build rank application."
     >

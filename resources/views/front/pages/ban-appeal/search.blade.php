@@ -6,6 +6,7 @@
 
 @section('body')
     <x-front::form-page
+        background="resources/images/bg_survival.webp"
         eyebrow="BAN APPEALS"
         title="Select a Ban"
         description="Find the ban you wish to appeal. If you cannot locate it, you can fill out the appeal form manually."

@@ -6,6 +6,7 @@
 
 @section('body')
     <x-front::form-page
+        background="resources/images/bg_courthouse.webp"
         title="Appeal a Ban"
         description="If you have been wrongfully banned, let us know so we can investigate. If you are seeking a second chance, you may plead your case for consideration."
     >

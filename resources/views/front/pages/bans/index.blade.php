@@ -5,6 +5,7 @@
 
 @section('body')
     <x-front::form-page
+        background="resources/images/bg_courthouse.webp"
         eyebrow="COMMUNITY SAFETY"
         title="Banned Players"
     >

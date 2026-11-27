@@ -5,6 +5,7 @@
 
 @section('body')
     <x-front::form-page
+        background="resources/images/bg_survival.webp"
         eyebrow="COMMUNITY SAFETY"
         title="Ban Details"
         description="Review the available information about this ban."

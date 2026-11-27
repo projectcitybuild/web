@@ -12,6 +12,7 @@
 
 @section('body')
     <x-front::form-page
+        background="resources/images/bg_courthouse.webp"
         eyebrow="BAN APPEALS"
         title="Submit Your Appeal"
         description="Please fill in the details as accurately as you can. Appeals with false or insufficient detail may be denied."

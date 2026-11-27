@@ -1,4 +1,5 @@
 @props([
+    'background',
     'eyebrow' => null,
     'title',
     'description' => null,
@@ -7,7 +8,7 @@
 <x-navbar />
 
 <main class="form-page">
-    <div aria-hidden="true" class="form-page__background"></div>
+    <div aria-hidden="true" class="form-page__background" style="background-image: url('{{ Vite::asset($background) }}')"></div>
     <div aria-hidden="true" class="form-page__overlay"></div>
     <div aria-hidden="true" class="form-page__glow"></div>
 

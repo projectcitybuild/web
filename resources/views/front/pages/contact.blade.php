@@ -5,6 +5,7 @@
 
 @section('body')
     <x-front::form-page
+        background="resources/images/bg_survival.webp"
         eyebrow="GET IN TOUCH"
         title="Contact Us"
         description="For general inquiries to the administration team. Where appropriate, replies will be sent via email to the provided email address."

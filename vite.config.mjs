@@ -21,6 +21,7 @@ export default defineConfig({
                 'resources/css/admin/admin.css',
                 'resources/images/logo-alt.png',
             ],
+            assets: ['resources/images/**'],
 
             // Refreshes when a change is made to resource/view files or routes
             refresh: true,
