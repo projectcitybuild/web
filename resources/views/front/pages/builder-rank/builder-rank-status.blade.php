@@ -9,7 +9,7 @@
 
 @section('body')
     <x-front::form-page
-        background="resources/images/bg_survival.webp"
+        background="resources/images/bg_construction.webp"
         title="Build Rank Application"
         description="Track the review of your build rank application."
     >
@@ -21,7 +21,7 @@
                     <li class="form-status-flow__step form-status-flow__step--complete">03 · Finished</li>
                 @else
                     <li class="form-status-flow__step form-status-flow__step--complete">02 · In Review</li>
-                    <li class="form-status-flow__step">03 · Awaiting result</li>
+                    <li class="form-status-flow__step">03 · Review Finished</li>
                 @endif
             </ol>
         </x-front::form-panel>
