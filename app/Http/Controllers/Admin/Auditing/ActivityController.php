@@ -22,7 +22,6 @@ use DateTimeInterface;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use Inertia\Response;
 use JsonException;
 
@@ -208,14 +207,14 @@ class ActivityController extends WebController
     }
 
     /**
-     * @param  Collection<int, WrappedArrayEntry>  $entries
+     * @param  list<WrappedArrayEntry>  $entries
      * @return list<AdminAuditArrayEntryData>
      *
      * @throws JsonException
      */
-    private function formatArrayEntries(Collection $entries): array
+    private function formatArrayEntries(array $entries): array
     {
-        return $entries
+        return collect($entries)
             ->map(fn (WrappedArrayEntry $entry): AdminAuditArrayEntryData => new AdminAuditArrayEntryData(
                 state: $entry->getStatus()->value,
                 text: $this->formatAuditValue($entry->unwrap())->text,

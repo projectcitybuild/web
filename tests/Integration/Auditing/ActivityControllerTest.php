@@ -90,6 +90,32 @@ it('shows audit changes to administrators', function () {
         );
 });
 
+it('renders array audit entries to administrators', function () {
+    $this->actingAs($this->adminAccount());
+    $account = Account::factory()->create();
+    $audit = Audit::create([
+        'event' => 'updated',
+        'auditable_type' => 'account',
+        'auditable_id' => $account->id,
+        'old_values' => ['role_names' => ['member', 'builder']],
+        'new_values' => ['role_names' => ['member', 'admin']],
+    ]);
+
+    $this->get(route('auditing.activity.audit.show', $audit))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('Activity/AuditShow')
+            ->where('audit.changes.0.oldEntries', [
+                ['state' => 'kept', 'text' => 'member'],
+                ['state' => 'removed', 'text' => 'builder'],
+            ])
+            ->where('audit.changes.0.newEntries', [
+                ['state' => 'kept', 'text' => 'member'],
+                ['state' => 'added', 'text' => 'admin'],
+            ])
+        );
+});
+
 it('forbids non-admins from accessing the auditing area', function () {
     $audit = Audit::create([
         'event' => 'created',
