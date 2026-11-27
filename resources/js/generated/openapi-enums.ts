@@ -53,6 +53,13 @@ export const MinecraftOpAuditStoreRequestActor = {
     "unknown": "unknown",
 } as const
 
+export const MinecraftPlayerWorldTimeStoreRequestIncrementsItemGame_mode = {
+    "survival": "survival",
+    "creative": "creative",
+    "adventure": "adventure",
+    "spectator": "spectator",
+} as const
+
 export const MoveMode = {
     "walk": "walk",
     "fly": "fly",

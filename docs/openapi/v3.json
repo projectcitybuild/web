@@ -1706,6 +1706,75 @@
                 "security": []
             }
         },
+        "/v3/server/stats/kills": {
+            "post": {
+                "operationId": "minecraftPlayerKill.store",
+                "tags": [
+                    "MinecraftPlayerKill"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "kills": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "event_id": {
+                                                    "type": "string",
+                                                    "format": "uuid"
+                                                },
+                                                "attacker_uuid": {
+                                                    "type": "string"
+                                                },
+                                                "victim_uuid": {
+                                                    "type": "string"
+                                                },
+                                                "weapon": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ],
+                                                    "maxLength": 100
+                                                },
+                                                "killed_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "required": [
+                                                "event_id",
+                                                "attacker_uuid",
+                                                "victim_uuid",
+                                                "killed_at"
+                                            ]
+                                        },
+                                        "minItems": 1,
+                                        "maxItems": 100,
+                                        "uniqueItems": true
+                                    }
+                                },
+                                "required": [
+                                    "kills"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                }
+            }
+        },
         "/v3/players/{minecraftUUID}/mail": {
             "get": {
                 "operationId": "v3.players.mail.index",
@@ -2084,6 +2153,74 @@
                     },
                     "404": {
                         "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            }
+        },
+        "/v3/server/stats/world-times": {
+            "post": {
+                "operationId": "minecraftPlayerWorldTime.store",
+                "tags": [
+                    "MinecraftPlayerWorldTime"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "increments": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "player_uuid": {
+                                                    "type": "string"
+                                                },
+                                                "world_uuid": {
+                                                    "type": "string",
+                                                    "format": "uuid"
+                                                },
+                                                "game_mode": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "survival",
+                                                        "creative",
+                                                        "adventure",
+                                                        "spectator"
+                                                    ]
+                                                },
+                                                "duration_seconds": {
+                                                    "type": "integer",
+                                                    "minimum": 1,
+                                                    "maximum": 2592000
+                                                }
+                                            },
+                                            "required": [
+                                                "player_uuid",
+                                                "world_uuid",
+                                                "game_mode",
+                                                "duration_seconds"
+                                            ]
+                                        },
+                                        "minItems": 1,
+                                        "maxItems": 100
+                                    }
+                                },
+                                "required": [
+                                    "increments"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
                     }
                 }
             }

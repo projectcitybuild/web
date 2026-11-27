@@ -16,6 +16,8 @@ use App\Http\Controllers\Api\v3\Server\MinecraftConnectionAuthController;
 use App\Http\Controllers\Api\v3\Server\MinecraftConnectionEndController;
 use App\Http\Controllers\Api\v3\Server\MinecraftOpAuditController;
 use App\Http\Controllers\Api\v3\Server\MinecraftOpElevationController;
+use App\Http\Controllers\Api\v3\Server\MinecraftPlayerKillController;
+use App\Http\Controllers\Api\v3\Server\MinecraftPlayerWorldTimeController;
 use App\Http\Controllers\Api\v3\Server\MinecraftRegisterController;
 use App\Http\Controllers\Api\v3\Server\MinecraftStatsController;
 use App\Http\Controllers\Api\v3\Server\MinecraftVoteController;
@@ -51,6 +53,8 @@ Route::domain(config('app.api_url'))->group(function () {
                 Route::post('connection/authorize', MinecraftConnectionAuthController::class);
                 Route::post('connection/end', MinecraftConnectionEndController::class);
                 Route::post('stats', [MinecraftStatsController::class, 'store']);
+                Route::post('stats/kills', [MinecraftPlayerKillController::class, 'store']);
+                Route::post('stats/world-times', [MinecraftPlayerWorldTimeController::class, 'store']);
                 Route::post('votes', [MinecraftVoteController::class, 'store']);
                 Route::post('pim/op/grant', [MinecraftOpElevationController::class, 'grant']);
                 Route::post('pim/op/revoke', [MinecraftOpElevationController::class, 'revoke']);

@@ -16,6 +16,7 @@ final class MinecraftPlayerKill extends Model
 
     protected $table = 'minecraft_player_kills';
     protected $fillable = [
+        'event_id',
         'player_id',
         'victim_player_id',
         'weapon',

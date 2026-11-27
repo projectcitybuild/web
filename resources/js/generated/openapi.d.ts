@@ -292,6 +292,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v3/server/stats/kills": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["minecraftPlayerKill.store"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v3/players/{minecraftUUID}/mail": {
         parameters: {
             query?: never;
@@ -370,6 +386,22 @@ export interface paths {
         options?: never;
         head?: never;
         patch: operations["v3.players.mail.unread"];
+        trace?: never;
+    };
+    "/v3/server/stats/world-times": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["minecraftPlayerWorldTime.store"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     "/v3/server/register": {
@@ -1582,6 +1614,39 @@ export interface operations {
             404: components["responses"]["ModelNotFoundException"];
         };
     };
+    "minecraftPlayerKill.store": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    kills: {
+                        /** Format: uuid */
+                        event_id: string;
+                        attacker_uuid: string;
+                        victim_uuid: string;
+                        weapon?: string | null;
+                        /** Format: date-time */
+                        killed_at: string;
+                    }[];
+                };
+            };
+        };
+        responses: {
+            /** @description No content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            422: components["responses"]["ValidationException"];
+        };
+    };
     "v3.players.mail.index": {
         parameters: {
             query?: {
@@ -1780,6 +1845,38 @@ export interface operations {
                 };
             };
             404: components["responses"]["ModelNotFoundException"];
+        };
+    };
+    "minecraftPlayerWorldTime.store": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    increments: {
+                        player_uuid: string;
+                        /** Format: uuid */
+                        world_uuid: string;
+                        /** @enum {string} */
+                        game_mode: "survival" | "creative" | "adventure" | "spectator";
+                        duration_seconds: number;
+                    }[];
+                };
+            };
+        };
+        responses: {
+            /** @description No content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            422: components["responses"]["ValidationException"];
         };
     };
     "minecraftRegister.update": {
