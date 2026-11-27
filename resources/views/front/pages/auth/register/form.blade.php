@@ -34,7 +34,7 @@
             <span class="text-sm text-red-500 mt-2">{{ $message }}</span>
         @enderror
 
-        <label for="usernname" class="text-md font-bold mt-6">Username</label>
+        <label for="username" class="text-md font-bold mt-6">Username</label>
         <input
             class="
                 rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2
@@ -83,8 +83,8 @@
             >
             <span class="text-xs">
                 I agree to the
-                <a href="{{ route('terms') }}" class="text-blue-600" target="_blank">terms and conditions</a> and
-                <a href="{{ route('privacy') }}" class="text-blue-600" target="_blank">privacy policy</a>
+                <a href="{{ route('terms') }}" class="text-blue-600" target="_blank" rel="noopener noreferrer">terms and conditions</a> and
+                <a href="{{ route('privacy') }}" class="text-blue-600" target="_blank" rel="noopener noreferrer">privacy policy</a>
             </span>
         </div>
         @error('terms')
