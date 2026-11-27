@@ -10,7 +10,9 @@ export default function usePermissions() {
      * Supports wildcard permissions like 'accounts.*'
      */
     const can = (permission: App.Domains.Permissions.WebManagePermission | App.Domains.Permissions.WebReviewPermission): boolean => {
-        return permissions.some((it) => isAdmin || matchPermission(it, permission))
+        return isAdmin || permissions.some(
+            (name) => matchPermission(name, permission),
+        )
     }
 
     /**
