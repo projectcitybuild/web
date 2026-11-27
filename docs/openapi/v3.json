@@ -839,6 +839,25 @@
                                     },
                                     "session_seconds": {
                                         "type": "integer"
+                                    },
+                                    "world_uuid": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    },
+                                    "x": {
+                                        "type": "number"
+                                    },
+                                    "y": {
+                                        "type": "number"
+                                    },
+                                    "z": {
+                                        "type": "number"
+                                    },
+                                    "pitch": {
+                                        "type": "number"
+                                    },
+                                    "yaw": {
+                                        "type": "number"
                                     }
                                 },
                                 "required": [

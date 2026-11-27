@@ -1196,6 +1196,13 @@ export interface operations {
                 "application/json": {
                     uuid: string;
                     session_seconds: number;
+                    /** Format: uuid */
+                    world_uuid?: string;
+                    x?: number;
+                    y?: number;
+                    z?: number;
+                    pitch?: number;
+                    yaw?: number;
                 };
             };
         };

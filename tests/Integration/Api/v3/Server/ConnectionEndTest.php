@@ -81,6 +81,97 @@ it('updates play time', function () {
     });
 });
 
+it('updates the last location from logout coordinates', function () {
+    $player = MinecraftPlayer::factory()->create();
+
+    $this->withServerToken()
+        ->postJson('http://api.localhost/v3/server/connection/end', [
+            'uuid' => $player->uuid,
+            'session_seconds' => 0,
+            'world_uuid' => '123e4567-e89b-12d3-a456-426614174000',
+            'x' => 12.5,
+            'y' => 64,
+            'z' => -8.25,
+            'pitch' => 30,
+            'yaw' => 180,
+        ])
+        ->assertOk();
+
+    $player->refresh();
+    expect([
+        $player->last_location_world_uuid,
+        $player->last_location_x,
+        $player->last_location_y,
+        $player->last_location_z,
+        $player->last_location_pitch,
+        $player->last_location_yaw,
+    ])->toEqual([
+        '123e4567-e89b-12d3-a456-426614174000',
+        12.5,
+        64.0,
+        -8.25,
+        30.0,
+        180.0,
+    ]);
+});
+
+it('keeps the previous location when logout coordinates are omitted', function () {
+    $player = MinecraftPlayer::factory()->create([
+        'last_location_world_uuid' => '123e4567-e89b-12d3-a456-426614174000',
+        'last_location_x' => 1.5,
+        'last_location_y' => 70,
+        'last_location_z' => 3.25,
+        'last_location_pitch' => 45,
+        'last_location_yaw' => 90,
+    ]);
+
+    $this->withServerToken()
+        ->postJson('http://api.localhost/v3/server/connection/end', [
+            'uuid' => $player->uuid,
+            'session_seconds' => 0,
+        ])
+        ->assertOk();
+
+    $player->refresh();
+    expect([
+        $player->last_location_world_uuid,
+        $player->last_location_x,
+        $player->last_location_y,
+        $player->last_location_z,
+        $player->last_location_pitch,
+        $player->last_location_yaw,
+    ])->toEqual([
+        '123e4567-e89b-12d3-a456-426614174000',
+        1.5,
+        70.0,
+        3.25,
+        45.0,
+        90.0,
+    ]);
+});
+
+it('requires all logout coordinate values when any are provided', function () {
+    $player = MinecraftPlayer::factory()->create();
+
+    $this->withServerToken()
+        ->postJson('http://api.localhost/v3/server/connection/end', [
+            'uuid' => $player->uuid,
+            'session_seconds' => 0,
+            'x' => 12.5,
+        ])
+        ->assertInvalid(['world_uuid', 'y', 'z', 'pitch', 'yaw']);
+
+    $player->refresh();
+    expect([
+        $player->last_location_world_uuid,
+        $player->last_location_x,
+        $player->last_location_y,
+        $player->last_location_z,
+        $player->last_location_pitch,
+        $player->last_location_yaw,
+    ])->toEqual([null, null, null, null, null, null]);
+});
+
 it('creates session data if session time at least 20 seconds', function () {
     $this->freezeTime(function ($now) {
         $now->setMicroseconds(0);
