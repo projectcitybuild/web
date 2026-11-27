@@ -13,7 +13,7 @@
     @endif
 
     @if(session()->has('error'))
-        <p class="mb-4 text-red-700" role="alert">{{ session()->get('error') }}</p>
+        <p class="mb-4 text-red-400" role="alert">{{ session()->get('error') }}</p>
     @endif
 
     @if($externalAccount)
@@ -32,7 +32,7 @@
             <form method="POST" action="{{ route('front.account.settings.discord.unlink') }}">
                 @csrf
                 @method('DELETE')
-                <button class="rounded border border-gray-400 px-4 py-2" type="submit">
+                <button class="rounded border border-gray-600 px-4 py-2 hover:bg-gray-800" type="submit">
                     Unlink Discord
                 </button>
             </form>

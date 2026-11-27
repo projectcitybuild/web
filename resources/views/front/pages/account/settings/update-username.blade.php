@@ -5,7 +5,7 @@
 
 @section('content')
     <h1 class="text-2xl font-bold">Username</h1>
-    <div class="text-sm text-gray-500 mt-1">The display name for your account</div>
+    <div class="text-sm text-gray-400 mt-1">The display name for your account</div>
 
     <hr class="my-6" />
 
@@ -26,7 +26,7 @@
 
         <input
             class="
-                    rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200
+                    rounded-md border border-gray-700 bg-gray-800 px-4 py-3 text-sm text-gray-100 placeholder-gray-400
                     @error('username') border-red-500 @enderror
                 "
             id="username"

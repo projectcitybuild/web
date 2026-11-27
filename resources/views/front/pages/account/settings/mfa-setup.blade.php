@@ -5,7 +5,7 @@
 
 @section('content')
     <h1 class="text-2xl font-bold">Enable 2FA</h1>
-    <div class="text-sm text-gray-500 mt-1">Follow the steps below to enable 2-factor Authentication on your account.</div>
+    <div class="text-sm text-gray-400 mt-1">Follow the steps below to enable 2-factor Authentication on your account.</div>
 
     <hr class="my-6" />
 
@@ -18,13 +18,13 @@
 
         <section>
             <h2 class="text-xl font-bold flex flex-row items-center gap-2 mb-3">
-                <span class="rounded-md bg-gray-100 px-2 py-1 text-sm">Step 1</span>
+                <span class="rounded-md bg-gray-800 px-2 py-1 text-sm text-gray-100">Step 1</span>
                 Download a 2FA app
             </h2>
             <p>
                 You'll need an app on your phone to set up 2-factor authentication, like
-                <a href="https://www.microsoft.com/en-us/account/authenticator" class="text-blue-500">Microsoft Authenticator</a>, or
-                <a href="https://apps.apple.com/us/app/raivo-authenticator/id1459042137" class="text-blue-500">Raivo</a> (iOS).
+                <a href="https://www.microsoft.com/en-us/account/authenticator" class="text-blue-400">Microsoft Authenticator</a>, or
+                <a href="https://apps.apple.com/us/app/raivo-authenticator/id1459042137" class="text-blue-400">Raivo</a> (iOS).
             </p>
         </section>
 
@@ -32,7 +32,7 @@
 
         <section>
             <h2 class="text-xl font-bold flex flex-row items-center gap-2 mb-3">
-                <span class="rounded-md bg-gray-100 px-2 py-1 text-sm">Step 2</span>
+                <span class="rounded-md bg-gray-800 px-2 py-1 text-sm text-gray-100">Step 2</span>
                 Save your backup code
             </h2>
 
@@ -47,7 +47,7 @@
 
             <p>Please check below to confirm you've saved this:</p>
 
-            <div class="rounded-md bg-gray-100 p-6 @error('backup_saved') bg-red-500 @enderror">
+            <div class="rounded-md bg-gray-800 p-6 text-gray-100 @error('backup_saved') bg-red-900 @enderror">
                 <label class="flex flex-row gap-4 items-center">
                     <input
                         type="checkbox"
@@ -73,7 +73,7 @@
 
         <div class="settings__section">
             <h2 class="text-xl font-bold flex flex-row items-center gap-2 mb-3">
-                <span class="rounded-md bg-gray-100 px-2 py-1 text-sm">Step 3</span>
+                <span class="rounded-md bg-gray-800 px-2 py-1 text-sm text-gray-100">Step 3</span>
                 Scan the QR Code
             </h2>
 
@@ -81,11 +81,11 @@
                 <p>Scan this QR Code using your 2FA app:</p>
 
                 <div class="mt-6">
-                    <div>{!! $qrSvg !!}</div>
+                    <div class="inline-block rounded bg-white p-2">{!! $qrSvg !!}</div>
 
-                    <div class="text-gray-500 mt-6">
+                    <div class="text-gray-400 mt-6">
                         If you can't scan the code, manually enter the key
-                        <div class="font-bold mt-2 text-lg text-gray-900">{{ $secretKey }}</div>
+                        <div class="font-bold mt-2 text-lg text-gray-100">{{ $secretKey }}</div>
                     </div>
                 </div>
             </div>
@@ -95,7 +95,7 @@
 
         <div class="settings__section">
             <h2 class="text-xl font-bold flex flex-row items-center gap-2 mb-3">
-                <span class="rounded-md bg-gray-100 px-2 py-1 text-sm">Step 4</span>
+                <span class="rounded-md bg-gray-800 px-2 py-1 text-sm text-gray-100">Step 4</span>
                 Enter a Code
             </h2>
 
@@ -107,7 +107,7 @@
                 <label for="code" class="text-md font-bold mt-6">2FA Code</label>
                 <input
                     class="
-                        rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200 mt-2
+                        rounded-md border border-gray-700 bg-gray-800 px-4 py-3 text-sm text-gray-100 placeholder-gray-400 mt-2
                          @error('code') border-red-500 @enderror
                     "
                     maxlength="6"

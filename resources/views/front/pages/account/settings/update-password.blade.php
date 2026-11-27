@@ -5,7 +5,7 @@
 
 @section('content')
     <h1 class="text-2xl font-bold">Password</h1>
-    <div class="text-sm text-gray-500 mt-1">The password used to sign-in to your account</div>
+    <div class="text-sm text-gray-400 mt-1">The password used to sign-in to your account</div>
 
     <hr class="my-6" />
 
@@ -27,7 +27,7 @@
         <label for="old_password" class="text-md font-bold">Current Password</label>
         <input
             class="
-                rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200
+                rounded-md border border-gray-700 bg-gray-800 px-4 py-3 text-sm text-gray-100 placeholder-gray-400
                 @error('old_password') border-red-500 @enderror
             "
             id="old_password"
@@ -43,7 +43,7 @@
         <label for="new_password" class="text-md font-bold mt-6">New Password</label>
         <input
             class="
-                rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200
+                rounded-md border border-gray-700 bg-gray-800 px-4 py-3 text-sm text-gray-100 placeholder-gray-400
                 @error('new_password') border-red-500 @enderror
             "
             id="new_password"
@@ -59,7 +59,7 @@
         <label for="new_password_confirm" class="text-md font-bold mt-6">Confirm New Password</label>
         <input
             class="
-                rounded-md bg-gray-100 px-4 py-3 text-sm border-gray-200
+                rounded-md border border-gray-700 bg-gray-800 px-4 py-3 text-sm text-gray-100 placeholder-gray-400
                 @error('new_password_confirm') border-red-500 @enderror
             "
             id="new_password_confirm"
