@@ -4,7 +4,7 @@
 @section('meta_description', 'Review records associated with your Project City Build account.')
 
 @section('body')
-    <x-account-navbar />
+    <x-front::navbar :account="true" />
 
     <main
         class="

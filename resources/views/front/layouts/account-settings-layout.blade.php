@@ -1,7 +1,7 @@
 @extends('front.layouts.root-layout')
 
 @section('body')
-    <x-account-navbar />
+    <x-front::navbar :account="true" />
 
     <main
         class="

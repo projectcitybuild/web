@@ -4,7 +4,7 @@
 @section('meta_description', 'Manage the Minecraft accounts linked to your Project City Build account.')
 
 @section('body')
-    <x-account-navbar />
+    <x-front::navbar :account="true" />
 
     <main
         class="

@@ -4,7 +4,7 @@
 @section('meta_description', 'Manage your Project City Build account profile.')
 
 @section('body')
-    <x-account-navbar />
+    <x-front::navbar :account="true" />
 
     <main
         class="max-w-screen-xl md:mx-auto md:mt-8"

@@ -9,7 +9,8 @@ class AuditingServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        Blade::anonymousComponentNamespace('manage/components/audit/support', prefix: 'audit-support');
+        Blade::anonymousComponentPath(resource_path('views/admin/manage/components/audit/support'), prefix: 'audit-support');
+        Blade::anonymousComponentPath(resource_path('views/admin/manage/components/audit/diffs'), prefix: 'audit');
         Blade::componentNamespace('App\\Core\\Domains\\Auditing\\Components', prefix: 'audit');
     }
 }
