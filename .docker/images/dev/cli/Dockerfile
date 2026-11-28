@@ -1,7 +1,7 @@
 FROM php:8.6-cli-alpine
 
 RUN addgroup -g 1000 -S user && adduser -u 1000 -D user -G user
-RUN apk add --no-cache bash curl git nano
+RUN apk add --no-cache bash curl git nano openssh-client-default
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
