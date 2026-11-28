@@ -139,6 +139,8 @@ it('forbids non-admins from accessing the auditing area', function () {
 });
 
 it('includes recent audit records in the management overview', function () {
+    $this->travelTo('2026-01-01 12:00:00');
+
     $account = $this->adminAccount();
     $player = MinecraftPlayer::factory()->create(['account_id' => $account->id]);
     $this->actingAs($account);
@@ -156,7 +158,7 @@ it('includes recent audit records in the management overview', function () {
                 'event' => 'created',
                 'subject' => 'Server #'.$server->id,
                 'createdAt' => $audit->created_at->toIso8601String(),
-                'when' => $audit->created_at->shortRelativeDiffForHumans(),
+                'when' => '0s ago',
             ])
             ->where('activityUrl', route('auditing.index'))
         );
