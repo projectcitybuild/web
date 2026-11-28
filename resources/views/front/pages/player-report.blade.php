@@ -5,7 +5,7 @@
 
 @section('body')
     <x-front::form-page
-        background="resources/images/bg_survival.webp"
+        background="resources/images/bg_report.webp"
         eyebrow="COMMUNITY SAFETY"
         title="Player Report"
         description="If you feel that a player has broken our rules, threatened you, or made you feel uncomfortable, please submit a report below."
